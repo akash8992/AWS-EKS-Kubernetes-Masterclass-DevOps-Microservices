@@ -1,0 +1,298 @@
+WEBVTT
+
+00:00.120 --> 00:00.960
+-: Welcome back.
+
+00:00.960 --> 00:02.280
+So in the previous section
+
+00:02.280 --> 00:04.260
+we have seen this entire architecture,
+
+00:04.260 --> 00:05.093
+which is nothing,
+
+00:05.093 --> 00:07.830
+but whenever the request comes via internet
+
+00:07.830 --> 00:10.680
+via slash star to our ingress, it will forward it
+
+00:10.680 --> 00:12.720
+to user management node port service,
+
+00:12.720 --> 00:16.590
+and from there, to our UMS part into MySQL.
+
+00:16.590 --> 00:18.660
+So now we are going to understand
+
+00:18.660 --> 00:22.740
+about Ingress Context Path Based routing.
+
+00:22.740 --> 00:25.020
+So first thing comes here is like why we need
+
+00:25.020 --> 00:27.570
+to have context path base routing?
+
+00:27.570 --> 00:31.650
+So there, one thing, if we have multiple applications
+
+00:31.650 --> 00:33.840
+which are deployed on our Kubernetes,
+
+00:33.840 --> 00:37.260
+and then we want to expose them via ingress.
+
+00:37.260 --> 00:39.570
+And then why you need to do that?
+
+00:39.570 --> 00:43.535
+Because AWS application load balancer
+
+00:43.535 --> 00:44.910
+is a costly load balancer.
+
+00:44.910 --> 00:46.860
+And for each application,
+
+00:46.860 --> 00:48.930
+whatever you deploy in your Kubernetes,
+
+00:48.930 --> 00:52.680
+if you want to span one more application load balancer
+
+00:52.680 --> 00:55.380
+then your cost is going to go so high.
+
+00:55.380 --> 00:57.450
+And if your application supports
+
+00:57.450 --> 01:00.600
+either the host header path routing or path based routing,
+
+01:00.600 --> 01:03.060
+which is nothing but context part based routing.
+
+01:03.060 --> 01:05.820
+So obviously we can use these features and then ensure
+
+01:05.820 --> 01:08.880
+that we use only one load balancer in the front.
+
+01:08.880 --> 01:11.340
+And then we can have multiple applications
+
+01:11.340 --> 01:13.380
+in Kubernetes serving via internet
+
+01:13.380 --> 01:17.910
+using context path based routing or hosted based routing.
+
+01:17.910 --> 01:20.460
+So now moving on.
+
+01:20.460 --> 01:23.340
+So this means like from previous architecture
+
+01:23.340 --> 01:26.610
+we already know that what is ingress cluster control plane,
+
+01:26.610 --> 01:28.710
+our available zones are public, private, subnets,
+
+01:28.710 --> 01:30.180
+worker nodes, all these things.
+
+01:30.180 --> 01:32.850
+So I just for a good depiction purpose,
+
+01:32.850 --> 01:36.270
+I made these services to smaller, to restricted,
+
+01:36.270 --> 01:37.103
+to this worker node.
+
+01:37.103 --> 01:39.570
+But they are spanned across any number of worker nodes,
+
+01:39.570 --> 01:43.110
+whatever is created as part of your cluster.
+
+01:43.110 --> 01:44.880
+Just for depiction purpose only,
+
+01:44.880 --> 01:47.280
+these were made shorter here, okay?
+
+01:47.280 --> 01:49.140
+So I'll show you why it is, okay?
+
+01:49.140 --> 01:51.613
+So I have two more applications coming in here,
+
+01:51.613 --> 01:54.720
+one is app one which is a NGINX application
+
+01:54.720 --> 01:57.930
+and app two one more NGINX application, right?
+
+01:57.930 --> 02:00.120
+And this app one will have,
+
+02:00.120 --> 02:02.580
+slash app one slash index dot HTML
+
+02:02.580 --> 02:06.000
+as the context of the application inside that.
+
+02:06.000 --> 02:06.833
+And this will have,
+
+02:06.833 --> 02:10.020
+slash app two slash index dot HTML as the application.
+
+02:10.020 --> 02:12.750
+So these both have two contexts.
+
+02:12.750 --> 02:16.020
+One is slash app one, and the other is slash app two.
+
+02:16.020 --> 02:19.440
+So now we will create the equivalent node port services
+
+02:19.440 --> 02:21.270
+in front of these deployments.
+
+02:21.270 --> 02:23.250
+App one and then app two.
+
+02:23.250 --> 02:28.250
+So now here starts the equivalent path related information
+
+02:28.590 --> 02:31.620
+we need to update in our ingress manifest.
+
+02:31.620 --> 02:34.710
+So slash app one should go to node port service app one,
+
+02:34.710 --> 02:37.710
+and slash app two should go to node port service app two.
+
+02:37.710 --> 02:39.300
+And anything with slash star
+
+02:39.300 --> 02:43.380
+should go to user management node port service.
+
+02:43.380 --> 02:47.010
+So now as a user, when I try to access
+
+02:47.010 --> 02:51.030
+with ALB DNS URL slash user management slash users,
+
+02:51.030 --> 02:53.940
+so the request will go to slash star,
+
+02:53.940 --> 02:55.770
+and then it will go away apart,
+
+02:55.770 --> 02:58.530
+and then go back and then get to the RDS database,
+
+02:58.530 --> 03:00.930
+and then provide the list of users.
+
+03:00.930 --> 03:03.210
+So this we have seen already.
+
+03:03.210 --> 03:05.010
+Now whenever user comes
+
+03:05.010 --> 03:07.800
+with slash app one slash index dot HTML
+
+03:07.800 --> 03:09.840
+or just a slash app one slash, some other file,
+
+03:09.840 --> 03:11.370
+whatever is there, right?
+
+03:11.370 --> 03:12.960
+So then what happens is,
+
+03:12.960 --> 03:15.900
+once the request reaches this application load balancer,
+
+03:15.900 --> 03:18.210
+it will verify the context path.
+
+03:18.210 --> 03:19.860
+And if it is slash app one,
+
+03:19.860 --> 03:22.170
+then go to app one node port service
+
+03:22.170 --> 03:25.590
+and then start with the page from app one part here.
+
+03:25.590 --> 03:29.070
+In the same way, if you have app two, then from,
+
+03:29.070 --> 03:31.060
+it will go to the app two
+
+03:32.160 --> 03:34.140
+in the application load balancer context,
+
+03:34.140 --> 03:36.630
+and it will route to app two node port service,
+
+03:36.630 --> 03:39.420
+and then start with the page from app two part.
+
+03:39.420 --> 03:43.380
+So this entire thing we are going to implement now.
+
+03:43.380 --> 03:48.380
+So let's go back over this one, and we should go
+
+03:48.480 --> 03:53.480
+to our 0803 ALB ingress context path based routing, right?
+
+03:54.270 --> 03:56.910
+So that is what we have discussed, the architecture.
+
+03:56.910 --> 03:59.790
+So now we are going to this app one and app two
+
+03:59.790 --> 04:02.550
+our simple NGINX custom-built images.
+
+04:02.550 --> 04:05.640
+And while routing, we are going to update it
+
+04:05.640 --> 04:07.380
+with app one NGINX node port service
+
+04:07.380 --> 04:11.670
+in our respective ingress, basic our ingress context
+
+04:11.670 --> 04:13.920
+about basic routing YAML files, okay?
+
+04:13.920 --> 04:16.860
+So now we are going to create NGINX app one
+
+04:16.860 --> 04:20.130
+and app two deployment and service in our next lecture,
+
+04:20.130 --> 04:22.110
+and then move on with other steps.
+
+04:22.110 --> 04:23.940
+So I'll see you in the next lecture.
+
+04:23.940 --> 04:25.833
+Until then, bye-bye, thank you.

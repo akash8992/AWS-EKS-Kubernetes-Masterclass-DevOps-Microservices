@@ -1,0 +1,202 @@
+WEBVTT
+
+00:00.360 --> 00:01.530
+Presenter: Welcome back.
+
+00:01.530 --> 00:04.200
+As part of step 06, we are going to review
+
+00:04.200 --> 00:06.840
+the IngressClass Kubernetes manifest,
+
+00:06.840 --> 00:11.640
+which is present in 0801 load balancer controller install.
+
+00:11.640 --> 00:14.640
+And inside that, you have the Kube manifest folder.
+
+00:14.640 --> 00:15.473
+And inside that,
+
+00:15.473 --> 00:18.960
+you have the 01 IngressClass resource.yaml.
+
+00:18.960 --> 00:23.070
+So let's go to our visual studio code here,
+
+00:23.070 --> 00:28.070
+and go to 08 new ELB application load balances.
+
+00:28.350 --> 00:33.350
+And inside that 0801 load balancer controller install,
+
+00:33.390 --> 00:35.490
+and inside that you'll find something called
+
+00:35.490 --> 00:37.320
+Kube Manifest folder.
+
+00:37.320 --> 00:42.120
+And there you'll find the 01 IngressClass resource.yaml.
+
+00:43.200 --> 00:46.800
+And we already discussed about this in the presentation
+
+00:46.800 --> 00:50.460
+also, API version, kind, metadata, and then spec.
+
+00:50.460 --> 00:52.290
+And here the API version is going
+
+00:52.290 --> 00:57.290
+to be networking.k8s.io/v1, and kind is IngressClass,
+
+00:57.750 --> 01:01.282
+and name of my IngressClass is, My AWS IngressClass.
+
+01:01.282 --> 01:04.140
+And in Spec, you'll have something called Controller,
+
+01:04.140 --> 01:06.552
+and you'll define your controller name as,
+
+01:06.552 --> 01:10.050
+or you'll define the controller this with spec 2
+
+01:10.050 --> 01:11.460
+IngressClass you are going to tie
+
+01:11.460 --> 01:15.540
+with is the AWS ALB Ingress controller,
+
+01:15.540 --> 01:18.540
+which is nothing but our AWS load balancer controller,
+
+01:18.540 --> 01:19.890
+you can save.
+
+01:19.890 --> 01:22.200
+And you also define the annotation
+
+01:22.200 --> 01:27.000
+ingressclass.kubernetes.io/is-default-class: "true"
+
+01:27.000 --> 01:29.580
+so that any Ingress services deployed
+
+01:29.580 --> 01:33.120
+inside this Kubernetes cluster will be associated
+
+01:33.120 --> 01:35.190
+with the AWS load balancer controller
+
+01:35.190 --> 01:38.640
+whatever you have installed in the previous steps.
+
+01:38.640 --> 01:40.980
+So that's another important thing to know.
+
+01:40.980 --> 01:42.810
+So now let's come back here
+
+01:42.810 --> 01:45.540
+and deploy this Ingress resource.
+
+01:45.540 --> 01:49.320
+So we'll say Kubectl apply hyphen cube manifest
+
+01:49.320 --> 01:50.640
+so that anything present
+
+01:50.640 --> 01:54.240
+inside this Kube manifest folder will be deployed.
+
+01:54.240 --> 01:56.820
+So let's come back to our terminal here.
+
+01:56.820 --> 02:00.744
+We are in 0801 load balancer controller install
+
+02:00.744 --> 02:04.410
+and we'll say Kubectl,
+
+02:04.410 --> 02:07.800
+apply hyphen F and cube manifest slash.
+
+02:07.800 --> 02:10.980
+And this should create the IngressClass for us.
+
+02:10.980 --> 02:14.580
+So let's wait for the IngressClass to get created.
+
+02:14.580 --> 02:17.430
+So we can see IngressClass got created
+
+02:17.430 --> 02:20.040
+with name My AWS IngressClass.
+
+02:20.040 --> 02:22.440
+So now we are going to get the IngressClass
+
+02:22.440 --> 02:25.200
+and also describe the IngressClass.
+
+02:25.200 --> 02:28.143
+So Kubectl, get IngressClass,
+
+02:29.220 --> 02:31.170
+and we should see that AWS
+
+02:31.170 --> 02:34.780
+my AWS IngressClass got created successfully here.
+
+02:34.780 --> 02:37.410
+16 seconds before.
+
+02:37.410 --> 02:38.650
+And we'll also say
+
+02:41.643 --> 02:43.476
+Describe IngressClass.
+
+02:46.650 --> 02:51.390
+And its name is my AWS IngressClass.
+
+02:51.390 --> 02:54.693
+Kubectl describe IngressClass and my AWS IngressClass.
+
+02:56.130 --> 02:58.950
+And you can see name and annotation
+
+02:58.950 --> 03:02.550
+whatever you have specified and controller, whatever it has
+
+03:02.550 --> 03:04.980
+and events has nothing here.
+
+03:04.980 --> 03:09.980
+So this completes the creation of our installation
+
+03:10.410 --> 03:15.410
+of our setup of AWS load balancer controller on EKS cluster
+
+03:16.350 --> 03:20.580
+and also creating the IngressClass for and making it
+
+03:20.580 --> 03:24.090
+as the default IngressClass, a default Ingress controller
+
+03:24.090 --> 03:27.660
+for our Kubernetes using the IngressClass concept.
+
+03:27.660 --> 03:29.670
+So I'll see you in the next lecture
+
+03:29.670 --> 03:33.101
+or in the next section with Ingress basics.
+
+03:33.101 --> 03:34.800
+Until then, bye bye.
+
+03:34.800 --> 03:35.633
+Thank you.

@@ -1,0 +1,667 @@
+WEBVTT
+
+00:00.120 --> 00:01.050
+-: Welcome back.
+
+00:01.050 --> 00:04.200
+In this step, we are going to create a horizontal pod
+
+00:04.200 --> 00:08.460
+autoscaler resource for our HPA demo deployment.
+
+00:08.460 --> 00:11.280
+So this command creates an autoscaler
+
+00:11.280 --> 00:15.360
+that targets 50% CPU utilization for the deployment.
+
+00:15.360 --> 00:19.620
+So with the minimum of one pod and a maximum of 10 pods.
+
+00:19.620 --> 00:22.440
+So when the average CPU load is 50%,
+
+00:22.440 --> 00:25.260
+the autoscaler tries to reduce the number of pods
+
+00:25.260 --> 00:27.930
+in their deployment to a minimum of one.
+
+00:27.930 --> 00:31.680
+When the load is greater than CPU percentage 50,
+
+00:31.680 --> 00:34.500
+the autoscaler tries to increase the number of pods
+
+00:34.500 --> 00:37.680
+in the deployment up to maximum of 10.
+
+00:37.680 --> 00:41.730
+So the template for the command is going to be kubectl,
+
+00:41.730 --> 00:44.940
+autoscale, deployment, and the deployment name,
+
+00:44.940 --> 00:47.820
+and the CPU percentage, which is the metric
+
+00:47.820 --> 00:52.080
+and value is 50% and minimum replica server,
+
+00:52.080 --> 00:54.690
+and then maximum replicas are 10.
+
+00:54.690 --> 00:57.420
+So we are going to replace with our information here.
+
+00:57.420 --> 01:01.020
+The deployment name is HPA demo deployment, right?
+
+01:01.020 --> 01:03.540
+So if you want, we can crosscheck the same,
+
+01:03.540 --> 01:06.480
+kubectl get deployed.
+
+01:06.480 --> 01:09.180
+So whatever we have deployed in our previous step,
+
+01:09.180 --> 01:10.740
+the same thing, right?
+
+01:10.740 --> 01:12.930
+So now we are going to use that
+
+01:12.930 --> 01:15.630
+and then enable the autoscaling.
+
+01:15.630 --> 01:19.533
+So let me copy this and paste it.
+
+01:21.720 --> 01:23.970
+So once the autoscaling is enabled,
+
+01:23.970 --> 01:27.570
+so we can go ahead and then describe our HPA.
+
+01:27.570 --> 01:28.980
+So using kubectl,
+
+01:28.980 --> 01:33.980
+describe HPA/HPA-demo deployment.
+
+01:34.110 --> 01:37.180
+So let me describe the HPA now.
+
+01:39.180 --> 01:42.150
+So whatever it is saying is minimum replicas is one
+
+01:42.150 --> 01:45.040
+and then maximum replicas is 10.
+
+01:45.040 --> 01:46.860
+Okay, so now we are going
+
+01:46.860 --> 01:50.640
+to get the horizontal pod autoscaler list.
+
+01:50.640 --> 01:55.350
+Okay, so let me copy this
+
+01:55.350 --> 01:58.620
+and then paste it, right?
+
+01:58.620 --> 02:01.890
+So we have only one autoscaler, which we have implemented
+
+02:01.890 --> 02:05.040
+and current target is 0% currently.
+
+02:05.040 --> 02:06.650
+Okay, which means like outta 50%,
+
+02:06.650 --> 02:09.900
+it is only in 0% usage, okay?
+
+02:09.900 --> 02:11.040
+So if you want one more time,
+
+02:11.040 --> 02:13.590
+we can check here the description.
+
+02:13.590 --> 02:15.660
+So you can see that when you describe it,
+
+02:15.660 --> 02:19.320
+you get the resource CPU on pod is 0% used
+
+02:19.320 --> 02:21.122
+and target is 50%.
+
+02:21.122 --> 02:24.990
+If it is above 50%, it is going to scale the pods, okay?
+
+02:24.990 --> 02:27.060
+Two 10 pods max scaling, okay?
+
+02:27.060 --> 02:29.490
+Currently, it is minimum, one pod.
+
+02:29.490 --> 02:32.640
+So here also when you describe any resource in Kubernetes,
+
+02:32.640 --> 02:36.120
+we already know we'll get the events information here, okay?
+
+02:36.120 --> 02:37.590
+So now you can see it here.
+
+02:37.590 --> 02:39.886
+All the information related to HPA.
+
+02:39.886 --> 02:42.750
+The HPA was able to successfully calculate a replica can
+
+02:42.750 --> 02:46.320
+from CPU resource utilization percentage of request.
+
+02:46.320 --> 02:50.040
+The decide count is within the acceptable range.
+
+02:50.040 --> 02:54.000
+So like that, we'll be able to see the events also
+
+02:54.000 --> 02:56.310
+when we describe that respective resource.
+
+02:56.310 --> 02:58.290
+And current usage is 0%,
+
+02:58.290 --> 03:00.870
+that's the reason there is no trigger to enable it, okay?
+
+03:00.870 --> 03:03.630
+To increase the number of pods.
+
+03:03.630 --> 03:08.630
+So let's go here and then so we can run ApacheBench
+
+03:08.865 --> 03:11.447
+to put a load on our http server,
+
+03:12.870 --> 03:14.580
+which is our engine X server,
+
+03:14.580 --> 03:19.580
+and this is our engine X URL inside the cluster.
+
+03:19.980 --> 03:24.980
+So this ApacheBench also will run inside the cluster only
+
+03:25.260 --> 03:30.210
+and then take the cluster IP service off our application,
+
+03:30.210 --> 03:33.060
+whatever we have deployed, which is HPA demo service.
+
+03:33.060 --> 03:34.380
+So we can see that.
+
+03:34.380 --> 03:39.180
+So clear kubectl, get SVC, right?
+
+03:39.180 --> 03:41.940
+So now you can see HPA demo service engine X.
+
+03:41.940 --> 03:42.780
+So that is the one.
+
+03:42.780 --> 03:46.740
+It is going to take it .default.svc.cluster.locally
+
+03:46.740 --> 03:49.560
+is the complete DNS name, okay?
+
+03:49.560 --> 03:51.690
+So we are going to put a lot of load
+
+03:51.690 --> 03:54.330
+using this ApacheBench command
+
+03:54.330 --> 03:56.220
+and then see what happens, okay?
+
+03:56.220 --> 03:59.640
+So let's take this, right?
+
+03:59.640 --> 04:03.087
+Copy and then paste it.
+
+04:03.087 --> 04:05.970
+And when it is running, we can go to new tab
+
+04:05.970 --> 04:08.990
+and then also verify the list of HPA
+
+04:13.620 --> 04:16.623
+and also describe HPA, okay.
+
+04:18.630 --> 04:20.223
+Let's see what happens, okay.
+
+04:24.180 --> 04:28.043
+So currently, it is in 0% only.
+
+04:30.660 --> 04:32.943
+We don't see any issues so far.
+
+04:40.860 --> 04:44.700
+So we'll try one more time to generate the load.
+
+04:44.700 --> 04:46.503
+So let's see what happens, okay?
+
+04:48.210 --> 04:50.700
+So it is trying to generate the load.
+
+04:50.700 --> 04:54.690
+Earlier, we have seen 38,400 requests completed
+
+04:54.690 --> 04:57.870
+and then it got deleted automatically.
+
+04:57.870 --> 05:00.060
+But let's see what happens now, okay?
+
+05:00.060 --> 05:02.853
+So completed 50,000 requests.
+
+05:05.310 --> 05:06.990
+And in parallel, we can come here
+
+05:06.990 --> 05:08.823
+and then crosscheck the stuff.
+
+05:10.410 --> 05:13.110
+92% CPU, we can see it here, right?
+
+05:13.110 --> 05:15.612
+So 92% CPU.
+
+05:15.612 --> 05:17.190
+Reason is CPU utilization
+
+05:17.190 --> 05:19.830
+of the about target is cross it, right?
+
+05:19.830 --> 05:22.380
+New size, it became two servers, it became.
+
+05:22.380 --> 05:26.970
+In the same way, we can see 92% is the current size
+
+05:26.970 --> 05:29.160
+and replicas became two instead of one.
+
+05:29.160 --> 05:33.090
+So we can see that two pods are running here, HPAs,
+
+05:33.090 --> 05:35.130
+and still the request is generating.
+
+05:35.130 --> 05:36.480
+So let's see what happens, okay?
+
+05:36.480 --> 05:39.450
+So we'll try to put the load like this continuously
+
+05:39.450 --> 05:41.610
+and then keep checking, okay?
+
+05:41.610 --> 05:45.420
+So I can say we have four pods.
+
+05:45.420 --> 05:46.950
+Now you can see it, right?
+
+05:46.950 --> 05:48.690
+So automatically, four pods came
+
+05:48.690 --> 05:50.970
+and only one pod is six minutes before
+
+05:50.970 --> 05:52.050
+when we have deployed it,
+
+05:52.050 --> 05:55.230
+but rest all is latest pods which are spinning up.
+
+05:55.230 --> 06:00.230
+And one more is we can see continuously the get HPA command
+
+06:00.360 --> 06:03.900
+to see 191% of the targets it is using.
+
+06:03.900 --> 06:06.120
+So if you see the number of pods now,
+
+06:06.120 --> 06:08.550
+so it got increased, you can see, right?
+
+06:08.550 --> 06:13.170
+So in the same way, we can also see that described command
+
+06:13.170 --> 06:15.390
+to see what's going on in the events.
+
+06:15.390 --> 06:16.530
+See new size is four.
+
+06:16.530 --> 06:19.680
+Now the new size is eight, so it keeps increasing.
+
+06:19.680 --> 06:21.570
+So here that traffic is over,
+
+06:21.570 --> 06:24.630
+if you want we can still run that traffic one more time
+
+06:24.630 --> 06:28.020
+and then keep monitoring our stuff, okay?
+
+06:28.020 --> 06:30.510
+So from two to four, it became four two again.
+
+06:30.510 --> 06:34.053
+It doubled to eight and then it's still waiting, okay.
+
+06:35.910 --> 06:37.380
+Current deployment pods, eight
+
+06:37.380 --> 06:42.060
+and then decide is eight and max replicas are 10, okay.
+
+06:42.060 --> 06:44.583
+So let's see what happens now.
+
+06:46.414 --> 06:49.077
+So let me run it one more time and clear.
+
+06:56.509 --> 06:59.343
+You'll see it here, get pods.
+
+07:00.450 --> 07:03.063
+So we can see now eight pods are running.
+
+07:11.280 --> 07:13.953
+So let's wait for these things to complete.
+
+07:16.710 --> 07:21.330
+So now it is only at the 30% range, why?
+
+07:21.330 --> 07:23.430
+Because the number of pods are increased, right?
+
+07:23.430 --> 07:26.190
+So automatically it is not getting above 50%
+
+07:26.190 --> 07:28.320
+to get any new pods, okay?
+
+07:28.320 --> 07:29.790
+So we'll see how it goes, okay?
+
+07:29.790 --> 07:32.250
+So we are not able to put that much load now, why?
+
+07:32.250 --> 07:34.410
+Because the requests are distributed
+
+07:34.410 --> 07:36.570
+across eight pods, okay?
+
+07:36.570 --> 07:37.403
+But that's fine.
+
+07:37.403 --> 07:38.940
+We have seen the overall thing, right?
+
+07:38.940 --> 07:43.410
+Which means like from one pod to eight pods, it increased.
+
+07:43.410 --> 07:45.480
+And if you give a five-minute interval
+
+07:45.480 --> 07:49.470
+means like if no, you can see that now.
+
+07:49.470 --> 07:51.660
+So it became 116% now,
+
+07:51.660 --> 07:55.170
+and then from eight current to 10 decide, it became.
+
+07:55.170 --> 07:57.930
+And then deployment pods also will become 10 pods now.
+
+07:57.930 --> 08:00.300
+So 10 current two 10 decide.
+
+08:00.300 --> 08:03.690
+So we reach your maximum number of pods,
+
+08:03.690 --> 08:06.750
+how much our application can take.
+
+08:06.750 --> 08:09.240
+It means like we have configured to max 10 replicas
+
+08:09.240 --> 08:12.570
+and then all those 10 we have got it.
+
+08:12.570 --> 08:16.110
+Okay, kubectl describe HPA demo deployment.
+
+08:16.110 --> 08:18.930
+So 10 and CPU resource utilization
+
+08:18.930 --> 08:20.880
+is above the target value.
+
+08:20.880 --> 08:22.080
+So that's about it.
+
+08:22.080 --> 08:23.430
+So again, what I'm going to do
+
+08:23.430 --> 08:26.130
+is I'm going to stop this load now, right?
+
+08:26.130 --> 08:28.590
+And then I'm going to wait
+
+08:28.590 --> 08:31.260
+for five to 10 minutes so that it'll cool down
+
+08:31.260 --> 08:34.620
+and then again bring us back to the single pod.
+
+08:34.620 --> 08:36.783
+So I'll pause the video until then.
+
+08:37.890 --> 08:39.120
+So in step six,
+
+08:39.120 --> 08:41.730
+we'll see the cooldown R scale down behavior.
+
+08:41.730 --> 08:44.820
+So the default cooldown period is five minutes.
+
+08:44.820 --> 08:49.410
+So once CPU utilization of pods is less than 50%
+
+08:49.410 --> 08:51.960
+and then those five minutes has been completed,
+
+08:51.960 --> 08:53.760
+it will start terminating the pods
+
+08:53.760 --> 08:57.840
+and will reach to minimum one pod as configured.
+
+08:57.840 --> 09:01.567
+So let's go ahead and then see the number of pods now,
+
+09:01.567 --> 09:06.567
+kubectl get pods, and we can see only one pod is running.
+
+09:06.810 --> 09:08.640
+So let's describe the deployment
+
+09:08.640 --> 09:12.420
+and then see what are the events present there, okay?
+
+09:12.420 --> 09:16.410
+So now if you see the current CPU utilization is 0%,
+
+09:16.410 --> 09:18.510
+so the target is 50%,
+
+09:18.510 --> 09:22.440
+so which means the decide is one and current is also one.
+
+09:22.440 --> 09:26.520
+And if you see the reason here in the message new size
+
+09:26.520 --> 09:28.230
+from new size ten two,
+
+09:28.230 --> 09:30.180
+it has changed it to new size one.
+
+09:30.180 --> 09:34.200
+Reason, all metrics are below this target.
+
+09:34.200 --> 09:36.420
+So that's the reason it became one.
+
+09:36.420 --> 09:38.640
+So this is about the horizontal pod
+
+09:38.640 --> 09:40.890
+autoscaler implementation.
+
+09:40.890 --> 09:43.110
+So we are going to clean up the stuff now.
+
+09:43.110 --> 09:46.920
+So let's go here and then delete the HPA deployment.
+
+09:46.920 --> 09:50.130
+So let me clear this and paste it
+
+09:50.130 --> 09:52.350
+and delete the HPA deployment
+
+09:52.350 --> 09:54.930
+and also delete the entire
+
+09:54.930 --> 09:56.880
+whatever the manifest we have created, right?
+
+09:56.880 --> 10:00.150
+So we have deleted the HPA horizontal pod
+
+10:00.150 --> 10:02.460
+autoscaler related configuration
+
+10:02.460 --> 10:04.140
+and also we are deleting the equal
+
+10:04.140 --> 10:06.750
+and deployment and then service.
+
+10:06.750 --> 10:08.610
+So we have cleaned up everything.
+
+10:08.610 --> 10:10.500
+So one more thing which we need to understand
+
+10:10.500 --> 10:13.560
+about the same thing is in the latest versions, right?
+
+10:13.560 --> 10:17.820
+So as far as now, like Kubernetes 1.16
+
+10:17.820 --> 10:19.920
+is latest and supported
+
+10:19.920 --> 10:23.850
+on elastic Kubernetes service EKS in AWS.
+
+10:23.850 --> 10:26.700
+But in the real world means like the current live version
+
+10:26.700 --> 10:29.310
+of Kubernetes is 1.18.
+
+10:29.310 --> 10:32.130
+And there is a beta changes available about that,
+
+10:32.130 --> 10:35.220
+which is related to HPA, which is nothing.
+
+10:35.220 --> 10:37.920
+But so far whatever we have implemented HPA,
+
+10:37.920 --> 10:40.950
+we have done it using imperatively, right?
+
+10:40.950 --> 10:42.390
+So imperatively, you have given
+
+10:42.390 --> 10:44.670
+the kubectl autoscale deployment command
+
+10:44.670 --> 10:46.410
+and then you implemented it.
+
+10:46.410 --> 10:50.190
+But in future means like when you're using the 1.18
+
+10:50.190 --> 10:53.340
+and then once this beta becomes live,
+
+10:53.340 --> 10:55.710
+so you can start using the these things, right?
+
+10:55.710 --> 10:58.290
+So which means like you can declaratively define
+
+10:58.290 --> 11:02.910
+your Kubernetes horizontal pod autoscaler behavior
+
+11:02.910 --> 11:06.630
+in your YML manifest and then execute them.
+
+11:06.630 --> 11:09.000
+So for additional information about that,
+
+11:09.000 --> 11:11.130
+you can reference this respect to link
+
+11:11.130 --> 11:14.220
+so which has the information about these things, okay?
+
+11:14.220 --> 11:15.960
+So I'll see you in the next lecture
+
+11:15.960 --> 11:18.600
+with vertical pod autoscale topic.
+
+11:18.600 --> 11:20.280
+So until then, bye-bye.
+
+11:20.280 --> 11:21.113
+Thank you.

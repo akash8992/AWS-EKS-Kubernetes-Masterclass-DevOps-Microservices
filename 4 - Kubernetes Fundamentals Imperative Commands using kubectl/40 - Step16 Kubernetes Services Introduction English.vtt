@@ -1,0 +1,301 @@
+WEBVTT
+
+00:00.000 --> 00:00.900
+-: Welcome back.
+
+00:00.900 --> 00:03.120
+In this lecture, we are going to understand
+
+00:03.120 --> 00:06.810
+about one more Kubernetes concept named Services.
+
+00:06.810 --> 00:09.820
+So, we have multiple Kubernetes services available here
+
+00:10.890 --> 00:13.590
+like Cluster IP, Node Port, Load Balancer,
+
+00:13.590 --> 00:15.990
+Ingress, and then External Name.
+
+00:15.990 --> 00:17.700
+So, let's see one after the other,
+
+00:17.700 --> 00:20.070
+what are they on a very high level?
+
+00:20.070 --> 00:22.830
+So, Cluster IP is used for communication
+
+00:22.830 --> 00:25.380
+between applications inside the cluster.
+
+00:25.380 --> 00:26.820
+Example, like you have front-end
+
+00:26.820 --> 00:28.080
+and then backend application,
+
+00:28.080 --> 00:30.840
+and then, they need to communicate each other,
+
+00:30.840 --> 00:32.760
+so we can use Cluster IP.
+
+00:32.760 --> 00:35.250
+So, the Cluster IP's network range
+
+00:35.250 --> 00:39.420
+is inside the cluster, Kubernetes cluster.
+
+00:39.420 --> 00:40.860
+So, let's say Node Port
+
+00:40.860 --> 00:45.000
+So Node Port is used for accessing applications
+
+00:45.000 --> 00:48.540
+outside of Kubernetes cluster using Worker Node Ports.
+
+00:48.540 --> 00:51.870
+So, you have deployed a application Kubernetes cluster,
+
+00:51.870 --> 00:54.330
+and then you want to access it from your browser.
+
+00:54.330 --> 00:57.300
+So, you can expose that as a Node Port service,
+
+00:57.300 --> 01:00.180
+so that using worker nodes respect to your port,
+
+01:00.180 --> 01:04.200
+you'll be able to access outside of the Kubernetes cluster.
+
+01:04.200 --> 01:06.720
+And the next is the Load Balancer Service.
+
+01:06.720 --> 01:09.360
+So primarily, for cloud providers to integrate
+
+01:09.360 --> 01:11.910
+with their Load Balancer services.
+
+01:11.910 --> 01:13.710
+So example, if you take AWS.
+
+01:13.710 --> 01:17.070
+In AWS, you'll have something called Elastic Load Balancer.
+
+01:17.070 --> 01:20.580
+So, how you are going to use Kubernetes Manifest
+
+01:20.580 --> 01:24.030
+to automatically provision a Load Balancer in AWS
+
+01:24.030 --> 01:28.800
+so you can do all those things using Load Balancer Service.
+
+01:28.800 --> 01:30.990
+And the next is Ingress.
+
+01:30.990 --> 01:33.540
+So, Ingress is an advanced Load Balancer
+
+01:33.540 --> 01:37.080
+which provides context path-based routing,
+
+01:37.080 --> 01:41.040
+SSL enablement, and SSL redirect, and many more.
+
+01:41.040 --> 01:42.510
+Example, you can compare it
+
+01:42.510 --> 01:45.870
+with AWS application Load Balancer type of concepts.
+
+01:45.870 --> 01:50.400
+So, it has all the HTTP-based features available
+
+01:50.400 --> 01:53.040
+inside that, which you can leverage.
+
+01:53.040 --> 01:56.460
+So, in the same way, the next is the External Name.
+
+01:56.460 --> 02:00.870
+So, to access externally hosted apps, or databases,
+
+02:00.870 --> 02:03.900
+or something inside your Kubernetes cluster,
+
+02:03.900 --> 02:06.930
+so you can use External Name Service.
+
+02:06.930 --> 02:09.150
+Example, for your application
+
+02:09.150 --> 02:11.520
+which you have hosted in your Kubernetes cluster,
+
+02:11.520 --> 02:15.660
+you have AWS RDS database, a cloud provider database,
+
+02:15.660 --> 02:17.370
+and if you want to access it.
+
+02:17.370 --> 02:21.900
+So, using that respect to databases, DNS name,
+
+02:21.900 --> 02:23.970
+using External Name Service,
+
+02:23.970 --> 02:27.540
+you will be able to access that in your Kubernetes cluster.
+
+02:27.540 --> 02:29.820
+So, these are the core things available here.
+
+02:29.820 --> 02:31.350
+As part of the fundamentals,
+
+02:31.350 --> 02:34.140
+we already looked into Node Port Service.
+
+02:34.140 --> 02:37.440
+Now, we are going to look into Cluster IP Service.
+
+02:37.440 --> 02:40.620
+In addition to that, combining Node Port and Cluster IP,
+
+02:40.620 --> 02:43.800
+we are going to implement a front-end, and then backend,
+
+02:43.800 --> 02:46.620
+one example so that we get a complete picture
+
+02:46.620 --> 02:49.770
+about Node Porting, then Cluster IP.
+
+02:49.770 --> 02:51.810
+And Load Balancer, and then Ingress,
+
+02:51.810 --> 02:54.120
+and then external Name, we'll focus on
+
+02:54.120 --> 02:58.290
+when we are doing the respect to Cloud Provider courses.
+
+02:58.290 --> 03:00.060
+So, let's move on and then understand
+
+03:00.060 --> 03:03.930
+whatever we have discussed in a pictographic manner.
+
+03:03.930 --> 03:07.050
+So, let's (indistinct) in a Kubernetes cluster,
+
+03:07.050 --> 03:09.300
+you have deployed your backend application.
+
+03:09.300 --> 03:11.640
+Example, like some REST services application
+
+03:11.640 --> 03:14.040
+or whatever is your backend application.
+
+03:14.040 --> 03:16.920
+And this backend application is currently
+
+03:16.920 --> 03:21.300
+using a RDS database, which is in AWS.
+
+03:21.300 --> 03:22.680
+So if you want to access
+
+03:22.680 --> 03:25.740
+that from inside your Kubernetes cluster,
+
+03:25.740 --> 03:30.740
+so you need to define it, DB External Name Service here.
+
+03:30.900 --> 03:34.500
+In the same way, you have your front-end application, right?
+
+03:34.500 --> 03:36.120
+And then this front-end application
+
+03:36.120 --> 03:39.060
+need to access your backend application.
+
+03:39.060 --> 03:40.260
+So, for that purpose,
+
+03:40.260 --> 03:43.110
+you need to define your Cluster IP Service
+
+03:43.110 --> 03:45.480
+in your Kubernetes cluster.
+
+03:45.480 --> 03:50.480
+And now, your users want to access your application here
+
+03:50.790 --> 03:53.460
+in the Kube, which is hosted in Kubernetes cluster.
+
+03:53.460 --> 03:54.990
+So, for that purpose,
+
+03:54.990 --> 03:58.050
+you will deploy your front-end service, okay?
+
+03:58.050 --> 04:00.290
+So, it might be a Node Port service,
+
+04:00.290 --> 04:02.910
+or Load Balancer service, or Ingress service.
+
+04:02.910 --> 04:05.430
+So, based on the environment you are using,
+
+04:05.430 --> 04:07.560
+and whatever is applicable for you,
+
+04:07.560 --> 04:10.740
+accordingly, you can deploy that Ingress Service,
+
+04:10.740 --> 04:14.070
+or Load Balancer service, or Node Port service.
+
+04:14.070 --> 04:15.850
+So, all in all, this is the way
+
+04:17.130 --> 04:19.350
+the services can be leveraged for us
+
+04:19.350 --> 04:21.330
+inside Kubernetes cluster
+
+04:21.330 --> 04:23.670
+in combination with external applications
+
+04:23.670 --> 04:26.100
+or internal applications.
+
+04:26.100 --> 04:28.080
+So, in our next lecture, we'll go ahead
+
+04:28.080 --> 04:29.820
+and then implement our front-end
+
+04:29.820 --> 04:31.080
+and then backend application
+
+04:31.080 --> 04:33.420
+with Node Port and then Cluster IP.
+
+04:33.420 --> 04:35.130
+So, I'll see you in the next lecture.
+
+04:35.130 --> 04:37.053
+Until then, bye-bye. Thank you.

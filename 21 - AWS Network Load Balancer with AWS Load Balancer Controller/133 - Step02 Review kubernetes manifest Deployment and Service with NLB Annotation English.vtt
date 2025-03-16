@@ -1,0 +1,643 @@
+WEBVTT
+
+00:00.600 --> 00:01.620
+-: Welcome back.
+
+00:01.620 --> 00:04.710
+Let's go to our GitHub repository now.
+
+00:04.710 --> 00:07.350
+And we are in section
+
+00:07.350 --> 00:11.430
+19, which is ELB network load balancers.
+
+00:11.430 --> 00:15.120
+So we are adding this as part of a new section now,
+
+00:15.120 --> 00:17.550
+so that's the reason we have added it at the end
+
+00:17.550 --> 00:21.150
+of the course, even though we are going to have these videos
+
+00:21.150 --> 00:25.680
+whenever we complete this section 08 and then 09,
+
+00:25.680 --> 00:28.980
+after that you'll have the section 19 related videos
+
+00:28.980 --> 00:31.890
+because, so that is the order you need to watch,
+
+00:31.890 --> 00:32.880
+which is nothing but.
+
+00:32.880 --> 00:36.780
+So first you'll learn the 08 new ELB applications
+
+00:36.780 --> 00:38.100
+load balancer related things,
+
+00:38.100 --> 00:40.410
+which means all the Ingress related 14 demos
+
+00:40.410 --> 00:41.430
+you'll complete.
+
+00:41.430 --> 00:43.660
+And after that you'll complete your
+
+00:45.390 --> 00:47.100
+Fargate related demos
+
+00:47.100 --> 00:52.100
+and then you'll come back to this one which is section 19.
+
+00:52.105 --> 00:52.938
+Where is it?
+
+00:52.938 --> 00:56.850
+So it is here and you are going to complete this six demos.
+
+00:56.850 --> 00:59.190
+So now let's come back here
+
+00:59.190 --> 01:01.536
+and we are in 1901
+
+01:01.536 --> 01:03.270
+LBC and LB basics.
+
+01:03.270 --> 01:07.050
+So what is LBC is nothing but load balancer controller.
+
+01:07.050 --> 01:10.230
+So the naming also I've given ELB network load balancers
+
+01:10.230 --> 01:11.556
+with LBC.
+
+01:11.556 --> 01:14.670
+LBC means load balancer controller.
+
+01:14.670 --> 01:16.350
+So we'll go inside this,
+
+01:16.350 --> 01:19.710
+and if you see here as part of introductory section
+
+01:19.710 --> 01:23.700
+we already understood what we are going to implement, right?
+
+01:23.700 --> 01:26.910
+And what exactly is the cloud provider load balancer
+
+01:26.910 --> 01:28.200
+controller legacy,
+
+01:28.200 --> 01:30.720
+are what is the latest load balancer controller
+
+01:30.720 --> 01:33.030
+latest and all those things.
+
+01:33.030 --> 01:36.150
+So as part of step two, we are going to review our
+
+01:36.150 --> 01:38.160
+NGINX app three deployment.
+
+01:38.160 --> 01:40.620
+So let's go to our Visual Studio Code here
+
+01:40.620 --> 01:43.410
+and we are in section 19.
+
+01:43.410 --> 01:45.832
+And in section 19 we are in
+
+01:45.832 --> 01:46.742
+1901
+
+01:46.742 --> 01:47.929
+LBC
+
+01:47.929 --> 01:48.810
+NLB
+
+01:48.810 --> 01:49.950
+basics.
+
+01:49.950 --> 01:52.770
+And there in the cube manifest we are reviewing
+
+01:52.770 --> 01:56.400
+the 01 NGINX app three deployment.
+
+01:56.400 --> 01:59.790
+So this is again our standard NGINX deployment.
+
+01:59.790 --> 02:02.040
+And as part of our Ingres demos.
+
+02:02.040 --> 02:04.170
+our application load balancer demos
+
+02:04.170 --> 02:07.170
+we already learned all these things in detail,
+
+02:07.170 --> 02:10.200
+which means we have app one deployment
+
+02:10.200 --> 02:11.160
+and NodePort service,
+
+02:11.160 --> 02:13.140
+app two deployment and NodePort service,
+
+02:13.140 --> 02:15.300
+app three deployment and NodePort service.
+
+02:15.300 --> 02:18.510
+So from there we have brought this app three deployment
+
+02:18.510 --> 02:20.130
+related manifest.
+
+02:20.130 --> 02:22.530
+So standard deployment manifest.
+
+02:22.530 --> 02:24.870
+And now we'll move to the next step
+
+02:24.870 --> 02:27.917
+which is nothing, but we'll review the 02 LBC
+
+02:27.917 --> 02:30.870
+NLB loadbalancersservice.yaml.
+
+02:30.870 --> 02:34.200
+So here, if you see here the name, right?
+
+02:34.200 --> 02:35.590
+So the name of your
+
+02:36.750 --> 02:41.750
+load balancer we are going to put as base 6 LBC network LB.
+
+02:42.210 --> 02:46.230
+And you can see API version is V1, kind is service.
+
+02:46.230 --> 02:50.640
+So you are going to create a load balancer NLB, right?
+
+02:50.640 --> 02:54.600
+Using the Kubernetes service manifest, right?
+
+02:54.600 --> 02:57.210
+That's the reason before going to in metadata
+
+02:57.210 --> 03:00.360
+we have reviewed the name as basics LBC network LB,
+
+03:00.360 --> 03:02.430
+and we leave these annotations
+
+03:02.430 --> 03:05.130
+and we'll go here further spec, right?
+
+03:05.130 --> 03:07.320
+So API version kind metadata
+
+03:07.320 --> 03:09.390
+and spec are the high level items.
+
+03:09.390 --> 03:12.720
+and API version is V1, and kind is service.
+
+03:12.720 --> 03:16.560
+And in metadata you have the name basics, LBC network LB,
+
+03:16.560 --> 03:20.790
+and in the spec you have the type as load balancer.
+
+03:20.790 --> 03:24.660
+So which means you are creating a load balancer service
+
+03:24.660 --> 03:26.760
+and selector is
+
+03:26.760 --> 03:28.530
+app, app three NGINX.
+
+03:28.530 --> 03:30.810
+So any request coming to this service
+
+03:30.810 --> 03:34.320
+should go to the pods which has the selector label
+
+03:34.320 --> 03:35.700
+app three Nginx.
+
+03:35.700 --> 03:38.160
+And if you go here, you have the same thing.
+
+03:38.160 --> 03:40.890
+In selector match labels of your deployment
+
+03:40.890 --> 03:42.960
+you'll find the app three Nginx.
+
+03:42.960 --> 03:46.080
+So which means any request coming to this service
+
+03:46.080 --> 03:47.880
+will go to that respective ports
+
+03:47.880 --> 03:50.040
+of that respective deployment.
+
+03:50.040 --> 03:54.450
+And this is the service port and this is the target port,
+
+03:54.450 --> 03:55.283
+right?
+
+03:55.283 --> 03:57.630
+So here only you have defined your listener pod.
+
+03:57.630 --> 04:00.750
+We don't need to define anything in the annotations here.
+
+04:00.750 --> 04:03.060
+So whatever you define the port here
+
+04:03.060 --> 04:05.580
+that respective listener will be created.
+
+04:05.580 --> 04:08.100
+So let's go back and understand this.
+
+04:08.100 --> 04:10.710
+So you can see here the listener 80, right?
+
+04:10.710 --> 04:13.800
+So it is created because you have the port 80.
+
+04:13.800 --> 04:16.950
+So if you define here something, right?
+
+04:16.950 --> 04:18.750
+So some 443, right?
+
+04:18.750 --> 04:21.360
+And target port is 80 is your backend port.
+
+04:21.360 --> 04:23.670
+But whenever you define the port
+
+04:23.670 --> 04:27.000
+your listener will get created in the network load balancer.
+
+04:27.000 --> 04:29.250
+And whenever you define the target port
+
+04:29.250 --> 04:31.350
+it'll create new target groups.
+
+04:31.350 --> 04:32.580
+So just understand.
+
+04:32.580 --> 04:36.540
+So whenever you define target port, it creates target group
+
+04:36.540 --> 04:37.809
+in
+
+04:37.809 --> 04:38.642
+NLB.
+
+04:38.642 --> 04:40.260
+And whenever you define port
+
+04:40.260 --> 04:42.940
+it creates new listener
+
+04:43.860 --> 04:45.270
+in NLB.
+
+04:45.270 --> 04:47.010
+So this is, in the next demo
+
+04:47.010 --> 04:50.100
+whenever we deal with SSL you'll clearly understand,
+
+04:50.100 --> 04:52.860
+but it's a high level thing just to see
+
+04:52.860 --> 04:55.410
+what it is going to create.
+
+04:55.410 --> 04:59.250
+So port is 80 and target port our backend port is 80,
+
+04:59.250 --> 05:01.200
+our pod is listening on port 80,
+
+05:01.200 --> 05:03.390
+the container inside the pod.
+
+05:03.390 --> 05:04.380
+So that is good.
+
+05:04.380 --> 05:08.250
+So now let's come back and review these annotations.
+
+05:08.250 --> 05:10.380
+So you have the traffic routing, health check
+
+05:10.380 --> 05:14.100
+part settings, access control, and then resource stacks.
+
+05:14.100 --> 05:16.680
+So all these things we have took from here
+
+05:16.680 --> 05:19.440
+in our AWS load balancer controller,
+
+05:19.440 --> 05:20.580
+and in the guide
+
+05:20.580 --> 05:25.140
+and in service you'll find something called annotations,
+
+05:25.140 --> 05:25.973
+right?
+
+05:25.973 --> 05:28.440
+So here you'll find all the related annotations
+
+05:28.440 --> 05:29.547
+related to
+
+05:29.547 --> 05:30.390
+NLB.
+
+05:30.390 --> 05:31.800
+So now let's come back here
+
+05:31.800 --> 05:34.770
+and start discussing about that traffic routing
+
+05:34.770 --> 05:36.480
+related annotations.
+
+05:36.480 --> 05:39.240
+So the first thing is you have provided the name
+
+05:39.240 --> 05:41.190
+for your load balancer name.
+
+05:41.190 --> 05:44.010
+So standard as our Ingres load balancer name.
+
+05:44.010 --> 05:48.180
+So which is basics LBC network LB is by load balancer name
+
+05:48.180 --> 05:51.570
+with which it creates in my AWS Management Console
+
+05:51.570 --> 05:52.710
+you can see this.
+
+05:52.710 --> 05:55.630
+And this name is your, whenever you type QCT
+
+05:55.630 --> 05:59.460
+you'll get SVC the name of your service Kubernetes object.
+
+05:59.460 --> 06:01.800
+So that one is this one.
+
+06:01.800 --> 06:05.940
+So now this load balancer type we have discussed extensively
+
+06:05.940 --> 06:06.960
+in our introduction.
+
+06:06.960 --> 06:08.880
+So we are going to give external
+
+06:08.880 --> 06:11.610
+because this service need to be associated
+
+06:11.610 --> 06:15.540
+with our LBC, load balancer controller latest, right?
+
+06:15.540 --> 06:20.220
+And this is the AWS load balancer NLB target type.
+
+06:20.220 --> 06:22.680
+So you're going to use the instance.
+
+06:22.680 --> 06:25.080
+So whenever you use the instance, right.
+
+06:25.080 --> 06:28.200
+Specifies the target type to configure your NLB.
+
+06:28.200 --> 06:30.690
+You can choose either instance or IP.
+
+06:30.690 --> 06:32.370
+So we are using the instance
+
+06:32.370 --> 06:33.300
+which means
+
+06:33.300 --> 06:35.580
+worker related nodes.
+
+06:35.580 --> 06:37.920
+NodePorts will be registered as the targets here.
+
+06:37.920 --> 06:40.500
+Worker nodes will be registered as targets here
+
+06:40.500 --> 06:42.180
+with the NodePorts.
+
+06:42.180 --> 06:43.013
+Okay.
+
+06:43.013 --> 06:45.330
+And now, another important annotation here
+
+06:45.330 --> 06:48.210
+is AWS load balancer subnets.
+
+06:48.210 --> 06:49.650
+So if you don't define this
+
+06:49.650 --> 06:51.990
+it is going to automatically take it.
+
+06:51.990 --> 06:55.740
+But if you are in need of specifying specific subnets,
+
+06:55.740 --> 06:58.890
+so this is called AWS load balancer subnets
+
+06:58.890 --> 07:01.620
+is a custom subnet discovery.
+
+07:01.620 --> 07:03.810
+So you can provide your subnet ideas here
+
+07:03.810 --> 07:07.140
+and accordingly in those subnets only this NLB
+
+07:07.140 --> 07:09.420
+will be created.
+
+07:09.420 --> 07:13.920
+And now, so we don't need to go to that specific level
+
+07:13.920 --> 07:15.900
+because we don't have any requirement that way.
+
+07:15.900 --> 07:17.880
+So it'll automatically go and then create
+
+07:17.880 --> 07:21.660
+in the available subnets for us in the public subnet, right?
+
+07:21.660 --> 07:23.610
+So now another important thing here
+
+07:23.610 --> 07:25.440
+is health check settings.
+
+07:25.440 --> 07:27.540
+So from health check settings perspective
+
+07:27.540 --> 07:30.810
+so you can define your protocol history TP TCPR,
+
+07:30.810 --> 07:31.890
+history TPS.
+
+07:31.890 --> 07:34.920
+So my backend is listening on port 80
+
+07:34.920 --> 07:36.180
+which is a history TP.
+
+07:36.180 --> 07:38.310
+So I can directly use TCP here
+
+07:38.310 --> 07:42.030
+and don't need to put all this path and all those things.
+
+07:42.030 --> 07:45.270
+But my backend I should have a proper health check thing.
+
+07:45.270 --> 07:49.260
+So that's the reason I have used history TP traffic port
+
+07:49.260 --> 07:53.640
+and in my backend in the root context/index.html
+
+07:53.640 --> 07:56.970
+will be my context health check path for me.
+
+07:56.970 --> 08:00.000
+And these thresholds I have defined, defaults.
+
+08:00.000 --> 08:01.110
+That's the thing.
+
+08:01.110 --> 08:04.650
+And if you see here from access control perspective,
+
+08:04.650 --> 08:07.680
+so this load balancer source ranges
+
+08:07.680 --> 08:10.200
+will tell us specifies the CIDR
+
+08:10.200 --> 08:13.740
+that are allowed to access the network load balancer.
+
+08:13.740 --> 08:14.670
+So I have put it.
+
+08:14.670 --> 08:17.370
+Because I'm creating a internet facing load balancer,
+
+08:17.370 --> 08:19.140
+I have put the entire internet range
+
+08:19.140 --> 08:22.860
+so that anyone can access my network load balancer.
+
+08:22.860 --> 08:26.610
+And another thing is AWS load balancer scheme.
+
+08:26.610 --> 08:28.470
+So this is the annotation
+
+08:28.470 --> 08:30.840
+which decides whether your load balancer
+
+08:30.840 --> 08:32.580
+is a internal load balancer
+
+08:32.580 --> 08:35.880
+which creates in the private subnets of your VPC,
+
+08:35.880 --> 08:38.160
+or internet facing load balancer,
+
+08:38.160 --> 08:41.220
+which creates in a public subnet of your VPC,
+
+08:41.220 --> 08:44.160
+and they can be accessible via internet.
+
+08:44.160 --> 08:47.160
+So we are creating first the internet facing one.
+
+08:47.160 --> 08:49.950
+So we use this as internet facing.
+
+08:49.950 --> 08:52.620
+And these are the standard resource tags
+
+08:52.620 --> 08:53.730
+you can define.
+
+08:53.730 --> 08:57.000
+So AWS load balancer additional resource tag
+
+08:57.000 --> 08:59.550
+for your network load balancer.
+
+08:59.550 --> 09:03.450
+So this completes the review of your annotations
+
+09:03.450 --> 09:06.330
+and your Kubernetes service manifest.
+
+09:06.330 --> 09:08.850
+So in our next lecture we are going to deploy
+
+09:08.850 --> 09:10.440
+these things and test it.
+
+09:10.440 --> 09:12.090
+So I'll see you in the next lecture.
+
+09:12.090 --> 09:13.953
+Until then, bye-bye. Thank you.

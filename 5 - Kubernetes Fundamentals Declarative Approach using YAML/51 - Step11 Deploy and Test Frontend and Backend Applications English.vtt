@@ -1,0 +1,280 @@
+WEBVTT
+
+00:00.450 --> 00:01.283
+Instructor: Welcome back.
+
+00:01.283 --> 00:03.180
+In this lecture we are going to delete
+
+00:03.180 --> 00:06.540
+and recreate objects using Kubectl apply.
+
+00:06.540 --> 00:09.540
+So earlier you used to use Kubectl delete
+
+00:09.540 --> 00:13.440
+and then you used to provide the resource name to delete it.
+
+00:13.440 --> 00:16.080
+But here, whatever the resource you have created
+
+00:16.080 --> 00:17.580
+or the object you have created,
+
+00:17.580 --> 00:20.130
+you'll be able to directly delete using...
+
+00:20.130 --> 00:22.590
+By referencing those YAML files. Okay?
+
+00:22.590 --> 00:24.530
+So let's see that now. Okay?
+
+00:24.530 --> 00:27.720
+So Kubectl, get all will provide lots of stuff,
+
+00:27.720 --> 00:29.553
+whatever we have created so far.
+
+00:30.990 --> 00:33.510
+So now we will say that.
+
+00:33.510 --> 00:35.070
+So we have four files here.
+
+00:35.070 --> 00:38.200
+So Kubectl delete -F01
+
+00:40.260 --> 00:41.093
+and 02,
+
+00:43.307 --> 00:45.573
+and 03,
+
+00:46.920 --> 00:49.032
+and one more time.
+
+00:49.032 --> 00:51.570
+0-F and then 04.
+
+00:51.570 --> 00:53.790
+So all the things related to backend
+
+00:53.790 --> 00:55.830
+and front end should go away now.
+
+00:55.830 --> 00:56.663
+Okay.
+
+00:56.663 --> 00:58.710
+So all got deleted you can see, right?
+
+00:58.710 --> 01:00.150
+So if you say get all,
+
+01:00.150 --> 01:01.800
+so anything related to our backend
+
+01:01.800 --> 01:04.620
+and front end should not be shown now.
+
+01:04.620 --> 01:06.903
+So if you see only the part backend,
+
+01:07.770 --> 01:09.120
+press tab, getting terminated,
+
+01:09.120 --> 01:10.560
+you can see these things. Okay?
+
+01:10.560 --> 01:11.970
+So nothing related to backend
+
+01:11.970 --> 01:16.738
+and front end will be seen after these gets terminated.
+
+01:16.738 --> 01:18.090
+Nothing, right?
+
+01:18.090 --> 01:21.390
+So now you can see deployments only my app redeployment.
+
+01:21.390 --> 01:22.590
+So nothing in the services.
+
+01:22.590 --> 01:25.920
+Also there is nothing related to front end and the backend.
+
+01:25.920 --> 01:27.240
+So that's about it.
+
+01:27.240 --> 01:29.850
+In the same way if you want to create it again,
+
+01:29.850 --> 01:33.153
+you can create it directly using apply-
+
+01:34.020 --> 01:35.160
+and then those values.
+
+01:35.160 --> 01:37.770
+But one more interesting thing here is,
+
+01:37.770 --> 01:42.540
+so, if you have these four files and then creating apply
+
+01:42.540 --> 01:45.693
+and then -F01 and then -F02.
+
+01:47.100 --> 01:48.630
+Again, it's a long command, right?
+
+01:48.630 --> 01:49.770
+So what you can do is,
+
+01:49.770 --> 01:51.900
+come out of your cube manifest,
+
+01:51.900 --> 01:55.007
+and just I will,
+
+01:56.557 --> 01:59.250
+let me go here and I don't have anything here,
+
+01:59.250 --> 02:03.120
+so I'll say MV this file, right?
+
+02:03.120 --> 02:05.040
+00, this is not a valid file.
+
+02:05.040 --> 02:07.830
+This is just only a definition for us, right?
+
+02:07.830 --> 02:10.890
+Paste, and then paste,
+
+02:10.890 --> 02:15.540
+and then I'll save this, back up. Okay?
+
+02:15.540 --> 02:17.340
+So for our testing here, okay?
+
+02:17.340 --> 02:19.830
+So now we have only four YAML files here.
+
+02:19.830 --> 02:22.650
+One, two, three, and then four.
+
+02:22.650 --> 02:24.930
+So let me come out of cube manifest.
+
+02:24.930 --> 02:29.580
+And then I'll say Kubectl apply -F
+
+02:29.580 --> 02:31.980
+and then cube manifest entire folder.
+
+02:31.980 --> 02:35.160
+So whatever the YAML files present in that folder,
+
+02:35.160 --> 02:36.390
+directly present, okay?
+
+02:36.390 --> 02:38.490
+Not under the (inaudible) folders
+
+02:38.490 --> 02:40.920
+but directly present under that folder,
+
+02:40.920 --> 02:43.833
+it is going to get created. Okay?
+
+02:44.798 --> 02:47.820
+So if I say Kubectl get all,
+
+02:47.820 --> 02:51.510
+again we'll be able to see the deployments and services
+
+02:51.510 --> 02:53.880
+whatever related to front end, right?
+
+02:53.880 --> 02:56.701
+Front end and backend related parts are getting created.
+
+02:56.701 --> 03:00.390
+And its services, also front end ingenix
+
+03:00.390 --> 03:03.660
+and then my backend service all got created.
+
+03:03.660 --> 03:06.720
+So like that we'll be able to create and then delete.
+
+03:06.720 --> 03:07.890
+In the same way,
+
+03:07.890 --> 03:09.630
+if you want to again delete all these things
+
+03:09.630 --> 03:12.720
+we really don't need to give that big command here. Okay?
+
+03:12.720 --> 03:17.720
+So Kubectl, delete -F and cube manifest
+
+03:18.360 --> 03:21.941
+and then it is going to delete everything.
+
+03:21.941 --> 03:23.550
+Good. Okay?
+
+03:23.550 --> 03:27.750
+So now if you see get all, nothing should be there.
+
+03:27.750 --> 03:29.163
+So these are some of the things
+
+03:29.163 --> 03:31.920
+which we can effectively use for our...
+
+03:31.920 --> 03:33.660
+See this is getting terminated.
+
+03:33.660 --> 03:37.200
+No other services related to front end or backend. Good.
+
+03:37.200 --> 03:38.610
+So now the next thing is,
+
+03:38.610 --> 03:40.140
+go back to cube manifest
+
+03:40.140 --> 03:44.943
+and then change our file back, okay?
+
+03:48.360 --> 03:51.630
+To the same value, so that whenever you're doing the course
+
+03:51.630 --> 03:55.200
+it doesn't give a different show there. Okay?
+
+03:55.200 --> 03:56.793
+So now this is completed.
+
+03:58.380 --> 03:59.213
+Good.
+
+03:59.213 --> 04:00.660
+So, in our next lecture
+
+04:00.660 --> 04:02.880
+we'll go- go ahead with another topic.
+
+04:02.880 --> 04:04.590
+So I'll see you in the next lecture.
+
+04:04.590 --> 04:05.910
+Until then, bye bye.
+
+04:05.910 --> 04:06.743
+Thank you.

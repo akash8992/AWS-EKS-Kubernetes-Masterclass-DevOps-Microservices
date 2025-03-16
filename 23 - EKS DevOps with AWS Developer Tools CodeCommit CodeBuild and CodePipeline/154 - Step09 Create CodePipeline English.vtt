@@ -1,0 +1,814 @@
+WEBVTT
+
+00:00.210 --> 00:01.350
+Instructor: Welcome back.
+
+00:01.350 --> 00:04.260
+In previous section we have completed the code
+
+00:04.260 --> 00:06.720
+pipeline introduction and now we are going to
+
+00:06.720 --> 00:09.480
+create the code pipeline and then test it.
+
+00:09.480 --> 00:12.390
+So in this step we are going to create the code pipeline
+
+00:12.390 --> 00:14.310
+and then it is going to fail,
+
+00:14.310 --> 00:15.143
+but don't worry.
+
+00:15.143 --> 00:20.143
+So we are going to do a break and fix approach here
+
+00:20.160 --> 00:22.950
+because we need to understand more about the roles
+
+00:22.950 --> 00:24.690
+whatever we have created
+
+00:24.690 --> 00:28.140
+and at where which point the CodeBuild is failing
+
+00:28.140 --> 00:29.940
+and then how to fix it.
+
+00:29.940 --> 00:31.800
+So all in all we are going to learn
+
+00:31.800 --> 00:33.930
+in a troubleshooting way the whole thing.
+
+00:33.930 --> 00:36.690
+So even the next steps are also designed
+
+00:36.690 --> 00:39.240
+in the same way step by step.
+
+00:39.240 --> 00:40.890
+Okay? So let's go ahead
+
+00:40.890 --> 00:45.630
+and then create the pipeline with the name EKS DevOps Pipe.
+
+00:45.630 --> 00:47.850
+So I'll go to management console
+
+00:47.850 --> 00:51.300
+and then I'll say a code pipeline, right?
+
+00:51.300 --> 00:54.540
+So we'll go there and we'll go ahead and then
+
+00:54.540 --> 00:59.540
+create a pipeline. And pipeline name is EKS DevOps Pipe
+
+00:59.940 --> 01:02.280
+and service role is going to be new service role
+
+01:02.280 --> 01:05.700
+as is default and roll name also going to be default.
+
+01:05.700 --> 01:09.750
+And this whatever the type you are allow AWS code
+
+01:09.750 --> 01:11.040
+pipeline to create a service role
+
+01:11.040 --> 01:13.110
+so it can be user with this new pipeline.
+
+01:13.110 --> 01:14.460
+So yes, we need that, okay.
+
+01:14.460 --> 01:17.130
+So we are going to leave all the defaults here
+
+01:17.130 --> 01:20.700
+and in advanced section also, the artifacts store,
+
+01:20.700 --> 01:22.470
+it is going to have that default
+
+01:22.470 --> 01:25.560
+on whatever is present and encryption key also default.
+
+01:25.560 --> 01:26.850
+So we are not touching anything
+
+01:26.850 --> 01:28.740
+from pipeline settings perspective.
+
+01:28.740 --> 01:30.900
+Just providing the pipeline name here
+
+01:30.900 --> 01:32.910
+and then I'll go to next.
+
+01:32.910 --> 01:35.760
+So here comes our source provider, which is nothing.
+
+01:35.760 --> 01:39.283
+But you can have CodeCommit, ECR S3,
+
+01:39.283 --> 01:40.980
+Bitbucket, and then GitHub.
+
+01:40.980 --> 01:43.080
+So whatever you have seen here
+
+01:43.080 --> 01:44.970
+in your architecture diagram, right?
+
+01:44.970 --> 01:47.520
+So if you see here, right?
+
+01:47.520 --> 01:50.460
+So from source perspective you have seen these things.
+
+01:50.460 --> 01:53.310
+Right? So CodeCommit, Container Registry,
+
+01:53.310 --> 01:55.342
+Simple Storage Service, and then GitHub.
+
+01:55.342 --> 01:58.230
+So in the same way you are seeing those things, right?
+
+01:58.230 --> 02:00.480
+In addition to that, one more Bitbucket here, okay?
+
+02:00.480 --> 02:02.040
+So we can add it anyway.
+
+02:02.040 --> 02:05.220
+So now we are going to add CodeCommit here
+
+02:05.220 --> 02:08.820
+and it is going to provide all the repositories available
+
+02:08.820 --> 02:11.790
+for us. And what is our repository?
+
+02:11.790 --> 02:15.300
+Our Cs EKS DevOps NGINX.
+
+02:15.300 --> 02:17.250
+So I'm going to select that.
+
+02:17.250 --> 02:20.490
+And my repository branch is master branch.
+
+02:20.490 --> 02:23.070
+We didn't create any development branch here,
+
+02:23.070 --> 02:28.050
+so we'll leave it and change detection options, right?
+
+02:28.050 --> 02:32.130
+So we want means like even it'll have an AWS Code
+
+02:32.130 --> 02:34.380
+Pipeline can do it, which is periodical checks,
+
+02:34.380 --> 02:38.520
+which is not good but AWS Cloud watches most dynamic, okay?
+
+02:38.520 --> 02:40.770
+So we'll try to mince like any change happens
+
+02:40.770 --> 02:43.470
+to our source immediately to trigger the pipeline.
+
+02:43.470 --> 02:45.780
+So which option you are going to select is what
+
+02:45.780 --> 02:46.740
+it is asking here.
+
+02:46.740 --> 02:50.130
+Okay? So whatever AWS recommends here, Amazon Cloud watch,
+
+02:50.130 --> 02:53.700
+I'm going to use the same thing and I'll click on next.
+
+02:53.700 --> 02:55.380
+So source part is done.
+
+02:55.380 --> 02:58.170
+Now we are moving to the build part.
+
+02:58.170 --> 03:02.220
+So in build part I'm going to use CodeBuild R Jenkins.
+
+03:02.220 --> 03:05.280
+So right if you see here, so we have
+
+03:05.280 --> 03:08.550
+in build port we have the CodeBuild R Jenkins.
+
+03:08.550 --> 03:10.680
+We are selecting CodeBuild, right?
+
+03:10.680 --> 03:14.910
+And region is US East, North Virginia, and the project name.
+
+03:14.910 --> 03:17.193
+So if we go back,
+
+03:18.300 --> 03:20.370
+we are not going to select anything from here.
+
+03:20.370 --> 03:22.770
+So we are going to create a new project here, okay?
+
+03:22.770 --> 03:24.630
+So create project.
+
+03:24.630 --> 03:27.210
+So it'll open a new window here.
+
+03:27.210 --> 03:29.370
+So we can make it maximize this.
+
+03:29.370 --> 03:32.220
+So I can say like this so that it is maximized.
+
+03:32.220 --> 03:34.710
+And we are going to create a new CodeBuild project
+
+03:34.710 --> 03:36.060
+as part of this process.
+
+03:36.060 --> 03:38.550
+Okay? So the project name.
+
+03:38.550 --> 03:40.890
+So that's what we need to provide here.
+
+03:40.890 --> 03:45.630
+So I can say... I can go back and get the project name here.
+
+03:45.630 --> 03:49.373
+Okay? So this is the name I want to use it.
+
+03:49.373 --> 03:51.810
+EKS DevOps CB4 pipe.
+
+03:51.810 --> 03:55.983
+Okay? So I will go back here.
+
+03:57.870 --> 04:01.533
+So inside this...so I should go to this one.
+
+04:03.769 --> 04:06.397
+Okay? So it is EKS CodeBuild project for EKS pipe.
+
+04:13.950 --> 04:17.700
+Okay? And we are not going to give any information
+
+04:17.700 --> 04:19.410
+related additional tax information.
+
+04:19.410 --> 04:22.830
+We will leave it as is and from environment
+
+04:22.830 --> 04:25.200
+perspective we are going to use managed image.
+
+04:25.200 --> 04:27.270
+So we have discussed it about this.
+
+04:27.270 --> 04:30.000
+So either you can use managed image or a custom image.
+
+04:30.000 --> 04:31.200
+Whatever you want to use.
+
+04:31.200 --> 04:34.020
+Okay? So we are going to use AWS managed image
+
+04:34.020 --> 04:36.450
+and operating system is Amazon Linux 2,
+
+04:36.450 --> 04:37.920
+we are going to use.
+
+04:37.920 --> 04:40.380
+Always try to be on the Amazon standards
+
+04:40.380 --> 04:43.230
+so that you will be in a very greater shape.
+
+04:43.230 --> 04:46.140
+So I always try to use Amazon-related stuff.
+
+04:46.140 --> 04:49.890
+So Amazon Linux I'm going to use and run times,
+
+04:49.890 --> 04:52.830
+I'm going to say leave it as standard, whatever is there.
+
+04:52.830 --> 04:55.290
+And here comes the images spot, right?
+
+04:55.290 --> 04:58.500
+So it has the Amazon Linux 2, 1.0, 2.0.
+
+04:58.500 --> 05:03.000
+And then one more 2.0 and then finally, 3.0.
+
+05:03.000 --> 05:06.480
+So whatever is their latest today, 3.0, I have selected it.
+
+05:06.480 --> 05:09.000
+This related docker file also we have reviewed
+
+05:09.000 --> 05:13.710
+about AWS tools related to IM Authenticator kubectl
+
+05:13.710 --> 05:15.180
+and eksctl. If you remember,
+
+05:15.180 --> 05:17.430
+we have discussed about it.
+
+05:17.430 --> 05:18.660
+So image version,
+
+05:18.660 --> 05:22.920
+always use the latest image version from this runtime, okay?
+
+05:22.920 --> 05:26.550
+And environment type is Linux and I'm going to enable...
+
+05:26.550 --> 05:28.950
+enable this flag if you want to build docker images
+
+05:28.950 --> 05:32.190
+or want your build to get elevated privileges.
+
+05:32.190 --> 05:34.080
+So I'm going to check that option.
+
+05:34.080 --> 05:36.060
+And then service role, I'm going to
+
+05:36.060 --> 05:39.030
+create a new service role which...whose name starts
+
+05:39.030 --> 05:42.990
+like this. CodeBuild EKS DevOps CB4 pipe service roll.
+
+05:42.990 --> 05:46.410
+Okay? So this is what it generates now. And in addition
+
+05:46.410 --> 05:49.860
+to that in additional configuration settings, right?
+
+05:49.860 --> 05:52.050
+So timeouts, we are not going to touch anything.
+
+05:52.050 --> 05:54.329
+And then VPC related also we are not going to
+
+05:54.329 --> 05:56.160
+touch anything, right?
+
+05:56.160 --> 05:58.950
+So if you want to run this build in your respective VPC,
+
+05:58.950 --> 06:01.440
+you can select and then in which subnets you want to select,
+
+06:01.440 --> 06:03.570
+you can select. One thing important here is,
+
+06:03.570 --> 06:05.970
+if you want this build to run in your private subnets,
+
+06:05.970 --> 06:09.420
+you need to have in that VPC NAT gateway set up.
+
+06:09.420 --> 06:13.470
+And from private subnets you have your outbound rules
+
+06:13.470 --> 06:14.730
+set up there, okay?
+
+06:14.730 --> 06:17.490
+So outbound security group related rules set up.
+
+06:17.490 --> 06:20.310
+But all these things really don't need for us, okay?
+
+06:20.310 --> 06:22.620
+So we are just testing it, right?
+
+06:22.620 --> 06:25.350
+And we need to define 3 environmental variables,
+
+06:25.350 --> 06:26.370
+if you remember.
+
+06:26.370 --> 06:28.830
+So those things we are going to define now.
+
+06:28.830 --> 06:30.390
+So I'll go here.
+
+06:30.390 --> 06:32.220
+So it is present here also.
+
+06:32.220 --> 06:35.340
+So the same read me file I'll have
+
+06:35.340 --> 06:38.340
+in my Visual Studio Code.
+
+06:38.340 --> 06:42.330
+So it's becoming difficult to do tabs
+
+06:42.330 --> 06:43.620
+in the same Safari browser.
+
+06:43.620 --> 06:48.620
+So what I'm going to do is, I'll open this like this, right?
+
+06:48.630 --> 06:50.850
+And I'll go to my Visual Studio Code.
+
+06:50.850 --> 06:55.593
+And I'll go to the read me file and I'll go down.
+
+06:57.570 --> 06:59.560
+And if you see here we are at
+
+07:00.750 --> 07:02.550
+this respective location, okay?
+
+07:02.550 --> 07:05.940
+So we are asking for the repository URL, right?
+
+07:05.940 --> 07:08.490
+So I'll make...copy this.
+
+07:08.490 --> 07:11.370
+And environmental variable name is repository URL
+
+07:11.370 --> 07:12.960
+and value is this one.
+
+07:12.960 --> 07:15.030
+Okay? So which is the same thing.
+
+07:15.030 --> 07:16.200
+If you want you can go ahead
+
+07:16.200 --> 07:19.500
+and then bring that from your ECR repository, right?
+
+07:19.500 --> 07:22.110
+So from your ECR repository, you need to bring that.
+
+07:22.110 --> 07:24.090
+So which we already made a note so we really
+
+07:24.090 --> 07:25.893
+don't need to worry.
+
+07:27.210 --> 07:29.970
+So let me come back, right?
+
+07:29.970 --> 07:32.790
+So I have provided this. Next environmental
+
+07:32.790 --> 07:37.300
+variable we are going to have is EKS kubectl-role-ARN.
+
+07:37.300 --> 07:38.760
+Okay? So this one also.
+
+07:38.760 --> 07:41.244
+I made a note for my environment, right?
+
+07:41.244 --> 07:44.460
+ARN EKS CodeBuild kubectl-role.
+
+07:44.460 --> 07:46.110
+So I'll provide the same thing.
+
+07:46.110 --> 07:49.800
+And one more is EKS cluster name, right?
+
+07:49.800 --> 07:53.520
+So, and it is going to be EKS demo one.
+
+07:53.520 --> 07:57.783
+Okay? So now we have completed the environmental variables.
+
+07:58.710 --> 08:01.110
+We need to provide the buildspec.yaml.
+
+08:01.110 --> 08:03.270
+If we check in our buildspec.yaml
+
+08:03.270 --> 08:06.810
+at the root context of our CodeCommit repository, right?
+
+08:06.810 --> 08:07.650
+So if you remember,
+
+08:07.650 --> 08:11.100
+in our CodeCommit repository EKS DevOps NGINX.
+
+08:11.100 --> 08:14.580
+So build spec dot AML is at the quote or root context, okay?
+
+08:14.580 --> 08:15.870
+So we really don't need to worry,
+
+08:15.870 --> 08:18.210
+we can say use a build spec file.
+
+08:18.210 --> 08:21.390
+That's all. Default option will be fine for us.
+
+08:21.390 --> 08:23.220
+And buildspec.yaml, we really didn't
+
+08:23.220 --> 08:24.810
+give any different names here.
+
+08:24.810 --> 08:27.390
+It is plain buildspec.yaml.
+
+08:27.390 --> 08:30.990
+So we can leave as is. And now for CloudWatch logs.
+
+08:30.990 --> 08:33.270
+So we can even say the same name here, okay?
+
+08:33.270 --> 08:35.100
+So that it will create equivalent
+
+08:35.100 --> 08:37.440
+CloudWatch logs for us, okay?
+
+08:37.440 --> 08:39.618
+If you want to, you can, you can even uncheck it.
+
+08:39.618 --> 08:43.170
+Okay? Then S3 logs also if you want, you can enable.
+
+08:43.170 --> 08:44.400
+So I really don't need anything.
+
+08:44.400 --> 08:45.540
+So I just gave the same name.
+
+08:45.540 --> 08:47.940
+So with high fund group and then high fund stream
+
+08:47.940 --> 08:50.760
+it is going to create the CloudWatch logs.
+
+08:50.760 --> 08:54.393
+Okay? So now we'll click on continue to code pipeline.
+
+08:55.800 --> 08:59.370
+Right? And it'll take us back to our project here.
+
+08:59.370 --> 09:02.670
+Okay? So it'll take us back to our project here.
+
+09:02.670 --> 09:05.840
+See? Successfully created EKS DevOps
+
+09:05.840 --> 09:08.220
+CB4 pipe in CodeBuild.
+
+09:08.220 --> 09:11.760
+Okay? So now I'll click on next.
+
+09:11.760 --> 09:15.660
+Okay? And for us, we really don't have any deployment phase,
+
+09:15.660 --> 09:17.430
+but let's see what is available here.
+
+09:17.430 --> 09:21.390
+Okay? So you have AppConfig, Cloud Formation, CodeDeploy,
+
+09:21.390 --> 09:25.200
+Elastic Bean, Stack Ops, Works Stacks, Service Catalogs
+
+09:25.200 --> 09:29.970
+Skill Kit, ECS, ECS BlueGreen, and then S3, right?
+
+09:29.970 --> 09:34.970
+We don't have anything related to our respective EKS, okay?
+
+09:36.630 --> 09:37.980
+So we don't have anything out
+
+09:37.980 --> 09:40.440
+of the box available for us here, okay?
+
+09:40.440 --> 09:42.300
+So that's the reason we can leave it
+
+09:42.300 --> 09:47.300
+as is and then we'll click on next. Skip deploy stage. Okay?
+
+09:50.010 --> 09:51.510
+We have skipped the deploy stage
+
+09:51.510 --> 09:54.090
+and now these are our pipeline settings.
+
+09:54.090 --> 09:57.990
+So we have the EKS DevOps pipe. This is the pipe.
+
+09:57.990 --> 09:59.850
+And then these are the source information
+
+09:59.850 --> 10:03.060
+and this is the build stage information and deploy stage.
+
+10:03.060 --> 10:04.140
+Nothing is there, okay?
+
+10:04.140 --> 10:07.290
+So I'll click on create pipeline, right?
+
+10:07.290 --> 10:11.190
+And as soon as we create the pipeline for the first time,
+
+10:11.190 --> 10:13.650
+it is going fail, okay?
+
+10:13.650 --> 10:16.830
+So let it fail and then see what happened, okay?
+
+10:16.830 --> 10:19.920
+And then in our next step we are going to make it a success.
+
+10:19.920 --> 10:22.320
+So if you want to create a notification rule
+
+10:22.320 --> 10:25.140
+for this pipeline so that whenever the pipeline is triggered
+
+10:25.140 --> 10:27.810
+you need to get an email and all those things,
+
+10:27.810 --> 10:29.400
+so you can click on these things
+
+10:29.400 --> 10:31.920
+and then create those stuff. Okay?
+
+10:31.920 --> 10:35.100
+So notification name includes any supplemental information.
+
+10:35.100 --> 10:37.440
+Succeeded, failed, cancel. Anything, okay?
+
+10:37.440 --> 10:39.810
+So for all these events, if you want,
+
+10:39.810 --> 10:42.240
+you can enable the SNS topic for this.
+
+10:42.240 --> 10:43.860
+Okay? So you can go to SNS
+
+10:43.860 --> 10:46.920
+and then create a target and then add it here.
+
+10:46.920 --> 10:51.120
+Okay? So, but really currently this is not the core focus.
+
+10:51.120 --> 10:56.100
+So we'll cancel it and go back to over pipeline, right?
+
+10:56.100 --> 11:00.060
+So now the source is succeeded. One added first set of files
+
+11:00.060 --> 11:01.530
+and it is in the build stage.
+
+11:01.530 --> 11:03.930
+Once you click on this details thing, right,
+
+11:03.930 --> 11:05.190
+and click on new tab.
+
+11:05.190 --> 11:08.490
+So it'll take you to the CodeBuild area in the section
+
+11:08.490 --> 11:09.840
+where it is running.
+
+11:09.840 --> 11:12.300
+So if you see here, here we can see all the stuff
+
+11:12.300 --> 11:13.260
+what is happening.
+
+11:13.260 --> 11:16.773
+Okay? So let's start with the install phase, right?
+
+11:17.940 --> 11:20.670
+In install phase, whatever we have written is nothing to
+
+11:20.670 --> 11:25.170
+do using latest imagine emails for CodeBuild.
+
+11:25.170 --> 11:27.750
+So all the AWS tools are there, we really don't need to do.
+
+11:27.750 --> 11:29.220
+That's what we said. Okay?
+
+11:29.220 --> 11:31.230
+So and install phase is succeeded.
+
+11:31.230 --> 11:33.870
+It moved to the next phase, pre-build phase,
+
+11:33.870 --> 11:36.450
+and then it created a tag, right?
+
+11:36.450 --> 11:40.020
+And then it updated the image tag in kube manifest
+
+11:40.020 --> 11:42.806
+with these information and then it verified the
+
+11:42.806 --> 11:46.320
+AWS CLI version, which is very, very important.
+
+11:46.320 --> 11:49.470
+The CLI version, it outputted here. Right?
+
+11:49.470 --> 11:53.160
+EWS// version is 1.18.78.
+
+11:53.160 --> 11:55.740
+Still we are in the AWS 1. latest version
+
+11:55.740 --> 11:58.020
+of 1. text only we have here.
+
+11:58.020 --> 12:00.180
+Okay? And then we are moving on
+
+12:00.180 --> 12:04.170
+to the login to Amazon ECR is completed
+
+12:04.170 --> 12:07.170
+and then running the command ECR gate login, right?
+
+12:07.170 --> 12:08.910
+So log into ECR.
+
+12:08.910 --> 12:12.210
+So ECR gate login, it says that in an error code,
+
+12:12.210 --> 12:14.130
+access denied when calling the gate
+
+12:14.130 --> 12:16.230
+authorization token option.
+
+12:16.230 --> 12:18.990
+So whenever it created, whenever it is trying to log
+
+12:18.990 --> 12:23.760
+into our ECR Elastic Container Registry, it is failing.
+
+12:23.760 --> 12:27.120
+So because of access denied, exception.
+
+12:27.120 --> 12:29.460
+So in our next lecture, we'll focus on
+
+12:29.460 --> 12:31.200
+fixing this issue and then moving
+
+12:31.200 --> 12:33.390
+forward for the next steps.
+
+12:33.390 --> 12:35.190
+So I'll see you in the next lecture.
+
+12:35.190 --> 12:36.600
+Until then, bye bye.
+
+12:36.600 --> 12:37.433
+Thank you.

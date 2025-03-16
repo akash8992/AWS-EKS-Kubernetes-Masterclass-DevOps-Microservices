@@ -1,0 +1,721 @@
+WEBVTT
+
+00:00.270 --> 00:01.170
+-: Welcome back.
+
+00:01.170 --> 00:03.837
+In previous step, we have successfully created
+
+00:03.837 --> 00:07.050
+the ingress manifest with the default backend option.
+
+00:07.050 --> 00:08.730
+So now, we are going to go ahead
+
+00:08.730 --> 00:11.460
+and then, deploy that and then, test it.
+
+00:11.460 --> 00:14.280
+So, let's go back to our terminal here,
+
+00:14.280 --> 00:19.280
+and go to 08 new and 08 01 and not 01.
+
+00:22.980 --> 00:27.980
+So, we'll go to 08 02 and inside 08 02 LB ingress basics.
+
+00:29.940 --> 00:32.460
+So, we'll run the command KubeCTL,
+
+00:32.460 --> 00:37.050
+apply hyphen F and 01 kube manifests default backend.
+
+00:37.050 --> 00:40.260
+So, this should create the Nginx deployment for us,
+
+00:40.260 --> 00:42.810
+and also it should create the node port service,
+
+00:42.810 --> 00:46.350
+and also it should create the ingress service for us.
+
+00:46.350 --> 00:49.410
+So now, we can see all three things were created.
+
+00:49.410 --> 00:52.770
+Deployment, service, and then ingress.
+
+00:52.770 --> 00:55.320
+So, let's go ahead and then, verify that deployment
+
+00:55.320 --> 00:59.400
+and ports first and then, we'll move on to the ingress.
+
+00:59.400 --> 01:04.400
+So, I'LL clear KubeCTL, get ingress, why I came to ingress.
+
+01:06.120 --> 01:08.550
+So, we'll first do the deployment, right?
+
+01:08.550 --> 01:10.800
+Verify that KubeCTL get deploy.
+
+01:10.800 --> 01:13.950
+So, all these things are created in the default namespace.
+
+01:13.950 --> 01:16.620
+That's the reason we really don't need to mention
+
+01:16.620 --> 01:20.910
+hyphen N kube-system or hyphen N default namespace.
+
+01:20.910 --> 01:21.930
+So, both are same.
+
+01:21.930 --> 01:26.670
+So, you can say default and it should be the same thing.
+
+01:26.670 --> 01:29.760
+So, you can see app one Nginx deployment is ready.
+
+01:29.760 --> 01:31.260
+One by one is ready.
+
+01:31.260 --> 01:33.840
+So we'll say, get ports,
+
+01:33.840 --> 01:37.290
+and we should see that app one Nginx deployment
+
+01:37.290 --> 01:40.710
+and that respect to pod guard created successfully,
+
+01:40.710 --> 01:42.720
+and then, it is running.
+
+01:42.720 --> 01:47.190
+So now, we'll also see KubeCTL get SVC and then, it will
+
+01:47.190 --> 01:51.060
+list the app one Nginx node port service for us, right?
+
+01:51.060 --> 01:54.420
+You can see 80 column 32291 is done.
+
+01:54.420 --> 01:59.070
+Node port service. Node port half hour respect to service.
+
+01:59.070 --> 02:03.270
+So now, the next thing here is we need to say
+
+02:03.270 --> 02:05.400
+KubeCTL get ingress.
+
+02:05.400 --> 02:08.220
+So, this should list the ingress service for us,
+
+02:08.220 --> 02:12.960
+whatever we have created, which is ingress Nginx app one
+
+02:12.960 --> 02:17.100
+and this belongs to the class my AWS ingress class.
+
+02:17.100 --> 02:19.980
+And here, is the address, app one ingress.
+
+02:19.980 --> 02:21.900
+This is the name of my load balancer,
+
+02:21.900 --> 02:24.270
+whatever we have provided here, see?
+
+02:24.270 --> 02:26.520
+App one ingress hyphen some,
+
+02:26.520 --> 02:31.520
+some dynamic id.us east one.elb.amazonaws.com, right?
+
+02:33.510 --> 02:38.190
+So now, let's come back here to our load balances.
+
+02:39.240 --> 02:40.830
+So, in EC2, right?
+
+02:40.830 --> 02:43.353
+So, go to services and in EC2.
+
+02:44.190 --> 02:48.453
+So, let's go to load balances.
+
+02:49.320 --> 02:52.020
+And in load balances, so you should find
+
+02:52.020 --> 02:53.160
+that app one ingress.
+
+02:53.160 --> 02:55.860
+The name of my load balancer is app one ingress.
+
+02:55.860 --> 02:58.470
+and it's DNS name is app one ingress hyphen,
+
+02:58.470 --> 02:59.757
+so and so, so and so.
+
+02:59.757 --> 03:02.880
+And its state is currently active and you can see
+
+03:02.880 --> 03:05.670
+in the description, lot of information
+
+03:05.670 --> 03:07.140
+about that load balancer.
+
+03:07.140 --> 03:11.280
+So, the listeners, it has created the HTTP 80 listener
+
+03:11.280 --> 03:16.170
+by default, and also if you see inside it, right?
+
+03:16.170 --> 03:18.240
+So, it should have the default backend.
+
+03:18.240 --> 03:20.640
+So, this is the default backend requests
+
+03:20.640 --> 03:22.350
+otherwise not routed.
+
+03:22.350 --> 03:24.930
+So, it is added as a default backend
+
+03:24.930 --> 03:27.720
+and it is going to some target group here.
+
+03:27.720 --> 03:31.020
+So, we'll go and then verify that target group now.
+
+03:31.020 --> 03:34.980
+So, let's come back here and go to target groups here,
+
+03:34.980 --> 03:38.860
+right? And in target groups, you'll find here
+
+03:41.100 --> 03:43.557
+K8S default app one Nginx.
+
+03:43.557 --> 03:45.720
+So, this is something the older one.
+
+03:45.720 --> 03:47.640
+So, I'll just remove this.
+
+03:47.640 --> 03:50.640
+So, this is unassociated one, user management one, see?
+
+03:50.640 --> 03:53.340
+Non-associated, I'll just delete it.
+
+03:53.340 --> 03:57.420
+So, this is coming from previous demos, so I'll remove that.
+
+03:57.420 --> 04:00.810
+And now, if you see here K8S default app one Nginx
+
+04:00.810 --> 04:04.170
+is there and it's port 32291.
+
+04:04.170 --> 04:05.250
+This is the node port.
+
+04:05.250 --> 04:08.550
+So, let's come back here and verify the same thing, see?
+
+04:08.550 --> 04:13.550
+In KubeCTL get SVC, your app one Nginx node port is 32291.
+
+04:14.130 --> 04:17.430
+Same is also added here, which means your node port service,
+
+04:17.430 --> 04:20.880
+your node is registered here with that respect to port.
+
+04:20.880 --> 04:25.710
+So, and protocol is HTTP and target type is instance.
+
+04:25.710 --> 04:27.600
+So, if you remember we have discussed
+
+04:27.600 --> 04:29.820
+about that traffic mode, right?
+
+04:29.820 --> 04:33.360
+Which is nothing but instance and then IP traffic modes.
+
+04:33.360 --> 04:35.670
+So here by default, right?
+
+04:35.670 --> 04:38.850
+So, by default, if you don't define any traffic mode.
+
+04:38.850 --> 04:41.880
+So, then the target type is going to be instance.
+
+04:41.880 --> 04:46.050
+And if you define it, you can define the target type
+
+04:46.050 --> 04:47.580
+as instance or IP.
+
+04:47.580 --> 04:50.900
+So, let's go to annotations here and I'll say IP
+
+04:54.870 --> 04:58.543
+or I can search for target type.
+
+05:00.780 --> 05:02.070
+Yeah, you can see here.
+
+05:02.070 --> 05:07.070
+ELB ingress Kubernetes io target hyphen type instance or IP.
+
+05:07.110 --> 05:09.540
+And, if you see here, instance mode will route traffic
+
+05:09.540 --> 05:12.150
+to all EC2 instances within the cluster
+
+05:12.150 --> 05:15.570
+or node port open for your REST service, right?
+
+05:15.570 --> 05:17.760
+So, service must be of type node port,
+
+05:17.760 --> 05:20.973
+our load balancer to use the instance mode.
+
+05:22.440 --> 05:23.970
+And IP mode will route traffic
+
+05:23.970 --> 05:26.910
+directly to that respect to port IP.
+
+05:26.910 --> 05:30.450
+And another important thing to note here is
+
+05:30.450 --> 05:32.943
+so let's go to that target type,
+
+05:38.820 --> 05:43.820
+and then, come here and you see at the top, right?
+
+05:47.190 --> 05:48.390
+So, this is the default.
+
+05:48.390 --> 05:51.720
+So, what is the default for that is instance.
+
+05:51.720 --> 05:53.670
+So, which means by default
+
+05:53.670 --> 05:56.220
+whether you define this target hyphen type
+
+05:56.220 --> 06:00.330
+as instance or not, by default it will take the instance,
+
+06:00.330 --> 06:03.000
+and explicitly you need to define for IP,
+
+06:03.000 --> 06:05.460
+if you want to need IP, right?
+
+06:05.460 --> 06:07.590
+So, that's about the target type.
+
+06:07.590 --> 06:10.470
+So now, let's go inside that, right?
+
+06:10.470 --> 06:13.830
+And see? This is the target type instance and protocol,
+
+06:13.830 --> 06:14.790
+protocol version.
+
+06:14.790 --> 06:15.870
+All these things are good.
+
+06:15.870 --> 06:18.900
+And this is associated to the load balancer hyphen ingress,
+
+06:18.900 --> 06:19.980
+that is good.
+
+06:19.980 --> 06:23.040
+And total targets, two targets and healthy, right?
+
+06:23.040 --> 06:26.850
+So, you can see both, both instances
+
+06:26.850 --> 06:29.070
+registered successfully here.
+
+06:29.070 --> 06:30.780
+So, we have two nodes
+
+06:30.780 --> 06:33.360
+and then both nodes registered successfully here.
+
+06:33.360 --> 06:37.140
+If respect to of whether that pod is present in which node,
+
+06:37.140 --> 06:39.120
+it doesn't need that, right?
+
+06:39.120 --> 06:41.730
+Why? Because, your node port services
+
+06:41.730 --> 06:43.950
+span across all the nodes.
+
+06:43.950 --> 06:47.370
+So, that means whether you have the port in which node
+
+06:47.370 --> 06:50.460
+is not a consideration here.
+
+06:50.460 --> 06:55.410
+So, if in your, in your private node group in Kubernetes,
+
+06:55.410 --> 07:00.270
+if you have 15 nodes, all 15 nodes will be added here.
+
+07:00.270 --> 07:04.770
+So, that's about the instance mode traffic,
+
+07:04.770 --> 07:06.840
+instance mode related thing.
+
+07:06.840 --> 07:10.110
+We can also see here the health status is healthy,
+
+07:10.110 --> 07:13.200
+and we can also go inside the monitoring,
+
+07:13.200 --> 07:16.830
+and go to health checks and review the settings.
+
+07:16.830 --> 07:18.870
+So, protocol you have provided HTTP
+
+07:18.870 --> 07:22.590
+and path you have provided as slash app one index.html,
+
+07:22.590 --> 07:24.660
+and traffic port you have provided,
+
+07:24.660 --> 07:26.130
+and all these things interval.
+
+07:26.130 --> 07:29.940
+If you remember, we have provided 15 seconds, see?
+
+07:29.940 --> 07:31.020
+15 seconds.
+
+07:31.020 --> 07:33.150
+So, all those things, whatever we have provided
+
+07:33.150 --> 07:35.700
+in the annotations for the health check settings.
+
+07:35.700 --> 07:38.580
+So, all these things are available here.
+
+07:38.580 --> 07:43.230
+So now, let's go back here and also,
+
+07:43.230 --> 07:47.910
+go back to our GitHub here, describe ingress controller.
+
+07:47.910 --> 07:50.910
+So, just review and understand more about it.
+
+07:50.910 --> 07:55.140
+So, let's copy here and go here.
+
+07:55.140 --> 07:56.790
+KubeCTL describe ingress
+
+07:56.790 --> 08:00.900
+and ingress name is ingress hyphen Nginx app one.
+
+08:00.900 --> 08:02.823
+And if you see here, right?
+
+08:03.690 --> 08:07.410
+In the ingress, name, namespace address,
+
+08:07.410 --> 08:10.500
+and in the default backend, you see?
+
+08:10.500 --> 08:13.440
+Default backend is the value, it is provided here,
+
+08:13.440 --> 08:15.420
+which means in host there is no paths,
+
+08:15.420 --> 08:17.670
+only the default backend related information
+
+08:17.670 --> 08:18.840
+is provided here.
+
+08:18.840 --> 08:22.620
+So, just make a note of these things and then, go ahead
+
+08:22.620 --> 08:24.990
+and then review these things in the next demo.
+
+08:24.990 --> 08:25.830
+How it comes. Why?
+
+08:25.830 --> 08:28.740
+Because in the next demo, you'll use the rules
+
+08:28.740 --> 08:31.380
+and there it'll say slash star, go to this.
+
+08:31.380 --> 08:32.760
+So, like that you're going to see.
+
+08:32.760 --> 08:35.970
+So currently, you have the default backend here,
+
+08:35.970 --> 08:38.940
+but in the next demo, we are going to see this differently.
+
+08:38.940 --> 08:41.550
+So for that purpose only, I'm showing the differences
+
+08:41.550 --> 08:44.070
+which means whatever the rules you have defined
+
+08:44.070 --> 08:45.060
+in the ingress.
+
+08:45.060 --> 08:48.450
+So, those things using the KubeCTL describe ingress command.
+
+08:48.450 --> 08:51.120
+You can review them directly here, whether they were
+
+08:51.120 --> 08:53.790
+successfully created in a right way or not.
+
+08:53.790 --> 08:56.370
+In the annotations also, you can see in detail,
+
+08:56.370 --> 08:59.670
+and also, you can see there are no error events here,
+
+08:59.670 --> 09:02.040
+successfully reconciled.
+
+09:02.040 --> 09:03.870
+So now, let's come back
+
+09:03.870 --> 09:07.560
+and we have also verified the target groups
+
+09:07.560 --> 09:08.880
+and all those things.
+
+09:08.880 --> 09:12.120
+So now, let's go ahead and then access the things.
+
+09:12.120 --> 09:17.100
+So let's come back here, and say KubeCTL get ingress
+
+09:17.100 --> 09:18.840
+and you'll get the name.
+
+09:18.840 --> 09:19.920
+This is the address.
+
+09:19.920 --> 09:23.340
+This is the same as the DNS name of your load balancer.
+
+09:23.340 --> 09:27.510
+So, let's come back here and go to the load balancers.
+
+09:27.510 --> 09:29.160
+And in the description section,
+
+09:29.160 --> 09:32.940
+search for whatever you have copied here, both are same.
+
+09:32.940 --> 09:35.940
+So, you can give this and the root context page
+
+09:35.940 --> 09:38.850
+is Nginx default one should be displayed.
+
+09:38.850 --> 09:40.230
+And our core page,
+
+09:40.230 --> 09:44.700
+which we need to test is app one slash index.html.
+
+09:44.700 --> 09:48.720
+And here, you'll see welcome to stack simplify related page
+
+09:48.720 --> 09:52.050
+application name, app one, right?
+
+09:52.050 --> 09:55.470
+So, this completes the demonstration
+
+09:55.470 --> 09:59.400
+of ingress using the default backend.
+
+09:59.400 --> 10:02.610
+So, if you want to review the logs of your respect to port
+
+10:02.610 --> 10:04.020
+or if you want to review the logs
+
+10:04.020 --> 10:06.780
+of your load balancer controller also,
+
+10:06.780 --> 10:08.970
+you can review all those things.
+
+10:08.970 --> 10:09.990
+So now, we'll go ahead
+
+10:09.990 --> 10:12.377
+and then, clean up whatever we have created.
+
+10:12.377 --> 10:15.390
+And if you want we can also review once the
+
+10:15.390 --> 10:19.500
+KubeCTL get ports hyphen N kube-system.
+
+10:19.500 --> 10:21.750
+And if by any chance,
+
+10:21.750 --> 10:24.600
+if your ingress is not working at that point of time,
+
+10:24.600 --> 10:27.360
+it is always good to go to that
+
+10:27.360 --> 10:32.360
+respect, respect to load balancer controller ports
+
+10:32.700 --> 10:34.020
+and also verify.
+
+10:34.020 --> 10:38.370
+So, I'll say cube system and logs hyphen F, mine is working,
+
+10:38.370 --> 10:40.200
+so we really don't need to go here,
+
+10:40.200 --> 10:43.920
+but I'm just trying to show you, right?
+
+10:43.920 --> 10:45.270
+And see, in both the ports
+
+10:45.270 --> 10:48.030
+if, if you are seeing any errors or anything, right?
+
+10:48.030 --> 10:50.190
+So here, there is nothing related to that.
+
+10:50.190 --> 10:51.900
+All are info only.
+
+10:51.900 --> 10:54.060
+Just for our additional things.
+
+10:54.060 --> 10:59.040
+So now, let me clear this and I'll say KubeCTL,
+
+10:59.040 --> 11:01.840
+delete hyphen F and 01,
+
+11:01.840 --> 11:03.930
+which is kube manifest default backend.
+
+11:03.930 --> 11:06.519
+So, that we are removing the deployment service
+
+11:06.519 --> 11:10.650
+and ingress service whatever we have created, right?
+
+11:10.650 --> 11:13.110
+So now, this should also delete the load balancer,
+
+11:13.110 --> 11:15.210
+whatever we have created here.
+
+11:15.210 --> 11:18.780
+So, let's come here and refresh, right?
+
+11:18.780 --> 11:21.210
+See? The load balancer, whatever app for ingress
+
+11:21.210 --> 11:23.940
+we have created is gone now.
+
+11:23.940 --> 11:25.950
+So, let me close these things,
+
+11:25.950 --> 11:29.400
+and your deployment and service also cleaned up.
+
+11:29.400 --> 11:34.400
+So if I say KubeCTL, get all, get all from
+
+11:34.590 --> 11:38.640
+default namespace, only the default Kubernetes service,
+
+11:38.640 --> 11:43.640
+and also the, whatever the ingress class we have created,
+
+11:43.890 --> 11:46.188
+those should be displayed, see?
+
+11:46.188 --> 11:48.240
+Service Kubernetes default cluster IP service
+
+11:48.240 --> 11:50.760
+for our Kubernetes is displayed here.
+
+11:50.760 --> 11:52.140
+So, nothing is present here.
+
+11:52.140 --> 11:56.277
+Or you can say get ports, or get SVC or get ingress.
+
+11:58.200 --> 12:02.250
+Everything is cleaned up, whatever we have created.
+
+12:02.250 --> 12:04.410
+So, in our next lecture, we are going to focus
+
+12:04.410 --> 12:08.130
+on demo two, where we are going to define the routing rules.
+
+12:08.130 --> 12:09.750
+So, I'll see you in the next lecture.
+
+12:09.750 --> 12:10.920
+Until then, bye bye.
+
+12:10.920 --> 12:11.753
+Thank you.

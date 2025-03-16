@@ -1,0 +1,517 @@
+WEBVTT
+
+00:00.330 --> 00:01.290
+-: Welcome back.
+
+00:01.290 --> 00:02.250
+In this lecture,
+
+00:02.250 --> 00:04.500
+we are going to learn the pause
+
+00:04.500 --> 00:09.270
+and resume deployment options in our Kubernetes deployments.
+
+00:09.270 --> 00:12.630
+So let's go inside that 0404 pause
+
+00:12.630 --> 00:15.690
+and then resume deployments, right?
+
+00:15.690 --> 00:19.560
+So why do we need pausing and then resuming deployments?
+
+00:19.560 --> 00:22.920
+So if we want to make multiple changes to our deployments,
+
+00:22.920 --> 00:24.450
+we can pause the deployment,
+
+00:24.450 --> 00:26.670
+make all changes to our deployment,
+
+00:26.670 --> 00:27.900
+and then resume it.
+
+00:27.900 --> 00:29.520
+So if you don't do so,
+
+00:29.520 --> 00:31.470
+as soon as you keep applying the changes
+
+00:31.470 --> 00:33.300
+to your deployment, live deployment,
+
+00:33.300 --> 00:36.960
+then automatically the changes gets deployed
+
+00:36.960 --> 00:40.320
+and then parts get terminated and then recreated, okay?
+
+00:40.320 --> 00:41.700
+So what we are going to do is
+
+00:41.700 --> 00:43.320
+we are going to make two changes.
+
+00:43.320 --> 00:45.930
+One is we are going to make our application version
+
+00:45.930 --> 00:50.520
+from V3 to V4 as part of this pause and resume deployments,
+
+00:50.520 --> 00:52.980
+and one more change also we are going to apply
+
+00:52.980 --> 00:56.430
+about applying the CPU limits for our application.
+
+00:56.430 --> 00:59.400
+So we are going to do all those things, okay?
+
+00:59.400 --> 01:00.870
+So before that,
+
+01:00.870 --> 01:02.670
+check current state of your deployment
+
+01:02.670 --> 01:04.620
+and then application, right?
+
+01:04.620 --> 01:07.770
+So if you see kubectl rollout history deployment,
+
+01:07.770 --> 01:09.060
+my first deployment,
+
+01:09.060 --> 01:11.403
+and then see our application, current,
+
+01:12.390 --> 01:14.880
+rollout versions, whatever we have here, right?
+
+01:14.880 --> 01:17.220
+So we are at six with the kubectl
+
+01:17.220 --> 01:19.050
+added deployment here, right?
+
+01:19.050 --> 01:22.350
+So we are at six now, which means,
+
+01:22.350 --> 01:24.990
+and also verify your number of replica sets,
+
+01:24.990 --> 01:27.570
+how many you have currently, right?
+
+01:27.570 --> 01:31.590
+So mostly you should have four replica sets here, right?
+
+01:31.590 --> 01:34.410
+So now if you create one more version,
+
+01:34.410 --> 01:37.350
+one more replica set should get created, okay?
+
+01:37.350 --> 01:39.990
+Make a note of the number of replica sets present here.
+
+01:39.990 --> 01:43.050
+We have currently four replica sets present.
+
+01:43.050 --> 01:45.270
+And our rolling versions also we are seeing
+
+01:45.270 --> 01:46.800
+till six we are here.
+
+01:46.800 --> 01:49.200
+And one more thing is access your application
+
+01:49.200 --> 01:50.910
+and see the application version.
+
+01:50.910 --> 01:52.980
+So now I am accessing it,
+
+01:52.980 --> 01:56.250
+and if you see we are in the V3 version of our application.
+
+01:56.250 --> 01:58.587
+So let's go inside and then pause deployment
+
+01:58.587 --> 02:01.050
+and make these two changes, okay?
+
+02:01.050 --> 02:05.100
+So now what I'm going to do is kubectl rollout pause.
+
+02:05.100 --> 02:07.110
+And it's like I'm going to pause our respective
+
+02:07.110 --> 02:08.820
+my first deployment.
+
+02:08.820 --> 02:10.983
+So let's go ahead and then do that now.
+
+02:11.910 --> 02:16.910
+Kubectl rollout pause deployment
+
+02:18.060 --> 02:21.843
+and my first deployment, right?
+
+02:23.670 --> 02:25.980
+So once we have paused our deployment,
+
+02:25.980 --> 02:28.260
+so we can make whatever the changes we want to.
+
+02:28.260 --> 02:30.510
+So we are going to update our application
+
+02:30.510 --> 02:33.840
+from V3 to V4 using 4.0.0.
+
+02:33.840 --> 02:36.480
+Earlier whenever you have done this set image command,
+
+02:36.480 --> 02:38.190
+automatically changes happen
+
+02:38.190 --> 02:40.290
+and then all the parts got recreated,
+
+02:40.290 --> 02:41.640
+all those things, okay?
+
+02:41.640 --> 02:43.500
+So, but now whenever you do this,
+
+02:43.500 --> 02:45.210
+nothing should happen okay?
+
+02:45.210 --> 02:48.090
+So as our deployment got paused,
+
+02:48.090 --> 02:50.670
+whatever you do on the live deployment object,
+
+02:50.670 --> 02:51.810
+nothing should happen.
+
+02:51.810 --> 02:53.730
+So everything should be as is.
+
+02:53.730 --> 02:55.020
+So if you go ahead
+
+02:55.020 --> 02:58.110
+and then see the rollout history, okay?
+
+02:58.110 --> 03:00.480
+So we should see the same thing, which is nothing,
+
+03:00.480 --> 03:02.730
+but it is only at the sixth level, right?
+
+03:02.730 --> 03:03.930
+So no rollout history
+
+03:03.930 --> 03:07.620
+because it is in the deployment pause mode.
+
+03:07.620 --> 03:09.330
+If you see the replica sets,
+
+03:09.330 --> 03:11.940
+you should have the same count of replica sets,
+
+03:11.940 --> 03:14.130
+whatever you have seen earlier,
+
+03:14.130 --> 03:16.260
+which is four replica sets, right?
+
+03:16.260 --> 03:18.720
+So now if you resume the deployment,
+
+03:18.720 --> 03:20.940
+so then automatically changes will happen.
+
+03:20.940 --> 03:24.770
+Before that, we'll also make one more change saying that
+
+03:24.770 --> 03:28.950
+kubectl set resources for my first deployment
+
+03:28.950 --> 03:31.620
+with the, for the container kube Nginx,
+
+03:31.620 --> 03:34.200
+and I'm saying how much memory
+
+03:34.200 --> 03:36.480
+and then how much this one I'm going to allocate.
+
+03:36.480 --> 03:37.710
+I'm writing it here.
+
+03:37.710 --> 03:41.130
+So maybe I am using a simple cluster here,
+
+03:41.130 --> 03:43.230
+so this might be a bigger number,
+
+03:43.230 --> 03:46.080
+which is nothing but 52 MI and all those things.
+
+03:46.080 --> 03:49.890
+So I will say, okay, 30 MI, okay?
+
+03:49.890 --> 03:53.220
+30 MB or even less, okay?
+
+03:53.220 --> 03:55.470
+So I'm not even putting anything, right?
+
+03:55.470 --> 03:59.580
+So, and then I'm going to put 20, right?
+
+03:59.580 --> 04:01.470
+20 MCPU, okay?
+
+04:01.470 --> 04:02.850
+So instead of 200 MCPU,
+
+04:02.850 --> 04:05.220
+I'm just giving 20 MCPU, right?
+
+04:05.220 --> 04:08.730
+So, and then make this change, right?
+
+04:08.730 --> 04:11.760
+So why, because I'm using a T3 medium cluster.
+
+04:11.760 --> 04:13.260
+So ideally if I use this much,
+
+04:13.260 --> 04:15.210
+then I am already using 10 ports,
+
+04:15.210 --> 04:16.830
+so then it is going to create
+
+04:16.830 --> 04:18.570
+a lot of problem for us, okay?
+
+04:18.570 --> 04:20.160
+So this error you can ignore.
+
+04:20.160 --> 04:22.500
+So it's a timeout error, okay?
+
+04:22.500 --> 04:25.380
+The change got applied, okay?
+
+04:25.380 --> 04:28.620
+So now if you go ahead and then see your rollout history,
+
+04:28.620 --> 04:29.970
+still nothing should happen.
+
+04:29.970 --> 04:32.790
+We have made two changes but nothing should happen
+
+04:32.790 --> 04:37.230
+because still we didn't resume our deployment, right?
+
+04:37.230 --> 04:39.390
+So, and if you see the application version also,
+
+04:39.390 --> 04:42.480
+it will be only V3 only, okay?
+
+04:42.480 --> 04:43.590
+So now let's go ahead
+
+04:43.590 --> 04:46.680
+and then resume our application deployment.
+
+04:46.680 --> 04:49.530
+So kubectl rollout resume
+
+04:49.530 --> 04:52.140
+and then deployment slash my first deployment.
+
+04:52.140 --> 04:54.000
+So let me do that.
+
+04:54.000 --> 04:55.800
+So as soon as we do this
+
+04:55.800 --> 04:58.410
+and then see the rollout history,
+
+04:58.410 --> 05:00.780
+then you should see the seventh version coming in.
+
+05:00.780 --> 05:02.730
+You see the kubectl get ports
+
+05:02.730 --> 05:05.910
+and they should get created, right?
+
+05:05.910 --> 05:07.200
+And then few are terminating
+
+05:07.200 --> 05:09.030
+and then few are creating.
+
+05:09.030 --> 05:12.630
+So all these things happens now, okay?
+
+05:12.630 --> 05:14.850
+And we can go ahead
+
+05:14.850 --> 05:16.380
+and then access our application
+
+05:16.380 --> 05:18.810
+and see what happens, okay?
+
+05:18.810 --> 05:21.510
+So let me go to my application
+
+05:21.510 --> 05:23.730
+and then access it once all ports are ready.
+
+05:23.730 --> 05:26.700
+And also let's cross-check our replica sets count,
+
+05:26.700 --> 05:28.290
+get RS, right?
+
+05:28.290 --> 05:31.230
+Earlier it is four replica sets
+
+05:31.230 --> 05:34.890
+and now as it is 4.0.0 version,
+
+05:34.890 --> 05:36.870
+we should have five replica sets, okay?
+
+05:36.870 --> 05:38.610
+One, two, three, four, five.
+
+05:38.610 --> 05:39.450
+That's good.
+
+05:39.450 --> 05:42.300
+So now let's go ahead and then access our application.
+
+05:42.300 --> 05:45.750
+We should see the V4 version of our application.
+
+05:45.750 --> 05:48.210
+See now we have the V4 version.
+
+05:48.210 --> 05:51.270
+So we have successfully tested
+
+05:51.270 --> 05:53.250
+in deployment the following things.
+
+05:53.250 --> 05:56.520
+Creating a deployment, scaling the deployment,
+
+05:56.520 --> 05:59.760
+exposing the deployment as in node port service,
+
+05:59.760 --> 06:01.710
+and updating the deployment
+
+06:01.710 --> 06:04.170
+with two options available for us,
+
+06:04.170 --> 06:07.050
+which is set image and then edit deployment.
+
+06:07.050 --> 06:09.870
+And also we have rolled back the deployments
+
+06:09.870 --> 06:11.430
+using to previous version
+
+06:11.430 --> 06:13.380
+and to specific version.
+
+06:13.380 --> 06:14.720
+And in addition to that,
+
+06:14.720 --> 06:18.720
+we also tested the pause and then resume deployment.
+
+06:18.720 --> 06:22.140
+So this completes the deployment section
+
+06:22.140 --> 06:24.360
+using the imperative commands.
+
+06:24.360 --> 06:27.240
+So let's go ahead and then do the clean up
+
+06:27.240 --> 06:30.240
+of whatever we have created, right?
+
+06:30.240 --> 06:34.980
+So kubectl get deployments
+
+06:34.980 --> 06:38.220
+and then delete deployment, right?
+
+06:38.220 --> 06:43.220
+Delete, deploy, and my first deployment got deleted, right?
+
+06:46.050 --> 06:50.490
+In the same way, delete SVC, right?
+
+06:50.490 --> 06:54.900
+So before that we'll get the name of the service, get SVC,
+
+06:54.900 --> 06:59.900
+and then delete service, my first deployment service, right?
+
+07:02.970 --> 07:05.940
+So now if you see kubectl get all
+
+07:05.940 --> 07:08.010
+from our default name space,
+
+07:08.010 --> 07:10.710
+other than cluster IPF Kubernetes,
+
+07:10.710 --> 07:11.730
+nothing should be there.
+
+07:11.730 --> 07:14.340
+So we have completely cleaned up everything.
+
+07:14.340 --> 07:16.680
+So this completes that deployment section,
+
+07:16.680 --> 07:19.980
+and in our next section is going to be services,
+
+07:19.980 --> 07:24.390
+and then we will see services concepts in our next section.
+
+07:24.390 --> 07:26.220
+So I'll see you in the next lecture.
+
+07:26.220 --> 07:27.570
+Until then, bye-bye.
+
+07:27.570 --> 07:28.403
+Thank you.

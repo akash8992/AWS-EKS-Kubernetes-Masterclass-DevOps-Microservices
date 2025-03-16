@@ -1,0 +1,694 @@
+WEBVTT
+
+00:00.000 --> 00:01.320
+-: Welcome back.
+
+00:01.320 --> 00:03.540
+So in this lecture we are going to focus
+
+00:03.540 --> 00:06.060
+on zero one Docker introduction.
+
+00:06.060 --> 00:08.610
+So as part of Docker introduction, we are going to
+
+00:08.610 --> 00:11.430
+see what problems we have with the current traditional
+
+00:11.430 --> 00:14.730
+infrastructure and then how Docker is going to solve them.
+
+00:14.730 --> 00:17.700
+In addition, what are the advantages of using the Docker
+
+00:17.700 --> 00:19.200
+we are going to look into?
+
+00:19.200 --> 00:21.510
+So for presentation slides, you can click on this link
+
+00:21.510 --> 00:23.783
+and then view the presentation slides.
+
+00:23.783 --> 00:27.870
+So the slides, whatever we are showing in this lectures
+
+00:27.870 --> 00:30.780
+is also available here for you for download.
+
+00:30.780 --> 00:32.100
+So moving on.
+
+00:32.100 --> 00:33.510
+So if you go
+
+00:33.510 --> 00:36.730
+to the zero one Docker, so we have something called
+
+00:40.140 --> 00:41.880
+Docker architecture, right?
+
+00:41.880 --> 00:43.470
+So in addition to Docker introduction
+
+00:43.470 --> 00:45.630
+we are also focusing on Docker architecture.
+
+00:45.630 --> 00:47.760
+So Docker architecture is like a series
+
+00:47.760 --> 00:50.340
+of thumb Docker and introduce, which we need to be aware
+
+00:50.340 --> 00:54.060
+of to understand and then play with Docker effectively.
+
+00:54.060 --> 00:55.800
+So what is Docker Damon
+
+00:55.800 --> 00:58.770
+and then what is Docker client or what are Docker images?
+
+00:58.770 --> 01:00.720
+And then what are Docker containers
+
+01:00.720 --> 01:03.060
+and what is Docker registry or Docker hub?
+
+01:03.060 --> 01:05.010
+So all these terms,
+
+01:05.010 --> 01:06.960
+whatever is introduced in Docker.
+
+01:06.960 --> 01:08.580
+So we are going to understand as part
+
+01:08.580 --> 01:12.780
+of the Docker architecture, Docker terminology section.
+
+01:12.780 --> 01:15.840
+So let's go back over introductory slides and then move
+
+01:15.840 --> 01:17.610
+on with the stuff, okay?
+
+01:17.610 --> 01:19.710
+So in Docker introduction.
+
+01:19.710 --> 01:22.110
+So first thing is what problems we have
+
+01:22.110 --> 01:23.910
+with the traditional infra.
+
+01:23.910 --> 01:26.195
+So let's see, what are the problems we are having?
+
+01:26.195 --> 01:27.750
+So in the traditional infra,
+
+01:27.750 --> 01:30.720
+we have the hardware infrastructure. On top of that
+
+01:30.720 --> 01:33.420
+usually we install our respect, your operating system
+
+01:33.420 --> 01:34.920
+like Ubuntu, [Unintelligible],
+
+01:36.030 --> 01:38.280
+Red Hat or Cent Os, whatever it is.
+
+01:38.280 --> 01:41.940
+And then when we are planning to deploy our applications
+
+01:41.940 --> 01:44.580
+it's equal and OS level libraries we install
+
+01:44.580 --> 01:47.430
+and also it's equal in dependencies we install.
+
+01:47.430 --> 01:50.247
+So let's consider we have web server says [Unintelligible]
+
+01:50.247 --> 01:53.130
+and then apps server says some spring boot applications
+
+01:53.130 --> 01:54.411
+which are of Java type.
+
+01:54.411 --> 01:57.390
+And then we also have databases as my skill.
+
+01:57.390 --> 02:00.660
+So for those things, what are the OS libraries required?
+
+02:00.660 --> 02:02.013
+We need to install them.
+
+02:02.929 --> 02:03.762
+And then also the dependencies.
+
+02:03.762 --> 02:06.630
+Example, if you want to run some JBoss or Tomcats
+
+02:06.630 --> 02:09.540
+then you also install the JDK and all those things, right?
+
+02:09.540 --> 02:11.400
+So like this, what all dependencies
+
+02:11.400 --> 02:12.896
+of libraries and dependencies are required
+
+02:12.896 --> 02:15.540
+we need to install and then handle them.
+
+02:15.540 --> 02:18.300
+So now if you see installation
+
+02:18.300 --> 02:20.760
+and configuration will be a biggest problem
+
+02:20.760 --> 02:22.500
+in that traditional approach, okay?
+
+02:22.500 --> 02:25.350
+So it is going to be time consuming and we need to
+
+02:25.350 --> 02:27.774
+perform all these library install, dependency, install
+
+02:27.774 --> 02:31.200
+and then these vendor product installs, all these things
+
+02:31.200 --> 02:32.550
+across our environments
+
+02:32.550 --> 02:34.140
+like dev, QA, staging
+
+02:34.140 --> 02:35.910
+and then all the production environments.
+
+02:35.910 --> 02:39.180
+So multiple times we need to implement them.
+
+02:39.180 --> 02:43.200
+But when you consider Docker, so from Docker perspective
+
+02:43.200 --> 02:45.210
+package it once and then leverage it
+
+02:45.210 --> 02:47.910
+or use it across all the environments.
+
+02:47.910 --> 02:49.680
+So one time work and then
+
+02:49.680 --> 02:51.450
+after that everything is like packaged
+
+02:51.450 --> 02:54.093
+and then it can be leveraged across environments.
+
+02:55.290 --> 02:57.660
+Compatibility and dependency, right?
+
+02:57.660 --> 02:59.820
+So we need to keep resolving issues related
+
+02:59.820 --> 03:03.480
+to libraries and then dependencies continuously.
+
+03:03.480 --> 03:05.224
+So if we do the voice upgrade, then what happens?
+
+03:05.224 --> 03:08.130
+Again, the libraries, some libraries might break
+
+03:08.130 --> 03:10.380
+and then we need to fix those libraries
+
+03:10.380 --> 03:11.970
+or we need to fix the dependencies
+
+03:11.970 --> 03:13.920
+or we need to upgrade the dependencies.
+
+03:13.920 --> 03:16.050
+So like that we face multiple issues
+
+03:16.050 --> 03:19.665
+from compatibility and then dependency issues when we are
+
+03:19.665 --> 03:21.720
+on the traditional infra.
+
+03:21.720 --> 03:24.060
+and inconsistencies across environments.
+
+03:24.060 --> 03:26.490
+So if you have multiple five dev environments
+
+03:26.490 --> 03:28.889
+five QN environments, five staging environments
+
+03:28.889 --> 03:30.900
+and two production environments
+
+03:30.900 --> 03:34.320
+it is very hard to track changes across these environments
+
+03:34.320 --> 03:37.590
+and they end up with multiple inconsistencies.
+
+03:37.590 --> 03:40.800
+But when in Docker, if you package it once and leveraging it
+
+03:40.800 --> 03:44.310
+across all the environments, so then there is no chance
+
+03:44.310 --> 03:46.950
+of missing or having the inconsistencies
+
+03:46.950 --> 03:48.663
+in our Docker images.
+
+03:49.590 --> 03:51.120
+Operational support.
+
+03:51.120 --> 03:54.660
+So we need more resources to handle operational issues
+
+03:54.660 --> 03:56.250
+on a day to day basis
+
+03:56.250 --> 03:58.890
+because of your are going to scale your hardware
+
+03:58.890 --> 04:01.806
+infrastructure heavily to support your operating system
+
+04:01.806 --> 04:05.550
+and then needs from your environment's perspective, right?
+
+04:05.550 --> 04:07.050
+So the server support hardware
+
+04:07.050 --> 04:08.700
+and then software installations
+
+04:08.700 --> 04:10.500
+and then patching, patching villages
+
+04:10.500 --> 04:12.840
+all these things we need to spend lot of money
+
+04:12.840 --> 04:15.930
+and then lot of resources to handle all those things.
+
+04:15.930 --> 04:18.510
+When it comes to Docker, all these things will be
+
+04:18.510 --> 04:19.770
+simplified.
+
+04:19.770 --> 04:22.020
+So in addition, developer environments.
+
+04:22.020 --> 04:24.270
+So when a new developer joins the team
+
+04:24.270 --> 04:27.665
+the time it takes to provision is development environment
+
+04:27.665 --> 04:29.370
+in traditional approaches, time taking.
+
+04:29.370 --> 04:30.480
+And even most
+
+04:30.480 --> 04:32.730
+of the time it'll not be a hundred percent right
+
+04:32.730 --> 04:35.310
+But when we consider our developer environments
+
+04:35.310 --> 04:37.680
+are Dockerized, then it is going to be a minute
+
+04:37.680 --> 04:39.595
+or less than a minute two provision that respect
+
+04:39.595 --> 04:41.914
+to developers and environment.
+
+04:41.914 --> 04:46.190
+So all these problems, what are we are seeing
+
+04:46.190 --> 04:48.510
+in traditional infra can be easily solved
+
+04:48.510 --> 04:49.710
+using
+
+04:49.710 --> 04:51.000
+Docker.
+
+04:51.000 --> 04:52.620
+Moving on.
+
+04:52.620 --> 04:55.350
+So let's see how a physical mission looks
+
+04:55.350 --> 04:57.420
+like when we install the application.
+
+04:57.420 --> 04:58.980
+So we have hardware infrastructure
+
+04:58.980 --> 05:01.440
+operating system, libraries, dependencies installed
+
+05:01.440 --> 05:02.910
+on that operating system
+
+05:02.910 --> 05:05.910
+and we have deployed the web servers, app servers
+
+05:05.910 --> 05:08.640
+and then databases on that physical missions.
+
+05:08.640 --> 05:11.370
+So let's see, from physical mission to virtual missions
+
+05:11.370 --> 05:13.530
+what is the difference, right?
+
+05:13.530 --> 05:15.630
+So we have the hardware infrastructure
+
+05:15.630 --> 05:18.570
+and in virtual missions we have the hypervisor.
+
+05:18.570 --> 05:22.320
+And on hypervisor we create the virtual missions.
+
+05:22.320 --> 05:25.113
+So we have the operating system for each virtual mission
+
+05:25.113 --> 05:27.050
+and then we'll install the libraries
+
+05:27.050 --> 05:30.210
+and then dependencies for those virtual missions.
+
+05:30.210 --> 05:33.480
+And then we'll have the equivalent containers
+
+05:33.480 --> 05:36.720
+equivalent vendor products installed
+
+05:36.720 --> 05:38.926
+on those virtual missions.
+
+05:38.926 --> 05:40.420
+Okay? So now if you see here
+
+05:41.490 --> 05:43.158
+this is a little bit simplified version
+
+05:43.158 --> 05:45.333
+from the physical missions.
+
+05:46.367 --> 05:47.856
+But still the libraries
+
+05:47.856 --> 05:49.920
+and then dependencies and then all these incompatibilities
+
+05:49.920 --> 05:51.120
+are still going to be there
+
+05:51.120 --> 05:54.420
+across environments and then you need to solve these things.
+
+05:54.420 --> 05:57.259
+But in virtual missions also there is a concept
+
+05:57.259 --> 05:58.470
+of creating a virtual mission image
+
+05:58.470 --> 06:00.240
+and then leverage it across environments.
+
+06:00.240 --> 06:02.040
+We have seen that, but still
+
+06:02.040 --> 06:04.619
+with IP address changing, DNS name changing, and then lot
+
+06:04.619 --> 06:07.080
+of other things we need to bring into the picture
+
+06:07.080 --> 06:09.038
+when we are even using the virtual missions.
+
+06:09.038 --> 06:11.640
+OVA images, or whatever is it.
+
+06:11.640 --> 06:14.490
+Okay, so moving on to Docker.
+
+06:14.490 --> 06:16.800
+So when we, when it is installed on a physical mission
+
+06:16.800 --> 06:18.630
+with Docker, it is going to look like this.
+
+06:18.630 --> 06:21.390
+Okay? So we have a hardware infrastructure
+
+06:21.390 --> 06:23.850
+and we have the operating system on that.
+
+06:23.850 --> 06:25.710
+We are going to install the Docker
+
+06:25.710 --> 06:28.500
+and then we are going to run the containers.
+
+06:28.500 --> 06:29.978
+So each container is a combination
+
+06:29.978 --> 06:31.589
+of its own libraries dependencies
+
+06:31.589 --> 06:34.770
+it will have its own operating system inside that.
+
+06:34.770 --> 06:36.670
+And then we'll be installing the Nginx
+
+06:37.700 --> 06:41.400
+or even the app servers and then databases, whatever it is
+
+06:41.400 --> 06:43.980
+they'll have their own libraries and then dependencies.
+
+06:43.980 --> 06:46.560
+So that once and
+
+06:46.560 --> 06:49.140
+for all we are solving the libraries and dependencies.
+
+06:49.140 --> 06:50.520
+And then we are going to package
+
+06:50.520 --> 06:54.150
+and then use that Docker image across all environments.
+
+06:54.150 --> 06:56.820
+So if you see here, so on the operating system
+
+06:56.820 --> 06:59.130
+we are going to install the Docker in the same way.
+
+06:59.130 --> 07:01.590
+If you see virtual missions with the Docker
+
+07:01.590 --> 07:03.480
+so we have the hardware infrastructure
+
+07:03.480 --> 07:05.430
+we have the hypervisor, and
+
+07:05.430 --> 07:07.888
+on that we are going to have the
+
+07:07.888 --> 07:10.410
+operating system for that virtual mission.
+
+07:10.410 --> 07:12.660
+And then we are going to install the Docker.
+
+07:12.660 --> 07:15.750
+And then from there we are going to deploy our
+
+07:15.750 --> 07:18.270
+Docker images as containers on them.
+
+07:18.270 --> 07:21.098
+So we can run multiple Docker containers
+
+07:21.098 --> 07:23.460
+in a single virtual mission, right?
+
+07:23.460 --> 07:26.490
+Based on the memory and then CPU limits, whatever we have.
+
+07:26.490 --> 07:28.920
+So like this, you can run hundred containers
+
+07:28.920 --> 07:30.930
+or 200 containers, all those things.
+
+07:30.930 --> 07:32.460
+So nothing, there is no dependency
+
+07:32.460 --> 07:35.820
+from our perspective from either hardware infrastructure
+
+07:35.820 --> 07:36.960
+or hypervisor perspective.
+
+07:36.960 --> 07:39.510
+Okay? So if this respective operating system is allocated
+
+07:39.510 --> 07:41.550
+with equal and CPU and then ram
+
+07:41.550 --> 07:43.960
+and then if those are minor containers
+
+07:43.960 --> 07:45.991
+then you can run any number of those things.
+
+07:45.991 --> 07:47.722
+Okay? So, but with that said
+
+07:47.722 --> 07:49.640
+the core thing here is like Docker is flexible
+
+07:49.640 --> 07:52.099
+for us the way how we want to use it
+
+07:52.099 --> 07:55.380
+we can use it in a better manner.
+
+07:55.380 --> 07:56.910
+Moving on.
+
+07:56.910 --> 08:00.930
+So what are the advantages of using Docker, right?
+
+08:00.930 --> 08:02.280
+So why containers?
+
+08:02.280 --> 08:03.660
+So they are flexible.
+
+08:03.660 --> 08:07.290
+So even the most complex applications can be containerized
+
+08:07.290 --> 08:09.333
+in our recent days.
+
+08:10.599 --> 08:13.310
+So they are very lightweight and containers leverage
+
+08:13.310 --> 08:16.787
+and share the host kernel, making them much more efficient
+
+08:16.787 --> 08:19.833
+in thumbs off system resources.
+
+08:21.057 --> 08:23.940
+Done virtual missions, so they're very portable
+
+08:23.940 --> 08:25.290
+so you can build locally
+
+08:25.290 --> 08:27.813
+deploy to the cloud and then run anywhere.
+
+08:28.740 --> 08:30.450
+So they're very loosely coupled.
+
+08:30.450 --> 08:32.670
+These Docker images or Docker containers are
+
+08:32.670 --> 08:33.600
+loosely coupled.
+
+08:33.600 --> 08:35.640
+Containers are highly self-sufficient
+
+08:35.640 --> 08:38.550
+and encapsulated allowing us to replace
+
+08:38.550 --> 08:40.260
+or upgrade one without
+
+08:40.260 --> 08:42.420
+disrupting others.
+
+08:42.420 --> 08:44.348
+So they are very much scalable.
+
+08:44.348 --> 08:45.390
+You can increase
+
+08:45.390 --> 08:47.880
+and automatically distribute container replicas
+
+08:47.880 --> 08:50.130
+across a data center.
+
+08:50.130 --> 08:52.770
+So they are very much secure container supply
+
+08:52.770 --> 08:55.915
+aggressive constraints and isolations to processes
+
+08:55.915 --> 09:00.900
+without any configuration required on the part of the user.
+
+09:00.900 --> 09:01.927
+So with that said
+
+09:02.834 --> 09:04.860
+the Docker containers are flexible, lightweight, portable
+
+09:04.860 --> 09:08.310
+loosely coupled, scalable, and then even secure.
+
+09:08.310 --> 09:10.290
+So now moving on, we'll, we'll be looking
+
+09:10.290 --> 09:13.830
+into the Docker architecture in our upcoming lecture.
+
+09:13.830 --> 09:15.630
+So I'll see you in the
+
+09:15.630 --> 09:16.463
+next lecture.
+
+09:16.463 --> 09:17.550
+Until then, bye bye.
+
+09:17.550 --> 09:18.383
+Thank you.

@@ -1,0 +1,403 @@
+WEBVTT
+
+00:00.210 --> 00:01.620
+-: Welcome back.
+
+00:01.620 --> 00:03.060
+Let's go ahead and then create
+
+00:03.060 --> 00:07.020
+a node port service to access that
+
+00:07.020 --> 00:11.490
+or whatever we have created using YAML definition, right?
+
+00:11.490 --> 00:14.700
+So let's go to our results studio core.
+
+00:14.700 --> 00:16.650
+And this is the zero to port definition,
+
+00:16.650 --> 00:18.330
+whatever we have created.
+
+00:18.330 --> 00:22.620
+And let's again take our API version base,
+
+00:22.620 --> 00:26.760
+and then put it in zero three, port node port service.
+
+00:26.760 --> 00:29.025
+So now let's see what is the kind,
+
+00:29.025 --> 00:31.590
+we are going to create this service,
+
+00:31.590 --> 00:33.720
+and its API version, right?
+
+00:33.720 --> 00:38.720
+So let's go here and then take the documentation reference,
+
+00:38.760 --> 00:43.760
+so I can go back and put it in new tab.
+
+00:45.060 --> 00:47.170
+Okay, so this is the service port,
+
+00:47.170 --> 00:49.053
+API object reference, okay?
+
+00:50.370 --> 00:53.070
+So let it open, so we can see the version
+
+00:53.070 --> 00:56.430
+we are going to use is V1, and the kind is service.
+
+00:56.430 --> 00:59.280
+Okay, so I will say V1.
+
+00:59.280 --> 01:02.160
+And now let's define the metadata.
+
+01:02.160 --> 01:07.140
+So metadata is going to be the name of my service.
+
+01:07.140 --> 01:11.670
+So my app pod related node port service
+
+01:11.670 --> 01:13.650
+we are creating, right, so nothing
+
+01:13.650 --> 01:16.890
+but we are creating the name of the service here, okay?
+
+01:16.890 --> 01:18.630
+So, and now if you want,
+
+01:18.630 --> 01:22.650
+we can even define labels for our service, if you want to.
+
+01:22.650 --> 01:25.680
+Okay, so is it called my app?
+
+01:25.680 --> 01:27.750
+So this is optional for services,
+
+01:27.750 --> 01:30.120
+but if you want to create, we can create, okay?
+
+01:30.120 --> 01:33.003
+So if you want to filter our service systems,
+
+01:33.003 --> 01:34.980
+like we have create multiple services
+
+01:34.980 --> 01:37.230
+for a specific set of applications, and then
+
+01:37.230 --> 01:40.560
+if you want to filter them using the labels,
+
+01:40.560 --> 01:42.537
+all those services, we can still define
+
+01:42.537 --> 01:45.540
+our labels for our service, okay?
+
+01:45.540 --> 01:49.740
+So, and now the next thing is spec.
+
+01:49.740 --> 01:51.960
+And spec for a node port service,
+
+01:51.960 --> 01:54.090
+the type of the service we are going to do,
+
+01:54.090 --> 01:57.976
+which is nothing but node port, right?
+
+01:57.976 --> 01:58.809
+What happened?
+
+01:58.809 --> 02:00.150
+Yeah.
+
+02:00.150 --> 02:05.150
+And the next is, so we'll have something called selector,
+
+02:05.520 --> 02:07.380
+and one more will be there.
+
+02:07.380 --> 02:08.550
+Ports in service,
+
+02:08.550 --> 02:11.310
+these are the high level objects type selector,
+
+02:11.310 --> 02:12.840
+and then ports.
+
+02:12.840 --> 02:16.710
+So the selector is nothing but, so we need to load balance
+
+02:16.710 --> 02:21.420
+that traffic across ports using these labels
+
+02:21.420 --> 02:23.880
+and selectors, whatever we have defined here.
+
+02:23.880 --> 02:26.640
+So if you see here, in this zero to port definition,
+
+02:26.640 --> 02:31.640
+our pod label is going to be app, colon, my app, right?
+
+02:32.310 --> 02:35.850
+So if you define this in this means like if you go ahead
+
+02:35.850 --> 02:39.660
+and then define that respective label here, the same label.
+
+02:39.660 --> 02:43.335
+So what it states means is load balance the traffic coming
+
+02:43.335 --> 02:48.335
+to this service across ports matching this label selector.
+
+02:48.780 --> 02:52.320
+So whatever the traffic coming to this service,
+
+02:52.320 --> 02:56.730
+if we need to route that traffic to that respective port,
+
+02:56.730 --> 03:00.120
+this service is going to identify this port based
+
+03:00.120 --> 03:04.140
+on this label app is app column space, my app.
+
+03:04.140 --> 03:06.300
+So this is the key value pair.
+
+03:06.300 --> 03:09.000
+So based on this selector only,
+
+03:09.000 --> 03:11.730
+it is going to send the traffic.
+
+03:11.730 --> 03:13.380
+So whatever is defined in the selector,
+
+03:13.380 --> 03:17.100
+the labels defined in the selector only to those ports,
+
+03:17.100 --> 03:20.340
+it is going to send the traffic on a very high level.
+
+03:20.340 --> 03:22.380
+So let's also define the ports.
+
+03:22.380 --> 03:23.910
+So we have also seen this,
+
+03:23.910 --> 03:27.600
+the name of the ports we are going to define is SJTP.
+
+03:27.600 --> 03:30.120
+And this name is optional thing, okay?
+
+03:30.120 --> 03:32.160
+If you want you can define and I'm going to say
+
+03:32.160 --> 03:35.717
+my service port is going to be 80 and the target port,
+
+03:35.717 --> 03:39.480
+target port is nothing but my backend application port,
+
+03:39.480 --> 03:42.510
+which is nothing but my port respective container port.
+
+03:42.510 --> 03:43.410
+Okay?
+
+03:43.410 --> 03:46.830
+And one more thing we can do here is node port.
+
+03:46.830 --> 03:48.540
+So if you want means like whenever
+
+03:48.540 --> 03:50.580
+we have created a node port service using
+
+03:50.580 --> 03:53.250
+imperative commands, we really don't have an option
+
+03:53.250 --> 03:56.880
+to define that node port specific port, okay?
+
+03:56.880 --> 03:59.220
+But when you come to the YAML definitions,
+
+03:59.220 --> 04:01.800
+you get that advantage to define it.
+
+04:01.800 --> 04:03.720
+So let's go ahead and then define that.
+
+04:03.720 --> 04:06.630
+So I'm going to use the port as 31231.
+
+04:06.630 --> 04:09.650
+So you can save this as node port,
+
+04:09.650 --> 04:14.650
+and this as container port and this as service port, okay?
+
+04:17.010 --> 04:18.660
+So like this, you can define all
+
+04:18.660 --> 04:20.910
+the stuff here in your service.
+
+04:20.910 --> 04:23.310
+So if you see on a very high level in service,
+
+04:23.310 --> 04:25.230
+the core thing here at this level is optional.
+
+04:25.230 --> 04:27.060
+If you want you can have it or you can remove it
+
+04:27.060 --> 04:29.070
+if you are getting confused with selector
+
+04:29.070 --> 04:31.560
+and then that level, just remove it, okay?
+
+04:31.560 --> 04:33.960
+So in metadata, the name is the core thing,
+
+04:33.960 --> 04:36.300
+and you have defined the name as my app port,
+
+04:36.300 --> 04:37.590
+not port service.
+
+04:37.590 --> 04:39.840
+And inspect, three things are important,
+
+04:39.840 --> 04:42.240
+type, selector, and then ports.
+
+04:42.240 --> 04:44.910
+And then type is node port you have defined.
+
+04:44.910 --> 04:46.890
+So if you're using the load balance of service,
+
+04:46.890 --> 04:50.760
+you are going to say load balancer, right?
+
+04:50.760 --> 04:52.740
+Or if you're defining the external name service,
+
+04:52.740 --> 04:55.650
+you are going to say external name.
+
+04:55.650 --> 04:58.410
+Or if you're going to define the cluster IP service,
+
+04:58.410 --> 04:59.760
+you can even say cluster IP,
+
+04:59.760 --> 05:02.190
+but cluster IP is the default service it creates.
+
+05:02.190 --> 05:05.490
+You really don't need to define the type there, okay?
+
+05:05.490 --> 05:08.820
+So that's about the type node output and selector.
+
+05:08.820 --> 05:11.310
+And then ports, you'll also have selector and then ports.
+
+05:11.310 --> 05:12.450
+Ports we have defined here.
+
+05:12.450 --> 05:15.095
+Selector is nothing, but whatever you define
+
+05:15.095 --> 05:17.943
+the label inside the selector, right?
+
+05:17.943 --> 05:22.943
+So if that label matches with the port's respective label,
+
+05:23.280 --> 05:25.590
+then the traffic will be sent to that.
+
+05:25.590 --> 05:29.190
+Those respective ports, our traffic will be distributed
+
+05:29.190 --> 05:32.190
+to those respect to ports whose labels match
+
+05:32.190 --> 05:35.832
+with the selector value presenting service.
+
+05:35.832 --> 05:37.140
+So that's about it.
+
+05:37.140 --> 05:41.610
+So let's go ahead and then create this service now.
+
+05:41.610 --> 05:46.610
+Okay, so QCTL create minus F,
+
+05:47.730 --> 05:51.543
+and zero three port, node port service.
+
+05:53.430 --> 05:56.043
+QCTL get SVC.
+
+05:57.259 --> 05:59.580
+Our service got created.
+
+05:59.580 --> 06:02.010
+So let's go ahead and then access this now.
+
+06:02.010 --> 06:06.377
+So I'll say get nodes hyphen node wide, right?
+
+06:08.640 --> 06:11.343
+So I can take any of the external IP here,
+
+06:13.050 --> 06:15.517
+I can go to browsers and 31231, right?
+
+06:22.890 --> 06:25.590
+So welcome to Stack Simplify Kubernetes
+
+06:25.590 --> 06:29.220
+Fundamental STIM application Human we have up and running.
+
+06:29.220 --> 06:33.683
+So we have successfully created the port definition
+
+06:35.310 --> 06:38.820
+and also the node port service using the YAML.
+
+06:38.820 --> 06:42.750
+So in our next lecture, we'll focus on replica search, okay?
+
+06:42.750 --> 06:44.430
+So I'll see you in the next lecture.
+
+06:44.430 --> 06:45.600
+Until then, bye bye.
+
+06:45.600 --> 06:46.433
+Thank you.

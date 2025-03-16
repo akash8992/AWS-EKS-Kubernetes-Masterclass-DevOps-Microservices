@@ -1,0 +1,382 @@
+WEBVTT
+
+00:00.780 --> 00:01.650
+-: Welcome back.
+
+00:01.650 --> 00:04.983
+So let's see the Docker architecture now.
+
+00:06.270 --> 00:10.320
+So or even we can call it as Docker terminology.
+
+00:10.320 --> 00:13.770
+So we have a Docker host and inside Docker host
+
+00:13.770 --> 00:16.560
+primarily we will install the Docker demo.
+
+00:16.560 --> 00:18.720
+So the Docker demo, Docker D reasons
+
+00:18.720 --> 00:22.890
+for the Docker API requests and manages Docker objects
+
+00:22.890 --> 00:27.330
+such as images, containers, networks, and then volumes.
+
+00:27.330 --> 00:29.850
+So the next is the Docker client.
+
+00:29.850 --> 00:32.430
+Okay, so Docker client is an optional thing
+
+00:32.430 --> 00:33.510
+in the Docker host.
+
+00:33.510 --> 00:35.520
+So we can either install on the Docker host
+
+00:35.520 --> 00:38.700
+or on our own desktop and using the Docker client
+
+00:38.700 --> 00:42.120
+we will be able to communicate to the Docker demo.
+
+00:42.120 --> 00:43.860
+So Docker client can be present
+
+00:43.860 --> 00:47.040
+on either Docker host or any other mission.
+
+00:47.040 --> 00:49.770
+So the Docker client, Docker is the primary way
+
+00:49.770 --> 00:53.250
+that many Docker users interact with the Docker.
+
+00:53.250 --> 00:55.781
+So when you use commands such as Docker run
+
+00:55.781 --> 00:59.070
+the client sends these commands to Docker D
+
+00:59.070 --> 01:02.100
+which is nothing but Docker demo, which carries them out.
+
+01:02.100 --> 01:05.760
+So the Docker command uses the Docker APA
+
+01:05.760 --> 01:07.560
+so the Docker client can communicate
+
+01:07.560 --> 01:10.290
+with more than one respect to demo.
+
+01:10.290 --> 01:11.910
+Okay, so moving on.
+
+01:11.910 --> 01:14.340
+The next thing is the Docker images.
+
+01:14.340 --> 01:17.100
+You can see here the image one and then image two.
+
+01:17.100 --> 01:20.160
+So, and image is a read-only template
+
+01:20.160 --> 01:24.180
+with instructions for creating a Docker container.
+
+01:24.180 --> 01:27.450
+So often an image is based on another image
+
+01:27.450 --> 01:30.090
+with some additional customizations.
+
+01:30.090 --> 01:32.730
+So example, like we may build an image which is based
+
+01:32.730 --> 01:34.380
+on uber two image.
+
+01:34.380 --> 01:36.480
+So we already have a uber two image
+
+01:36.480 --> 01:38.790
+and then consider that image we are taking
+
+01:38.790 --> 01:42.120
+and then building our own image using that uber two image.
+
+01:42.120 --> 01:43.290
+So with that uber two image,
+
+01:43.290 --> 01:46.320
+we install additional application options
+
+01:46.320 --> 01:47.820
+of what we are planning to use
+
+01:47.820 --> 01:51.060
+which is like Apache web servers or Java JDK
+
+01:51.060 --> 01:54.150
+and then additional tomcats, whatever we want to install.
+
+01:54.150 --> 01:56.670
+And then deploy our application inside that.
+
+01:56.670 --> 01:59.760
+And then package a test, our own application image.
+
+01:59.760 --> 02:02.880
+So the base image there we are using is that uber image.
+
+02:02.880 --> 02:06.420
+So that is called images based on another image.
+
+02:06.420 --> 02:08.070
+So moving on from Docker images
+
+02:08.070 --> 02:10.890
+the next thing is the Docker containers.
+
+02:10.890 --> 02:14.760
+So a container is a runnable instance of an image.
+
+02:14.760 --> 02:17.820
+So we can create, start, stop, move,
+
+02:17.820 --> 02:21.570
+or delete a container using the Docker APARCLI.
+
+02:21.570 --> 02:23.490
+So we can connect the container
+
+02:23.490 --> 02:26.490
+to one or more networks, attach storage to it
+
+02:26.490 --> 02:30.690
+or even create a new image based on its current state.
+
+02:30.690 --> 02:32.430
+So when a container is removed,
+
+02:32.430 --> 02:35.190
+any changes to its states that are not stored
+
+02:35.190 --> 02:37.950
+in persistent storage disappear.
+
+02:37.950 --> 02:42.090
+So that's most important point from container's perspective.
+
+02:42.090 --> 02:43.080
+So moving on.
+
+02:43.080 --> 02:46.110
+So let's see, we have a Docker host
+
+02:46.110 --> 02:49.500
+and on Docker host we have the Docker demand.
+
+02:49.500 --> 02:52.530
+So if you want to pull the image
+
+02:52.530 --> 02:54.270
+and then run it as a container.
+
+02:54.270 --> 02:56.280
+So what's the process going to be?
+
+02:56.280 --> 02:58.983
+Let's go ahead and then see that? No.
+
+03:00.714 --> 03:04.350
+So Docker client, it can be my desktop
+
+03:04.350 --> 03:06.480
+or even the Docker host.
+
+03:06.480 --> 03:07.380
+So what we do is
+
+03:07.380 --> 03:10.020
+like Docker client is nothing but the Docker demand.
+
+03:10.020 --> 03:11.679
+DLCK. Yeah, okay.
+
+03:11.679 --> 03:14.790
+So I'll say Docker pull, engineers demos/hello.
+
+03:14.790 --> 03:17.220
+So one sample image.
+
+03:17.220 --> 03:19.830
+So what happens is, it'll go and then communicate
+
+03:19.830 --> 03:23.700
+to the Docker demand, and then via Docker demand
+
+03:23.700 --> 03:26.940
+it'll go to the Docker registry, right?
+
+03:26.940 --> 03:28.500
+So from Docker registry,
+
+03:28.500 --> 03:31.410
+I'll try to pull the engineer's demo/hello
+
+03:31.410 --> 03:35.190
+and then download that image to my Docker host.
+
+03:35.190 --> 03:36.528
+So from my Docker host,
+
+03:36.528 --> 03:38.580
+so the image is present here.
+
+03:38.580 --> 03:41.520
+So now I'm going to run it, right?
+
+03:41.520 --> 03:43.920
+So to run it, I'm going to say Docker run
+
+03:43.920 --> 03:46.740
+and then some high fund port, local port,
+
+03:46.740 --> 03:49.230
+and then image port, whatever it is there.
+
+03:49.230 --> 03:53.460
+And then high fund, and then the complete image name.
+
+03:53.460 --> 03:54.810
+So whenever I do that
+
+03:54.810 --> 03:58.320
+it is going to run it as a container in the Docker codes.
+
+03:58.320 --> 03:59.490
+So what we have done
+
+03:59.490 --> 04:02.670
+so first we have pulled the image from the Docker registry
+
+04:02.670 --> 04:05.873
+and the store does images here, and then we have run it.
+
+04:05.873 --> 04:07.974
+And then now the runnable instance
+
+04:07.974 --> 04:10.350
+of an image is called the container
+
+04:10.350 --> 04:12.540
+which means like the container has started
+
+04:12.540 --> 04:14.760
+and then application started serving.
+
+04:14.760 --> 04:16.650
+So now in this overall thing
+
+04:16.650 --> 04:19.170
+you have seen client and then host, but you really
+
+04:19.170 --> 04:21.600
+don't know what is this registry or Docker hub, right?
+
+04:21.600 --> 04:23.340
+So let's see, what is this okay?
+
+04:23.340 --> 04:26.550
+So a Docker registry stores the Docker images.
+
+04:26.550 --> 04:29.760
+So Docker hub is a public registry that anyone can use
+
+04:29.760 --> 04:31.230
+and Docker is configured to look
+
+04:31.230 --> 04:33.510
+for images on Docker hub by default.
+
+04:33.510 --> 04:36.360
+So we can even run our own private registry
+
+04:36.360 --> 04:40.290
+in our cloud systems like Elastic Container Registry
+
+04:40.290 --> 04:41.340
+are using Docker hub.
+
+04:41.340 --> 04:43.110
+Also, you can even run it means
+
+04:43.110 --> 04:45.270
+like the Docker provide the software to run it
+
+04:45.270 --> 04:48.630
+as a private registry number local data centers.
+
+04:48.630 --> 04:50.130
+So when we use the Docker pull
+
+04:50.130 --> 04:52.740
+or Docker run commands that required images are pulled
+
+04:52.740 --> 04:56.430
+from our Configured, respect your registry, right?
+
+04:56.430 --> 04:58.170
+So when we use the Docker push command
+
+04:58.170 --> 05:00.930
+our images push you back to the registry.
+
+05:00.930 --> 05:02.928
+So we are going to see two flows
+
+05:02.928 --> 05:06.030
+by seeing what we have seen here, the complete thing.
+
+05:06.030 --> 05:08.280
+We are going to distribute into two flows
+
+05:08.280 --> 05:10.770
+and then implement them in our upcoming lectures.
+
+05:10.770 --> 05:13.320
+So the flow one is two, what we have seen here
+
+05:13.320 --> 05:15.660
+like pull our container image here
+
+05:15.660 --> 05:17.880
+and then run it as a container, right?
+
+05:17.880 --> 05:21.450
+So the second flow is like build a image here
+
+05:21.450 --> 05:23.190
+run it as a container locally
+
+05:23.190 --> 05:26.580
+and then test it and finally push it to the Docker hub.
+
+05:26.580 --> 05:28.410
+So we are going to see all those things now
+
+05:28.410 --> 05:30.290
+in a step by step manner.
+
+05:30.290 --> 05:32.190
+I'll see you in the next lecture.
+
+05:32.190 --> 05:33.450
+Until then, bye bye.
+
+05:33.450 --> 05:34.283
+Thank you.

@@ -1,0 +1,247 @@
+WEBVTT
+
+00:00.150 --> 00:01.080
+-: Welcome back.
+
+00:01.080 --> 00:03.480
+In this lecture, we are going to understand
+
+00:03.480 --> 00:06.930
+about one more Kubernetes concept, ReplicaSets.
+
+00:06.930 --> 00:11.070
+So, ReplicaSets help us in achieving high availability
+
+00:11.070 --> 00:13.350
+and then reliability for our applications
+
+00:13.350 --> 00:15.480
+hosted on Kubernetes.
+
+00:15.480 --> 00:18.450
+In addition to that, it helps us to seamlessly
+
+00:18.450 --> 00:21.000
+scale our applications.
+
+00:21.000 --> 00:25.680
+And, in combination with services and ReplicaSets,
+
+00:25.680 --> 00:28.110
+we'll also be able to achieve effective
+
+00:28.110 --> 00:30.690
+load balancing in Kubernetes.
+
+00:30.690 --> 00:33.330
+Finally, labels and selectors.
+
+00:33.330 --> 00:35.370
+So using labels and selectors,
+
+00:35.370 --> 00:38.760
+we'll be able to tie all the ReplicaSets,
+
+00:38.760 --> 00:41.190
+services, and then pods together.
+
+00:41.190 --> 00:44.330
+With that said, a ReplicaSet's purpose
+
+00:44.330 --> 00:47.880
+is to maintain a stable set of replica pods
+
+00:47.880 --> 00:50.970
+running at any given point of time.
+
+00:50.970 --> 00:55.970
+So, if our application crashes and any pod dies.
+
+00:56.220 --> 00:58.740
+Example if you see here, in a worker node,
+
+00:58.740 --> 01:02.400
+we have two pods and then one pod got died.
+
+01:02.400 --> 01:03.990
+So if that is the case,
+
+01:03.990 --> 01:07.320
+ReplicaSet will recreate the pod immediately
+
+01:07.320 --> 01:09.660
+to ensure the configured number of pods
+
+01:09.660 --> 01:12.570
+running at any given point of time.
+
+01:12.570 --> 01:15.930
+So we configure the number of replicas in our ReplicaSet.
+
+01:15.930 --> 01:19.320
+So if you say that always it need to have two replicas,
+
+01:19.320 --> 01:22.410
+then, ReplicaSet will ensure that it is running
+
+01:22.410 --> 01:26.100
+with two parts at any point of time.
+
+01:26.100 --> 01:29.640
+So, in this way, reliability and then high availability
+
+01:29.640 --> 01:32.550
+for all applications are achieved.
+
+01:32.550 --> 01:35.610
+The next thing is load balancing.
+
+01:35.610 --> 01:39.810
+So to avoid overloading of traffic to single pod,
+
+01:39.810 --> 01:42.270
+we can use load balancing.
+
+01:42.270 --> 01:45.156
+So, Kubernetes provides pod load balancing
+
+01:45.156 --> 01:48.300
+out of the box using services for the pods,
+
+01:48.300 --> 01:51.240
+which are part of the ReplicaSets.
+
+01:51.240 --> 01:54.085
+So, labels and selectors are the key items
+
+01:54.085 --> 01:57.150
+which ties all these things together.
+
+01:57.150 --> 01:59.730
+pods, ReplicaSets and services.
+
+01:59.730 --> 02:02.910
+So we will know in detail about these labels and selectors
+
+02:02.910 --> 02:05.160
+when we are writing the YAML manifest
+
+02:05.160 --> 02:07.650
+in our upcoming lectures.
+
+02:07.650 --> 02:09.060
+So if you consider
+
+02:09.060 --> 02:11.910
+a Kubernetes cluster with two worker nodes,
+
+02:11.910 --> 02:15.450
+if you see the ReplicaSet is spanned across two worker nodes
+
+02:15.450 --> 02:17.310
+and we have two pods in one worker node
+
+02:17.310 --> 02:20.310
+and then two pods in another worker node.
+
+02:20.310 --> 02:24.750
+And mostly to access the applications hosted on these pods
+
+02:24.750 --> 02:27.450
+and then unload the effect to load balancing,
+
+02:27.450 --> 02:30.300
+so we will have the services in middle.
+
+02:30.300 --> 02:32.730
+So services will distribute the traffic
+
+02:32.730 --> 02:34.899
+to this respective ReplicaSet
+
+02:34.899 --> 02:37.620
+and the pods present inside that.
+
+02:37.620 --> 02:40.737
+So with that said, in combination with ReplicaSet
+
+02:40.737 --> 02:44.100
+and services, we can achieve effective load balancing
+
+02:44.100 --> 02:45.840
+in Kubernetes.
+
+02:45.840 --> 02:47.970
+And the next thing is scaling.
+
+02:47.970 --> 02:50.220
+So when load becomes too much
+
+02:50.220 --> 02:52.500
+for our number of existing pods,
+
+02:52.500 --> 02:56.340
+Kubernetes enables us to easily scale up our applications,
+
+02:56.340 --> 02:59.970
+adding additional pods as needed.
+
+02:59.970 --> 03:03.570
+So this is going to be seamless and super quick.
+
+03:03.570 --> 03:06.990
+So let's consider a Kubernetes cluster with two worker nodes
+
+03:06.990 --> 03:09.450
+and you have one pod in each one.
+
+03:09.450 --> 03:13.320
+And then a services load balancing the traffic to them.
+
+03:13.320 --> 03:17.160
+And all of a sudden, you have a spike in your traffic.
+
+03:17.160 --> 03:19.020
+If that is the case, to scale,
+
+03:19.020 --> 03:22.440
+you have multiple options in Kubernetes.
+
+03:22.440 --> 03:25.770
+First thing is go ahead and then update your ReplicaSets,
+
+03:25.770 --> 03:29.160
+number of replicas and decide number,
+
+03:29.160 --> 03:31.590
+how much you want, and then apply that.
+
+03:31.590 --> 03:35.640
+Or you can use kubectl scale to do that.
+
+03:35.640 --> 03:40.260
+Or you can even enable the HorizontalPodAutoscaler
+
+03:40.260 --> 03:43.125
+to auto scale the pods to achieve
+
+03:43.125 --> 03:46.140
+or to support the amount of traffic spike
+
+03:46.140 --> 03:47.640
+at that point of time.
+
+03:47.640 --> 03:50.190
+Now, let's go ahead and then implement
+
+03:50.190 --> 03:52.800
+the Kubernetes ReplicaSet demo.
+
+03:52.800 --> 03:54.240
+I'll see you in the next lecture.
+
+03:54.240 --> 03:55.470
+Until then, bye-bye.
+
+03:55.470 --> 03:56.303
+Thank you.

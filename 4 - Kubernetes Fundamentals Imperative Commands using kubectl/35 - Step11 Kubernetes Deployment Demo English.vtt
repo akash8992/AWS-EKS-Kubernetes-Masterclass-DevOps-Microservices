@@ -1,0 +1,493 @@
+WEBVTT
+
+00:00.300 --> 00:01.200
+-: Welcome back.
+
+00:01.200 --> 00:05.220
+In this lecture we are going to do the deployment demo.
+
+00:05.220 --> 00:09.390
+So we'll go to zero four deployments with kubectl.
+
+00:09.390 --> 00:10.690
+So let me go inside
+
+00:11.717 --> 00:12.810
+and
+
+00:12.810 --> 00:16.770
+inside that 0 4 0 1 will be creating our deployment
+
+00:16.770 --> 00:20.160
+scaling our deployment, and exposing it as a service.
+
+00:20.160 --> 00:23.790
+So all those things, we are going to do it now, right?
+
+00:23.790 --> 00:25.950
+So step zero one, introduction to deployments.
+
+00:25.950 --> 00:27.540
+We have just now completed.
+
+00:27.540 --> 00:32.190
+So we are going to move on to creating a deployment, right?
+
+00:32.190 --> 00:35.580
+So to create a deployment we are going to use kubectl.
+
+00:35.580 --> 00:38.880
+Create deployment and the deployment name,
+
+00:38.880 --> 00:42.270
+whatever we are going to put and our container image.
+
+00:42.270 --> 00:44.940
+So we are going to use the kube Nginx image.
+
+00:44.940 --> 00:45.900
+And if you see here,
+
+00:45.900 --> 00:48.270
+this is the docker image location
+
+00:48.270 --> 00:52.290
+and we have 1.0024.00
+
+00:52.290 --> 00:55.710
+So if we have four versions of our Nginx application
+
+00:55.710 --> 00:57.000
+which we are going to leverage
+
+00:57.000 --> 01:00.030
+and then test end to end all the deployment feature support,
+
+01:00.030 --> 01:02.520
+updating the deployment, rolling back the deployment
+
+01:02.520 --> 01:06.300
+or pausing and then resuming the deployment.
+
+01:06.300 --> 01:07.470
+In addition to that,
+
+01:07.470 --> 01:10.020
+rolling back the deployment to specific version
+
+01:10.020 --> 01:12.720
+or rolling back the deployment to older version
+
+01:12.720 --> 01:13.650
+or previous version.
+
+01:13.650 --> 01:16.290
+All these things we are going to test it.
+
+01:16.290 --> 01:18.480
+So that's the reason we have four versions
+
+01:18.480 --> 01:21.450
+of our engines application present here.
+
+01:21.450 --> 01:22.980
+So let's go back.
+
+01:22.980 --> 01:25.890
+So let's create the deployment now.
+
+01:25.890 --> 01:28.410
+So we are going to copy this
+
+01:28.410 --> 01:29.590
+and go here
+
+01:30.630 --> 01:32.283
+and paste it.
+
+01:33.750 --> 01:36.210
+So our deployment got created.
+
+01:36.210 --> 01:39.903
+So we'll say kubectl get deployment.
+
+01:43.140 --> 01:43.980
+Right?
+
+01:43.980 --> 01:46.350
+So our first deployment got deployed even
+
+01:46.350 --> 01:48.840
+we can use the alias name deploy.
+
+01:48.840 --> 01:52.680
+So these aliases will help us in when we are in hurry.
+
+01:52.680 --> 01:56.460
+We really don't need to completely provide the deployments
+
+01:56.460 --> 01:57.900
+or just give deploy
+
+01:57.900 --> 01:59.880
+and then it provides the output.
+
+01:59.880 --> 02:01.920
+In the same way for services it is SV
+
+02:01.920 --> 02:03.690
+and then for parts people.
+
+02:03.690 --> 02:07.140
+So it's always good to learn this earlier access.
+
+02:07.140 --> 02:09.420
+For ReplicaSet, it is going to be RS.
+
+02:09.420 --> 02:10.710
+So like that.
+
+02:10.710 --> 02:11.880
+So now,
+
+02:11.880 --> 02:13.140
+kubectl
+
+02:13.140 --> 02:14.790
+describe
+
+02:14.790 --> 02:16.320
+deployment
+
+02:16.320 --> 02:17.940
+and the deployment name.
+
+02:17.940 --> 02:18.970
+So my first
+
+02:19.890 --> 02:21.450
+deployment,
+
+02:21.450 --> 02:22.980
+right?
+
+02:22.980 --> 02:27.090
+So this is the deployment scaled up ReplicaSet by
+
+02:27.090 --> 02:28.560
+my first deployment,
+
+02:28.560 --> 02:30.960
+whatever the ReplicaSet name it is providing.
+
+02:30.960 --> 02:33.720
+So if you say kubectl, get RS.
+
+02:33.720 --> 02:35.910
+So we have seen that creating a deployment
+
+02:35.910 --> 02:37.740
+will create the ReplicaSet.
+
+02:37.740 --> 02:39.300
+So it has created one.
+
+02:39.300 --> 02:40.200
+So we can see it.
+
+02:40.200 --> 02:41.820
+And it has one pod under it.
+
+02:41.820 --> 02:44.040
+So let me clear this and say
+
+02:44.040 --> 02:45.660
+kubectl
+
+02:45.660 --> 02:46.860
+get pod.
+
+02:46.860 --> 02:51.390
+So we have one pod created as part of this deployment.
+
+02:51.390 --> 02:54.750
+So now the next thing is to scale our deployment.
+
+02:54.750 --> 02:56.670
+So using kubectl scale,
+
+02:56.670 --> 02:59.670
+we'll be able to scale our deployment.
+
+02:59.670 --> 03:02.040
+So let's do that now.
+
+03:02.040 --> 03:03.750
+Kubectl scale
+
+03:03.750 --> 03:06.810
+and the number of replicas, I want it from
+
+03:06.810 --> 03:07.685
+1 to
+
+03:07.685 --> 03:08.970
+20,
+
+03:08.970 --> 03:09.960
+right?
+
+03:09.960 --> 03:12.570
+And my deployment name,
+
+03:12.570 --> 03:13.620
+right?
+
+03:13.620 --> 03:14.453
+My first
+
+03:15.840 --> 03:16.673
+deployment.
+
+03:16.673 --> 03:18.330
+So you can use deployment space.
+
+03:18.330 --> 03:19.590
+My first deployment
+
+03:19.590 --> 03:23.100
+or even we can use this, anything is fine.
+
+03:23.100 --> 03:25.170
+So now it is going to scale.
+
+03:25.170 --> 03:27.120
+So let's see, kubectl
+
+03:27.120 --> 03:28.020
+get
+
+03:28.020 --> 03:29.280
+deploy
+
+03:29.280 --> 03:30.330
+and also
+
+03:30.330 --> 03:31.380
+kubectl
+
+03:31.380 --> 03:32.213
+get.
+
+03:32.213 --> 03:34.800
+So we have 20 and then already 16 is available.
+
+03:34.800 --> 03:36.150
+Now they are coming up.
+
+03:36.150 --> 03:38.010
+So one more time if we check.
+
+03:38.010 --> 03:39.810
+So mostly 20 should be available.
+
+03:39.810 --> 03:43.290
+So you can even say kubectl get pod
+
+03:43.290 --> 03:46.470
+and you see all 20 out of 20 are running.
+
+03:46.470 --> 03:49.350
+So one more thing here is kubectl
+
+03:49.350 --> 03:50.220
+get
+
+03:50.220 --> 03:51.750
+ReplicaSet.
+
+03:51.750 --> 03:53.400
+And if you see
+
+03:53.400 --> 03:54.233
+in
+
+03:54.233 --> 03:55.710
+ReplicaSet.
+
+03:55.710 --> 03:57.600
+So we got the output data.
+
+03:57.600 --> 04:00.990
+20 out of 20 are happening, running, all the pods.
+
+04:00.990 --> 04:02.220
+So now the next thing is
+
+04:02.220 --> 04:07.220
+like we can scale down our deployment using replicas to 10.
+
+04:07.470 --> 04:10.920
+So let's go back here and our instead of 20
+
+04:10.920 --> 04:13.050
+let's bring down our things
+
+04:13.050 --> 04:13.883
+to
+
+04:13.883 --> 04:14.716
+10
+
+04:14.716 --> 04:15.813
+and automatically,
+
+04:16.800 --> 04:17.940
+our
+
+04:17.940 --> 04:20.460
+pods will get terminated now,
+
+04:20.460 --> 04:21.293
+right?
+
+04:21.293 --> 04:25.380
+So out of 20, 10 pods will get terminated and then
+
+04:25.380 --> 04:26.950
+we will end up with only
+
+04:28.140 --> 04:29.010
+10 pods.
+
+04:29.010 --> 04:29.910
+That's good.
+
+04:29.910 --> 04:33.990
+So now the next thing is expose deployment as a service.
+
+04:33.990 --> 04:36.180
+Again, we are going to use the same node pod
+
+04:36.180 --> 04:37.080
+service concept.
+
+04:37.080 --> 04:40.710
+What we have used it for our pod earlier.
+
+04:40.710 --> 04:42.780
+The same we are going to use it.
+
+04:42.780 --> 04:44.670
+So instead of deploy- for pod,
+
+04:44.670 --> 04:46.290
+we are going to use it as deployment.
+
+04:46.290 --> 04:50.310
+Kubectl expose deployment and deployment name.
+
+04:50.310 --> 04:53.280
+And the type is going to be node pod
+
+04:53.280 --> 04:57.210
+and my service pod is going to be 80 and the target pod
+
+04:57.210 --> 05:00.090
+my container pod is going to be 80 and the name
+
+05:00.090 --> 05:03.900
+of the services my first deployment service.
+
+05:03.900 --> 05:08.613
+So let's go ahead and then create this now, right?
+
+05:10.380 --> 05:14.190
+So let the service get created and now kubectl,
+
+05:14.190 --> 05:15.030
+get
+
+05:15.030 --> 05:16.440
+SVC.
+
+05:16.440 --> 05:20.253
+And my services got created and this pod,
+
+05:20.253 --> 05:22.590
+node pod is 3 2 1 6 9.
+
+05:22.590 --> 05:24.867
+So I'll say kubectl,
+
+05:24.867 --> 05:25.700
+get nodes,
+
+05:25.700 --> 05:26.700
+hyphen o
+
+05:26.700 --> 05:28.290
+and then wide.
+
+05:28.290 --> 05:30.090
+So now I got the public IP.
+
+05:30.090 --> 05:34.500
+So I can use any one of them out of two and then 32169.
+
+05:34.500 --> 05:37.180
+So let's go ahead and then access it
+
+05:38.280 --> 05:39.113
+now,
+
+05:39.113 --> 05:40.110
+right?
+
+05:40.110 --> 05:42.450
+So 3, 2, 1, 6, 9.
+
+05:42.450 --> 05:46.050
+So now our application V1 version is up and running
+
+05:46.050 --> 05:48.900
+and then we are able to access it means like a deployment
+
+05:48.900 --> 05:51.073
+exposed as service for us,
+
+05:51.073 --> 05:52.440
+right?
+
+05:52.440 --> 05:54.450
+So let me go back here.
+
+05:54.450 --> 05:56.670
+And that completes the
+
+05:56.670 --> 05:58.920
+simple creation of a deployment
+
+05:58.920 --> 06:01.860
+and then testing of scaling the deployment
+
+06:01.860 --> 06:04.950
+and also exposing the deployment as a service.
+
+06:04.950 --> 06:06.570
+So everything we have done using
+
+06:06.570 --> 06:09.990
+imperative commands using kubectl, right?
+
+06:09.990 --> 06:11.520
+So in our next lecture,
+
+06:11.520 --> 06:14.130
+we'll focus on updating the deployment.
+
+06:14.130 --> 06:15.630
+So until then, bye bye.
+
+06:15.630 --> 06:16.463
+Thank you.

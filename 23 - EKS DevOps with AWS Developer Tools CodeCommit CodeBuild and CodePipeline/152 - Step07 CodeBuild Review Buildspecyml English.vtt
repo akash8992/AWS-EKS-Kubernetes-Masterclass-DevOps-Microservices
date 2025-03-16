@@ -1,0 +1,925 @@
+WEBVTT
+
+00:00.120 --> 00:00.990
+-: Welcome back.
+
+00:00.990 --> 00:04.200
+Just now we have completed our code build introduction
+
+00:04.200 --> 00:07.034
+and then we are moving on with our step eight
+
+00:07.034 --> 00:09.210
+related build spec dot YAML
+
+00:09.210 --> 00:13.620
+and then environmental variables in our code build, right?
+
+00:13.620 --> 00:15.810
+So environmental variables required
+
+00:15.810 --> 00:19.260
+for our code build are going to be the repository URI
+
+00:19.260 --> 00:22.140
+so which is nothing, but if we go to our ECR
+
+00:22.140 --> 00:25.290
+which is elastic container registry, right?
+
+00:25.290 --> 00:28.740
+So whatever the repository we have created EKS DevOps
+
+00:28.740 --> 00:31.650
+Ingenix right? So it's equivalent URI
+
+00:31.650 --> 00:33.060
+whatever is present here right?
+
+00:33.060 --> 00:36.930
+So this is the one we need to pass as repository
+
+00:36.930 --> 00:37.763
+URI variable.
+
+00:37.763 --> 00:40.890
+So, when we are creating the code build project
+
+00:40.890 --> 00:43.260
+so we'll see that later, but these things are,
+
+00:43.260 --> 00:44.730
+we need to make a note.
+
+00:44.730 --> 00:47.865
+So, and one more is EKS cube CTL role ERL.
+
+00:47.865 --> 00:50.550
+So when you execute at this step, right?
+
+00:50.550 --> 00:53.406
+So in step six create SDS, assume IAM role.
+
+00:53.406 --> 00:55.590
+So whenever we created this role
+
+00:55.590 --> 00:56.470
+so we got the
+
+00:58.075 --> 00:59.670
+AR and value, right?
+
+00:59.670 --> 01:00.960
+So this is the AR and value.
+
+01:00.960 --> 01:03.030
+So here just if you replace your account ID
+
+01:03.030 --> 01:05.280
+and then if you don't change any of the other templates
+
+01:05.280 --> 01:06.930
+just replace your account ID and
+
+01:06.930 --> 01:08.220
+then use that. Okay?
+
+01:08.220 --> 01:10.590
+So if you want you can take this and
+
+01:10.590 --> 01:12.450
+then go to IAM, right?
+
+01:12.450 --> 01:14.130
+To go to IAM service here.
+
+01:14.130 --> 01:15.453
+So this is the one, right?
+
+01:16.730 --> 01:21.730
+So go to roles and then search for this role, right?
+
+01:21.930 --> 01:23.370
+And open this role and
+
+01:23.370 --> 01:25.380
+then you'll find that here and here.
+
+01:25.380 --> 01:28.020
+So get that and then ensure that you put it here
+
+01:28.020 --> 01:31.260
+as a note for you and your EKS cluster name.
+
+01:31.260 --> 01:34.320
+So our EKS cluster name is EKS demo one.
+
+01:34.320 --> 01:36.240
+So we are going to use that.
+
+01:36.240 --> 01:38.880
+So these are the information you need to make a note
+
+01:38.880 --> 01:41.280
+before moving onto the next steps.
+
+01:41.280 --> 01:44.520
+So now we are going to review the entire build spec file.
+
+01:44.520 --> 01:46.106
+Very big file we have written.
+
+01:46.106 --> 01:49.290
+When you see it, it looks super big but it is
+
+01:49.290 --> 01:51.270
+super simple so I'm going to make it
+
+01:51.270 --> 01:53.880
+super simple for you. So let's go there.
+
+01:53.880 --> 01:58.320
+Okay, so in 11 DevOps in application manifests.
+
+01:58.320 --> 02:01.740
+So you can find something called build speck dot YAML,
+
+02:01.740 --> 02:02.573
+right?
+
+02:02.573 --> 02:07.573
+So I can make it a little bit bigger for our convenience.
+
+02:07.740 --> 02:12.180
+So right, So now if you see in version we have version 0.1
+
+02:12.180 --> 02:14.820
+and then 0.2 in build spec dot YAML.
+
+02:14.820 --> 02:17.133
+So if you try to Google it here, right?
+
+02:18.467 --> 02:22.137
+So, AWS code build, Build spec, right?
+
+02:24.060 --> 02:27.750
+So it'll take us to the specification document here, okay?
+
+02:27.750 --> 02:31.290
+Specification reference, we can say even, right?
+
+02:31.290 --> 02:33.210
+So it'll have the entire reference.
+
+02:33.210 --> 02:34.590
+So version 0.2
+
+02:34.590 --> 02:36.600
+and all the information related to it.
+
+02:36.600 --> 02:39.300
+Okay? So, but from this, whatever is required
+
+02:39.300 --> 02:43.800
+we have taken, okay, so our thing is install.
+
+02:43.800 --> 02:46.620
+We have phases like install, pre-build
+
+02:46.620 --> 02:51.620
+build and then post build and then artifacts
+
+02:52.042 --> 02:53.550
+okay? Build, post build and then artifacts.
+
+02:53.550 --> 02:56.730
+So inside that, before starting the pre-build process
+
+02:56.730 --> 02:59.310
+if anything you want to install you can define the
+
+02:59.310 --> 03:00.420
+inside the install.
+
+03:00.420 --> 03:03.270
+This is a simple YAML file and inside commands
+
+03:03.270 --> 03:05.760
+whatever things you want to install you can give.
+
+03:05.760 --> 03:08.670
+So earlier when we don't have this latest docker
+
+03:08.670 --> 03:13.170
+images available, which is provided by AWS for code build.
+
+03:13.170 --> 03:14.100
+So what happened is
+
+03:14.100 --> 03:16.350
+like we need to install lots of stuff, okay?
+
+03:16.350 --> 03:18.450
+Example, if you're dealing with Cuban notice
+
+03:18.450 --> 03:20.689
+you need to install your cube CTL
+
+03:20.689 --> 03:22.560
+you need to install your EKS CTL
+
+03:22.560 --> 03:26.070
+you need to install equal and, AWS cli, all those things.
+
+03:26.070 --> 03:27.120
+But for now
+
+03:27.120 --> 03:30.900
+since AWS Amazon related docker images are available
+
+03:30.900 --> 03:33.750
+for code build with the latest versions.
+
+03:33.750 --> 03:37.110
+So what happens is nothing is required to be installed here.
+
+03:37.110 --> 03:38.250
+So what does that mean?
+
+03:38.250 --> 03:39.990
+Let's go to the end of this file.
+
+03:39.990 --> 03:42.360
+There will be a URL for you for reference.
+
+03:42.360 --> 03:46.650
+Okay? So what we are going to do is let's take this, right?
+
+03:46.650 --> 03:48.330
+So I'll go and then
+
+03:48.330 --> 03:53.167
+once I'll say first I'll say AWS code build docker images
+
+03:54.300 --> 03:55.630
+right? So let's search that.
+
+03:55.630 --> 03:58.500
+Okay? So by code build, so these
+
+03:58.500 --> 04:00.483
+these are the docker images we have.
+
+04:01.504 --> 04:03.240
+So the latest currently is 3.0
+
+04:03.240 --> 04:05.550
+and but whatever latest you want you can verify.
+
+04:05.550 --> 04:08.700
+So this link, whatever here present is the same
+
+04:08.700 --> 04:10.690
+link I have provided here for reference.
+
+04:10.690 --> 04:15.690
+Okay? So if I click on this, okay, so it opens this file
+
+04:16.230 --> 04:20.580
+and inside the, if you open the docker file, right?
+
+04:20.580 --> 04:23.130
+So what all packages it is going to install
+
+04:23.130 --> 04:26.340
+as part of this respective code build image
+
+04:26.340 --> 04:28.020
+we can find it here, right?
+
+04:28.020 --> 04:29.910
+So it is using Amazon Linux two
+
+04:29.910 --> 04:32.820
+as a core and then it is installing lots
+
+04:32.820 --> 04:36.780
+of stuff SSH and then G I P M install lots of packages.
+
+04:36.780 --> 04:39.090
+It is installing open ssl, right?
+
+04:39.090 --> 04:41.940
+So SSH key scan and lot of things.
+
+04:41.940 --> 04:45.440
+But what is in important for us it is installing it.
+
+04:45.440 --> 04:47.247
+It is installing Firefox, okay?
+
+04:47.247 --> 04:49.860
+GCO driver, chromium, chromium driver.
+
+04:49.860 --> 04:50.760
+So like this.
+
+04:50.760 --> 04:55.530
+But our important thing here is AWS tools, right?
+
+04:55.530 --> 04:57.342
+So it is going to install AWS
+
+04:57.342 --> 05:00.484
+IM authenticator and it is going to use the latest
+
+05:00.484 --> 05:05.484
+current one dot 16 dot eight related AWS means like our
+
+05:06.513 --> 05:08.760
+Kubernetes version related stuff only you can see, right?
+
+05:08.760 --> 05:11.850
+It is going to install the cube CTL and version is going to
+
+05:11.850 --> 05:13.250
+be 1.16.8.
+
+05:14.818 --> 05:16.230
+So our latest cube CTL.
+
+05:16.230 --> 05:19.656
+So whenever you are doing this and then at that time 1.17
+
+05:19.656 --> 05:21.630
+or 1.18 or whatever the cluster you are
+
+05:21.630 --> 05:24.630
+using just crosscheck whatever you are using the
+
+05:24.630 --> 05:28.740
+equivalent cube CTL from this code build docker image.
+
+05:28.740 --> 05:30.240
+So like this you can check, right?
+
+05:30.240 --> 05:31.680
+So you can go here.
+
+05:31.680 --> 05:34.530
+So you can say code, build docker images and then Google it
+
+05:34.530 --> 05:36.450
+and then take the latest image, right?
+
+05:36.450 --> 05:39.750
+Whatever we are using here is 3.0 and whatever you want to
+
+05:39.750 --> 05:42.690
+use at at that point of time should match your stuff, right?
+
+05:42.690 --> 05:46.530
+So 3.0 and then if you go inside the docker file
+
+05:46.530 --> 05:50.550
+you'll find something called AWS tools here.
+
+05:50.550 --> 05:52.050
+Okay? So AWS tools.
+
+05:52.050 --> 05:55.500
+So it is installing IM authenticator cube CTL E C S C L A
+
+05:55.500 --> 05:56.670
+which I am not interested.
+
+05:56.670 --> 05:59.130
+It is installing EKS CTL also.
+
+05:59.130 --> 06:01.950
+Okay? So all these things it is installing and
+
+06:01.950 --> 06:05.503
+in by default it also will install the AWS CLI version also
+
+06:07.560 --> 06:10.050
+which is one dot 17 or something
+
+06:10.050 --> 06:12.570
+in our course we are using means like
+
+06:12.570 --> 06:14.323
+in this course most of the time whenever
+
+06:14.323 --> 06:19.323
+we use AWS commands we are using AWS version to latest here.
+
+06:22.940 --> 06:25.020
+But in Amazon related code build images
+
+06:25.020 --> 06:28.110
+I still didn't get this level of image already built here
+
+06:28.110 --> 06:30.421
+but it is not impacting us anyway so that's fine.
+
+06:30.421 --> 06:34.867
+So even CLI 1.17 or one dot 18 related to AWS
+
+06:34.867 --> 06:36.540
+we really don't have any issue
+
+06:36.540 --> 06:39.360
+for us Cube CTL version one dot 16 should work
+
+06:39.360 --> 06:41.220
+for our cluster one dot 16.
+
+06:41.220 --> 06:43.980
+So that means like we have the EKS latest cluster
+
+06:43.980 --> 06:46.380
+and also cube CTL also the equivalent version.
+
+06:46.380 --> 06:48.930
+So we really don't need to worry.
+
+06:48.930 --> 06:51.330
+So this is about the core thing related
+
+06:51.330 --> 06:54.360
+to nothing related to be installed as part of commands
+
+06:54.360 --> 06:56.640
+because cube CTL don't need to be installed because
+
+06:56.640 --> 06:59.640
+it is there IM authenticator don't need to be installed.
+
+06:59.640 --> 07:02.460
+It is there AWS CLI it is there.
+
+07:02.460 --> 07:03.780
+We really don't need to install.
+
+07:03.780 --> 07:06.840
+So that's the reason nothing is present in this area.
+
+07:06.840 --> 07:09.630
+But let's move on to the pre-buid area.
+
+07:09.630 --> 07:12.660
+We have some stuff to do inside the commands.
+
+07:12.660 --> 07:15.750
+So one is the docker tag
+
+07:15.750 --> 07:17.640
+which is nothing but our image tag.
+
+07:17.640 --> 07:21.540
+We are going to tag with the date within this format
+
+07:21.540 --> 07:24.480
+year, month, date, hour, minutes and then seconds.
+
+07:24.480 --> 07:26.850
+And in addition to that dot we are also going
+
+07:26.850 --> 07:29.700
+to have a environmental variable named code builder.
+
+07:29.700 --> 07:32.790
+Resolved source version will be there in code build.
+
+07:32.790 --> 07:35.010
+So inside that we are going to use first eight
+
+07:35.010 --> 07:38.220
+characters we are going to use for that source code thing.
+
+07:38.220 --> 07:41.244
+Okay? So we are going to see when the docker image
+
+07:41.244 --> 07:43.950
+is built and in addition to that next thing is
+
+07:43.950 --> 07:46.800
+update image tag in our Cuba that is manifest.
+
+07:46.800 --> 07:48.480
+So this is the important one.
+
+07:48.480 --> 07:50.770
+So we are going to use the set command to
+
+07:51.811 --> 07:53.670
+replace whatever is the repository.
+
+07:53.670 --> 07:54.900
+URL column tag.
+
+07:54.900 --> 07:57.030
+So this repository URL, you are sending
+
+07:57.030 --> 08:00.360
+via environmental variables and then tag you have here.
+
+08:00.360 --> 08:04.080
+So the whole information as part of this, right?
+
+08:04.080 --> 08:05.790
+So tag whatever is generated now
+
+08:05.790 --> 08:07.560
+with this current time and then date
+
+08:07.560 --> 08:10.650
+with this code build resolve source version, right?
+
+08:10.650 --> 08:12.930
+You are going to update the same thing in
+
+08:12.930 --> 08:16.500
+your kubernetes DevOps engineers deployment manifest here.
+
+08:16.500 --> 08:21.180
+So it is going to replace container image with that value
+
+08:21.180 --> 08:23.583
+right? So that's what you are going to do it in
+
+08:23.583 --> 08:27.090
+your cube manifest 01 DevOps engineerix deployment dot yaml.
+
+08:27.090 --> 08:29.070
+So this completes these lines.
+
+08:29.070 --> 08:32.880
+So we are also going to verify the AWS version, right?
+
+08:32.880 --> 08:36.300
+And next thing is whenever you want to do a docker push
+
+08:36.300 --> 08:38.550
+to your repository, ECR repository
+
+08:38.550 --> 08:40.950
+you need to do it ECR get login.
+
+08:40.950 --> 08:45.630
+Since you are using the one dot means like one.x version
+
+08:45.630 --> 08:48.900
+of your AWS CLI, you need to use this command. Okay?
+
+08:48.900 --> 08:52.170
+So but if you see in our section related to ECR right?
+
+08:52.170 --> 08:54.030
+So here, whatever we have done.
+
+08:54.030 --> 08:59.030
+So here we have used, our local is version two AWS
+
+08:59.210 --> 09:03.270
+version is 2.0.22 something related to 2.x.
+
+09:03.270 --> 09:06.390
+So that's the reason whenever you are doing the docker push
+
+09:06.390 --> 09:09.360
+right? So create and then push, right?
+
+09:09.360 --> 09:11.970
+So before push, so where is that?
+
+09:11.970 --> 09:15.777
+We have done somewhere here the docker repository
+
+09:17.370 --> 09:21.420
+docker image locally and then push docker image you
+
+09:21.420 --> 09:25.830
+can see AWS ECR get login password and then region pipe two
+
+09:25.830 --> 09:28.770
+docker login with username and then password S trillion.
+
+09:28.770 --> 09:30.810
+So this format you are going to use
+
+09:30.810 --> 09:35.400
+for your AWS CLI two, but the current build image
+
+09:35.400 --> 09:38.700
+whatever AWS is providing, right?
+
+09:38.700 --> 09:42.653
+In this respect to is AWS CLI version one.
+
+09:42.653 --> 09:44.640
+So that's the reason it's like
+
+09:44.640 --> 09:46.650
+with this respect to docker image
+
+09:46.650 --> 09:48.600
+it is providing CLI version one.
+
+09:48.600 --> 09:52.522
+So we are using this AWS, ECR get log in CLI version
+
+09:52.522 --> 09:56.460
+one related get log in command we are using.
+
+09:56.460 --> 09:59.610
+So with this you will be log in to your Amazon easier
+
+09:59.610 --> 10:00.450
+and then you are just
+
+10:00.450 --> 10:02.940
+exporting your cube config home directory here.
+
+10:02.940 --> 10:05.040
+Nothing more than that, okay?
+
+10:05.040 --> 10:06.990
+And then next what you'll do is in the build
+
+10:06.990 --> 10:10.500
+phase you'll do that docker build, right?
+
+10:10.500 --> 10:12.690
+So docker build and in the current location
+
+10:12.690 --> 10:14.640
+itself you have that docker file here
+
+10:14.640 --> 10:17.430
+which means like in your code repository
+
+10:17.430 --> 10:19.650
+in the master location itself means like on the
+
+10:19.650 --> 10:20.700
+root location itself
+
+10:20.700 --> 10:23.070
+you have the docker file here and then you're
+
+10:23.070 --> 10:25.710
+going to tag with repository you are a whatever
+
+10:25.710 --> 10:28.230
+you have provided in environmental variables
+
+10:28.230 --> 10:30.840
+and the tag whatever you have generated here.
+
+10:30.840 --> 10:33.330
+So in that way you're going to build the image
+
+10:33.330 --> 10:34.890
+and in the post build commands
+
+10:34.890 --> 10:38.280
+you are going to push that image, right?
+
+10:38.280 --> 10:41.487
+So you're going to push that image, docker, push repository
+
+10:41.487 --> 10:44.760
+URI and then talk already you have logged into your ECR.
+
+10:44.760 --> 10:46.290
+So immediately push will happen.
+
+10:46.290 --> 10:49.147
+So once it is happened, it'll say docker image
+
+10:49.147 --> 10:51.750
+push to ECR completed successfully.
+
+10:51.750 --> 10:54.840
+So the next thing is to cube CTL
+
+10:54.840 --> 10:57.210
+apply hyphen F and then cube manifests, right?
+
+10:57.210 --> 10:59.280
+So it means like once you, you push through the image
+
+10:59.280 --> 11:00.600
+that image need to be deployed
+
+11:00.600 --> 11:04.170
+to your EKS cluster in post bill.
+
+11:04.170 --> 11:09.170
+So to do that you need to first assume your role as EKS cube
+
+11:09.240 --> 11:11.550
+CTL roll ARL and whatever we have created
+
+11:11.550 --> 11:15.180
+EKS means like EKS cube, CTL role
+
+11:15.180 --> 11:18.120
+whatever we have created here, right in our previous step.
+
+11:18.120 --> 11:20.670
+So the same role we are going to use means
+
+11:20.670 --> 11:23.340
+like this is the role we are going to use.
+
+11:23.340 --> 11:24.173
+Where is this?
+
+11:24.173 --> 11:27.497
+Okay? So we need to assume this respective role
+
+11:27.497 --> 11:30.660
+EKS code built cube CTL role.
+
+11:30.660 --> 11:32.370
+So let's come back here.
+
+11:32.370 --> 11:33.203
+So assume
+
+11:33.203 --> 11:35.700
+that role that will generate some credential information.
+
+11:35.700 --> 11:37.770
+So from that credential information you'll get
+
+11:37.770 --> 11:40.230
+the access key id, secret access
+
+11:40.230 --> 11:42.870
+key session token, and then expiration.
+
+11:42.870 --> 11:45.330
+So once all these are available and then once
+
+11:45.330 --> 11:47.670
+these environmental variables are set
+
+11:47.670 --> 11:50.487
+so you can use a command called AWS EKS update
+
+11:51.840 --> 11:54.690
+cube config with your cluster name here.
+
+11:54.690 --> 11:56.130
+So that's the reason cluster name.
+
+11:56.130 --> 11:59.070
+Also you are sending it as a environmental variable.
+
+11:59.070 --> 12:01.560
+So whenever you run this command automatically
+
+12:01.560 --> 12:04.200
+your cube CTL is setup there to connect with
+
+12:04.200 --> 12:06.030
+your respective cluster.
+
+12:06.030 --> 12:06.930
+That's all.
+
+12:06.930 --> 12:10.080
+So now once this is done, you can go ahead and
+
+12:10.080 --> 12:14.010
+then apply the changes and the changes will get reflected.
+
+12:14.010 --> 12:17.214
+In addition to that, you can even generate your
+
+12:17.214 --> 12:21.357
+respective DevOps means like respect to image
+
+12:21.357 --> 12:23.910
+URI information adjacent file and then
+
+12:23.910 --> 12:26.160
+export it into build dot Jason and then create
+
+12:26.160 --> 12:28.170
+a artifact file build dot jason.
+
+12:28.170 --> 12:30.480
+And also you can generate all your expo
+
+12:30.480 --> 12:33.450
+all your cube manifest, whatever the files are there, right?
+
+12:33.450 --> 12:35.520
+So zero one DevOps, zero two
+
+12:35.520 --> 12:38.310
+DevOps related notebook service and zero three ingress.
+
+12:38.310 --> 12:42.540
+Also, you can make it as output artifacts because in future
+
+12:42.540 --> 12:45.606
+if you want to extend this and use some other tool too
+
+12:45.606 --> 12:47.850
+like Lambda or something to create
+
+12:47.850 --> 12:50.250
+and then increase your pipeline stages.
+
+12:50.250 --> 12:52.710
+So this build dot Jason and then cube manifests
+
+12:52.710 --> 12:56.490
+whatever created here will help you in exploring
+
+12:56.490 --> 13:00.090
+and then adding your pipeline to the next level.
+
+13:00.090 --> 13:01.590
+So for that purpose, and
+
+13:01.590 --> 13:05.010
+once this is generated also you can download these artifacts
+
+13:05.010 --> 13:06.240
+from S3 and then see
+
+13:06.240 --> 13:10.110
+that inside this zero one engineerix deployment
+
+13:10.110 --> 13:13.170
+if this container image is replaced with that new ECR image.
+
+13:13.170 --> 13:14.760
+So all those things we can check.
+
+13:14.760 --> 13:18.390
+So in our, in our next lecture as part of our checks also
+
+13:18.390 --> 13:20.670
+we are going to anyway do that.
+
+13:20.670 --> 13:23.010
+So this is about the overall build spec
+
+13:23.010 --> 13:24.690
+whatever we have written and these
+
+13:24.690 --> 13:27.180
+whatever I have commented here, these are
+
+13:27.180 --> 13:29.460
+like for your additional information means
+
+13:29.460 --> 13:32.937
+like as part of this SDS assume role
+
+13:32.937 --> 13:36.540
+what it is getting and then storing in credentials
+
+13:36.540 --> 13:39.090
+you can print in your build log and then verify.
+
+13:39.090 --> 13:41.340
+So you can uncomment this, this, this, this, this this.
+
+13:41.340 --> 13:43.710
+And then see what is present in credentials
+
+13:43.710 --> 13:45.708
+what is present in access, key id
+
+13:45.708 --> 13:50.220
+secret access session token, all these things you can see.
+
+13:50.220 --> 13:53.520
+So this is about the overall build speck dot AML
+
+13:53.520 --> 13:54.960
+big build spec.aml
+
+13:54.960 --> 13:59.820
+which looks very simple when we understand it so about it.
+
+13:59.820 --> 14:03.570
+So in our next lecture we'll move on with the next steps.
+
+14:03.570 --> 14:05.820
+So I will see you in the next lecture.
+
+14:05.820 --> 14:07.140
+Until then, bye bye.
+
+14:07.140 --> 14:07.973
+Thank you.

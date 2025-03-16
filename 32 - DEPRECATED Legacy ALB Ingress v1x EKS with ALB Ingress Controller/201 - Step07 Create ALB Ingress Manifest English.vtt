@@ -1,0 +1,433 @@
+WEBVTT
+
+00:00.000 --> 00:01.050
+-: Welcome back.
+
+00:01.050 --> 00:02.667
+In this step we are going to create a
+
+00:02.667 --> 00:06.990
+ALB Kubernetes basic Ingress manifest. Okay?
+
+00:06.990 --> 00:10.110
+So let's go ahead and then create that now.
+
+00:10.110 --> 00:12.390
+So we are in our (mouse clicking)
+
+00:12.390 --> 00:15.630
+05-ALB Ingress basic YAML.
+
+00:15.630 --> 00:17.610
+The rest all are going to be same
+
+00:17.610 --> 00:19.710
+which is nothing but external name service,
+
+00:19.710 --> 00:21.090
+we are going to have.
+
+00:21.090 --> 00:23.970
+And user management deployment, we are going to have.
+
+00:23.970 --> 00:26.610
+And Kubernetes secrets as is,
+
+00:26.610 --> 00:29.700
+and user management node port service. Okay?
+
+00:29.700 --> 00:33.030
+So now ALB Ingress will pick the node port service.
+
+00:33.030 --> 00:34.710
+How we are going to see it?
+
+00:34.710 --> 00:35.543
+Now.
+
+00:35.543 --> 00:36.870
+Which means like, the backend,
+
+00:36.870 --> 00:39.150
+which is nothing but the targets inside the
+
+00:39.150 --> 00:41.910
+ALB ingress basic basic is going to be
+
+00:41.910 --> 00:44.610
+this respect to node port service.
+
+00:44.610 --> 00:46.980
+So we are going to reference that there, okay?
+
+00:46.980 --> 00:49.317
+So let me close this (mouse clicking)
+
+00:49.317 --> 00:50.880
+and then start writing first Ingress basic
+
+00:50.880 --> 00:52.983
+so we'll understand in a better way.
+
+00:54.150 --> 00:57.390
+So the Ingress is the (typing) kind here, okay?
+
+00:57.390 --> 00:59.310
+So this is AP version kind metadata
+
+00:59.310 --> 01:02.220
+and then spec, our standard Kubernetes stuff.
+
+01:02.220 --> 01:05.224
+And then I'm going to say Ingress
+
+01:05.224 --> 01:06.736
+(typing) and it is going to be
+
+01:06.736 --> 01:07.800
+(typing)
+
+01:07.800 --> 01:12.800
+extensions/v1beta1. Right?
+
+01:12.900 --> 01:14.760
+So currently this is in beta,
+
+01:14.760 --> 01:18.270
+but in future it might be modal way.
+
+01:18.270 --> 01:20.340
+So whenever it is updated to
+
+01:20.340 --> 01:23.700
+as usual when it is moved from beta to live.
+
+01:23.700 --> 01:25.800
+So I'm going to update it accordingly.
+
+01:25.800 --> 01:28.410
+But currently it is in V1, beta1,
+
+01:28.410 --> 01:30.600
+this entire Ingress section related to
+
+01:30.600 --> 01:33.960
+ALB, application load balancer. Okay?
+
+01:33.960 --> 01:38.040
+So we have created API version kind and then in metadata.
+
+01:38.040 --> 01:40.810
+So the title elements usually we'll have is
+
+01:40.810 --> 01:42.336
+(typing) name and then,
+
+01:42.336 --> 01:44.700
+(typing) labels, right?
+
+01:44.700 --> 01:46.920
+And name, I'm going to say
+
+01:46.920 --> 01:48.353
+(typing) ingress-usermgmtrestappservice.
+
+01:52.770 --> 01:53.603
+Okay?
+
+01:53.603 --> 01:57.540
+And in the labels as usual, this is our standard label
+
+01:57.540 --> 02:00.060
+we are going to put for our user (typing)
+
+02:00.060 --> 02:02.544
+user management microservice, which is nothing but
+
+02:02.544 --> 02:03.794
+(typing) usermgmtrestapp.
+
+02:05.130 --> 02:06.060
+Okay?
+
+02:06.060 --> 02:08.880
+And one more we are going to have as part of this
+
+02:08.880 --> 02:13.260
+which is nothing but the name, labels, and now, annotations.
+
+02:13.260 --> 02:17.640
+Okay? So entire this Kubernetes Ingress manifest
+
+02:17.640 --> 02:20.820
+most of the stuff we deal with annotations only.
+
+02:20.820 --> 02:21.720
+So that's the reason
+
+02:21.720 --> 02:24.840
+we'll have one more section called "annotations".
+
+02:24.840 --> 02:26.190
+And under the spec,
+
+02:26.190 --> 02:30.000
+we'll start defining our core load balancer functionality,
+
+02:30.000 --> 02:32.850
+which is nothing but rules, right?
+
+02:32.850 --> 02:36.690
+So means like for "/star" where it should go,
+
+02:36.690 --> 02:39.180
+which target it need to associate.
+
+02:39.180 --> 02:41.820
+Or for "/app1", which target it need to associate
+
+02:41.820 --> 02:44.190
+all we'll define under "spec".
+
+02:44.190 --> 02:46.980
+So first thing is let's come back to annotations
+
+02:46.980 --> 02:50.160
+and then define the Ingress core annotations.
+
+02:50.160 --> 02:52.680
+So what are Ingress core annotations?
+
+02:52.680 --> 02:56.010
+Under annotations, we'll have two Ingress core annotations.
+
+02:56.010 --> 02:58.380
+One is "Ingress class",
+
+02:58.380 --> 03:01.560
+and the other is "Ingress scheme", right?
+
+03:01.560 --> 03:03.630
+Scheme, you know that it is nothing but
+
+03:03.630 --> 03:06.270
+internet facing our internal. Okay?
+
+03:06.270 --> 03:08.797
+So that one we are going to add, and one more is
+
+03:08.797 --> 03:10.833
+"Ingress class". Ingress class is ALB.
+
+03:12.420 --> 03:15.120
+So let's go back here for the documentation
+
+03:15.120 --> 03:17.760
+and then take these things from a sample.
+
+03:17.760 --> 03:20.238
+So these two things we need it.
+
+03:20.238 --> 03:21.071
+(typing) Okay?
+
+03:21.071 --> 03:23.820
+So let me place them here.
+
+03:23.820 --> 03:26.580
+So which is nothing but Ingress class is ALB,
+
+03:26.580 --> 03:30.330
+and then Ingress scheme is internet facing load balancer,
+
+03:30.330 --> 03:32.160
+we are going to create.
+
+03:32.160 --> 03:33.990
+In addition to that, there will be a set of
+
+03:33.990 --> 03:35.400
+health check settings,
+
+03:35.400 --> 03:39.690
+and it's equal and annotations will be available here.
+
+03:39.690 --> 03:42.360
+I gathered all together and then put it aside.
+
+03:42.360 --> 03:44.970
+So we'll get those things in then paste it here.
+
+03:44.970 --> 03:48.270
+So we'll add all our health check settings here.
+
+03:48.270 --> 03:49.250
+Okay?
+
+03:49.250 --> 03:50.083
+(typing)
+
+03:50.083 --> 03:52.350
+So let me say health check protocol is http,
+
+03:52.350 --> 03:55.230
+the traffic port, which is 8 0 9 5, we are going to use,
+
+03:55.230 --> 03:57.210
+or whatever the traffic port might be,
+
+03:57.210 --> 03:59.970
+based on the worker node, whatever it provides, right?
+
+03:59.970 --> 04:02.130
+So worker node note port ip.
+
+04:02.130 --> 04:05.520
+And so that's the reason we gave it as traffic port
+
+04:05.520 --> 04:07.200
+as usual, standard setting.
+
+04:07.200 --> 04:08.797
+And then health check path is going to be
+
+04:08.797 --> 04:11.010
+"user mgmt health status".
+
+04:11.010 --> 04:12.720
+And these are some standard interval
+
+04:12.720 --> 04:13.920
+and then timeout settings.
+
+04:13.920 --> 04:16.320
+And then success code we have given us 200.
+
+04:16.320 --> 04:19.110
+So all these annotations we have picked it from here,
+
+04:19.110 --> 04:22.170
+related to health check, whatever the annotations are there.
+
+04:22.170 --> 04:24.330
+All those things we have picked it here,
+
+04:24.330 --> 04:27.420
+and then grouped them together and then put it here.
+
+04:27.420 --> 04:31.740
+So finally one thing we need to write now is the spec. Okay?
+
+04:31.740 --> 04:34.650
+So under spec, the core thing here is the
+
+04:34.650 --> 04:37.650
+rules which we need to define, okay?
+
+04:37.650 --> 04:39.811
+So and under rules we'll have a
+
+04:39.811 --> 04:42.120
+(typing) list which is http,
+
+04:42.120 --> 04:43.590
+and under http,
+
+04:43.590 --> 04:46.050
+we are going to have something called "paths".
+
+04:46.050 --> 04:48.900
+Means like, "path of our applications". Okay?
+
+04:48.900 --> 04:50.041
+So I'll say
+
+04:50.041 --> 04:53.130
+(typing) my first path is going to be "/star".
+
+04:53.130 --> 04:55.410
+So whenever we go for next level of things,
+
+04:55.410 --> 04:57.570
+like adding additional applications.
+
+04:57.570 --> 05:00.292
+So we are going to have more number of paths here,
+
+05:00.292 --> 05:04.590
+like, /app1, and then /app2, and then /star, like that.
+
+05:04.590 --> 05:07.740
+For now we are going to say path of default/star (typing).
+
+05:07.740 --> 05:12.000
+And as usual, what is my backend here going to be, right?
+
+05:12.000 --> 05:14.640
+So under backend we need to provide two things here.
+
+05:14.640 --> 05:17.490
+So one is service name (typing). Right?
+
+05:17.490 --> 05:18.900
+And service port (typing).
+
+05:18.900 --> 05:22.140
+So which is again in our Kubernetes language only, right?
+
+05:22.140 --> 05:25.080
+So which node port service name and then service port
+
+05:25.080 --> 05:30.060
+I need to provide as backend first /star in my ALB. Right?
+
+05:30.060 --> 05:33.210
+So I can go here and then I can go to
+
+05:33.210 --> 05:36.180
+node port service and this is my node port service. Okay?
+
+05:36.180 --> 05:39.840
+So this is the name of my service name for user management.
+
+05:39.840 --> 05:43.350
+So I'll come here and then provide the service name here.
+
+05:43.350 --> 05:46.410
+And the service port is 8 0 9 5,
+
+05:46.410 --> 05:48.270
+which is going to get created.
+
+05:48.270 --> 05:52.950
+So I'm going to give 8 0 9 5. Right?
+
+05:52.950 --> 05:54.150
+So that's good.
+
+05:54.150 --> 05:57.510
+So let me close this and
+
+05:57.510 --> 06:00.150
+this is the complete Ingress manifest,
+
+06:00.150 --> 06:02.488
+whatever we have created as part of
+
+06:02.488 --> 06:07.140
+05-ALB Ingress basic. Right?
+
+06:07.140 --> 06:08.490
+So in our next lecture,
+
+06:08.490 --> 06:11.520
+we'll focus on deploying these things and then testing it.
+
+06:11.520 --> 06:13.200
+So I'll see you in the next lecture.
+
+06:13.200 --> 06:14.340
+Until then, bye bye.
+
+06:14.340 --> 06:15.173
+Thank you.

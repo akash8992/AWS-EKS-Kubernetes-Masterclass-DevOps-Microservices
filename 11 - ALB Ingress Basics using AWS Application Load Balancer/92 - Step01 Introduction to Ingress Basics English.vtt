@@ -1,0 +1,784 @@
+WEBVTT
+
+00:00.510 --> 00:01.680
+-: Welcome back.
+
+00:01.680 --> 00:04.080
+As part of this section we are going to learn
+
+00:04.080 --> 00:07.230
+about Kubernetes Ingress basics.
+
+00:07.230 --> 00:09.960
+The first thing we need to know about Ingress is,
+
+00:09.960 --> 00:11.880
+what all key items involved
+
+00:11.880 --> 00:15.510
+inside the Ingress service manifest, right?
+
+00:15.510 --> 00:19.380
+So the one important thing is Ingress annotations.
+
+00:19.380 --> 00:21.120
+Ingress annotations are nothing
+
+00:21.120 --> 00:23.160
+but the load balancer settings,
+
+00:23.160 --> 00:26.850
+which we are going to provision using this Ingress service.
+
+00:26.850 --> 00:30.420
+And another important thing is inside the Ingress spec,
+
+00:30.420 --> 00:34.500
+the first item which we need to define is Ingress class name
+
+00:34.500 --> 00:37.920
+to which this Ingress service need to be associated to
+
+00:37.920 --> 00:40.050
+or belongs to.
+
+00:40.050 --> 00:43.290
+By default if you already created Ingress class
+
+00:43.290 --> 00:46.140
+and set that is default equal to true.
+
+00:46.140 --> 00:49.260
+So then we really don't need to define Ingress class name
+
+00:49.260 --> 00:51.780
+inside of our Ingress service manifest.
+
+00:51.780 --> 00:54.870
+If not, we need to definitely define this.
+
+00:54.870 --> 00:56.550
+And in Ingress spec,
+
+00:56.550 --> 00:59.970
+additionally, you can define Ingress routing rules
+
+00:59.970 --> 01:02.400
+and also default backends.
+
+01:02.400 --> 01:06.600
+So all these things we are going to practically implement
+
+01:06.600 --> 01:11.280
+and then see in various scenarios from Ingres perspective.
+
+01:11.280 --> 01:14.370
+Additionally, there will be a annotation reference
+
+01:14.370 --> 01:17.370
+and there will be close to 30 plus Ingress annotations
+
+01:17.370 --> 01:18.940
+as on today available for our
+
+01:20.700 --> 01:24.150
+Kubernetes AWS Load Balancer related Ingress.
+
+01:24.150 --> 01:26.310
+So these are the settings here.
+
+01:26.310 --> 01:28.080
+So, ALB Ingress Kubernetes,
+
+01:28.080 --> 01:31.980
+I will load balancer name, group name, tags, IP address
+
+01:31.980 --> 01:34.080
+and then your load balancer type,
+
+01:34.080 --> 01:35.520
+which is nothing but scheme.
+
+01:35.520 --> 01:39.210
+Internal load balancer are internet facing load balancer,
+
+01:39.210 --> 01:42.930
+and where your load balancer need to be deployed to.
+
+01:42.930 --> 01:44.160
+Means like which subnets,
+
+01:44.160 --> 01:46.200
+and if you want to specifically associate,
+
+01:46.200 --> 01:48.090
+instead of default security groups,
+
+01:48.090 --> 01:49.950
+any additional security groups.
+
+01:49.950 --> 01:51.000
+So you can use this
+
+01:51.000 --> 01:53.340
+and then provide the security group ID.
+
+01:53.340 --> 01:54.300
+So like this,
+
+01:54.300 --> 01:59.300
+there'll be huge amount of annotations available for us
+
+01:59.520 --> 02:01.680
+which can be defined as settings
+
+02:01.680 --> 02:03.270
+for your load balancer,
+
+02:03.270 --> 02:07.080
+inside the Kubernetes service manifest.
+
+02:07.080 --> 02:09.120
+So now let's come back here,
+
+02:09.120 --> 02:11.790
+and we discussed the key items involved here
+
+02:11.790 --> 02:13.800
+and also reviewed on a very high level
+
+02:13.800 --> 02:16.740
+what all annotations we are going to have.
+
+02:16.740 --> 02:19.650
+And for complete 30 annotations if you want to review,
+
+02:19.650 --> 02:21.570
+so review this reference link
+
+02:21.570 --> 02:23.070
+and you'll get the complete picture
+
+02:23.070 --> 02:27.690
+on what all these are and why they will be used for.
+
+02:27.690 --> 02:29.460
+And let's come back here,
+
+02:29.460 --> 02:33.090
+and we are going to do two demos as part of this section.
+
+02:33.090 --> 02:36.420
+One is Ingress service with a default backend,
+
+02:36.420 --> 02:40.140
+and the other is Ingress service with Ingress rules.
+
+02:40.140 --> 02:41.910
+So that we get the complete hand
+
+02:41.910 --> 02:43.980
+on how to define the default backend
+
+02:43.980 --> 02:47.520
+and also how to define a simple Ingress rules.
+
+02:47.520 --> 02:49.410
+So that's the reason we have split it
+
+02:49.410 --> 02:53.160
+into two demos so that we get the complete clarity
+
+02:53.160 --> 02:56.670
+on understanding and implementing those two use cases.
+
+02:56.670 --> 02:59.580
+And let's understand the network design
+
+02:59.580 --> 03:01.500
+for the default backend.
+
+03:01.500 --> 03:05.850
+So, in AWS Cloud we have created the EKS cluster,
+
+03:05.850 --> 03:08.250
+and which as part of that
+
+03:08.250 --> 03:11.820
+when we have created these EKS cluster using EKS CTL,
+
+03:11.820 --> 03:14.460
+so it also created a VPC
+
+03:14.460 --> 03:15.960
+and also created a public
+
+03:15.960 --> 03:19.110
+and private subnets and also NAT gateway.
+
+03:19.110 --> 03:20.520
+And from private subnet
+
+03:20.520 --> 03:23.010
+the outbound communication goes where NAT gateway
+
+03:23.010 --> 03:25.470
+to our E case cluster control plane.
+
+03:25.470 --> 03:27.810
+And additionally, if you see here
+
+03:27.810 --> 03:30.390
+we have also created a EKS worker nodes.
+
+03:30.390 --> 03:34.050
+We have created two worker nodes in the private subnets,
+
+03:34.050 --> 03:37.050
+we call it as a private node group.
+
+03:37.050 --> 03:40.530
+And we deployed our simple application NGINX app one
+
+03:40.530 --> 03:44.100
+deployment in our private node group,
+
+03:44.100 --> 03:46.770
+and which will create the pods for us.
+
+03:46.770 --> 03:49.530
+And now this respective deployment
+
+03:49.530 --> 03:54.090
+will be fronted with the NGINX app one node port service.
+
+03:54.090 --> 03:56.910
+And this node port service, right?
+
+03:56.910 --> 04:00.990
+Will be associated to the Ingress resource, right?
+
+04:00.990 --> 04:03.240
+So you'll deploy Ingress resource
+
+04:03.240 --> 04:06.840
+and inside the Ingress resource default backend
+
+04:06.840 --> 04:10.350
+you are going to associate this node port service.
+
+04:10.350 --> 04:13.558
+And whenever user accesses your DNS URL,
+
+04:13.558 --> 04:17.850
+ALB DNS URL slash app one slash index.html,
+
+04:17.850 --> 04:20.280
+and it is going to get the request
+
+04:20.280 --> 04:21.990
+to this application load balancer.
+
+04:21.990 --> 04:25.950
+And inside the default backend you have the reference
+
+04:25.950 --> 04:27.210
+to your node port service,
+
+04:27.210 --> 04:29.220
+which is in your Kubernetes cluster.
+
+04:29.220 --> 04:32.850
+And from there it will go to your respective pod.
+
+04:32.850 --> 04:36.450
+And if you see here, you can see in the Ingress spec,
+
+04:36.450 --> 04:38.760
+from spec only I have copied here.
+
+04:38.760 --> 04:39.870
+And Ingress class name,
+
+04:39.870 --> 04:42.510
+you have defined whatever the Ingress class you have defined
+
+04:42.510 --> 04:44.520
+that my AWS Ingress class.
+
+04:44.520 --> 04:47.100
+So which means this respective Ingress service,
+
+04:47.100 --> 04:50.370
+whatever you are going to deploy is going to be associated
+
+04:50.370 --> 04:52.080
+to your Ingress controller,
+
+04:52.080 --> 04:55.110
+which is AWS ALB Ingress controller.
+
+04:55.110 --> 04:56.520
+And you can see we have defined
+
+04:56.520 --> 04:58.230
+the default backend and service,
+
+04:58.230 --> 05:01.350
+and the name of the services app one NGINX
+
+05:01.350 --> 05:03.390
+node port service.
+
+05:03.390 --> 05:04.950
+So, which means the request coming
+
+05:04.950 --> 05:06.510
+to this Ingress service
+
+05:06.510 --> 05:08.970
+are this application load balancer,
+
+05:08.970 --> 05:11.340
+goes to the default backend,
+
+05:11.340 --> 05:13.710
+which is nothing but this node port service.
+
+05:13.710 --> 05:15.420
+And from there request will be routed
+
+05:15.420 --> 05:17.910
+to the application pod.
+
+05:17.910 --> 05:20.520
+And now this is with the default backend.
+
+05:20.520 --> 05:23.400
+Now let's see with the Ingress rules.
+
+05:23.400 --> 05:25.620
+So whenever you define the Ingress rules,
+
+05:25.620 --> 05:27.180
+so it is going to look like this.
+
+05:27.180 --> 05:30.240
+So earlier you have seen the default backend here,
+
+05:30.240 --> 05:33.090
+in the spec you'll find something called rules.
+
+05:33.090 --> 05:35.070
+And in HTTP and in paths,
+
+05:35.070 --> 05:36.810
+and in path you set slash.
+
+05:36.810 --> 05:40.140
+Anything with slash go to app one NGINX
+
+05:40.140 --> 05:41.340
+and node port service.
+
+05:41.340 --> 05:43.170
+Which means anything with slash star,
+
+05:43.170 --> 05:45.270
+anything under the root context
+
+05:45.270 --> 05:47.640
+it will go to the NGINX node port service,
+
+05:47.640 --> 05:48.840
+and this node port service
+
+05:48.840 --> 05:52.380
+will forward it to the, your NGINX app one.
+
+05:52.380 --> 05:55.740
+So this is what is the high level thing
+
+05:55.740 --> 05:59.520
+which we are going to implement with our two demos.
+
+05:59.520 --> 06:01.670
+And in addition to that
+
+06:01.670 --> 06:04.290
+we also need to understand something called,
+
+06:04.290 --> 06:07.980
+how AWS Load Balancer controller works
+
+06:07.980 --> 06:10.020
+on a high level, right?
+
+06:10.020 --> 06:11.340
+So this is the picture,
+
+06:11.340 --> 06:16.340
+I have brought it from this reference link available for us
+
+06:16.980 --> 06:19.080
+and we are going to discuss about this
+
+06:19.080 --> 06:21.600
+and understand multiple things here.
+
+06:21.600 --> 06:25.140
+So if you see here, these are the AWS resources
+
+06:25.140 --> 06:28.950
+and here you can see this is the Kubernetes cluster,
+
+06:28.950 --> 06:32.400
+and this is the Kubernetes APA server.
+
+06:32.400 --> 06:36.540
+And you already deployed your ALB Ingress controller,
+
+06:36.540 --> 06:39.750
+and you see you have the Kubernetes API server
+
+06:39.750 --> 06:42.750
+and also you can see the worker nodes here,
+
+06:42.750 --> 06:44.550
+you have three nodes here.
+
+06:44.550 --> 06:47.280
+And if you see here we have three apps,
+
+06:47.280 --> 06:49.740
+A comma B comma C, you can see here, right?
+
+06:49.740 --> 06:51.303
+So we have pod A,
+
+06:52.322 --> 06:53.790
+pod B,
+
+06:53.790 --> 06:54.693
+and pod C.
+
+06:59.099 --> 07:02.940
+So, each application has three pods here,
+
+07:02.940 --> 07:05.850
+pod C related third pod is not depicted here,
+
+07:05.850 --> 07:08.670
+but let's consider you have three worker nodes
+
+07:08.670 --> 07:11.130
+and three pods per app here.
+
+07:11.130 --> 07:14.460
+And now these three pods
+
+07:14.460 --> 07:18.060
+has a ALB context path based routing implemented,
+
+07:18.060 --> 07:20.910
+which means this pod A, right?
+
+07:20.910 --> 07:25.080
+So, pod A, whenever you have the slash star root context
+
+07:25.080 --> 07:27.270
+then the request will go to pod A.
+
+07:27.270 --> 07:29.250
+And when you have the slash products
+
+07:29.250 --> 07:31.260
+request will go to pod B.
+
+07:31.260 --> 07:33.180
+And when you have slash accounts,
+
+07:33.180 --> 07:35.520
+whenever in your URL, right?
+
+07:35.520 --> 07:39.690
+So, abc.com/accounts, the request will go to pod C,
+
+07:39.690 --> 07:42.630
+which is nothing but your application C.
+
+07:42.630 --> 07:45.150
+So that's about the application
+
+07:45.150 --> 07:47.790
+which is implemented or deployed here.
+
+07:47.790 --> 07:49.860
+So let's assume that way.
+
+07:49.860 --> 07:52.350
+Now let's go to the next level,
+
+07:52.350 --> 07:55.320
+which is node port service here, right?
+
+07:55.320 --> 07:57.270
+So, for every application
+
+07:57.270 --> 07:59.700
+you'll have its own node port service, right?
+
+07:59.700 --> 08:02.010
+So, pod A, you have the node port service,
+
+08:02.010 --> 08:04.140
+pod B, you have the node port service.
+
+08:04.140 --> 08:05.880
+In same way for pod C
+
+08:05.880 --> 08:07.800
+you don't have the node port service.
+
+08:07.800 --> 08:09.810
+So we'll discuss this later.
+
+08:09.810 --> 08:11.730
+But for now, so, for pod A,
+
+08:11.730 --> 08:13.530
+this is the node port service
+
+08:13.530 --> 08:16.560
+and whenever the request comes to slash star,
+
+08:16.560 --> 08:19.410
+so it will go to that respect your target group
+
+08:19.410 --> 08:21.870
+in the load balancer, application load balancer.
+
+08:21.870 --> 08:25.020
+And from there it will go to the node port service A
+
+08:25.020 --> 08:27.540
+and it will serve to the pod A related.
+
+08:27.540 --> 08:29.520
+Means like it will get the content from pod A
+
+08:29.520 --> 08:31.710
+and display to the user.
+
+08:31.710 --> 08:33.750
+And same way for slash products
+
+08:33.750 --> 08:36.930
+you have the target group service B,
+
+08:36.930 --> 08:39.600
+which goes to your node port service B.
+
+08:39.600 --> 08:42.480
+And from pod B the request will be served
+
+08:42.480 --> 08:44.340
+to the user, right?
+
+08:44.340 --> 08:47.940
+Now these two, whatever you are seeing, the pod A,
+
+08:47.940 --> 08:50.610
+and then port B is using,
+
+08:50.610 --> 08:54.000
+means like these applications are using
+
+08:54.000 --> 08:56.670
+that traffic mode instance type.
+
+08:56.670 --> 09:00.180
+So which means that traffic mode instance type is nothing,
+
+09:00.180 --> 09:04.680
+but you are going to use the node port service,
+
+09:04.680 --> 09:07.710
+which means these nodes are registered
+
+09:07.710 --> 09:11.280
+to your target group in the load balancer,
+
+09:11.280 --> 09:14.760
+and those nodes,
+
+09:14.760 --> 09:16.980
+related node port service will be used
+
+09:16.980 --> 09:19.500
+to send the traffic to your pod.
+
+09:19.500 --> 09:22.530
+But when coming to traffic mode IP, right?
+
+09:22.530 --> 09:24.660
+So which is the third application,
+
+09:24.660 --> 09:26.670
+which is the application C
+
+09:26.670 --> 09:28.800
+where the rule is slash accounts.
+
+09:28.800 --> 09:32.340
+So here directly in this target group
+
+09:32.340 --> 09:35.040
+this pod related IP is present.
+
+09:35.040 --> 09:37.260
+So when you go to your load balancer
+
+09:37.260 --> 09:41.580
+and verify for this target group, which is pod A, pod B,
+
+09:41.580 --> 09:44.400
+you'll find that your nodes are registered there.
+
+09:44.400 --> 09:47.820
+But here you'll find directly the pod IP is
+
+09:47.820 --> 09:49.350
+associated with it.
+
+09:49.350 --> 09:53.340
+And this target group C, right?
+
+09:53.340 --> 09:55.440
+Which is mode of type IP,
+
+09:55.440 --> 09:58.494
+traffic mode of type IP is primarily used
+
+09:58.494 --> 10:01.230
+for fargate related workloads,
+
+10:01.230 --> 10:04.200
+on a high level we need to understand about that.
+
+10:04.200 --> 10:06.330
+Now, so let's understand this,
+
+10:06.330 --> 10:08.130
+you have deployed three applications
+
+10:08.130 --> 10:12.360
+and three deployments and those related pods created,
+
+10:12.360 --> 10:14.580
+and three node port services created.
+
+10:14.580 --> 10:16.050
+And here comes the important thing
+
+10:16.050 --> 10:18.270
+whenever you deploy the Ingress service.
+
+10:18.270 --> 10:21.600
+So this Ingress controller will check for the APA server,
+
+10:21.600 --> 10:24.120
+any Ingress services were deployed for me.
+
+10:24.120 --> 10:25.500
+And if deployed it will take
+
+10:25.500 --> 10:28.140
+and then it will check for the APA server
+
+10:28.140 --> 10:31.080
+and then deploy that Ingress service for us.
+
+10:31.080 --> 10:32.370
+And that Ingress service
+
+10:32.370 --> 10:35.130
+will create a application load balancer
+
+10:35.130 --> 10:38.490
+with listener type as HTTP or HTTPS,
+
+10:38.490 --> 10:41.430
+and also create all these rules for us
+
+10:41.430 --> 10:44.580
+and also create the target groups for us.
+
+10:44.580 --> 10:47.700
+So that's about the high level,
+
+10:47.700 --> 10:51.360
+about how all this is going to work.
+
+10:51.360 --> 10:54.900
+We are going to see this traffic mode IP
+
+10:54.900 --> 10:58.890
+implementation in detail during the fargate demos also.
+
+10:58.890 --> 11:01.470
+And in these Ingress demos
+
+11:01.470 --> 11:04.680
+we are going to anyway, see the objects like target groups,
+
+11:04.680 --> 11:06.420
+how the node ports are registered there
+
+11:06.420 --> 11:08.490
+and all those things in detail
+
+11:08.490 --> 11:10.530
+in a practical implementation.
+
+11:10.530 --> 11:14.550
+So there we get the clarity about this picture in detail.
+
+11:14.550 --> 11:17.130
+So not only in this basic demo
+
+11:17.130 --> 11:19.410
+but we'll have the context part basic demo,
+
+11:19.410 --> 11:21.570
+and also hosted our basic demo.
+
+11:21.570 --> 11:24.660
+At every point we are going to discuss
+
+11:24.660 --> 11:28.530
+about this traffic mode instance and then IP.
+
+11:28.530 --> 11:32.190
+So we don't need to worry about that,
+
+11:32.190 --> 11:33.690
+we have only seen the picture,
+
+11:33.690 --> 11:35.850
+we didn't see the real implementation.
+
+11:35.850 --> 11:37.560
+So we are going to see in each
+
+11:37.560 --> 11:38.790
+and every demo,
+
+11:38.790 --> 11:41.910
+and we'll understand there in detail.
+
+11:41.910 --> 11:43.740
+So I'll see you in the next lecture.
+
+11:43.740 --> 11:45.213
+Until then, bye-bye.

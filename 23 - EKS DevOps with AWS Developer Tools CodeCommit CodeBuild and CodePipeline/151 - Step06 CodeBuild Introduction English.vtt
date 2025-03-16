@@ -1,0 +1,403 @@
+WEBVTT
+
+00:00.120 --> 00:01.050
+-: Welcome back.
+
+00:01.050 --> 00:02.310
+In this lecture,
+
+00:02.310 --> 00:04.980
+we are going to understand about CodeBuild
+
+00:04.980 --> 00:06.330
+on a very high level.
+
+00:06.330 --> 00:07.980
+What is this CodeBuild service
+
+00:07.980 --> 00:10.980
+and then how we are going to use it, right?
+
+00:10.980 --> 00:15.300
+So CodeBuild is a fully managed build service in the cloud.
+
+00:15.300 --> 00:19.380
+So it compiles of a source code, runs the unit tests
+
+00:19.380 --> 00:23.370
+and then produces artifacts that are ready to deploy.
+
+00:23.370 --> 00:25.770
+So it eliminates the need to provision,
+
+00:25.770 --> 00:29.490
+manage and then scale our own build servers.
+
+00:29.490 --> 00:32.610
+So it provides prepackaged build environments
+
+00:32.610 --> 00:35.910
+for the most two popular programming languages
+
+00:35.910 --> 00:39.210
+and build tools such as Apache, MATLAB and Java
+
+00:39.210 --> 00:40.710
+and then many more.
+
+00:40.710 --> 00:43.650
+So we can also customize build environments
+
+00:43.650 --> 00:47.310
+in CodeBuild to use our own build tools.
+
+00:47.310 --> 00:52.290
+So it scales automatically to meet the peak build requests.
+
+00:52.290 --> 00:56.490
+So if you see here how to run the CodeBuild, right?
+
+00:56.490 --> 00:59.040
+So if you want to run CodeBuild manually,
+
+00:59.040 --> 01:01.170
+you can run it from management console
+
+01:01.170 --> 01:03.652
+or you can run it from CLI
+
+01:03.652 --> 01:06.240
+or from SD Case or CodePipeline.
+
+01:06.240 --> 01:08.580
+So for in our case we are going
+
+01:08.580 --> 01:12.420
+to run AWS CodeBuild using CodePipeline.
+
+01:12.420 --> 01:14.520
+So that's what we are going to do.
+
+01:14.520 --> 01:16.170
+So how CodeBuild works?
+
+01:16.170 --> 01:18.030
+So let's see that now.
+
+01:18.030 --> 01:20.610
+So if you are using the CodePipeline,
+
+01:20.610 --> 01:22.530
+what happens on the overall story,
+
+01:22.530 --> 01:24.990
+we are going to see that now.
+
+01:24.990 --> 01:28.740
+So as a developer, you are going to check in the code
+
+01:28.740 --> 01:33.000
+to your respective source code repository, right?
+
+01:33.000 --> 01:35.160
+So what happens is like,
+
+01:35.160 --> 01:37.950
+once the change is triggered inside the source code,
+
+01:37.950 --> 01:39.930
+the CodePipeline will know that,
+
+01:39.930 --> 01:43.440
+and then it will regard the pipeline operation.
+
+01:43.440 --> 01:46.500
+So immediately, CodeBuild will trigger
+
+01:46.500 --> 01:48.930
+and then take the latest source code version
+
+01:48.930 --> 01:51.300
+from our source code called commit repository,
+
+01:51.300 --> 01:54.300
+our GitHub repository or whatever is configured
+
+01:54.300 --> 01:56.040
+as source code repository.
+
+01:56.040 --> 01:59.970
+So from there and then we'll start the build process.
+
+01:59.970 --> 02:02.190
+So during the build process,
+
+02:02.190 --> 02:04.440
+so based on if build is failed,
+
+02:04.440 --> 02:06.930
+if you want to send the notifications, right?
+
+02:06.930 --> 02:08.550
+So it can send the notification
+
+02:08.550 --> 02:11.160
+using Amazon notification service,
+
+02:11.160 --> 02:13.320
+simple notification service, right?
+
+02:13.320 --> 02:17.010
+So, and it also locks all the build locks
+
+02:17.010 --> 02:20.430
+inside the CloudWatch during that process.
+
+02:20.430 --> 02:23.250
+So in addition to that, it will have a build environment
+
+02:23.250 --> 02:26.130
+which is a purely a Docker container environment.
+
+02:26.130 --> 02:28.080
+Or we can configure our own,
+
+02:28.080 --> 02:31.080
+we can build our own docker image and then use that
+
+02:31.080 --> 02:34.710
+as our build environment, whatever we need.
+
+02:34.710 --> 02:37.950
+Okay so we have options to use manager docker images
+
+02:37.950 --> 02:39.060
+for build environments,
+
+02:39.060 --> 02:42.900
+or custom build docker images also we can use here.
+
+02:42.900 --> 02:45.270
+So once the build is completed, right?
+
+02:45.270 --> 02:47.730
+So build logs are stored here and then notifications
+
+02:47.730 --> 02:49.230
+are sent via SMS.
+
+02:49.230 --> 02:50.910
+So once the build is completed,
+
+02:50.910 --> 02:55.910
+it is going to store the artifacts inside the S3 buckets.
+
+02:56.070 --> 02:58.620
+So our focus here is like,
+
+02:58.620 --> 03:01.020
+we are not going to regard this build,
+
+03:01.020 --> 03:04.110
+the CodeBuild using not CLI or not management console
+
+03:04.110 --> 03:04.943
+or not Aztech.
+
+03:04.943 --> 03:07.110
+We are going to do it with CodePipeline.
+
+03:07.110 --> 03:09.390
+So we have seen the entire CodePipeline
+
+03:09.390 --> 03:10.410
+on a high level flow,
+
+03:10.410 --> 03:14.340
+how CodeBuild works in combination with CodePipeline.
+
+03:14.340 --> 03:16.470
+So the next thing is the architecture,
+
+03:16.470 --> 03:18.030
+so the CodeBuild architecture,
+
+03:18.030 --> 03:20.520
+we are going to see on a very high level.
+
+03:20.520 --> 03:22.620
+So this is the build environment,
+
+03:22.620 --> 03:25.080
+so which we will have the manager images
+
+03:25.080 --> 03:27.750
+and then our custom images,
+
+03:27.750 --> 03:29.790
+we can push it too easy to container registry
+
+03:29.790 --> 03:33.810
+or our images can be present in our dock hub,
+
+03:33.810 --> 03:36.780
+but those images we can use to use
+
+03:36.780 --> 03:39.960
+as our build environment inside the CodeBuild.
+
+03:39.960 --> 03:42.600
+So that is a very, very good feature, right?
+
+03:42.600 --> 03:45.810
+So if you have a already existing build process
+
+03:45.810 --> 03:48.480
+in our organizations and then if you want to integrate
+
+03:48.480 --> 03:50.940
+with CodeBuild, then get that respective container
+
+03:50.940 --> 03:53.850
+or your manual build process converted
+
+03:53.850 --> 03:56.970
+into your own container and then bring it here
+
+03:56.970 --> 04:00.150
+and then start using it under CodeBuild.
+
+04:00.150 --> 04:02.370
+So now, so this is the build environment.
+
+04:02.370 --> 04:05.220
+The next thing is the source, right?
+
+04:05.220 --> 04:07.530
+So CodeBuild supports its own,
+
+04:07.530 --> 04:11.760
+means like cloud related AWS related code commit service.
+
+04:11.760 --> 04:12.720
+So in addition to that
+
+04:12.720 --> 04:15.480
+it also supports source as simple storage service
+
+04:15.480 --> 04:18.780
+which is S3 and also it supports GitHub,
+
+04:18.780 --> 04:21.330
+GitHub enterprise and even also the build bucket.
+
+04:21.330 --> 04:24.180
+So the build artifacts, once the build is completed
+
+04:24.180 --> 04:27.600
+it is going to store in the S3 buckets.
+
+04:27.600 --> 04:29.670
+In addition to that build logs are stored
+
+04:29.670 --> 04:32.370
+in CloudWatch and build notifications
+
+04:32.370 --> 04:35.700
+are sent using simple notifications.
+
+04:35.700 --> 04:38.490
+So what our CodeBuild steps on a very high level, right?
+
+04:38.490 --> 04:40.260
+So as a developer I check in the code
+
+04:40.260 --> 04:41.970
+to local get report and then push
+
+04:41.970 --> 04:43.710
+the same code to code commit.
+
+04:43.710 --> 04:47.550
+And so from CodeBuild if you want to run the build manually
+
+04:47.550 --> 04:49.890
+so then you can reference that respect to code
+
+04:49.890 --> 04:52.740
+commit version, whatever, whatever the source version
+
+04:52.740 --> 04:54.000
+and then run your build,
+
+04:54.000 --> 04:56.520
+and then it automatically stores the artifacts
+
+04:56.520 --> 04:59.970
+in the simple storage service which is S3.
+
+04:59.970 --> 05:02.550
+So now what we are going to do in our next step is
+
+05:02.550 --> 05:05.716
+so we are going to review the build spec dot AML
+
+05:05.716 --> 05:07.860
+and then CodeBuild environmental variables.
+
+05:07.860 --> 05:10.530
+So for this entire build process to happen
+
+05:10.530 --> 05:14.100
+there will be one important artifact which it needs,
+
+05:14.100 --> 05:16.650
+how my CodeBuild process need to be defined,
+
+05:16.650 --> 05:19.020
+how my build process need to be defined,
+
+05:19.020 --> 05:21.300
+what should happen pre-build, means like
+
+05:21.300 --> 05:24.510
+before build, or pre-build, what should happen
+
+05:24.510 --> 05:27.810
+and before build also what commands it need to run.
+
+05:27.810 --> 05:29.940
+And then during the build what commands it needs
+
+05:29.940 --> 05:32.670
+to run, post build what commands it need to run.
+
+05:32.670 --> 05:34.980
+So all those processes will be defined
+
+05:34.980 --> 05:37.530
+inside a file called build spec dot yaml.
+
+05:37.530 --> 05:40.500
+So we are going to understand about that build spec dot yaml
+
+05:40.500 --> 05:43.320
+and in our use case in relation with the DevOps
+
+05:43.320 --> 05:45.450
+what are those environmental variables,
+
+05:45.450 --> 05:46.740
+we are going to pass,
+
+05:46.740 --> 05:49.620
+all those things we are going to discuss now.
+
+05:49.620 --> 05:51.480
+So I'll see you in the next lecture.
+
+05:51.480 --> 05:52.740
+Until then, bye bye.
+
+05:52.740 --> 05:53.573
+Thank you.

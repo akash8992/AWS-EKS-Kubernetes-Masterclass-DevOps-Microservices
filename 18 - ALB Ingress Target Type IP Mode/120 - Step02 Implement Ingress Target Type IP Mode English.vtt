@@ -1,0 +1,733 @@
+WEBVTT
+
+00:00.570 --> 00:01.560
+-: Welcome back.
+
+00:01.560 --> 00:05.250
+Let's go to our GitHub repository and we are
+
+00:05.250 --> 00:09.780
+in 08 new ELB application load balances section,
+
+00:09.780 --> 00:12.570
+and we are entering into the section here
+
+00:12.570 --> 00:17.280
+08 13 ingress target type IP.
+
+00:17.280 --> 00:19.620
+So as part of the introductory section
+
+00:19.620 --> 00:23.040
+we already understood about what is a target type
+
+00:23.040 --> 00:26.250
+and what is instance mode and then IP mode.
+
+00:26.250 --> 00:27.540
+So now we are moving
+
+00:27.540 --> 00:30.840
+onto step 02 which is ingress manifest.
+
+00:30.840 --> 00:34.350
+So let's go back here to visual studio core and we are
+
+00:34.350 --> 00:37.590
+in 08 13 ingress target type IP
+
+00:37.590 --> 00:39.630
+and we are entering into the section
+
+00:39.630 --> 00:41.880
+kube manifests folder, right?
+
+00:41.880 --> 00:43.350
+And inside that you can see
+
+00:43.350 --> 00:47.070
+01 Nginx app one, app two and app three deployment.
+
+00:47.070 --> 00:50.340
+And you see here the cluster IP service instead
+
+00:50.340 --> 00:52.350
+of the node port service.
+
+00:52.350 --> 00:54.990
+So we'll discuss that first, we'll go back here
+
+00:54.990 --> 00:59.370
+and then complete our 04 ALB target type IP
+
+00:59.370 --> 01:00.870
+and come back here.
+
+01:00.870 --> 01:03.600
+So now let's go here
+
+01:03.600 --> 01:07.170
+and if you see the name of my ingress service
+
+01:07.170 --> 01:10.530
+is going to be ingress target type IP demo.
+
+01:10.530 --> 01:14.790
+And the load balancer name is target type IP ingress.
+
+01:14.790 --> 01:15.623
+And now
+
+01:15.623 --> 01:19.317
+if you see here I also commented the certificate here
+
+01:19.317 --> 01:22.020
+and here and ensure that I added
+
+01:22.020 --> 01:25.740
+that TLS host star.stack simplify.com,
+
+01:25.740 --> 01:27.930
+so that you really don't need to hardcode
+
+01:27.930 --> 01:30.180
+your certificate here and here.
+
+01:30.180 --> 01:31.650
+So this we already learned
+
+01:31.650 --> 01:34.830
+about the SSL discovery TLS demo there
+
+01:34.830 --> 01:36.210
+we already learned it.
+
+01:36.210 --> 01:38.700
+And another important thing here is, so
+
+01:38.700 --> 01:41.520
+if you are domain name is different for your certificate
+
+01:41.520 --> 01:44.250
+it might be some some your domain.com.
+
+01:44.250 --> 01:46.380
+So that domain name you need to provide here
+
+01:46.380 --> 01:49.530
+for your certificates or you can comment this part
+
+01:49.530 --> 01:52.950
+and then enable the certificate AR and related annotation
+
+01:52.950 --> 01:55.200
+and provide your certificate here and here.
+
+01:55.200 --> 01:56.580
+Anything is fine.
+
+01:56.580 --> 01:59.610
+And if you see this is a simple context
+
+01:59.610 --> 02:02.250
+part based routing use case wherein you have
+
+02:02.250 --> 02:05.820
+the slash app one rules and slash app two rules
+
+02:05.820 --> 02:09.240
+and also default backend wherein default backend goes
+
+02:09.240 --> 02:11.460
+to app three and slash app one goes
+
+02:11.460 --> 02:14.010
+to app one and slash app two goes to
+
+02:14.010 --> 02:18.240
+slash app two related Nginx cluster IP services.
+
+02:18.240 --> 02:20.290
+Okay so app one go to app one
+
+02:20.290 --> 02:23.250
+Nginx cluster IP service app two go to app to Nginx
+
+02:23.250 --> 02:25.380
+cluster IP service and app three go
+
+02:25.380 --> 02:28.560
+to app three Nginx cluster IP service.
+
+02:28.560 --> 02:31.590
+And if you see here target type is IP.
+
+02:31.590 --> 02:34.050
+So this is the core thing which we need to define
+
+02:34.050 --> 02:36.210
+in this respective use case.
+
+02:36.210 --> 02:40.530
+So you have provided the target type as IP more here.
+
+02:40.530 --> 02:41.670
+So now let's come back
+
+02:41.670 --> 02:44.940
+and understand why we defined cluster IP service, right?
+
+02:44.940 --> 02:46.950
+So there is no specific reason
+
+02:46.950 --> 02:50.520
+so you can have it as node port or cluster IP.
+
+02:50.520 --> 02:51.930
+So both are same.
+
+02:51.930 --> 02:53.280
+Just to want to show you
+
+02:53.280 --> 02:55.890
+that we really don't need to open our
+
+02:55.890 --> 02:58.650
+or use the node port here.
+
+02:58.650 --> 02:59.483
+Why?
+
+02:59.483 --> 03:00.840
+Because the request coming
+
+03:00.840 --> 03:03.930
+to our application load balancer will directly go
+
+03:03.930 --> 03:06.300
+to this pod IP created
+
+03:06.300 --> 03:08.460
+as part of this respect to deployment.
+
+03:08.460 --> 03:09.990
+So which means even though
+
+03:09.990 --> 03:12.900
+if you open the node related port it is of no use.
+
+03:12.900 --> 03:15.960
+So if that is the case then we can use the cluster IP,
+
+03:15.960 --> 03:16.793
+right?
+
+03:16.793 --> 03:18.780
+And now here comes another question.
+
+03:18.780 --> 03:20.220
+So if the request coming
+
+03:20.220 --> 03:22.500
+to my load balancer is directly going
+
+03:22.500 --> 03:26.010
+to this respective pod created by this deployment
+
+03:26.010 --> 03:29.010
+so then why do I need a service itself?
+
+03:29.010 --> 03:31.200
+That's a different thing here.
+
+03:31.200 --> 03:33.880
+You need service to have the
+
+03:34.890 --> 03:36.970
+ingress created target group
+
+03:37.860 --> 03:40.740
+and register the targets inside that.
+
+03:40.740 --> 03:43.590
+So which means the core concept here is
+
+03:43.590 --> 03:48.590
+either the ingress of either the type, either the service
+
+03:49.110 --> 03:52.350
+of type notebook or cluster IP
+
+03:52.350 --> 03:54.390
+you need to definitely define.
+
+03:54.390 --> 03:58.560
+So then only ingress can create a target group
+
+03:58.560 --> 04:01.530
+in your application load balancer.
+
+04:01.530 --> 04:04.050
+And this is of your choice if you want to use node port
+
+04:04.050 --> 04:07.290
+that is fine for this use case also instance type IP mode.
+
+04:07.290 --> 04:10.110
+So in in our fargate we have user node port only.
+
+04:10.110 --> 04:12.810
+Just for an additional option,
+
+04:12.810 --> 04:14.040
+so just to test
+
+04:14.040 --> 04:17.760
+I have user cluster IP and it works without any issues.
+
+04:17.760 --> 04:19.800
+So all the naming conventions instead
+
+04:19.800 --> 04:21.210
+of node port has been changed
+
+04:21.210 --> 04:23.160
+for all these three services too.
+
+04:23.160 --> 04:26.820
+Cluster IP and all the custom changes which means
+
+04:26.820 --> 04:30.180
+like par service, any custom related changes
+
+04:30.180 --> 04:32.820
+like health check ports or any other settings.
+
+04:32.820 --> 04:33.720
+So you can provide
+
+04:33.720 --> 04:36.540
+in this respect to service related annotation.
+
+04:36.540 --> 04:39.240
+So like if you see app three health check path
+
+04:39.240 --> 04:41.040
+is slash index.stml
+
+04:41.040 --> 04:43.737
+and app two is slash app two index.stml.
+
+04:43.737 --> 04:46.980
+and app one is slash app one index.stml.
+
+04:46.980 --> 04:50.310
+So it is the same context part based at routing use case
+
+04:50.310 --> 04:52.200
+but here instead of node port service
+
+04:52.200 --> 04:54.270
+you are using the cluster IP service
+
+04:54.270 --> 04:55.800
+and providing those names
+
+04:55.800 --> 04:58.260
+inside this alb ingress target type.
+
+04:58.260 --> 05:00.930
+So you can use node port service also no issues.
+
+05:00.930 --> 05:02.640
+So whatever the service we use here
+
+05:02.640 --> 05:05.070
+node port or cluster IP, the request comes
+
+05:05.070 --> 05:07.890
+to our load balancer directly goes to our port.
+
+05:07.890 --> 05:08.723
+How? Why?
+
+05:08.723 --> 05:10.800
+Because so as you have user
+
+05:10.800 --> 05:13.680
+inside the ingress target type is IP.
+
+05:13.680 --> 05:16.440
+So it is going to register in the target types
+
+05:16.440 --> 05:19.320
+right, in your application load balancer target types.
+
+05:19.320 --> 05:23.190
+So this setup is going to get the pod IP
+
+05:23.190 --> 05:24.900
+and then directly register that
+
+05:24.900 --> 05:28.470
+as your target inside your target group.
+
+05:28.470 --> 05:31.710
+So now let's go back here and deploy these things
+
+05:31.710 --> 05:34.650
+and then review those things and get to understand more
+
+05:34.650 --> 05:38.880
+about it by seeing it on the EC2 management console.
+
+05:38.880 --> 05:42.660
+So let's go to our terminal here and we are
+
+05:42.660 --> 05:46.560
+in 08 new ELB application load balances
+
+05:46.560 --> 05:47.610
+and we will enter into
+
+05:47.610 --> 05:51.990
+the section 08 13 ingress target type IP
+
+05:51.990 --> 05:56.990
+and I'll say kubectl apply -F and kube manifest.
+
+05:57.090 --> 05:58.920
+So this should create the app one,
+
+05:58.920 --> 06:01.080
+app two, app three deployments
+
+06:01.080 --> 06:04.380
+and app one, app two, app three cluster IP services
+
+06:04.380 --> 06:05.940
+and also should create the
+
+06:05.940 --> 06:09.120
+target type IP ingress service for us.
+
+06:09.120 --> 06:12.810
+So I'll say kubectl and I'll say get ports
+
+06:12.810 --> 06:14.850
+should provide us the app one, app two,
+
+06:14.850 --> 06:17.220
+app three ports for us, right?
+
+06:17.220 --> 06:20.010
+And I'll also say SVC services
+
+06:20.010 --> 06:22.050
+and it should provide the cluster IP three
+
+06:22.050 --> 06:25.080
+cluster IP services it has created for us.
+
+06:25.080 --> 06:29.340
+And you can see the cluster IP IPS 1099, 2 51
+
+06:29.340 --> 06:31.920
+some IP addresses, just remember them right?
+
+06:31.920 --> 06:36.120
+So now I'll also say kubectl, get ingress
+
+06:36.120 --> 06:38.370
+and it should create the ingress service
+
+06:38.370 --> 06:40.980
+for a target type IP ingress.
+
+06:40.980 --> 06:44.820
+And now, very important thing, I'll say kubectl
+
+06:44.820 --> 06:47.640
+get ports, -all, wide
+
+06:47.640 --> 06:50.790
+and see the IP addresses of your ports here.
+
+06:50.790 --> 06:52.350
+So that's important thing.
+
+06:52.350 --> 06:56.880
+See app one port is something like this 92.27,
+
+06:56.880 --> 07:00.330
+and app two port is 118.58,
+
+07:00.330 --> 07:04.170
+and app three port is 107.238.
+
+07:04.170 --> 07:06.010
+So we'll go to our
+
+07:06.930 --> 07:09.930
+application load balancer here first, right?
+
+07:09.930 --> 07:11.760
+So and then I will rephrase this
+
+07:11.760 --> 07:14.520
+and application load balancer is provisioning and
+
+07:14.520 --> 07:18.390
+if you go here right in and verify the rules here, right?
+
+07:18.390 --> 07:22.200
+See app one goes to app one target group,
+
+07:22.200 --> 07:24.510
+app two goes to app two related target group
+
+07:24.510 --> 07:27.540
+and default goes to app three related target group.
+
+07:27.540 --> 07:29.820
+So rules are created no issue
+
+07:29.820 --> 07:31.950
+and you can also verify the certificate
+
+07:31.950 --> 07:35.400
+star.stack simplify.com certificate also associated
+
+07:35.400 --> 07:36.870
+no issues, this is good.
+
+07:36.870 --> 07:39.600
+So now let's go to target groups, for this demo.
+
+07:39.600 --> 07:42.360
+The core checking we need to do is the target groups.
+
+07:42.360 --> 07:45.390
+Why? Because from the application load balancer
+
+07:45.390 --> 07:47.310
+the request will directly go
+
+07:47.310 --> 07:49.893
+to the target group related,
+
+07:50.940 --> 07:53.610
+pod IP and that pod IP need to be present
+
+07:53.610 --> 07:56.010
+as a target inside this target groups.
+
+07:56.010 --> 08:01.010
+So let's first open this default app one Nginx relater,
+
+08:01.050 --> 08:02.160
+target group.
+
+08:02.160 --> 08:06.090
+And you can see total target is one, still it is not healthy
+
+08:06.090 --> 08:08.070
+it is registering currently.
+
+08:08.070 --> 08:12.390
+And if you see the value 192, 168 92.27.
+
+08:12.390 --> 08:15.900
+So this is the app one Nginx related target group
+
+08:15.900 --> 08:18.240
+and this is 92.27.
+
+08:18.240 --> 08:22.410
+So now let's go here and if you see app one Nginx
+
+08:22.410 --> 08:26.100
+deployment related pod, so this is the pod and it is running
+
+08:26.100 --> 08:30.480
+and its IP address is 192, 168 92.27.
+
+08:30.480 --> 08:34.020
+So you can see in our application load balance
+
+08:34.020 --> 08:38.760
+target groups that target registered is directly the pod IP.
+
+08:38.760 --> 08:42.150
+So there is no indication of your service
+
+08:42.150 --> 08:44.970
+the cluster IP service, whatever we have created here
+
+08:44.970 --> 08:48.720
+right? So it's nothing, it's not there here 1,000
+
+08:48.720 --> 08:50.340
+something that is not there.
+
+08:50.340 --> 08:52.803
+So directly the pod IP is registered
+
+08:52.803 --> 08:55.830
+as a target in your application load balancer
+
+08:55.830 --> 08:58.110
+and you can see that is healthy also now.
+
+08:58.110 --> 08:59.820
+So now app one is done.
+
+08:59.820 --> 09:03.300
+So now let's go to app two here, right and app two
+
+09:03.300 --> 09:06.270
+and it is healthy and it is registered and successful.
+
+09:06.270 --> 09:09.207
+And see the IP address 192, 168 11.118.58.
+
+09:11.700 --> 09:14.400
+So you can see here it is the same thing
+
+09:14.400 --> 09:19.243
+for the app two you are seeing 192 168 118.58,
+
+09:20.130 --> 09:21.810
+matching with your pod IP.
+
+09:21.810 --> 09:25.110
+You said kubectl, get ports -all wide,
+
+09:25.110 --> 09:28.950
+and verifying your pod IP is matching
+
+09:28.950 --> 09:30.840
+with your target type,
+
+09:30.840 --> 09:33.660
+whatever the targets registered in your target groups
+
+09:33.660 --> 09:36.360
+of your application load balancer.
+
+09:36.360 --> 09:39.960
+So now let's go to that default app three Nginx, right?
+
+09:39.960 --> 09:43.740
+Here you see 107.238 and it is healthy.
+
+09:43.740 --> 09:46.383
+So let's compare, here it is 107.238.
+
+09:47.760 --> 09:49.900
+So now we have successfully
+
+09:50.910 --> 09:53.940
+verified the target groups which contains the pod IPs,
+
+09:53.940 --> 09:56.940
+instead of worker node IP with node ports.
+
+09:56.940 --> 10:00.180
+So now the next thing is we really don't need to
+
+10:00.180 --> 10:02.370
+do all these DNS logs checkings earlier,
+
+10:02.370 --> 10:04.350
+we have already seen those things.
+
+10:04.350 --> 10:05.550
+So we will come back here
+
+10:05.550 --> 10:09.330
+and do DNS lookup and target type related thing
+
+10:09.330 --> 10:12.420
+and you can see the DNS is successful.
+
+10:12.420 --> 10:14.370
+So we can access these application
+
+10:14.370 --> 10:16.350
+via browser and then test it.
+
+10:16.350 --> 10:19.230
+So here there is a space I need to remove that.
+
+10:19.230 --> 10:22.830
+So I'll remove that, see this space I will remove
+
+10:22.830 --> 10:27.810
+and you can see target type IP 501 stack simplified.com.
+
+10:27.810 --> 10:32.280
+It is accessible and we'll also access app two
+
+10:32.280 --> 10:33.870
+and here some spaces there
+
+10:33.870 --> 10:36.420
+let me remove and app two is accessible.
+
+10:36.420 --> 10:37.500
+So the request is going
+
+10:37.500 --> 10:39.750
+from our application load balancer,
+
+10:39.750 --> 10:42.480
+directly to our pod IP.
+
+10:42.480 --> 10:44.310
+And this is the third application.
+
+10:44.310 --> 10:48.510
+So let's also access that app three, right?
+
+10:48.510 --> 10:50.940
+And it is also successful.
+
+10:50.940 --> 10:53.340
+And this completes the demonstration
+
+10:53.340 --> 10:58.020
+of ingress concept target type equal to IP mode.
+
+10:58.020 --> 11:01.620
+So let's go ahead and then delete these things.
+
+11:01.620 --> 11:04.680
+Kubectl, delete -F kube manifest.
+
+11:04.680 --> 11:06.990
+So as usual, this should destroy our app one,
+
+11:06.990 --> 11:10.110
+app two, app three, deployment cluster IP service
+
+11:10.110 --> 11:12.600
+and also our ingress service.
+
+11:12.600 --> 11:15.360
+So in our next lecture are in our next section
+
+11:15.360 --> 11:17.220
+we are going to focus on,
+
+11:17.220 --> 11:20.010
+ingress internal load balancer concept.
+
+11:20.010 --> 11:21.720
+So I'll see you in the next lecture.
+
+11:21.720 --> 11:22.980
+Until then, bye bye.
+
+11:22.980 --> 11:23.813
+Thank you.

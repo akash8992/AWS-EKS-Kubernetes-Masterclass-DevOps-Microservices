@@ -1,0 +1,400 @@
+WEBVTT
+
+00:00.180 --> 00:01.110
+-: Welcome back.
+
+00:01.110 --> 00:03.150
+In this lecture we are going to understand
+
+00:03.150 --> 00:05.823
+about deployments with YAML.
+
+00:05.823 --> 00:08.250
+So 09 deployments with YAML.
+
+00:08.250 --> 00:10.230
+So as we discussed earlier,
+
+00:10.230 --> 00:13.140
+so deployments are nothing, but, again,
+
+00:13.140 --> 00:17.010
+deployment is nothing but a super set of replica set.
+
+00:17.010 --> 00:20.640
+So we have created a replica set in our previous lecture.
+
+00:20.640 --> 00:23.130
+So we are going to copy all those templates
+
+00:23.130 --> 00:25.320
+and then change its kind to deployment
+
+00:25.320 --> 00:28.140
+and then container image to 3.0.0
+
+00:28.140 --> 00:31.320
+for a difference and then change the North port service
+
+00:31.320 --> 00:34.440
+to 31233 for accessing it on the browser.
+
+00:34.440 --> 00:37.500
+Earlier, so the part is 31231
+
+00:37.500 --> 00:39.810
+and replica set is 31232.
+
+00:39.810 --> 00:41.040
+You can see it here.
+
+00:41.040 --> 00:43.990
+Now we'll use 31233 for
+
+00:45.960 --> 00:46.830
+deployments
+
+00:46.830 --> 00:50.280
+and then change all the names to deployment in the sense
+
+00:50.280 --> 00:54.120
+like the file names or whatever we see wherever, right?
+
+00:54.120 --> 00:56.670
+Instead of replica set change it to deployment
+
+00:56.670 --> 00:58.590
+and also change the labels
+
+00:58.590 --> 01:01.230
+and select s two, Mya app three, okay.
+
+01:01.230 --> 01:02.643
+And then clear the deployment
+
+01:02.643 --> 01:04.843
+note port service and then list and test it.
+
+01:05.700 --> 01:08.100
+So before going there, let's crosscheck our
+
+01:08.100 --> 01:09.960
+APA reference document.
+
+01:09.960 --> 01:13.380
+And for deployment also it is app slash v1.
+
+01:13.380 --> 01:16.650
+So just if you change the kind from replica set
+
+01:16.650 --> 01:19.590
+to deployment, mostly our things should work.
+
+01:19.590 --> 01:22.590
+Okay? So let's go to our visual studio court.
+
+01:22.590 --> 01:23.783
+And this is the replica sets with
+
+01:23.783 --> 01:26.040
+the AML Kube manifest folder.
+
+01:26.040 --> 01:30.242
+So let me copy it and then go to 09 deployment
+
+01:30.242 --> 01:32.580
+and then paste it, right?
+
+01:32.580 --> 01:35.910
+And I'll change the, rename the file to
+
+01:35.910 --> 01:37.653
+deployment here, okay?
+
+01:37.653 --> 01:39.591
+Instead of replica set,
+
+01:39.591 --> 01:44.591
+so that we have it as a deployment reference.
+
+01:44.970 --> 01:47.850
+Okay? And for north port service, whatever we are
+
+01:47.850 --> 01:50.980
+going to create also I'm going to change it to
+
+01:52.980 --> 01:55.530
+deployment. Good.
+
+01:55.530 --> 01:57.120
+So now our base setup is done.
+
+01:57.120 --> 02:00.120
+So let's go to zero to deployment definition.
+
+02:00.120 --> 02:02.580
+And the first thing is APA version,
+
+02:02.580 --> 02:05.130
+it matched with our this one, okay?
+
+02:05.130 --> 02:07.200
+So we really don't need to change anything here.
+
+02:07.200 --> 02:11.580
+Okay? So only thing is kind is going to be deployment
+
+02:11.580 --> 02:15.860
+and the name is going to be my app three deployment.
+
+02:17.490 --> 02:19.740
+Okay? So now replicas are good
+
+02:19.740 --> 02:21.750
+selector is good, and the app -
+
+02:21.750 --> 02:23.700
+which is nothing but the selector match labels -
+
+02:23.700 --> 02:25.500
+we said that we will change from
+
+02:25.500 --> 02:27.870
+my app two to my app three.
+
+02:27.870 --> 02:29.670
+So let's change it, okay?
+
+02:29.670 --> 02:32.130
+So, and the template, my app three part
+
+02:32.130 --> 02:33.180
+I can say this one,
+
+02:33.180 --> 02:35.520
+name of the part and the labels,
+
+02:35.520 --> 02:37.020
+I can say my app three.
+
+02:37.020 --> 02:39.420
+So the most important thing is this one,
+
+02:39.420 --> 02:42.870
+the label and the match label, both should match.
+
+02:42.870 --> 02:45.720
+And the container name, I can give it as my app three.
+
+02:45.720 --> 02:47.070
+And finally we also said
+
+02:47.070 --> 02:49.770
+that we'll change the image version.
+
+02:49.770 --> 02:53.010
+Okay? So for our difference to see on our browser.
+
+02:53.010 --> 02:55.530
+So I'll say three dot zero dot zero.
+
+02:55.530 --> 02:59.010
+So this completes the deployment spec update.
+
+02:59.010 --> 03:01.980
+So we really didn't add any new tags or anything.
+
+03:01.980 --> 03:05.674
+So this is-- like any replica set is a subset of deployment.
+
+03:05.674 --> 03:09.090
+So all these things should work as is without anything.
+
+03:09.090 --> 03:12.690
+So for deployments we can keep adding more and more stuff,
+
+03:12.690 --> 03:15.150
+based on like how the deployment should happen.
+
+03:15.150 --> 03:19.290
+And then like it should be in a rolling update fashion,
+
+03:19.290 --> 03:21.090
+or it should be in a recreate fashion,
+
+03:21.090 --> 03:24.390
+so update strategies with the recreate or rolling updates.
+
+03:24.390 --> 03:27.120
+So all those super set options you can keep adding
+
+03:27.120 --> 03:28.890
+to your deployment if you want to,
+
+03:28.890 --> 03:31.500
+but the base is replica set and then deployment,
+
+03:31.500 --> 03:33.990
+more or less, it is going to be the same thing.
+
+03:33.990 --> 03:36.840
+Okay, so now let's go to note port service, right?
+
+03:36.840 --> 03:39.570
+So this is good and no changes required inside that.
+
+03:39.570 --> 03:41.610
+So let's go to note port service
+
+03:41.610 --> 03:46.380
+and this is going to be deployment, not port service.
+
+03:46.380 --> 03:50.220
+And the selector is going to be my app three, right?
+
+03:50.220 --> 03:54.540
+And the note port I'm going to change is 31233.
+
+03:54.540 --> 03:57.930
+Okay. So now we have quickly completed creating
+
+03:57.930 --> 04:00.840
+the deployment definition and deployment note port service.
+
+04:00.840 --> 04:03.480
+So let's go ahead and then create them now.
+
+04:03.480 --> 04:07.530
+Okay, so we'll go to 09 deployments
+
+04:07.530 --> 04:09.420
+and we'll go to Kube manifest
+
+04:09.420 --> 04:14.100
+and I'll say Kube CTL
+
+04:14.100 --> 04:18.540
+apply F and F 02 deployment definition.
+
+04:18.540 --> 04:21.300
+And if you want to also at the same time
+
+04:21.300 --> 04:22.650
+create one more.
+
+04:22.650 --> 04:25.650
+So that is nothing but zero three, you can do this way.
+
+04:25.650 --> 04:28.980
+Okay? So now two files you have provided
+
+04:28.980 --> 04:30.390
+for Kube CTL to create.
+
+04:30.390 --> 04:33.240
+So it created my app three deployment
+
+04:33.240 --> 04:35.070
+and then deployment note port service.
+
+04:35.070 --> 04:38.460
+So I'll say Kube CTL, get deploy,
+
+04:38.460 --> 04:40.530
+which is the LES, and it's up and running.
+
+04:40.530 --> 04:43.290
+So I'll say Kube CTL get ports.
+
+04:43.290 --> 04:46.140
+So I should have three more ports related to my deployment
+
+04:46.140 --> 04:47.490
+Got creator.
+
+04:47.490 --> 04:50.310
+I should have two replica sets, right,
+
+04:50.310 --> 04:52.530
+one for the replica set, whatever we created
+
+04:52.530 --> 04:54.980
+and one which a deployment created.
+
+04:54.980 --> 04:58.530
+And I'll also see the SVC, okay?
+
+04:58.530 --> 05:00.990
+And it has the 31233
+
+05:00.990 --> 05:03.390
+which is deployment, note port service.
+
+05:03.390 --> 05:07.740
+So, and we'll get the nodes hyphen O wide,
+
+05:07.740 --> 05:09.420
+and we'll get the node IP.
+
+05:09.420 --> 05:10.950
+And with the
+
+05:10.950 --> 05:15.390
+31233, we are going to access it in browser.
+
+05:15.390 --> 05:19.837
+Okay? So next one http colon slash slash
+
+05:19.837 --> 05:22.413
+31233, okay.
+
+05:23.730 --> 05:25.860
+And we see the V3 version of application.
+
+05:25.860 --> 05:28.320
+So with ports V1 application,
+
+05:28.320 --> 05:30.340
+it's up and running, with
+
+05:32.490 --> 05:35.070
+replica sets, V2 application, up and running.
+
+05:35.070 --> 05:38.250
+And with ports we have V3 application.
+
+05:38.250 --> 05:41.340
+So now we have successfully created the ports,
+
+05:41.340 --> 05:43.410
+ports with the-- using the deployment.
+
+05:43.410 --> 05:47.520
+And then we have tested it using note port service.
+
+05:47.520 --> 05:50.940
+So in our next lecture, we'll focus on services
+
+05:50.940 --> 05:54.450
+and there, as we already see note port service effectively,
+
+05:54.450 --> 05:56.340
+there we'll see cluster IP service
+
+05:56.340 --> 05:58.950
+and also we'll create a frontend and backend application
+
+05:58.950 --> 06:01.500
+in services and then understand it in detail
+
+06:01.500 --> 06:02.790
+and then test it.
+
+06:02.790 --> 06:04.530
+So I'll see you in the next lecture.
+
+06:04.530 --> 06:05.700
+Until then, bye bye.
+
+06:05.700 --> 06:06.533
+Thank you.

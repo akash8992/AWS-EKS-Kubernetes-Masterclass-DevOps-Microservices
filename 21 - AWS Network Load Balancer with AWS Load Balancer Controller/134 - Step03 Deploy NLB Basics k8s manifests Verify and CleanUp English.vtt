@@ -1,0 +1,505 @@
+WEBVTT
+
+00:00.300 --> 00:01.170
+-: Welcome back.
+
+00:01.170 --> 00:04.530
+In this step we are going to deploy all the cube manifests
+
+00:04.530 --> 00:07.710
+and then verify for our network load balancer.
+
+00:07.710 --> 00:10.350
+So let's go back to our terminal here
+
+00:10.350 --> 00:15.350
+and we will enter the section 19 ELB network load balancers.
+
+00:15.390 --> 00:17.237
+And inside that we'll go
+
+00:17.237 --> 00:22.237
+inside 1901 LBC, NLB basics, right?
+
+00:22.620 --> 00:26.760
+And inside this, if you say LS, LRT and cube manifest
+
+00:26.760 --> 00:31.380
+you'll find the zero one and then zero two related engines
+
+00:31.380 --> 00:36.380
+app three deployment and LBC and LB load balancer service.
+
+00:36.630 --> 00:38.040
+I'll say clear
+
+00:38.040 --> 00:42.810
+and I'll say cube CTL apply hyphen F cube manifest.
+
+00:42.810 --> 00:46.080
+So this should create the app three related deployment
+
+00:46.080 --> 00:49.980
+and also a Kubernetes service of type load balancer.
+
+00:49.980 --> 00:52.740
+So let's wait for it to get created.
+
+00:52.740 --> 00:55.590
+So you can see app three engineers deployment is created
+
+00:55.590 --> 00:59.010
+and basics LBC network LB is created.
+
+00:59.010 --> 01:03.390
+So now let's come back here and verify the ports at services
+
+01:03.390 --> 01:06.900
+and also verify the load balancer controller logs.
+
+01:06.900 --> 01:10.710
+So I'll say cube CTL get ports
+
+01:10.710 --> 01:13.080
+and this should provide us
+
+01:13.080 --> 01:16.080
+the app three related engines deployment port
+
+01:16.080 --> 01:18.780
+which is running one by one already.
+
+01:18.780 --> 01:23.780
+And we will also see here cube CTL get SVC which is services
+
+01:24.360 --> 01:26.010
+in our Kubernetes cluster
+
+01:26.010 --> 01:29.700
+of default name space and you can find it here.
+
+01:29.700 --> 01:32.430
+Basics LBC network LB is created
+
+01:32.430 --> 01:36.060
+of type load balancer and this is the cluster IP of it
+
+01:36.060 --> 01:38.010
+and it's external IP is nothing
+
+01:38.010 --> 01:41.160
+but the DNS name of our network load balancer.
+
+01:41.160 --> 01:44.850
+And it created its port 80 for the external
+
+01:44.850 --> 01:47.890
+and for the node port service it is using the 31751
+
+01:49.350 --> 01:50.760
+as the port.
+
+01:50.760 --> 01:54.370
+So now let's come back here
+
+01:55.530 --> 01:59.700
+and verify the AWS load balancer controller port lock.
+
+01:59.700 --> 02:01.680
+So why do we need to do that?
+
+02:01.680 --> 02:05.820
+To see that this Kubernetes service related logs
+
+02:05.820 --> 02:07.020
+were presented there.
+
+02:07.020 --> 02:10.650
+So which very clearly says that this Kubernetes service
+
+02:10.650 --> 02:12.420
+is reconciled or associated
+
+02:12.420 --> 02:15.390
+with this respective load balancer controller.
+
+02:15.390 --> 02:18.810
+So you have user the external so that
+
+02:18.810 --> 02:21.630
+this respective to service whatever we have deployed, right?
+
+02:21.630 --> 02:23.880
+So this should be associated or reconciled
+
+02:23.880 --> 02:27.300
+with this respective latest load balancer controller
+
+02:27.300 --> 02:30.840
+so that we can go there and then verify the same things.
+
+02:30.840 --> 02:35.840
+So cube CTL hyphen cube system and get parts will provide
+
+02:35.880 --> 02:40.110
+the ports present from our cube system name space.
+
+02:40.110 --> 02:44.010
+And there you'll find AWS load balancer controller related
+
+02:44.010 --> 02:44.843
+ports.
+
+02:44.843 --> 02:48.300
+Soil copy this one, right. Copy.
+
+02:48.300 --> 02:51.420
+And I'll say cube CTL hyphen N
+
+02:51.420 --> 02:55.620
+from cube system name space logs hyphen F
+
+02:55.620 --> 03:00.180
+and this respective load balancer controller related port
+
+03:00.180 --> 03:02.940
+and let's wait for the locks to display
+
+03:02.940 --> 03:04.980
+and anywhere if you find right.
+
+03:04.980 --> 03:06.420
+So this name right?
+
+03:06.420 --> 03:08.763
+So this is the name we have which is:
+
+03:11.107 --> 03:13.260
+"basics LBC network LB".
+
+03:13.260 --> 03:16.080
+A little bit of that if you find also you can understand
+
+03:16.080 --> 03:19.080
+that it is related to the same thing.
+
+03:19.080 --> 03:24.080
+See basics LB and you can also find a few things
+
+03:24.150 --> 03:26.460
+if you go up, you can find in detail here.
+
+03:26.460 --> 03:29.850
+See basics LBC network LB.
+
+03:29.850 --> 03:32.340
+So creating a listener of port 80,
+
+03:32.340 --> 03:37.140
+basics LBC network LB and created listener.
+
+03:37.140 --> 03:39.150
+And like this you can see all the things
+
+03:39.150 --> 03:43.410
+with the reference as basics LBC network LB
+
+03:43.410 --> 03:46.230
+whatever you have defined as the name here.
+
+03:46.230 --> 03:48.480
+So which very clearly states
+
+03:48.480 --> 03:50.343
+that our load balancer,
+
+03:51.420 --> 03:53.940
+whatever you have deployed or our Kubernetes service
+
+03:53.940 --> 03:55.650
+whatever you have deployed to create
+
+03:55.650 --> 03:58.770
+a network load balancer now is reconciled
+
+03:58.770 --> 04:02.190
+with AWS load balancer controller latest.
+
+04:02.190 --> 04:03.390
+So now let's go back
+
+04:03.390 --> 04:08.390
+to our AWS management console and go to EC2 here, right?
+
+04:09.690 --> 04:13.777
+And in EC2 go to load balancers, right?
+
+04:15.526 --> 04:17.113
+And in load balances you can see basics LBC network LB
+
+04:20.550 --> 04:22.470
+and this is the DNS name.
+
+04:22.470 --> 04:25.320
+So this DNS name whatever we are seeing, right?
+
+04:25.320 --> 04:28.200
+So some 129, some something, something right?
+
+04:28.200 --> 04:29.940
+EF4 is the end.
+
+04:29.940 --> 04:33.180
+So this should match our cube CTL.
+
+04:33.180 --> 04:37.860
+Get SVC here, the output from the get SVC.
+
+04:37.860 --> 04:40.550
+So let's here basics LBC network
+
+04:40.550 --> 04:44.100
+LB 129 starting with and EF4 ending with.
+
+04:44.100 --> 04:47.010
+So here also you'll find the same thing, right?
+
+04:47.010 --> 04:48.900
+So this matches. So this is good.
+
+04:48.900 --> 04:51.180
+So now let's go to the listeners here
+
+04:51.180 --> 04:53.310
+or additional things if you want to verify
+
+04:53.310 --> 04:56.220
+this is a network load balancer you can see here
+
+04:56.220 --> 05:00.150
+or you can even find here, type is network.
+
+05:00.150 --> 05:03.570
+And you can see here the scheme is internet facing
+
+05:03.570 --> 05:05.610
+whatever we have provided
+
+05:05.610 --> 05:08.670
+and it pick the two availability zones
+
+05:08.670 --> 05:12.756
+and there in two subnets US east one year and one B
+
+05:12.756 --> 05:16.260
+it created this network load balancer
+
+05:16.260 --> 05:18.750
+and additional attributes we didn't provide.
+
+05:18.750 --> 05:21.090
+So all are in the disabled state.
+
+05:21.090 --> 05:23.190
+So now let's come back to listeners.
+
+05:23.190 --> 05:26.520
+And in listeners you can see the port 80 listener is created
+
+05:26.520 --> 05:29.220
+and if you want you can click on this and then edit
+
+05:29.220 --> 05:30.420
+and then see the things.
+
+05:30.420 --> 05:34.950
+So TCP protocol and port 80 and it is forwarding the things
+
+05:34.950 --> 05:38.520
+to the default target group it has created
+
+05:38.520 --> 05:42.240
+and that target group it is forwarding the request to.
+
+05:42.240 --> 05:45.720
+So now we can go there and also verify the target group
+
+05:45.720 --> 05:48.990
+from here or you can go to target groups here
+
+05:48.990 --> 05:50.940
+and open the target group.
+
+05:50.940 --> 05:54.330
+So this port 31751 you can see right?
+
+05:54.330 --> 05:59.330
+So this one should match the 31751 here.
+
+05:59.460 --> 06:02.190
+So this is the node port right?
+
+06:02.190 --> 06:04.050
+So here inside this one
+
+06:04.050 --> 06:06.960
+if you see the worker nodes should be registered here.
+
+06:06.960 --> 06:10.290
+So two instance IDs, so two private nodes
+
+06:10.290 --> 06:13.860
+whatever it has created as part of EKS private node group.
+
+06:13.860 --> 06:16.830
+So you can also see from instances here.
+
+06:16.830 --> 06:19.230
+So if you open the instances, right
+
+06:19.230 --> 06:21.840
+so you'll find those two instances zero DF
+
+06:21.840 --> 06:25.590
+and then 826 0DF and then
+
+06:25.590 --> 06:28.020
+58.26.826.
+
+06:28.020 --> 06:32.940
+So those instances were registered with node port 31751
+
+06:32.940 --> 06:35.490
+and it is waiting for the health check to pass.
+
+06:35.490 --> 06:37.680
+And health check whatever you have used is
+
+06:37.680 --> 06:41.520
+slash index dot html with HTTP protocol.
+
+06:41.520 --> 06:45.570
+So let's wait for it and once the health check is passed
+
+06:45.570 --> 06:49.920
+which is nothing but your nodes, you are ready to test it.
+
+06:49.920 --> 06:53.040
+The creation of your network load balancer usually takes
+
+06:53.040 --> 06:56.460
+3 to 5 minutes sometimes.
+
+06:56.460 --> 06:57.360
+So if you see here,
+
+06:57.360 --> 06:58.800
+even in the network load balancer
+
+06:58.800 --> 07:00.870
+also it is in the provisioning state.
+
+07:00.870 --> 07:04.080
+So we should see this as active.
+
+07:04.080 --> 07:07.410
+So we can see here our load balancer has been changing
+
+07:07.410 --> 07:10.260
+the state from provisioning to active.
+
+07:10.260 --> 07:12.630
+So let's go to target groups also.
+
+07:12.630 --> 07:15.360
+Open the target group, right?
+
+07:15.360 --> 07:18.180
+Let's come back here and refresh one more time,
+
+07:18.180 --> 07:22.440
+refresh and open it and let's wait for these things
+
+07:22.440 --> 07:23.790
+to complete.
+
+07:23.790 --> 07:26.070
+So you can see here when I refresh here
+
+07:26.070 --> 07:27.780
+so these are healthy now.
+
+07:27.780 --> 07:32.010
+So the health check is passed and then we can access this.
+
+07:32.010 --> 07:35.580
+So let's go to load balancers and you can access
+
+07:35.580 --> 07:38.562
+by copying the DNS name from here
+
+07:38.562 --> 07:42.510
+or you can go here and then copy the DNS name from here.
+
+07:42.510 --> 07:44.940
+And this is simple engine app three
+
+07:44.940 --> 07:47.520
+so that you can access your application directly
+
+07:47.520 --> 07:51.360
+at the root context slash index dot html will be loaded
+
+07:51.360 --> 07:53.820
+and you should see "welcome to stack simplify
+
+07:53.820 --> 07:58.020
+Kubernetes fundamental demo application version V1".
+
+07:58.020 --> 08:00.300
+So this is successful.
+
+08:00.300 --> 08:02.520
+So now the next step here is to go ahead
+
+08:02.520 --> 08:05.130
+and then delete the things and then clean up.
+
+08:05.130 --> 08:06.930
+So we'll go here
+
+08:06.930 --> 08:10.110
+and we'll say cube CTL, delete hyphen F,
+
+08:10.110 --> 08:11.790
+and then cube manifests.
+
+08:11.790 --> 08:15.690
+So this should delete our engines app related deployment
+
+08:15.690 --> 08:19.620
+and also our basics LBC network LB related
+
+08:19.620 --> 08:22.260
+Kubernetes load balancer service.
+
+08:22.260 --> 08:23.370
+So let's come back here
+
+08:23.370 --> 08:28.020
+and ensure that our network load balancer is deleted.
+
+08:28.020 --> 08:30.720
+So this completes the network load balancer
+
+08:30.720 --> 08:32.460
+related basics demo.
+
+08:32.460 --> 08:33.930
+I'll see you in the next lecture
+
+08:33.930 --> 08:36.960
+with another demo for network load balancer.
+
+08:36.960 --> 08:38.643
+Until then, bye bye. Thank you.

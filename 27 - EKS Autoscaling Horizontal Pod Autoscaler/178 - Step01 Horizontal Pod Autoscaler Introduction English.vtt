@@ -1,0 +1,319 @@
+WEBVTT
+
+00:00.330 --> 00:01.350
+-: Welcome back,
+
+00:01.350 --> 00:03.990
+in this lecture we are going to understand about
+
+00:03.990 --> 00:07.140
+Horizontal Pod Autoscaler.
+
+00:07.140 --> 00:11.910
+So let's see what is Horizontal Pod Autoscaler, right?
+
+00:11.910 --> 00:15.390
+So in a very simple note, horizontal scaling means
+
+00:15.390 --> 00:18.630
+increasing and decreasing the number of replicas,
+
+00:18.630 --> 00:22.680
+which is nothing but pods in our Kubernetes deployment.
+
+00:22.680 --> 00:25.410
+So HPA automatically scales
+
+00:25.410 --> 00:27.540
+the number of pods in a deployment
+
+00:27.540 --> 00:30.570
+or a replication controller or a replica set
+
+00:30.570 --> 00:32.370
+or a StatefulSet,
+
+00:32.370 --> 00:36.570
+based on that resources CPU utilization.
+
+00:36.570 --> 00:38.400
+Not only CPU utilization,
+
+00:38.400 --> 00:41.400
+you can even configure any type of other metrics
+
+00:41.400 --> 00:45.030
+or custom metrics or whatever you want to configure.
+
+00:45.030 --> 00:47.070
+So as part of our demo
+
+00:47.070 --> 00:52.050
+we are primarily going to focus on CPU utilization.
+
+00:52.050 --> 00:55.020
+So this can help our applications scale out
+
+00:55.020 --> 00:58.530
+to meet increase the demand or scale in
+
+00:58.530 --> 01:00.690
+when resources are not needed.
+
+01:00.690 --> 01:05.640
+So thus freeing up our worker notes for other applications.
+
+01:05.640 --> 01:09.450
+So when we set a target CPU utilization percentage,
+
+01:09.450 --> 01:12.750
+the HPA scales our applications in or out
+
+01:12.750 --> 01:17.750
+to try to meet the target CPU utilization percentage.
+
+01:17.760 --> 01:22.350
+So HPA needs Kubernetes metrics server to verify
+
+01:22.350 --> 01:24.720
+CPU metrics server for.
+
+01:24.720 --> 01:27.600
+So we do not need, we do not need to deploy
+
+01:27.600 --> 01:30.090
+or install the HPA on our cluster
+
+01:30.090 --> 01:32.730
+to begin scaling our applications.
+
+01:32.730 --> 01:34.410
+It's out of the box available
+
+01:34.410 --> 01:38.880
+as a default Kubernete standard API resource.
+
+01:38.880 --> 01:42.060
+So moving on, how this HPA works.
+
+01:42.060 --> 01:44.940
+So let's see that, now.
+
+01:44.940 --> 01:47.490
+In a Kubernetes cluster, right,
+
+01:47.490 --> 01:50.070
+you have deployed a application.
+
+01:50.070 --> 01:54.090
+So it might be of type deployment or replica set
+
+01:54.090 --> 01:57.150
+or replication controller or StatefulSet.
+
+01:57.150 --> 01:59.300
+So it is going to span the pods
+
+01:59.300 --> 02:01.440
+or it is going to create the equal end pods
+
+02:01.440 --> 02:05.040
+where it is going to deploy our application container.
+
+02:05.040 --> 02:08.460
+So now what happens is, we are also going to deploy
+
+02:08.460 --> 02:12.150
+a default Kubernetes metrics server available for us.
+
+02:12.150 --> 02:13.860
+So these pod metrics information
+
+02:13.860 --> 02:17.430
+is going to be sent to our respective metrics server.
+
+02:17.430 --> 02:20.430
+So when we enable the Horizontal Pod Autoscaler
+
+02:20.430 --> 02:22.980
+for our respective application,
+
+02:22.980 --> 02:24.360
+so what happens is like,
+
+02:24.360 --> 02:27.000
+it is going to query for metrics
+
+02:27.000 --> 02:29.040
+and once it gets the metrics,
+
+02:29.040 --> 02:31.800
+it is going to calculate the number of replicas,
+
+02:31.800 --> 02:35.970
+this Horizontal Pod AutoScaler need to increase or decrease.
+
+02:35.970 --> 02:40.380
+So then it will scale the app to desire replicas.
+
+02:40.380 --> 02:42.990
+So there will be a kubectl scale option,
+
+02:42.990 --> 02:45.300
+internally it is going to use the scale operation
+
+02:45.300 --> 02:49.590
+to scale either scale in or scale out our number of pods.
+
+02:49.590 --> 02:52.860
+So once it's scaled, so it is going to either increase
+
+02:52.860 --> 02:54.450
+or decrease the number of pods
+
+02:54.450 --> 02:57.570
+in our respective application.
+
+02:57.570 --> 03:02.010
+So even whatever the new pods, whatever it gets created
+
+03:02.010 --> 03:04.350
+those related metrics also will be sent over
+
+03:04.350 --> 03:07.260
+respective metrics server.
+
+03:07.260 --> 03:10.080
+So the thing here is, this whole thing,
+
+03:10.080 --> 03:12.960
+whatever happens here, this Horizontal Pod Autoscaling,
+
+03:12.960 --> 03:15.270
+collecting the metrics, calculating the replies
+
+03:15.270 --> 03:16.290
+and then if required
+
+03:16.290 --> 03:18.930
+it is going to trigger the scaling request.
+
+03:18.930 --> 03:21.600
+So all this happens is called a control loop
+
+03:21.600 --> 03:26.600
+and this control loop is executed every 15 seconds.
+
+03:27.330 --> 03:32.330
+So next, how is HPA configure in our Kubernetes cluster?
+
+03:33.180 --> 03:36.450
+So that's another important thing which we need to know.
+
+03:36.450 --> 03:39.600
+So HPA requires scaling metric.
+
+03:39.600 --> 03:42.120
+So example, you can take our scaling metric
+
+03:42.120 --> 03:46.290
+as CPU utilization and target value.
+
+03:46.290 --> 03:48.660
+So which is nothing, but in our, in your metric,
+
+03:48.660 --> 03:51.300
+what should be your target value when that reaches,
+
+03:51.300 --> 03:54.450
+then it can do a scaling in or out,
+
+03:54.450 --> 03:55.950
+whatever is required based on that.
+
+03:55.950 --> 03:58.800
+So if it reaches 50% then scale out more,
+
+03:58.800 --> 04:01.830
+much like more number of pods need to be added.
+
+04:01.830 --> 04:04.890
+So target value is CPU 50%
+
+04:04.890 --> 04:08.670
+and minimum replicas in my application can be two, right
+
+04:08.670 --> 04:11.400
+and maximum replicas can be 10.
+
+04:11.400 --> 04:14.010
+So whenever it triggers the scale out request
+
+04:14.010 --> 04:15.990
+it can go up to 10 replicas
+
+04:15.990 --> 04:17.790
+and whenever it is in the cooling period
+
+04:17.790 --> 04:19.230
+and then it want to cool down
+
+04:19.230 --> 04:20.970
+it can come back to two replicas
+
+04:20.970 --> 04:23.850
+and then leave the application with two replicas.
+
+04:23.850 --> 04:27.390
+In our example, we are starting with minimum as one replica
+
+04:27.390 --> 04:30.330
+and then we'll go till 10 replicas
+
+04:30.330 --> 04:32.670
+and the command looks this way.
+
+04:32.670 --> 04:37.170
+Kubectl Autoscale deployment, demo deployment
+
+04:37.170 --> 04:40.980
+and it's a means like deployment name and the CPU percentage
+
+04:40.980 --> 04:45.330
+which is nothing but the scaling metric is CPU percent
+
+04:45.330 --> 04:47.490
+and the target value is 50
+
+04:47.490 --> 04:52.490
+and mini is minimum replicas and max is maximum replicas.
+
+04:52.500 --> 04:55.410
+So this is about the HPA configuration,
+
+04:55.410 --> 04:58.590
+how we need to enable in our Kubernetes cluster
+
+04:58.590 --> 05:00.384
+for a specific application,
+
+05:00.384 --> 05:03.330
+which is of kind deployment or replica set
+
+05:03.330 --> 05:06.060
+or StatefulSet, whatever it may be.
+
+05:06.060 --> 05:07.500
+So in our next lecture
+
+05:07.500 --> 05:10.020
+we are going to work on the answer.
+
+05:10.020 --> 05:11.700
+So I'll see you in the next lecture,
+
+05:11.700 --> 05:13.020
+until then, bye bye.
+
+05:13.020 --> 05:13.853
+Thank you.

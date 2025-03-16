@@ -1,0 +1,544 @@
+WEBVTT
+
+00:00.150 --> 00:01.080
+-: Welcome back.
+
+00:01.080 --> 00:02.520
+In this step, we are going
+
+00:02.520 --> 00:06.210
+to have a little bit understanding or little bit foundation
+
+00:06.210 --> 00:09.630
+about the application load balancer in AWS
+
+00:09.630 --> 00:14.220
+before moving on to creating a Ingress manifest, right?
+
+00:14.220 --> 00:18.630
+So we'll go ahead and then create a simple load balancer,
+
+00:18.630 --> 00:20.460
+application load balancer here,
+
+00:20.460 --> 00:24.000
+and then get our hands on about that
+
+00:24.000 --> 00:26.280
+before creating it via Kubernetes.
+
+00:26.280 --> 00:27.870
+So we went to EC2,
+
+00:27.870 --> 00:31.470
+and in EC2, we are going inside load balancers.
+
+00:31.470 --> 00:33.960
+And then we are creating a load balancer.
+
+00:33.960 --> 00:36.480
+So as usual, we have classic network
+
+00:36.480 --> 00:38.760
+and then application load balancer.
+
+00:38.760 --> 00:42.240
+So we are creating a application load balancer.
+
+00:42.240 --> 00:45.420
+And I can say some temp has the name.
+
+00:45.420 --> 00:48.960
+So temp one, not temp two, and the scheme
+
+00:48.960 --> 00:51.630
+where this application load balancer should be created,
+
+00:51.630 --> 00:53.640
+internet facing are internal.
+
+00:53.640 --> 00:57.780
+So it should be internet facing and type is IPv4.
+
+00:57.780 --> 01:01.230
+And the load balancer protocol is like load balancer port.
+
+01:01.230 --> 01:03.900
+It is going to have that default is going to be E80,
+
+01:03.900 --> 01:06.060
+so which we really don't need to define.
+
+01:06.060 --> 01:08.670
+So which means, so the default listener,
+
+01:08.670 --> 01:11.820
+it is going to get created is going to be E80.
+
+01:11.820 --> 01:14.070
+So the listener default is to be E80.
+
+01:14.070 --> 01:16.140
+We really don't need to define.
+
+01:16.140 --> 01:18.930
+And in which availability once it need to create
+
+01:18.930 --> 01:20.070
+and in which VPC?
+
+01:20.070 --> 01:24.660
+So we have a VPC for our EKS demo one EKS cluster.
+
+01:24.660 --> 01:27.630
+So I'll use that and I'll select one year
+
+01:27.630 --> 01:29.550
+and then 1B availability zones
+
+01:29.550 --> 01:32.250
+and then I'll also say in public subnet, why?
+
+01:32.250 --> 01:36.900
+Because we are using the internet facing,
+
+01:36.900 --> 01:39.690
+so it need to be created in public subnet.
+
+01:39.690 --> 01:42.660
+So I'll click on next, I'll click on next,
+
+01:42.660 --> 01:44.580
+and I'll select some security group.
+
+01:44.580 --> 01:45.720
+This is a temporary one
+
+01:45.720 --> 01:47.700
+which we are not going to use it for testing.
+
+01:47.700 --> 01:51.300
+Some security group is fine and configure routing.
+
+01:51.300 --> 01:53.610
+Routing is nothing but the backend part
+
+01:53.610 --> 01:55.740
+which is nothing but target group.
+
+01:55.740 --> 01:59.370
+So I'll say temp pg, right?
+
+01:59.370 --> 02:02.430
+So which is nothing but my backend applications,
+
+02:02.430 --> 02:04.140
+whatever I'm going to reach to that
+
+02:04.140 --> 02:06.210
+with the name temp tg I have given,
+
+02:06.210 --> 02:08.340
+and protocol we are going to have
+
+02:08.340 --> 02:10.800
+on our backend application is port 80
+
+02:10.800 --> 02:12.720
+just for something as a temporary, okay?
+
+02:12.720 --> 02:16.110
+Some engine X application is running in our EC2 instance.
+
+02:16.110 --> 02:17.730
+Let's consider that way.
+
+02:17.730 --> 02:19.710
+And the path I can say slash.
+
+02:19.710 --> 02:22.860
+So in our original case, in our application,
+
+02:22.860 --> 02:26.370
+whatever we are going to deploy is 8095 is the port
+
+02:26.370 --> 02:27.660
+and our health check path
+
+02:27.660 --> 02:31.740
+is going to be user MGMT slash health status.
+
+02:31.740 --> 02:34.590
+These are just temporary one which is not going to work.
+
+02:34.590 --> 02:35.910
+So we are going to understand
+
+02:35.910 --> 02:37.380
+about what we are going to write
+
+02:37.380 --> 02:40.020
+using Kubernetes manifest, right?
+
+02:40.020 --> 02:41.250
+So this is the target group
+
+02:41.250 --> 02:43.020
+and this is the health check details.
+
+02:43.020 --> 02:44.160
+Protocol is http
+
+02:44.160 --> 02:47.280
+and then health check path is user management health status
+
+02:47.280 --> 02:50.700
+and I'm going to use the target type as instance, okay?
+
+02:50.700 --> 02:52.953
+And the port we are going to use is 8095.
+
+02:54.060 --> 02:57.240
+And we are going to register the target, right?
+
+02:57.240 --> 02:59.040
+So these two are the instances present
+
+02:59.040 --> 03:01.020
+which are our original instances
+
+03:01.020 --> 03:03.933
+related to our EKS worker nodes
+
+03:03.933 --> 03:05.670
+and this string here, okay?
+
+03:05.670 --> 03:09.870
+And then I am going to click on next and then create it.
+
+03:09.870 --> 03:13.050
+So this load balance is not going to work
+
+03:13.050 --> 03:16.410
+just for our understanding we have created it.
+
+03:16.410 --> 03:18.450
+So now let's go to load balances
+
+03:18.450 --> 03:20.760
+and the first thing to check here is the listener.
+
+03:20.760 --> 03:24.450
+So default listener is going to be E80, so that's good,
+
+03:24.450 --> 03:26.820
+so which means in our Kubernetes manifest also,
+
+03:26.820 --> 03:29.370
+we really don't need to write anything about listener.
+
+03:29.370 --> 03:32.040
+If it is going to be 80 as your internal port,
+
+03:32.040 --> 03:33.990
+whatever you're accessing from external,
+
+03:33.990 --> 03:35.400
+which means like from browser,
+
+03:35.400 --> 03:37.650
+you really don't need to put port 80.
+
+03:37.650 --> 03:40.320
+From browser, you are accessing on port 80.
+
+03:40.320 --> 03:42.060
+So you really don't need to define
+
+03:42.060 --> 03:44.310
+in your Kubernetes manifest.
+
+03:44.310 --> 03:46.710
+And the next thing is rules, right?
+
+03:46.710 --> 03:49.500
+So here are the rules, whatever we are going to define.
+
+03:49.500 --> 03:51.180
+So currently, it is port 80.
+
+03:51.180 --> 03:53.790
+Default action is going to temp tg.
+
+03:53.790 --> 03:56.610
+So these information we need to define
+
+03:56.610 --> 04:01.610
+in our respective Kubernetes manifest, okay?
+
+04:02.790 --> 04:04.470
+So if you want to write additional rule,
+
+04:04.470 --> 04:07.230
+you can insert the rule and then say add condition
+
+04:07.230 --> 04:08.940
+and then I can say path
+
+04:08.940 --> 04:12.720
+and I can say slash app one slash star.
+
+04:12.720 --> 04:14.790
+And then, okay.
+
+04:14.790 --> 04:17.310
+So if my path is slash app one slash star,
+
+04:17.310 --> 04:19.860
+then the action is okay forward two
+
+04:19.860 --> 04:22.530
+one of the target group, right?
+
+04:22.530 --> 04:24.840
+So target group might be whatever the target group
+
+04:24.840 --> 04:25.890
+we want to create.
+
+04:25.890 --> 04:29.100
+So I'll set some temp pg and then I can save it.
+
+04:29.100 --> 04:30.000
+So like that.
+
+04:30.000 --> 04:31.530
+And if I have one more application,
+
+04:31.530 --> 04:34.020
+if I can save it and then add one more rule
+
+04:34.020 --> 04:37.530
+or with path saying that slash app two,
+
+04:37.530 --> 04:40.830
+then go to app two pg, something like that, okay?
+
+04:40.830 --> 04:41.880
+So I'll cancel it.
+
+04:41.880 --> 04:44.400
+So these are the rules what we need to define.
+
+04:44.400 --> 04:46.500
+So this is about listener,
+
+04:46.500 --> 04:48.510
+and inside listener, the rules.
+
+04:48.510 --> 04:51.150
+So now one more thing important here is target groups,
+
+04:51.150 --> 04:54.780
+which will have the backend information ideally.
+
+04:54.780 --> 04:57.300
+So now we have created a temp pg.
+
+04:57.300 --> 04:59.700
+And inside the backend information in targets,
+
+04:59.700 --> 05:01.530
+you'll have the backend information.
+
+05:01.530 --> 05:04.350
+So both instances registered with the port 8095.
+
+05:05.550 --> 05:09.390
+In our case, it is going to wear dynamic node port, port,
+
+05:09.390 --> 05:11.590
+whatever we are going to get here
+
+05:12.551 --> 05:15.347
+with the same EC2 worker node instances.
+
+05:15.347 --> 05:17.010
+So that we are going to write
+
+05:17.010 --> 05:19.200
+in our Kubernetes manifest anyway.
+
+05:19.200 --> 05:20.880
+And these are the health check settings,
+
+05:20.880 --> 05:23.190
+which is nothing but protocol http paths,
+
+05:23.190 --> 05:25.380
+user mgmt, health status,
+
+05:25.380 --> 05:28.470
+traffic port are some other port you want to health check
+
+05:28.470 --> 05:31.020
+on that respect to EC2 instances,
+
+05:31.020 --> 05:32.790
+health threshold, unhealthy threshold.
+
+05:32.790 --> 05:35.220
+All these details we need to provide
+
+05:35.220 --> 05:37.320
+whether stickiness is required or not.
+
+05:37.320 --> 05:39.750
+So these are the informations we need to write
+
+05:39.750 --> 05:43.470
+in our respect to Kubernetes manifest.
+
+05:43.470 --> 05:45.720
+So before going and writing it,
+
+05:45.720 --> 05:48.090
+we should have a level set at about the ground
+
+05:48.090 --> 05:49.410
+what we are going to write, right?
+
+05:49.410 --> 05:51.480
+So for that purpose, we have created this
+
+05:51.480 --> 05:54.000
+and then understood a little bit foundation
+
+05:54.000 --> 05:55.680
+about this load balance.
+
+05:55.680 --> 05:58.650
+So I'm going to delete it which we really don't need now.
+
+05:58.650 --> 06:00.210
+So I'm going to delete it.
+
+06:00.210 --> 06:01.260
+So this is deleted.
+
+06:01.260 --> 06:03.540
+We'll also delete that target group.
+
+06:03.540 --> 06:04.860
+Right? Good.
+
+06:04.860 --> 06:06.810
+And one more thing which we need to understand
+
+06:06.810 --> 06:09.030
+is about ALB Ingress annotations.
+
+06:09.030 --> 06:10.380
+So this is the reference link
+
+06:10.380 --> 06:14.310
+to review our ALB Ingress annotations, right?
+
+06:14.310 --> 06:17.520
+So in this, you can find different annotations, okay?
+
+06:17.520 --> 06:22.140
+So for example, if you go ahead and then find health, right?
+
+06:22.140 --> 06:24.840
+So health check, right?
+
+06:24.840 --> 06:27.180
+So all the health check related, whatever you have seen,
+
+06:27.180 --> 06:29.830
+the traffic port and then health check port
+
+06:30.840 --> 06:34.980
+and health check protocol should be http or https,
+
+06:34.980 --> 06:38.700
+and health check path slash user mgmt slash health status,
+
+06:38.700 --> 06:41.507
+all these things, we need to define these annotations
+
+06:41.507 --> 06:43.290
+in our Kubernetes manifest
+
+06:43.290 --> 06:45.420
+which we are creating for Ingress
+
+06:45.420 --> 06:48.300
+which means we need to write it in the Ingress manifest.
+
+06:48.300 --> 06:50.370
+These details we need to provide
+
+06:50.370 --> 06:53.490
+in the annotation section, right?
+
+06:53.490 --> 06:56.160
+So that's about these annotations,
+
+06:56.160 --> 06:58.860
+and if you want we can even find other annotations
+
+06:58.860 --> 07:01.263
+with like basic annotations here,
+
+07:02.100 --> 07:05.160
+and all annotations are provided here
+
+07:05.160 --> 07:08.880
+related to entire ALB Ingress.
+
+07:08.880 --> 07:10.500
+So all these things you can refer
+
+07:10.500 --> 07:12.090
+and then whatever is required,
+
+07:12.090 --> 07:14.550
+we can start using in our applications.
+
+07:14.550 --> 07:16.860
+So we are going to use few annotations
+
+07:16.860 --> 07:18.720
+related to health check
+
+07:18.720 --> 07:22.170
+and we are going to use few related to traffic routing
+
+07:22.170 --> 07:26.520
+and then few related to SSL and SSL redirect.
+
+07:26.520 --> 07:27.353
+So like that,
+
+07:27.353 --> 07:30.030
+we are going to use a certificate manager related one.
+
+07:30.030 --> 07:31.860
+So we are going to use few annotations
+
+07:31.860 --> 07:34.620
+in our series of sections in upcoming lectures.
+
+07:34.620 --> 07:37.320
+So let's go ahead and then do that now.
+
+07:37.320 --> 07:39.420
+So I'll see you in the next lecture.
+
+07:39.420 --> 07:40.680
+Until then, bye-bye.
+
+07:40.680 --> 07:41.513
+Thank you.

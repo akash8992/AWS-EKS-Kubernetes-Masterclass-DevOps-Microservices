@@ -1,0 +1,580 @@
+WEBVTT
+
+00:00.270 --> 00:01.590
+-: Welcome back.
+
+00:01.590 --> 00:03.570
+In this section we are going to work
+
+00:03.570 --> 00:06.180
+on a microservices deployment.
+
+00:06.180 --> 00:09.090
+So in addition to whatever we have used earlier
+
+00:09.090 --> 00:11.370
+elastic load balancing, classic network
+
+00:11.370 --> 00:12.570
+all these load balancers,
+
+00:12.570 --> 00:15.870
+we are also going to add one more AWS service
+
+00:15.870 --> 00:19.440
+as part of this, which is simple email service.
+
+00:19.440 --> 00:22.710
+So we'll see why we are going to use additional service
+
+00:22.710 --> 00:24.810
+of AWS for our microservices.
+
+00:24.810 --> 00:27.270
+We are going to look into now.
+
+00:27.270 --> 00:30.302
+So we are going to have two microservices
+
+00:30.302 --> 00:33.202
+and one is user management microservice
+
+00:33.202 --> 00:37.830
+and which are going to have the following APIs inside that.
+
+00:37.830 --> 00:40.258
+So create user API, list users, delete user
+
+00:40.258 --> 00:42.150
+and then health status.
+
+00:42.150 --> 00:43.680
+Even we'll have some other APIs
+
+00:43.680 --> 00:46.890
+which we really don't need, update API and other stuff.
+
+00:46.890 --> 00:48.953
+And so whenever we create a user
+
+00:48.953 --> 00:53.910
+it is going to store that user in the users DB.
+
+00:53.910 --> 00:57.020
+So now we are going to have one more microservice.
+
+00:57.020 --> 01:00.120
+Already we have discussed that microservices
+
+01:00.120 --> 01:02.760
+are independent units of our core
+
+01:02.760 --> 01:04.771
+which means like they're completely independent
+
+01:04.771 --> 01:08.428
+and then we will be able to call from one microservice
+
+01:08.428 --> 01:10.470
+to another microservice.
+
+01:10.470 --> 01:12.990
+So with that said, so we are going to have one more
+
+01:12.990 --> 01:16.350
+microservice named notification microservice.
+
+01:16.350 --> 01:17.790
+So it is going to have something
+
+01:17.790 --> 01:22.680
+called send notification API and its own health status API.
+
+01:22.680 --> 01:24.270
+So what happens now?
+
+01:24.270 --> 01:27.033
+So and when you need to send a notification
+
+01:27.033 --> 01:29.820
+it need to connect to the SMTP server.
+
+01:29.820 --> 01:31.950
+So what does this notification mean?
+
+01:31.950 --> 01:34.440
+So whenever a user is created
+
+01:34.440 --> 01:37.980
+it is going to send an email using SMTP server.
+
+01:37.980 --> 01:40.410
+So let's see, in a step by step manner.
+
+01:40.410 --> 01:43.521
+So as a API developer or API user or whoever it is
+
+01:43.521 --> 01:47.977
+so if he tries to create a user using Postman Client, right?
+
+01:47.977 --> 01:49.736
+So whenever we create a user,
+
+01:49.736 --> 01:54.320
+so the user gets first stored in users DB
+
+01:54.320 --> 01:58.170
+and then this respective create user API
+
+01:58.170 --> 02:00.600
+from user management microservice
+
+02:00.600 --> 02:04.380
+going to call the send notification API.
+
+02:04.380 --> 02:06.150
+So whenever a new user is created
+
+02:06.150 --> 02:08.250
+so we need to send a notification
+
+02:08.250 --> 02:11.160
+for that respective user's email address.
+
+02:11.160 --> 02:14.400
+So we'll call the send notification API.
+
+02:14.400 --> 02:15.811
+So the email will be triggered
+
+02:15.811 --> 02:19.740
+and using the AWS SMTP service.
+
+02:19.740 --> 02:23.430
+So we are going to send the email to the end user.
+
+02:23.430 --> 02:25.830
+So this is what the overall use case
+
+02:25.830 --> 02:27.690
+from microservices perspective.
+
+02:27.690 --> 02:29.130
+So which we are going to deploy
+
+02:29.130 --> 02:31.920
+on the elastic Kubernetes service.
+
+02:31.920 --> 02:36.920
+So let's see all these things in a architectural pattern.
+
+02:36.960 --> 02:39.120
+So we have seen in a functional pattern
+
+02:39.120 --> 02:41.919
+how this is going to work so far, right?
+
+02:41.919 --> 02:44.520
+So let's see in architectural pattern
+
+02:44.520 --> 02:45.690
+how this is going to fit
+
+02:45.690 --> 02:49.607
+on elastic Kubernetes service on AWS.
+
+02:49.607 --> 02:50.490
+Moving on.
+
+02:50.490 --> 02:53.313
+So microservices deployment on AWS EKS.
+
+02:54.360 --> 02:56.550
+So we are in AWS cloud
+
+02:56.550 --> 02:59.100
+and whenever we create the EKS cluster,
+
+02:59.100 --> 03:01.920
+so which is nothing but the cluster control plane
+
+03:01.920 --> 03:03.390
+we can call it as
+
+03:03.390 --> 03:07.380
+and it creates our VPC respective subnets
+
+03:07.380 --> 03:11.580
+and public, private subnets and equivalent not gateways.
+
+03:11.580 --> 03:15.210
+Okay? So now whenever we create a node group
+
+03:15.210 --> 03:16.620
+EKS manager node group
+
+03:16.620 --> 03:18.810
+and we are creating it in private subnet
+
+03:18.810 --> 03:22.140
+which will be more real to the real time use case.
+
+03:22.140 --> 03:24.540
+So we are not trying something on public subnet.
+
+03:24.540 --> 03:26.640
+So we are trying to be more realistic
+
+03:26.640 --> 03:29.550
+in real time how it is going to be.
+
+03:29.550 --> 03:32.160
+So we are creating it on the private subnet.
+
+03:32.160 --> 03:36.990
+So in this we have created a two node node group.
+
+03:36.990 --> 03:40.560
+So which will have worker node one and then worker node two.
+
+03:40.560 --> 03:42.003
+So as soon as these are created
+
+03:42.003 --> 03:44.790
+the outbound communication for these worker notes
+
+03:44.790 --> 03:46.620
+will be via NAT gateway
+
+03:46.620 --> 03:49.860
+and even to the EKS cluster control plan.
+
+03:49.860 --> 03:52.920
+Are any workload deployed here want to access
+
+03:52.920 --> 03:54.270
+to the external environment?
+
+03:54.270 --> 03:56.940
+They go where? NAT gateway only. Okay.
+
+03:56.940 --> 03:58.833
+So now moving on the next step is,
+
+03:58.833 --> 04:02.040
+so notification microservice deployment.
+
+04:02.040 --> 04:04.650
+So right, as usual, we already know that
+
+04:04.650 --> 04:09.124
+if you want to create any, create a deployment on Kubernetes
+
+04:09.124 --> 04:11.043
+we already know that we are going to have
+
+04:11.043 --> 04:13.320
+a deployment manifest
+
+04:13.320 --> 04:17.100
+and to expose it we are going to have a service manifest,
+
+04:17.100 --> 04:17.970
+correct? Right?
+
+04:17.970 --> 04:20.280
+So notification microservice, we are going to
+
+04:20.280 --> 04:24.402
+deploy that respective application as two pods.
+
+04:24.402 --> 04:26.780
+And then what we are going to do is
+
+04:26.780 --> 04:30.810
+this notification microservice needs access
+
+04:30.810 --> 04:32.940
+to our SMTP server.
+
+04:32.940 --> 04:35.550
+So we are going to use SMTP server
+
+04:35.550 --> 04:39.480
+as simple email servicing AWS.
+
+04:39.480 --> 04:43.526
+So we are going to create a SMTP external name service
+
+04:43.526 --> 04:47.010
+in our Kubernetes cluster.
+
+04:47.010 --> 04:49.230
+So wherein this notification service
+
+04:49.230 --> 04:52.230
+calls this simple email service end points
+
+04:52.230 --> 04:56.910
+via external name service present inside this worker nodes.
+
+04:56.910 --> 04:58.930
+Okay, So now the next thing is
+
+04:58.930 --> 05:02.010
+this notification service should be called
+
+05:02.010 --> 05:04.410
+by the user management service.
+
+05:04.410 --> 05:07.890
+So for that purpose, this notification service needs
+
+05:07.890 --> 05:09.930
+it means like this notification microservice
+
+05:09.930 --> 05:14.250
+needs a notification cluster IP service which we created.
+
+05:14.250 --> 05:16.170
+Then what happens, right?
+
+05:16.170 --> 05:18.900
+So we are going to have a RDS DB
+
+05:18.900 --> 05:22.470
+for our user management microservice.
+
+05:22.470 --> 05:25.650
+So for user management microservice deployment
+
+05:25.650 --> 05:28.831
+whenever we deploy it, it's equal in pods get deployed
+
+05:28.831 --> 05:33.035
+and using my SQ external name service
+
+05:33.035 --> 05:38.035
+they are going to connect to the Amazon RDS database, right?
+
+05:39.140 --> 05:43.361
+So now once they connect to the Amazon RDS database
+
+05:43.361 --> 05:46.320
+this application inside UMS pod
+
+05:46.320 --> 05:48.570
+which is user management microservice application
+
+05:48.570 --> 05:50.670
+is going to come up online.
+
+05:50.670 --> 05:51.900
+So now the next thing is
+
+05:51.900 --> 05:54.660
+you want to expose this user management microservice
+
+05:54.660 --> 05:56.520
+to the internet world.
+
+05:56.520 --> 05:58.170
+So what are the options available
+
+05:58.170 --> 06:00.480
+if I am sitting inside the private subnet?
+
+06:00.480 --> 06:02.340
+So the options available for me
+
+06:02.340 --> 06:03.930
+when I'm sitting in the private subnet
+
+06:03.930 --> 06:07.620
+is either the load balancer of any type.
+
+06:07.620 --> 06:10.485
+In AWS, it is going to be network load balancer,
+
+06:10.485 --> 06:14.340
+classic load balancer or Ingress load balancer.
+
+06:14.340 --> 06:19.340
+And we as we try to always use the latest and the greatest
+
+06:20.940 --> 06:23.550
+and as we are going to use microservices
+
+06:23.550 --> 06:25.779
+in future we might have multiple microservices
+
+06:25.779 --> 06:27.912
+considering the design in such a way.
+
+06:27.912 --> 06:31.920
+So we are going to use the Ingress service
+
+06:31.920 --> 06:34.890
+which is nothing but application load balancer.
+
+06:34.890 --> 06:38.061
+So first we will create a UMS node port service here
+
+06:38.061 --> 06:42.780
+and then we are going to create a Ingress service.
+
+06:42.780 --> 06:45.660
+So which is nothing but UMS Ingress service.
+
+06:45.660 --> 06:48.750
+So this UMS Ingress service will be pointed
+
+06:48.750 --> 06:52.230
+to this respective UMS node port service.
+
+06:52.230 --> 06:53.610
+So now the next thing
+
+06:53.610 --> 06:56.372
+is whenever the UMS Ingress service is created, right?
+
+06:56.372 --> 07:01.050
+So automatically it is going to use our Q1 cloud star
+
+07:01.050 --> 07:04.290
+dot Q1 cloud dot com related SSL certificate
+
+07:04.290 --> 07:05.970
+from the certificate manager
+
+07:05.970 --> 07:09.300
+and we are also going to use the external DNS, right?
+
+07:09.300 --> 07:11.402
+So for that purpose it is going to register
+
+07:11.402 --> 07:15.330
+our UMS dot Q1 cloud dot com automatically here.
+
+07:15.330 --> 07:18.420
+Okay, so we are also going to register one more DNS
+
+07:18.420 --> 07:22.200
+which is services dot Q1 cloud dot com.
+
+07:22.200 --> 07:23.760
+So now with Ingress
+
+07:23.760 --> 07:27.030
+we also have our route 53 DNS also registered.
+
+07:27.030 --> 07:29.730
+So as an user, my next step is to access it
+
+07:29.730 --> 07:31.200
+and then test it.
+
+07:31.200 --> 07:34.860
+So I'll try to use user management slash user
+
+07:34.860 --> 07:37.170
+or health status or whatever I want to use.
+
+07:37.170 --> 07:39.150
+I'll try to use it to access it.
+
+07:39.150 --> 07:42.210
+So all this testing, I'm going to do it via Postman.
+
+07:42.210 --> 07:44.910
+So this is the endpoint for our create user.
+
+07:44.910 --> 07:47.520
+So when I'm trying to create a user, what happens?
+
+07:47.520 --> 07:50.620
+The request will come to the Ingress service
+
+07:50.620 --> 07:52.500
+and from there slash star
+
+07:52.500 --> 07:56.160
+we have directly routing to all to the UMS bot.
+
+07:56.160 --> 07:59.580
+So the request will come to UMS node port service,
+
+07:59.580 --> 08:02.400
+and then from there it will split
+
+08:02.400 --> 08:03.750
+and then do the load balancing
+
+08:03.750 --> 08:06.660
+between UMS pods present there. Okay?
+
+08:06.660 --> 08:08.790
+And then from there it will go ahead
+
+08:08.790 --> 08:12.334
+and then go to the external name service
+
+08:12.334 --> 08:17.040
+and then create that user inside the RDS database.
+
+08:17.040 --> 08:20.070
+So once the user is created in the RDS database
+
+08:20.070 --> 08:24.921
+then it need to call the notification service, right?
+
+08:24.921 --> 08:28.170
+So it will call the notification cluster IP service
+
+08:28.170 --> 08:29.520
+which will send that traffic
+
+08:29.520 --> 08:31.849
+to the notification respective pod.
+
+08:31.849 --> 08:34.020
+And then notification service
+
+08:34.020 --> 08:37.230
+will call the SMTP external name service
+
+08:37.230 --> 08:41.910
+to send the email via simple email service.
+
+08:41.910 --> 08:43.830
+So now the simple email service
+
+08:43.830 --> 08:47.520
+will send the email to the respective end user
+
+08:47.520 --> 08:50.430
+and then there they'll be able to see the email.
+
+08:50.430 --> 08:52.920
+So this is the entire architecture
+
+08:52.920 --> 08:55.200
+we are going to build now, right?
+
+08:55.200 --> 08:56.753
+Means like this is the entire stuff
+
+08:56.753 --> 08:58.500
+we are going to implement
+
+08:58.500 --> 09:03.500
+as part of microservices deployment on AWS E case.
+
+09:03.600 --> 09:05.139
+So I'll see you in the next lecture.
+
+09:05.139 --> 09:07.440
+Until then, bye bye.
+
+09:07.440 --> 09:08.273
+Thank you.

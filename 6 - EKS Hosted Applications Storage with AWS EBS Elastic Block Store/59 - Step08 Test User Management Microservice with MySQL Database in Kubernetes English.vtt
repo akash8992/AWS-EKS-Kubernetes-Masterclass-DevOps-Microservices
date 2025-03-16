@@ -1,0 +1,322 @@
+WEBVTT
+
+00:00.210 --> 00:01.043
+-: Welcome back!
+
+00:01.043 --> 00:03.060
+In this lecture we are going to create the user
+
+00:03.060 --> 00:07.110
+management service deployment and then note port service.
+
+00:07.110 --> 00:09.720
+So as part of that we are going to create,
+
+00:09.720 --> 00:11.280
+all the things one more time.
+
+00:11.280 --> 00:14.970
+If you see here, so whatever we have created earlier,
+
+00:14.970 --> 00:18.810
+which is nothing but QCTL get all, so the
+
+00:18.810 --> 00:21.510
+storage class, and then persistent volume claim,
+
+00:21.510 --> 00:24.152
+and already deployment of MySQL,
+
+00:24.152 --> 00:27.510
+and then MySQL plus I try service everything I have deleted.
+
+00:27.510 --> 00:29.100
+So there is there is a reason for it.
+
+00:29.100 --> 00:32.070
+So let's go ahead and then observe why we have deleted.
+
+00:32.070 --> 00:34.890
+So whenever you're executing this QCTL command,
+
+00:34.890 --> 00:36.900
+so which is apply hyphen cube manifests,
+
+00:36.900 --> 00:39.840
+you should be in those respective folder for that section.
+
+00:39.840 --> 00:43.050
+So we are in 0 4 0 3 User Management Microservices
+
+00:43.050 --> 00:45.030
+with MySQL db, right?
+
+00:45.030 --> 00:47.790
+So inside cube manifest you'll have all the five things now
+
+00:47.790 --> 00:52.170
+okay, so 0 1, 0 2, 0 3, 0 4, 0 5, 0 6, and then 0 7.
+
+00:52.170 --> 00:53.730
+All these seven things templates,
+
+00:53.730 --> 00:55.560
+whatever is there, all are available.
+
+00:55.560 --> 00:57.900
+So let's come out of cube manifest,
+
+00:57.900 --> 01:02.490
+and then say QCTL, apply, hyphen F cube manifest.
+
+01:02.490 --> 01:05.640
+Okay? So it is going to create all this stuff now for us.
+
+01:05.640 --> 01:07.140
+Okay? Which is nothing but storage class,
+
+01:07.140 --> 01:10.380
+persistent volume claim, config map, deployment service,
+
+01:10.380 --> 01:12.030
+for my skill and deployment service,
+
+01:12.030 --> 01:13.950
+for our user management service.
+
+01:13.950 --> 01:16.080
+So let's see that parts now.
+
+01:16.080 --> 01:18.750
+Okay, so now container is creating, but already
+
+01:18.750 --> 01:22.080
+user management microservice container already got created.
+
+01:22.080 --> 01:24.180
+So if you see locks minus F,
+
+01:24.180 --> 01:27.330
+So what happens is before MySQL got created,
+
+01:27.330 --> 01:29.850
+user management microservice got created.
+
+01:29.850 --> 01:33.000
+So, but it'll fail because MySQL is not ready.
+
+01:33.000 --> 01:36.000
+It'll restart the port.
+
+01:36.000 --> 01:38.190
+So you can see here now here, Okay?
+
+01:38.190 --> 01:40.410
+Because it's MySQL is not available.
+
+01:40.410 --> 01:42.870
+It'll restart once, and after that
+
+01:42.870 --> 01:44.580
+again in the next restart, if it
+
+01:44.580 --> 01:48.240
+finds the port, then it is going to MySQL port
+
+01:48.240 --> 01:50.520
+then it is going to connect to the MySQL.
+
+01:50.520 --> 01:53.820
+Okay, so now let's see what happens.
+
+01:53.820 --> 01:55.590
+Okay, see now it is User Management
+
+01:55.590 --> 01:57.180
+Microservices Authenticate.
+
+01:57.180 --> 01:59.580
+So it has restarted the container for the fact,
+
+01:59.580 --> 02:02.400
+that for the first time MySQL is not ready.
+
+02:02.400 --> 02:04.950
+So to identify this type of issues,
+
+02:04.950 --> 02:07.560
+I have deleted everything and then whatever we have done
+
+02:07.560 --> 02:10.680
+during the MySQL section and then recreated now.
+
+02:10.680 --> 02:12.150
+So, how to solve this?
+
+02:12.150 --> 02:14.190
+Okay, So which means our
+
+02:14.190 --> 02:16.121
+application container should not start
+
+02:16.121 --> 02:18.900
+before the MySQL container starts.
+
+02:18.900 --> 02:20.040
+So how to do this?
+
+02:20.040 --> 02:23.010
+In our next section we are going to look into.
+
+02:23.010 --> 02:25.650
+But for now our application is up and running
+
+02:25.650 --> 02:27.210
+which is User Management.
+
+02:27.210 --> 02:30.630
+And also our MySQL project up and running, right?
+
+02:30.630 --> 02:32.130
+So if these two are up and running,
+
+02:32.130 --> 02:33.330
+What is our current job?
+
+02:33.330 --> 02:35.970
+Is to get that note port, note port
+
+02:35.970 --> 02:38.430
+and note IP address, right?
+
+02:38.430 --> 02:40.590
+So 3 1 2 3 1, whatever we have given,
+
+02:40.590 --> 02:41.730
+directly in our service.
+
+02:41.730 --> 02:44.160
+So we'll get that, and we'll also get the
+
+02:44.160 --> 02:46.617
+note public IP address and take that,
+
+02:46.617 --> 02:49.680
+and then access it, and then test it on the browser.
+
+02:49.680 --> 02:51.160
+So this is the external IP.
+
+02:51.160 --> 02:53.400
+So we will use this IP.
+
+02:53.400 --> 02:55.140
+Any one of the IP we can use it.
+
+02:55.140 --> 02:56.703
+So let's go here.
+
+02:58.350 --> 02:59.183
+Right?
+
+02:59.183 --> 03:03.570
+-: So STTP, colon, slash, slash, IP, colon
+
+03:03.570 --> 03:06.300
+and then 3 1 2 3 1 is our note port.
+
+03:06.300 --> 03:08.820
+And the context should be user MGMT,
+
+03:08.820 --> 03:12.960
+slash, health status page, for our microservice application.
+
+03:12.960 --> 03:14.310
+The same thing will be present,
+
+03:14.310 --> 03:15.990
+for you in our raw documentation.
+
+03:15.990 --> 03:17.879
+Also here, so if you see here,
+
+03:17.879 --> 03:21.633
+this is the one EKS for cannot public IP 3 1 2 3 1,
+
+03:22.569 --> 03:24.180
+is the port and user MGMT slash health status.
+
+03:24.180 --> 03:27.030
+Okay, So this tells that our microservice
+
+03:27.030 --> 03:29.130
+application, is just up running.
+
+03:29.130 --> 03:32.070
+So let's access this and see, what happens, Okay.
+
+03:32.070 --> 03:35.190
+So if I make it bigger, User Management Services
+
+03:35.190 --> 03:37.530
+up and running and the version is V.1.
+
+03:37.530 --> 03:39.570
+So you can very clear to see that our Rest
+
+03:39.570 --> 03:41.850
+Application is up and running or our Microservice
+
+03:41.850 --> 03:43.800
+Application is up and running.
+
+03:43.800 --> 03:45.960
+So in addition to that, if you want to see
+
+03:45.960 --> 03:50.640
+QCTL get storage class, coma
+
+03:50.640 --> 03:53.370
+persistent volume claim and also persistent volume
+
+03:53.370 --> 03:55.560
+you can even see those things now.
+
+03:55.560 --> 03:57.957
+So storage class, EBS, CSI,
+
+03:57.957 --> 04:01.020
+AWS is provision and it's a volume claim,
+
+04:01.020 --> 04:04.020
+also bounded to the volume, and this is the volume
+
+04:04.020 --> 04:06.330
+with 4GB capacity. Okay?
+
+04:06.330 --> 04:08.340
+So which is here right?
+
+04:08.340 --> 04:10.060
+Default EBS, MySQL
+
+04:11.250 --> 04:12.390
+So that's about it.
+
+04:12.390 --> 04:15.060
+So, now in our next lecture we are going to focus
+
+04:15.060 --> 04:18.270
+on Test the Rest services present in this User
+
+04:18.270 --> 04:20.520
+Management Application using Postman.
+
+04:20.520 --> 04:22.800
+Okay, So I'll see you in the next lecture.
+
+04:22.800 --> 04:23.970
+Until then, bye bye.
+
+04:23.970 --> 04:24.803
+Thank you.

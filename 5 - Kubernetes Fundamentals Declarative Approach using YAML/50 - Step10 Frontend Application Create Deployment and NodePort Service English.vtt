@@ -1,0 +1,502 @@
+WEBVTT
+
+00:00.210 --> 00:01.140
+-: Welcome back.
+
+00:01.140 --> 00:03.120
+In this lecture, we are going to create the
+
+00:03.120 --> 00:06.480
+front end deployment and the front end node port service.
+
+00:06.480 --> 00:09.900
+So let's go ahead and then complete that now.
+
+00:09.900 --> 00:14.160
+So let's go to our queue based definition, copy it,
+
+00:14.160 --> 00:17.580
+and go to our front end deployment and paste it.
+
+00:17.580 --> 00:22.020
+So now we are going to create the kindes deployment
+
+00:22.020 --> 00:26.103
+and it's function is going to be app/V1.
+
+00:27.150 --> 00:29.010
+So now in metadata,
+
+00:29.010 --> 00:30.870
+there are two things which we need to focus.
+
+00:30.870 --> 00:34.380
+One is name and the second is labels.
+
+00:34.380 --> 00:35.710
+So name is going to be
+
+00:36.750 --> 00:40.230
+front end and NGINX app, right?
+
+00:40.230 --> 00:42.280
+It is going to be a front end app, right?
+
+00:43.238 --> 00:45.840
+So and in labels we are going to say app is equal to same.
+
+00:45.840 --> 00:48.623
+We can try and then put the same front end
+
+00:48.623 --> 00:50.310
+NGINX app, okay?
+
+00:50.310 --> 00:53.137
+And tier, we'll say, front end.
+
+00:57.060 --> 00:57.893
+Good.
+
+00:57.893 --> 01:01.020
+So now we have completed the core section here
+
+01:01.020 --> 01:04.203
+and now we'll focus on this specification section, okay?
+
+01:05.292 --> 01:07.110
+So as usual, we know that for deployment
+
+01:07.110 --> 01:10.860
+we'll have replicas, selector
+
+01:10.860 --> 01:13.650
+and template are the three high level objects
+
+01:13.650 --> 01:15.090
+under the spec.
+
+01:15.090 --> 01:15.923
+Okay?
+
+01:15.923 --> 01:17.320
+So now replicas will give three
+
+01:18.535 --> 01:21.510
+and in selector we'll have the match labels.
+
+01:21.510 --> 01:24.600
+And under match labels we'll provide the label as
+
+01:24.600 --> 01:27.120
+app is equal to front end NGINX app.
+
+01:27.120 --> 01:30.270
+This is the same match label we need to provide
+
+01:30.270 --> 01:34.440
+whenever we are creating the port specification here, right?
+
+01:34.440 --> 01:36.120
+So and now under the template
+
+01:36.120 --> 01:38.490
+we are going to create the port specification
+
+01:38.490 --> 01:41.610
+and port specification will have something called
+
+01:41.610 --> 01:44.070
+metadata and then spec.
+
+01:44.070 --> 01:45.599
+Two things under that.
+
+01:45.599 --> 01:47.460
+The (inaudible) under templater, metadata
+
+01:47.460 --> 01:49.950
+and then spec, right?
+
+01:49.950 --> 01:53.250
+So now in metadata, as usual we can have name.
+
+01:53.250 --> 01:56.580
+So ideally whatever the name we give for the pod here
+
+01:56.580 --> 01:58.350
+it is going to take or take the reference
+
+01:58.350 --> 01:59.460
+from the deployment name.
+
+01:59.460 --> 02:02.520
+So ideally we really don't need to give name here.
+
+02:02.520 --> 02:06.540
+So we'll focus on labels and we'll have two labels here.
+
+02:06.540 --> 02:09.030
+One is app and the other is tier.
+
+02:09.030 --> 02:11.100
+And tier is going to be front end
+
+02:11.100 --> 02:14.910
+and app is going to be front end NGINX app.
+
+02:14.910 --> 02:15.743
+Good.
+
+02:15.743 --> 02:17.880
+So now the next thing is going to be
+
+02:17.880 --> 02:20.880
+specification of our container, right?
+
+02:20.880 --> 02:23.490
+So containers, we are going to have containers
+
+02:23.490 --> 02:24.540
+as a list of things.
+
+02:24.540 --> 02:28.110
+And under that we are going to have a container
+
+02:28.110 --> 02:31.170
+and then image name, okay?
+
+02:31.170 --> 02:34.170
+So let's go ahead and then define those things, okay?
+
+02:34.170 --> 02:36.940
+And we'll also have something called ports
+
+02:38.012 --> 02:42.120
+and I am going to say container port is going to be 80
+
+02:42.120 --> 02:45.060
+and name of my container is going to be
+
+02:45.060 --> 02:48.150
+front end NGINX app and the image,
+
+02:48.150 --> 02:51.930
+I'm going to bring that from my GitHub repo.
+
+02:51.930 --> 02:54.180
+My docker hub repo. Okay?
+
+02:54.180 --> 02:57.843
+So let me go to my stacks simplify here.
+
+02:59.790 --> 03:00.623
+Right?
+
+03:01.470 --> 03:02.370
+So where is this?
+
+03:02.370 --> 03:04.260
+Yeah, repositories.
+
+03:04.260 --> 03:07.800
+And let's go to Kube front end NGINX, okay?
+
+03:07.800 --> 03:11.400
+So this will have the my backend service as the proxy.
+
+03:11.400 --> 03:12.233
+Okay?
+
+03:15.420 --> 03:20.420
+So let me copy this still here and I'll paste it.
+
+03:22.695 --> 03:23.862
+:1.0.0, right?
+
+03:25.710 --> 03:29.650
+So this completes the deployment creation
+
+03:31.073 --> 03:31.906
+and now we'll go ahead
+
+03:31.906 --> 03:35.133
+and then create the front end node port service.
+
+03:36.120 --> 03:38.346
+So as you shall go ahead
+
+03:38.346 --> 03:40.773
+and then copy the base definition here.
+
+03:42.750 --> 03:44.700
+So let's define the service.
+
+03:44.700 --> 03:47.700
+Kindes is service and the version is B1
+
+03:47.700 --> 03:52.200
+and metadata will have name and then labels
+
+03:52.200 --> 03:54.457
+and in name we'll say front end
+
+03:56.497 --> 03:57.330
+NGINX app
+
+04:00.210 --> 04:04.320
+output service and labels.
+
+04:04.320 --> 04:05.560
+I'll define it as
+
+04:08.490 --> 04:12.060
+front end NGINX app.
+
+04:12.060 --> 04:12.893
+Okay?
+
+04:14.740 --> 04:16.710
+So let me remove this and tier.
+
+04:16.710 --> 04:19.680
+I'm going to say this is a front end tier, right?
+
+04:19.680 --> 04:20.967
+Front end, okay?
+
+04:22.717 --> 04:25.290
+And now, in specifications
+
+04:25.290 --> 04:27.150
+we'll have three things here.
+
+04:27.150 --> 04:28.782
+Okay?
+
+04:28.782 --> 04:30.280
+Type, selector
+
+04:31.320 --> 04:33.123
+and then ports.
+
+04:34.140 --> 04:35.010
+Okay?
+
+04:35.010 --> 04:38.160
+So type, we are going to define it as an output service,
+
+04:38.160 --> 04:38.993
+that is good,
+
+04:40.199 --> 04:41.130
+and selector, which is nothing
+
+04:41.130 --> 04:44.460
+but to which part it needs to send that traffic to
+
+04:44.460 --> 04:45.690
+from the service.
+
+04:45.690 --> 04:46.810
+So we'll go to here
+
+04:47.751 --> 04:51.117
+and then find the part specific label here.
+
+04:51.117 --> 04:54.175
+App is equal- sometimes we do that typo.
+
+04:54.175 --> 04:55.113
+So always go
+
+04:55.113 --> 04:57.480
+and then get from that respective port template, okay?
+
+04:57.480 --> 05:00.300
+So it is always good to do that way, okay?
+
+05:00.300 --> 05:05.300
+And then in ports we'll have http ports here
+
+05:05.640 --> 05:07.920
+and I'll say port is nothing
+
+05:07.920 --> 05:12.400
+but plus drive service port and target container port
+
+05:13.966 --> 05:17.160
+which is going to be 80 and north port.
+
+05:17.160 --> 05:21.670
+So till now our demos 3, 1, 2, 3, 1, 2, 3, 2, 2, 3, 3
+
+05:22.601 --> 05:25.410
+over and we'll use 3, 1, 2, 3, 4 for us.
+
+05:25.410 --> 05:26.834
+Okay?
+
+05:26.834 --> 05:29.057
+If you don't define I'll automatically
+
+05:29.057 --> 05:29.979
+cluster will provide
+
+05:29.979 --> 05:32.220
+that dynamic IP here in that respective range.
+
+05:32.220 --> 05:33.747
+Okay?
+
+05:33.747 --> 05:35.670
+So we are going to define it 3, 1, 2, 3, 4.
+
+05:35.670 --> 05:38.940
+So this completes the creation of service two.
+
+05:38.940 --> 05:43.410
+So let's go back to our command line
+
+05:43.410 --> 05:44.730
+and then create those things.
+
+05:44.730 --> 05:45.563
+Okay?
+
+05:45.563 --> 05:48.863
+KubeCTR here apply hyphen F
+
+05:48.863 --> 05:53.457
+and zero three and then hyphen F zero three is deployment
+
+05:54.786 --> 05:57.930
+and zero four is front end north port service.
+
+05:57.930 --> 06:01.140
+So let's see if it creates and if not any issues.
+
+06:01.140 --> 06:02.014
+Okay?
+
+06:02.014 --> 06:05.760
+So it created that deployment Kubectl get ports
+
+06:05.760 --> 06:08.190
+so we'll see what are the ports it's going to create.
+
+06:08.190 --> 06:11.670
+So it's created three front end ports, no issues.
+
+06:11.670 --> 06:14.740
+Okay, so I'll say Kubectl, get svc
+
+06:16.200 --> 06:19.140
+and our front end engineers app node port
+
+06:19.140 --> 06:21.330
+service also open running.
+
+06:21.330 --> 06:23.530
+So now we need to get our
+
+06:24.930 --> 06:29.343
+nodes public IP and then access it in browser.
+
+06:31.620 --> 06:34.140
+Copy any of the nodes, public IP here
+
+06:34.140 --> 06:38.370
+so I can copy this one, this one, whatever it is, right?
+
+06:38.370 --> 06:41.110
+So I'll copy this and go to the browser
+
+06:43.292 --> 06:45.570
+and I'll create it.
+
+06:45.570 --> 06:47.280
+So let me close this talker hub.
+
+06:47.280 --> 06:49.620
+So we have 1, 2, 3.
+
+06:49.620 --> 06:51.400
+Now we are going to create one more
+
+06:52.290 --> 06:56.070
+and then I'm going to say 3, 1, 2, 3, 4.
+
+06:56.070 --> 06:59.770
+And the context of my hello world application is hello
+
+07:00.690 --> 07:03.210
+and I got the output.
+
+07:03.210 --> 07:05.730
+So now let's clear here.
+
+07:05.730 --> 07:08.673
+Kubectl get ports right?
+
+07:11.181 --> 07:13.782
+And you can see that backend rest app.
+
+07:13.782 --> 07:17.010
+And then this is the the port idea, right?
+
+07:17.010 --> 07:19.710
+So we are getting 56 4 xn, okay?
+
+07:19.710 --> 07:21.690
+So how the load balancing is happening
+
+07:21.690 --> 07:24.693
+we can even continuously refresh and then see that, okay?
+
+07:27.923 --> 07:30.360
+So see 4 DCNS, okay?
+
+07:30.360 --> 07:33.840
+So one more time if we refresh, it might go 56 4 xn.
+
+07:33.840 --> 07:37.950
+So it is load balancing across all the parts.
+
+07:37.950 --> 07:41.670
+As soon as we refresh we are getting different IDs here
+
+07:41.670 --> 07:42.503
+right?
+
+07:42.503 --> 07:43.413
+So that's about it.
+
+07:44.726 --> 07:49.530
+So we have successfully completed creating our backend
+
+07:49.530 --> 07:53.010
+and front end applications using Kubemanifests here
+
+07:53.010 --> 07:57.750
+and then deployed and then tested end to end.
+
+07:57.750 --> 07:58.583
+Okay?
+
+07:58.583 --> 08:01.020
+So in our next lecture we are going to learn little bit
+
+08:01.020 --> 08:05.850
+about recreating the objects using Kubectl apply
+
+08:05.850 --> 08:08.130
+and then understand better about it.
+
+08:08.130 --> 08:09.540
+I'll see you in the next lecture.
+
+08:09.540 --> 08:10.770
+Until then, bye bye.
+
+08:10.770 --> 08:11.603
+Thank you.

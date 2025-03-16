@@ -1,0 +1,586 @@
+WEBVTT
+
+00:00.330 --> 00:01.260
+-: Welcome back.
+
+00:01.260 --> 00:03.117
+In this lecture, we are going to review
+
+00:03.117 --> 00:06.210
+the microservices application deployment manifest
+
+00:06.210 --> 00:09.090
+and also the Ingress manifests, okay?
+
+00:09.090 --> 00:11.610
+So, let's move on with the step five review,
+
+00:11.610 --> 00:14.850
+microservices application deployment manifests.
+
+00:14.850 --> 00:17.610
+So, we have user management microservice deployment
+
+00:17.610 --> 00:20.370
+and then notification microservice deployment.
+
+00:20.370 --> 00:23.370
+So in our previous microservices deployment section,
+
+00:23.370 --> 00:26.190
+entire section, we have already created these things
+
+00:26.190 --> 00:28.680
+and then deployed it and then tested it.
+
+00:28.680 --> 00:31.740
+So what changes we are going to make for these things?
+
+00:31.740 --> 00:35.610
+That is what we are primarily going to look into, right?
+
+00:35.610 --> 00:39.030
+So in user management microservices deployment file
+
+00:39.030 --> 00:41.940
+for the image tag we are going to use
+
+00:41.940 --> 00:44.953
+3 dot 0 dot 0 AWS X-Ray my SQL.
+
+00:44.953 --> 00:49.257
+So the tag very clearly states that 3 dot 0 dot 0
+
+00:49.257 --> 00:52.290
+and then which is enabled with AWS X-Ray
+
+00:52.290 --> 00:54.540
+and it connects to the my SQL DB
+
+00:54.540 --> 00:56.730
+which means we need my SQL DB.
+
+00:56.730 --> 00:59.580
+So why we specifically mentioned my SQL DB is,
+
+00:59.580 --> 01:01.860
+if you go inside that things here, right?
+
+01:01.860 --> 01:04.860
+Kubernete, Kube user management microservice.
+
+01:04.860 --> 01:07.140
+So you'll also have something called H2 DB
+
+01:07.140 --> 01:09.150
+which is in memory DB.
+
+01:09.150 --> 01:13.230
+So you can directly deploy these H2 DB containers
+
+01:13.230 --> 01:16.410
+wherein you don't have any microserve,
+
+01:16.410 --> 01:18.690
+my SQL DB related dependencies.
+
+01:18.690 --> 01:20.760
+So directly you can deploy them.
+
+01:20.760 --> 01:22.980
+So you really don't need RDS database
+
+01:22.980 --> 01:25.260
+or my SQL containers or anything.
+
+01:25.260 --> 01:28.350
+So internal in memory DB will be available for us
+
+01:28.350 --> 01:30.960
+but as part of our architecture, right?
+
+01:30.960 --> 01:33.150
+So we are trying to depict everything
+
+01:33.150 --> 01:36.750
+and then leverage every AWS service.
+
+01:36.750 --> 01:38.850
+So that's the reason I have ensured that
+
+01:38.850 --> 01:41.880
+we are using my SQL DB tag here. Okay?
+
+01:41.880 --> 01:44.182
+So if you use SQL DB tag, then automatically
+
+01:44.182 --> 01:47.190
+know my SQL related stuff is not needed
+
+01:47.190 --> 01:50.550
+but rest all X-Ray is going to work here as is. Okay?
+
+01:50.550 --> 01:53.010
+So no changes to X-ray how it is going to work.
+
+01:53.010 --> 01:54.800
+Only thing is when you create a user
+
+01:54.800 --> 01:57.750
+the user will be stored in H2 DB
+
+01:57.750 --> 01:59.970
+and then whenever you restart your container
+
+01:59.970 --> 02:02.250
+or del-, that user will not be there
+
+02:02.250 --> 02:04.020
+because that is only a persistent DB.
+
+02:04.020 --> 02:06.720
+And if you deploy four or five containers
+
+02:06.720 --> 02:08.880
+or four or five parts of that,
+
+02:08.880 --> 02:10.800
+then you'll have a different, different data
+
+02:10.800 --> 02:12.720
+in different, different in memory DB
+
+02:12.720 --> 02:14.910
+respective to that respective part.
+
+02:14.910 --> 02:18.750
+So it's only for testing purposes we use this type of stuff.
+
+02:18.750 --> 02:20.340
+This one and then this one.
+
+02:20.340 --> 02:22.800
+So these are not real time stuff, okay?
+
+02:22.800 --> 02:24.840
+So, but for convenience purpose
+
+02:24.840 --> 02:27.150
+I have compiled and then put it there. Okay?
+
+02:27.150 --> 02:31.470
+But always we try to use my SQL DB real time cases
+
+02:31.470 --> 02:33.150
+and then we'll use the same thing.
+
+02:33.150 --> 02:35.408
+So that's about the tag we need to discuss about.
+
+02:35.408 --> 02:38.620
+And next is the change two is, environmental variables
+
+02:38.620 --> 02:41.120
+related to AWS X-Ray, right?
+
+02:41.120 --> 02:43.860
+So these are very, very important ones.
+
+02:43.860 --> 02:46.290
+So let's discuss one by one. Okay?
+
+02:46.290 --> 02:49.061
+So, AWS X-Ray tracing name, right?
+
+02:49.061 --> 02:52.380
+So if you go to our picture here, right?
+
+02:52.380 --> 02:54.840
+So inside service map you can see here
+
+02:54.840 --> 02:57.090
+user management microservice.
+
+02:57.090 --> 03:00.265
+So this is the name of our microservice.
+
+03:00.265 --> 03:03.045
+So whatever you have provided here,
+
+03:03.045 --> 03:05.550
+it will be displayed here. Okay?
+
+03:05.550 --> 03:07.410
+So whatever we provide here, you can see.
+
+03:07.410 --> 03:10.783
+You can see here V1 notification microservice.
+
+03:10.783 --> 03:13.740
+So the same thing is getting displayed here.
+
+03:13.740 --> 03:16.980
+So your application name, whatever you want to provide.
+
+03:16.980 --> 03:18.660
+So that one you need to provide
+
+03:18.660 --> 03:20.430
+means like in your application code
+
+03:20.430 --> 03:22.410
+you might have written something else, okay?
+
+03:22.410 --> 03:24.030
+So in my application code also
+
+03:24.030 --> 03:27.630
+I have written something here so I can show you, right?
+
+03:27.630 --> 03:28.923
+So if I open it here
+
+03:28.923 --> 03:31.770
+so I have said user management microservice
+
+03:31.770 --> 03:33.360
+just simply like this, okay?
+
+03:33.360 --> 03:36.262
+But if you want to override this value
+
+03:36.262 --> 03:39.014
+if you want to override this value with this value
+
+03:39.014 --> 03:43.050
+so you can use this, send the environmental variable.
+
+03:43.050 --> 03:44.481
+I always prefer to do everything
+
+03:44.481 --> 03:47.040
+via means like these type of things if available
+
+03:47.040 --> 03:50.310
+I try to use via Kubernetes deployment manifest
+
+03:50.310 --> 03:52.770
+so that I can alter in future also, right?
+
+03:52.770 --> 03:55.560
+So that's the reason I used this variable name
+
+03:55.560 --> 03:58.942
+and then provided my name, whatever is required for me here.
+
+03:58.942 --> 04:03.570
+Okay? And next thing is AWS X-Ray daemon address.
+
+04:03.570 --> 04:05.730
+So which means whenever that daemon is running
+
+04:05.730 --> 04:07.020
+so it need to know, right?
+
+04:07.020 --> 04:09.735
+Our respective application container need to know
+
+04:09.735 --> 04:11.880
+to which the X-Ray daemon address
+
+04:11.880 --> 04:13.830
+it need to send that traces, right?
+
+04:13.830 --> 04:17.220
+So X-Ray service dot default and then 2000.
+
+04:17.220 --> 04:19.440
+What does this mean, right?
+
+04:19.440 --> 04:22.324
+So if you see here in our templates, right?
+
+04:22.324 --> 04:24.056
+X-Ray service.
+
+04:24.056 --> 04:29.056
+So you go here and you only created this service, okay?
+
+04:29.140 --> 04:31.860
+X-Ray service in X-Ray care demonstrate
+
+04:31.860 --> 04:34.740
+in previous lecture we created this service, okay?
+
+04:34.740 --> 04:36.210
+In name spell default.
+
+04:36.210 --> 04:38.760
+So X-Ray service dot default will be my name
+
+04:38.760 --> 04:40.140
+of my daemon address
+
+04:40.140 --> 04:43.500
+and the pod I'm going to use is 2000 pod.
+
+04:43.500 --> 04:45.900
+Why? Because I exposed it as 2000.
+
+04:45.900 --> 04:47.013
+We can even see that here.
+
+04:47.013 --> 04:52.013
+Kube CTL get SVC will provide the X-Ray service
+
+04:53.400 --> 04:55.658
+with the pod is 2000.
+
+04:55.658 --> 04:56.850
+Okay? So that's good.
+
+04:56.850 --> 04:59.743
+So that's about that daemon address, right?
+
+04:59.743 --> 05:04.500
+And next is X-Ray context missing. Okay?
+
+05:04.500 --> 05:07.230
+So if you use the value log error,
+
+05:07.230 --> 05:09.240
+it will log an error and then continue.
+
+05:09.240 --> 05:11.760
+It will not disturb our application. Okay?
+
+05:11.760 --> 05:15.626
+But if you don't define this and then leave it like that.
+
+05:15.626 --> 05:18.810
+So that default is to use that runtime error.
+
+05:18.810 --> 05:20.376
+So when it uses runtime error,
+
+05:20.376 --> 05:22.680
+it throws a runtime exception,
+
+05:22.680 --> 05:25.020
+which is default option if not configured.
+
+05:25.020 --> 05:26.910
+So it's not good, right?
+
+05:26.910 --> 05:30.600
+So for me, for now it need to log error and then continue.
+
+05:30.600 --> 05:32.910
+If X-ray is not working, what matters for me?
+
+05:32.910 --> 05:35.670
+My application should continue to keep running, right?
+
+05:35.670 --> 05:39.043
+So that's the purpose I defined this way.
+
+05:39.043 --> 05:42.906
+AWS X-Ray context missing, log error and then continue.
+
+05:42.906 --> 05:46.950
+The CN3 environmental variables also will be present
+
+05:46.950 --> 05:49.350
+for our notification microservice.
+
+05:49.350 --> 05:51.300
+Also, in addition to that
+
+05:51.300 --> 05:53.940
+there will be something called for notification microservice
+
+05:53.940 --> 05:58.740
+also you'll have 3 dot 0 dot 0 AWS X-Ray tag.
+
+05:58.740 --> 06:02.604
+So you can find it here, let me go to repositories, right?
+
+06:02.604 --> 06:06.024
+And you'll have the notification microservice here
+
+06:06.024 --> 06:07.773
+and you can see it here.
+
+06:08.700 --> 06:12.630
+3 dot 0 dot 0 AWS X-Ray, right?
+
+06:12.630 --> 06:16.500
+And here you'll also have 4 dot 0 dot 0 AWS X-Ray.
+
+06:16.500 --> 06:19.890
+So which will state that 3 dot 0 dot 0 is V1 version
+
+06:19.890 --> 06:23.310
+of your application and then 4 dot 0 dot 0 for X-Ray
+
+06:23.310 --> 06:25.860
+is V2 version of application.
+
+06:25.860 --> 06:28.350
+So whenever we are doing the cannery deployments
+
+06:28.350 --> 06:31.350
+in our next sections, so we are also going to
+
+06:31.350 --> 06:34.710
+use 4 dot 0 x-ray and then distribute the traffic
+
+06:34.710 --> 06:36.930
+between 3 dot 0 and then 4 dot 0.
+
+06:36.930 --> 06:38.640
+And both will be live for us
+
+06:38.640 --> 06:41.070
+when we are accessing via browser, right?
+
+06:41.070 --> 06:43.320
+So we are going to see those things also later.
+
+06:43.320 --> 06:45.270
+So that's the reason everything is compiled
+
+06:45.270 --> 06:47.490
+and then put it ready for us. Okay.
+
+06:47.490 --> 06:49.200
+So now image tag we have verified
+
+06:49.200 --> 06:51.360
+in notification microservice also.
+
+06:51.360 --> 06:53.542
+Let's also view them from our route
+
+06:53.542 --> 06:56.580
+which to your code prospective, right?
+
+06:56.580 --> 06:59.181
+So in Kube Mainfest you have 02 applications
+
+06:59.181 --> 07:03.780
+and you can see 02 user management microservice deployment.
+
+07:03.780 --> 07:05.670
+Okay? So there only we added
+
+07:05.670 --> 07:09.030
+these additional environmental variables, okay?
+
+07:09.030 --> 07:11.580
+And same for our deployment also.
+
+07:11.580 --> 07:15.030
+Okay? And remaining things, my SQL external limb service
+
+07:15.030 --> 07:16.350
+as is, it is same, okay?
+
+07:16.350 --> 07:18.630
+And node port service for user management, same.
+
+07:18.630 --> 07:20.070
+We didn't touch it. Okay?
+
+07:20.070 --> 07:23.310
+And notification microservice SMTP service
+
+07:23.310 --> 07:25.170
+we didn't touch it, as is. Okay?
+
+07:25.170 --> 07:27.810
+From previous section which is microservices deployment
+
+07:27.810 --> 07:28.860
+on EKS.
+
+07:28.860 --> 07:31.540
+And notification cluster IP service also
+
+07:32.571 --> 07:34.141
+it is going to be as is.
+
+07:34.141 --> 07:35.310
+We didn't touch anything. Okay?
+
+07:35.310 --> 07:37.170
+Now we'll move on to ALB Ingress
+
+07:37.170 --> 07:39.807
+and then discuss about the ALB Ingress manifest.
+
+07:39.807 --> 07:42.540
+Okay? So one thing important from your perspective
+
+07:42.540 --> 07:45.631
+is whenever you are using this template
+
+07:45.631 --> 07:48.780
+you need to update your certificate ARN, right?
+
+07:48.780 --> 07:50.850
+So if you have already updated it
+
+07:50.850 --> 07:55.530
+in your respective ALB application load balances section
+
+07:55.530 --> 07:58.320
+and then trying to copy paste your template
+
+07:58.320 --> 08:01.260
+continuously for every section, then there is no issue.
+
+08:01.260 --> 08:03.180
+Okay? If not, always ensure
+
+08:03.180 --> 08:06.600
+that you update your certificate ARN here
+
+08:06.600 --> 08:08.790
+and then your external DNS names, okay?
+
+08:08.790 --> 08:10.980
+You might have your own domain name, right?
+
+08:10.980 --> 08:12.840
+Mine is Q1 cloud dot com.
+
+08:12.840 --> 08:14.580
+So yours might be something else.
+
+08:14.580 --> 08:19.320
+So that one you need to update here for route 53 section.
+
+08:19.320 --> 08:23.070
+So these are the reviews we need to understand
+
+08:23.070 --> 08:26.400
+about our respective deployment manifests.
+
+08:26.400 --> 08:29.400
+And then Ingress manifest, rest all are going to be same.
+
+08:29.400 --> 08:31.220
+So in our next lecture we are going to deploy
+
+08:31.220 --> 08:33.510
+and then test it.
+
+08:33.510 --> 08:34.982
+So I'll see you in the next lecture.
+
+08:34.982 --> 08:36.660
+Until then, bye bye.
+
+08:36.660 --> 08:37.493
+Thank you.

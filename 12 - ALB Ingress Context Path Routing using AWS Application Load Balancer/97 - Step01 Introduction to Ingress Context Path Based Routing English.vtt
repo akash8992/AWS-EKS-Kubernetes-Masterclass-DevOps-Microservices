@@ -1,0 +1,397 @@
+WEBVTT
+
+00:00.330 --> 00:01.290
+Instructor: Welcome back.
+
+00:01.290 --> 00:02.790
+In this section we are going
+
+00:02.790 --> 00:07.440
+to implement Kubernetes ingress context path based routing
+
+00:07.440 --> 00:10.170
+in application load balancer.
+
+00:10.170 --> 00:12.420
+So let's see the network design
+
+00:12.420 --> 00:15.360
+for this entire implementation.
+
+00:15.360 --> 00:17.598
+So we already created a VPC
+
+00:17.598 --> 00:21.180
+and inside a VPC we have public and private subnets.
+
+00:21.180 --> 00:24.390
+We already created a EKS cluster control plane
+
+00:24.390 --> 00:28.920
+and also EKS private node group in the private subnets.
+
+00:28.920 --> 00:31.200
+In addition to that, we also installed
+
+00:31.200 --> 00:33.690
+the ingress controller.
+
+00:33.690 --> 00:37.890
+So now we are going to deploy three apps.
+
+00:37.890 --> 00:40.680
+So for those three apps we are going to have
+
+00:40.680 --> 00:43.230
+those three deployment manifests
+
+00:43.230 --> 00:45.840
+and node port service manifests.
+
+00:45.840 --> 00:49.590
+So those are nothing but app1 node port service
+
+00:49.590 --> 00:52.770
+and app1 deployment app2 node port service
+
+00:52.770 --> 00:56.040
+and app2 deployment and app3 node port service
+
+00:56.040 --> 00:58.620
+and app3 deployment.
+
+00:58.620 --> 01:02.220
+And we are also going to define an ingress service
+
+01:02.220 --> 01:05.190
+with context path based routing rules.
+
+01:05.190 --> 01:09.720
+So wherein we are going to define a rules like /app1
+
+01:09.720 --> 01:11.820
+goes to app1 node port service,
+
+01:11.820 --> 01:14.640
+which eventually goes to the app1 pod
+
+01:14.640 --> 01:19.470
+and slash app2 context path goes to app2 node port service
+
+01:19.470 --> 01:22.200
+which eventually goes to the app2 pod.
+
+01:22.200 --> 01:26.580
+And anything with route context goes to app3 pod
+
+01:26.580 --> 01:28.830
+via app3 node port service.
+
+01:28.830 --> 01:32.850
+So as a user, whenever I access my application
+
+01:32.850 --> 01:36.270
+with &lt;ALB-DNS-URL>/ with route context,
+
+01:36.270 --> 01:39.330
+so the request will go to app3 pod
+
+01:39.330 --> 01:42.600
+via node port service and ingress service.
+
+01:42.600 --> 01:45.030
+And the rule is '/'.
+
+01:45.030 --> 01:49.860
+And when you access your URL with /app1,
+
+01:49.860 --> 01:52.740
+so it comes to your ingress service
+
+01:52.740 --> 01:55.680
+and it checks for the rule /app1
+
+01:55.680 --> 01:58.080
+and it routes to app1 node port service.
+
+01:58.080 --> 02:01.290
+From there it will reach the app1 pod.
+
+02:01.290 --> 02:04.080
+And same applies to the app2.
+
+02:04.080 --> 02:07.080
+So whenever user accesses with /app2
+
+02:07.080 --> 02:09.540
+as the context path in the browser,
+
+02:09.540 --> 02:11.550
+request comes to the ingress service
+
+02:11.550 --> 02:16.020
+and validates its rule for /app2, the configured service
+
+02:16.020 --> 02:18.180
+is going to be app2 node port service.
+
+02:18.180 --> 02:22.440
+So it will go there and from there it will go to app2 pod.
+
+02:22.440 --> 02:24.540
+So this is what is going to happen
+
+02:24.540 --> 02:27.180
+whenever we implement that context path based routing.
+
+02:27.180 --> 02:29.760
+So far we have seen the network design
+
+02:29.760 --> 02:33.870
+for ingress context path based routing
+
+02:33.870 --> 02:36.120
+using the AWS resources.
+
+02:36.120 --> 02:38.490
+So you can see EKS cluster control plane
+
+02:38.490 --> 02:41.130
+public subnets, private subnets, worker nodes,
+
+02:41.130 --> 02:42.270
+all these things.
+
+02:42.270 --> 02:45.870
+Also see the same architecture in a different way
+
+02:45.870 --> 02:47.700
+using the Kubernetes objects.
+
+02:47.700 --> 02:49.170
+How it is going to work
+
+02:49.170 --> 02:53.490
+inside the Kubernetes cluster, right?
+
+02:53.490 --> 02:55.740
+So you have in AWS Cloud
+
+02:55.740 --> 02:58.830
+you have created the AWS EKS cluster.
+
+02:58.830 --> 03:02.190
+And in EKS cluster in the Kube system namespace
+
+03:02.190 --> 03:05.670
+you have installed the ingress controller.
+
+03:05.670 --> 03:08.010
+So ingress controller related deployment
+
+03:08.010 --> 03:11.610
+which eventually creates the ingress controller pods
+
+03:11.610 --> 03:14.910
+and also you have the ingress web hook service.
+
+03:14.910 --> 03:19.910
+So now whenever as a Kubernetes admin using kubectl client
+
+03:20.370 --> 03:24.840
+whenever you deploy the Kubernetes objects, right?
+
+03:24.840 --> 03:28.101
+So in those objects, whenever you deploy
+
+03:28.101 --> 03:32.490
+ingress service related Kubernetes object or a resource,
+
+03:32.490 --> 03:35.220
+so this ingress controller keeps watching
+
+03:35.220 --> 03:39.930
+the K8s API server which is EKS cluster API server
+
+03:39.930 --> 03:43.470
+for finding any ingress services deployed.
+
+03:43.470 --> 03:46.410
+And if it finds any ingress services deployed,
+
+03:46.410 --> 03:48.210
+immediately it is going to create
+
+03:48.210 --> 03:50.490
+the ingress service for us.
+
+03:50.490 --> 03:52.440
+And this ingress service is nothing
+
+03:52.440 --> 03:55.230
+but whenever this ingress service is created
+
+03:55.230 --> 03:58.080
+it's equivalent AWS application load balancer
+
+03:58.080 --> 04:00.450
+is created in the AWS Cloud.
+
+04:00.450 --> 04:02.520
+And this ingress service already
+
+04:02.520 --> 04:06.720
+has context path based routing rules inside that.
+
+04:06.720 --> 04:09.990
+And those also will be defined inside this ingress service
+
+04:09.990 --> 04:13.050
+and equivalent routing rules also will get created
+
+04:13.050 --> 04:16.773
+in the AWS application load balancer, right.
+
+04:17.730 --> 04:22.440
+Now, one important thing is so using the K8s admin
+
+04:22.440 --> 04:23.940
+using kubectl client only,
+
+04:23.940 --> 04:27.390
+you'll also deploy the node port services
+
+04:27.390 --> 04:29.190
+and also deployments
+
+04:29.190 --> 04:31.713
+for your nginx app1, app2, and then app3.
+
+04:33.240 --> 04:37.440
+And whenever user accesses with the /app1 context
+
+04:37.440 --> 04:42.180
+so the request will go to app1 nginx app1 pod.
+
+04:42.180 --> 04:45.210
+So via ingress service and the rules
+
+04:45.210 --> 04:46.530
+it will crosscheck the rules
+
+04:46.530 --> 04:49.080
+and it will go to that app1 service
+
+04:49.080 --> 04:51.510
+if the context path is app1
+
+04:51.510 --> 04:53.070
+and go to that node port service
+
+04:53.070 --> 04:55.500
+And from there it will go to the pod.
+
+04:55.500 --> 04:58.050
+Same applies for app2 and same applies
+
+04:58.050 --> 04:59.910
+for the route context.
+
+04:59.910 --> 05:03.150
+Another important thing which we need to be aware of is,
+
+05:03.150 --> 05:06.750
+AWS application load balancer and ingress service
+
+05:06.750 --> 05:08.910
+are not two different objects.
+
+05:08.910 --> 05:12.780
+In other lines, so it is like AWS application load balancer
+
+05:12.780 --> 05:16.560
+is not proxying its request to ingress service.
+
+05:16.560 --> 05:20.640
+So both are combinedly a single object.
+
+05:20.640 --> 05:23.700
+So for depiction purpose in EKS cluster
+
+05:23.700 --> 05:27.390
+you call it as ingress service and in AWS Cloud
+
+05:27.390 --> 05:30.900
+you call it as AWS application load balancer.
+
+05:30.900 --> 05:33.480
+So whenever as a Kubernetes admin,
+
+05:33.480 --> 05:36.354
+whenever you provide the ingress service
+
+05:36.354 --> 05:39.930
+Kubernetes manifest for K8s API server
+
+05:39.930 --> 05:41.820
+when this ingress controller watches
+
+05:41.820 --> 05:43.710
+and creates the ingress service.
+
+05:43.710 --> 05:46.947
+So this ingress service is nothing but it creates equivalent
+
+05:46.947 --> 05:50.790
+AWS application load balancer object, that's all.
+
+05:50.790 --> 05:55.004
+So which means users whenever they access anything
+
+05:55.004 --> 05:58.080
+/app1, /index.html or anything,
+
+05:58.080 --> 06:00.540
+so this entire thing is a single object
+
+06:00.540 --> 06:04.440
+and from here the request to goes to the your respective
+
+06:04.440 --> 06:06.420
+node port service and from there it will go
+
+06:06.420 --> 06:09.870
+to your respective application pod.
+
+06:09.870 --> 06:11.970
+But anything under this red boundary
+
+06:11.970 --> 06:14.160
+is called a single object.
+
+06:14.160 --> 06:16.680
+So this clarifies that there is no proxy
+
+06:16.680 --> 06:21.360
+between AWS application load balancer and ingress service.
+
+06:21.360 --> 06:22.193
+Next.
+
+06:22.193 --> 06:24.030
+So this completes the introductory part
+
+06:24.030 --> 06:28.620
+of EKS ALB ingress context path base routing.
+
+06:28.620 --> 06:30.660
+In our next lecture, we are going to go ahead
+
+06:30.660 --> 06:33.180
+and then practically implement the same use.
+
+06:33.180 --> 06:34.410
+I'll see you in the next lecture.
+
+06:34.410 --> 06:36.033
+Until then, bye-bye, thank you.

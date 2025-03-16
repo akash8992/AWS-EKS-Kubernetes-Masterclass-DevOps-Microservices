@@ -1,0 +1,307 @@
+WEBVTT
+
+00:00.270 --> 00:01.380
+-: Welcome back.
+
+00:01.380 --> 00:03.720
+In this lecture we are going to understand
+
+00:03.720 --> 00:07.560
+about what are microservices, canary deployments.
+
+00:07.560 --> 00:11.160
+And in this entire section we are also going to
+
+00:11.160 --> 00:12.690
+do the canary deployment
+
+00:12.690 --> 00:16.680
+of our applications in EKs cluster.
+
+00:16.680 --> 00:20.370
+So let's start with, what are canary deployments?
+
+00:20.370 --> 00:25.170
+Canaries means incremental roll outs in a simple form.
+
+00:25.170 --> 00:27.480
+So with canaries the new version
+
+00:27.480 --> 00:30.720
+of the application is slowly deployed to the Kubernetes
+
+00:30.720 --> 00:34.440
+while getting a very small amount of live traffic.
+
+00:34.440 --> 00:38.130
+So in our case we have the user management microservice
+
+00:38.130 --> 00:41.386
+which is also calling a notification microservice,
+
+00:41.386 --> 00:42.219
+for its use.
+
+00:42.219 --> 00:45.900
+So now, so we are also going to introduce one more version
+
+00:45.900 --> 00:48.780
+of notification microservice, which is V2,
+
+00:48.780 --> 00:51.960
+and then also diverting some amount
+
+00:51.960 --> 00:53.640
+of graphic to that.
+
+00:53.640 --> 00:56.790
+So in short, a subset of live users are connecting
+
+00:56.790 --> 00:57.990
+to that new version
+
+00:57.990 --> 01:01.980
+while the rest are still using that previous version.
+
+01:01.980 --> 01:03.830
+So if you see here 75%
+
+01:03.830 --> 01:08.340
+of traffic coming to notification microservice V1 version
+
+01:08.340 --> 01:12.780
+and 25% going to notification microservice V2 version.
+
+01:12.780 --> 01:16.470
+So having both versions available
+
+01:16.470 --> 01:18.540
+in production and then available
+
+01:18.540 --> 01:23.190
+for the user subset of users is called canary deployments.
+
+01:23.190 --> 01:27.000
+So once we feel that notification V2
+
+01:27.000 --> 01:30.420
+is well and good and then it is performing well
+
+01:30.420 --> 01:32.940
+and then if we want to cut over entire traffic
+
+01:32.940 --> 01:35.430
+so we can move the hundred percent of traffic
+
+01:35.430 --> 01:37.620
+to V2 version.
+
+01:37.620 --> 01:41.730
+So using canaries we can detect deployment issues very early
+
+01:41.730 --> 01:44.880
+while they effect only a small subset of users
+
+01:44.880 --> 01:46.650
+if we encounter any issues
+
+01:46.650 --> 01:49.170
+with the canary version of our deployment.
+
+01:49.170 --> 01:51.990
+So in production environments we can quickly switch back
+
+01:51.990 --> 01:56.010
+to our original production version immediately, right?
+
+01:56.010 --> 02:00.270
+So all these options are available with canary deployments.
+
+02:00.270 --> 02:03.150
+So once we perform our canary deployment
+
+02:03.150 --> 02:06.000
+and then if we go back to our x-ray and then see it,
+
+02:06.000 --> 02:07.800
+so it is going to look like this.
+
+02:07.800 --> 02:10.560
+So from client as a user, when you access the request
+
+02:10.560 --> 02:12.900
+it goes to user management microservice
+
+02:12.900 --> 02:16.260
+and then it'll go, few traffic will go
+
+02:16.260 --> 02:18.240
+to V1 notification microservice
+
+02:18.240 --> 02:19.674
+and then few traffic will go
+
+02:19.674 --> 02:22.860
+to V2 notification microservice.
+
+02:22.860 --> 02:25.200
+So let's see that in GitHub repository
+
+02:25.200 --> 02:28.890
+what we have planned for this entire section.
+
+02:28.890 --> 02:32.340
+So we are in AWS EKS Kubernetes Masterclass
+
+02:32.340 --> 02:35.670
+and we are entering our 14 microservices
+
+02:35.670 --> 02:38.730
+canary deployment section, right?
+
+02:38.730 --> 02:41.670
+So we already discussed about the use case, right?
+
+02:41.670 --> 02:45.763
+So we are going to, from user management microservice
+
+02:46.860 --> 02:49.410
+we are going to call both versions of notification
+
+02:49.410 --> 02:52.140
+microservices, the use case,
+
+02:52.140 --> 02:55.830
+and we can distribute our traffic to V1 and V2 based
+
+02:55.830 --> 02:59.460
+on the number of replicas we configure on our
+
+02:59.460 --> 03:00.930
+respective deployment file.
+
+03:00.930 --> 03:04.470
+So notification service V1 will have one deployment
+
+03:04.470 --> 03:07.560
+and then NS V2 will have one more deployment.
+
+03:07.560 --> 03:09.870
+So example, if you configure four replicas
+
+03:09.870 --> 03:12.600
+in NS V1 deployment file, which is nothing,
+
+03:12.600 --> 03:15.810
+but let me open the visual studio code.
+
+03:15.810 --> 03:17.550
+So in visual studio code you see
+
+03:17.550 --> 03:20.670
+that we have something called notification deployment
+
+03:20.670 --> 03:23.250
+and then V2 notification deployment.
+
+03:23.250 --> 03:26.520
+So this is notification deployment V1 notification
+
+03:26.520 --> 03:30.930
+microservice and this is V2 notification microservice.
+
+03:30.930 --> 03:34.230
+In notification deployment if you say replicas two here
+
+03:34.230 --> 03:37.320
+and then for V2 also two then, which is nothing,
+
+03:37.320 --> 03:40.230
+but you are distributing the traffic 50%
+
+03:40.230 --> 03:44.220
+to NS V2 version and then 50% to NS V1 version.
+
+03:44.220 --> 03:46.950
+So like this, by altering the number of replicas
+
+03:46.950 --> 03:50.160
+between two deployments you can have
+
+03:50.160 --> 03:53.220
+the canary successfully implemented
+
+03:53.220 --> 03:56.610
+without of the box in microservices.
+
+03:56.610 --> 03:59.820
+So on Kubernetes, so out of the box
+
+03:59.820 --> 04:01.770
+with whatever the availability we have
+
+04:01.770 --> 04:02.970
+with basic deployments,
+
+04:02.970 --> 04:06.480
+we can do it without using any external services.
+
+04:06.480 --> 04:07.980
+Currently, not currently,
+
+04:07.980 --> 04:11.190
+like we didn't deploy them on our Kubernetes cluster
+
+04:11.190 --> 04:13.860
+like STO or AWS app measure or whatever it is.
+
+04:13.860 --> 04:18.150
+Okay, so in our demo, so we are going to do it
+
+04:18.150 --> 04:20.130
+with 50% traffic to NS V2
+
+04:20.130 --> 04:22.800
+and then 50% traffic to NS V1.
+
+04:22.800 --> 04:25.080
+So the list of docker images we are going to
+
+04:25.080 --> 04:27.930
+use here is user management microservice,
+
+04:27.930 --> 04:32.460
+the same one which is 3.0.0 AWS exhibit skill building,
+
+04:32.460 --> 04:35.940
+and we are going to use notification microservice V1,
+
+04:35.940 --> 04:38.910
+and this should be V2, I should update this.
+
+04:38.910 --> 04:41.850
+V1 is going to be 3.0.0 AWS X-ray
+
+04:41.850 --> 04:46.020
+and V2 is going to be 4.0.0 AWS X-ray.
+
+04:46.020 --> 04:48.390
+So this completes the introduction part
+
+04:48.390 --> 04:51.630
+of our microservices candidate deployments.
+
+04:51.630 --> 04:54.210
+And for next lecture we'll focus on the prerequisites
+
+04:54.210 --> 04:57.300
+for this respective section implementation.
+
+04:57.300 --> 04:58.890
+So I'll see you in the next lecture.
+
+04:58.890 --> 04:59.850
+Until then, bye bye.
+
+04:59.850 --> 05:00.683
+Thank you.

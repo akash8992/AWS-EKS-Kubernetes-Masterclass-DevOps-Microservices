@@ -1,0 +1,313 @@
+WEBVTT
+
+00:00.150 --> 00:01.020
+-: Welcome back.
+
+00:01.020 --> 00:03.660
+In this lecture we are going to understand
+
+00:03.660 --> 00:07.470
+about one more Kubernetes core concept named services.
+
+00:07.470 --> 00:09.960
+And in services specifically
+
+00:09.960 --> 00:13.230
+we are going to focus on NodePort service.
+
+00:13.230 --> 00:16.410
+So why we are introducing this concept very early
+
+00:16.410 --> 00:18.990
+during the pods demo itself.
+
+00:18.990 --> 00:21.960
+The reason is, so we have deployed a pod until
+
+00:21.960 --> 00:24.240
+and unless we test it and then access it
+
+00:24.240 --> 00:26.520
+we really don't know what is happening, right?
+
+00:26.520 --> 00:29.640
+So everything, if you test, then we know what is happening.
+
+00:29.640 --> 00:32.370
+So in that line, so we are going to introduce this
+
+00:32.370 --> 00:35.190
+which means like whatever the pod we are going to deploy
+
+00:35.190 --> 00:38.310
+on the Kubernetes cluster, we are going to expose it
+
+00:38.310 --> 00:40.680
+to the internet and then access it
+
+00:40.680 --> 00:43.140
+and then ensure that my application is running.
+
+00:43.140 --> 00:45.420
+So that gives you a good feel for us, right?
+
+00:45.420 --> 00:47.670
+So let's do that now.
+
+00:47.670 --> 00:51.330
+So we can expose an application running on a set
+
+00:51.330 --> 00:54.930
+of ports in Kubernetes using different services available
+
+00:54.930 --> 00:56.100
+in Kubernetes.
+
+00:56.100 --> 01:01.080
+So those are ClusterIP, NodePort and LoadBalancer.
+
+01:01.080 --> 01:04.260
+So ClusterIP is specific to a cluster
+
+01:04.260 --> 01:07.080
+which means its boundary is only a cluster
+
+01:07.080 --> 01:09.390
+and inside the Kubernetes cluster
+
+01:09.390 --> 01:12.540
+you can access your ports with ClusterIP
+
+01:12.540 --> 01:15.387
+if you have created a ClusterIP service for your port
+
+01:15.387 --> 01:19.290
+and NodePort is nothing but using the nodes port
+
+01:19.290 --> 01:21.480
+whatever it is exposed, using that port,
+
+01:21.480 --> 01:23.160
+you will be able to access
+
+01:23.160 --> 01:26.850
+your application externally via internet.
+
+01:26.850 --> 01:29.040
+And another thing is LoadBalancer.
+
+01:29.040 --> 01:33.930
+So this is specifically for our cloud providers like AWS
+
+01:33.930 --> 01:36.180
+and then Google and then Azure.
+
+01:36.180 --> 01:40.830
+So they LoadBalancer services integrated with Kubernetes
+
+01:40.830 --> 01:43.440
+so that using LoadBalancer service,
+
+01:43.440 --> 01:45.060
+you will be automatically able
+
+01:45.060 --> 01:48.840
+to create a AWS elastic load balancer or Azure load balancer
+
+01:48.840 --> 01:51.513
+or Google load balancer automatically.
+
+01:52.350 --> 01:55.680
+Moving on with NodePort service,
+
+01:55.680 --> 01:58.590
+so to access our application outside of Kubernetes cluster
+
+01:58.590 --> 02:01.050
+we can use the NodePort service.
+
+02:01.050 --> 02:04.140
+So it exposes the service on each worker nodes,
+
+02:04.140 --> 02:09.140
+IP at a static port, nothing but the ClusterIP service
+
+02:09.510 --> 02:11.670
+to which the NodePort service routes
+
+02:11.670 --> 02:13.260
+is automatically created
+
+02:13.260 --> 02:16.230
+whenever a NodePort service is created.
+
+02:16.230 --> 02:18.750
+And the port range for our worker nodes is going
+
+02:18.750 --> 02:22.440
+to be 30,000 to 32,767.
+
+02:22.440 --> 02:24.480
+So now let's understand the entire flow
+
+02:24.480 --> 02:26.970
+in a diagrammatical manner.
+
+02:26.970 --> 02:29.520
+So you see, you have a Kubernetes cluster
+
+02:29.520 --> 02:31.530
+with a worker node here.
+
+02:31.530 --> 02:34.020
+So, and then you have deployed your port engine export
+
+02:34.020 --> 02:34.920
+which is nothing but your
+
+02:34.920 --> 02:37.380
+my first port, whatever it is we have seen earlier
+
+02:37.380 --> 02:39.210
+we have deployed it here.
+
+02:39.210 --> 02:42.300
+So now we have created a NodePort service.
+
+02:42.300 --> 02:44.850
+So what happens, right in a NodePort service
+
+02:44.850 --> 02:47.040
+you'll have something called every service will have
+
+02:47.040 --> 02:48.090
+its own port.
+
+02:48.090 --> 02:51.450
+So that is nothing but the ClusterIP service port.
+
+02:51.450 --> 02:53.220
+So your port port is 80
+
+02:53.220 --> 02:56.460
+and your ClusterIP service port is also 80.
+
+02:56.460 --> 02:58.530
+So the next thing is target port.
+
+02:58.530 --> 03:01.800
+So in the the service you'll have the definition called port
+
+03:01.800 --> 03:03.060
+which is 80, which is nothing
+
+03:03.060 --> 03:05.487
+but the service port and the target port.
+
+03:05.487 --> 03:09.330
+And the target port is nothing but container port in a port.
+
+03:09.330 --> 03:11.820
+So this is nothing but your respective ports' port.
+
+03:11.820 --> 03:13.860
+So this is port port 80
+
+03:13.860 --> 03:17.160
+and the next thing is worker NodePort.
+
+03:17.160 --> 03:19.050
+So this is nothing but whatever it starts
+
+03:19.050 --> 03:21.480
+from 30,000 to 32,767.
+
+03:21.480 --> 03:24.990
+So whenever you are creating it using the imperative way
+
+03:24.990 --> 03:29.820
+you don't have an option to declare it the specific port
+
+03:29.820 --> 03:31.110
+but whenever you're doing it
+
+03:31.110 --> 03:34.080
+in a declarative manner using YAML.
+
+03:34.080 --> 03:37.260
+So you can define one specific port number
+
+03:37.260 --> 03:38.880
+from this respective range.
+
+03:38.880 --> 03:41.520
+So I can say 32 331 or something.
+
+03:41.520 --> 03:44.850
+And then you can specifically declare your port
+
+03:44.850 --> 03:47.490
+and then use it when you are using YAML.
+
+03:47.490 --> 03:50.460
+But when you are doing with imperative way using kubectl
+
+03:50.460 --> 03:51.540
+you really don't have,
+
+03:51.540 --> 03:55.191
+and then automatically Kubernetes assigns one dynamic port
+
+03:55.191 --> 03:57.420
+between this range.
+
+03:57.420 --> 03:59.520
+So that's about the worker NodePort
+
+03:59.520 --> 04:01.230
+and then ClusterIP service port,
+
+04:01.230 --> 04:03.480
+and then container port in a port.
+
+04:03.480 --> 04:06.480
+So now the next thing is whenever a user tries
+
+04:06.480 --> 04:10.870
+to access using worker node IP and then NodePort
+
+04:10.870 --> 04:15.870
+so the traffic comes via our worker nodes, respect to port
+
+04:16.230 --> 04:18.120
+which is in between this range.
+
+04:18.120 --> 04:19.320
+And then it will send
+
+04:19.320 --> 04:22.740
+to that ClusterIP service under that on port 80.
+
+04:22.740 --> 04:26.040
+And then from there it will send to the target port
+
+04:26.040 --> 04:28.710
+which is nothing but the 80 port on our port
+
+04:28.710 --> 04:31.620
+and then our application will be accessible.
+
+04:31.620 --> 04:36.060
+So this is about the NodePort service on a very high level.
+
+04:36.060 --> 04:38.130
+So in our next lecture we'll focus
+
+04:38.130 --> 04:40.800
+on the entire demo for this one.
+
+04:40.800 --> 04:42.300
+So I'll see you in the next lecture.
+
+04:42.300 --> 04:44.013
+Until then, bye bye, thank you.

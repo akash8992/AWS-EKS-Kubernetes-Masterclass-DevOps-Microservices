@@ -1,0 +1,442 @@
+WEBVTT
+
+00:00.000 --> 00:00.990
+-: Welcome back.
+
+00:00.990 --> 00:02.130
+In this lecture,
+
+00:02.130 --> 00:05.340
+we are going to create a network load balancer.
+
+00:05.340 --> 00:07.590
+So in previous lectures we have created
+
+00:07.590 --> 00:09.720
+a classic load balancer.
+
+00:09.720 --> 00:11.443
+So now we are going to create
+
+00:11.443 --> 00:13.890
+a network load balancer manifest,
+
+00:13.890 --> 00:16.620
+and then execute them or deploy them
+
+00:16.620 --> 00:19.220
+to create a network load balancer in AWS
+
+00:19.220 --> 00:20.910
+in our architecture.
+
+00:20.910 --> 00:23.760
+So only change means like the entire architecture
+
+00:23.760 --> 00:24.960
+is going to be same.
+
+00:24.960 --> 00:26.190
+Only change here is
+
+00:26.190 --> 00:29.250
+instead of classic load balancer service,
+
+00:29.250 --> 00:33.330
+we are going to create a network load balancer service.
+
+00:33.330 --> 00:34.260
+On a very high level,
+
+00:34.260 --> 00:35.970
+what is network load balancer service?
+
+00:35.970 --> 00:37.290
+We have seen earlier also,
+
+00:37.290 --> 00:39.243
+it is nothing but a TCP load balancer
+
+00:39.243 --> 00:43.680
+or a UDP load balancer, which doesn't need any http traffic.
+
+00:43.680 --> 00:44.513
+Okay?
+
+00:44.513 --> 00:47.520
+It's like it'll be communicating at the TCP level.
+
+00:47.520 --> 00:50.130
+So whatever it is, my application allows TCPR,
+
+00:50.130 --> 00:52.620
+http anything is fine for it.
+
+00:52.620 --> 00:55.560
+So I will use the TCP load balancer here.
+
+00:55.560 --> 00:58.770
+In regular use cases or in general use cases,
+
+00:58.770 --> 01:03.770
+like TCP load balancer are used for load balancing
+
+01:04.050 --> 01:06.300
+or providing the high availability features
+
+01:06.300 --> 01:10.620
+for the applications which doesn't need http,
+
+01:10.620 --> 01:13.650
+maybe like a SMTP server or some other stuff, right?
+
+01:13.650 --> 01:16.020
+So whoever's needs plain TCP load balancing.
+
+01:16.020 --> 01:19.530
+So we can provide using network load balancer.
+
+01:19.530 --> 01:22.890
+So now let's go ahead and then create the stuff.
+
+01:22.890 --> 01:23.723
+Okay?
+
+01:23.723 --> 01:28.140
+So we'll go to 0703 network load balancer NLB.
+
+01:28.140 --> 01:30.960
+And if you see here, so everything,
+
+01:30.960 --> 01:32.820
+entire manifest is going to be same
+
+01:32.820 --> 01:34.170
+as classic load balancer.
+
+01:34.170 --> 01:36.870
+Only one additional step will be there, which is nothing.
+
+01:36.870 --> 01:40.950
+But we are going to add annotation named NLB.
+
+01:40.950 --> 01:42.510
+So we are telling the Kubernetes
+
+01:42.510 --> 01:46.320
+whenever you are creating this load balancer type service,
+
+01:46.320 --> 01:49.320
+also reference this annotation stating
+
+01:49.320 --> 01:52.440
+that use the network load balancer,
+
+01:52.440 --> 01:55.680
+which means whenever you are creating a load balancer,
+
+01:55.680 --> 01:57.210
+create NLB service,
+
+01:57.210 --> 02:00.270
+which is nothing but network load balancer service.
+
+02:00.270 --> 02:01.650
+So annotations are nothing
+
+02:01.650 --> 02:03.000
+but we are trying to tell them that,
+
+02:03.000 --> 02:06.420
+tell the Kubernetes that we are giving the pointers
+
+02:06.420 --> 02:09.000
+that create the respective service
+
+02:09.000 --> 02:11.460
+based on whatever is provided inside it.
+
+02:11.460 --> 02:12.293
+Okay?
+
+02:12.293 --> 02:14.580
+So now we are providing and telling Kubernetes
+
+02:14.580 --> 02:16.230
+that create a NLB service here.
+
+02:16.230 --> 02:17.674
+Okay?
+
+02:17.674 --> 02:19.604
+So that will, it'll create the NLB service,
+
+02:19.604 --> 02:21.930
+which is nothing but a load balancer.
+
+02:21.930 --> 02:22.890
+Okay?
+
+02:22.890 --> 02:27.890
+So now let's go back to our work, visual studio code,
+
+02:29.460 --> 02:32.940
+and 0703 network load balancer NLB.
+
+02:32.940 --> 02:36.960
+And here is the thing, I copy the entire stuff from CLB,
+
+02:36.960 --> 02:41.700
+and what we'll do is we'll change the name here to NLB,
+
+02:41.700 --> 02:45.150
+and let's add the annotations, right?
+
+02:45.150 --> 02:48.780
+Annotations under metadata, we are adding the annotation,
+
+02:48.780 --> 02:51.280
+and the annotation name is going to be NLB, right?
+
+02:53.370 --> 02:57.330
+So as usual, whatever is there we have copied it.
+
+02:57.330 --> 03:01.380
+So now we have completed the network load balancer manifest.
+
+03:01.380 --> 03:03.120
+So rest all is going to be same type
+
+03:03.120 --> 03:05.190
+is load balancer selector for our ports
+
+03:05.190 --> 03:07.590
+is going to be user mgmt rest app,
+
+03:07.590 --> 03:08.970
+and port is going to be 80.
+
+03:08.970 --> 03:11.760
+And then target port is 8295.
+
+03:11.760 --> 03:15.990
+Okay, so now we'll go back and then deploy this stuff.
+
+03:15.990 --> 03:20.763
+So let me come out of that, and then let me go to 0703.
+
+03:22.923 --> 03:24.087
+Okay.
+
+03:24.087 --> 03:29.087
+And kubectl apply hyphen F kube manifest.
+
+03:31.200 --> 03:32.883
+So this should create us.
+
+03:35.333 --> 03:38.550
+Kubectl get svc, right?
+
+03:38.550 --> 03:41.790
+So now it is creating the NLB load balancer.
+
+03:41.790 --> 03:43.110
+So let's go back
+
+03:43.110 --> 03:48.110
+to our management console and then refresh it here.
+
+03:50.430 --> 03:51.720
+Okay?
+
+03:51.720 --> 03:54.450
+So it is getting created and off type network.
+
+03:54.450 --> 03:55.530
+You can see it here.
+
+03:55.530 --> 03:58.230
+So it is creating a network load balancer now.
+
+03:58.230 --> 04:00.240
+So it will take a while to provision it.
+
+04:00.240 --> 04:03.393
+So once it is provisioned, we will look into it more.
+
+04:04.680 --> 04:05.513
+Good.
+
+04:05.513 --> 04:09.660
+Now our network load balancer is active now,
+
+04:09.660 --> 04:11.790
+and we can see the listener put
+
+04:11.790 --> 04:13.470
+whatever we have configured here,
+
+04:13.470 --> 04:16.260
+which is nothing but port 80, is the same.
+
+04:16.260 --> 04:20.520
+We have got it here, and we can even see the target groups,
+
+04:20.520 --> 04:21.930
+and inside target groups,
+
+04:21.930 --> 04:23.970
+we can see both the targets are healthy,
+
+04:23.970 --> 04:26.340
+which means that both the workers are healthy.
+
+04:26.340 --> 04:28.560
+And then we communicate to our worker nodes
+
+04:28.560 --> 04:31.560
+with the 31984 to go inside and then access
+
+04:31.560 --> 04:33.780
+that respective pod, okay?
+
+04:33.780 --> 04:36.240
+So now this looks good.
+
+04:36.240 --> 04:39.690
+So let's go ahead and then access our application.
+
+04:39.690 --> 04:44.690
+So we can say, we can copy this complete URL, copy,
+
+04:46.950 --> 04:51.467
+and then go to browser and then STP slash slash,
+
+04:55.320 --> 05:00.320
+and user mgmt slash health status, right?
+
+05:01.890 --> 05:03.240
+It should be up and running.
+
+05:03.240 --> 05:07.800
+So we can even check this way, or we can go to our postman.
+
+05:07.800 --> 05:11.147
+And here also we'll have our health status URL.
+
+05:11.147 --> 05:12.570
+So this is CLB URL.
+
+05:12.570 --> 05:14.580
+If you want to test for NLB,
+
+05:14.580 --> 05:17.430
+so then provide the NLB,
+
+05:17.430 --> 05:20.100
+and then provide the URL as the variable.
+
+05:20.100 --> 05:24.510
+And the value is http colon slash slash and this value.
+
+05:24.510 --> 05:27.150
+Okay, so same should be updated in current value.
+
+05:27.150 --> 05:29.400
+Add it, right?
+
+05:29.400 --> 05:32.330
+And change the environment to NLB,
+
+05:32.330 --> 05:37.200
+and then go to health status, and then test it, right?
+
+05:37.200 --> 05:38.370
+So where is this?
+
+05:38.370 --> 05:40.170
+Not, this is not notification.
+
+05:40.170 --> 05:41.820
+We need to check user management.
+
+05:41.820 --> 05:42.810
+Yeah, this is the one,
+
+05:42.810 --> 05:44.880
+user management health status,
+
+05:44.880 --> 05:47.910
+URL slash user management health status.
+
+05:47.910 --> 05:50.220
+So it should look this way, right?
+
+05:50.220 --> 05:53.190
+So let me send it, so it's up and running.
+
+05:53.190 --> 05:55.830
+So earlier we have created the admin to user.
+
+05:55.830 --> 05:57.960
+If you send it, ideally it should list that.
+
+05:57.960 --> 05:58.793
+Okay?
+
+05:58.793 --> 06:01.230
+So if you want, we can even create one more user,
+
+06:01.230 --> 06:06.060
+admin three, and then even test it.
+
+06:06.060 --> 06:11.060
+Okay, save, send, okay, create, and then list the users.
+
+06:11.580 --> 06:14.310
+And we have the admin three created.
+
+06:14.310 --> 06:16.620
+So everything is working fine here.
+
+06:16.620 --> 06:19.320
+So our next step is to go ahead
+
+06:19.320 --> 06:21.450
+and then delete the manifest, right?
+
+06:21.450 --> 06:25.380
+So we have tested everything so we can delete it now.
+
+06:25.380 --> 06:29.430
+So kubectl delete hyphen F,
+
+06:29.430 --> 06:31.383
+and then kube manifest.
+
+06:34.620 --> 06:35.453
+Right?
+
+06:35.453 --> 06:40.080
+So this completes our NLB demo, network load balancer demo.
+
+06:40.080 --> 06:43.350
+So in our next series of lectures in section eight,
+
+06:43.350 --> 06:47.700
+we are going to focus on application load balancer,
+
+06:47.700 --> 06:49.740
+which is the very important one,
+
+06:49.740 --> 06:52.890
+where we are going to focus on Ingress concepts also there.
+
+06:52.890 --> 06:54.510
+So I'll see you in the next lecture.
+
+06:54.510 --> 06:55.560
+Until then, bye bye.
+
+06:55.560 --> 06:56.393
+Thank you.

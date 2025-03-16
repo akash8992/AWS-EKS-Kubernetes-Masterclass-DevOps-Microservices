@@ -1,0 +1,907 @@
+WEBVTT
+
+00:00.330 --> 00:01.470
+-: Welcome back.
+
+00:01.470 --> 00:04.920
+In this lecture, we are going to deploy all these manifests
+
+00:04.920 --> 00:07.634
+which is nothing but ingress service, NodePort service,
+
+00:07.634 --> 00:10.890
+microservices deployment, notification deployment,
+
+00:10.890 --> 00:12.420
+all these seven manifests,
+
+00:12.420 --> 00:15.120
+and then test it now.
+
+00:15.120 --> 00:18.070
+Okay, so let's go back to our GitHub report
+
+00:18.990 --> 00:21.030
+and we are in our step nine,
+
+00:21.030 --> 00:23.160
+and then step 10, we are doing it right now.
+
+00:23.160 --> 00:27.150
+And then, even we'll do the health status, which is step 11.
+
+00:27.150 --> 00:29.580
+And then even step 12, okay?
+
+00:29.580 --> 00:31.440
+So which is step 12 and then step 13,
+
+00:31.440 --> 00:34.980
+all these testings we are going to perform now.
+
+00:34.980 --> 00:39.120
+So, let's go back to our step nine and then deploy it.
+
+00:39.120 --> 00:40.590
+So to deploy it, we need to be
+
+00:40.590 --> 00:42.540
+in the respective folder, right?
+
+00:42.540 --> 00:46.717
+So CD12 is nothing, but microservices deployment done EKS.
+
+00:47.629 --> 00:51.270
+So I'll say kubectl apply-f kube-manifest.
+
+00:51.270 --> 00:55.740
+Okay, so this should deploy all our Kubernetes manifest
+
+00:55.740 --> 00:58.770
+created as part of microservices,
+
+00:58.770 --> 01:02.880
+so which is nothing but my SQL user management microservice
+
+01:02.880 --> 01:05.190
+and its db_password=secret,
+
+01:05.190 --> 01:08.013
+and NodePort service, notification microservice,
+
+01:08.013 --> 01:11.310
+SMTP service, notification ClusterIP service,
+
+01:11.310 --> 01:15.630
+and then EKS microservices demo ingress service, okay?
+
+01:15.630 --> 01:19.470
+So now, if I say kubectl get ports,
+
+01:19.470 --> 01:21.480
+so it's running,
+
+01:21.480 --> 01:23.610
+so which means, like, notification already up.
+
+01:23.610 --> 01:26.520
+So we can say kubectl logs -f,
+
+01:26.520 --> 01:28.230
+and then we have, straight away,
+
+01:28.230 --> 01:29.550
+of multiple ports are running.
+
+01:29.550 --> 01:32.280
+We can even run the commands like this, okay?
+
+01:32.280 --> 01:36.230
+So I will say this way, so...
+
+01:37.320 --> 01:39.630
+Okay, we really don't need to worry
+
+01:39.630 --> 01:41.940
+about the what is present here.
+
+01:41.940 --> 01:46.080
+So it is a part related extra name, okay?
+
+01:46.080 --> 01:47.940
+So I have added this with EIGRP
+
+01:47.940 --> 01:49.740
+so that you can just take this command
+
+01:49.740 --> 01:52.230
+and then cross secure locks, okay?
+
+01:52.230 --> 01:54.510
+So started notification service,
+
+01:54.510 --> 01:56.310
+we really don't have anything issue
+
+01:56.310 --> 01:58.200
+with notification service.
+
+01:58.200 --> 02:02.670
+So now, we'll also verify our user management service, okay?
+
+02:02.670 --> 02:04.500
+So I'll paste it now here,
+
+02:04.500 --> 02:07.440
+verifying the logs of our user management service.
+
+02:07.440 --> 02:11.450
+So it also started, so which means everything is good.
+
+02:11.450 --> 02:13.860
+So I'll also execute kubectl get ports,
+
+02:13.860 --> 02:15.930
+so all are running, ready, ready, ready, ready.
+
+02:15.930 --> 02:17.100
+Okay, so, good.
+
+02:17.100 --> 02:21.180
+So now, we are going to also verify our external DNS logs,
+
+02:21.180 --> 02:24.330
+so it should add the stuff
+
+02:24.330 --> 02:27.900
+related to our two new DNS entries for us, right?
+
+02:27.900 --> 02:30.570
+So which is services and then UMS, okay?
+
+02:30.570 --> 02:32.190
+So whatever we have configured
+
+02:32.190 --> 02:35.610
+on our prospective ingress manifest,
+
+02:35.610 --> 02:39.046
+services and then services.kubeoncloud.com
+
+02:39.046 --> 02:41.340
+and then ums.kubeoncloud.com.
+
+02:41.340 --> 02:43.410
+Good, so they have created it.
+
+02:43.410 --> 02:47.850
+So now, we will go back to our EC2, right?
+
+02:47.850 --> 02:50.730
+So and verify our load balancer also.
+
+02:50.730 --> 02:52.590
+So only we should have user management
+
+02:52.590 --> 02:54.390
+standard deployment only,
+
+02:54.390 --> 02:55.710
+so it should be running,
+
+02:55.710 --> 02:58.233
+user management microservice related stuff.
+
+02:59.190 --> 03:02.670
+So load balancer is provisioning, it'll go to target groups,
+
+03:02.670 --> 03:06.240
+so it is still waiting.
+
+03:06.240 --> 03:07.950
+So it is waiting for the registration,
+
+03:07.950 --> 03:10.020
+so we'll wait for it to get completed.
+
+03:10.020 --> 03:12.060
+In meantime, if you want, we can crosscheck,
+
+03:12.060 --> 03:16.140
+go to route 53 and then crosscheck our DNS names.
+
+03:16.140 --> 03:20.620
+So let me close this hosted zones
+
+03:22.260 --> 03:25.863
+and, if you see here, go inside that.
+
+03:27.030 --> 03:30.600
+And if you go here, so we have services.kubeoncloud.com
+
+03:30.600 --> 03:33.360
+and then ums.kubeoncloud.com.
+
+03:33.360 --> 03:36.120
+So everything looks good.
+
+03:36.120 --> 03:39.330
+So now our next step is to go ahead
+
+03:39.330 --> 03:40.680
+and then verify the stuff
+
+03:40.680 --> 03:43.260
+once the load balancer is open running.
+
+03:43.260 --> 03:48.217
+So here, kubectl get ingress, so it's good.
+
+03:51.450 --> 03:56.450
+So go to load balancer and it is active now.
+
+03:57.630 --> 04:01.200
+So as usual, we always do the NS lookup test,
+
+04:01.200 --> 04:05.970
+so copy, and then I'll say nslookup and then paste it.
+
+04:05.970 --> 04:08.700
+So I got the IPS 104 here, something,
+
+04:08.700 --> 04:11.010
+and then something.63.
+
+04:11.010 --> 04:15.077
+So I'll say nslookup.nslookup services.kubeoncloud.com.
+
+04:20.280 --> 04:22.200
+So same, 63 and then 104.
+
+04:22.200 --> 04:25.200
+In the same way, I'll also say, "For UMS," right?
+
+04:25.200 --> 04:27.810
+So user management microservice.
+
+04:27.810 --> 04:29.910
+It's the same, 104 and then 63.
+
+04:29.910 --> 04:31.470
+Good, so now we'll go ahead
+
+04:31.470 --> 04:33.390
+and then verify our...
+
+04:33.390 --> 04:34.830
+These things, okay?
+
+04:34.830 --> 04:38.193
+User management microservice health status, okay?
+
+04:39.120 --> 04:42.243
+And it should be up and running, see?
+
+04:43.140 --> 04:45.240
+User management microservices up and running.
+
+04:45.240 --> 04:47.940
+So from user management microservice only,
+
+04:47.940 --> 04:50.460
+you can call the notification health status.
+
+04:50.460 --> 04:53.730
+So I have done the coding in such a way.
+
+04:53.730 --> 04:54.563
+So now, why?
+
+04:54.563 --> 04:55.620
+Because whatever you want,
+
+04:55.620 --> 04:57.330
+you can call from your notification,
+
+04:57.330 --> 04:59.730
+means, like, from user management,
+
+04:59.730 --> 05:03.330
+you can call the notification for send notification, right?
+
+05:03.330 --> 05:05.010
+In the same way, for health status also,
+
+05:05.010 --> 05:06.750
+you can call the same way.
+
+05:06.750 --> 05:08.553
+So I am calling it, okay?
+
+05:09.870 --> 05:12.990
+And what happens?
+
+05:12.990 --> 05:15.870
+We'll see notification services up and running V1.
+
+05:15.870 --> 05:18.480
+And if you want, you can even additional
+
+05:18.480 --> 05:21.300
+notification service information will be there,
+
+05:21.300 --> 05:23.720
+so which is related to printing the hostname, okay?
+
+05:23.720 --> 05:27.090
+So you can see notification microservice 655 something,
+
+05:27.090 --> 05:29.670
+and then BJKXF, okay?
+
+05:29.670 --> 05:34.670
+So this should be related to our kubectl get ports, right?
+
+05:35.460 --> 05:37.810
+So you can see notification port is BJKXF
+
+05:39.270 --> 05:40.980
+which matches here we are printing the hostname
+
+05:40.980 --> 05:45.150
+of our notification microservice, okay?
+
+05:45.150 --> 05:49.020
+Means like the Docker container respective hostname.
+
+05:49.020 --> 05:53.700
+So this completes the verification, right?
+
+05:53.700 --> 05:56.550
+So, verification of microservice health status stuff.
+
+05:56.550 --> 05:59.640
+But now, we need to import our Postman project
+
+05:59.640 --> 06:01.830
+and then test it, okay?
+
+06:01.830 --> 06:04.410
+So we need to import the Postman project for us,
+
+06:04.410 --> 06:05.967
+so it should be available here,
+
+06:05.967 --> 06:10.290
+AWS EKS masterclass, microservices, Postman collection.
+
+06:10.290 --> 06:11.730
+So you can go to your Postman
+
+06:11.730 --> 06:13.830
+and then just import that file, okay?
+
+06:13.830 --> 06:18.627
+Or you already has done this work in step 0403 also,
+
+06:21.420 --> 06:22.440
+once when you're doing
+
+06:22.440 --> 06:26.070
+with the user management microservice with MySQL DB,
+
+06:26.070 --> 06:29.010
+so when you are doing this in your EBS block store,
+
+06:29.010 --> 06:31.650
+you have done this step already.
+
+06:31.650 --> 06:33.930
+But just for additional thing,
+
+06:33.930 --> 06:36.570
+I also added the same Postman project here also
+
+06:36.570 --> 06:40.957
+for your referencing dual microservices deployment on EKS.
+
+06:41.970 --> 06:44.820
+Okay, so now let's go back to our Postman
+
+06:44.820 --> 06:46.560
+and then, first, what we need to do
+
+06:46.560 --> 06:48.780
+whenever we go into the Postman,
+
+06:48.780 --> 06:51.240
+the first step for our series in the step 12
+
+06:51.240 --> 06:53.700
+is to create our environment, okay?
+
+06:53.700 --> 06:57.389
+So, let's go here and then add environmental URL,
+
+06:57.389 --> 07:00.930
+which is nothing but services.kubeoncloud.com.
+
+07:00.930 --> 07:03.690
+So here is the Settings, Manage Environments,
+
+07:03.690 --> 07:05.220
+so I'll click on this,
+
+07:05.220 --> 07:08.834
+and then earlier we tested ALB ingress, CLB, NLB,
+
+07:08.834 --> 07:09.810
+UMS, NodePort,
+
+07:09.810 --> 07:12.240
+now, we are testing this one, right?
+
+07:12.240 --> 07:13.353
+So what is this?
+
+07:14.310 --> 07:18.060
+This section is related to microservices,
+
+07:18.060 --> 07:20.820
+microservices on EKS,
+
+07:20.820 --> 07:23.340
+and the URL will be this one,
+
+07:23.340 --> 07:26.430
+and this value, initial value should be this one,
+
+07:26.430 --> 07:30.120
+HTTPS and whatever your domain.com
+
+07:30.120 --> 07:32.010
+Mine is kubeoncloud.com.
+
+07:32.010 --> 07:33.030
+Whenever I put it here,
+
+07:33.030 --> 07:35.280
+current value also should be the same thing.
+
+07:35.280 --> 07:36.720
+So, always the same value
+
+07:36.720 --> 07:38.520
+should be initial value on current value
+
+07:38.520 --> 07:41.010
+and always it picks from the current value only.
+
+07:41.010 --> 07:43.860
+So, you need to ensure that whenever you enter the data
+
+07:43.860 --> 07:44.693
+in initial value,
+
+07:44.693 --> 07:46.713
+current value is auto-populated.
+
+07:47.670 --> 07:51.930
+Add it, close it, and now if you go here,
+
+07:51.930 --> 07:52.980
+no environment, too.
+
+07:52.980 --> 07:54.933
+I need to select microservices on EKS.
+
+07:55.860 --> 07:57.552
+So, this is the environment we created,
+
+07:57.552 --> 07:59.310
+microservices on EKS.
+
+07:59.310 --> 08:02.313
+First, I'll test the health status and we got it.
+
+08:02.313 --> 08:03.990
+This is good, okay?
+
+08:03.990 --> 08:06.090
+And I'll list the users, right?
+
+08:06.090 --> 08:09.510
+So mostly admin two, admin three, ALB test two,
+
+08:09.510 --> 08:12.240
+some users are there here, okay, right?
+
+08:12.240 --> 08:14.640
+So we can leave those users as is
+
+08:14.640 --> 08:16.560
+or, if you want, we can delete all those.
+
+08:16.560 --> 08:21.560
+Okay, so I'll say ALB test two, so I'll delete those,
+
+08:22.770 --> 08:24.540
+ALB test three.
+
+08:24.540 --> 08:26.820
+So some users are there, which I have deleted,
+
+08:26.820 --> 08:28.830
+so, which I really don't need them.
+
+08:28.830 --> 08:31.530
+So now, if I go and then list all users,
+
+08:31.530 --> 08:34.800
+so I should have admin two, admin three,
+
+08:34.800 --> 08:36.540
+and then alb some basic, okay?
+
+08:36.540 --> 08:37.980
+So that's fine. Three users are there.
+
+08:37.980 --> 08:40.140
+No, I'm going to create a user.
+
+08:40.140 --> 08:41.550
+So I'm going to say, "Body."
+
+08:41.550 --> 08:43.260
+And one thing we need to be important
+
+08:43.260 --> 08:45.870
+is what is the, in SCS,
+
+08:45.870 --> 08:48.270
+what is the thing you have identified
+
+08:48.270 --> 08:49.860
+as your second email address?
+
+08:49.860 --> 08:51.300
+Two email address, right?
+
+08:51.300 --> 08:52.770
+So, that one you need to crosscheck.
+
+08:52.770 --> 08:55.950
+Okay, so let's go to simple email address
+
+08:55.950 --> 08:57.510
+and go to email addresses.
+
+08:57.510 --> 09:01.950
+So we designated stacks, this as our from email address
+
+09:01.950 --> 09:05.490
+and then dkalyanreddy as my two email address.
+
+09:05.490 --> 09:07.740
+So now, here are the two email addresses,
+
+09:07.740 --> 09:09.450
+dkalyanreddy@gmail.com.
+
+09:09.450 --> 09:11.570
+So I'm going to test microtest1.
+
+09:12.780 --> 09:14.840
+My username is microtest1,
+
+09:17.790 --> 09:22.790
+and first name is Micro F name
+
+09:24.090 --> 09:28.770
+and Micro L name, okay.
+
+09:28.770 --> 09:31.380
+So now, I'm going to create the user.
+
+09:31.380 --> 09:33.420
+So earlier, you have seen that you used
+
+09:33.420 --> 09:37.020
+to get notification related, service related, 500 error.
+
+09:37.020 --> 09:39.720
+So now, that should not be the case.
+
+09:39.720 --> 09:43.560
+So sent request, so I got the 200, right?
+
+09:43.560 --> 09:46.170
+So which means if you list the users,
+
+09:46.170 --> 09:48.810
+so micro-related user should be created now.
+
+09:48.810 --> 09:52.200
+So microtest1 user got created.
+
+09:52.200 --> 09:57.200
+So now if I go to my Gmail and verify it,
+
+09:58.620 --> 10:00.817
+so I got the email now, you can see it.
+
+10:00.817 --> 10:02.400
+"Hello, micro EF name,
+
+10:02.400 --> 10:06.840
+your Stack Simplify account is created successfully," right?
+
+10:06.840 --> 10:09.690
+So which means, just now, I got it zero minutes back.
+
+10:09.690 --> 10:10.740
+'Hello, micro EF name,
+
+10:10.740 --> 10:13.680
+your Stack Simplify account is created successfully."
+
+10:13.680 --> 10:16.170
+So which confirms us that.
+
+10:16.170 --> 10:19.380
+So whenever from here I have done a Create User,
+
+10:19.380 --> 10:23.760
+so that user, whatever is created using UMS part
+
+10:23.760 --> 10:26.100
+has been stored in RDS DB.
+
+10:26.100 --> 10:28.620
+So that's what the list users tell us, right?
+
+10:28.620 --> 10:31.680
+So user is successfully stored in RDS DB.
+
+10:31.680 --> 10:35.250
+And then, UMS next call the notification service,
+
+10:35.250 --> 10:37.950
+which went to the notification service part,
+
+10:37.950 --> 10:40.440
+and then, from there, it called the simple email service
+
+10:40.440 --> 10:43.770
+and then send the email to the end user.
+
+10:43.770 --> 10:44.790
+So that's the thing.
+
+10:44.790 --> 10:47.430
+If you want, we can even test one more user, okay?
+
+10:47.430 --> 10:51.030
+So, let's go here to our Create User,
+
+10:51.030 --> 10:56.030
+and we can even say microtest2, right?
+
+10:56.130 --> 10:59.640
+And then, I will say, "Send," right?
+
+10:59.640 --> 11:04.320
+So see, "User with email address already exists,"
+
+11:04.320 --> 11:06.870
+so you cannot use the same email address
+
+11:06.870 --> 11:09.960
+for your multiple users.
+
+11:09.960 --> 11:12.870
+So, that's the exception I have created in the course,
+
+11:12.870 --> 11:14.460
+in the respect to code.
+
+11:14.460 --> 11:15.390
+So that's the reason,
+
+11:15.390 --> 11:18.150
+one more email address with that is not accepting.
+
+11:18.150 --> 11:19.260
+So what you can do,
+
+11:19.260 --> 11:21.990
+so now, if you want to add one more email address,
+
+11:21.990 --> 11:23.460
+so you need to go here
+
+11:23.460 --> 11:26.340
+and then first verify a new email address.
+
+11:26.340 --> 11:29.427
+So I'll say stacksimplifydev2@gmail.com.
+
+11:33.150 --> 11:35.520
+Verify this email address, okay?
+
+11:35.520 --> 11:40.520
+So I will go here and I'll go to stacksimplifydev2,
+
+11:41.880 --> 11:45.540
+and I got the verification email, right?
+
+11:45.540 --> 11:47.550
+So this should be successful.
+
+11:47.550 --> 11:49.350
+Now, I verified it.
+
+11:49.350 --> 11:52.080
+So I'll go back here and then refresh it.
+
+11:52.080 --> 11:55.620
+So one more email, I have added stacksimplifydev2.
+
+11:55.620 --> 11:58.413
+So now, I'll go here, which one?
+
+11:59.850 --> 12:03.720
+Postman and my micro test, right?
+
+12:03.720 --> 12:05.250
+So if you see list all users,
+
+12:05.250 --> 12:07.620
+I have only microtest1, right?
+
+12:07.620 --> 12:09.480
+Right, user not created.
+
+12:09.480 --> 12:14.207
+So test two with the email as stacksimplifydev2, right?
+
+12:17.970 --> 12:19.980
+And save and then send.
+
+12:19.980 --> 12:21.570
+Okay, user got created.
+
+12:21.570 --> 12:25.200
+So let's see in the list users if user exists, right?
+
+12:25.200 --> 12:28.350
+So microtest2 came here,
+
+12:28.350 --> 12:31.110
+and let's go here, and then verify the email.
+
+12:31.110 --> 12:32.527
+So you can see email.
+
+12:32.527 --> 12:34.050
+"Hello, Micro F Name.
+
+12:34.050 --> 12:37.260
+Your Stack simplify account is created."
+
+12:37.260 --> 12:39.000
+That's all. Good, right?
+
+12:39.000 --> 12:44.000
+So this completes the microservices implementation here,
+
+12:45.660 --> 12:48.670
+end-to-end in a Kubernetes cluster on AWS
+
+12:49.710 --> 12:52.470
+with the AWS related services.
+
+12:52.470 --> 12:54.450
+So you have user, the EKS cluster,
+
+12:54.450 --> 12:57.510
+you have user Route 53, you have user certificate manager,
+
+12:57.510 --> 13:01.350
+you have user simply email service, RDS service,
+
+13:01.350 --> 13:02.580
+all this stuff, right?
+
+13:02.580 --> 13:04.980
+Our application load balancer. So, like this.
+
+13:04.980 --> 13:07.560
+And then NAT gateway was for outbound communication, right?
+
+13:07.560 --> 13:08.640
+So whatever you are seeing,
+
+13:08.640 --> 13:11.490
+simple external email service, the outbound,
+
+13:11.490 --> 13:14.580
+so this is going via NAT gateway, if you see here.
+
+13:14.580 --> 13:18.810
+So I just put it directly, but it goes via NAT gateway
+
+13:18.810 --> 13:21.750
+and then go to the simple email service, in general, why?
+
+13:21.750 --> 13:23.010
+Because from private subnet,
+
+13:23.010 --> 13:25.950
+it cannot go direct to simple email service, right?
+
+13:25.950 --> 13:28.050
+So it goes via NAT gateway,
+
+13:28.050 --> 13:31.143
+and from NAT gateway, it goes to the simple email service.
+
+13:32.640 --> 13:33.960
+So that's about it.
+
+13:33.960 --> 13:37.860
+All in all, this is what the entire microservices
+
+13:37.860 --> 13:40.440
+deployment on AWS EKS.
+
+13:40.440 --> 13:44.100
+So I'll see you in the next lecture until then, bye-bye.
+
+13:44.100 --> 13:44.940
+Thank you.
+
+13:44.940 --> 13:46.350
+So if you want to clean up,
+
+13:46.350 --> 13:49.920
+so then we can go ahead and then do the same step as usual.
+
+13:49.920 --> 13:54.480
+So kubectl delete -f kube-manifest, okay?
+
+13:54.480 --> 13:56.040
+So, but what we are going to do
+
+13:56.040 --> 13:59.460
+in our next four or five steps is like, before cleanup,
+
+13:59.460 --> 14:02.190
+we are going to perform additional stuff here
+
+14:02.190 --> 14:05.670
+which is nothing but roll out new deployments
+
+14:05.670 --> 14:07.080
+with the three options we have,
+
+14:07.080 --> 14:09.810
+which is set image option, QCTL edit,
+
+14:09.810 --> 14:11.160
+and then update manifests.
+
+14:11.160 --> 14:14.460
+So how to roll out new releases to our applications?
+
+14:14.460 --> 14:17.040
+We are going to see all those three options
+
+14:17.040 --> 14:19.380
+and then do the cleanup.
+
+14:19.380 --> 14:20.880
+So I'll see you in the next lecture.
+
+14:20.880 --> 14:22.533
+Until then, bye-bye. Thank you.

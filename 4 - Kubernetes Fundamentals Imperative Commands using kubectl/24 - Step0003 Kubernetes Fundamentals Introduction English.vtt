@@ -1,0 +1,286 @@
+WEBVTT
+
+00:00.120 --> 00:01.080
+-: Welcome back.
+
+00:01.080 --> 00:03.390
+In this lecture, we are going to understand
+
+00:03.390 --> 00:06.479
+about humanity's fundamental core concepts
+
+00:06.479 --> 00:10.070
+part replicate, deployment, and service
+
+00:10.070 --> 00:12.150
+on a very high level.
+
+00:12.150 --> 00:14.790
+So, let's understand what are those actually.
+
+00:14.790 --> 00:15.623
+Right?
+
+00:15.623 --> 00:17.580
+So, part is it, single instance
+
+00:17.580 --> 00:19.020
+of an application.
+
+00:19.020 --> 00:21.660
+So, a part is the smallest object that you can
+
+00:21.660 --> 00:22.650
+create in.
+
+00:22.650 --> 00:23.610
+Cuban that is.
+
+00:23.610 --> 00:25.320
+When you come into reply-closet,
+
+00:25.320 --> 00:27.540
+a replicloset will maintain a stable
+
+00:27.540 --> 00:31.620
+set of replica parts, learning at any given time.
+
+00:31.620 --> 00:34.290
+So in short, it is often used to guarantee
+
+00:34.290 --> 00:36.540
+the availability of specified number
+
+00:36.540 --> 00:39.630
+of identical parts in it, deployment.
+
+00:39.630 --> 00:43.230
+So a deployment runs multiple replicas
+
+00:43.230 --> 00:44.700
+of our application,
+
+00:44.700 --> 00:48.060
+and automatically replaces any instance
+
+00:48.060 --> 00:51.030
+that fails or becomes unresponsive.
+
+00:51.030 --> 00:53.850
+So, roll out and roll back changes to application
+
+00:53.850 --> 00:56.790
+serve additional features about the deployment
+
+00:56.790 --> 00:58.860
+when you create it as a deployment.
+
+00:58.860 --> 01:00.893
+So, deployments are well suited for
+
+01:00.893 --> 01:03.570
+stateless applications.
+
+01:03.570 --> 01:05.130
+And finally, service.
+
+01:05.130 --> 01:08.220
+So a service is an abstraction for parts
+
+01:08.220 --> 01:11.280
+prorating a stable so-called, what shall I be?
+
+01:11.280 --> 01:13.830
+Address, fronting these parts.
+
+01:13.830 --> 01:16.890
+Same term, in simple terms, service sits
+
+01:16.890 --> 01:19.383
+in front of a board, and then access it
+
+01:19.383 --> 01:21.030
+load balancer.
+
+01:21.030 --> 01:23.220
+So this is a very high level introduction
+
+01:23.220 --> 01:24.090
+about these things.
+
+01:24.090 --> 01:25.861
+But, in upcoming lectures,
+
+01:25.861 --> 01:28.215
+whenever we deal with each section,
+
+01:28.215 --> 01:30.967
+so we are going to have a very detailed
+
+01:30.967 --> 01:33.180
+pictographical and then visual manual
+
+01:33.180 --> 01:34.470
+on what we are doing.
+
+01:34.470 --> 01:35.967
+And equal intel.
+
+01:35.967 --> 01:38.100
+Hands on sections, okay.
+
+01:38.100 --> 01:40.530
+So now, we'll move on and then understand
+
+01:40.530 --> 01:43.440
+what is our approach in implementing
+
+01:43.440 --> 01:45.030
+these fundamentals.
+
+01:45.030 --> 01:45.863
+Right?
+
+01:45.863 --> 01:49.080
+So, we are going to use both approaches
+
+01:49.080 --> 01:50.670
+which is nothing but imperatu
+
+01:50.670 --> 01:52.350
+and then declaratu vey.
+
+01:52.350 --> 01:56.340
+Of, implementing that humanities core concepts,
+
+01:56.340 --> 01:57.173
+okay.
+
+01:57.173 --> 02:00.900
+So, using QCTL with QCTL commands,
+
+02:00.900 --> 02:03.540
+we are going to create part deployment
+
+02:03.540 --> 02:06.390
+and then service, imperatively.
+
+02:06.390 --> 02:09.090
+And, for replicloset we really don't have
+
+02:09.090 --> 02:11.460
+a QCTL command to directly do it,
+
+02:11.460 --> 02:14.150
+so we are going to use EML file to create that.
+
+02:14.150 --> 02:17.578
+In the declaratu approach, so we are going to use
+
+02:17.578 --> 02:21.225
+EML as our language to create the
+
+02:21.225 --> 02:23.584
+(inaudible) manifest, and then use
+
+02:23.584 --> 02:28.140
+QCTL to create part replicate deployment
+
+02:28.140 --> 02:30.540
+and then service and then understand
+
+02:30.540 --> 02:33.418
+and then master these concepts, hand to hand
+
+02:33.418 --> 02:38.244
+using evenda live template writing using AML also.
+
+02:38.244 --> 02:40.680
+So all in all, we are going to do this
+
+02:40.680 --> 02:42.524
+in two ways which is, one is imperatuve
+
+02:42.524 --> 02:44.610
+and the declaratuve.
+
+02:44.610 --> 02:47.370
+And, over the process, everything right?
+
+02:47.370 --> 02:49.439
+So everything is documented in it.
+
+02:49.439 --> 02:54.439
+(inaudible) on a step by step manner.
+
+02:54.690 --> 02:56.610
+So if you go to parts with cube CTL
+
+02:56.610 --> 02:59.250
+every step and then every command, whatever
+
+02:59.250 --> 03:00.720
+you are going to execute,
+
+03:00.720 --> 03:02.340
+everything will be available for you
+
+03:02.340 --> 03:04.890
+in a step by step manner so that we really
+
+03:04.890 --> 03:07.140
+don't fail anywhere or stuck anywhere
+
+03:07.140 --> 03:09.330
+when we are implementing it, okay.
+
+03:09.330 --> 03:12.240
+So if you see services, with QCTL whatever
+
+03:12.240 --> 03:13.620
+commands you want to use,
+
+03:13.620 --> 03:15.210
+everything you are going to use.
+
+03:15.210 --> 03:17.760
+And if you see services with iyamel,
+
+03:17.760 --> 03:19.680
+so you are going to have a cube manifest
+
+03:19.680 --> 03:22.667
+with all the, manifest whatever you are going to
+
+03:22.667 --> 03:24.794
+right them directly, which means like,
+
+03:24.794 --> 03:28.222
+you are going to create all these things
+
+03:28.222 --> 03:30.637
+by live template writing and then,
+
+03:30.637 --> 03:32.220
+implement them.
+
+03:32.220 --> 03:33.810
+So, that's about that.
+
+03:33.810 --> 03:36.240
+Introductory section of what we are going to do
+
+03:36.240 --> 03:37.710
+as part of this course,
+
+03:37.710 --> 03:39.840
+so I'll see you in the next lecture
+
+03:39.840 --> 03:42.373
+and then start with that parts with QCTL
+
+03:42.373 --> 03:44.250
+so until then, bye bye.
+
+03:44.250 --> 03:45.083
+Thank you.

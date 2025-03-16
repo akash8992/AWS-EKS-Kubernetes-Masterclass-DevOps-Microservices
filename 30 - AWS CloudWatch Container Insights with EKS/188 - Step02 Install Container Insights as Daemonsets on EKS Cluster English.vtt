@@ -1,0 +1,460 @@
+WEBVTT
+
+00:00.120 --> 00:01.290
+-: Welcome back.
+
+00:01.290 --> 00:03.513
+So we are in 18 EKS,
+
+00:04.350 --> 00:08.460
+monitoring using CloudWatch Container Insights.
+
+00:08.460 --> 00:11.310
+So we already discussed about introductory topics
+
+00:11.310 --> 00:14.400
+about this one in our introduction section.
+
+00:14.400 --> 00:17.400
+So we are moving on to our step two, which is
+
+00:17.400 --> 00:19.290
+associate CloudWatch policy
+
+00:19.290 --> 00:22.620
+to our EKS worker node rules.
+
+00:22.620 --> 00:26.160
+So CloudWatch agent server policy need to be associated
+
+00:26.160 --> 00:29.550
+with our worker nodes EC2 role
+
+00:29.550 --> 00:31.620
+so that it gets the means like
+
+00:31.620 --> 00:34.530
+these worker nodes will get the access
+
+00:34.530 --> 00:37.800
+to push the logs to the CloudWatch,
+
+00:37.800 --> 00:42.180
+or send the metrics to the CloudWatch Container Insights.
+
+00:42.180 --> 00:45.270
+Or It gives the CloudWatch Container Insights to
+
+00:45.270 --> 00:47.310
+pull the information, whatever is present
+
+00:47.310 --> 00:51.150
+in other pod metrics or cluster metrics.
+
+00:51.150 --> 00:53.820
+So, so now let's go back to our management console,
+
+00:53.820 --> 00:57.240
+and what I said here is go to your EC2 worker nodes
+
+00:57.240 --> 00:59.220
+and then find the IAM role parameter
+
+00:59.220 --> 01:00.540
+and then click on that role.
+
+01:00.540 --> 01:02.580
+So that is the easiest way.
+
+01:02.580 --> 01:05.580
+So I can go to EC2, right?
+
+01:05.580 --> 01:10.200
+And I have two EC2 worker nodes running here,
+
+01:10.200 --> 01:15.200
+so I can say, so this and then this so I can go to them.
+
+01:15.330 --> 01:19.080
+So those are targeted with the respect to EKS only, right?
+
+01:19.080 --> 01:21.990
+So these are EKS demo one, NG private one.
+
+01:21.990 --> 01:23.640
+So which means those are deployed
+
+01:23.640 --> 01:28.640
+in our private subnets kubectl get nodes -o wide
+
+01:29.970 --> 01:33.720
+will give us the external IP if it is associated,
+
+01:33.720 --> 01:37.590
+you can tell that it is on the public subnet of our cluster.
+
+01:37.590 --> 01:41.760
+If it is none, it is on the private subnet of our cluster.
+
+01:41.760 --> 01:43.950
+So I'll go here, and then find
+
+01:43.950 --> 01:46.980
+the role EKS CTL EKS demo one, right?
+
+01:46.980 --> 01:50.340
+So from any one of the instance you can find your role,
+
+01:50.340 --> 01:52.800
+and then inside that role we are going
+
+01:52.800 --> 01:57.180
+to associate the policy CloudWatch agent server policy.
+
+01:57.180 --> 01:59.850
+So let me go here and
+
+01:59.850 --> 02:03.180
+it is loading so just give it a minute.
+
+02:03.180 --> 02:04.620
+I don't know why it is slow.
+
+02:04.620 --> 02:05.453
+Okay, got it.
+
+02:05.453 --> 02:10.453
+Okay, so now let's go here and attach a policy name
+
+02:10.680 --> 02:14.400
+CloudWatch agent server policy, right?
+
+02:14.400 --> 02:18.360
+So for our EC2 instance role worker EC2 instance role
+
+02:18.360 --> 02:22.800
+we have associated a new policy which is nothing
+
+02:22.800 --> 02:26.730
+but CloudWatch agent server policy, so that's good.
+
+02:26.730 --> 02:30.810
+So now let's come back and install the Container Insights.
+
+02:30.810 --> 02:34.440
+So Container Insights you can install specifically,
+
+02:34.440 --> 02:37.920
+which means like you can install one after
+
+02:37.920 --> 02:39.600
+the other means like it will have
+
+02:39.600 --> 02:41.400
+the components like CloudWatch agent
+
+02:41.400 --> 02:43.410
+and then FluentD CloudWatch agent
+
+02:43.410 --> 02:45.330
+is for our metrics to be pulled.
+
+02:45.330 --> 02:50.330
+And then you'll also have FluentD for pulling the logs also
+
+02:50.520 --> 02:53.160
+means like from logs from our EKS cluster.
+
+02:53.160 --> 02:56.400
+So you can independently install CloudWatch agent
+
+02:56.400 --> 02:59.130
+and then FluentD, or with a quick start option,
+
+02:59.130 --> 03:00.990
+you can install everything.
+
+03:00.990 --> 03:03.870
+So we are going to use the quick start option to
+
+03:03.870 --> 03:06.090
+install both of the stuff, okay.
+
+03:06.090 --> 03:07.650
+So now when you are installing it
+
+03:07.650 --> 03:10.470
+so what it does we are going to look into first, okay?
+
+03:10.470 --> 03:12.660
+So this command will install everything.
+
+03:12.660 --> 03:13.860
+Okay, so what is this command?
+
+03:13.860 --> 03:16.380
+We'll see in a bit but what it does is
+
+03:16.380 --> 03:20.340
+it'll create a new namespace named Amazon -CloudWatch
+
+03:20.340 --> 03:22.650
+in our Kubernetes cluster,
+
+03:22.650 --> 03:26.520
+and then it'll create necessary security objects required
+
+03:26.520 --> 03:28.290
+for creating that DaemonSet.
+
+03:28.290 --> 03:31.320
+So in simple terms it is going to create a DaemonSet,
+
+03:31.320 --> 03:33.390
+one DaemonSet for CloudWatch agent
+
+03:33.390 --> 03:36.120
+and then one DaemonSet for FluentD.
+
+03:36.120 --> 03:39.270
+So now we already seen DaemonSet when we are
+
+03:39.270 --> 03:42.000
+doing the x-ray section, if you remember, right.
+
+03:42.000 --> 03:46.650
+So it'll create per node one pod for us in the DaemonSet.
+
+03:46.650 --> 03:50.130
+So the number of nodes increases the pods per node
+
+03:50.130 --> 03:52.440
+one pod for FluentD and then one pod
+
+03:52.440 --> 03:56.520
+for CloudWatch agent will be always installed on each node.
+
+03:56.520 --> 03:59.220
+So in this step it is going to create security role
+
+03:59.220 --> 04:02.190
+cluster security account and then service account
+
+04:02.190 --> 04:04.290
+and then cluster roll binding, whatever is required.
+
+04:04.290 --> 04:06.030
+Further it is going to create
+
+04:06.030 --> 04:08.940
+and it deploys the CloudWatch agent responsible
+
+04:08.940 --> 04:11.610
+for sending the metrics to the CloudWatch
+
+04:11.610 --> 04:14.490
+as a CloudWatch service enables as DaemonSet
+
+04:14.490 --> 04:17.220
+and it also deploys the FluentD responsible
+
+04:17.220 --> 04:20.640
+for sending the logs to the CloudWatch as a DaemonSet
+
+04:20.640 --> 04:23.130
+and it deploys ConfigMap configurations required
+
+04:23.130 --> 04:24.600
+for this DaemonSet.
+
+04:24.600 --> 04:28.950
+So that's what this entire thing, so the entire CW agent
+
+04:28.950 --> 04:32.160
+and FluentD quick start dot AML is going to do.
+
+04:32.160 --> 04:34.020
+If you want you can open it,
+
+04:34.020 --> 04:36.660
+and then review it for your convenience.
+
+04:36.660 --> 04:38.460
+So means like you are now good
+
+04:38.460 --> 04:40.290
+at AML and then you are now good,
+
+04:40.290 --> 04:44.430
+at reading lots of Kubernetes manifests after writing them.
+
+04:44.430 --> 04:47.070
+So now you can see that it creates a namespace
+
+04:47.070 --> 04:49.920
+and then it creates a service account for us
+
+04:49.920 --> 04:53.160
+and it creates a cluster role binding and then cluster role
+
+04:53.160 --> 04:57.210
+and it also creates the configmaps for CW agent
+
+04:57.210 --> 05:01.080
+and then it creates the DaemonSet for CW agent
+
+05:01.080 --> 05:03.780
+with this information in the same way you'll have the same
+
+05:03.780 --> 05:06.660
+for our FluentD also in the down.
+
+05:06.660 --> 05:07.830
+So like that,
+
+05:07.830 --> 05:10.052
+so if we can review whatever, whatever, even
+
+05:10.052 --> 05:12.300
+whatever AWS has provided.
+
+05:12.300 --> 05:15.400
+Okay, so now what is this template and what is the three
+
+05:15.400 --> 05:17.640
+place then cluster name and region.
+
+05:17.640 --> 05:19.890
+So this is that template information, which means
+
+05:19.890 --> 05:23.310
+like this whole value whatever is there is the template.
+
+05:23.310 --> 05:26.070
+And then inside this you are sending cluster name value
+
+05:26.070 --> 05:29.220
+and then cluster region value so that in which region you
+
+05:29.220 --> 05:32.940
+are installing the CW agent and FluentD
+
+05:32.940 --> 05:34.740
+and in which cluster you are installing,
+
+05:34.740 --> 05:35.670
+you are providing those
+
+05:35.670 --> 05:39.870
+to your CW agent quick start dot aml.
+
+05:39.870 --> 05:42.870
+So in our class whenever, wherever you see cluster name
+
+05:42.870 --> 05:44.580
+underscore this in the red area
+
+05:44.580 --> 05:45.990
+here you are going to replace
+
+05:45.990 --> 05:50.490
+with your EKS demo one and region is US east one.
+
+05:50.490 --> 05:53.070
+So if you see here, that's what we have done here.
+
+05:53.070 --> 05:54.660
+So you can see right?
+
+05:54.660 --> 05:56.850
+So in for cluster name we have put
+
+05:56.850 --> 06:01.200
+EKS demo one and for region name we have put US east one.
+
+06:01.200 --> 06:04.290
+So now as we already completed the section
+
+06:04.290 --> 06:06.000
+which is associate cloud watch policy
+
+06:06.000 --> 06:08.250
+to our EKS worker nodes completed.
+
+06:08.250 --> 06:10.680
+So we can deploy this one now.
+
+06:10.680 --> 06:15.300
+So let's go here and then deploy it.
+
+06:15.300 --> 06:19.050
+Okay, so now it'll create associated stuff
+
+06:19.050 --> 06:20.370
+whatever is required for us.
+
+06:20.370 --> 06:22.500
+It first created the namespace
+
+06:22.500 --> 06:25.350
+then created the service account cluster roles
+
+06:25.350 --> 06:28.140
+and then cluster role bindings and then configmaps
+
+06:28.140 --> 06:31.328
+and the DaemonSet for respect to CloudWatch agent.
+
+06:31.328 --> 06:34.167
+Again, same for service account for FluentD cluster role
+
+06:34.167 --> 06:36.630
+cluster role binding and then configmap
+
+06:36.630 --> 06:39.420
+for FluentD, and it's equal and DaemonSet.
+
+06:39.420 --> 06:41.970
+So now once it is created so we can clear,
+
+06:41.970 --> 06:44.850
+and then we can say kubectl -f
+
+06:44.850 --> 06:47.520
+and then verify the DaemonSet here.
+
+06:47.520 --> 06:52.020
+Okay, so as we have already provided the respective role,
+
+06:52.020 --> 06:55.530
+ideally there should be ready two by two is ready in both.
+
+06:55.530 --> 06:59.220
+Why? Because we have kubectl get nodes, two nodes.
+
+06:59.220 --> 07:01.500
+So we'll have two DaemonSet means
+
+07:01.500 --> 07:04.230
+like DaemonSet is per node, it is going to run.
+
+07:04.230 --> 07:05.910
+So two CloudWatch agents
+
+07:05.910 --> 07:09.180
+and then two FluentD CloudWatches are going to run.
+
+07:09.180 --> 07:12.450
+Okay? So this completes the installation part
+
+07:12.450 --> 07:16.410
+of our Container Insights on our EKS cluster.
+
+07:16.410 --> 07:18.390
+So I'll see you in the next lecture.
+
+07:18.390 --> 07:19.680
+Until then, bye-bye.
+
+07:19.680 --> 07:20.513
+Thank you.

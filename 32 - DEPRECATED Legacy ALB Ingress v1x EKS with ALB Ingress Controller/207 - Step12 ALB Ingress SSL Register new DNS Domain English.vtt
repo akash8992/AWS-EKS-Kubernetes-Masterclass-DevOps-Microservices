@@ -1,0 +1,409 @@
+WEBVTT
+
+00:00.150 --> 00:00.983
+-: Welcome back.
+
+00:00.983 --> 00:01.816
+In this lecture,
+
+00:01.816 --> 00:03.810
+we are going to register a domain in
+
+00:03.810 --> 00:04.980
+Route 53.
+
+00:04.980 --> 00:08.610
+So we are going to buy the domain cube on cloud.com.
+
+00:08.610 --> 00:11.730
+So let's go to AWS management console,
+
+00:11.730 --> 00:14.823
+and on the console home search for Route 53.
+
+00:17.700 --> 00:20.370
+And in route 53, we'll go further
+
+00:20.370 --> 00:22.560
+register domains.
+
+00:22.560 --> 00:24.780
+And then we are going to register a domain.
+
+00:24.780 --> 00:28.330
+And the domain name is going to be cube on
+
+00:29.280 --> 00:30.217
+cloud.com.
+
+00:31.298 --> 00:33.810
+Okay, so it took something else here.
+
+00:33.810 --> 00:35.220
+Remove R here.
+
+00:35.220 --> 00:36.603
+Yeah, check it, okay.
+
+00:38.850 --> 00:39.900
+And we got it
+
+00:39.900 --> 00:42.090
+cube on cloud.com.
+
+00:42.090 --> 00:43.380
+So everything looks good.
+
+00:43.380 --> 00:46.710
+K-u-b on cloud.com right?
+
+00:46.710 --> 00:47.950
+So add to cart
+
+00:49.230 --> 00:51.270
+and go down.
+
+00:51.270 --> 00:53.200
+And if you see here, you can click on
+
+00:54.270 --> 00:55.140
+continue.
+
+00:55.140 --> 00:57.000
+And these are the personal information;
+
+00:57.000 --> 00:58.290
+we can leave it,
+
+00:58.290 --> 01:00.840
+and you can see privacy protection enabled
+
+01:00.840 --> 01:02.910
+pharma domain enabled.
+
+01:02.910 --> 01:05.010
+And then I'll click on continue.
+
+01:05.010 --> 01:06.480
+And if I go here,
+
+01:06.480 --> 01:09.330
+do you want to automatically renew your domain?
+
+01:09.330 --> 01:10.920
+Yes, I want to renew it.
+
+01:10.920 --> 01:14.790
+And terms and conditions, I'm going to accept it
+
+01:14.790 --> 01:17.520
+and then click on complete the
+
+01:17.520 --> 01:18.390
+order.
+
+01:18.390 --> 01:21.060
+So our order got submitted successfully.
+
+01:21.060 --> 01:24.000
+It might take close to three days to complete it usually,
+
+01:24.000 --> 01:25.890
+but once we verify our payment,
+
+01:25.890 --> 01:27.540
+usually it might be faster
+
+01:27.540 --> 01:29.010
+in a day or even
+
+01:29.010 --> 01:30.720
+lesser than that.
+
+01:30.720 --> 01:31.950
+So we'll go to
+
+01:31.950 --> 01:33.180
+domains,
+
+01:33.180 --> 01:35.310
+And my other domain is in action
+
+01:35.310 --> 01:36.780
+required for verified payment.
+
+01:36.780 --> 01:37.613
+I will leave it
+
+01:37.613 --> 01:40.290
+once this also comes into that same status.
+
+01:40.290 --> 01:41.123
+We will
+
+01:41.123 --> 01:42.390
+verify for this one.
+
+01:42.390 --> 01:43.920
+Okay, cube on cloud dot.
+
+01:43.920 --> 01:46.240
+So I got the action required for Q1
+
+01:47.130 --> 01:47.963
+cloud.
+
+01:47.963 --> 01:49.200
+So I'll go there
+
+01:49.200 --> 01:50.160
+at the end
+
+01:50.160 --> 01:52.620
+and then I'll do the
+
+01:52.620 --> 01:54.660
+verify payment for the latest one.
+
+01:54.660 --> 01:56.226
+Okay, 2199,
+
+01:56.226 --> 01:57.059
+I'll go there.
+
+02:00.060 --> 02:02.010
+So one I accidentally sent it,
+
+02:02.010 --> 02:03.510
+so I really don't want to pay
+
+02:03.510 --> 02:04.920
+for the other one.
+
+02:04.920 --> 02:06.210
+So,
+
+02:06.210 --> 02:11.210
+now if you see 4 8 3 3 0 2 6 0 1 and then 2877.
+
+02:11.580 --> 02:13.710
+So 2877 is the latest.
+
+02:13.710 --> 02:16.200
+I'm going to say verify and then
+
+02:16.200 --> 02:17.880
+pay, right?
+
+02:17.880 --> 02:20.163
+So I'm going to pay now.
+
+02:24.480 --> 02:27.090
+So let's wait for the payment to
+
+02:27.090 --> 02:27.923
+happen.
+
+02:31.080 --> 02:33.120
+Okay, I provided the OTP
+
+02:33.120 --> 02:35.160
+and this should be done now.
+
+02:35.160 --> 02:37.620
+So we have completed the payments
+
+02:37.620 --> 02:42.240
+if we go for bills, orders and then invoices.
+
+02:42.240 --> 02:43.560
+So one should be like that only
+
+02:43.560 --> 02:45.300
+and then one should be already
+
+02:45.300 --> 02:46.380
+paid, okay.
+
+02:46.380 --> 02:48.240
+So let's wait for some time,
+
+02:48.240 --> 02:52.320
+or go to registered domains here and then pending requests.
+
+02:52.320 --> 02:54.000
+Okay, so it'll take an hour
+
+02:54.000 --> 02:55.590
+to update the status.
+
+02:55.590 --> 02:58.140
+So let's wait for an hour to see what happens.
+
+02:58.140 --> 03:01.020
+So once we create, once we have completed the verify
+
+03:01.020 --> 03:03.810
+and pay, so we can see that for Cube on Cloud,
+
+03:03.810 --> 03:05.910
+we can see domain illustration is in
+
+03:05.910 --> 03:06.900
+progress.
+
+03:06.900 --> 03:09.540
+So let's wait for everything to be completed
+
+03:09.540 --> 03:10.373
+now.
+
+03:10.373 --> 03:13.560
+So within an hour I have seen that my request has been moved
+
+03:13.560 --> 03:14.393
+from
+
+03:14.393 --> 03:15.480
+pending request to
+
+03:15.480 --> 03:16.860
+register domains.
+
+03:16.860 --> 03:19.290
+So hardly within less than two hours
+
+03:19.290 --> 03:20.940
+entire process will be
+
+03:20.940 --> 03:22.590
+completed for us further
+
+03:22.590 --> 03:23.970
+register a domain
+
+03:23.970 --> 03:25.500
+and only one thing is
+
+03:25.500 --> 03:27.150
+we need to verify our payment
+
+03:27.150 --> 03:27.983
+thoroughly.
+
+03:27.983 --> 03:28.890
+That's about it.
+
+03:28.890 --> 03:31.800
+So now I have the Cube on Cloud dot domain available
+
+03:31.800 --> 03:32.633
+for me,
+
+03:32.633 --> 03:34.140
+cube on cloud.com,
+
+03:34.140 --> 03:37.050
+And then it's a restrain is verified
+
+03:37.050 --> 03:39.120
+and we can see all the details about it.
+
+03:39.120 --> 03:40.860
+If you want to extend this domain
+
+03:40.860 --> 03:42.750
+for another nine to 10 years, if you want
+
+03:42.750 --> 03:44.550
+you can do that now.
+
+03:44.550 --> 03:48.000
+Okay. And auto renew is anyway enabled
+
+03:48.000 --> 03:51.900
+so every year it'll automatically get auto renewed.
+
+03:51.900 --> 03:54.120
+So now one important thing here is if you click
+
+03:54.120 --> 03:57.030
+on managed DNS, it'll take us to the hosted zone.
+
+03:57.030 --> 03:58.560
+So the
+
+03:58.560 --> 03:59.640
+public hosted zone
+
+03:59.640 --> 04:02.040
+for cube on cloud.com is already
+
+04:02.040 --> 04:03.900
+by default created. Okay.
+
+04:03.900 --> 04:06.700
+So now here we will be able to DNS register our
+
+04:07.829 --> 04:08.662
+domains.
+
+04:08.662 --> 04:10.890
+Okay, so whatever the sub domains we want to
+
+04:10.890 --> 04:13.440
+register are whatever the main domains we want to register
+
+04:13.440 --> 04:14.910
+we can create a
+
+04:14.910 --> 04:15.840
+record set here,
+
+04:15.840 --> 04:17.780
+and then say that users dot cube
+
+04:17.780 --> 04:19.680
+on cloud.com and then
+
+04:19.680 --> 04:21.870
+provide the IP address
+
+04:21.870 --> 04:24.210
+or the ALB DNS name,
+
+04:24.210 --> 04:25.170
+E L B D N S name
+
+04:25.170 --> 04:28.020
+all these things here to DNS register it.
+
+04:28.020 --> 04:30.467
+Okay, so this is about
+
+04:30.467 --> 04:31.920
+the resisted domain section
+
+04:31.920 --> 04:33.480
+which is nothing but our step two
+
+04:33.480 --> 04:35.580
+resist a domain in Route 53.
+
+04:35.580 --> 04:37.050
+In our next lecture, we'll focus
+
+04:37.050 --> 04:38.820
+on creating a SSL certificate
+
+04:38.820 --> 04:40.650
+in certificate manager.
+
+04:40.650 --> 04:42.210
+So I'll see you in the next lecture.
+
+04:42.210 --> 04:43.260
+Until then, bye bye.
+
+04:43.260 --> 04:44.093
+Thank you.

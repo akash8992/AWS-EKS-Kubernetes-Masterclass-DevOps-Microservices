@@ -1,0 +1,496 @@
+WEBVTT
+
+00:00.330 --> 00:01.290
+-: Welcome back.
+
+00:01.290 --> 00:02.760
+So in this lecture,
+
+00:02.760 --> 00:05.580
+we are going to look into the pods demo.
+
+00:05.580 --> 00:08.550
+So let's go ahead and then do that now.
+
+00:08.550 --> 00:10.680
+So we'll go to our GitHub repo
+
+00:10.680 --> 00:15.210
+in stack simplify Kubernetes fundamentals GitHub repo.
+
+00:15.210 --> 00:16.680
+So we are going into pods
+
+00:16.680 --> 00:20.250
+with kubectl 02 pods with kubectl.
+
+00:20.250 --> 00:21.600
+So we are going inside.
+
+00:21.600 --> 00:23.910
+And just now we have completed the step one
+
+00:23.910 --> 00:26.190
+which is nothing but the pods introduction.
+
+00:26.190 --> 00:28.770
+So we are moving into the pods demo now.
+
+00:28.770 --> 00:30.420
+So first thing what we need to do is,
+
+00:30.420 --> 00:32.310
+whether our worker nodes are ready.
+
+00:32.310 --> 00:36.600
+So we need to say kubectl, get nodes to check that.
+
+00:36.600 --> 00:38.103
+So kubectl,
+
+00:39.540 --> 00:40.890
+get nodes.
+
+00:40.890 --> 00:43.380
+And our worker nodes are ready.
+
+00:43.380 --> 00:45.660
+And if you want to see them with wide options,
+
+00:45.660 --> 00:49.980
+so you can say -O and then wide.
+
+00:49.980 --> 00:52.350
+So it also provides additional information
+
+00:52.350 --> 00:56.130
+about our worker nodes, our worker nodes internal IP
+
+00:56.130 --> 00:58.500
+and our worker nodes external IP,
+
+00:58.500 --> 01:02.550
+which is nothing but our external internet facing IP address
+
+01:02.550 --> 01:04.350
+for our worker nodes.
+
+01:04.350 --> 01:06.090
+So now moving on.
+
+01:06.090 --> 01:08.193
+So let's go to the pods.
+
+01:10.290 --> 01:12.630
+So we are going to create a pod.
+
+01:12.630 --> 01:16.200
+So to create a pod, we can use kubectl run.
+
+01:16.200 --> 01:18.750
+As we are going to do this in an imperative way,
+
+01:18.750 --> 01:20.370
+not a declarative way.
+
+01:20.370 --> 01:23.730
+So we are going to say kubectl run and our pod name
+
+01:23.730 --> 01:25.890
+which is nothing but my first pod
+
+01:25.890 --> 01:29.220
+and the image, what you are going to download.
+
+01:29.220 --> 01:31.200
+So I have prebuilt container image
+
+01:31.200 --> 01:36.200
+which is stacksimplify/kubenginx1.0.0 so we can use it.
+
+01:36.270 --> 01:39.600
+So it is already publicly available on my Docker hub.
+
+01:39.600 --> 01:44.600
+So if you see here, kubenginx:1.0.0
+
+01:44.880 --> 01:46.800
+which is the tag.
+
+01:46.800 --> 01:48.420
+So we have multiple versions here.
+
+01:48.420 --> 01:51.360
+Whenever we are moving on with the replica sets,
+
+01:51.360 --> 01:55.350
+we are going to go inside deployments and then services.
+
+01:55.350 --> 01:57.270
+We are going to use different versions
+
+01:57.270 --> 01:59.040
+to understand in different manner.
+
+01:59.040 --> 02:01.170
+But for now we are going to use the,
+
+02:01.170 --> 02:05.820
+stacksimplify/kubenginx1.0.0 tag.
+
+02:05.820 --> 02:09.240
+So let's come back here and then use that.
+
+02:09.240 --> 02:12.330
+And then we also have additional tag named generator
+
+02:12.330 --> 02:15.930
+is called to run-pod/vba.
+
+02:15.930 --> 02:19.110
+So this is required to create pod as a pod
+
+02:19.110 --> 02:20.580
+instead of a deployment.
+
+02:20.580 --> 02:22.320
+So this is one important note here.
+
+02:22.320 --> 02:24.570
+So if you want to, you are just creating pod
+
+02:24.570 --> 02:25.980
+and then you're doing the pod's demo.
+
+02:25.980 --> 02:29.130
+Where do you want your command to automatically
+
+02:29.130 --> 02:31.590
+create a deployment, which is another core concept
+
+02:31.590 --> 02:33.300
+and then get confused with that.
+
+02:33.300 --> 02:35.760
+So that's the reason we need to use this tag.
+
+02:35.760 --> 02:38.400
+But when we move on to the very latest version,
+
+02:38.400 --> 02:40.200
+which is nothing but 1.18 version
+
+02:40.200 --> 02:42.030
+which is very recently released.
+
+02:42.030 --> 02:44.490
+So you really don't need to even add this tag.
+
+02:44.490 --> 02:46.500
+Kubernetes has done a lot
+
+02:46.500 --> 02:48.870
+of cleanup with the kubectl run command
+
+02:48.870 --> 02:50.220
+and we really don't need it.
+
+02:50.220 --> 02:53.100
+But I am currently using 1.16 version.
+
+02:53.100 --> 02:55.440
+So that's the reason I'm going to use this.
+
+02:55.440 --> 02:59.103
+So let's copy this command and run it here.
+
+03:04.590 --> 03:06.540
+Our pod got created.
+
+03:06.540 --> 03:07.373
+So we can go ahead
+
+03:07.373 --> 03:11.433
+and then list our pods using kubectl get pods.
+
+03:16.320 --> 03:19.350
+And my first pod is ready and then running.
+
+03:19.350 --> 03:21.363
+So one important thing here is,
+
+03:22.350 --> 03:26.910
+for our pod, if you want to even get pivo, right?
+
+03:26.910 --> 03:29.490
+So this pivo is nothing but the earlier soft pod.
+
+03:29.490 --> 03:32.130
+So you can give a shortcut, you can say, right?
+
+03:32.130 --> 03:33.390
+So it's the same thing.
+
+03:33.390 --> 03:35.010
+So now you have listed your pod.
+
+03:35.010 --> 03:37.590
+If you want, you can even use the -O
+
+03:37.590 --> 03:39.780
+and then wide option to see more information
+
+03:39.780 --> 03:40.830
+about your pod.
+
+03:40.830 --> 03:43.140
+So earlier you have seen only till H
+
+03:43.140 --> 03:45.690
+but now you are seeing the IP address of your pod
+
+03:45.690 --> 03:47.760
+which is nothing but your application.
+
+03:47.760 --> 03:50.580
+So your IP address of your pod is provided here
+
+03:50.580 --> 03:53.550
+and on which node it is hosted also, you can see.
+
+03:53.550 --> 03:55.560
+In this respective node, it is running.
+
+03:55.560 --> 03:59.040
+So we have 118 and then 145 here.
+
+03:59.040 --> 04:00.330
+And out of which this pod,
+
+04:00.330 --> 04:02.010
+we are only running a single pod
+
+04:02.010 --> 04:05.040
+and it is currently present on 118 node.
+
+04:05.040 --> 04:06.303
+So next is,
+
+04:07.260 --> 04:09.120
+what happened in the background, right?
+
+04:09.120 --> 04:11.430
+So we need to understand what happened in the background.
+
+04:11.430 --> 04:14.400
+So Kubernetes created a pod. What happens?
+
+04:14.400 --> 04:17.130
+So when we see that using the described pod,
+
+04:17.130 --> 04:18.180
+we'll come to know.
+
+04:18.180 --> 04:20.700
+So let's go ahead and then describe our pod.
+
+04:20.700 --> 04:25.320
+So kubectl described pod and then pod name is the syntax.
+
+04:25.320 --> 04:29.403
+So let's go ahead and then describe our pod here.
+
+04:32.490 --> 04:35.730
+So we can see the events here successfully
+
+04:35.730 --> 04:39.480
+assigned a default my first pod to this respective node
+
+04:39.480 --> 04:41.130
+which is nothing but the worker node.
+
+04:41.130 --> 04:44.790
+Then it pulled the image from the Docker hub, right?
+
+04:44.790 --> 04:47.010
+And it successfully pulled the image
+
+04:47.010 --> 04:51.510
+and created the container inside the pod
+
+04:51.510 --> 04:53.220
+and started the container.
+
+04:53.220 --> 04:56.130
+So that's what happened in the background.
+
+04:56.130 --> 04:58.800
+So that is about what happened in the background.
+
+04:58.800 --> 05:03.510
+So we can see in the evens portion of the described command.
+
+05:03.510 --> 05:05.700
+So now what is this described command?
+
+05:05.700 --> 05:08.310
+So the described command is the very important
+
+05:08.310 --> 05:11.130
+command which helps us in troubleshooting.
+
+05:11.130 --> 05:13.830
+So if our application has been deployed
+
+05:13.830 --> 05:17.340
+and the parties in pending state are crash loop back
+
+05:17.340 --> 05:19.230
+off state are in different states,
+
+05:19.230 --> 05:22.200
+you can directly go into the describe command
+
+05:22.200 --> 05:25.200
+and then verify what happened in the events.
+
+05:25.200 --> 05:27.810
+And also here also you can see additional information
+
+05:27.810 --> 05:29.400
+about the same thing.
+
+05:29.400 --> 05:31.290
+So if you see here,
+
+05:31.290 --> 05:33.270
+the name of the pod is my first pod
+
+05:33.270 --> 05:36.120
+and it has deployed to the name space default
+
+05:36.120 --> 05:37.740
+and in which node it has deployed
+
+05:37.740 --> 05:39.360
+it is showing in the described pod.
+
+05:39.360 --> 05:40.710
+So you'll get end-to-end lots
+
+05:40.710 --> 05:42.960
+of information about everything.
+
+05:42.960 --> 05:45.630
+So what is my pod IP you are seeing here?
+
+05:45.630 --> 05:46.710
+And in addition to that,
+
+05:46.710 --> 05:48.540
+from where it has pulled the container
+
+05:48.540 --> 05:51.750
+all these image ID and then information it is providing
+
+05:51.750 --> 05:54.630
+whether it is started, ready, true, all these information
+
+05:54.630 --> 05:57.120
+you can see everything in that described command.
+
+05:57.120 --> 05:59.800
+So it's always good to understand.
+
+05:59.800 --> 06:01.740
+It always means like when you have an issue,
+
+06:01.740 --> 06:03.390
+first start with the described command
+
+06:03.390 --> 06:06.690
+and then go to the logs, kubectl logs.
+
+06:06.690 --> 06:08.160
+So we'll see that later.
+
+06:08.160 --> 06:12.360
+Okay. So now the next thing is access application.
+
+06:12.360 --> 06:14.520
+So currently, we have created a pod.
+
+06:14.520 --> 06:17.370
+And this pod we will be able to access directly
+
+06:17.370 --> 06:18.570
+from our worker nodes.
+
+06:18.570 --> 06:21.780
+We can log into worker nodes and then access it currently.
+
+06:21.780 --> 06:26.780
+But how we are going to access it externally via internet.
+
+06:27.780 --> 06:29.580
+So that's our core thing, right?
+
+06:29.580 --> 06:33.930
+So to access it externally, we need to create a service.
+
+06:33.930 --> 06:36.720
+In our next lecture, we are going to focus on that.
+
+06:36.720 --> 06:38.820
+But for now, we created the pod,
+
+06:38.820 --> 06:41.580
+so let's go ahead and then delete the pod also.
+
+06:41.580 --> 06:45.060
+So using kubectl, delete, we can delete our pod.
+
+06:45.060 --> 06:48.250
+So first you'll say kubectl get pods
+
+06:49.590 --> 06:51.060
+and we got the pod.
+
+06:51.060 --> 06:54.330
+So I'll say kubectl, delete pod,
+
+06:54.330 --> 06:57.270
+and my pod name, right?
+
+06:57.270 --> 06:59.880
+So I'll copy and then paste it.
+
+06:59.880 --> 07:01.593
+So my first pod.
+
+07:04.170 --> 07:06.360
+So my pod is getting deleted.
+
+07:06.360 --> 07:07.860
+And once it is deleted,
+
+07:07.860 --> 07:12.860
+so let me clear and I'll say kubectl get pods
+
+07:13.350 --> 07:17.400
+and I don't have anything in the default name space.
+
+07:17.400 --> 07:19.220
+So that's about the pods.
+
+07:19.220 --> 07:21.990
+In our next lecture, we'll focus on creating a service
+
+07:21.990 --> 07:24.870
+and accessing this pod via internet.
+
+07:24.870 --> 07:26.340
+I'll see you in the next lecture.
+
+07:26.340 --> 07:28.023
+Until then, bye bye. Thank you.

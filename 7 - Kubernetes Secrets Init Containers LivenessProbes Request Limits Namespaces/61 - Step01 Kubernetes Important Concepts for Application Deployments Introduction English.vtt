@@ -1,0 +1,247 @@
+WEBVTT
+
+00:00.000 --> 00:00.840
+-: Welcome back.
+
+00:00.840 --> 00:03.120
+In this section we are going to learn
+
+00:03.120 --> 00:05.520
+a few important Kubernetes concepts
+
+00:05.520 --> 00:08.340
+which are required for our application deployments
+
+00:08.340 --> 00:10.800
+on the Kubernetes clusters.
+
+00:10.800 --> 00:12.330
+So in our previous lectures,
+
+00:12.330 --> 00:14.250
+we have implemented all these things
+
+00:14.250 --> 00:16.140
+like a MySQL deployment,
+
+00:16.140 --> 00:18.480
+where we have the MySQL database,
+
+00:18.480 --> 00:22.440
+and from that we have mounted the persistent storage
+
+00:22.440 --> 00:24.900
+of Elastic Block Store from AWS,
+
+00:24.900 --> 00:26.790
+with all these Kubernetes concepts
+
+00:26.790 --> 00:28.290
+like storage classes,
+
+00:28.290 --> 00:29.123
+PersistentVolumeClaim,
+
+00:29.123 --> 00:30.990
+config maps, deployments,
+
+00:30.990 --> 00:33.690
+environmental variables, volumes, volume mounts,
+
+00:33.690 --> 00:35.100
+all these things, okay?
+
+00:35.100 --> 00:37.890
+So now what we are going to do is,
+
+00:37.890 --> 00:40.170
+we have completed the underlying part here,
+
+00:40.170 --> 00:42.720
+but we also need to focus on our application
+
+00:42.720 --> 00:44.460
+we are deploying here.
+
+00:44.460 --> 00:46.620
+So first thing is, Secrets.
+
+00:46.620 --> 00:48.210
+So whatever the DB password,
+
+00:48.210 --> 00:50.640
+whatever we have provided for this application,
+
+00:50.640 --> 00:54.150
+why can't we send it in the encrypted format?
+
+00:54.150 --> 00:56.850
+So for that purpose we are going to use Secrets.
+
+00:56.850 --> 00:59.460
+The same we can apply for the MySQL root password
+
+00:59.460 --> 01:02.310
+environmental variable in deployment.
+
+01:02.310 --> 01:05.550
+So the next thing is, initialization containers.
+
+01:05.550 --> 01:08.520
+So these are nothing, but we have seen one issue related to,
+
+01:08.520 --> 01:11.190
+before the MySQL container started,
+
+01:11.190 --> 01:14.010
+the application got started
+
+01:14.010 --> 01:15.450
+and then one more time it restarted,
+
+01:15.450 --> 01:18.390
+it didn't wait for the MySQL service to come up.
+
+01:18.390 --> 01:21.848
+So to ensure that MySQL container comes up
+
+01:21.848 --> 01:23.560
+and then starts the application,
+
+01:23.560 --> 01:27.107
+we can implement initialization containers.
+
+01:27.107 --> 01:30.099
+So in addition to that, we can implement liveness
+
+01:30.099 --> 01:32.370
+and then readiness probes of our application,
+
+01:32.370 --> 01:36.000
+so that the traffic can be allowed to this respective port
+
+01:36.000 --> 01:37.740
+only once the liveness
+
+01:37.740 --> 01:40.080
+and then readiness probes are successful.
+
+01:40.080 --> 01:43.350
+So those we need to implement for our application.
+
+01:43.350 --> 01:44.550
+In addition to that,
+
+01:44.550 --> 01:47.370
+we can even implement requests and limits
+
+01:47.370 --> 01:49.350
+for our application ports.
+
+01:49.350 --> 01:51.240
+Which means how much CPU,
+
+01:51.240 --> 01:54.000
+how much memory in the Kubernetes cluster
+
+01:54.000 --> 01:56.760
+our respective application ports should be taking.
+
+01:56.760 --> 01:59.130
+We can request those things
+
+01:59.130 --> 02:03.210
+and then also put a hard limit for that using limits.
+
+02:03.210 --> 02:04.890
+In addition to that,
+
+02:04.890 --> 02:07.440
+if we have multiple versions of our application
+
+02:07.440 --> 02:10.080
+or if we want to deploy in the CME case cluster
+
+02:10.080 --> 02:12.000
+you have staging and then development
+
+02:12.000 --> 02:14.190
+and then QA environments.
+
+02:14.190 --> 02:16.860
+So you can even create namespaces separately
+
+02:16.860 --> 02:20.550
+for dev, QA, staging, and then deploy the same application
+
+02:20.550 --> 02:24.210
+and the same version inside those separate namespaces.
+
+02:24.210 --> 02:26.190
+So like this, you can use namespaces
+
+02:26.190 --> 02:30.690
+to differentiate your environments or in various reasons
+
+02:30.690 --> 02:32.070
+or even for namespaces,
+
+02:32.070 --> 02:34.362
+like you can allocate for dev environment,
+
+02:34.362 --> 02:35.730
+my Kubernetes cluster.
+
+02:35.730 --> 02:37.950
+This much resources only should be allocated
+
+02:37.950 --> 02:39.840
+for this namespace, this much CPU,
+
+02:39.840 --> 02:41.580
+and then this much memory.
+
+02:41.580 --> 02:43.750
+So all those things we can implement
+
+02:43.750 --> 02:47.640
+and those are very important for the applications
+
+02:47.640 --> 02:50.880
+we are going to deploy on Kubernetes cluster.
+
+02:50.880 --> 02:53.310
+So these things we are going to implement.
+
+02:53.310 --> 02:55.410
+Now, so if you go here,
+
+02:55.410 --> 02:57.600
+in 05 Kubernetes,
+
+02:57.600 --> 03:01.230
+Important Concepts for Application Deployments.
+
+03:01.230 --> 03:04.290
+So we are going to look into Kubernetes Secrets,
+
+03:04.290 --> 03:05.490
+initialization containers,
+
+03:05.490 --> 03:07.500
+liveness and readiness probes,
+
+03:07.500 --> 03:08.820
+and requests and limits,
+
+03:08.820 --> 03:12.241
+and then namespaces in five sections now.
+
+03:12.241 --> 03:15.000
+I'll see you in the next lecture.
+
+03:15.000 --> 03:16.530
+Until then, bye bye.
+
+03:16.530 --> 03:17.363
+Thank you.

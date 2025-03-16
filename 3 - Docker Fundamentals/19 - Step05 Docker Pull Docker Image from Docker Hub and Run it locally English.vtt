@@ -1,0 +1,697 @@
+WEBVTT
+
+00:00.360 --> 00:01.350
+-: Welcome back.
+
+00:01.350 --> 00:04.410
+In this lecture we are going to pull a docker image
+
+00:04.410 --> 00:07.890
+from our DockerHub and then run it as a docker image.
+
+00:07.890 --> 00:11.490
+Okay, so let's go to our DockerHub account, okay?
+
+00:11.490 --> 00:13.320
+So hub.docker.com,
+
+00:13.320 --> 00:15.566
+and then I have a DockerHub account here,
+
+00:15.566 --> 00:19.087
+and let's see the image which we are going to use.
+
+00:19.087 --> 00:20.886
+So I have a image called
+
+00:20.886 --> 00:23.850
+dockerintrospringboothelloworldrest.apa.
+
+00:23.850 --> 00:25.020
+So I'm going to use it.
+
+00:25.020 --> 00:28.020
+So usually everyone will try to use NICs,
+
+00:28.020 --> 00:30.098
+but we are trying to use it little different
+
+00:30.098 --> 00:32.760
+so to show different things here.
+
+00:32.760 --> 00:34.230
+So we'll see what are those things,
+
+00:34.230 --> 00:36.930
+okay, so let's go to the docker fundamentals
+
+00:36.930 --> 00:40.620
+and then pull from DockerHub and run docker images.
+
+00:40.620 --> 00:42.630
+So let's start with the step one,
+
+00:42.630 --> 00:45.810
+verify docker version and also log into our DockerHub
+
+00:45.810 --> 00:48.060
+from our docker client perspective, right?
+
+00:48.060 --> 00:51.120
+So let's go here and then clear,
+
+00:51.120 --> 00:54.390
+and I will say docker version, right?
+
+00:54.390 --> 00:57.030
+So it has given my client to docker engine version
+
+00:57.030 --> 00:59.100
+which is 190305,
+
+00:59.100 --> 01:02.550
+and also my server docker version also being provided here.
+
+01:02.550 --> 01:04.770
+Okay, so let me clear this,
+
+01:04.770 --> 01:07.350
+and then I'm going to say docker login so
+
+01:07.350 --> 01:10.170
+that I'll be able to authenticate to my DockerHub account.
+
+01:10.170 --> 01:13.980
+Okay, so already I have provided the credentials earlier,
+
+01:13.980 --> 01:15.420
+so that's the reason it is showing.
+
+01:15.420 --> 01:17.931
+So I can even say docker logout.
+
+01:17.931 --> 01:22.020
+Okay, so now it has been logged out, so if we want,
+
+01:22.020 --> 01:24.030
+we can even log in one more time,
+
+01:24.030 --> 01:27.063
+so I can say a stack simplify.
+
+01:35.130 --> 01:38.070
+Okay, so my login got succeeded.
+
+01:38.070 --> 01:39.570
+So if you want anything
+
+01:39.570 --> 01:42.000
+in conflict or JSON, we can crosscheck.
+
+01:42.000 --> 01:45.840
+Okay, so nothing related to Mac OSX keychain, okay?
+
+01:45.840 --> 01:47.940
+So that means we are good for now.
+
+01:47.940 --> 01:51.690
+So let me clean this clear and go back here.
+
+01:51.690 --> 01:54.600
+Okay, so now pull an image from DockerHub.
+
+01:54.600 --> 01:58.389
+So for that we are going to use just docker pull
+
+01:58.389 --> 02:00.420
+and the image, you can see here whatever is there,
+
+02:00.420 --> 02:02.210
+you can pull this image
+
+02:02.210 --> 02:04.530
+or you can get the image name directly
+
+02:04.530 --> 02:06.690
+from our DockerHub account here, okay?
+
+02:06.690 --> 02:09.300
+So this is the one, so whatever we want,
+
+02:09.300 --> 02:12.810
+we can pull it in here, 1.0.0 hyphen release, okay?
+
+02:12.810 --> 02:14.850
+So I'll try to copy this complete command
+
+02:14.850 --> 02:18.240
+from here and then execute it further convenience.
+
+02:18.240 --> 02:22.410
+Okay, so let me paste the command here.
+
+02:22.410 --> 02:26.283
+So now it is going to download.
+
+02:27.600 --> 02:30.000
+So that respective image is getting downloaded
+
+02:30.000 --> 02:31.083
+to our local repo.
+
+02:32.400 --> 02:35.820
+So let's wait for that to completely download.
+
+02:35.820 --> 02:37.260
+So now it is downloaded,
+
+02:37.260 --> 02:40.200
+so you have a command called docker images, okay?
+
+02:40.200 --> 02:42.060
+So you can see here only one image,
+
+02:42.060 --> 02:43.860
+whatever we have downloaded is available.
+
+02:43.860 --> 02:45.840
+So there are no other images other than this.
+
+02:45.840 --> 02:47.850
+So using docker images,
+
+02:47.850 --> 02:49.710
+we have checked that downloaded image.
+
+02:49.710 --> 02:52.560
+Okay, so let me clear this and then go back.
+
+02:52.560 --> 02:55.380
+Okay, so now run the downloaded docker image,
+
+02:55.380 --> 02:58.530
+and then access the application is over step three.
+
+02:58.530 --> 02:59.850
+Okay, so you see this,
+
+02:59.850 --> 03:02.850
+there is a command called docker run to run our image
+
+03:02.850 --> 03:05.370
+as container on our local desktop, right?
+
+03:05.370 --> 03:07.830
+So let's see what are the options here, right?
+
+03:07.830 --> 03:10.050
+So the first thing is docker space run,
+
+03:10.050 --> 03:13.200
+and then hyphen hyphen name and then I'm saying app one.
+
+03:13.200 --> 03:15.990
+So nothing but this is an optional thing.
+
+03:15.990 --> 03:17.490
+So what I'm trying to give here is
+
+03:17.490 --> 03:19.770
+like my docker container name,
+
+03:19.770 --> 03:21.750
+I'm going to give it as app one.
+
+03:21.750 --> 03:23.790
+If you don't give it is going to autogenerate
+
+03:23.790 --> 03:25.260
+some name for us, okay?
+
+03:25.260 --> 03:28.140
+But always it is good to give a docker container name
+
+03:28.140 --> 03:29.220
+what we are going to run.
+
+03:29.220 --> 03:31.890
+So we are trying to use the best practice here, okay?
+
+03:31.890 --> 03:36.120
+And the next thing is hyphen P and then 80 colon 80, 80.
+
+03:36.120 --> 03:37.597
+So here, you see, right?
+
+03:37.597 --> 03:40.560
+The first 80 whatever you are seeing is
+
+03:40.560 --> 03:41.940
+your local port, okay?
+
+03:41.940 --> 03:43.200
+Which is nothing, but you are going
+
+03:43.200 --> 03:45.540
+to expose from your local desktop, okay?
+
+03:45.540 --> 03:47.160
+And 80, 80 is nothing,
+
+03:47.160 --> 03:49.890
+but the second one is nothing but your container port.
+
+03:49.890 --> 03:52.070
+So you are mapping your container port 80, 80
+
+03:52.070 --> 03:54.390
+to your local desktop port 80.
+
+03:54.390 --> 03:55.440
+That's what you're doing here.
+
+03:55.440 --> 03:57.090
+So whenever you access local host
+
+03:57.090 --> 04:00.240
+to slash hello means which is nothing, but with port 80,
+
+04:00.240 --> 04:02.250
+your application is accessible, okay?
+
+04:02.250 --> 04:05.610
+With port 80, even though container port is 80, 80.
+
+04:05.610 --> 04:06.750
+So that's the thing.
+
+04:06.750 --> 04:09.510
+And hyphen D and your container means
+
+04:09.510 --> 04:13.500
+like the image complete name including the tag value, right?
+
+04:13.500 --> 04:14.460
+So like this.
+
+04:14.460 --> 04:18.000
+So let's go and then copy this command now,
+
+04:18.000 --> 04:21.003
+and then paste it and then run it, okay?
+
+04:23.310 --> 04:25.500
+So we are going to run it now.
+
+04:25.500 --> 04:30.210
+So now we are going to see it how it is running.
+
+04:30.210 --> 04:33.390
+Okay, so docker PS is the command to see the list
+
+04:33.390 --> 04:36.870
+running containers, okay, so my container is running, okay,
+
+04:36.870 --> 04:39.900
+it is created and it's status and all those things,
+
+04:39.900 --> 04:41.280
+we can see it here, okay?
+
+04:41.280 --> 04:42.570
+So now the container name
+
+04:42.570 --> 04:43.710
+at the end you are seeing, right?
+
+04:43.710 --> 04:47.760
+It is nothing but app one and it's pointing is 80 to 80, 80.
+
+04:47.760 --> 04:49.680
+You can see all these things here, okay?
+
+04:49.680 --> 04:51.600
+So now let's go to the browser,
+
+04:51.600 --> 04:56.600
+and then say local list slash hello, right?
+
+05:01.650 --> 05:06.650
+So to else, Okay, hello world, we one you can see, right?
+
+05:07.230 --> 05:10.110
+So now whatever we have run it,
+
+05:10.110 --> 05:12.300
+we are able to access our application.
+
+05:12.300 --> 05:15.117
+So let's go back here and then list
+
+05:15.117 --> 05:17.310
+the running containers, okay?
+
+05:17.310 --> 05:18.840
+And we have other commands also
+
+05:18.840 --> 05:22.140
+if any other containers
+
+05:22.140 --> 05:23.760
+which is stopper containers are there,
+
+05:23.760 --> 05:27.000
+we'll be able to see them with the hyphen E.
+
+05:27.000 --> 05:30.540
+In addition, we'll have something called Q hyphen Q,
+
+05:30.540 --> 05:33.510
+which will give us only the container IDs, okay?
+
+05:33.510 --> 05:35.130
+So if you want to stop the container,
+
+05:35.130 --> 05:37.110
+then you need just the container ID, right?
+
+05:37.110 --> 05:39.257
+So you can get that container ID and then stop it,
+
+05:39.257 --> 05:42.090
+or you can pass this command as input
+
+05:42.090 --> 05:43.320
+to another command, okay?
+
+05:43.320 --> 05:46.326
+So for that purpose hyphen Q used, okay,
+
+05:46.326 --> 05:51.240
+docker PSY hyphen QE is used for passing these container IDs
+
+05:51.240 --> 05:53.850
+to another commands for doing whatever we want, okay?
+
+05:53.850 --> 05:55.560
+So when we are doing the advance six sections
+
+05:55.560 --> 05:57.450
+usually we'll know all those things.
+
+05:57.450 --> 05:58.440
+So moving on.
+
+05:58.440 --> 06:01.470
+So now we can even connect to that container terminal
+
+06:01.470 --> 06:04.200
+which is nothing but whatever the docker container
+
+06:04.200 --> 06:06.900
+whatever we have created is a Linux container.
+
+06:06.900 --> 06:09.810
+So we can directly connect to that and see what's going on.
+
+06:09.810 --> 06:14.190
+So further the command is docker exec and then hyphen IT,
+
+06:14.190 --> 06:17.520
+and the container name and then slash bin slash SH.
+
+06:17.520 --> 06:20.050
+Okay, so this is going to be something called
+
+06:22.260 --> 06:25.740
+paste and my container name is app one,
+
+06:25.740 --> 06:29.070
+and then slash bin slash SH, right?
+
+06:29.070 --> 06:31.500
+So now I am in my container,
+
+06:31.500 --> 06:34.170
+and you can see here my app dot jar is there,
+
+06:34.170 --> 06:37.530
+and then lot of commands are going to not work.
+
+06:37.530 --> 06:38.820
+Only basic commands will work.
+
+06:38.820 --> 06:40.680
+You can see PSH fund here,
+
+06:40.680 --> 06:42.720
+which is nothing but the Java command
+
+06:42.720 --> 06:45.840
+whatever the spring boot application is running here, okay?
+
+06:45.840 --> 06:48.150
+So now we are in our container, okay?
+
+06:48.150 --> 06:50.190
+Means like inside the container command prompt,
+
+06:50.190 --> 06:51.023
+we are here, okay?
+
+06:51.023 --> 06:53.160
+So I'm going to exit and then I came out,
+
+06:53.160 --> 06:55.740
+if you want again connect, you are in container, okay?
+
+06:55.740 --> 06:59.310
+If you say LS add.JAR, PS minus CF,
+
+06:59.310 --> 07:00.450
+you can see these things, okay?
+
+07:00.450 --> 07:02.310
+If I say exceed again, I came back.
+
+07:02.310 --> 07:04.770
+So I came back to my local MAC desktop.
+
+07:04.770 --> 07:07.230
+So like this you'll be able to connect
+
+07:07.230 --> 07:09.150
+to your container terminal.
+
+07:09.150 --> 07:11.040
+So if you want to stop the container,
+
+07:11.040 --> 07:14.430
+you can stop using container app one, right?
+
+07:14.430 --> 07:19.170
+So I can say docker stop app one,
+
+07:19.170 --> 07:22.410
+my container name is app one, so I'm stopping it, okay?
+
+07:22.410 --> 07:26.040
+So if I say docker PS, right?
+
+07:26.040 --> 07:28.260
+So no other containers are running, okay,
+
+07:28.260 --> 07:31.860
+but if with hyphen here you can see the stopper containers.
+
+07:31.860 --> 07:34.380
+So you can see the stopper container you are seeing,
+
+07:34.380 --> 07:37.350
+you can see it here, exited 143, right?
+
+07:37.350 --> 07:39.120
+So but without the hyphen,
+
+07:39.120 --> 07:41.340
+only running containers you can see.
+
+07:41.340 --> 07:43.080
+So now if you say local host,
+
+07:43.080 --> 07:47.580
+and then access it, it's not working, right?
+
+07:47.580 --> 07:49.950
+So now again, one more time, it is a stopper container,
+
+07:49.950 --> 07:51.690
+you are going to start it.
+
+07:51.690 --> 07:54.330
+So, and then say docker start app one.
+
+07:54.330 --> 07:56.520
+Okay, now your container is running.
+
+07:56.520 --> 07:59.760
+So when you say docker PS, you are able to see it, okay?
+
+07:59.760 --> 08:02.370
+Hyphen here will give you the stopper containers,
+
+08:02.370 --> 08:05.130
+and without hyphen here you can see the running containers.
+
+08:05.130 --> 08:07.260
+Okay, so now it is again running.
+
+08:07.260 --> 08:09.570
+So let's access this and then say, okay,
+
+08:09.570 --> 08:11.310
+so hello world we one is coming.
+
+08:11.310 --> 08:14.650
+That's good, okay, so now you have completed
+
+08:15.690 --> 08:18.060
+that container, stop and start.
+
+08:18.060 --> 08:20.280
+Finally, if you want to remove the container,
+
+08:20.280 --> 08:23.730
+you can say docker space RM, and then container name.
+
+08:23.730 --> 08:26.368
+Okay, so let's do that now.
+
+08:26.368 --> 08:31.368
+Okay, docker RM and then container name is app one, okay?
+
+08:32.430 --> 08:34.380
+You cannot remove your running container,
+
+08:34.380 --> 08:37.350
+stop the container before attempting to remove it.
+
+08:37.350 --> 08:40.500
+So let's go there and then stop it.
+
+08:40.500 --> 08:41.760
+Now we have stopped it.
+
+08:41.760 --> 08:45.090
+So if you say hyphen here, you can see that.
+
+08:45.090 --> 08:47.100
+And then it is an exited state.
+
+08:47.100 --> 08:48.630
+You can see it here, right?
+
+08:48.630 --> 08:53.630
+So now I'm going to say docker RM and then app one.
+
+08:53.700 --> 08:55.710
+So now my container is removed.
+
+08:55.710 --> 08:57.360
+So PS it doesn't show.
+
+08:57.360 --> 08:59.970
+And even in the PS hyphen here, also it doesn't show, why,
+
+08:59.970 --> 09:02.280
+because even the stopper container is removed
+
+09:02.280 --> 09:03.810
+from my mission, okay?
+
+09:03.810 --> 09:06.533
+So with PS it is not showing docker PS
+
+09:06.533 --> 09:09.360
+or with PS hyphen AR, also it is not showing.
+
+09:09.360 --> 09:10.590
+So that's about it.
+
+09:10.590 --> 09:13.110
+Okay, finally, if you want to remove the image,
+
+09:13.110 --> 09:16.380
+so you can say docker image and then image ID,
+
+09:16.380 --> 09:19.350
+no, it should be docker RMI, and then image ID.
+
+09:19.350 --> 09:20.730
+So let me correct this.
+
+09:20.730 --> 09:23.010
+So whatever the downloaded image we have,
+
+09:23.010 --> 09:25.500
+just go ahead and then remove that image.
+
+09:25.500 --> 09:30.500
+So let's say first docker images, clear docker images
+
+09:30.900 --> 09:33.060
+and then get the image ID.
+
+09:33.060 --> 09:35.220
+So this is the image ID, okay?
+
+09:35.220 --> 09:38.640
+And then say docker RMI, which is nothing,
+
+09:38.640 --> 09:42.480
+but remove the image and then provide the image ID.
+
+09:42.480 --> 09:45.120
+Okay, so now the docker image is removed,
+
+09:45.120 --> 09:47.910
+so let's say docker images, nothing is displayed.
+
+09:47.910 --> 09:49.050
+So whatever you have pulled
+
+09:49.050 --> 09:51.060
+from our DockerHub is not available.
+
+09:51.060 --> 09:53.370
+So now it is plain empty.
+
+09:53.370 --> 09:56.040
+So no other images on my local desktop.
+
+09:56.040 --> 09:57.780
+So that's about the flow.
+
+09:57.780 --> 10:00.720
+Pull docker image from DockerHub and then run it.
+
+10:00.720 --> 10:04.260
+So we have done it in eight steps and then all these
+
+10:04.260 --> 10:05.940
+will be as a reference for you whenever
+
+10:05.940 --> 10:07.650
+you want to execute, okay?
+
+10:07.650 --> 10:10.770
+So you can go to this docker GitHub account and then use it.
+
+10:10.770 --> 10:12.840
+Okay, so I'll see you in the next lecture
+
+10:12.840 --> 10:14.220
+with our next flow.
+
+10:14.220 --> 10:16.323
+Until then, bye bye, thank you!

@@ -1,0 +1,796 @@
+WEBVTT
+
+00:00.000 --> 00:00.930
+-: Welcome back.
+
+00:00.930 --> 00:03.870
+In this lecture, we are going to test our user
+
+00:03.870 --> 00:06.480
+management microservice using the Postman.
+
+00:06.480 --> 00:09.630
+So we are going to download the Postman client,
+
+00:09.630 --> 00:11.880
+and then install it using this link,
+
+00:11.880 --> 00:14.370
+and then import the Postman project,
+
+00:14.370 --> 00:19.370
+AWS EKS masterclass microservices_postmancollection.json
+
+00:19.830 --> 00:21.090
+present here.
+
+00:21.090 --> 00:22.980
+So which is nothing but this one,
+
+00:22.980 --> 00:26.910
+and then just import that to our Postman client
+
+00:26.910 --> 00:29.130
+and then create the environment required
+
+00:29.130 --> 00:30.240
+for that which is nothing
+
+00:30.240 --> 00:33.120
+but with our respect to public IP.
+
+00:33.120 --> 00:35.850
+And then port note, port, whatever is there.
+
+00:35.850 --> 00:39.240
+Create the environment so that the URLs present
+
+00:39.240 --> 00:41.070
+inside that are going to get replaced.
+
+00:41.070 --> 00:43.710
+And then test all these services like create user,
+
+00:43.710 --> 00:47.280
+list user, update user, delete user services.
+
+00:47.280 --> 00:51.930
+Okay, so let's go back to our Postman client.
+
+00:51.930 --> 00:54.150
+So if you see here in the import, right?
+
+00:54.150 --> 00:55.170
+So once you download
+
+00:55.170 --> 00:56.760
+and install your postman client,
+
+00:56.760 --> 01:00.690
+using the import so you can copy that respective file,
+
+01:00.690 --> 01:03.090
+whatever you have which is present here,
+
+01:03.090 --> 01:04.380
+whatever I have shown you, right?
+
+01:04.380 --> 01:07.230
+So this one you can, this .json file you can import.
+
+01:07.230 --> 01:09.480
+So once imported it creates like this,
+
+01:09.480 --> 01:10.680
+which is nothing but
+
+01:10.680 --> 01:12.150
+so this is the collection name
+
+01:12.150 --> 01:15.090
+and this is the user management microservice, okay?
+
+01:15.090 --> 01:16.920
+So inside this, the first thing is user
+
+01:16.920 --> 01:18.750
+management health status, right?
+
+01:18.750 --> 01:21.240
+So before doing that, what we said is we are going
+
+01:21.240 --> 01:23.700
+to create the environment for that,
+
+01:23.700 --> 01:24.993
+which is nothing but using our work
+
+01:24.993 --> 01:27.600
+on a public IP and then port.
+
+01:27.600 --> 01:30.603
+So we need to go to settings here, in the right corner,
+
+01:31.560 --> 01:33.720
+click on that so that we'll be able to create
+
+01:33.720 --> 01:35.100
+the environment.
+
+01:35.100 --> 01:36.840
+So the environment name.
+
+01:36.840 --> 01:39.030
+So whatever we have provided here, whatever you want
+
+01:39.030 --> 01:40.560
+you can provide your design name.
+
+01:40.560 --> 01:44.190
+I'm saying UMS, means user management service note port,
+
+01:44.190 --> 01:45.023
+okay?
+
+01:45.023 --> 01:47.552
+And the variable I have given here is URL.
+
+01:47.552 --> 01:48.385
+Okay.
+
+01:48.385 --> 01:50.730
+And what is my initial value and then current value?
+
+01:50.730 --> 01:51.930
+It is going to be the same.
+
+01:51.930 --> 01:53.670
+So which is nothing but this one.
+
+01:53.670 --> 01:54.503
+Okay?
+
+01:54.503 --> 01:57.360
+So whatever the node public IP, right?
+
+01:57.360 --> 01:58.293
+And 31231.
+
+01:59.340 --> 02:01.200
+So let me copy it and then paste it.
+
+02:01.200 --> 02:03.900
+Okay? So no slash at the end you can see right?
+
+02:03.900 --> 02:08.900
+So HTTP://public IPF worker node: 31231.
+
+02:09.330 --> 02:12.060
+So it is the same thing here, automatically replaced.
+
+02:12.060 --> 02:14.220
+So let me click on add, right?
+
+02:14.220 --> 02:17.670
+So I have the UMS notebook, so let me close it here.
+
+02:17.670 --> 02:20.130
+And in the environment, this is no environment.
+
+02:20.130 --> 02:23.400
+If I test, so it'll not go anywhere, could not send request.
+
+02:23.400 --> 02:24.233
+Okay?
+
+02:24.233 --> 02:27.120
+So let's select the environment UMS node port
+
+02:27.120 --> 02:30.120
+and test our health status, whatever we have tested here.
+
+02:30.120 --> 02:31.920
+So this is the same health status, okay?
+
+02:31.920 --> 02:33.060
+Here it is working.
+
+02:33.060 --> 02:35.040
+So here also it should work, okay?
+
+02:35.040 --> 02:37.470
+So you can see that user management microservice
+
+02:37.470 --> 02:38.303
+up and running.
+
+02:38.303 --> 02:41.700
+So this request sent to our respective container present
+
+02:41.700 --> 02:44.490
+in our kubernetes port are on our cluster, right?
+
+02:44.490 --> 02:47.610
+So now let's go ahead and then create the user management
+
+02:47.610 --> 02:48.600
+create user.
+
+02:48.600 --> 02:50.610
+So this user, whatever you are creating,
+
+02:50.610 --> 02:53.010
+should be present in our MYA scale database,
+
+02:53.010 --> 02:55.815
+whatever we created here, okay?
+
+02:55.815 --> 02:57.570
+So kubectl get ports,
+
+02:57.570 --> 02:58.403
+okay?
+
+02:58.403 --> 02:59.730
+So whatever the user you are creating,
+
+02:59.730 --> 03:02.100
+why user management service should be present
+
+03:02.100 --> 03:03.120
+in this MYA scale.
+
+03:03.120 --> 03:04.757
+We are going to test that later.
+
+03:04.757 --> 03:08.520
+Okay? So now let me go ahead and then create that.
+
+03:08.520 --> 03:10.530
+So if you see here in the body,
+
+03:10.530 --> 03:12.480
+you can see user name is admin1,
+
+03:12.480 --> 03:14.760
+email role enabled, true,
+
+03:14.760 --> 03:15.720
+first name, last name,
+
+03:15.720 --> 03:16.553
+and then password.
+
+03:16.553 --> 03:18.120
+These are the things we are going to post.
+
+03:18.120 --> 03:20.100
+So let me say send.
+
+03:20.100 --> 03:22.350
+So it'll post to this environment
+
+03:22.350 --> 03:24.450
+and then user should be created, okay?
+
+03:24.450 --> 03:27.647
+So you can ignore this 500 internal server error.
+
+03:27.647 --> 03:30.990
+So this is coming because of some me message you are
+
+03:30.990 --> 03:31.823
+seeing here, right?
+
+03:31.823 --> 03:34.080
+User will be created, but you'll get this error
+
+03:34.080 --> 03:37.350
+because it's underlying one more microservice
+
+03:37.350 --> 03:39.900
+which is nothing but notification microservices
+
+03:39.900 --> 03:41.190
+not up and running.
+
+03:41.190 --> 03:44.533
+We just deployed the user management microservice.
+
+03:44.533 --> 03:46.920
+How I have written the code is,
+
+03:46.920 --> 03:50.130
+create the user and send the notification to the user,
+
+03:50.130 --> 03:52.440
+whoever we provide the email here, okay?
+
+03:52.440 --> 03:55.200
+So what it is sending is it is not able to post the data
+
+03:55.200 --> 03:56.640
+to notifications slash send.
+
+03:56.640 --> 03:58.530
+which is nothing but the notification service
+
+03:58.530 --> 04:01.950
+under 80964 to send the notification
+
+04:01.950 --> 04:05.070
+and then do that because notification service
+
+04:05.070 --> 04:07.320
+we really didn't deploy, so it is not going to work.
+
+04:07.320 --> 04:08.880
+But user will get created.
+
+04:08.880 --> 04:10.290
+You really don't need to worry.
+
+04:10.290 --> 04:14.130
+So that you can verify using the list user service, okay?
+
+04:14.130 --> 04:16.710
+So user management slash user.
+
+04:16.710 --> 04:18.330
+So that is the list user service.
+
+04:18.330 --> 04:19.320
+So we create a user.
+
+04:19.320 --> 04:22.080
+Now list user service, we are testing, okay?
+
+04:22.080 --> 04:24.780
+So now you see that user got created which is admin1
+
+04:24.780 --> 04:26.850
+and then all these details.
+
+04:26.850 --> 04:28.380
+So if you want to update the user,
+
+04:28.380 --> 04:31.380
+so currently user has F name one and then L name one.
+
+04:31.380 --> 04:33.390
+So if you want to update the same user,
+
+04:33.390 --> 04:36.090
+so with F name two and then L name two.
+
+04:36.090 --> 04:37.800
+So you can just update it.
+
+04:37.800 --> 04:41.970
+Okay? And then send it so that changes got reflected.
+
+04:41.970 --> 04:44.820
+So now let's go and then list the user one more time.
+
+04:44.820 --> 04:47.670
+So you can see that F name two and then L name two
+
+04:47.670 --> 04:48.840
+got updated.
+
+04:48.840 --> 04:49.950
+So if you want you can go
+
+04:49.950 --> 04:53.040
+and then update the same things the way it is required.
+
+04:53.040 --> 04:55.800
+Okay, so now the these changes are done,
+
+04:55.800 --> 04:57.540
+if you want to delete the user.
+
+04:57.540 --> 04:59.940
+So my username is admin1, right?
+
+04:59.940 --> 05:03.981
+So if you see here, so my username here is admin1, okay?
+
+05:03.981 --> 05:06.460
+So using the username admin1, earlier, it is two
+
+05:06.460 --> 05:08.430
+just replace it with one.
+
+05:08.430 --> 05:11.040
+So user slash admin1 and then delete it.
+
+05:11.040 --> 05:14.130
+Okay? So now user should be deleted.
+
+05:14.130 --> 05:16.710
+So if I go and then list the users one more time,
+
+05:16.710 --> 05:18.091
+no user is present.
+
+05:18.091 --> 05:19.920
+So now let me go back
+
+05:19.920 --> 05:22.200
+and then create the user one more time.
+
+05:22.200 --> 05:24.000
+So now the user got created,
+
+05:24.000 --> 05:26.070
+list the user one more time,
+
+05:26.070 --> 05:27.362
+and user is there.
+
+05:27.362 --> 05:30.510
+And if you want we can create one more user.
+
+05:30.510 --> 05:35.510
+So I'll say admin2 and kali2
+
+05:36.540 --> 05:39.600
+and, just I'm giving some two users, okay?
+
+05:39.600 --> 05:42.030
+So and then save and then send, okay.
+
+05:42.030 --> 05:43.950
+So I've sent one more user I have created,
+
+05:43.950 --> 05:45.300
+if I say list all users,
+
+05:45.300 --> 05:47.986
+I have two users now admin1 and then admin2.
+
+05:47.986 --> 05:51.390
+So what I'm going to do with these two users is
+
+05:51.390 --> 05:53.040
+we are going to go to the next step.
+
+05:53.040 --> 05:54.690
+So we have tested all these services,
+
+05:54.690 --> 05:56.040
+delete user also.
+
+05:56.040 --> 05:58.590
+So we are going to verify these users in our MYA scale
+
+05:58.590 --> 06:01.350
+database by connecting to our MYA scale database.
+
+06:01.350 --> 06:04.170
+Earlier, also, we have run this MYA scale database command
+
+06:04.170 --> 06:05.700
+using kubectl run.
+
+06:05.700 --> 06:08.400
+So it is going to download the MYA scale 5.6,
+
+06:08.400 --> 06:10.500
+whatever is our main container image,
+
+06:10.500 --> 06:12.150
+in the same way for the client, also,
+
+06:12.150 --> 06:15.060
+it is going to download the same 5.6 container.
+
+06:15.060 --> 06:16.920
+And from that container it is going to connect
+
+06:16.920 --> 06:18.540
+to the MYA scale host, which is nothing
+
+06:18.540 --> 06:20.460
+but our MYA scale deployment,
+
+06:20.460 --> 06:22.590
+whatever we have done.
+
+06:22.590 --> 06:25.590
+And then it is going to take us to the MYA scale prompt.
+
+06:25.590 --> 06:28.320
+So there we are going to run these commands.
+
+06:28.320 --> 06:30.090
+So let me copy this
+
+06:30.090 --> 06:32.253
+and I will run this.
+
+06:33.120 --> 06:35.940
+So now it'll take a little bit,
+
+06:35.940 --> 06:36.930
+yeah, so okay,
+
+06:36.930 --> 06:38.220
+so it should run now.
+
+06:38.220 --> 06:39.990
+So we are in a MYA scale prompt.
+
+06:39.990 --> 06:42.030
+So first thing is show schemas,
+
+06:42.030 --> 06:44.580
+which is nothing, but what are databases available?
+
+06:44.580 --> 06:47.880
+Okay? So now I need to connect to user MGMT schema.
+
+06:47.880 --> 06:52.710
+So I will say, user mgmt, right?
+
+06:52.710 --> 06:54.930
+So I connect it to that schema, right?
+
+06:54.930 --> 06:58.800
+So now I will say, show tables in that schema.
+
+06:58.800 --> 06:59.633
+Okay.
+
+06:59.633 --> 07:01.710
+So now I see user table is created.
+
+07:01.710 --> 07:05.153
+So I'll say select start from users.
+
+07:07.290 --> 07:08.280
+Okay.
+
+07:08.280 --> 07:09.857
+Now if you see that I have admin1
+
+07:09.857 --> 07:13.410
+and then admin2 records got created in this database.
+
+07:13.410 --> 07:15.600
+So now let's come back here
+
+07:15.600 --> 07:18.270
+to Postman and then delete the user.
+
+07:18.270 --> 07:20.027
+So admin1 if you want to delete,
+
+07:20.027 --> 07:21.930
+or admin2 I will delete, okay.
+
+07:21.930 --> 07:24.120
+So delete the admin2 user
+
+07:24.120 --> 07:25.710
+and then if I say list all users,
+
+07:25.710 --> 07:27.510
+I have only admin1 user.
+
+07:27.510 --> 07:30.630
+So let's execute the same select star from users.
+
+07:30.630 --> 07:32.790
+So you see only one admin1 is there.
+
+07:32.790 --> 07:34.410
+So now you can see end to end
+
+07:34.410 --> 07:37.170
+that whatever the user you have created
+
+07:37.170 --> 07:40.800
+Already present in our EBS volume.
+
+07:40.800 --> 07:43.920
+Which is nothing but the persistent storage, right?
+
+07:43.920 --> 07:45.180
+So that's about it.
+
+07:45.180 --> 07:46.140
+I'm going to quit this.
+
+07:46.140 --> 07:48.750
+As soon as I quit it, the MYA scale client
+
+07:48.750 --> 07:51.300
+related container is going to get terminated.
+
+07:51.300 --> 07:54.600
+That respective port is going to get terminated.
+
+07:54.600 --> 07:58.060
+So this completes the creation of
+
+08:00.210 --> 08:02.940
+users and then deletion using Postman.
+
+08:02.940 --> 08:03.773
+Okay?
+
+08:03.773 --> 08:05.340
+So, and one more thing we are going to
+
+08:05.340 --> 08:07.980
+do is we are going to delete all the objects now
+
+08:07.980 --> 08:11.640
+so which is nothing but kubectl delete - F KubeManifest,
+
+08:11.640 --> 08:14.340
+whatever is there present inside this KubeManifest,
+
+08:14.340 --> 08:16.800
+all those files will be executed,
+
+08:16.800 --> 08:19.140
+and then those files, whatever the objects created
+
+08:19.140 --> 08:21.180
+as part of that, are going to get deleted.
+
+08:21.180 --> 08:22.013
+Okay?
+
+08:22.013 --> 08:25.980
+So let me clear this and kubectl get parts.
+
+08:25.980 --> 08:28.140
+So one more time I'm repeating whatever the thing.
+
+08:28.140 --> 08:30.450
+So earlier we have this issue, right?
+
+08:30.450 --> 08:32.610
+So one time our application got restarted
+
+08:32.610 --> 08:34.800
+because MYA scale is not up by that time.
+
+08:34.800 --> 08:36.570
+In our next lecture, we are going to discuss
+
+08:36.570 --> 08:39.720
+about unique containers to fix that type of issue.
+
+08:39.720 --> 08:40.553
+Okay?
+
+08:40.553 --> 08:43.080
+So no restart will happen about our application.
+
+08:43.080 --> 08:44.940
+Our application should wait
+
+08:44.940 --> 08:46.560
+till the MYA scale container is up.
+
+08:46.560 --> 08:49.260
+For that we'll implement the initialization containers
+
+08:49.260 --> 08:50.093
+concept.
+
+08:50.093 --> 08:51.870
+Okay? But for now, let's go ahead
+
+08:51.870 --> 08:53.220
+and then delete this.
+
+08:53.220 --> 08:55.860
+About this concept, also, I've written a little bit here.
+
+08:55.860 --> 08:58.620
+If you want, you can review the problem observation,
+
+08:58.620 --> 08:59.580
+what we have observed
+
+08:59.580 --> 09:01.440
+and then how we are going to fix it is using
+
+09:01.440 --> 09:03.982
+unique container in our next section.
+
+09:03.982 --> 09:08.647
+So I'll say kubectl delete -F KubeManifest.
+
+09:08.647 --> 09:09.480
+Okay?
+
+09:09.480 --> 09:11.970
+So all my storage classes, persistent volumes,
+
+09:11.970 --> 09:15.780
+everything, whatever it has created, will get deleted.
+
+09:15.780 --> 09:19.260
+Okay? And once it is deleted,
+
+09:19.260 --> 09:22.650
+so we can say kubectl get parts
+
+09:22.650 --> 09:25.470
+and mostly nothing is there, right?
+
+09:25.470 --> 09:30.330
+Kubectl get storage class PV, PVC, all those things.
+
+09:30.330 --> 09:32.180
+Okay, let's see what is present here.
+
+09:33.030 --> 09:35.070
+So noting - the default towards class other
+
+09:35.070 --> 09:37.800
+than related to kubernetes, but the rest is nothing.
+
+09:37.800 --> 09:38.983
+We can see it here.
+
+09:38.983 --> 09:41.970
+So if you want, you can even type kubectl get all,
+
+09:41.970 --> 09:45.240
+and then verify the same thing, right?
+
+09:45.240 --> 09:49.350
+So this completes the Section 4, related to
+
+09:49.350 --> 09:52.230
+EKS storage with EBS block store.
+
+09:52.230 --> 09:54.840
+Okay? So in 05 Section, we'll focus
+
+09:54.840 --> 09:58.140
+on a few other important concepts related to kubernetes.
+
+09:58.140 --> 10:00.605
+So liveness probes, and then requests, and then limits,
+
+10:00.605 --> 10:03.566
+and then initialization containers,
+
+10:03.566 --> 10:05.520
+readiness probes, those things.
+
+10:05.520 --> 10:10.520
+And in 06, we'll focus on instead of MySQL DB,
+
+10:11.220 --> 10:13.230
+why we need to use RDS DB.
+
+10:13.230 --> 10:17.580
+It means like custom built MySQL DB present using EBS.
+
+10:17.580 --> 10:19.770
+Instead of that, as we are in cloud, why can't we
+
+10:19.770 --> 10:22.350
+leverage RDS database service?
+
+10:22.350 --> 10:25.050
+So we'll see that in our 06 Section.
+
+10:25.050 --> 10:27.210
+So I'll see you in the next lecture.
+
+10:27.210 --> 10:28.121
+Until then, bye bye.
+
+10:28.121 --> 10:29.013
+Thank you.

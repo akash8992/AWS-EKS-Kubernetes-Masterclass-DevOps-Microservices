@@ -1,0 +1,421 @@
+WEBVTT
+
+00:00.000 --> 00:00.900
+-: Welcome back.
+
+00:00.900 --> 00:03.330
+In this lecture we are going to understand
+
+00:03.330 --> 00:07.890
+about core DevOps concepts like continuous integration
+
+00:07.890 --> 00:12.420
+and then continuous delivery or deployment on a high level.
+
+00:12.420 --> 00:16.230
+So to achieve this DevOps
+
+00:16.230 --> 00:18.720
+in AWS on EKS.
+
+00:18.720 --> 00:23.720
+So we can use a few tools like CodeCommit, CodeBuild,
+
+00:23.880 --> 00:26.940
+and then CodePipelining AWS.
+
+00:26.940 --> 00:28.440
+So using these things
+
+00:28.440 --> 00:31.530
+we are going to implement continuous integration
+
+00:31.530 --> 00:34.020
+and then continuous delivery.
+
+00:34.020 --> 00:38.670
+So let's see the stages in release process now.
+
+00:38.670 --> 00:40.590
+So we have source sourced it.
+
+00:40.590 --> 00:43.140
+So in source stage we are going to
+
+00:43.140 --> 00:46.050
+if you take any application, so we need to check
+
+00:46.050 --> 00:49.770
+in the source code to our Watson control repository.
+
+00:49.770 --> 00:52.890
+And then we can even send those things for peer review.
+
+00:52.890 --> 00:55.500
+Those checked in code.
+
+00:55.500 --> 00:56.730
+And in addition to that
+
+00:56.730 --> 01:00.150
+we can also provide pull request process implementation.
+
+01:00.150 --> 01:03.120
+So that's about the source stage we do it.
+
+01:03.120 --> 01:04.560
+In build stage.
+
+01:04.560 --> 01:07.140
+So we are going to compile the code
+
+01:07.140 --> 01:10.080
+and build artifacts like WAR file, JAR files,
+
+01:10.080 --> 01:14.580
+container images or even Kubernetes manifest files.
+
+01:14.580 --> 01:19.260
+And then unit test them and then move onto the test phase.
+
+01:19.260 --> 01:22.170
+So we will do the integration testing with other systems
+
+01:22.170 --> 01:25.020
+in test phase and load testing, UI testing,
+
+01:25.020 --> 01:27.930
+security testing, and then test environments, del Q,
+
+01:27.930 --> 01:30.060
+and then staging environments.
+
+01:30.060 --> 01:32.400
+So all come under this test phase
+
+01:32.400 --> 01:34.980
+and then we'll have something called production phase.
+
+01:34.980 --> 01:38.310
+So deploy to production environments and then monitor code
+
+01:38.310 --> 01:41.790
+in production to quickly detect the errors.
+
+01:41.790 --> 01:46.790
+So now let's see which stage belongs to which type here.
+
+01:47.310 --> 01:50.670
+Okay, so which means like source and build stages comes
+
+01:50.670 --> 01:55.350
+under the keyboard, most running keyboard
+
+01:55.350 --> 01:58.920
+in the industry now, which is continuous integration.
+
+01:58.920 --> 02:01.560
+And the next test and production phases
+
+02:01.560 --> 02:06.560
+come under continuous delivery or continuous deployment.
+
+02:06.660 --> 02:09.840
+So one more thing here is infrastructure as code.
+
+02:09.840 --> 02:11.580
+If you see continuous integration,
+
+02:11.580 --> 02:13.980
+continuous delivery, continuous deployment.
+
+02:13.980 --> 02:16.710
+So all these are big, big buzzwords
+
+02:16.710 --> 02:17.850
+in the industry nowadays.
+
+02:17.850 --> 02:21.630
+Okay, so now how these are related
+
+02:21.630 --> 02:24.330
+to our regular release process
+
+02:24.330 --> 02:27.090
+is what this slide outlines.
+
+02:27.090 --> 02:30.150
+Okay, so and now let's see infrastructure as code.
+
+02:30.150 --> 02:31.290
+So whatever we have
+
+02:31.290 --> 02:33.540
+in source, build, and then test productions.
+
+02:33.540 --> 02:34.680
+So all of these stages
+
+02:34.680 --> 02:38.190
+if you want to automate using AWS CloudFormation.
+
+02:38.190 --> 02:39.720
+So you can automate that
+
+02:39.720 --> 02:42.000
+and then just check in the templates.
+
+02:42.000 --> 02:45.152
+And then at all these source stage, build stage, test stage,
+
+02:45.152 --> 02:47.910
+and then production stage, all things related
+
+02:47.910 --> 02:50.070
+to their infrastructure also can be written
+
+02:50.070 --> 02:52.290
+in code and then available for us.
+
+02:52.290 --> 02:55.650
+So that's about the infrastructure as code.
+
+02:55.650 --> 02:59.880
+And next thing is continuous integration, right?
+
+02:59.880 --> 03:02.190
+So in continuous integration
+
+03:02.190 --> 03:04.290
+what does this mean on a high level?
+
+03:04.290 --> 03:07.020
+So automatically kick off a new release
+
+03:07.020 --> 03:09.120
+when new code is checked in.
+
+03:09.120 --> 03:11.280
+So that's one thing.
+
+03:11.280 --> 03:12.990
+And build and test that code
+
+03:12.990 --> 03:16.710
+in a consistent, repeatable environment,
+
+03:16.710 --> 03:20.700
+and continually have an artifact ready for deployment.
+
+03:20.700 --> 03:22.680
+So that's the continuous integration.
+
+03:22.680 --> 03:27.180
+So let's also see what is continuous delivery, okay?
+
+03:27.180 --> 03:29.760
+So in continuous delivery or deployment,
+
+03:29.760 --> 03:32.010
+automatically deploying new changes
+
+03:32.010 --> 03:34.830
+to staging environments for testing.
+
+03:34.830 --> 03:37.110
+So deploy to production safely
+
+03:37.110 --> 03:40.020
+without affecting the customers
+
+03:40.020 --> 03:43.470
+and deliver to customers faster
+
+03:43.470 --> 03:45.990
+and increase deployment frequency
+
+03:45.990 --> 03:50.990
+and reduce change lead time and then change failure rate.
+
+03:51.330 --> 03:53.300
+So these are the advantages
+
+03:53.300 --> 03:57.090
+of continuous delivery process if we implement it.
+
+03:57.090 --> 04:00.360
+So now how this AWS developer tools
+
+04:00.360 --> 04:02.610
+or code services you can call,
+
+04:02.610 --> 04:05.280
+how this fit into this continuous integration
+
+04:05.280 --> 04:07.890
+and continuous delivery pipelines, okay?
+
+04:07.890 --> 04:10.860
+So AWS has something called CodePipeline
+
+04:10.860 --> 04:14.640
+which will be in integration with the different AWS tools.
+
+04:14.640 --> 04:16.740
+So example for source it is going
+
+04:16.740 --> 04:18.995
+to use the AWS CodeCommit,
+
+04:18.995 --> 04:21.600
+which is something like a GitHub repository.
+
+04:21.600 --> 04:25.410
+So here we call it as CodeCommit repository
+
+04:25.410 --> 04:26.700
+and for building.
+
+04:26.700 --> 04:28.650
+So we usually see Jenkins
+
+04:28.650 --> 04:30.870
+we might have seen in many places
+
+04:30.870 --> 04:34.012
+but in AWS we can use CodeBuild
+
+04:34.012 --> 04:36.780
+and which is a tool which provides us
+
+04:36.780 --> 04:38.100
+to build our artifacts
+
+04:38.100 --> 04:40.503
+and then push you to S3 buckets in AWS.
+
+04:41.580 --> 04:43.440
+And next is testing.
+
+04:43.440 --> 04:44.273
+Okay?
+
+04:44.273 --> 04:46.550
+So either you can use CodeBuild plus third-party tools
+
+04:46.550 --> 04:49.650
+to do our testing-related things, okay?
+
+04:49.650 --> 04:52.170
+And next is deploy.
+
+04:52.170 --> 04:55.650
+So in our case for Kubernetes
+
+04:55.650 --> 04:58.140
+we are using CodeBuild in combination
+
+04:58.140 --> 05:02.130
+with Kubectl to do that deployment in our use case.
+
+05:02.130 --> 05:06.120
+So I brought them under the deploy stage here.
+
+05:06.120 --> 05:08.850
+Okay, and next is monitoring, okay?
+
+05:08.850 --> 05:11.130
+So from monitoring perspective you'll have
+
+05:11.130 --> 05:14.610
+something called CloudWatch Container Insights.
+
+05:14.610 --> 05:16.110
+So using that, we are going to do
+
+05:16.110 --> 05:17.400
+the end-to-end monitor
+
+05:17.400 --> 05:20.970
+of our container applications deployed on Kubernetes cluster
+
+05:20.970 --> 05:25.410
+and also Kubernetes cluster-related components.
+
+05:25.410 --> 05:28.020
+And then Kubernetes cluster-related resources
+
+05:28.020 --> 05:31.890
+also will be monitored using CloudWatch container insights.
+
+05:31.890 --> 05:33.690
+And we have a dedicated section
+
+05:33.690 --> 05:35.670
+for CloudWatch container insights.
+
+05:35.670 --> 05:39.150
+And then you can learn more and more about that there.
+
+05:39.150 --> 05:39.983
+Okay?
+
+05:39.983 --> 05:40.960
+And next thing is
+
+05:42.810 --> 05:47.010
+how these tools will be fit in under which category.
+
+05:47.010 --> 05:49.830
+So we are going to see that in this slide.
+
+05:49.830 --> 05:52.027
+So continuous integration comes under CodeCommit,
+
+05:52.027 --> 05:53.490
+CodeBuild source.
+
+05:53.490 --> 05:56.070
+So in source and build stages we have CodeCommit
+
+05:56.070 --> 05:57.120
+and then CodeBuild.
+
+05:57.120 --> 05:58.080
+So we can map them
+
+05:58.080 --> 06:01.890
+to continuous integration and CodeBuild
+
+06:01.890 --> 06:04.680
+with Kubectl plus CloudWatch container insights
+
+06:04.680 --> 06:05.697
+you can put them under
+
+06:05.697 --> 06:10.200
+the continuous delivery or deployment section, okay?
+
+06:10.200 --> 06:12.720
+So that's about on a very high level introduction
+
+06:12.720 --> 06:14.880
+about AWS code services
+
+06:14.880 --> 06:15.930
+and then how we are going
+
+06:15.930 --> 06:19.380
+to achieve DevOps use cases using these things, okay?
+
+06:19.380 --> 06:22.830
+So we'll start the hands-on activity from our next lecture.
+
+06:22.830 --> 06:24.480
+So I'll see you in the next lecture.
+
+06:24.480 --> 06:25.650
+Until then, bye-bye.
+
+06:25.650 --> 06:26.483
+Thank you.

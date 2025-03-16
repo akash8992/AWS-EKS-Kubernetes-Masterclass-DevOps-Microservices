@@ -1,0 +1,859 @@
+WEBVTT
+
+00:00.120 --> 00:00.953
+-: Welcome back.
+
+00:00.953 --> 00:03.060
+In this lecture we are going to verify our cluster
+
+00:03.060 --> 00:05.880
+and then node groups and then nodes all those things
+
+00:05.880 --> 00:07.470
+in different different steps, okay?
+
+00:07.470 --> 00:10.500
+So our first step is to verify our node group subnets
+
+00:10.500 --> 00:11.333
+which means like
+
+00:11.333 --> 00:13.380
+whether this respective node group is created
+
+00:13.380 --> 00:14.880
+in public subnet or not.
+
+00:14.880 --> 00:16.830
+So let's go ahead and then verify that.
+
+00:16.830 --> 00:20.310
+So how we are going to verify is nothing but for the subnets
+
+00:20.310 --> 00:21.930
+associated for our node group
+
+00:21.930 --> 00:24.600
+if we have the internet gateway route,
+
+00:24.600 --> 00:27.900
+which is nothing but, it is present in the public subnet.
+
+00:27.900 --> 00:30.150
+So let's go to EC 2,
+
+00:30.150 --> 00:32.460
+in the sense, like our management console
+
+00:32.460 --> 00:35.250
+and then go to Elastic Kubernetes service.
+
+00:35.250 --> 00:39.210
+So we can see the cluster with the EKS demo got created.
+
+00:39.210 --> 00:41.790
+Inside that, if we go to compute tab,
+
+00:41.790 --> 00:44.130
+we can find our node group, right?
+
+00:44.130 --> 00:46.230
+So EKS demo 1 NG public 1.
+
+00:46.230 --> 00:48.750
+So it has desired sizes two nodes, okay?
+
+00:48.750 --> 00:52.860
+So let's open that and if we see here,
+
+00:52.860 --> 00:54.870
+it has the subnet here, okay?
+
+00:54.870 --> 00:57.000
+So we'll click on any one of the subnet,
+
+00:57.000 --> 01:00.330
+it'll open our VPC subnet section here
+
+01:00.330 --> 01:04.590
+and inside that we are going to verify.
+
+01:04.590 --> 01:06.840
+We are going to go to respective route tables
+
+01:06.840 --> 01:08.240
+and then verify, okay?
+
+01:08.240 --> 01:10.500
+So here is the route table, right?
+
+01:10.500 --> 01:12.780
+In subnets, in the route table tab,
+
+01:12.780 --> 01:15.450
+you can see that we have the internet route enabled
+
+01:15.450 --> 01:18.150
+with the internet gateway, which confirms that
+
+01:18.150 --> 01:23.010
+our respective node group is created in the public subnets.
+
+01:23.010 --> 01:25.440
+So that is our first step. we have verified.
+
+01:25.440 --> 01:27.720
+So now verify cluster node groups
+
+01:27.720 --> 01:29.010
+in EKS management console.
+
+01:29.010 --> 01:30.630
+That one also we have verified.
+
+01:30.630 --> 01:31.710
+So we went here
+
+01:31.710 --> 01:34.530
+and then we have seen our cluster configuration here.
+
+01:34.530 --> 01:37.020
+We can see the API server endpoint here
+
+01:37.020 --> 01:38.760
+for our respective cluster,
+
+01:38.760 --> 01:42.180
+which is nothing but Kube-apiserver endpoint.
+
+01:42.180 --> 01:45.330
+And this is our open edit connect provider URL.
+
+01:45.330 --> 01:47.100
+So, and in addition to that,
+
+01:47.100 --> 01:49.620
+in compute, we have seen the node groups
+
+01:49.620 --> 01:52.680
+and then inside node groups we have seen the subnet
+
+01:52.680 --> 01:53.513
+and all those stuff.
+
+01:53.513 --> 01:57.060
+And it also created a auto-scaling group for this.
+
+01:57.060 --> 01:57.893
+And why?
+
+01:57.893 --> 02:00.060
+Because we have enabled the ASG access
+
+02:00.060 --> 02:00.893
+which is nothing
+
+02:00.893 --> 02:02.940
+but auto-scaling group access and all those stuff.
+
+02:02.940 --> 02:06.000
+Automatically, it'll create anywhere with eksctl.
+
+02:06.000 --> 02:07.950
+We really don't need to worry about those things.
+
+02:07.950 --> 02:09.480
+So let me close it here.
+
+02:09.480 --> 02:11.730
+This is the auto-scaling group it has created.
+
+02:11.730 --> 02:14.280
+So using the cluster auto-scaler concepts,
+
+02:14.280 --> 02:16.200
+based on the resources we are going to use,
+
+02:16.200 --> 02:17.790
+we can increase or decrease these things.
+
+02:17.790 --> 02:19.920
+So we'll see at that respective time.
+
+02:19.920 --> 02:23.070
+So let's close these things and then go back
+
+02:23.070 --> 02:25.230
+and we can see the networking information
+
+02:25.230 --> 02:28.230
+for our cluster and then logging information,
+
+02:28.230 --> 02:29.670
+by default, it is disabled.
+
+02:29.670 --> 02:31.320
+If you want, we can even enable it.
+
+02:31.320 --> 02:35.460
+We can add this eksctl manager cluster,
+
+02:35.460 --> 02:38.820
+always it is recommended to use eksctl 2.
+
+02:38.820 --> 02:40.590
+Enable logging, disabled, logging,
+
+02:40.590 --> 02:42.960
+whatever the modifications we want to do.
+
+02:42.960 --> 02:44.610
+Instead of this management console,
+
+02:44.610 --> 02:49.320
+if you do it via eksctl, that is a good option for us, okay?
+
+02:49.320 --> 02:52.140
+And any updates currently it is using latest,
+
+02:52.140 --> 02:54.750
+we really don't have any latest updates here.
+
+02:54.750 --> 02:56.160
+So that's about on a high level
+
+02:56.160 --> 03:00.240
+for verifying the cluster node group and then cluster.
+
+03:00.240 --> 03:02.220
+And now to list the clusters,
+
+03:02.220 --> 03:05.730
+we have already seen eksctl get cluster or get clusters.
+
+03:05.730 --> 03:07.890
+So if you want to verify that node group,
+
+03:07.890 --> 03:09.870
+means like under this cluster, you can copy
+
+03:09.870 --> 03:12.000
+and then provide that cluster name here
+
+03:12.000 --> 03:17.000
+and then you get the node groups present inside this, okay?
+
+03:17.040 --> 03:21.510
+Get node group and --cluster.
+
+03:21.510 --> 03:22.620
+So I'll correct that.
+
+03:22.620 --> 03:25.140
+So this should be like this, okay?
+
+03:25.140 --> 03:28.650
+And I'll correct that command. I've corrected it.
+
+03:28.650 --> 03:31.080
+So now list nodes you have already seen
+
+03:31.080 --> 03:35.400
+that eksctl get nodes hyphen or wide.
+
+03:35.400 --> 03:36.873
+So you can see this.
+
+03:38.490 --> 03:42.320
+And another thing is eksctl config view minify, okay?
+
+03:42.320 --> 03:45.513
+So to see our config context, okay?
+
+03:47.773 --> 03:51.180
+So our respective to EKS demo 1's config context.
+
+03:51.180 --> 03:53.586
+We can see here the current context is
+
+03:53.586 --> 03:56.703
+Kalan Adered, EKS demo 1, US east 1, eksctl.io.
+
+03:58.590 --> 04:00.540
+So this is the current context.
+
+04:00.540 --> 04:04.560
+So to see the current context of your Kube CTL,
+
+04:04.560 --> 04:06.570
+you can use this command.
+
+04:06.570 --> 04:08.490
+So the next thing is worker nodes
+
+04:08.490 --> 04:10.890
+IAM role and list of policies.
+
+04:10.890 --> 04:13.320
+So if you remember in eksctl, right?
+
+04:13.320 --> 04:18.210
+In eksctl here, node group --health,
+
+04:18.210 --> 04:21.480
+you know that you have added all these add-on flags, right?
+
+04:21.480 --> 04:24.300
+So which is nothing but we are going to provide respective
+
+04:24.300 --> 04:27.990
+IAM policies for our worker node, IAM role.
+
+04:27.990 --> 04:29.850
+So let's see that now.
+
+04:29.850 --> 04:31.387
+So let's go to EC2.
+
+04:33.480 --> 04:35.280
+These are core fundamentals
+
+04:35.280 --> 04:38.670
+and then it might take close to 30, 40 or 45 minutes
+
+04:38.670 --> 04:40.110
+to create your cluster.
+
+04:40.110 --> 04:42.900
+But it's very important to know what is what
+
+04:42.900 --> 04:45.660
+before going and then deploying the workloads.
+
+04:45.660 --> 04:47.520
+So that's the reason we are taking a little bit
+
+04:47.520 --> 04:50.130
+of time instead of just executing two commands
+
+04:50.130 --> 04:51.840
+our cluster might have created
+
+04:51.840 --> 04:54.060
+but we need to understand deeper.
+
+04:54.060 --> 04:57.180
+So if you see it here in our EC2 instances,
+
+04:57.180 --> 04:58.500
+two instances got created,
+
+04:58.500 --> 05:00.330
+which are nothing but worker nodes.
+
+05:00.330 --> 05:01.500
+And inside that,
+
+05:01.500 --> 05:06.300
+if we go here we should find the IAM role, right?
+
+05:06.300 --> 05:09.570
+So you can see that IAM role is eksctl
+
+05:09.570 --> 05:11.790
+and then cluster name -node group.
+
+05:11.790 --> 05:14.070
+Whatever you see with node group it is nothing but the node
+
+05:14.070 --> 05:16.290
+group related node instance role.
+
+05:16.290 --> 05:17.700
+So if I click on that,
+
+05:17.700 --> 05:20.880
+so it'll open the respective IAM console
+
+05:20.880 --> 05:23.520
+and then that respective role.
+
+05:23.520 --> 05:24.993
+So let's wait for it.
+
+05:28.770 --> 05:32.430
+Okay, so now if you see here, so by default,
+
+05:32.430 --> 05:34.830
+worker node policy container registry read only.
+
+05:34.830 --> 05:37.740
+If you see here, you have additional stuff here, okay?
+
+05:37.740 --> 05:40.350
+So policy for ALB ingress,
+
+05:40.350 --> 05:43.800
+policy for app mesh, policy for auto-scaling,
+
+05:43.800 --> 05:47.130
+policy for DNS. which is nothing but external DNS.
+
+05:47.130 --> 05:51.420
+And you have also policy for container registry read only.
+
+05:51.420 --> 05:53.370
+And then container registry power user
+
+05:53.370 --> 05:56.340
+which is nothing but ECR full access,
+
+05:56.340 --> 05:58.470
+Elastic Container Registry full access.
+
+05:58.470 --> 06:01.833
+So all these policies got added for our worker node IAM,
+
+06:02.670 --> 06:04.950
+means like worker nodes IAM role.
+
+06:04.950 --> 06:06.540
+So why this is required?
+
+06:06.540 --> 06:08.970
+This is nothing but whatever the ports,
+
+06:08.970 --> 06:10.830
+Kubernetes ports you are going to run
+
+06:10.830 --> 06:14.880
+in your cluster worker nodes, they need to access it.
+
+06:14.880 --> 06:16.710
+They need to access these resources,
+
+06:16.710 --> 06:18.750
+which is nothing but if we want to access
+
+06:18.750 --> 06:22.110
+the elastic container registry to download
+
+06:22.110 --> 06:24.120
+the container image.
+
+06:24.120 --> 06:25.890
+So then, it needs access
+
+06:25.890 --> 06:27.960
+and then you have two ways to do it.
+
+06:27.960 --> 06:30.930
+So one is create a Kubernetes service account
+
+06:30.930 --> 06:35.250
+and then create a IAM role and then associate them together
+
+06:35.250 --> 06:37.380
+and then provide that information
+
+06:37.380 --> 06:38.850
+for your respective port,
+
+06:38.850 --> 06:40.590
+means like for your respective container,
+
+06:40.590 --> 06:43.260
+so that it can pick up and then use that.
+
+06:43.260 --> 06:45.330
+So other way is like directly give it
+
+06:45.330 --> 06:48.420
+in your respective worker node IAM roles.
+
+06:48.420 --> 06:51.690
+So that these worker node, whatever the parts running
+
+06:51.690 --> 06:55.380
+on this worker node will have access to these resources.
+
+06:55.380 --> 06:58.350
+So the parts running on this worker nodes will have access
+
+06:58.350 --> 07:02.220
+to these resources to perform the action for that purpose.
+
+07:02.220 --> 07:04.710
+We can do this way and we are also going to
+
+07:04.710 --> 07:07.170
+do the other ways like create a IAM role,
+
+07:07.170 --> 07:10.980
+create a policy and then create a Kubernetes service account
+
+07:10.980 --> 07:13.020
+and then associate everything together.
+
+07:13.020 --> 07:15.390
+All those things, we are going to do it separately
+
+07:15.390 --> 07:18.600
+for ALB ingress controller and for external DNS
+
+07:18.600 --> 07:21.540
+and for multiple things we are going to anyway do it.
+
+07:21.540 --> 07:23.700
+So let's go there.
+
+07:23.700 --> 07:27.120
+And then we have seen the IAM role,
+
+07:27.120 --> 07:29.310
+also see the security group associated
+
+07:29.310 --> 07:30.780
+to worker nodes.
+
+07:30.780 --> 07:32.730
+So let's go here.
+
+07:32.730 --> 07:34.440
+And before going to security groups,
+
+07:34.440 --> 07:36.720
+first we'll see the cloud formation stack
+
+07:36.720 --> 07:39.360
+and then we'll go back to security groups, okay?
+
+07:39.360 --> 07:43.740
+So we'll go to cloud formation, right?
+
+07:43.740 --> 07:45.573
+So let me click on this.
+
+07:46.470 --> 07:49.200
+And why we are seeing here is like what is happening?
+
+07:49.200 --> 07:51.840
+I just executed that command and then what happened?
+
+07:51.840 --> 07:53.160
+We need to know, right?
+
+07:53.160 --> 07:55.410
+So now if you see it here,
+
+07:55.410 --> 07:56.880
+you can see these two are the things
+
+07:56.880 --> 07:58.200
+which has been created today.
+
+07:58.200 --> 08:00.120
+So today's 14-6-2020.
+
+08:00.120 --> 08:01.260
+And then as part of this
+
+08:01.260 --> 08:05.520
+what it created is eksctl, EKS demo 1 cluster.
+
+08:05.520 --> 08:08.816
+So whenever you have executed the create cluster command,
+
+08:08.816 --> 08:12.300
+it has created the cluster and the associated events
+
+08:12.300 --> 08:15.180
+you can see here what all it has created, right?
+
+08:15.180 --> 08:16.770
+So it'll be creating lots of stuff.
+
+08:16.770 --> 08:19.410
+It'll create the NAT gateway, it'll create cloud tables,
+
+08:19.410 --> 08:22.050
+and lots of stuff it'll create underlying, okay?
+
+08:22.050 --> 08:23.670
+And what are the outputs of that
+
+08:23.670 --> 08:25.320
+and all these things, you can see.
+
+08:25.320 --> 08:26.640
+So this is your endpoint.
+
+08:26.640 --> 08:30.660
+Endpoint is nothing but your Kube API server endpoint.
+
+08:30.660 --> 08:33.510
+So this cloud formation stack, whenever you say
+
+08:33.510 --> 08:37.020
+eksctl create cluster, automatically it'll post the content
+
+08:37.020 --> 08:39.150
+to the cloud formation API.
+
+08:39.150 --> 08:40.650
+And using that it creates,
+
+08:40.650 --> 08:43.860
+means like using cloud formation only, it has created.
+
+08:43.860 --> 08:46.920
+So now you also need to see one more thing here,
+
+08:46.920 --> 08:49.080
+important thing is, NAT gateway.
+
+08:49.080 --> 08:50.190
+So why?
+
+08:50.190 --> 08:52.980
+Because if you deploy your worker nodes
+
+08:52.980 --> 08:54.930
+means like your workloads in the private subnet
+
+08:54.930 --> 08:56.640
+and your node group is in private subnet,
+
+08:56.640 --> 08:58.470
+it needs access to the EKS cluster,
+
+08:58.470 --> 09:00.150
+which is nothing but control plane.
+
+09:00.150 --> 09:03.420
+In addition to that, your parts also need to have access to
+
+09:03.420 --> 09:04.980
+docker hub or anything, right?
+
+09:04.980 --> 09:06.060
+So for that purposes
+
+09:06.060 --> 09:08.430
+NAT gateway outbound is going to be helpful.
+
+09:08.430 --> 09:11.220
+So by default it'll create a single NAT gateway
+
+09:11.220 --> 09:13.410
+and you have options to create higher availability
+
+09:13.410 --> 09:16.530
+NAT gateway or even disable the NAT gateway, right?
+
+09:16.530 --> 09:18.990
+So these are important things which we need to know.
+
+09:18.990 --> 09:20.880
+So on a high level, I'm trying to explain.
+
+09:20.880 --> 09:22.890
+And whenever we go to those respective sections,
+
+09:22.890 --> 09:24.570
+we'll get in detail.
+
+09:24.570 --> 09:28.320
+So the next section is security groups, right?
+
+09:28.320 --> 09:30.150
+So before going to security groups,
+
+09:30.150 --> 09:32.010
+we'll also complete the worker node
+
+09:32.010 --> 09:34.650
+using key pair Kube demo, right?
+
+09:34.650 --> 09:39.650
+So let's go to our EC2, right?
+
+09:40.110 --> 09:42.630
+And see what is the key pair associated to it.
+
+09:42.630 --> 09:46.170
+So ideally it should have Kube demo, right?
+
+09:46.170 --> 09:48.273
+So let's go here, come down.
+
+09:49.470 --> 09:52.830
+See the key pair name it is associated is Kube demo.
+
+09:52.830 --> 09:54.750
+So let me go to my SSH
+
+09:54.750 --> 09:57.990
+and take the public IP of any of these nodes.
+
+09:57.990 --> 10:00.030
+I have took one, okay?
+
+10:00.030 --> 10:02.257
+And then I will say ssh -i
+
+10:02.257 --> 10:05.430
+and I have my Kube demo perm file here.
+
+10:05.430 --> 10:08.033
+And then I'm going to say EC2 user Adered
+
+10:10.195 --> 10:11.123
+and it should allow us to log in, right?
+
+10:18.510 --> 10:20.820
+Right. I have logged into the EC 2 user
+
+10:20.820 --> 10:25.350
+with 192.168.42.229 is my private IP, right?
+
+10:25.350 --> 10:28.560
+And then I can even see my disc space, okay?
+
+10:28.560 --> 10:30.480
+On the server, right?
+
+10:30.480 --> 10:33.570
+So it has mounted 20 GB, whatever we said, right?
+
+10:33.570 --> 10:36.360
+So 20 GB, it has mounted for us, okay?
+
+10:36.360 --> 10:39.810
+So this is about the login to our respective worker nodes.
+
+10:39.810 --> 10:44.010
+So I'll add this command in the dock.
+
+10:44.010 --> 10:46.860
+Now let's go back to the security group step, okay?
+
+10:46.860 --> 10:50.220
+So any security group which has the remote in between it,
+
+10:50.220 --> 10:52.350
+that is nothing but the security group related
+
+10:52.350 --> 10:55.050
+to inbound access to our worker nodes, okay?
+
+10:55.050 --> 10:56.790
+So in this, if you see here you have
+
+10:56.790 --> 10:57.990
+the cluster security group
+
+10:57.990 --> 11:00.510
+and you see something called remote access, okay?
+
+11:00.510 --> 11:04.500
+So this is the security group we are interested in, right?
+
+11:04.500 --> 11:07.350
+So let me open that security group here.
+
+11:07.350 --> 11:10.080
+And in the inbound rules, it is open only
+
+11:10.080 --> 11:11.460
+to 22 to the internet.
+
+11:11.460 --> 11:13.830
+So that's the reason, just know whatever we have done
+
+11:13.830 --> 11:17.640
+the terminal accesses worker, ssh -i, right?
+
+11:17.640 --> 11:19.020
+So now what we are going to do is
+
+11:19.020 --> 11:21.720
+we are going to add one more rule here.
+
+11:21.720 --> 11:24.480
+So that is nothing but all traffic we are going to allow
+
+11:24.480 --> 11:25.380
+from anywhere.
+
+11:25.380 --> 11:28.050
+So for our testing initial sections, we are going to
+
+11:28.050 --> 11:30.960
+use the node port service for the workloads
+
+11:30.960 --> 11:32.190
+we are going to deploy.
+
+11:32.190 --> 11:33.300
+So for those workloads,
+
+11:33.300 --> 11:35.010
+if you're going to use node port service,
+
+11:35.010 --> 11:38.490
+then node port generates different different dynamic IPs,
+
+11:38.490 --> 11:39.510
+our dynamic ports.
+
+11:39.510 --> 11:40.410
+So our cluster public IP
+
+11:40.410 --> 11:44.250
+means like our worker nodes public IP:
+
+11:44.250 --> 11:46.950
+and the dynamic port, whatever it generates.
+
+11:46.950 --> 11:49.830
+So using that, we should be able to access our applications.
+
+11:49.830 --> 11:52.290
+So for that purpose, this rule is required.
+
+11:52.290 --> 11:55.050
+So I'm adding this rule here, okay?
+
+11:55.050 --> 11:57.570
+So which means like I'm saying that adding
+
+11:57.570 --> 11:58.403
+an additional rule
+
+11:58.403 --> 12:02.340
+all traffic from anywhere is allowed for my worker nodes.
+
+12:02.340 --> 12:04.710
+That's the step six, okay?
+
+12:04.710 --> 12:08.640
+So this completes the creation of EKS cluster
+
+12:08.640 --> 12:12.840
+and then associating EKS cluster to IAM OIDC provider
+
+12:12.840 --> 12:14.250
+and creating the node groups
+
+12:14.250 --> 12:17.190
+and verifying everything step-by-step.
+
+12:17.190 --> 12:20.790
+So in our next lecture, we'll focus on other section.
+
+12:20.790 --> 12:22.140
+Until then, bye bye.
+
+12:22.140 --> 12:22.973
+Thank you.

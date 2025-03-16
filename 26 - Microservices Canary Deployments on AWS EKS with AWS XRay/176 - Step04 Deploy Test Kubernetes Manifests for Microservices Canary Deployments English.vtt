@@ -1,0 +1,340 @@
+WEBVTT
+
+00:00.000 --> 00:01.080
+-: Welcome back.
+
+00:01.080 --> 00:05.619
+In this step we are going to deploy the manifest.
+
+00:05.619 --> 00:07.710
+Okay, so let's go back to our terminal,
+
+00:07.710 --> 00:12.630
+and clear, and go to 14 microservices canary deployments.
+
+00:12.630 --> 00:17.130
+And I'll say kube CTL, apply hyphen F, kube manifest.
+
+00:17.130 --> 00:19.890
+So all of our applications should be deployed,
+
+00:19.890 --> 00:23.130
+and I'll pause the video until everything is created.
+
+00:23.130 --> 00:26.460
+So only one thing we'll check, and then pause the video.
+
+00:26.460 --> 00:29.580
+So V1 and then V2 related notification parts
+
+00:29.580 --> 00:32.340
+should be created. Two parts are getting created.
+
+00:32.340 --> 00:33.173
+That's good.
+
+00:34.671 --> 00:38.220
+So until that, load balancer is provision.
+
+00:38.220 --> 00:40.533
+So I'll pause the video.
+
+00:41.697 --> 00:43.727
+Our load balancer is active now,
+
+00:43.727 --> 00:45.480
+so we can crosscheck our DNS.
+
+00:45.480 --> 00:47.267
+As usual, the drill continues.
+
+00:47.267 --> 00:49.443
+So I'll say, NS look up,
+
+00:50.700 --> 00:54.810
+and it has something called 8-99, and then 1-0-7.
+
+00:54.810 --> 00:59.157
+So NS look up, and I will say,
+
+00:59.157 --> 01:01.803
+what is the name we have given for this?
+
+01:04.132 --> 01:08.267
+It should be canary demo dot, kuber cloud, .com, right?
+
+01:09.480 --> 01:12.060
+So let's enter. So, DNS is good.
+
+01:12.060 --> 01:15.600
+So let's go and then test this URL.
+
+01:15.600 --> 01:19.593
+Okay, so copy, and then notification, x-ray.
+
+01:21.238 --> 01:23.571
+So we can give it in browser and then test it,
+
+01:23.571 --> 01:28.020
+or we can even test via postman.
+
+01:28.020 --> 01:32.250
+So for postman, need to add the environment
+
+01:32.250 --> 01:33.513
+and all that stuff.
+
+01:34.497 --> 01:37.198
+So for now I'll make it bigger, and show you.
+
+01:37.198 --> 01:39.872
+So you can see one time app version V1 coming,
+
+01:39.872 --> 01:42.878
+and then one time V2 is coming. So let me refresh.
+
+01:42.878 --> 01:44.377
+Currently you are seeing V1,
+
+01:44.377 --> 01:47.730
+so let me keep refreshing it and we'll see what happens.
+
+01:47.730 --> 01:48.563
+Okay.
+
+01:49.980 --> 01:54.570
+See, now V2 came. So V2 and then V1 alternatively.
+
+01:54.570 --> 01:57.051
+We are getting means like
+
+01:57.051 --> 01:58.950
+how the 50-50 traffic distribution.
+
+01:58.950 --> 02:01.260
+So we'll keep getting V1 now.
+
+02:01.260 --> 02:04.474
+So let's see till we get V2 one more time.
+
+02:04.474 --> 02:06.155
+See now we have got, v2.
+
+02:06.155 --> 02:09.343
+So now let's go back to our x-ray,
+
+02:09.343 --> 02:12.480
+and see what is happening there.
+
+02:12.480 --> 02:15.870
+Okay, so last five minutes,
+
+02:15.870 --> 02:18.270
+and then it is trying to compute the map
+
+02:18.270 --> 02:22.722
+and we can see that whatever we have seen here,
+
+02:22.722 --> 02:25.930
+user management too, V1 notification
+
+02:27.718 --> 02:29.615
+and then V2 notification, the same thing.
+
+02:29.615 --> 02:32.100
+We are seeing it here. So that's a good thing.
+
+02:32.100 --> 02:36.529
+So which means like whatever the canary deployment
+
+02:36.529 --> 02:38.181
+whatever we have performed,
+
+02:38.181 --> 02:40.230
+user management is services distributing
+
+02:40.230 --> 02:43.230
+the traffic to V1 notification microservice.
+
+02:43.230 --> 02:47.640
+And also V2 notification microservice.
+
+02:47.640 --> 02:52.640
+So this completes the section of testing our deployment
+
+02:52.680 --> 02:57.680
+and testing of notification microservice canary deployment.
+
+02:58.230 --> 03:01.050
+So we also need to understand what is happening
+
+03:01.050 --> 03:03.270
+in the background, right?
+
+03:03.270 --> 03:06.510
+So as far as notification perspective,
+
+03:06.510 --> 03:08.460
+what is happening here is,
+
+03:08.460 --> 03:11.285
+in both the deployment files, okay?
+
+03:11.285 --> 03:13.794
+So we need to understand little bit about the means
+
+03:13.794 --> 03:16.279
+like we need to go back and then refresh our memory
+
+03:16.279 --> 03:18.741
+about the labels and selectors section. Okay?
+
+03:18.741 --> 03:21.030
+Which means like, from if you have a deployment
+
+03:21.030 --> 03:22.593
+and then how the service,
+
+03:24.090 --> 03:26.040
+it means like deployment fronting service is going to
+
+03:26.040 --> 03:28.980
+send the traffic to those respective parts, right?
+
+03:28.980 --> 03:33.980
+So this deployment has a label, named the selector label
+
+03:34.375 --> 03:36.690
+is match labels app notification, rest step.
+
+03:36.690 --> 03:39.490
+So this deployment will find its spots using
+
+03:40.769 --> 03:43.710
+this match label, and then whatever has in the port template
+
+03:43.710 --> 03:47.081
+in the same way whatever is there in the port template.
+
+03:47.081 --> 03:48.845
+The same will be also available
+
+03:48.845 --> 03:51.960
+in our notification cluster IP service, right?
+
+03:51.960 --> 03:54.130
+So you can see the selector label inside
+
+03:55.022 --> 03:57.300
+the notification, microservice, cluster IP service also
+
+03:57.300 --> 03:59.160
+is notification, rest step.
+
+03:59.160 --> 04:04.160
+So, in V2 notification microservice, we have the same thing,
+
+04:04.320 --> 04:06.180
+app notification, rest step.
+
+04:06.180 --> 04:09.660
+And then in V1 also, we have the same thing.
+
+04:09.660 --> 04:13.080
+So which means, this respective cluster IP service
+
+04:13.080 --> 04:15.960
+is distributing the traffic to both
+
+04:15.960 --> 04:20.960
+the notification services using that cluster IP service
+
+04:21.990 --> 04:25.860
+with this respective selector label.
+
+04:25.860 --> 04:28.470
+So that's what is happening in the background.
+
+04:28.470 --> 04:32.100
+So we can even have adding like track is equal to stable,
+
+04:32.100 --> 04:34.408
+or track is equal to canary,
+
+04:34.408 --> 04:35.850
+additional labels and then play lots of stuff,
+
+04:35.850 --> 04:38.100
+and then even complicate ourselves.
+
+04:38.100 --> 04:40.470
+But I try to make it very simple.
+
+04:40.470 --> 04:42.150
+And then trying to say that,
+
+04:42.150 --> 04:45.990
+this notification microservice related cluster IP service
+
+04:45.990 --> 04:49.080
+is having the selector app notification rest app,
+
+04:49.080 --> 04:50.880
+and same is available inside
+
+04:50.880 --> 04:53.220
+notification microservice deployment V2,
+
+04:53.220 --> 04:55.080
+and also in the deployment V1.
+
+04:55.080 --> 04:58.560
+So that's the reason this cluster IP service is able to
+
+04:58.560 --> 05:00.930
+distribute the traffic to both the
+
+05:00.930 --> 05:02.913
+deployment related ports.
+
+05:03.818 --> 05:05.610
+So that's what is happened in the background.
+
+05:05.610 --> 05:09.480
+So now coming back, so we are going to clean up the stuff.
+
+05:09.480 --> 05:12.366
+Okay, so we have completed the demo,
+
+05:12.366 --> 05:14.190
+and then we are going to do the clean up.
+
+05:14.190 --> 05:17.940
+So let me paste it, and then do the clean up.
+
+05:17.940 --> 05:20.310
+So this will delete whatever we have created.
+
+05:20.310 --> 05:22.830
+And in our next lecture we are going to understand
+
+05:22.830 --> 05:24.330
+about downside of this default
+
+05:25.364 --> 05:28.706
+Kubernetes canary deployment approach,
+
+05:28.706 --> 05:30.339
+and the best ways to,
+
+05:30.339 --> 05:31.950
+how we can perform additional cannery deployments
+
+05:31.950 --> 05:33.720
+in an effective manner.
+
+05:33.720 --> 05:35.460
+So I'll see you in the next lecture.
+
+05:35.460 --> 05:37.263
+Until then, bye bye. Thank you.

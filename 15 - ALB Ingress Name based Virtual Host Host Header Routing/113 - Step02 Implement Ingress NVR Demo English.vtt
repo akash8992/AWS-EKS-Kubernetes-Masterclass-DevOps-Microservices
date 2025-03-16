@@ -1,0 +1,733 @@
+WEBVTT
+
+00:00.360 --> 00:02.160
+-: Welcome back.
+
+00:02.160 --> 00:04.920
+Let's go to our GitHub repository.
+
+00:04.920 --> 00:09.920
+And we are in section 0809 name-based virtual host routing.
+
+00:11.760 --> 00:14.400
+And as part of introductory section,
+
+00:14.400 --> 00:16.080
+we already understood about
+
+00:16.080 --> 00:20.610
+what is this name-based virtual host routing in ingress.
+
+00:20.610 --> 00:22.650
+So as part of step two,
+
+00:22.650 --> 00:25.020
+we are going to review the ingress manifest
+
+00:25.020 --> 00:29.790
+for host header routing or name-based virtual host routing.
+
+00:29.790 --> 00:32.370
+So let's go to our visual studio code
+
+00:32.370 --> 00:37.370
+and we are in section 0809 name-based virtual host routing.
+
+00:38.220 --> 00:41.730
+And inside that, we are in kube manifest folder.
+
+00:41.730 --> 00:44.940
+And 01, 02, 03 are going to be same
+
+00:44.940 --> 00:46.620
+from our previous sections,
+
+00:46.620 --> 00:49.710
+which is app one deployment and node port service,
+
+00:49.710 --> 00:51.927
+app two deployment and node port service,
+
+00:51.927 --> 00:55.470
+and app three deployment and node port service.
+
+00:55.470 --> 01:00.090
+So, this is 04 ALB ingress host header routing.
+
+01:00.090 --> 01:01.320
+And inside this...
+
+01:01.320 --> 01:06.320
+So as usual, we will change the name of the ingress service
+
+01:06.540 --> 01:09.930
+which is ingress name-based virtual host demo.
+
+01:09.930 --> 01:11.250
+And the load balancer name
+
+01:11.250 --> 01:14.340
+also we will do name-based hosts ingress,
+
+01:14.340 --> 01:15.210
+something like this.
+
+01:15.210 --> 01:17.640
+Whatever relevant name for us
+
+01:17.640 --> 01:19.950
+when we run the kubectl get ingress,
+
+01:19.950 --> 01:23.730
+so we'll know the exact demo ingress service.
+
+01:23.730 --> 01:26.190
+And as usual, in your demo,
+
+01:26.190 --> 01:28.980
+you need to ensure that your certificate ARN
+
+01:28.980 --> 01:31.470
+should be updated here.
+
+01:31.470 --> 01:34.440
+And when coming to external DNS related,
+
+01:34.440 --> 01:36.570
+host name related annotation,
+
+01:36.570 --> 01:40.980
+so I have provided default, 101.stacksimplify.com.
+
+01:40.980 --> 01:43.590
+For our default backend,
+
+01:43.590 --> 01:47.550
+which is app three Nginx node port service.
+
+01:47.550 --> 01:51.780
+And so if you go down here, these are the important things.
+
+01:51.780 --> 01:54.090
+So the default thing is completed here.
+
+01:54.090 --> 01:56.430
+And now, we'll move on to the core rules.
+
+01:56.430 --> 01:59.280
+And under rules you have something called host.
+
+01:59.280 --> 02:04.230
+And in host, you have defined app101.stacksimplify.com
+
+02:04.230 --> 02:06.510
+with root context anything comes,
+
+02:06.510 --> 02:09.540
+app101.stacksimplify.com/,
+
+02:09.540 --> 02:13.140
+it should go to app one Nginx node port service.
+
+02:13.140 --> 02:16.890
+And with app201.stacksimplify.com,
+
+02:16.890 --> 02:19.560
+anything comes with the root context
+
+02:19.560 --> 02:23.340
+then it should go to app two Nginx node port service.
+
+02:23.340 --> 02:27.570
+So these are the rules related to host header based routing
+
+02:27.570 --> 02:29.970
+or name-based virtual host routing,
+
+02:29.970 --> 02:31.800
+which we have defined here.
+
+02:31.800 --> 02:36.240
+So now, let's go back here and go to step three
+
+02:36.240 --> 02:40.080
+which is deploy all these kube manifests and then verify.
+
+02:40.080 --> 02:42.750
+So let's come back to our terminal here
+
+02:42.750 --> 02:46.920
+and enter into the section 08 new,
+
+02:46.920 --> 02:50.310
+which is new ALB, application load balancers.
+
+02:50.310 --> 02:53.527
+And inside that, we are entering into the section 0809
+
+02:55.470 --> 02:58.230
+name-based virtual host routing.
+
+02:58.230 --> 03:03.230
+And if you say here, kube manifest ls lrt kube manifest.
+
+03:03.510 --> 03:05.610
+So, you'll find all the four files
+
+03:05.610 --> 03:10.410
+and the fourth file is 04 ALB ingress hosted a routing.yaml.
+
+03:10.410 --> 03:11.940
+So I'll clear this
+
+03:11.940 --> 03:16.940
+and run kubectl apply hyphen F kube manifest.
+
+03:17.670 --> 03:20.490
+and this should create the app one deployment
+
+03:20.490 --> 03:24.240
+and node port service same for app two and then app three.
+
+03:24.240 --> 03:28.170
+After that, it should also create the ingress service for us
+
+03:28.170 --> 03:33.170
+which is related to ingress name-based virtual host demo.
+
+03:34.020 --> 03:37.890
+So, let's say kubectl get port
+
+03:37.890 --> 03:40.740
+and it should display all the three ports for us,
+
+03:40.740 --> 03:44.070
+app one, app two, and app three, those are running.
+
+03:44.070 --> 03:48.540
+And we'll also say kubectl get SVC.
+
+03:48.540 --> 03:50.463
+And you can see here,
+
+03:52.020 --> 03:53.850
+all the app one, app two and app three
+
+03:53.850 --> 03:56.820
+related node port services also created.
+
+03:56.820 --> 04:01.820
+And now, we'll go to kubectl get ingress, right?
+
+04:03.060 --> 04:04.830
+And in get ingress,
+
+04:04.830 --> 04:08.040
+you should see ingress name-based virtual host demo.
+
+04:08.040 --> 04:09.510
+And in the host here,
+
+04:09.510 --> 04:14.160
+you can see app101.stacksimplify.com,
+
+04:14.160 --> 04:17.370
+and app201.stacksimplify.com.
+
+04:17.370 --> 04:20.070
+So for this ingress in the host area,
+
+04:20.070 --> 04:25.070
+you can see it has automatically updated its value.
+
+04:25.380 --> 04:27.690
+So whatever you have defined as hosts here.
+
+04:27.690 --> 04:30.960
+So which is this one and this one.
+
+04:30.960 --> 04:32.220
+In addition to that,
+
+04:32.220 --> 04:35.040
+you have the standard name-based virtual host related,
+
+04:35.040 --> 04:38.550
+ALB code DNS name, right?
+
+04:38.550 --> 04:42.420
+Which is alb.amazonaws.com.
+
+04:42.420 --> 04:46.410
+So now, let's go back here and also verify
+
+04:46.410 --> 04:49.950
+your load balancer listeners rules and targets.
+
+04:49.950 --> 04:54.120
+And before that, also verify the external DNS logs.
+
+04:54.120 --> 04:56.610
+So let's wait for the logs to display
+
+04:56.610 --> 04:58.290
+and these logs should show us
+
+04:58.290 --> 05:01.650
+that it is going to create three things for us.
+
+05:01.650 --> 05:03.458
+So let's wait.
+
+05:03.458 --> 05:06.000
+(mouse clicks)
+
+05:06.000 --> 05:09.390
+See, it is going to create a desired change ,
+
+05:09.390 --> 05:12.330
+saying app101.stacksimplify.com
+
+05:12.330 --> 05:15.600
+is added in the hosted zone as a record
+
+05:15.600 --> 05:20.600
+and app 201 also added and default 101 also added.
+
+05:21.120 --> 05:23.130
+So total, these three records
+
+05:23.130 --> 05:26.010
+were added successfully in our route 53.
+
+05:26.010 --> 05:28.110
+Also, verify that.
+
+05:28.110 --> 05:32.580
+So we'll go here and go to route 53
+
+05:32.580 --> 05:35.100
+and first to verify the DNS records.
+
+05:35.100 --> 05:37.140
+After that, we'll come back to load balancer
+
+05:37.140 --> 05:39.630
+and verify additional details.
+
+05:39.630 --> 05:42.120
+So let's go to hosted zones
+
+05:42.120 --> 05:46.392
+and we need to go to the hosted zone, stacksimplify.com.
+
+05:46.392 --> 05:48.810
+And in stack simplify.com...
+
+05:48.810 --> 05:53.580
+So we can see here, default 101 created.
+
+05:53.580 --> 05:57.810
+And in the same way, app 101 and app 201 also created
+
+05:57.810 --> 05:59.250
+and all those things
+
+05:59.250 --> 06:01.980
+will reference to the ingress service, right?
+
+06:01.980 --> 06:04.410
+So, whatever it is created.
+
+06:04.410 --> 06:06.990
+So ingress service name-based virtual host,
+
+06:06.990 --> 06:09.300
+ingress service with some number five
+
+06:09.300 --> 06:11.310
+two double line starting with.
+
+06:11.310 --> 06:16.140
+So if you see here, kubectl get ingress.
+
+06:16.140 --> 06:16.973
+So it's name
+
+06:16.973 --> 06:21.750
+is name-based virtual host ingress 5299 something.
+
+06:21.750 --> 06:23.370
+And we'll go back.
+
+06:23.370 --> 06:24.297
+And also...
+
+06:24.297 --> 06:26.220
+(keys clacking)
+
+06:26.220 --> 06:31.220
+go to our load balancer here, in EC2 load balancers.
+
+06:31.470 --> 06:35.910
+So, we will go ahead and then open this and go to listener.
+
+06:35.910 --> 06:38.610
+So this load balancer is in active state.
+
+06:38.610 --> 06:40.650
+So it'll go to listeners here.
+
+06:40.650 --> 06:43.470
+And this is the default port 80 listener,
+
+06:43.470 --> 06:47.280
+which will directly redirect from 80 to 443
+
+06:47.280 --> 06:49.260
+because in our ingress,
+
+06:49.260 --> 06:52.830
+we already have this SSL redirect related setting
+
+06:52.830 --> 06:55.950
+in the annotations of our ingress.
+
+06:55.950 --> 07:00.600
+And now, we will see the 443 related rules here.
+
+07:00.600 --> 07:02.103
+And if you see here,
+
+07:02.970 --> 07:07.290
+you can see when your host is app101.stacksimplify.com,
+
+07:07.290 --> 07:11.100
+go to app one Nginx related target group.
+
+07:11.100 --> 07:13.080
+And if it is app 201,
+
+07:13.080 --> 07:16.770
+go to app two Nginx target group.
+
+07:16.770 --> 07:19.470
+Anything default, go to app three.
+
+07:19.470 --> 07:24.470
+So now, let's come back here and go to the target groups
+
+07:25.380 --> 07:27.990
+and see if they are healthy, right?
+
+07:27.990 --> 07:32.670
+So now, let's refresh
+
+07:32.670 --> 07:35.670
+and you can see app one, app two, and then app three.
+
+07:35.670 --> 07:39.000
+So app one, if you see those were healthy
+
+07:39.000 --> 07:44.000
+and if you go to app two, so those also should be healthy.
+
+07:44.130 --> 07:46.110
+And these target groups you can see
+
+07:46.110 --> 07:49.560
+your EKS worker nodes are registered
+
+07:49.560 --> 07:51.360
+with node port services.
+
+07:51.360 --> 07:53.250
+So node port related information
+
+07:53.250 --> 07:57.900
+with the worker node related instances were registered here.
+
+07:57.900 --> 08:01.860
+So now, let's come back, right?
+
+08:01.860 --> 08:02.693
+And...
+
+08:04.740 --> 08:06.290
+verify the nslookup.
+
+08:06.290 --> 08:07.830
+So the next step here
+
+08:07.830 --> 08:12.210
+is to access application using newly registered DNS name.
+
+08:12.210 --> 08:15.870
+So, the first thing is verify with the nslookup commands.
+
+08:15.870 --> 08:17.793
+So let's come back here.
+
+08:19.736 --> 08:21.030
+and do a nslookup lookup.
+
+08:21.030 --> 08:23.730
+And it is resolving to IP addresses.
+
+08:23.730 --> 08:25.950
+And this one also we will try.
+
+08:25.950 --> 08:30.390
+And it is resolving to IP addresses, app 101 also.
+
+08:30.390 --> 08:34.440
+And app 201 also, it is resolving to the IP addresses.
+
+08:34.440 --> 08:37.230
+IP addresses are going to be same here.
+
+08:37.230 --> 08:40.140
+And if you want, you can also verify the DNS
+
+08:40.140 --> 08:44.040
+for your ingress related default DNS name
+
+08:44.040 --> 08:45.930
+which is this one, right?
+
+08:45.930 --> 08:50.930
+So nslookup and also provide this one.
+
+08:52.290 --> 08:53.940
+And for all these things,
+
+08:53.940 --> 08:57.060
+you can see the IP addresses are same.
+
+08:57.060 --> 09:01.860
+So now let's come back here and access your application.
+
+09:01.860 --> 09:03.180
+So app one,
+
+09:03.180 --> 09:06.043
+you are going to access with app101.stacksimplify.com
+
+09:09.090 --> 09:11.670
+and see this is accessible.
+
+09:11.670 --> 09:14.220
+And app two you are going to access
+
+09:14.220 --> 09:17.550
+with app201.stacksimplify.com.
+
+09:17.550 --> 09:20.070
+See, app two is accessible.
+
+09:20.070 --> 09:23.220
+And default application, you are going to access
+
+09:23.220 --> 09:27.120
+with default101.stacksimplify.com
+
+09:27.120 --> 09:27.953
+And you can see,
+
+09:27.953 --> 09:31.800
+default Kubernetes fundamental demo related application
+
+09:31.800 --> 09:33.660
+is accessible for us.
+
+09:33.660 --> 09:36.810
+And negative cases with app101,
+
+09:36.810 --> 09:41.810
+try to access app2index.html and see what happens.
+
+09:42.630 --> 09:46.140
+So let's close these things, right?
+
+09:46.140 --> 09:49.020
+And access this, and 404. Why?
+
+09:49.020 --> 09:52.470
+Because in app 101, which is nothing
+
+09:52.470 --> 09:55.740
+but your app one node port service and app one backend,
+
+09:55.740 --> 09:59.130
+you are proxying the complete root context, right?
+
+09:59.130 --> 10:02.130
+So which means in app 101 or in app one,
+
+10:02.130 --> 10:06.090
+there is no app two related context path with index.html.
+
+10:06.090 --> 10:08.820
+So from your app one backend, right?
+
+10:08.820 --> 10:13.380
+So from your app one backend, you have got a 404 request.
+
+10:13.380 --> 10:18.340
+When you access it, app1.stacksimplify.com with /app2
+
+10:20.580 --> 10:21.870
+in the same line.
+
+10:21.870 --> 10:24.990
+So let's come back here and try for app two also.
+
+10:24.990 --> 10:28.890
+App two, try with app one and it should fail here also. Why?
+
+10:28.890 --> 10:32.580
+Because in app two related port,
+
+10:32.580 --> 10:35.970
+you don't have any app one related concept
+
+10:35.970 --> 10:38.850
+or context path, you can say simply.
+
+10:38.850 --> 10:41.310
+And now, if you want you can also try
+
+10:41.310 --> 10:46.310
+with default101/app1index.html and app2index.html.
+
+10:47.640 --> 10:48.870
+See?
+
+10:48.870 --> 10:51.120
+And this is also failing.
+
+10:51.120 --> 10:53.130
+So everywhere, it is the same thing.
+
+10:53.130 --> 10:56.970
+Only with this domain, you can go to app two.
+
+10:56.970 --> 10:59.460
+And with this domain, you can go to app one.
+
+10:59.460 --> 11:02.493
+And with this domain you can go to default port.
+
+11:03.600 --> 11:05.910
+As of now whatever we have configured.
+
+11:05.910 --> 11:08.370
+See? All these things are not working.
+
+11:08.370 --> 11:12.330
+So this complete the name-based virtual host routing,
+
+11:12.330 --> 11:16.560
+our host header-based routing in ingress.
+
+11:16.560 --> 11:18.780
+So now, we are going to clean up
+
+11:18.780 --> 11:20.700
+whatever we have implemented.
+
+11:20.700 --> 11:22.680
+So let's come back here
+
+11:22.680 --> 11:27.540
+and we'll say, kubectl delete hyphen F kube manifest.
+
+11:27.540 --> 11:28.650
+So this should delete
+
+11:28.650 --> 11:31.950
+all the three application related deployments,
+
+11:31.950 --> 11:35.400
+node port services, and also the ingress service,
+
+11:35.400 --> 11:38.310
+and also that DNS records created.
+
+11:38.310 --> 11:42.030
+So to verify that, we'll also put the log, right?
+
+11:42.030 --> 11:44.190
+So once those were deleted,
+
+11:44.190 --> 11:48.270
+also let's verify the log now.
+
+11:48.270 --> 11:51.540
+So let me copy this and paste it here.
+
+11:51.540 --> 11:55.410
+And in external DNS log, we should see all our three DNS'
+
+11:55.410 --> 11:57.330
+whatever registered in route 53
+
+11:57.330 --> 11:59.730
+should be in that delete state.
+
+11:59.730 --> 12:01.173
+So let's go down.
+
+12:03.600 --> 12:05.283
+It's opening the log.
+
+12:07.080 --> 12:12.080
+See? Delete app 101 and app 201 and default 101.
+
+12:13.350 --> 12:18.350
+So now let's go back here and go to route 53
+
+12:18.720 --> 12:21.033
+and verify the same thing.
+
+12:23.310 --> 12:27.870
+Let me go here and go to stacksimplify.com.
+
+12:27.870 --> 12:29.370
+And you can see here,
+
+12:29.370 --> 12:34.370
+there is no DNS related to app101 or app 201 or default 101.
+
+12:36.120 --> 12:39.570
+So now let's come back here, and our Ingres service,
+
+12:39.570 --> 12:40.890
+whatever it has created,
+
+12:40.890 --> 12:44.520
+the application load balancer also got deleted.
+
+12:44.520 --> 12:49.520
+So this completes the name-based virtual host relating demo.
+
+12:49.590 --> 12:50.910
+Routing demo.
+
+12:50.910 --> 12:52.440
+And in our next lecture,
+
+12:52.440 --> 12:55.500
+we are going to focus on SSL discovery
+
+12:55.500 --> 12:57.600
+related ingress concept.
+
+12:57.600 --> 12:59.160
+So I'll see you in the next lecture.
+
+12:59.160 --> 13:00.240
+Until then, bye bye.
+
+13:00.240 --> 13:01.073
+Thank you.

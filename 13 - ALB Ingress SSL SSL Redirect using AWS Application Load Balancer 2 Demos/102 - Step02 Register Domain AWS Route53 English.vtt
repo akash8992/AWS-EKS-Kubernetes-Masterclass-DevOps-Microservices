@@ -1,0 +1,295 @@
+WEBVTT
+
+00:00.150 --> 00:00.983
+-: Welcome back.
+
+00:00.983 --> 00:01.816
+In this lecture
+
+00:01.816 --> 00:05.010
+we are going to register a domain in Route 53.
+
+00:05.010 --> 00:07.610
+So we are going to buy the domain 'Kubeoncloud.com'.
+
+00:08.580 --> 00:11.730
+So let's go to AWS management console
+
+00:11.730 --> 00:14.937
+and on the console home search for 'Route 53'.
+
+00:17.700 --> 00:22.560
+And in Route 53 we'll go further, 'Register domains'.
+
+00:22.560 --> 00:24.750
+and then we are going to register a domain.
+
+00:24.750 --> 00:28.230
+And the domain name is going to be 'Kubeoncloud.com'.
+
+00:31.050 --> 00:33.613
+Okay, so it took something else here.
+
+00:33.613 --> 00:35.190
+Remove 'R' here.
+
+00:35.190 --> 00:36.603
+Yeah, check it. Okay.
+
+00:38.850 --> 00:42.090
+And we got it 'Kubeoncloud.com'.
+
+00:42.090 --> 00:43.380
+So everything looks good.
+
+00:43.380 --> 00:46.710
+K u b e on cloud.com right?
+
+00:46.710 --> 00:48.333
+So 'Add to cart'
+
+00:48.333 --> 00:49.200
+(mouse clicks)
+
+00:49.200 --> 00:52.290
+and go down. And if you see here,
+
+00:52.290 --> 00:54.200
+you can click on 'Continue'.
+
+00:55.140 --> 00:57.000
+And these are the personal information.
+
+00:57.000 --> 01:00.840
+We can leave it and you can see 'Privacy protection enabled'
+
+01:00.840 --> 01:02.910
+for my domain, enabled.
+
+01:02.910 --> 01:05.010
+And then I'll click on continue.
+
+01:05.010 --> 01:06.397
+And if I go here,
+
+01:06.397 --> 01:09.330
+"Do you want to automatically renew your domain?"
+
+01:09.330 --> 01:11.310
+Yes, I want to renew it.
+
+01:11.310 --> 01:14.790
+And terms and conditions, I'm going to accept it
+
+01:14.790 --> 01:18.390
+and then click on 'Complete the order'.
+
+01:18.390 --> 01:21.060
+So our order got submitted successfully.
+
+01:21.060 --> 01:24.030
+It might take close to three days to complete it usually
+
+01:24.030 --> 01:27.510
+but once we verify our payment, usually it might be faster
+
+01:27.510 --> 01:30.720
+in a day or even lesser than that.
+
+01:30.720 --> 01:34.770
+So we'll go to 'Domains' and my other domain is
+
+01:34.770 --> 01:36.780
+an action required for verified payment.
+
+01:36.780 --> 01:40.260
+I will leave it, once this also comes into that same status
+
+01:40.260 --> 01:42.390
+we will verify for this one.
+
+01:42.390 --> 01:43.920
+Okay, Kubeoncloud dot.
+
+01:43.920 --> 01:47.550
+So I got the action required for Q1 cloud.
+
+01:47.550 --> 01:49.836
+So I'll go there at the end
+
+01:49.836 --> 01:54.690
+and then I'll do the 'Verify payment' for the latest one.
+
+01:54.690 --> 01:56.493
+Okay, 1219, I'll go there.
+
+01:58.030 --> 02:00.030
+(mouse clicks)
+
+02:00.030 --> 02:03.510
+So one, I accidentally sent it so I really don't want to pay
+
+02:03.510 --> 02:04.920
+for the other one.
+
+02:04.920 --> 02:09.240
+So, now if you see 483302601 and then 2877.
+
+02:11.580 --> 02:13.710
+So 2877 is the latest.
+
+02:13.710 --> 02:17.880
+I'm going to say 'Verify' and then 'Pay', right?
+
+02:17.880 --> 02:20.133
+So I'm going to pay it now.
+
+02:21.705 --> 02:24.480
+(mouse clicks)
+
+02:24.480 --> 02:27.753
+So let's wait for the payment to happen.
+
+02:31.080 --> 02:35.160
+Okay, I provided the OTP and this should be done now.
+
+02:35.160 --> 02:37.650
+So we have completed the payments
+
+02:37.650 --> 02:42.240
+if you go for bills, orders and then invoices.
+
+02:42.240 --> 02:43.560
+So one should be like that only
+
+02:43.560 --> 02:45.600
+and then one should be already paid.
+
+02:45.600 --> 02:48.240
+Okay, so let's wait for some time
+
+02:48.240 --> 02:52.320
+or go to 'Register domains here' and then 'Pending request'.
+
+02:52.320 --> 02:55.590
+Okay, so it'll take an hour to update the status.
+
+02:55.590 --> 02:58.140
+So let's wait for an hour to see what happens.
+
+02:58.140 --> 03:01.860
+So once we, once we have completed the verify and pay
+
+03:01.860 --> 03:04.639
+so we can see that for 'Kubeoncloud'.
+
+03:04.639 --> 03:06.900
+we can see domain illustration is in progress.
+
+03:06.900 --> 03:10.200
+So let's wait for everything to be completed now.
+
+03:10.200 --> 03:11.760
+So within an hour, I have seen
+
+03:11.760 --> 03:13.560
+that my request has been moved
+
+03:13.560 --> 03:16.860
+from 'Pending request' to 'Register domains'.
+
+03:16.860 --> 03:18.867
+So hardly within less than two hours,
+
+03:18.867 --> 03:21.570
+entire process will be completed
+
+03:21.570 --> 03:24.930
+for us for the 'Register a domain' and only
+
+03:24.930 --> 03:27.780
+one thing is we need to verify our payment thoroughly.
+
+03:27.780 --> 03:28.890
+That's about it.
+
+03:28.890 --> 03:32.460
+So now I have the 'Kubeoncloud' domain available for me,
+
+03:32.460 --> 03:34.140
+'Kubeoncloud.com'.
+
+03:34.140 --> 03:37.050
+And then it's a strength is verified
+
+03:37.050 --> 03:39.120
+and we can see all the details about it.
+
+03:39.120 --> 03:40.830
+If you want to extend this domain
+
+03:40.830 --> 03:42.750
+for another nine to ten years if you want
+
+03:42.750 --> 03:44.520
+you can do that now.
+
+03:44.520 --> 03:48.000
+Okay. And auto renew is anyway enabled.
+
+03:48.000 --> 03:51.900
+So every year it will automatically get auto renewed.
+
+03:51.900 --> 03:54.120
+So now one important thing here is if you click
+
+03:54.120 --> 03:57.030
+on 'Manage DNS', it will take us to the hosted zone.
+
+03:57.030 --> 04:01.080
+So the public hosted zone for Kubeoncloud.com
+
+04:01.080 --> 04:03.900
+is already by default created. Okay?
+
+04:03.900 --> 04:08.430
+So now here we will be able to DNS register our domains.
+
+04:08.430 --> 04:10.890
+Okay? So whatever the sub domains we want to
+
+04:10.890 --> 04:13.440
+register or whatever the main domains we want to register
+
+04:13.440 --> 04:15.840
+we can create a record set here
+
+04:15.840 --> 04:18.810
+and then say that users dot Kubeoncloud.com
+
+04:18.810 --> 04:23.810
+and then provide the IP address or the ELB DNS name
+
+04:24.180 --> 04:27.990
+ELB DNS name, all these things here to DNS, register it.
+
+04:27.990 --> 04:31.920
+Okay, so this is about the 'Resistor domain' section
+
+04:31.920 --> 04:33.540
+which is nothing but our step two.
+
+04:33.540 --> 04:35.580
+'Register a domain' in Route 53.
+
+04:35.580 --> 04:37.050
+In our next lecture, we'll focus
+
+04:37.050 --> 04:40.650
+on creating a SSL certificate in 'Certificate Manager'.
+
+04:40.650 --> 04:42.240
+So I'll see you in the next lecture.
+
+04:42.240 --> 04:43.833
+Until then bye bye. Thank you.

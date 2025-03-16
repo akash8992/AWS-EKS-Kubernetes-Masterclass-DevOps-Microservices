@@ -1,0 +1,214 @@
+WEBVTT
+
+00:00.360 --> 00:01.470
+-: Welcome back.
+
+00:01.470 --> 00:03.780
+In this section we are going to learn about
+
+00:03.780 --> 00:08.780
+Kubernetes Ingress concept name target-type: ip.
+
+00:08.940 --> 00:12.270
+So let's understand what is ALB Ingress
+
+00:12.270 --> 00:15.270
+Kubernetes target-type annotation first.
+
+00:15.270 --> 00:18.120
+So this target-type annotation specifies
+
+00:18.120 --> 00:20.790
+how to route traffic to your ports,
+
+00:20.790 --> 00:23.040
+which is nothing but your Kubernetes ports
+
+00:23.040 --> 00:25.560
+from your Application Load Balancer.
+
+00:25.560 --> 00:27.900
+And we have two ways to do that
+
+00:27.900 --> 00:30.240
+in our ALB Ingress target types.
+
+00:30.240 --> 00:34.470
+One is instance mode and another one is IP mode.
+
+00:34.470 --> 00:36.810
+Let's understand the instance mode first,
+
+00:36.810 --> 00:39.510
+and then we'll move to the IP mode.
+
+00:39.510 --> 00:41.670
+So instance mode will route traffic
+
+00:41.670 --> 00:45.510
+to all EC2 instances within the cluster
+
+00:45.510 --> 00:48.930
+on the nodeport open for your service.
+
+00:48.930 --> 00:52.680
+Which means, if you remember our previous examples also,
+
+00:52.680 --> 00:55.800
+we have created an app1, app2, app3 deployment
+
+00:55.800 --> 00:59.790
+and we also created an app1, app2, app3 nodeport service.
+
+00:59.790 --> 01:02.550
+So the request coming to your Application Load Balancer
+
+01:02.550 --> 01:05.484
+will go to that Kubernetes NodePort service.
+
+01:05.484 --> 01:07.950
+And from that Kubernetes NodePort service
+
+01:07.950 --> 01:10.830
+it is going to your application port.
+
+01:10.830 --> 01:13.230
+And this Kubernetes NodePort service will have
+
+01:13.230 --> 01:18.230
+your worker node IP:port from that respective node.
+
+01:18.330 --> 01:21.917
+And this service must be of type nodeport
+
+01:21.917 --> 01:25.770
+or loadbalancer to use the instance mode.
+
+01:25.770 --> 01:26.603
+That's clear.
+
+01:26.603 --> 01:28.380
+We have implemented the NodePort service
+
+01:28.380 --> 01:30.450
+for our previous examples.
+
+01:30.450 --> 01:34.080
+And the default target-type is instance mode
+
+01:34.080 --> 01:36.150
+in our Ingress resources.
+
+01:36.150 --> 01:37.860
+Which means we don't need to
+
+01:37.860 --> 01:40.470
+define this annotation in Ingress.
+
+01:40.470 --> 01:43.680
+By default, it takes instance mode.
+
+01:43.680 --> 01:46.020
+So if you see our Ingress templates defined
+
+01:46.020 --> 01:48.712
+previous to this demo, nowhere we have defined
+
+01:48.712 --> 01:52.560
+alb.ingress.kubernetes.io/target-type instance.
+
+01:52.560 --> 01:54.570
+So why we don't need to define that?
+
+01:54.570 --> 01:57.300
+Because the default target-type is instance mode
+
+01:57.300 --> 01:59.400
+and we don't need to define this.
+
+01:59.400 --> 02:03.900
+Now let's understand what is this target-type IP mode.
+
+02:03.900 --> 02:06.900
+IP mode will route traffic directly to the pod
+
+02:06.900 --> 02:09.540
+which means when the request comes from the internet
+
+02:09.540 --> 02:11.790
+to your Application Load Balancer,
+
+02:11.790 --> 02:13.860
+from there that request will directly go
+
+02:13.860 --> 02:15.780
+to your Kubernetes pod.
+
+02:15.780 --> 02:18.390
+So there is no middle man like Kubernetes
+
+02:18.390 --> 02:20.730
+NodePort service involved here,
+
+02:20.730 --> 02:24.028
+and IP mode is required for sticky sessions
+
+02:24.028 --> 02:27.210
+to work with Application Load Balancer.
+
+02:27.210 --> 02:30.960
+So that is the core reason for implementing the IP mode
+
+02:30.960 --> 02:34.140
+when you are using the EC2 worker nodes.
+
+02:34.140 --> 02:36.685
+But when you are using the Fargate,
+
+02:36.685 --> 02:39.990
+definitely you only need to use IP mode.
+
+02:39.990 --> 02:41.880
+And when we are implementing our learning,
+
+02:41.880 --> 02:43.290
+the Fargate concepts,
+
+02:43.290 --> 02:45.750
+we'll also know more about IP mode there.
+
+02:45.750 --> 02:47.730
+And also they're the only option for you
+
+02:47.730 --> 02:51.060
+whenever you want to use AWS Fargate server list.
+
+02:51.060 --> 02:54.600
+At that point in time you need to use IP mode only
+
+02:54.600 --> 02:57.840
+and need to define the annotation explicitly
+
+02:57.840 --> 03:02.100
+as target-type: ip.
+
+03:02.100 --> 03:04.230
+This completes the introductory part
+
+03:04.230 --> 03:06.690
+of target-type: ip.
+
+03:06.690 --> 03:09.150
+So in our next lecture we are going to practically
+
+03:09.150 --> 03:12.720
+implement this concept and understand about it.
+
+03:12.720 --> 03:14.280
+So I'll see you in the next lecture.
+
+03:14.280 --> 03:15.450
+Until then, bye bye.
+
+03:15.450 --> 03:16.283
+Thank you.

@@ -1,0 +1,463 @@
+WEBVTT
+
+00:00.150 --> 00:02.460
+-: Welcome back in previous lecture.
+
+00:02.460 --> 00:06.270
+We have completed till here where we are getting the failure
+
+00:06.270 --> 00:11.270
+from AWS STS assumed role with access denied, right?
+
+00:11.730 --> 00:14.010
+So now what we need to do is we'll go back
+
+00:14.010 --> 00:15.690
+over guitar report
+
+00:15.690 --> 00:18.660
+and then we'll fix it that respective to steps.
+
+00:18.660 --> 00:20.910
+So update code build role to have
+
+00:20.910 --> 00:24.997
+access to STS Assume Role we have created
+
+00:24.997 --> 00:28.410
+using STS Assume Role Policy, right?
+
+00:28.410 --> 00:31.988
+So we need to create a STS Assume Role Policy.
+
+00:31.988 --> 00:35.820
+Now, so let's go to our IAM.
+
+00:35.820 --> 00:39.336
+Right, so let me, yeah, so let's go to
+
+00:39.336 --> 00:43.710
+policies in IAM and create a policy,
+
+00:43.710 --> 00:46.800
+and choose a service, right?
+
+00:46.800 --> 00:51.123
+So when you choose the service search for STS, right?
+
+00:52.488 --> 00:55.920
+STS, and in actions select inside-right,
+
+00:55.920 --> 01:00.920
+assume role, and in resources right?
+
+01:01.020 --> 01:06.020
+So in a specific resource section select add RN
+
+01:06.390 --> 01:08.130
+and provide your AR and
+
+01:08.130 --> 01:12.840
+off your cube EKS, cube CTL related code build role.
+
+01:12.840 --> 01:15.660
+So which is nothing but whatever you have provided
+
+01:15.660 --> 01:18.630
+in your and your AR mental variable here, right?
+
+01:18.630 --> 01:21.450
+So this role you need to provide, okay?
+
+01:21.450 --> 01:23.808
+So if you want you can even search this
+
+01:23.808 --> 01:25.650
+code built Q CTL role in your
+
+01:25.650 --> 01:28.830
+IAM and then get that information
+
+01:28.830 --> 01:30.870
+and then paste it here okay?
+
+01:30.870 --> 01:34.427
+So you can go here and then go to IAM, right,
+
+01:37.200 --> 01:40.803
+and in IAM search for this respective role, right?
+
+01:40.803 --> 01:43.680
+With this role name, right?
+
+01:43.680 --> 01:47.550
+So go to roles and search for this role,
+
+01:47.550 --> 01:50.460
+open this role, and then copy the AR;
+
+01:50.460 --> 01:54.540
+and from here, and then paste it here, that's all.
+
+01:54.540 --> 01:55.380
+Okay.
+
+01:55.380 --> 01:58.800
+And then click on add, and then we are done here, okay?
+
+01:58.800 --> 02:02.190
+So if you want we can click on review policy,
+
+02:02.190 --> 02:04.320
+and then provide the name of that, okay?
+
+02:04.320 --> 02:06.990
+So this is the STS assumed role.
+
+02:06.990 --> 02:11.550
+So the role name I'm going to give is EKS code
+
+02:11.550 --> 02:15.000
+builds STS assume role related policy, okay?
+
+02:15.000 --> 02:16.170
+So where is that?
+
+02:16.170 --> 02:18.213
+So it should be somewhere here, okay?
+
+02:19.170 --> 02:21.870
+And I'll provide code build to interact
+
+02:21.870 --> 02:25.860
+with EKS cluster to perform changes, right?
+
+02:25.860 --> 02:27.900
+So I'll come here and provide this
+
+02:27.900 --> 02:29.703
+and then create the policy.
+
+02:31.560 --> 02:33.510
+Once this policy is created
+
+02:33.510 --> 02:36.570
+I'm going to go to the roles, right?
+
+02:36.570 --> 02:38.220
+And then associate this role.
+
+02:38.220 --> 02:39.330
+It means like I have a code
+
+02:39.330 --> 02:41.880
+build EK develops CB related role, right?
+
+02:41.880 --> 02:43.770
+So it means like my code build role.
+
+02:43.770 --> 02:47.490
+So I can go here, and go to build details
+
+02:47.490 --> 02:50.070
+and go to my code build service role, Okay?
+
+02:50.070 --> 02:51.480
+So this is the role.
+
+02:51.480 --> 02:56.220
+So I'll go to that service role and I'll go to
+
+02:56.220 --> 02:59.550
+attach policies, and I will try and then search
+
+02:59.550 --> 03:03.123
+for our EKS code build EKS code build, right?
+
+03:07.800 --> 03:10.680
+STS assume role related policy, okay?
+
+03:10.680 --> 03:12.990
+So I'll say attach policy, that's all.
+
+03:12.990 --> 03:16.500
+So now my code build EKS DevOps related
+
+03:16.500 --> 03:18.330
+whatever is associated with my code
+
+03:18.330 --> 03:21.420
+will project also gets the STS assume role
+
+03:21.420 --> 03:24.300
+related policy associated with it, okay?
+
+03:24.300 --> 03:26.910
+So now what happens is if a run that changes
+
+03:26.910 --> 03:28.290
+then it is going to succeed.
+
+03:28.290 --> 03:30.690
+So let me close this, let me close this
+
+03:30.690 --> 03:33.123
+let me close this all, I'm closing.
+
+03:34.543 --> 03:36.900
+So now we'll go to pipelines, right?
+
+03:36.900 --> 03:39.510
+And now one more time we will select that pipeline
+
+03:39.510 --> 03:42.180
+and then do the release change, okay?
+
+03:42.180 --> 03:43.830
+So we still didn't make changes,
+
+03:43.830 --> 03:44.663
+and push anything.
+
+03:44.663 --> 03:46.470
+We can do a release change like this, okay?
+
+03:46.470 --> 03:48.570
+So in my, in our case, what I've done is
+
+03:48.570 --> 03:51.300
+in my documentation we can do this way
+
+03:51.300 --> 03:56.220
+or we can even do something called make a change
+
+03:56.220 --> 03:57.330
+and then push it, okay?
+
+03:57.330 --> 04:00.120
+So whatever the things works for us, okay?
+
+04:00.120 --> 04:03.420
+So make a change and push it from your local or do this way.
+
+04:03.420 --> 04:07.020
+So I just done a release change here, anything is fine.
+
+04:07.020 --> 04:11.523
+So now let's go here and then verify this stuff, okay?
+
+04:13.950 --> 04:15.930
+And this is going on.
+
+04:15.930 --> 04:19.890
+So once this is ready we will see what happens.
+
+04:19.890 --> 04:20.723
+So good.
+
+04:20.723 --> 04:23.878
+So now it verified the AWS version.
+
+04:23.878 --> 04:26.460
+So lots of things are getting succeeded.
+
+04:26.460 --> 04:28.080
+Now the build thing is going on.
+
+04:28.080 --> 04:30.660
+So once the build is completed
+
+04:30.660 --> 04:34.770
+so it is going to move onto the next steps, okay?
+
+04:34.770 --> 04:36.900
+So push also completed.
+
+04:36.900 --> 04:39.660
+Now you can see it here, running commands, AWS,
+
+04:39.660 --> 04:43.290
+STS Assume Role this one got succeeded and
+
+04:43.290 --> 04:45.450
+it went to access key id next step
+
+04:45.450 --> 04:46.710
+and then secret access key.
+
+04:46.710 --> 04:48.645
+All these next steps are getting executed.
+
+04:48.645 --> 04:51.780
+And then now if you see here
+
+04:51.780 --> 04:56.780
+we said that AWS EKS update cube config name EKS cluster.
+
+04:56.970 --> 05:01.170
+So it already updated our cube config information
+
+05:01.170 --> 05:04.560
+and then it moved to the next step of cube CTL
+
+05:04.560 --> 05:07.530
+apply hyphen F cube manifests, okay?
+
+05:07.530 --> 05:09.900
+So it applied the change, so that deployment
+
+05:09.900 --> 05:11.760
+got created, note port service
+
+05:11.760 --> 05:14.580
+got created, and then DevOps service got created.
+
+05:14.580 --> 05:16.680
+So all these things got created, why?
+
+05:16.680 --> 05:18.120
+Because it is the first time, right?
+
+05:18.120 --> 05:21.210
+So those are not there, and then it got created,
+
+05:21.210 --> 05:23.400
+and then changes completed, and then
+
+05:23.400 --> 05:26.036
+it also created the artifacts here, okay?
+
+05:26.036 --> 05:28.680
+So which we can reference for future stages
+
+05:28.680 --> 05:30.600
+if we implement anything, okay?
+
+05:30.600 --> 05:33.210
+So now these changes completed, so let's
+
+05:33.210 --> 05:38.210
+come back here and say cube CTL get ports, right?
+
+05:42.030 --> 05:44.760
+So on our cluster we should have EK DevOps
+
+05:44.760 --> 05:47.370
+related to ports up and running.
+
+05:47.370 --> 05:51.150
+So I'll also say cube CTL get ingress, right?
+
+05:51.150 --> 05:53.130
+So ingress should be created.
+
+05:53.130 --> 05:57.780
+So now what I will do is we can go to in our
+
+05:57.780 --> 06:00.930
+We'll open and then go to EC2, right?
+
+06:00.930 --> 06:05.930
+And go there, and then go to load balances
+
+06:06.570 --> 06:09.060
+and verify our load balancer application load
+
+06:09.060 --> 06:11.040
+balancer is getting created.
+
+06:11.040 --> 06:13.530
+So it's getting created, right?
+
+06:13.530 --> 06:16.980
+So we'll also verify our Route 53 domain.
+
+06:16.980 --> 06:18.780
+So that should be also registered, right?
+
+06:18.780 --> 06:21.156
+So our Route 53 domain should be mostly
+
+06:21.156 --> 06:24.000
+DevOps.cube1cloud.com.
+
+06:24.000 --> 06:26.880
+So let's also verify that, right?
+
+06:26.880 --> 06:31.230
+So let's go here and go to cube1cloud.com
+
+06:31.230 --> 06:34.443
+and you should see DevOps related thing here, okay?
+
+06:36.890 --> 06:40.290
+DevOps.cube1cloud.com, so that's good.
+
+06:40.290 --> 06:45.290
+So once this respective load balancer is provisioned, right?
+
+06:45.930 --> 06:48.150
+So we'll be able to verify that stuff
+
+06:48.150 --> 06:49.500
+so we can even see the target
+
+06:49.500 --> 06:51.720
+group and the targets.
+
+06:51.720 --> 06:55.260
+So it's still in progress and then they are healthy.
+
+06:55.260 --> 06:57.570
+So we'll see load balancer is active now.
+
+06:57.570 --> 07:01.031
+So let's take that DNS and do the NS lookup, okay?
+
+07:01.031 --> 07:04.290
+So this is always good to do this verification
+
+07:04.290 --> 07:07.137
+and it provided some IPS 222 at the end
+
+07:07.137 --> 07:09.150
+and then 13, so I'll do the same
+
+07:09.150 --> 07:14.150
+for NS lookup, and then DevOps.cube1cloud.com.
+
+07:15.330 --> 07:17.850
+So it also provided 13 and then 222,
+
+07:17.850 --> 07:19.410
+so which means we are good.
+
+07:19.410 --> 07:22.953
+So now we'll go to our browser, right?
+
+07:22.953 --> 07:27.953
+STT://devOps.cube1cloud.com/app1/indexations
+
+07:34.800 --> 07:36.450
+right?
+
+07:36.450 --> 07:40.620
+So now I got the app version V1, so that's good.
+
+07:40.620 --> 07:42.720
+So in our next lecture we'll focus
+
+07:42.720 --> 07:45.420
+on changing the version to V2, checking the code
+
+07:45.420 --> 07:48.966
+and then how it changes we are going to see, okay?
+
+07:48.966 --> 07:51.030
+So I'll see you in the next lecture.
+
+07:51.030 --> 07:52.380
+Until then, bye bye.
+
+07:52.380 --> 07:53.213
+Thank you.

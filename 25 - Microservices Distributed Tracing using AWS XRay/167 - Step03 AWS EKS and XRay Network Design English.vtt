@@ -1,0 +1,835 @@
+WEBVTT
+
+00:00.360 --> 00:01.500
+-: Welcome back.
+
+00:01.500 --> 00:03.930
+In this lecture, we are going to understand
+
+00:03.930 --> 00:05.768
+about how we are going to deploy
+
+00:05.768 --> 00:10.768
+our applications in relation with AWS X-Ray on EKS cluster.
+
+00:12.630 --> 00:14.910
+So everything we are going to look into it
+
+00:14.910 --> 00:16.920
+from a network perspective,
+
+00:16.920 --> 00:19.350
+how it is going to look like.
+
+00:19.350 --> 00:22.969
+So let's go there and in AWS Cloud,
+
+00:22.969 --> 00:26.460
+so when we create a EKS cluster,
+
+00:26.460 --> 00:28.980
+it is going to create equivalent VPC
+
+00:28.980 --> 00:31.133
+and then public subnets
+
+00:31.133 --> 00:34.650
+and then private subnets and then NAT gateway.
+
+00:34.650 --> 00:36.150
+But one thing important here,
+
+00:36.150 --> 00:40.380
+you need to observe from our previous network diagrams is
+
+00:40.380 --> 00:44.310
+like I have depicted only one availability zone.
+
+00:44.310 --> 00:47.280
+So I didn't depict one more availability zone
+
+00:47.280 --> 00:49.140
+because of lack of space
+
+00:49.140 --> 00:52.944
+for the depiction on my presentation.
+
+00:52.944 --> 00:55.080
+So whatever you are seeing 1A,
+
+00:55.080 --> 00:56.700
+the same thing also will be there
+
+00:56.700 --> 00:58.530
+in another availability zone also.
+
+00:58.530 --> 01:00.981
+But here I depicted only one thing
+
+01:00.981 --> 01:05.505
+due to multiple components I need to cover in this depiction
+
+01:05.505 --> 01:07.590
+and then which you want to see it
+
+01:07.590 --> 01:09.120
+and the same thing will be available
+
+01:09.120 --> 01:12.240
+in another availability zone also.
+
+01:12.240 --> 01:15.450
+So now, these things will get automatically created.
+
+01:15.450 --> 01:17.790
+So whenever you create a worker node group
+
+01:17.790 --> 01:21.000
+means like whenever you create a EKS managed node group,
+
+01:21.000 --> 01:23.359
+so it also creates a worker node
+
+01:23.359 --> 01:27.540
+and whatever the applications deployed on this worker node
+
+01:27.540 --> 01:30.210
+and also this worker node related kubelet
+
+01:30.210 --> 01:33.750
+and all those stuff will communicate to the EKS cluster
+
+01:33.750 --> 01:36.450
+using NAT gateway.
+
+01:36.450 --> 01:38.700
+Why because these worker nodes are created
+
+01:38.700 --> 01:41.160
+in the private subnet.
+
+01:41.160 --> 01:46.160
+So moving on, whenever you deploy a X-Ray as a DaemonSet
+
+01:46.410 --> 01:51.410
+so it is going to create its X-Ray pods per worker node,
+
+01:51.840 --> 01:53.430
+one X-Ray pod
+
+01:53.430 --> 01:55.468
+and then it is going to expose
+
+01:55.468 --> 01:59.536
+that respective X-Ray pod related application
+
+01:59.536 --> 02:03.210
+using X-Ray cluster IP service.
+
+02:03.210 --> 02:08.010
+So the next thing is we deploy our UMS deployment
+
+02:08.010 --> 02:09.810
+means like user management application
+
+02:09.810 --> 02:12.390
+and then notification application.
+
+02:12.390 --> 02:14.277
+So it will have its own stuff.
+
+02:14.277 --> 02:16.140
+UMS will have its own node port service
+
+02:16.140 --> 02:18.570
+and then MySQL external name service.
+
+02:18.570 --> 02:20.220
+So notification service
+
+02:20.220 --> 02:22.860
+will have its notification cluster IP service
+
+02:22.860 --> 02:25.050
+and it's SMTP external name service
+
+02:25.050 --> 02:29.460
+to send the emails via simple email service
+
+02:29.460 --> 02:31.650
+and its own deployments, UMS deployment
+
+02:31.650 --> 02:34.692
+and then notification service deployment.
+
+02:34.692 --> 02:36.147
+So the next thing is,
+
+02:36.147 --> 02:39.870
+so you will also create your ingress service
+
+02:39.870 --> 02:42.420
+which is nothing but your application load balancer
+
+02:42.420 --> 02:43.800
+in the public subnet.
+
+02:43.800 --> 02:47.190
+And then whenever you create the ingress service,
+
+02:47.190 --> 02:49.710
+it will reference the SSL certificate
+
+02:49.710 --> 02:52.020
+from the certificate manager
+
+02:52.020 --> 02:56.130
+and also you're going to register your DNS name
+
+02:56.130 --> 02:59.115
+with inside the route 53
+
+02:59.115 --> 03:02.700
+so using external DNS.
+
+03:02.700 --> 03:05.100
+So that's about the ingress service.
+
+03:05.100 --> 03:08.370
+Now when users want to access,
+
+03:08.370 --> 03:09.540
+so the application.
+
+03:09.540 --> 03:13.890
+So for X-Ray, I have provided a dedicated microservice.
+
+03:13.890 --> 03:15.600
+So all other microservices,
+
+03:15.600 --> 03:19.280
+whatever you have seen like create user, delete user
+
+03:19.280 --> 03:22.230
+or health status, those are different.
+
+03:22.230 --> 03:26.248
+And then for X-Ray related thing, so in this UMS
+
+03:26.248 --> 03:29.580
+and then in notification I have written the code
+
+03:29.580 --> 03:33.090
+with X-Ray SDK to enable the X-Ray tracing
+
+03:33.090 --> 03:35.607
+for only this respective microservice,
+
+03:35.607 --> 03:37.830
+which means you are calling
+
+03:37.830 --> 03:40.680
+a notification X-Ray microservice
+
+03:40.680 --> 03:43.350
+from user management microservice.
+
+03:43.350 --> 03:45.028
+So what happens at that time?
+
+03:45.028 --> 03:46.257
+So you can see here
+
+03:46.257 --> 03:51.257
+ums.q1cloud.com/usermgmt/notification X-Ray.
+
+03:52.080 --> 03:55.050
+So the request comes to the UMS ingress service
+
+03:55.050 --> 03:58.920
+and then it will go to the UMS node port service
+
+03:58.920 --> 04:02.280
+and then request will go to UMS pod.
+
+04:02.280 --> 04:03.330
+And then from there
+
+04:03.330 --> 04:06.810
+it'll go to the notification cluster IP service
+
+04:06.810 --> 04:10.225
+because you are calling the notification X-Ray service here.
+
+04:10.225 --> 04:13.050
+And then from there request will come back
+
+04:13.050 --> 04:14.815
+to the notification pod
+
+04:14.815 --> 04:19.313
+and then serve the response whatever I have requested.
+
+04:19.313 --> 04:23.700
+So that's what happens on a entire flow basis
+
+04:23.700 --> 04:25.923
+whenever you access this respective URL.
+
+04:26.790 --> 04:27.623
+So what next?
+
+04:27.623 --> 04:32.493
+So whenever it came to UMS pod, it will analyze that traffic
+
+04:33.420 --> 04:35.070
+and then it will send the details
+
+04:35.070 --> 04:36.960
+to the X-Ray cluster IP service
+
+04:36.960 --> 04:40.466
+from which it will go to the X-Ray pod.
+
+04:40.466 --> 04:42.870
+In the same way, whenever the request
+
+04:42.870 --> 04:45.990
+came to notification service microservice pod,
+
+04:45.990 --> 04:49.800
+so from here, to access this notification X-Ray service
+
+04:49.800 --> 04:52.950
+it is going to send the traces to X-Ray cluster IP service
+
+04:52.950 --> 04:55.290
+from which it will send to X-Ray pod.
+
+04:55.290 --> 04:58.988
+So this X-Ray pod will take the responsibility to connect
+
+04:58.988 --> 05:02.940
+to our X-Ray service via NAT gateway.
+
+05:02.940 --> 05:05.160
+Why, because everything is in private subnet,
+
+05:05.160 --> 05:09.750
+it'll go via NAT gateway to our AWS X-Ray.
+
+05:09.750 --> 05:12.180
+So now till here everything is good.
+
+05:12.180 --> 05:14.190
+So when you access other stuff,
+
+05:14.190 --> 05:18.673
+which is nothing but you worked on create user stuff,
+
+05:18.673 --> 05:21.030
+so user management create user,
+
+05:21.030 --> 05:22.260
+it will come to MySQL
+
+05:22.260 --> 05:25.106
+and then it'll store the data in RDS database
+
+05:25.106 --> 05:28.230
+and then it'll go to the notification service.
+
+05:28.230 --> 05:30.710
+From notification service, it will go to SMTP
+
+05:30.710 --> 05:34.012
+via NAT gateway, it will go to simple email service
+
+05:34.012 --> 05:36.900
+and then send the email to the end user.
+
+05:36.900 --> 05:40.290
+But for this create user flow, whatever is there,
+
+05:40.290 --> 05:43.229
+we really didn't enable the X-Ray stuff.
+
+05:43.229 --> 05:46.200
+So means like X-Ray stuff in the sense,
+
+05:46.200 --> 05:49.950
+X-Ray stuff for contacting the services.
+
+05:49.950 --> 05:50.783
+In the sense like,
+
+05:50.783 --> 05:53.610
+from this service to this service, how it is contacting?
+
+05:53.610 --> 05:56.130
+So there will be a different way
+
+05:56.130 --> 05:59.270
+to call one service calling another service in our code
+
+05:59.270 --> 06:03.120
+to show them as one service calling another service.
+
+06:03.120 --> 06:05.250
+So even if you call a create user service,
+
+06:05.250 --> 06:07.552
+it will be depicted in our X-Ray,
+
+06:07.552 --> 06:10.620
+but when it is calling notification service
+
+06:10.620 --> 06:12.870
+it will consider as a different client
+
+06:12.870 --> 06:15.990
+in the sense like it's a different node in the X-Ray.
+
+06:15.990 --> 06:18.060
+That's the reason whenever you are testing,
+
+06:18.060 --> 06:20.700
+try to test it with notification X-Ray
+
+06:20.700 --> 06:22.410
+so that you will get the complete picture
+
+06:22.410 --> 06:24.510
+how it is going to look like.
+
+06:24.510 --> 06:26.550
+So the reason is there will be different ways
+
+06:26.550 --> 06:29.105
+to call our services from one service to another service.
+
+06:29.105 --> 06:31.849
+So in microservices, this is specifically
+
+06:31.849 --> 06:32.682
+a one minute introduction I'm going to give,
+
+06:32.682 --> 06:35.280
+what I've done here.
+
+06:35.280 --> 06:37.800
+So when you are calling a notification health status
+
+06:37.800 --> 06:39.660
+from our user management microservice,
+
+06:39.660 --> 06:40.890
+I'm using REST template,
+
+06:40.890 --> 06:43.860
+which is the Spring Boot standard way of calling
+
+06:43.860 --> 06:46.230
+the REST services, one service to another service
+
+06:46.230 --> 06:47.411
+in microservices.
+
+06:47.411 --> 06:50.857
+But whenever I'm calling the notification X-Ray,
+
+06:50.857 --> 06:54.390
+it needs something called HttpClientBuilder
+
+06:54.390 --> 06:55.223
+which means like
+
+06:55.223 --> 07:00.223
+I'm trying to use the X-Ray related thing here,
+
+07:00.706 --> 07:04.890
+which is nothing but X-Ray related HttpClientBuilder.
+
+07:04.890 --> 07:09.540
+So that's the reason whenever I call the X-Ray in this model
+
+07:09.540 --> 07:12.360
+with client builder, then only it is going to show
+
+07:12.360 --> 07:14.700
+that one service calling another service.
+
+07:14.700 --> 07:16.710
+So whenever I do with REST template,
+
+07:16.710 --> 07:18.150
+what happens is whenever you call
+
+07:18.150 --> 07:20.860
+your notification health status from user management,
+
+07:20.860 --> 07:24.300
+it is going to show in a different way in the X-Ray.
+
+07:24.300 --> 07:26.670
+We are going to see that in detail in our,
+
+07:26.670 --> 07:28.620
+when we are doing the implementation.
+
+07:28.620 --> 07:30.050
+But I am trying to explain that
+
+07:30.050 --> 07:31.890
+and then nail down for you
+
+07:31.890 --> 07:35.010
+that whenever you access this respective service
+
+07:35.010 --> 07:37.073
+then it is going to show you
+
+07:37.073 --> 07:39.240
+how I am seeing the nodes,
+
+07:39.240 --> 07:41.430
+in the same way you are going to see it.
+
+07:41.430 --> 07:42.263
+So like this.
+
+07:42.263 --> 07:44.846
+So how I see it, user management microservice
+
+07:44.846 --> 07:47.130
+calling the notification microservice,
+
+07:47.130 --> 07:48.180
+how I am seeing,
+
+07:48.180 --> 07:52.290
+when you test also it is going to look this way only.
+
+07:52.290 --> 07:56.190
+When you call that respective notification X-Ray service.
+
+07:56.190 --> 07:58.620
+Other services, whatever we have done earlier
+
+07:58.620 --> 08:00.780
+is not going to be same way.
+
+08:00.780 --> 08:02.640
+Now what is service map?
+
+08:02.640 --> 08:04.629
+You can see that as a client,
+
+08:04.629 --> 08:06.997
+whenever I access it as a client,
+
+08:06.997 --> 08:09.870
+so it went to UMS node port service,
+
+08:09.870 --> 08:12.030
+from there it went to notification service
+
+08:12.030 --> 08:14.430
+and then sent the traces to X-Ray.
+
+08:14.430 --> 08:15.660
+The whole thing happened.
+
+08:15.660 --> 08:17.394
+So here also it's the same thing.
+
+08:17.394 --> 08:19.290
+So as a client, as a user,
+
+08:19.290 --> 08:22.530
+I came and then I called the user management microservice
+
+08:22.530 --> 08:23.670
+and then from there
+
+08:23.670 --> 08:27.450
+it went into the notification microservice
+
+08:27.450 --> 08:30.444
+and then served my notification X-Ray thing.
+
+08:30.444 --> 08:34.080
+So now you can see that we have also labeled it
+
+08:34.080 --> 08:35.660
+with user management microservice
+
+08:35.660 --> 08:38.179
+and then V1 notification microservice, everything
+
+08:38.179 --> 08:42.720
+and then we are seeing all this in our X-Ray service map.
+
+08:42.720 --> 08:44.100
+Next thing is traces.
+
+08:44.100 --> 08:47.610
+So whenever you want to trace this respective thing,
+
+08:47.610 --> 08:50.310
+so what happened and then for this respective call
+
+08:50.310 --> 08:53.495
+what happened I want to see, so you can see it in detail.
+
+08:53.495 --> 08:56.424
+So whenever I called that notification X-Ray,
+
+08:56.424 --> 08:59.130
+it came to user management microservice
+
+08:59.130 --> 09:01.950
+and then it went to V1 notification microservice.
+
+09:01.950 --> 09:04.560
+So what happened in user management microservice?
+
+09:04.560 --> 09:06.330
+You can see it here.
+
+09:06.330 --> 09:10.590
+It went to a method get notification app info,
+
+09:10.590 --> 09:11.550
+that is the method.
+
+09:11.550 --> 09:13.230
+So let's crosscheck that.
+
+09:13.230 --> 09:15.840
+So you can see, get notification app info,
+
+09:15.840 --> 09:17.498
+it went here in the code.
+
+09:17.498 --> 09:20.790
+And from here it is the thing.
+
+09:20.790 --> 09:21.623
+So from it,
+
+09:21.623 --> 09:23.340
+you called like this
+
+09:23.340 --> 09:27.600
+get services kube1 cloud/user management notification X-Ray,
+
+09:27.600 --> 09:29.430
+it went to this respective method
+
+09:29.430 --> 09:31.230
+and then from there it is calling
+
+09:31.230 --> 09:34.926
+remote get 8096/notification/xray.
+
+09:34.926 --> 09:37.560
+So that is the thing it is going to call.
+
+09:37.560 --> 09:40.140
+So which means it is trying to call this URL
+
+09:40.140 --> 09:43.170
+notification.service.xray URL.
+
+09:43.170 --> 09:46.770
+So which will be present in here.
+
+09:46.770 --> 09:50.730
+So notification/xray in our application properties.
+
+09:50.730 --> 09:52.650
+So it called this link.
+
+09:52.650 --> 09:55.740
+And then from when it is calling this link,
+
+09:55.740 --> 09:58.560
+this get notification app info forwarded the request
+
+09:58.560 --> 10:02.370
+to our notification cluster IP service.
+
+10:02.370 --> 10:04.830
+So that's what is present in our architecture also,
+
+10:04.830 --> 10:06.690
+notification cluster IP service
+
+10:06.690 --> 10:09.390
+from user management microservice,
+
+10:09.390 --> 10:12.210
+you'll go to notification cluster IP service.
+
+10:12.210 --> 10:13.950
+So from here again where you went?
+
+10:13.950 --> 10:16.658
+You went into the notification microservice
+
+10:16.658 --> 10:19.373
+which is the microservice respective pod or container.
+
+10:19.373 --> 10:21.780
+So inside that you have something called
+
+10:21.780 --> 10:24.930
+notification app version service method.
+
+10:24.930 --> 10:27.450
+So from that you served the content.
+
+10:27.450 --> 10:30.630
+So what happened end to end, you'll be able to see here
+
+10:30.630 --> 10:33.120
+in a detailed trace information.
+
+10:33.120 --> 10:36.120
+So now next level, which means like again if you click
+
+10:36.120 --> 10:38.400
+on this user management microservice
+
+10:38.400 --> 10:40.422
+or this notification microservice,
+
+10:40.422 --> 10:42.720
+so this is nothing but a container.
+
+10:42.720 --> 10:44.139
+So this respective container.
+
+10:44.139 --> 10:46.350
+So EKS container.
+
+10:46.350 --> 10:49.650
+So you are going to see the segments in detail.
+
+10:49.650 --> 10:51.330
+So what is that segments is like?
+
+10:51.330 --> 10:55.260
+So from start time, end time, duration
+
+10:55.260 --> 10:57.570
+and then the request URL is this one
+
+10:57.570 --> 10:59.310
+and the request method is get
+
+10:59.310 --> 11:01.830
+and user agent to generate this request,
+
+11:01.830 --> 11:04.530
+means like who is the user agent is I used the postman
+
+11:04.530 --> 11:06.093
+so it is showing postman.
+
+11:07.046 --> 11:08.310
+And the request client type it is showing,
+
+11:08.310 --> 11:09.330
+all this information,
+
+11:09.330 --> 11:13.114
+you will see in the overview tag of our segment section.
+
+11:13.114 --> 11:15.360
+So how we get the segment section is
+
+11:15.360 --> 11:17.340
+whenever we click on this, double click on this,
+
+11:17.340 --> 11:20.100
+we get this entire section.
+
+11:20.100 --> 11:23.569
+So in addition to that, as this is a EKS thing,
+
+11:23.569 --> 11:27.450
+so I enable the EKS plugin in my code.
+
+11:27.450 --> 11:30.180
+So if you see here, in my code
+
+11:30.180 --> 11:32.940
+if I go to X-Ray and then X-Ray config.
+
+11:32.940 --> 11:33.900
+So if you see here,
+
+11:33.900 --> 11:37.710
+I enabled the EKS plugin also with my code.
+
+11:37.710 --> 11:39.832
+So due to that what it will do is like,
+
+11:39.832 --> 11:41.370
+where is this?
+
+11:41.370 --> 11:44.070
+Yeah, so it will provide that EC2,
+
+11:44.070 --> 11:46.500
+I also enabled the EC2 plug in.
+
+11:46.500 --> 11:48.570
+So it will show on which instance ID
+
+11:48.570 --> 11:50.400
+and those information it will provide
+
+11:50.400 --> 11:52.170
+and X-Ray information it will provide.
+
+11:52.170 --> 11:54.240
+But you can see the most important thing
+
+11:54.240 --> 11:57.230
+in the resources section is EKS section.
+
+11:57.230 --> 12:00.930
+So in EKS section, you can find inside pod,
+
+12:00.930 --> 12:03.647
+pod information to which pod this request went in?
+
+12:03.647 --> 12:06.390
+So exactly that pod name it is provided.
+
+12:06.390 --> 12:10.050
+And inside that pod which container this request went in.
+
+12:10.050 --> 12:13.293
+So that information also it has provided.
+
+12:13.293 --> 12:18.293
+So this completes the introduction for our X-Ray end-to-end.
+
+12:18.832 --> 12:22.320
+So in our next lectures, we are going to go ahead
+
+12:22.320 --> 12:26.370
+and then implement the X-Ray with our microservices.
+
+12:26.370 --> 12:28.110
+So I'll see you in the next lecture
+
+12:28.110 --> 12:29.460
+until then, bye bye.
+
+12:29.460 --> 12:30.293
+Thank you.

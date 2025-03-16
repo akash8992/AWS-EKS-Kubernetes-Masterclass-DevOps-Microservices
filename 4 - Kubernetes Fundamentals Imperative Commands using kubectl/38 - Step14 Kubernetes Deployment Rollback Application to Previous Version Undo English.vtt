@@ -1,0 +1,439 @@
+WEBVTT
+
+00:00.330 --> 00:01.163
+-: Welcome back.
+
+00:01.163 --> 00:03.600
+In this lecture we are going to learn
+
+00:03.600 --> 00:05.878
+about rolling back a deployment.
+
+00:05.878 --> 00:08.853
+So we are going to go into 0403,
+
+00:10.080 --> 00:12.570
+and we can do this in two ways.
+
+00:12.570 --> 00:15.720
+One is roll back to the exact previous version,
+
+00:15.720 --> 00:17.970
+whatever we have just now updated,
+
+00:17.970 --> 00:22.350
+or we can go to the specific version of the rollback.
+
+00:22.350 --> 00:24.960
+So we can do that in both ways.
+
+00:24.960 --> 00:26.940
+So in step one we are going to roll back
+
+00:26.940 --> 00:28.260
+to a previous version.
+
+00:28.260 --> 00:31.710
+And in step two we are going to do in a specific version.
+
+00:31.710 --> 00:33.720
+So let's start with understanding,
+
+00:33.720 --> 00:35.880
+means like let's get the rollout history first,
+
+00:35.880 --> 00:37.830
+and then after that we'll go ahead
+
+00:37.830 --> 00:40.140
+and then see what we are going to do.
+
+00:40.140 --> 00:44.550
+So first thing is Kube CTL rollout history,
+
+00:44.550 --> 00:49.550
+right, Kube CTL rollout history and deployment.
+
+00:51.540 --> 00:55.503
+And my first deployment.
+
+00:58.440 --> 01:00.570
+So we should have the three releases.
+
+01:00.570 --> 01:03.540
+One is the default version, whatever we have deployed,
+
+01:03.540 --> 01:08.540
+and then we have upgraded it using set image which is 2.0.0.
+
+01:08.850 --> 01:13.380
+And later using edit deployment, we went into 3.0.0.
+
+01:13.380 --> 01:15.718
+So if we want to see specific version,
+
+01:15.718 --> 01:19.170
+what changes happen, we can even see that.
+
+01:19.170 --> 01:23.249
+So let's go here and in rollout history provide
+
+01:23.249 --> 01:24.873
+the revision numbers.
+
+01:25.830 --> 01:28.680
+So even you can say like this, okay,
+
+01:28.680 --> 01:33.210
+hyphen, hyphen, revision is equal to one.
+
+01:33.210 --> 01:36.570
+So it'll provide in revision one what happened.
+
+01:36.570 --> 01:39.330
+So we need to observe the image tag
+
+01:39.330 --> 01:41.310
+or annotations present there.
+
+01:41.310 --> 01:44.343
+So in this respect to revision one directly,
+
+01:45.203 --> 01:46.724
+it is a first deployment.
+
+01:46.724 --> 01:47.557
+So we will have only image.
+
+01:47.557 --> 01:51.600
+And in this image you can see 1.0.0, in the same way,
+
+01:51.600 --> 01:56.600
+for revision two, it is going to be image targets 2.0.0,
+
+01:56.850 --> 01:59.640
+and the annotation if you see what is the change cost,
+
+01:59.640 --> 02:01.980
+in this annotation you can see Kubernetes.ivo,
+
+02:01.980 --> 02:03.480
+and then change course.
+
+02:03.480 --> 02:06.990
+And using Kube CTL set image you have changed
+
+02:06.990 --> 02:09.060
+your tool 2.0.0.
+
+02:09.060 --> 02:11.460
+So like this you can see everything clearly.
+
+02:11.460 --> 02:14.250
+So now let's see revision three.
+
+02:14.250 --> 02:17.130
+So there also you'll see the annotation and the change cost.
+
+02:17.130 --> 02:19.620
+And using Kube CTL edit deployment,
+
+02:19.620 --> 02:23.660
+you have changed your image version from 2.0.0 to 3.0.0.
+
+02:25.800 --> 02:29.400
+So that's what is the verified changes in each version.
+
+02:29.400 --> 02:32.820
+Okay, so now roll back to previous version.
+
+02:32.820 --> 02:34.890
+So let's go ahead and then roll back.
+
+02:34.890 --> 02:38.430
+So to roll back, we just need to say Kube CTL rollout
+
+02:38.430 --> 02:41.640
+undo the deployment, whatever we have done.
+
+02:41.640 --> 02:46.640
+So Kube CTL rollout, undo deployment,
+
+02:46.920 --> 02:50.730
+and my deployment name is my first deployment.
+
+02:50.730 --> 02:54.270
+We can even copy paste or we can even do this way.
+
+02:54.270 --> 02:56.613
+So let's execute one more time.
+
+02:57.574 --> 03:01.440
+Okay, so the changes got deployed.
+
+03:01.440 --> 03:06.440
+So now, which means like from V3 it should go to V2 version.
+
+03:06.480 --> 03:11.250
+And so let's see the rollout history one more time, right?
+
+03:11.250 --> 03:14.430
+So rollout history and remove that revision.
+
+03:14.430 --> 03:16.140
+So that will see all the history.
+
+03:16.140 --> 03:20.760
+So it we should have a rollout history for now, right?
+
+03:20.760 --> 03:24.000
+So why, because now we have changed it
+
+03:24.000 --> 03:26.820
+from three to four, okay?
+
+03:26.820 --> 03:28.740
+And the image version from three to two,
+
+03:28.740 --> 03:32.010
+which means here earlier you have the revision version two,
+
+03:32.010 --> 03:34.740
+you have undo means like you went to that version.
+
+03:34.740 --> 03:35.573
+So that's the reason.
+
+03:35.573 --> 03:39.420
+Now you got the four with 2.0.0.
+
+03:39.420 --> 03:41.400
+So now let's come back here.
+
+03:41.400 --> 03:43.770
+So if you roll back, it will go back to revision two,
+
+03:43.770 --> 03:46.200
+and its number increases to revision four.
+
+03:46.200 --> 03:50.040
+So our revision two number got revision four now, right?
+
+03:50.040 --> 03:53.790
+So now if you want you can crosscheck your deployments
+
+03:53.790 --> 03:57.930
+and then replicas it, everything we can check now.
+
+03:57.930 --> 04:02.280
+So Kube CTL get RS, right?
+
+04:02.280 --> 04:05.014
+And it should be using the deployment,
+
+04:05.014 --> 04:08.850
+whatever is used earlier for V2 version, okay?
+
+04:08.850 --> 04:11.010
+Replicas it and get ports.
+
+04:11.010 --> 04:14.490
+All should be deleted and then recreated now.
+
+04:14.490 --> 04:16.770
+So within last 76 seconds only.
+
+04:16.770 --> 04:19.830
+So all these got recreated, in the same way,
+
+04:19.830 --> 04:22.260
+if you want we can access the application,
+
+04:22.260 --> 04:25.140
+and then we should see V2 version have our application
+
+04:25.140 --> 04:27.120
+because that is what we have rolled back now.
+
+04:27.120 --> 04:28.890
+So let's go back here.
+
+04:28.890 --> 04:31.860
+And currently it is V3 and then we roll back it
+
+04:31.860 --> 04:35.100
+to older version, which is V2, and it should see V2.
+
+04:35.100 --> 04:36.720
+So that's the story here.
+
+04:36.720 --> 04:40.380
+So now in our next step, we need to move on
+
+04:40.380 --> 04:45.270
+with the roll back to specific version.
+
+04:45.270 --> 04:47.280
+So let's do that now.
+
+04:47.280 --> 04:49.440
+So as usual, you can see your rollout history,
+
+04:49.440 --> 04:51.450
+and then we have seen just now that is nothing,
+
+04:51.450 --> 04:53.370
+but four is the current version, right?
+
+04:53.370 --> 04:56.190
+With the 2.0.0 as the image.
+
+04:56.190 --> 04:59.040
+So now I want to roll back to specific version.
+
+04:59.040 --> 05:02.070
+And my specific version is going to be version three,
+
+05:02.070 --> 05:05.910
+which is nothing, but where I have the 3.0.0
+
+05:05.910 --> 05:08.130
+application V3 version, I am having here
+
+05:08.130 --> 05:09.420
+in this revision three.
+
+05:09.420 --> 05:13.380
+So I'm going to say Kube CTL rollout,
+
+05:13.380 --> 05:16.260
+undo deployment, my first deployment,
+
+05:16.260 --> 05:19.110
+and then I'm going to give the revision number here
+
+05:19.110 --> 05:22.440
+which is nothing but two specific revision.
+
+05:22.440 --> 05:25.129
+And my revision number I'm saying is this one, three.
+
+05:25.129 --> 05:29.070
+So which has the image 3.0.0.
+
+05:29.070 --> 05:32.073
+So I'll save this, right?
+
+05:33.120 --> 05:35.400
+And once the changes are done, immediately,
+
+05:35.400 --> 05:38.580
+we are going to see it will roll back to that version.
+
+05:38.580 --> 05:41.550
+So I'm going to fast check the ports, okay?
+
+05:41.550 --> 05:44.550
+And then it is deleting and then recreating it.
+
+05:44.550 --> 05:46.660
+And we will go ahead and then get
+
+05:47.884 --> 05:49.800
+the rollout history, right?
+
+05:49.800 --> 05:51.690
+So we should, three should go away,
+
+05:51.690 --> 05:54.090
+and then we should get the same thing as five,
+
+05:54.090 --> 05:55.740
+and we got it, right?
+
+05:55.740 --> 05:56.622
+So that's the thing.
+
+05:56.622 --> 05:59.850
+So now we can access the application,
+
+05:59.850 --> 06:01.500
+and we should have the V3 version
+
+06:01.500 --> 06:03.360
+of the application because we roll back
+
+06:03.360 --> 06:05.520
+to that version, okay?
+
+06:05.520 --> 06:06.570
+You can see that.
+
+06:06.570 --> 06:10.053
+So that's about the 0403 roll back deployments.
+
+06:13.290 --> 06:16.320
+One last thing in this is like if you want to
+
+06:16.320 --> 06:19.140
+restart your applications in a rolling restart fashion,
+
+06:19.140 --> 06:21.570
+means like all the parts need to be restarted due
+
+06:21.570 --> 06:24.150
+to some memory issues or some whatever you have.
+
+06:24.150 --> 06:26.430
+And if you want to restart your application,
+
+06:26.430 --> 06:30.000
+so you can do a Kube CTL rolling restart.
+
+06:30.000 --> 06:33.510
+And in your deployment name, right, deployment space,
+
+06:33.510 --> 06:36.870
+deployment name or deployment slash my first deployment.
+
+06:36.870 --> 06:38.913
+And it will do the restart.
+
+06:39.750 --> 06:43.620
+So once the restart is done, you can say Kube CTL get ports,
+
+06:43.620 --> 06:46.173
+and the restart should be happening now, see?
+
+06:47.040 --> 06:51.750
+So now if you see here, all restarted,
+
+06:51.750 --> 06:54.180
+eight seconds is the age you can see it, right?
+
+06:54.180 --> 06:55.013
+13 seconds.
+
+06:55.013 --> 06:57.690
+So just know all these things got recreated immediately.
+
+06:57.690 --> 06:58.523
+Okay?
+
+06:58.523 --> 07:02.610
+So that's about the roll back deployment.
+
+07:02.610 --> 07:04.560
+So in our next lecture we'll focus
+
+07:04.560 --> 07:06.720
+on pause and resume deployments.
+
+07:06.720 --> 07:08.190
+So I'll see you in the next lecture.
+
+07:08.190 --> 07:09.390
+Until then, bye bye.
+
+07:09.390 --> 07:10.223
+Thank you.

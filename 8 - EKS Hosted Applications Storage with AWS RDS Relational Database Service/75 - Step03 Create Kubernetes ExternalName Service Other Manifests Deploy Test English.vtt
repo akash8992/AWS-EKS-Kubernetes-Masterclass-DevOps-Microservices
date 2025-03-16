@@ -1,0 +1,622 @@
+WEBVTT
+
+00:00.570 --> 00:01.440
+-: Welcome back.
+
+00:01.440 --> 00:06.180
+In previous lecture we have created our RDS database, right.
+
+00:06.180 --> 00:08.790
+So for our RDS database security group,
+
+00:08.790 --> 00:10.740
+if you see, it should have allow access
+
+00:10.740 --> 00:12.600
+which we already provided it,
+
+00:12.600 --> 00:16.140
+we can crosscheck once if you want to, okay,
+
+00:16.140 --> 00:19.990
+so we can go here and the security group is this one
+
+00:21.840 --> 00:25.020
+and you should have allow access from everywhere,
+
+00:25.020 --> 00:26.070
+so that's good.
+
+00:26.070 --> 00:27.930
+So we have crosschecked it, now we are going
+
+00:27.930 --> 00:31.170
+to create a Kubernetes external name service manifest
+
+00:31.170 --> 00:32.940
+and then deploy it.
+
+00:32.940 --> 00:35.730
+So as usual it'll have a pay version kind metadata
+
+00:35.730 --> 00:37.740
+and then spec and the type of the service
+
+00:37.740 --> 00:40.260
+we are going to create is external name
+
+00:40.260 --> 00:41.760
+and the external name value
+
+00:41.760 --> 00:44.550
+is going to be whatever the value we have got
+
+00:44.550 --> 00:47.550
+from RDS database endpoint information, okay,
+
+00:47.550 --> 00:52.550
+so if you go to RDS here and inside the database,
+
+00:54.450 --> 00:57.180
+so this is the information we are going to use,
+
+00:57.180 --> 00:58.980
+the endpoint information.
+
+00:58.980 --> 01:03.980
+So let me go back here and go to Visual Studio Code
+
+01:04.650 --> 01:09.480
+and it is service and API is V1
+
+01:09.480 --> 01:11.370
+and under metadata name
+
+01:11.370 --> 01:14.790
+and mySQL service name is mySQL
+
+01:14.790 --> 01:16.620
+and the spec...
+
+01:16.620 --> 01:21.120
+Inside spec, we'll have type and then external name.
+
+01:21.120 --> 01:25.260
+So first it is external name service
+
+01:25.260 --> 01:29.610
+and external name value, okay
+
+01:29.610 --> 01:33.840
+and external name value going to be whatever is present
+
+01:33.840 --> 01:36.510
+from our RDS database endpoint, okay,
+
+01:36.510 --> 01:39.437
+so which is nothing but this one, right.
+
+01:42.210 --> 01:45.360
+So this is what we have copied, so this is good.
+
+01:45.360 --> 01:47.067
+So now we have created
+
+01:47.067 --> 01:49.980
+the mySQL external name service manifest
+
+01:49.980 --> 01:52.233
+so let's go ahead and then create that now.
+
+01:54.780 --> 01:57.783
+So this is the one, deploy this, manifest.
+
+02:00.810 --> 02:05.220
+So let's go to 06 e-Care storage's RDS DB
+
+02:05.220 --> 02:06.840
+and then say, kubectl,
+
+02:06.840 --> 02:11.840
+apply -F kube manifests S01 mySQL external name service.
+
+02:16.140 --> 02:18.330
+Right, so once it is created,
+
+02:18.330 --> 02:22.470
+so we can say kubectl get SVC,
+
+02:22.470 --> 02:25.050
+the mySQL service code created now.
+
+02:25.050 --> 02:27.270
+So the next step is to connect to that service
+
+02:27.270 --> 02:31.080
+and then create the database user MGMT schema
+
+02:31.080 --> 02:32.520
+inside that, Okay.
+
+02:32.520 --> 02:36.210
+So kubectl runs, so this is the kubectl client,
+
+02:36.210 --> 02:38.670
+whatever we are creating mySQL client
+
+02:38.670 --> 02:41.790
+and just provide the host name of our thing, okay,
+
+02:41.790 --> 02:44.310
+so paste and -hatch
+
+02:44.310 --> 02:46.380
+and the whatever the host name we want to provide,
+
+02:46.380 --> 02:47.730
+we need to provide.
+
+02:47.730 --> 02:49.470
+So that we will take it from here
+
+02:49.470 --> 02:51.753
+and then provide it, right.
+
+02:53.430 --> 02:56.550
+Paste and then still we have additional command here
+
+02:56.550 --> 02:58.770
+which is nothing but password,
+
+02:58.770 --> 03:01.020
+username and then password, okay.
+
+03:01.020 --> 03:04.233
+So copy and then paste it.
+
+03:05.310 --> 03:07.683
+So let's see what happens.
+
+03:14.070 --> 03:15.690
+So it got connected,
+
+03:15.690 --> 03:18.540
+so which means it connected to our mySQL database,
+
+03:18.540 --> 03:20.040
+which is in the private subnets
+
+03:20.040 --> 03:24.093
+from our Qubernetes QCTL command line.
+
+03:25.710 --> 03:29.190
+So now we'll go ahead and then create the stuff,
+
+03:29.190 --> 03:30.510
+whatever is required.
+
+03:30.510 --> 03:33.840
+So we'll see initial schemas, whatever is provided,
+
+03:33.840 --> 03:36.510
+which is default schema should be available.
+
+03:36.510 --> 03:40.080
+Information schema, INO DB mySQL performance schema.
+
+03:40.080 --> 03:44.043
+So create a database user MGMT, okay.
+
+03:45.960 --> 03:47.940
+Right, so it got created.
+
+03:47.940 --> 03:49.930
+So now you can see, show schemas
+
+03:51.510 --> 03:54.600
+and you have the user MGMT got created.
+
+03:54.600 --> 03:57.783
+So now we can exit from here, Okay.
+
+04:02.100 --> 04:04.740
+Okay, so now we have exited.
+
+04:04.740 --> 04:05.940
+So now let's go back
+
+04:05.940 --> 04:08.700
+and then update the deployment file,
+
+04:08.700 --> 04:11.850
+username from route to DB admin.
+
+04:11.850 --> 04:12.780
+So if you see here,
+
+04:12.780 --> 04:15.360
+this is the user management microservice deployment,
+
+04:15.360 --> 04:19.440
+whatever we have brought it from our previous sections
+
+04:19.440 --> 04:23.730
+and here, you can see DB username.
+
+04:23.730 --> 04:25.260
+So earlier it is route,
+
+04:25.260 --> 04:27.000
+now we need to change it to DB admin.
+
+04:27.000 --> 04:30.120
+I already changed it for my previous testing.
+
+04:30.120 --> 04:32.430
+So in DB password, Kubernetes secret,
+
+04:32.430 --> 04:34.140
+we really didn't change anything here,
+
+04:34.140 --> 04:37.080
+it is going to be DB password 111,
+
+04:37.080 --> 04:39.870
+which we have given for our mySQL pod
+
+04:39.870 --> 04:41.190
+and then here also if you want,
+
+04:41.190 --> 04:43.320
+if you have any doubt about it,
+
+04:43.320 --> 04:47.627
+so the 64 decode and then let's see what it is, okay.
+
+04:51.270 --> 04:52.983
+it should be DB password 11,
+
+04:55.110 --> 04:58.413
+right, it is DB password 11, so we should be good.
+
+04:59.310 --> 05:01.020
+So now let's go back,
+
+05:01.020 --> 05:03.300
+so this is the one which we need to update.
+
+05:03.300 --> 05:06.150
+If it is your previous manifest, whatever you have copied
+
+05:06.150 --> 05:08.610
+and if you are using directly from here,
+
+05:08.610 --> 05:11.070
+from my course and in respect to this folder,
+
+05:11.070 --> 05:13.260
+then we really don't need to worry.
+
+05:13.260 --> 05:16.350
+So now we have completed the update step also.
+
+05:16.350 --> 05:20.493
+So let's move on and then deploy all the manifest, okay.
+
+05:24.270 --> 05:26.640
+So if you see here, 01 already created
+
+05:26.640 --> 05:29.190
+which is unchangeable, which is mySQL service.
+
+05:29.190 --> 05:31.110
+So remaining things got created
+
+05:31.110 --> 05:33.310
+which is rest top service, microservice
+
+05:33.310 --> 05:36.543
+and then mySQL DB password, okay.
+
+05:36.543 --> 05:41.300
+So I'll say, kubectl get pods and it is coming up,
+
+05:42.150 --> 05:43.410
+it might take a while.
+
+05:43.410 --> 05:45.780
+So let's wait for it and if you want,
+
+05:45.780 --> 05:48.153
+we can even see the locks of this, okay.
+
+05:50.610 --> 05:54.030
+So tell the locks of this user management pod
+
+05:54.030 --> 05:56.730
+and inside that container is only one container, right,
+
+05:56.730 --> 05:59.100
+so it started the application, okay,
+
+05:59.100 --> 06:01.020
+so which means it connected to the database
+
+06:01.020 --> 06:02.670
+and then it started the application.
+
+06:02.670 --> 06:07.500
+If you want to do additional check also, we can do now, why?
+
+06:08.640 --> 06:11.610
+Because we just created the schema.
+
+06:11.610 --> 06:12.960
+If you want, we can go there
+
+06:12.960 --> 06:15.930
+and then check whether it has created
+
+06:15.930 --> 06:18.480
+the tables inside that, okay.
+
+06:18.480 --> 06:23.480
+So use user MGMT will connect to that respect to database
+
+06:26.850 --> 06:30.960
+and then I will say, show tables, right?
+
+06:30.960 --> 06:34.140
+So user's table is created, which means it is successful,
+
+06:34.140 --> 06:35.450
+my application got...
+
+06:36.480 --> 06:40.050
+My user management application started successfully.
+
+06:40.050 --> 06:45.050
+I'll say exit and I'll say, kubectl get pods,
+
+06:46.530 --> 06:49.890
+to see that one by one it is ready or not, so it is ready.
+
+06:49.890 --> 06:54.890
+So I'll say, kubectl get nodes -O wide,
+
+06:55.140 --> 06:57.600
+okay, so to get the public IP.
+
+06:57.600 --> 06:59.250
+So once we get the public IP,
+
+06:59.250 --> 07:02.490
+we know that our node port is going to be 31231 only.
+
+07:02.490 --> 07:05.130
+If you see here, 31231.
+
+07:05.130 --> 07:08.430
+So I'll take the public IP, copy,
+
+07:08.430 --> 07:12.720
+I'll go to the browser, new browser, STTP column,
+
+07:12.720 --> 07:15.180
+public IP of my worker node
+
+07:15.180 --> 07:20.180
+and 31231/user MGMT is the context
+
+07:21.900 --> 07:25.590
+and health/status, okay,
+
+07:25.590 --> 07:27.210
+so it should be available now.
+
+07:27.210 --> 07:30.720
+We can see, it is up and running, right
+
+07:30.720 --> 07:33.660
+and it's the same thing.
+
+07:33.660 --> 07:36.030
+So now we can go ahead and then delete the stuff
+
+07:36.030 --> 07:38.070
+and then clean up whatever we have created
+
+07:38.070 --> 07:40.380
+as part of this RDS section.
+
+07:40.380 --> 07:42.780
+So we are not stopping the...
+
+07:42.780 --> 07:46.320
+We are not deleting this RDL database now, why?
+
+07:46.320 --> 07:50.130
+Because we are going to work on classic load balancers,
+
+07:50.130 --> 07:51.360
+network load balancers
+
+07:51.360 --> 07:53.790
+and then elastic application load balancers
+
+07:53.790 --> 07:56.100
+and then application load balancer
+
+07:56.100 --> 07:57.750
+related different, different features
+
+07:57.750 --> 07:59.130
+like context based routing,
+
+07:59.130 --> 08:02.670
+SSL redirect, port 80 to 443 redirect
+
+08:02.670 --> 08:04.950
+and then external DNS with route 53,
+
+08:04.950 --> 08:08.190
+all those Kubernetes manifest, we are going to write,
+
+08:08.190 --> 08:11.460
+if that is the case so we should not delete this,
+
+08:11.460 --> 08:12.630
+we are going to leverage this
+
+08:12.630 --> 08:15.120
+which means like how many cloud services
+
+08:15.120 --> 08:17.100
+we are going to use, that many,
+
+08:17.100 --> 08:20.400
+we are going to use as part of this Kubernetes thing.
+
+08:20.400 --> 08:21.840
+So one thing important here is
+
+08:21.840 --> 08:23.070
+if it is not in use
+
+08:23.070 --> 08:25.290
+or after this section you are going to break
+
+08:25.290 --> 08:27.750
+and then you are going to see remaining
+
+08:27.750 --> 08:29.820
+like just from tomorrow
+
+08:29.820 --> 08:32.100
+then just go ahead and then stop it
+
+08:32.100 --> 08:35.490
+and whenever you're creating this database also,
+
+08:35.490 --> 08:39.540
+please ensure that whenever you selected mySQL here
+
+08:39.540 --> 08:41.610
+and then you selected free tier here, okay.
+
+08:41.610 --> 08:44.100
+So if you really don't want any backups,
+
+08:44.100 --> 08:46.560
+so you can uncheck this option, okay.
+
+08:46.560 --> 08:48.930
+Whenever you are creating the database, okay.
+
+08:48.930 --> 08:50.640
+So already you have created
+
+08:50.640 --> 08:51.930
+and now I am telling you about it,
+
+08:51.930 --> 08:53.430
+you can delete and then recreate it
+
+08:53.430 --> 08:56.490
+so that your backup costs are saved for you, okay.
+
+08:56.490 --> 08:58.530
+So it means like it is only a minor storage amount
+
+08:58.530 --> 08:59.700
+but really don't worry
+
+08:59.700 --> 09:02.130
+or you can even go and then edit your database
+
+09:02.130 --> 09:04.230
+and then remove the backups also.
+
+09:04.230 --> 09:06.240
+So whatever the option is available for you,
+
+09:06.240 --> 09:09.120
+so you can say modify here
+
+09:09.120 --> 09:13.080
+and just to save right table, the automated.
+
+09:13.080 --> 09:18.080
+So backup retention of 0 will disable the automated backups
+
+09:18.240 --> 09:20.640
+and delete existing automated snapshots
+
+09:20.640 --> 09:22.350
+of this DB instance, okay.
+
+09:22.350 --> 09:24.510
+So you can enable this
+
+09:24.510 --> 09:26.070
+so that what happens is like
+
+09:26.070 --> 09:30.120
+if you really don't want any of the backups
+
+09:30.120 --> 09:31.410
+consuming your space
+
+09:31.410 --> 09:33.540
+and then if this course takes longer days
+
+09:33.540 --> 09:37.140
+for you to complete and RDS database should be available
+
+09:37.140 --> 09:40.530
+for you to learn your other load balancer stuff also,
+
+09:40.530 --> 09:41.363
+we are going to.
+
+09:41.363 --> 09:44.243
+From here on, take RDS as our one of the backend database
+
+09:44.243 --> 09:48.000
+for our user management microservice application.
+
+09:48.000 --> 09:49.740
+So you can say, continue
+
+09:49.740 --> 09:54.740
+and then apply immediately and then modify that DB instance.
+
+09:56.580 --> 09:59.673
+So now let's go back here and then delete this stuff,
+
+10:03.214 --> 10:06.270
+qctl delete -F, and then kube manifests.
+
+10:06.270 --> 10:08.160
+So whatever we have created,
+
+10:08.160 --> 10:10.443
+we have deleted and then cleared that.
+
+10:11.670 --> 10:16.290
+So with that we have completed the RDS database section.
+
+10:16.290 --> 10:17.760
+So in our next lecture,
+
+10:17.760 --> 10:19.590
+we'll focus on classic
+
+10:19.590 --> 10:23.220
+and then network load balancers in 07.
+
+10:23.220 --> 10:25.350
+So I'll see you in the next lecture.
+
+10:25.350 --> 10:27.003
+Until then, bye bye, Thank you.

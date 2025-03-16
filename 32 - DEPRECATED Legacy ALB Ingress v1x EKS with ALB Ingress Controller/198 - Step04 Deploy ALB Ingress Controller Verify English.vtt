@@ -1,0 +1,226 @@
+WEBVTT
+
+00:00.000 --> 00:00.833
+-: Welcome back.
+
+00:00.833 --> 00:02.100
+As part of this step
+
+00:02.100 --> 00:05.460
+we are going to deploy the ALB Ingress Controller
+
+00:05.460 --> 00:07.950
+and then edit the ingress controller
+
+00:07.950 --> 00:10.860
+to update the cluster name inside that,
+
+00:10.860 --> 00:12.420
+and then verify it.
+
+00:12.420 --> 00:15.450
+So let's go ahead and then implement these three steps.
+
+00:15.450 --> 00:18.780
+So as usual, instead of using what is 1.1.4,
+
+00:18.780 --> 00:21.810
+whatever is provided in AWS documentation
+
+00:21.810 --> 00:23.613
+we are going to use master branch,
+
+00:24.498 --> 00:27.420
+always we are going to use latest test ingress controller.
+
+00:27.420 --> 00:31.590
+So let me copy this and then paste it here
+
+00:31.590 --> 00:34.740
+to create the L being this controller,
+
+00:34.740 --> 00:37.890
+right on our cube system namespace.
+
+00:37.890 --> 00:39.450
+So now it is created
+
+00:39.450 --> 00:43.650
+we can even see Kube CTL get deploy hyphen Kube system.
+
+00:43.650 --> 00:46.080
+So the new deployment will be created related
+
+00:46.080 --> 00:48.030
+to LB ingress controller,
+
+00:48.030 --> 00:53.030
+and even you can say Kube CTL get ports hyphen Kube system.
+
+00:53.310 --> 00:55.830
+So to see that how the port is coming up,
+
+00:55.830 --> 00:57.000
+see it has the error
+
+00:57.000 --> 00:59.730
+because it doesn't know the cluster where it need to create.
+
+00:59.730 --> 01:01.620
+Okay, so we'll clear this
+
+01:01.620 --> 01:04.620
+and we'll go back and then we'll say Kube CTL,
+
+01:04.620 --> 01:07.143
+edit that respective deployment in Kube,
+
+01:07.143 --> 01:09.180
+Kube system name space,
+
+01:09.180 --> 01:12.000
+and then update the cluster name here.
+
+01:12.000 --> 01:17.000
+Okay, so let me paste it and then edit the deployment.
+
+01:17.580 --> 01:20.550
+So I'll go to end with shift G, escape shift G,
+
+01:20.550 --> 01:24.420
+and I'll go a little up here, right?
+
+01:24.420 --> 01:27.810
+So I found the ingress class ALB,
+
+01:27.810 --> 01:32.640
+insert and enter, right?
+
+01:32.640 --> 01:35.700
+And now I'll provide this information which is nothing
+
+01:35.700 --> 01:40.700
+but cluster them is equal EKs demo one, right?
+
+01:41.190 --> 01:44.310
+And then I will save it.
+
+01:44.310 --> 01:46.590
+So now this will update the deployment.
+
+01:46.590 --> 01:51.480
+If I say Kube CTL get ports, hyphen Kube system
+
+01:51.480 --> 01:56.220
+should provide us a new ALB ingress controller
+
+01:56.220 --> 01:57.840
+which is running and then old one
+
+01:57.840 --> 02:00.510
+is getting terminating, right?
+
+02:00.510 --> 02:04.110
+So let's wait for it to terminate and this to be ready.
+
+02:04.110 --> 02:05.730
+Good, okay so now this
+
+02:05.730 --> 02:08.130
+is only one ALB ingress controller running now
+
+02:08.130 --> 02:09.720
+and it is up and running.
+
+02:09.720 --> 02:12.510
+So let's go ahead and then verify it, right?
+
+02:12.510 --> 02:15.200
+So verify our ALB ingress controller
+
+02:15.200 --> 02:16.920
+is running or not, right?
+
+02:16.920 --> 02:19.080
+So we need to verify the logs,
+
+02:19.080 --> 02:20.760
+already we verify the port,
+
+02:20.760 --> 02:23.400
+so now we are going to verify the logs.
+
+02:23.400 --> 02:26.910
+So this will only get the logs from ALB ingress controller
+
+02:26.910 --> 02:28.620
+and whatever maybe the port name
+
+02:28.620 --> 02:30.240
+after ALB ingress controller,
+
+02:30.240 --> 02:33.180
+it is going to take it here and then provide us.
+
+02:33.180 --> 02:36.063
+So let me paste it, right?
+
+02:37.590 --> 02:38.790
+So on a very high level,
+
+02:38.790 --> 02:41.130
+we don't see any issues in the log here.
+
+02:41.130 --> 02:42.420
+So starting the controller,
+
+02:42.420 --> 02:44.790
+starting the workers, we don't see anything.
+
+02:44.790 --> 02:49.110
+But the real test we perform is in our next lecture
+
+02:49.110 --> 02:52.320
+which is 0802 ALB ingress basic
+
+02:52.320 --> 02:54.330
+whenever we implement it, right?
+
+02:54.330 --> 02:58.050
+So at that time we will know the real issue,
+
+02:58.050 --> 03:00.210
+whatever we are going to face.
+
+03:00.210 --> 03:02.370
+As of now it is going to be straight through
+
+03:02.370 --> 03:04.080
+it is up and running, okay?
+
+03:04.080 --> 03:07.740
+But if whenever we deploy our ingress basic manifests
+
+03:07.740 --> 03:12.420
+right, so if it is not able to communicate with AWS APIs
+
+03:12.420 --> 03:15.390
+like ELB API or whatever the application load balance
+
+03:15.390 --> 03:18.390
+or APIs then it is going to throw the errors.
+
+03:18.390 --> 03:20.670
+For now everything is good.
+
+03:20.670 --> 03:23.520
+So let's move on with our next lecture now.
+
+03:23.520 --> 03:25.260
+So I'll see you in the next lecture.
+
+03:25.260 --> 03:26.430
+Until then, bye bye.
+
+03:26.430 --> 03:27.263
+Thank you.

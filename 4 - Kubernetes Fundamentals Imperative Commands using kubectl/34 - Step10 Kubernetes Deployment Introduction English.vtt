@@ -1,0 +1,259 @@
+WEBVTT
+
+00:00.090 --> 00:00.923
+-: Welcome back.
+
+00:00.923 --> 00:02.730
+In this lecture we are going to understand
+
+00:02.730 --> 00:06.660
+about one more Kubernetes core concept, called Deployments.
+
+00:06.660 --> 00:09.510
+So we have already seen a Kubernetes cluster
+
+00:09.510 --> 00:11.730
+with two worker nodes and two pods
+
+00:11.730 --> 00:15.210
+in each worker node, from a replicaset.
+
+00:15.210 --> 00:19.888
+So now deployment is going to be superset of replicaset.
+
+00:19.888 --> 00:23.130
+Which means replicaset can provide a few features.
+
+00:23.130 --> 00:25.650
+And when we call deployment as a superset,
+
+00:25.650 --> 00:28.620
+it can provide many, many features for us, okay.
+
+00:28.620 --> 00:31.440
+So in addition to what replicaset provides.
+
+00:31.440 --> 00:34.740
+So that's about the deployment advantage we have.
+
+00:34.740 --> 00:37.800
+and there is no difference in accessing the applications
+
+00:37.800 --> 00:40.530
+hosted via replicaset or deployment.
+
+00:40.530 --> 00:42.330
+So all, it is going to be using
+
+00:42.330 --> 00:45.480
+the service concept in Kubernetes.
+
+00:45.480 --> 00:47.550
+So now let's go ahead and then see
+
+00:47.550 --> 00:50.880
+what are the deployment features available for us,
+
+00:50.880 --> 00:52.230
+or what it provides for us
+
+00:52.230 --> 00:55.560
+or for our applications hosted on Kubernetes.
+
+00:55.560 --> 00:58.473
+So we can create a deployment to roll out a replicaset.
+
+00:59.460 --> 01:02.203
+By default, whenever we create a deployment,
+
+01:02.203 --> 01:04.770
+a replicaset it is rolled out.
+
+01:04.770 --> 01:08.250
+And updating the deployment.
+
+01:08.250 --> 01:11.130
+So whenever we want to change our application version,
+
+01:11.130 --> 01:12.960
+update our application version,
+
+01:12.960 --> 01:15.930
+we can do the update of the deployment.
+
+01:15.930 --> 01:18.840
+When we do this, automatically our version,
+
+01:18.840 --> 01:22.260
+whatever we are going to update, it is going to be recorded.
+
+01:22.260 --> 01:24.930
+So now using that, we can easily roll back
+
+01:24.930 --> 01:29.280
+to our respective older deployment, whatever we want,
+
+01:29.280 --> 01:31.200
+because it is maintaining the versions.
+
+01:31.200 --> 01:34.290
+Or if you have updated from V1 to V2, V2 to V3,
+
+01:34.290 --> 01:35.910
+and then V3 to V4.
+
+01:35.910 --> 01:39.120
+And now again, if you want to go back to V2, yes,
+
+01:39.120 --> 01:40.380
+you will be able to go
+
+01:40.380 --> 01:44.430
+because it maintains the versions, and then version history.
+
+01:44.430 --> 01:48.300
+So now we will be also able to scale our deployments.
+
+01:48.300 --> 01:50.820
+So how we have done the scaling in replicasets,
+
+01:50.820 --> 01:54.120
+in the same way in deployment also, we'll have a tag
+
+01:54.120 --> 01:56.970
+of replicas where we can add the number of replicas.
+
+01:56.970 --> 01:59.760
+We can add it, or we can use kubectl scale
+
+01:59.760 --> 02:02.460
+to scale our deployment.
+
+02:02.460 --> 02:06.150
+And we can even pause and resume a deployment.
+
+02:06.150 --> 02:09.240
+So in deployment, the core thing here is, like whenever
+
+02:09.240 --> 02:11.010
+you apply a change to your deployment,
+
+02:11.010 --> 02:13.740
+immediately it will be applied to your pods.
+
+02:13.740 --> 02:15.060
+So that is the thing.
+
+02:15.060 --> 02:17.850
+So if you want to make multiple changes, then you really
+
+02:17.850 --> 02:20.310
+don't want the pods to be recreated,
+
+02:20.310 --> 02:23.970
+or terminated and recreated every second for every change.
+
+02:23.970 --> 02:27.030
+So you have 10 changes to make to your deployment.
+
+02:27.030 --> 02:30.420
+Then pause the deployment and make all the changes,
+
+02:30.420 --> 02:33.150
+and then resume the deployment so that all those changes
+
+02:33.150 --> 02:36.450
+will be applied to your deployment at a time.
+
+02:36.450 --> 02:38.250
+So like this, there are multiple things
+
+02:38.250 --> 02:41.460
+we can take an advantage using the deployment.
+
+02:41.460 --> 02:43.680
+So whenever you are doing the deployment, you can even
+
+02:43.680 --> 02:46.230
+get the rollout status or deployment status.
+
+02:46.230 --> 02:50.010
+And there will be something called cleanup policy.
+
+02:50.010 --> 02:51.900
+Cleanup policy is nothing but...
+
+02:51.900 --> 02:55.110
+So whenever we do the updating of our deployments,
+
+02:55.110 --> 02:58.230
+it maintains the rollout version history.
+
+02:58.230 --> 03:00.070
+And by default, it maintains
+
+03:01.080 --> 03:03.810
+last 10 versions of our application.
+
+03:03.810 --> 03:06.990
+So we can go to that respective version using that.
+
+03:06.990 --> 03:10.380
+Or we will be able to add more number of versions
+
+03:10.380 --> 03:15.060
+by adding additional tag in our YAML manifest
+
+03:15.060 --> 03:17.220
+under the spec of the deployment.
+
+03:17.220 --> 03:20.490
+We'll see that in the later cases if you want to.
+
+03:20.490 --> 03:22.920
+And next thing is canary deployments.
+
+03:22.920 --> 03:25.110
+So if we want to add a new version
+
+03:25.110 --> 03:28.620
+of our application in the live production traffic,
+
+03:28.620 --> 03:30.750
+and the traffic should distribute
+
+03:30.750 --> 03:32.910
+with old version and the new version,
+
+03:32.910 --> 03:36.540
+still we'll be able to do it using canary deployments.
+
+03:36.540 --> 03:40.560
+So all these things are available for us with deployment.
+
+03:40.560 --> 03:43.890
+So let's go ahead and then create a simple deployment object
+
+03:43.890 --> 03:46.140
+and then expose it as a service,
+
+03:46.140 --> 03:49.830
+and then access it via a browser, and then test it once.
+
+03:49.830 --> 03:52.816
+After that, again, we'll move on to updating the deployment,
+
+03:52.816 --> 03:55.890
+rollbacking the deployment, or pausing and resuming.
+
+03:55.890 --> 03:59.820
+All those things we are going to see step-by-step now.
+
+03:59.820 --> 04:01.380
+So I'll see you in the next lecture.
+
+04:01.380 --> 04:02.610
+Until then, bye-bye.
+
+04:02.610 --> 04:03.443
+Thank you.

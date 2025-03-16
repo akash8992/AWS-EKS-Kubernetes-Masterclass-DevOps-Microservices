@@ -1,0 +1,382 @@
+WEBVTT
+
+00:00.150 --> 00:00.983
+-: Welcome back.
+
+00:00.983 --> 00:01.830
+In this lecture,
+
+00:01.830 --> 00:04.770
+we are going to interact with our pod
+
+00:04.770 --> 00:06.930
+so we can get the pod logs
+
+00:06.930 --> 00:10.410
+and then view the pod logs or stream our pod logs
+
+00:10.410 --> 00:13.560
+and even we can connect to our container inside the pod.
+
+00:13.560 --> 00:16.080
+All those things we are going to do now.
+
+00:16.080 --> 00:18.450
+So let's start with the pods now.
+
+00:18.450 --> 00:22.770
+So we can dump our pod logs using Cube CTL logs
+
+00:22.770 --> 00:24.660
+and our pod name.
+
+00:24.660 --> 00:29.640
+So, and even we can stream the pod logs using -F.
+
+00:29.640 --> 00:32.340
+So let's see both of these things now.
+
+00:32.340 --> 00:35.580
+So we already have our My First Pod here
+
+00:35.580 --> 00:38.160
+so let me paste it.
+
+00:38.160 --> 00:41.490
+And Cube CTL logs My First Pod.
+
+00:41.490 --> 00:45.120
+And it dumped all the pod logs here, which is nothing but
+
+00:45.120 --> 00:47.340
+we are going to access the root context
+
+00:47.340 --> 00:49.380
+in our EngineX application
+
+00:49.380 --> 00:51.750
+and then it is serving the content.
+
+00:51.750 --> 00:55.753
+So now let me do Cube CTL logs -F.
+
+00:57.240 --> 00:59.643
+So to stream the logs, right?
+
+01:00.510 --> 01:02.043
+My First Pod.
+
+01:03.210 --> 01:08.160
+So now we have the logs here so I'm just entering
+
+01:08.160 --> 01:10.020
+and then I'll try to access something
+
+01:10.020 --> 01:12.030
+and then our logs should come here.
+
+01:12.030 --> 01:17.030
+So let me go here and then say enter, and we got it, right?
+
+01:18.060 --> 01:19.590
+So this is one more.
+
+01:19.590 --> 01:24.590
+And I will say /index.html and then access it, right?
+
+01:27.510 --> 01:29.550
+So we got it, we can see it, right?
+
+01:29.550 --> 01:31.500
+So /index.html.
+
+01:31.500 --> 01:35.130
+So we can even stream our logs using -F command.
+
+01:35.130 --> 01:39.720
+So let me type Control C and go back here.
+
+01:39.720 --> 01:42.000
+And that's about the pod logs.
+
+01:42.000 --> 01:44.550
+In addition to that, you can refer this link
+
+01:44.550 --> 01:47.940
+for Cube CTL cheat sheet where you'll have lots of
+
+01:47.940 --> 01:50.370
+lots of commands for your understanding.
+
+01:50.370 --> 01:55.050
+Mainly Cube CTL logs and then logs related options, right?
+
+01:55.050 --> 01:59.190
+So if you see here, Cube CTL logs, right?
+
+01:59.190 --> 02:01.620
+So there will be multiple options available here
+
+02:01.620 --> 02:03.420
+to interact with our pods.
+
+02:03.420 --> 02:06.420
+So with the -L or -F or with -C,
+
+02:06.420 --> 02:08.280
+which means if we have multiple containers
+
+02:08.280 --> 02:11.310
+and then specific container logs if you want then,
+
+02:11.310 --> 02:12.990
+we can even provide the -C
+
+02:12.990 --> 02:15.450
+and the container name to get that respective
+
+02:15.450 --> 02:16.500
+container logs.
+
+02:16.500 --> 02:18.300
+So all these things we can see
+
+02:18.300 --> 02:20.730
+and then all these are important commands for us
+
+02:20.730 --> 02:24.720
+when we are troubleshooting our issues on the application.
+
+02:24.720 --> 02:26.100
+Whenever we deploy applications
+
+02:26.100 --> 02:27.930
+and there are issues to troubleshoot,
+
+02:27.930 --> 02:30.540
+all these will be very helpful for us.
+
+02:30.540 --> 02:34.020
+So now the next thing is to go and then connect to our pod.
+
+02:34.020 --> 02:38.610
+So let's do that using Cube CTL exit command, okay?
+
+02:38.610 --> 02:41.910
+So using this command, Cube CTL exit -IT
+
+02:41.910 --> 02:44.310
+and then pod name and then --.
+
+02:44.310 --> 02:47.910
+Ours is a Bash, so we will go and then access it,
+
+02:47.910 --> 02:51.090
+which means my container is using Bash.
+
+02:51.090 --> 02:52.740
+So let's access it.
+
+02:52.740 --> 02:55.770
+And now I will be in my container.
+
+02:55.770 --> 02:57.630
+So it is in my My First Pod.
+
+02:57.630 --> 02:58.680
+So you can see here,
+
+02:58.680 --> 03:01.530
+I am in my My First Pod in my container.
+
+03:01.530 --> 03:05.250
+So I can say LS and then I can type the commands.
+
+03:05.250 --> 03:10.250
+I can go to USR share EngineX HTML and then I can say
+
+03:11.100 --> 03:13.320
+I'll have my index.html here,
+
+03:13.320 --> 03:15.690
+I can say CAT index.html.
+
+03:15.690 --> 03:16.980
+You can see the same content
+
+03:16.980 --> 03:20.100
+whatever you have seen on the browser right here.
+
+03:20.100 --> 03:22.470
+Welcome to Stack Simplify Fundamentals and More
+
+03:22.470 --> 03:25.590
+and then application V1, the same thing you are seeing.
+
+03:25.590 --> 03:28.770
+So you from, again, if you want to exit your container,
+
+03:28.770 --> 03:32.490
+say exit, and then you are back to my MacBook Pro
+
+03:32.490 --> 03:34.530
+which is your Cube CTL area.
+
+03:34.530 --> 03:37.770
+So now that's about connecting to the containers.
+
+03:37.770 --> 03:40.110
+And you can even instead of connecting
+
+03:40.110 --> 03:42.120
+and then going inside and running it,
+
+03:42.120 --> 03:44.670
+so you can directly run outside itself,
+
+03:44.670 --> 03:46.530
+which means from your Cube CTL itself,
+
+03:46.530 --> 03:48.420
+you can add the command and then run it.
+
+03:48.420 --> 03:52.170
+So Cube CTL exec -IT and your pod name
+
+03:52.170 --> 03:54.600
+and the command you want to run inside your
+
+03:54.600 --> 03:57.870
+respective container is ENV or LS or CAT,
+
+03:57.870 --> 04:00.600
+all these things directly you can run here.
+
+04:00.600 --> 04:02.310
+So let's run it and then see.
+
+04:02.310 --> 04:05.520
+It will paste the environmental variable of our
+
+04:05.520 --> 04:07.260
+respective container.
+
+04:07.260 --> 04:08.820
+So you can see Kubernetes service pod
+
+04:08.820 --> 04:10.320
+and then Kubernetes pod,
+
+04:10.320 --> 04:13.230
+all these information from our container we are getting.
+
+04:13.230 --> 04:14.063
+In the same way,
+
+04:14.063 --> 04:16.350
+you can do LS or you can do CAT.
+
+04:16.350 --> 04:19.230
+Again, we'll do index.html CAT for us.
+
+04:19.230 --> 04:21.753
+So let's do that now.
+
+04:24.600 --> 04:29.190
+So we got the output Kubernetes fundamentals demo.
+
+04:29.190 --> 04:32.400
+And the next step is to get the YAML output of a pod
+
+04:32.400 --> 04:33.720
+and a service.
+
+04:33.720 --> 04:36.480
+So just to see our YAML definition,
+
+04:36.480 --> 04:39.690
+so we can even use Cube CTL get pod and the pod name
+
+04:39.690 --> 04:42.123
+and then -O YAML instead of -O Wide,
+
+04:42.123 --> 04:45.150
+what what we are doing, now you can say YAML
+
+04:45.150 --> 04:49.357
+so that we'll get the YAML definition of our respective pod.
+
+04:50.850 --> 04:54.240
+So all this it provides in the YAML format.
+
+04:54.240 --> 04:57.440
+In the same way, you can do the same for your service.
+
+04:57.440 --> 05:01.680
+So you can copy and then past it here.
+
+05:01.680 --> 05:02.513
+Okay.
+
+05:03.360 --> 05:04.380
+So that's all.
+
+05:04.380 --> 05:09.000
+So now, this completes the interacting with pod
+
+05:09.000 --> 05:11.040
+and then getting the information about our pod
+
+05:11.040 --> 05:11.873
+and all those things.
+
+05:11.873 --> 05:14.850
+So now you can see here in our YAML definition for service,
+
+05:14.850 --> 05:18.510
+one important thing is see the node pod is 31084
+
+05:18.510 --> 05:22.440
+and the pod is 80 and the target pod is 80.
+
+05:22.440 --> 05:25.260
+So now you can even try for service three,
+
+05:25.260 --> 05:27.810
+whatever we have created, right?
+
+05:27.810 --> 05:31.350
+So node pod is 31961 and pod is 81,
+
+05:31.350 --> 05:33.810
+which is nothing but your service pod is 81
+
+05:33.810 --> 05:37.410
+and your target pod which is your container pod is 80.
+
+05:37.410 --> 05:39.180
+So that's about the information
+
+05:39.180 --> 05:41.430
+about the pods and your service.
+
+05:41.430 --> 05:45.480
+You can see in the YAML definition, whatever it has created.
+
+05:45.480 --> 05:47.610
+So now in our next lecture,
+
+05:47.610 --> 05:49.200
+we'll move on with the cleaning up
+
+05:49.200 --> 05:50.610
+whatever we have created.
+
+05:50.610 --> 05:52.350
+So I'll see you in the next lecture.
+
+05:52.350 --> 05:53.550
+Until then, bye bye.
+
+05:53.550 --> 05:54.383
+Thank you.

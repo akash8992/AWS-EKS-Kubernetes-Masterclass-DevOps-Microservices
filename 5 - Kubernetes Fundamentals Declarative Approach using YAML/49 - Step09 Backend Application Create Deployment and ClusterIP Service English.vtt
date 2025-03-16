@@ -1,0 +1,640 @@
+WEBVTT
+
+00:00.150 --> 00:00.983
+-: Welcome back.
+
+00:00.983 --> 00:03.993
+In this lecture, we are going to work on services with YAML.
+
+00:05.100 --> 00:06.630
+So if you remember,
+
+00:06.630 --> 00:08.580
+when we have done with imperative commands,
+
+00:08.580 --> 00:09.780
+which is with Cube CTL,
+
+00:09.780 --> 00:12.960
+we have created a backend deployment, front end deployment,
+
+00:12.960 --> 00:14.730
+and backend cluster IP service
+
+00:14.730 --> 00:17.130
+and then front end node port service,
+
+00:17.130 --> 00:19.020
+everything using Cube CTL.
+
+00:19.020 --> 00:22.140
+So now, equivalent YAML files we are going to define
+
+00:22.140 --> 00:24.090
+and then do the same thing.
+
+00:24.090 --> 00:26.190
+So this is what we have implemented using
+
+00:26.190 --> 00:29.460
+imperative commands, and now using declaratively,
+
+00:29.460 --> 00:31.980
+we are going to write the YAML manifest for that,
+
+00:31.980 --> 00:35.160
+means like kubernetes manifest and then test it.
+
+00:35.160 --> 00:37.890
+So we are going to create a backend deployment
+
+00:37.890 --> 00:40.350
+and then backend cluster IP service.
+
+00:40.350 --> 00:42.600
+And then we are also going to create manifest
+
+00:42.600 --> 00:45.180
+for front end deployment
+
+00:45.180 --> 00:47.490
+and then front end note port service.
+
+00:47.490 --> 00:48.450
+And then all in all,
+
+00:48.450 --> 00:51.420
+we'll go ahead and then deploy and then test it.
+
+00:51.420 --> 00:52.620
+So let's go ahead
+
+00:52.620 --> 00:56.670
+and then start with the writing our backend template.
+
+00:56.670 --> 00:58.410
+Okay, deployment template.
+
+00:58.410 --> 01:01.290
+So as usual, again, we have five,
+
+01:01.290 --> 01:04.890
+means like 0-0 base definition and backend deployment,
+
+01:04.890 --> 01:07.140
+backend cluster IP service, front end deployment,
+
+01:07.140 --> 01:08.640
+front end node port service.
+
+01:08.640 --> 01:11.490
+So all are empty, we are going to write it now.
+
+01:11.490 --> 01:15.060
+So let's go ahead and then take our base definition,
+
+01:15.060 --> 01:19.200
+which is API version, kind, metadata, and then spec.
+
+01:19.200 --> 01:24.200
+So for deployment of our kubernetes object is deployment
+
+01:25.560 --> 01:29.670
+and its version is going to be Apps V1.
+
+01:29.670 --> 01:33.300
+And in metadata, we are going to say name
+
+01:33.300 --> 01:35.790
+and then labels, two things, right?
+
+01:35.790 --> 01:37.080
+So my deployment name,
+
+01:37.080 --> 01:41.460
+I'm going to say it as backend rest app, okay.
+
+01:41.460 --> 01:44.170
+And labels, I'm going to say app
+
+01:45.480 --> 01:47.550
+and also I'm going to say tier.
+
+01:47.550 --> 01:50.340
+Tier, I'm going to say backend, right?
+
+01:50.340 --> 01:55.043
+And app, I can say backend rest app.
+
+01:55.043 --> 01:58.950
+And now in the deployment, specification.
+
+01:58.950 --> 02:01.830
+So we have something called replicas
+
+02:01.830 --> 02:03.850
+and we we'll have a selector
+
+02:04.770 --> 02:06.870
+and we'll have template.
+
+02:06.870 --> 02:08.910
+Three things primarily, right?
+
+02:08.910 --> 02:11.430
+So replicas, I'll say two or three replicas,
+
+02:11.430 --> 02:12.660
+whatever we want.
+
+02:12.660 --> 02:17.130
+And in selector we'll have something called match labels.
+
+02:17.130 --> 02:21.270
+And whatever we define in our labels of our respective
+
+02:21.270 --> 02:23.610
+port template, the same thing we need to provide here.
+
+02:23.610 --> 02:27.040
+So I'll say it has backend rest app, and now,
+
+02:28.710 --> 02:30.420
+in the port template, right?
+
+02:30.420 --> 02:32.430
+So what are important things here?
+
+02:32.430 --> 02:35.490
+So we will have something called metadata
+
+02:35.490 --> 02:37.320
+and port specification.
+
+02:37.320 --> 02:40.800
+Okay, two things which are on a high level, right?
+
+02:40.800 --> 02:45.800
+So now in metadata, I'll have as usual, labels.
+
+02:45.930 --> 02:50.930
+And in labels, I'll define backend rest app.
+
+02:52.890 --> 02:55.577
+And if you want, we can even define the tier, right?
+
+02:56.820 --> 02:58.410
+So that's all.
+
+02:58.410 --> 03:01.290
+And now this is my container specification, right?
+
+03:01.290 --> 03:03.660
+So I'll say containers
+
+03:03.660 --> 03:06.600
+and I'll have the name of the container,
+
+03:06.600 --> 03:09.480
+which is backend rest app.
+
+03:09.480 --> 03:12.630
+And I'll have the image, right?
+
+03:12.630 --> 03:16.980
+So image, I can get it from my Docker Hub.
+
+03:16.980 --> 03:21.303
+So let's go to Docker Hub.
+
+03:23.490 --> 03:24.660
+And if you see here,
+
+03:24.660 --> 03:28.110
+there should be something with Hello World, right?
+
+03:28.110 --> 03:29.193
+So this is the one.
+
+03:30.480 --> 03:32.440
+So let me copy 'till here
+
+03:34.530 --> 03:35.827
+and then 1.0.0.
+
+03:38.040 --> 03:41.820
+And this is a springboard rest application.
+
+03:41.820 --> 03:44.847
+So it is going to have something called 8080 port.
+
+03:48.660 --> 03:49.493
+Good.
+
+03:49.493 --> 03:51.120
+So now, if you see,
+
+03:51.120 --> 03:53.670
+we have completed that deployment specification,
+
+03:53.670 --> 03:56.670
+we have quickly returned it in hardly less than two minutes,
+
+03:56.670 --> 03:58.260
+and everywhere, if you see, right?
+
+03:58.260 --> 04:01.230
+API, version, kind, and metadata common stuff here.
+
+04:01.230 --> 04:03.030
+And in the specification replica,
+
+04:03.030 --> 04:04.830
+selectors and then templates.
+
+04:04.830 --> 04:08.070
+And the core thing which we need to verify is
+
+04:08.070 --> 04:12.330
+the selector match labels app is equal to backend rest app
+
+04:12.330 --> 04:16.200
+should match with my pod template related label
+
+04:16.200 --> 04:17.730
+backend rest app.
+
+04:17.730 --> 04:19.860
+And which matches, we are good.
+
+04:19.860 --> 04:23.430
+So now let's go ahead and then have the node port service
+
+04:23.430 --> 04:26.370
+for backend, cluster IP service for backend, sorry.
+
+04:26.370 --> 04:29.490
+So we are going to create a backend cluster IP service.
+
+04:29.490 --> 04:30.960
+So let's take this
+
+04:30.960 --> 04:35.187
+and then our base definition copy here and paste it.
+
+04:35.187 --> 04:37.830
+And the kind that we are going to create is service,
+
+04:37.830 --> 04:41.670
+and its version is always going to be V1 currently.
+
+04:41.670 --> 04:46.200
+And the metadata, we are going to have name and then labels.
+
+04:46.200 --> 04:47.580
+Two things here, okay?
+
+04:47.580 --> 04:49.320
+So let's go ahead and then define them.
+
+04:49.320 --> 04:53.400
+So name is going to be My Backend Service.
+
+04:53.400 --> 04:56.613
+So now this is very, very important, okay?
+
+04:57.690 --> 05:02.190
+Why? Because if we remember in our 0-5 services section also
+
+05:02.190 --> 05:04.050
+we have discussed about it, okay?
+
+05:04.050 --> 05:07.170
+So backend service name should be My Backend Service
+
+05:07.170 --> 05:09.240
+so that front end EngineX proxy
+
+05:09.240 --> 05:12.630
+can proxy to this respective backend service accordingly.
+
+05:12.630 --> 05:15.420
+The container we have built for our front end service
+
+05:15.420 --> 05:18.840
+means like front end EngineX proxy with this
+
+05:18.840 --> 05:20.700
+My Backend Service in the proxy name.
+
+05:20.700 --> 05:25.700
+So EngineX pass needs this name.
+
+05:25.770 --> 05:27.450
+Okay, so good.
+
+05:27.450 --> 05:28.530
+So now the labels.
+
+05:28.530 --> 05:31.793
+As usual, the labels are going to be app:BackendRestApp.
+
+05:37.020 --> 05:39.600
+And tier, I'm going to say backend, okay?
+
+05:39.600 --> 05:42.330
+So these labels, whatever we provide in services
+
+05:42.330 --> 05:44.280
+ideally are not leveraged anywhere
+
+05:44.280 --> 05:46.170
+other than for labeling and then filtering.
+
+05:46.170 --> 05:48.360
+But as a standard, if you provide,
+
+05:48.360 --> 05:50.460
+that is very good option for now, okay?
+
+05:50.460 --> 05:53.670
+In our current case, to follow the standard,
+
+05:53.670 --> 05:54.990
+we are adding it, okay?
+
+05:54.990 --> 05:56.700
+So now, for a service,
+
+05:56.700 --> 05:58.830
+there are three things which are important, right?
+
+05:58.830 --> 06:03.830
+So type, selector, and one more, which is nothing but ports.
+
+06:05.730 --> 06:06.563
+Okay?
+
+06:06.563 --> 06:07.770
+So now type.
+
+06:07.770 --> 06:12.367
+So for type, cluster IP is a default service, okay?
+
+06:16.590 --> 06:20.490
+So we really don't need to mention type here, okay?
+
+06:20.490 --> 06:23.040
+If you don't even mention also, it is going to directly
+
+06:23.040 --> 06:24.420
+create that cluster IP service.
+
+06:24.420 --> 06:26.760
+For node port or load balancer or external name,
+
+06:26.760 --> 06:29.430
+we specifically need to mention the type.
+
+06:29.430 --> 06:31.020
+So we are not mentioning it.
+
+06:31.020 --> 06:31.920
+So now selector.
+
+06:31.920 --> 06:34.230
+Selector is nothing but a service selector.
+
+06:34.230 --> 06:37.170
+Means like this service to which port it need to
+
+06:37.170 --> 06:38.430
+send that traffic.
+
+06:38.430 --> 06:41.310
+So it is based on the port respective label.
+
+06:41.310 --> 06:43.110
+So in the backend deployment,
+
+06:43.110 --> 06:45.390
+you have the pod related label here
+
+06:45.390 --> 06:48.570
+and it has the label backend rest app.
+
+06:48.570 --> 06:50.610
+So for that, it is going to send,
+
+06:50.610 --> 06:54.750
+so I'm going to say app is called to backend rest app.
+
+06:54.750 --> 06:56.460
+So the next thing is ports.
+
+06:56.460 --> 07:01.460
+So let's define the name of the port is HTTP, right?
+
+07:01.980 --> 07:05.373
+And we can define list of ports here, which means this is
+
+07:05.373 --> 07:08.850
+HTTP ports and then you can define HTTPS ports
+
+07:08.850 --> 07:13.850
+and then some port as 8443 and then target container port
+
+07:15.930 --> 07:19.470
+as 8443, et cetera, et cetera, et cetera.
+
+07:19.470 --> 07:21.420
+You can define here, okay?
+
+07:21.420 --> 07:24.660
+So, but for us, we really don't have any HTTPS here,
+
+07:24.660 --> 07:29.660
+only we have HTTP port, which is 8080 and which is nothing
+
+07:30.030 --> 07:33.210
+but the cluster IP service port, okay?
+
+07:33.210 --> 07:38.210
+So let's define that cluster IP service port, okay?
+
+07:38.610 --> 07:42.360
+And next is target port.
+
+07:42.360 --> 07:44.730
+So which is going to be another 8080,
+
+07:44.730 --> 07:48.960
+which is nothing but my container port, okay?
+
+07:48.960 --> 07:50.880
+So now we really don't have anything,
+
+07:50.880 --> 07:52.260
+this is the cluster IP service.
+
+07:52.260 --> 07:53.490
+You really don't have anything
+
+07:53.490 --> 07:54.810
+or we don't need to define anything
+
+07:54.810 --> 07:55.980
+like node port here, okay?
+
+07:55.980 --> 07:57.090
+So let me remove.
+
+07:57.090 --> 07:59.280
+And I really don't have any other ports
+
+07:59.280 --> 08:02.220
+so this is not required, okay?
+
+08:02.220 --> 08:04.170
+So ports is nothing but a list.
+
+08:04.170 --> 08:05.550
+Usually it is a list.
+
+08:05.550 --> 08:07.110
+So list of ports you can define.
+
+08:07.110 --> 08:08.610
+So that's about it, okay?
+
+08:08.610 --> 08:11.580
+So now we have defined the backend cluster IP port.
+
+08:11.580 --> 08:14.430
+So this completes the creation of backend deployment
+
+08:14.430 --> 08:16.380
+and backend cluster IP service
+
+08:16.380 --> 08:19.560
+so let's go to that respective folder here.
+
+08:19.560 --> 08:23.190
+So I'll go to 10 services with YAML
+
+08:23.190 --> 08:24.900
+and I'll go to cube manifest
+
+08:24.900 --> 08:29.900
+and then we'll go ahead and then create apply-F
+
+08:30.360 --> 08:32.610
+and I'll create 02 backend service.
+
+08:32.610 --> 08:33.510
+And one more time,
+
+08:33.510 --> 08:38.250
+I'll also give -F and then 02 or 03, right?
+
+08:38.250 --> 08:39.083
+03.
+
+08:39.987 --> 08:40.890
+No, no, no.
+
+08:40.890 --> 08:42.421
+Where is that?
+
+08:42.421 --> 08:45.660
+And 01 backend deployment.
+
+08:45.660 --> 08:48.090
+So we are creating the backend deployment
+
+08:48.090 --> 08:49.590
+and backend plus IP service.
+
+08:49.590 --> 08:50.773
+01 and then 02.
+
+08:51.690 --> 08:54.090
+So let's see if we have typed anything wrong
+
+08:54.090 --> 08:55.380
+in our manifest
+
+08:55.380 --> 08:58.560
+and then if we want to correct anything, okay?
+
+08:58.560 --> 09:00.900
+So once it creates, we'll know.
+
+09:00.900 --> 09:03.690
+Okay, both got created but we didn't see any issues
+
+09:03.690 --> 09:07.383
+so we'll see Cube CTL get deployed, right?
+
+09:10.770 --> 09:13.050
+And it is taking a little bit of time
+
+09:13.050 --> 09:15.573
+for my cluster to respond.
+
+09:17.160 --> 09:19.470
+So my backend rest app is up and running.
+
+09:19.470 --> 09:23.220
+So I'll also say Cube CTL get ports
+
+09:23.220 --> 09:25.140
+and my backend rest app is running.
+
+09:25.140 --> 09:29.490
+If we want to check the logs, Cube CTL logs -F
+
+09:29.490 --> 09:33.150
+and one of the logs we can crosscheck here.
+
+09:33.150 --> 09:34.473
+So let me paste it.
+
+09:36.540 --> 09:38.940
+Okay, so started my Hello World application
+
+09:38.940 --> 09:40.410
+without any issues.
+
+09:40.410 --> 09:43.140
+So we have tested our deployment.
+
+09:43.140 --> 09:44.790
+We'll also test the service,
+
+09:44.790 --> 09:47.760
+means like test in a sense, verify our service.
+
+09:47.760 --> 09:50.400
+So my backend service, the cluster IP service
+
+09:50.400 --> 09:54.000
+got created with 8080 port, okay?
+
+09:54.000 --> 09:58.050
+So this complete the creation of backend stuff.
+
+09:58.050 --> 10:00.960
+In our next lecture, we'll focus on creating the front end
+
+10:00.960 --> 10:02.790
+and then testing end to end.
+
+10:02.790 --> 10:04.530
+So I'll see you in the next lecture.
+
+10:04.530 --> 10:05.760
+Until then, bye bye.
+
+10:05.760 --> 10:06.593
+Thank you.

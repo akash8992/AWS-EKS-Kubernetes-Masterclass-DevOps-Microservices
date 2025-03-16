@@ -1,0 +1,202 @@
+WEBVTT
+
+00:00.150 --> 00:00.990
+-: Welcome back.
+
+00:00.990 --> 00:01.980
+In this lecture
+
+00:01.980 --> 00:05.370
+we are going to understand about ingress SSL
+
+00:05.370 --> 00:08.010
+nothing but the application load balances
+
+00:08.010 --> 00:12.480
+what we are going to create as part of ingress manifest
+
+00:12.480 --> 00:15.570
+so how to enable SSL using the manifest
+
+00:15.570 --> 00:18.030
+so that we are going to look into,
+
+00:18.030 --> 00:20.430
+Right? So this is the previous architecture
+
+00:20.430 --> 00:21.840
+whatever we have implemented
+
+00:21.840 --> 00:25.230
+as part of context path based routing.
+
+00:25.230 --> 00:28.290
+So now we are going to enable SSL here.
+
+00:28.290 --> 00:30.390
+So to enable SSL here,
+
+00:30.390 --> 00:32.010
+so in route 53
+
+00:32.010 --> 00:34.710
+we need to have a valid domain.
+
+00:34.710 --> 00:36.930
+So if you don't have any domain there
+
+00:36.930 --> 00:38.940
+so we can go ahead and then register.
+
+00:38.940 --> 00:39.960
+So we are anyway going
+
+00:39.960 --> 00:44.220
+to register a new domain here Cubeoncloud.com.
+
+00:44.220 --> 00:47.490
+So we are going to see even how to register a domain
+
+00:47.490 --> 00:49.530
+and then how much time it takes to register
+
+00:49.530 --> 00:51.630
+and then how we are going to make the payment.
+
+00:51.630 --> 00:52.770
+All those stuff
+
+00:52.770 --> 00:56.400
+using the cloud 53 register a domain option.
+
+00:56.400 --> 00:58.500
+So I already have stacksimplify.com
+
+00:58.500 --> 01:01.470
+but it is already used for my live website
+
+01:01.470 --> 01:03.210
+so I really don't want to disturb that.
+
+01:03.210 --> 01:05.430
+So we are going to create a new registered domain
+
+01:05.430 --> 01:08.460
+which is cubeoncloud.com.
+
+01:08.460 --> 01:09.750
+So now on route 53,
+
+01:09.750 --> 01:11.400
+we are going to do that part.
+
+01:11.400 --> 01:14.580
+So the next thing is once you have the domain
+
+01:14.580 --> 01:17.980
+so you need to go to the certificate manager in AWS
+
+01:18.840 --> 01:21.090
+and then register a certificate.
+
+01:21.090 --> 01:24.960
+So here we can register with sub domains, the certificates
+
+01:24.960 --> 01:27.030
+or we can create a complete name
+
+01:27.030 --> 01:29.417
+which is star dot cubeoncloud.com.
+
+01:30.381 --> 01:32.582
+So we are going to register star dot cube
+
+01:32.582 --> 01:33.840
+on cubeoncloud.com,
+
+01:33.840 --> 01:36.870
+which will help us in upcoming lectures,
+
+01:36.870 --> 01:39.150
+which we are going to discuss about
+
+01:39.150 --> 01:42.060
+which is external DNS with cloud 53.
+
+01:42.060 --> 01:43.110
+So that's the purpose.
+
+01:43.110 --> 01:45.640
+We are going to implement star dot cubeoncloud.com
+
+01:47.838 --> 01:49.230
+SSL certificate here.
+
+01:49.230 --> 01:50.940
+So whatever maybe the sub domain
+
+01:50.940 --> 01:53.280
+this certificate will be valid.
+
+01:53.280 --> 01:55.530
+So on cubeoncloud.com.
+
+01:55.530 --> 01:56.520
+So that's about it.
+
+01:56.520 --> 01:59.190
+So once we complete the certificate step
+
+01:59.190 --> 02:02.280
+we are going to update the ingress manifest
+
+02:02.280 --> 02:05.940
+with SSL related annotations, right?
+
+02:05.940 --> 02:08.580
+So in three steps we have completed these things
+
+02:08.580 --> 02:10.020
+and then we are going to deploy
+
+02:10.020 --> 02:12.960
+and then test with both HTTP URLs
+
+02:12.960 --> 02:15.450
+and then HTTPS URLs.
+
+02:15.450 --> 02:16.440
+So in both the things
+
+02:16.440 --> 02:19.530
+it is going to work as expected, right?
+
+02:19.530 --> 02:20.880
+So which means like from HTTP
+
+02:20.880 --> 02:22.290
+it should serve the content
+
+02:22.290 --> 02:25.710
+and also HTTPS it should serve the content.
+
+02:25.710 --> 02:29.130
+In our next section, we will enable HTTP to HTTPS.
+
+02:29.130 --> 02:31.140
+That's a different section plan for us.
+
+02:31.140 --> 02:33.568
+For now, let's enable both HTTP
+
+02:33.568 --> 02:34.680
+and then HTTPS URLs
+
+02:34.680 --> 02:39.630
+for our applications hosted on kubernetes cluster
+
+02:39.630 --> 02:42.330
+Okay, so I'll see you in the next lecture.
+
+02:42.330 --> 02:43.743
+Until then, bye bye.

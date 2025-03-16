@@ -1,0 +1,256 @@
+WEBVTT
+
+00:00.150 --> 00:01.440
+-: Welcome back.
+
+00:01.440 --> 00:04.440
+So as part of step one, we already understood
+
+00:04.440 --> 00:08.100
+about what we are going to do as part of this section.
+
+00:08.100 --> 00:10.200
+So in step two, which is nothing
+
+00:10.200 --> 00:12.090
+but we are going to understand little bit
+
+00:12.090 --> 00:14.460
+about the easier terminology.
+
+00:14.460 --> 00:17.100
+So which is nothing but what is registry repository?
+
+00:17.100 --> 00:21.060
+Repository, policy, authorization, token, and then image.
+
+00:21.060 --> 00:22.620
+So registry is nothing
+
+00:22.620 --> 00:26.940
+but an easier registry is provided to each AWS account.
+
+00:26.940 --> 00:29.010
+So we can create image repositories
+
+00:29.010 --> 00:32.730
+in our registry so we can create multiple repositories
+
+00:32.730 --> 00:35.370
+in a registry provider to us.
+
+00:35.370 --> 00:37.590
+So, and then repository is nothing but
+
+00:37.590 --> 00:41.100
+an easier image repository contains our respect
+
+00:41.100 --> 00:43.620
+to docker images
+
+00:43.620 --> 00:45.810
+and repository policies.
+
+00:45.810 --> 00:48.900
+So we can control access to our repositories
+
+00:48.900 --> 00:53.340
+and the images within them with this repository policies.
+
+00:53.340 --> 00:57.453
+So, which means it is integrated with our AWS IAEM.
+
+00:58.530 --> 01:01.200
+And another thing is authorization token.
+
+01:01.200 --> 01:04.080
+So for Docker hub, if you want to log
+
+01:04.080 --> 01:07.440
+in to docker hub to push your docker images
+
+01:07.440 --> 01:10.170
+we usually say Docker login
+
+01:10.170 --> 01:13.230
+and then provide our username and then password
+
+01:13.230 --> 01:17.490
+in the same way for AWS ECR repository
+
+01:17.490 --> 01:18.900
+also, right?
+
+01:18.900 --> 01:21.450
+If you want to log in, so from our Docker client
+
+01:21.450 --> 01:24.660
+we need to do the same, but the commands might here
+
+01:24.660 --> 01:25.770
+and there differ.
+
+01:25.770 --> 01:27.750
+So, but the things will be same.
+
+01:27.750 --> 01:29.820
+So our Docker client must authenticate
+
+01:29.820 --> 01:32.460
+to Amazon easier registries
+
+01:32.460 --> 01:34.590
+as an AWS user
+
+01:34.590 --> 01:38.370
+before it can push and pull images.
+
+01:38.370 --> 01:41.160
+The AWS CLA get login command provides as
+
+01:41.160 --> 01:45.030
+with the authentication credentials to pass to the docker.
+
+01:45.030 --> 01:48.420
+So, and finally image, image is nothing, but we
+
+01:48.420 --> 01:51.510
+can push it whatever the image we build locally, right?
+
+01:51.510 --> 01:53.700
+So that is the one we are going to push it
+
+01:53.700 --> 01:58.700
+to this repository, whatever we create inside the registry
+
+01:58.980 --> 02:01.800
+right? So there are some prerequisite things which are
+
+02:01.800 --> 02:05.190
+required before that, which is nothing but one is
+
+02:05.190 --> 02:08.730
+you are AWS CLI V2 version of
+
+02:08.730 --> 02:11.430
+things should be configured on your local.
+
+02:11.430 --> 02:15.780
+So as part of zero one EKS create clusters using EKS CTL
+
+02:15.780 --> 02:18.360
+inside that with the installments, like the first section
+
+02:18.360 --> 02:19.800
+install CLIs.
+
+02:19.800 --> 02:21.490
+We have already installed AWS CLI
+
+02:22.410 --> 02:24.630
+and then configure that CLA
+
+02:24.630 --> 02:27.330
+with our security credentials
+
+02:27.330 --> 02:29.850
+of AWS with AWS configure.
+
+02:29.850 --> 02:33.180
+So which means we really don't need to worry about this
+
+02:33.180 --> 02:35.610
+and install Docker CLA.
+
+02:35.610 --> 02:38.730
+So as part of Docker fundamental section here, okay?
+
+02:38.730 --> 02:42.150
+So in our respective course only you'll have something
+
+02:42.150 --> 02:44.940
+called zero two Docker Fundamental.
+
+02:44.940 --> 02:47.700
+So as part of this anyway, we are going to
+
+02:47.700 --> 02:50.820
+install the Docker desktop tool
+
+02:50.820 --> 02:53.700
+and if it is MacBook or Windows accordingly, right?
+
+02:53.700 --> 02:56.430
+So this is the Docker desktop already running.
+
+02:56.430 --> 02:58.710
+So you will do with the Docker seal
+
+02:58.710 --> 03:01.320
+installation you'll be doing as part of that.
+
+03:01.320 --> 03:05.413
+So if you are not completed the Docker fundamental sections
+
+03:05.413 --> 03:08.190
+earlier in this course or anything, don't worry about it.
+
+03:08.190 --> 03:11.670
+Just to help provided the direct links for Docker, for Mac
+
+03:11.670 --> 03:15.750
+install, Docker for Windows install, and then Linux install.
+
+03:15.750 --> 03:19.350
+So you can go there and then steps will be pretty in detail.
+
+03:19.350 --> 03:20.910
+So very straightforward.
+
+03:20.910 --> 03:22.920
+So download it and then execute it.
+
+03:22.920 --> 03:25.950
+And then it should be running immediately, just the drag
+
+03:25.950 --> 03:30.300
+and drop on Mac and then it should be running immediately.
+
+03:30.300 --> 03:31.920
+So it's not a complicated one.
+
+03:31.920 --> 03:34.890
+Okay? So, and now on AWS console
+
+03:34.890 --> 03:37.320
+you need to configure your CLI related token
+
+03:37.320 --> 03:40.050
+which we have done as part of this section.
+
+03:40.050 --> 03:42.930
+So which means the prerequisite section
+
+03:42.930 --> 03:46.830
+which we already completed as part of our
+
+03:46.830 --> 03:48.780
+EKS create cluster section
+
+03:48.780 --> 03:50.730
+and then docker fundamental section.
+
+03:50.730 --> 03:52.800
+So with that said, we are directly moving
+
+03:52.800 --> 03:56.730
+on to our next step of creating the easier repository.
+
+03:56.730 --> 03:58.590
+So I'll see you in the next lecture.
+
+03:58.590 --> 04:00.030
+Until then, bye bye.
+
+04:00.030 --> 04:00.863
+Thank you.

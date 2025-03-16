@@ -1,0 +1,178 @@
+WEBVTT
+
+00:00.000 --> 00:00.930
+-: Welcome back.
+
+00:00.930 --> 00:03.060
+In this lecture we are going to understand
+
+00:03.060 --> 00:05.130
+about EKS cluster architecture
+
+00:05.130 --> 00:08.580
+in combination with Kubernetes cluster components.
+
+00:08.580 --> 00:09.413
+Okay?
+
+00:09.413 --> 00:11.940
+So as usual in EKS control plane,
+
+00:11.940 --> 00:14.190
+which is nothing but cluster control plane,
+
+00:14.190 --> 00:16.230
+so you'll have the master node.
+
+00:16.230 --> 00:19.470
+Same as our regular Kubernetes cluster.
+
+00:19.470 --> 00:21.211
+So we'll have the container runtime,
+
+00:21.211 --> 00:23.760
+Kube APA server, headsets, Kube scheduler,
+
+00:23.760 --> 00:26.190
+and here it is going to be Kube control manager.
+
+00:26.190 --> 00:28.530
+And in addition to that, we are also going
+
+00:28.530 --> 00:31.560
+to have something called Fargate control manager
+
+00:31.560 --> 00:35.670
+and then Fargate related scheduler also will be available
+
+00:35.670 --> 00:36.870
+as part of that.
+
+00:36.870 --> 00:39.420
+So which we'll schedule the Fargate ports on,
+
+00:39.420 --> 00:41.793
+serverless Fargate, infrastructure in AWS.
+
+00:42.990 --> 00:44.490
+So in addition to that,
+
+00:44.490 --> 00:47.400
+if you see there we have the worker nodes.
+
+00:47.400 --> 00:51.420
+And here you can say it has EKS manager node groups.
+
+00:51.420 --> 00:54.660
+So under this we are going to anyway have worker nodes only
+
+00:54.660 --> 00:56.490
+and the container runtime kubelet
+
+00:56.490 --> 00:58.950
+and then Kube-proxy here common everywhere.
+
+00:58.950 --> 01:00.750
+So now what is differing here?
+
+01:00.750 --> 01:02.070
+Okay, so it means like you have
+
+01:02.070 --> 01:03.990
+the EKS cluster control plane
+
+01:03.990 --> 01:06.090
+and the EKS manager node groups
+
+01:06.090 --> 01:08.790
+and on regular on-premise Kubernetes also
+
+01:08.790 --> 01:09.720
+we have all of these things.
+
+01:09.720 --> 01:11.190
+It means like the master components
+
+01:11.190 --> 01:12.870
+and then worker components.
+
+01:12.870 --> 01:15.843
+So what happens in EKSs?
+
+01:17.100 --> 01:21.540
+EKS lets us focus only on our application workloads.
+
+01:21.540 --> 01:23.160
+So we don't need to worry
+
+01:23.160 --> 01:25.440
+about any of these components.
+
+01:25.440 --> 01:28.200
+Either it is exit high availability,
+
+01:28.200 --> 01:30.000
+our kube scheduler part,
+
+01:30.000 --> 01:31.470
+our kube API server part,
+
+01:31.470 --> 01:33.900
+our disrespect to enter what is present
+
+01:33.900 --> 01:37.020
+in these blue boxes is not our job.
+
+01:37.020 --> 01:40.890
+Our core focus will be how to design our applications
+
+01:40.890 --> 01:43.080
+and then how to deploy those applications
+
+01:43.080 --> 01:46.680
+into Kubernetes cluster
+
+01:46.680 --> 01:49.980
+and its node groups available in AWS.
+
+01:49.980 --> 01:52.830
+So which means, so we really don't need to worry
+
+01:52.830 --> 01:55.920
+about the high availability or the maintenance
+
+01:55.920 --> 01:59.400
+or anything about these master worker nodes.
+
+01:59.400 --> 02:02.476
+So once we create and then create the cluster auto scaler
+
+02:02.476 --> 02:05.790
+for our EKS, our job is done.
+
+02:05.790 --> 02:07.680
+So the rest end-to-end maintenance
+
+02:07.680 --> 02:09.990
+of all of these components
+
+02:09.990 --> 02:12.510
+will be the responsibility of the AWS.
+
+02:12.510 --> 02:17.510
+So that's about the EKS specialty.
+
+02:17.640 --> 02:19.200
+So with that said, we'll move
+
+02:19.200 --> 02:22.530
+on with our next steps in our upcoming lectures.
+
+02:22.530 --> 02:24.180
+So I'll see you in the next lecture.
+
+02:24.180 --> 02:25.410
+Until then, bye-bye.
+
+02:25.410 --> 02:26.243
+Thank you.

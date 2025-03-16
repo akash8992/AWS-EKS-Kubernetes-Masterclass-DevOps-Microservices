@@ -1,0 +1,400 @@
+WEBVTT
+
+00:00.000 --> 00:00.833
+-: Welcome back.
+
+00:00.833 --> 00:01.666
+So let's go ahead,
+
+00:01.666 --> 00:04.230
+and then deploy all the manifests, and then test it.
+
+00:04.230 --> 00:07.411
+As of now, if we access the ssldemo, right?
+
+00:07.411 --> 00:12.411
+http:// and then, ssldemo.kubeoncloud.com.
+
+00:13.560 --> 00:18.560
+And if I say, /app1/index.html,
+
+00:20.340 --> 00:24.720
+it's a, let me take this as HTTP URL, and then test it.
+
+00:24.720 --> 00:26.220
+Okay? So let me close it,
+
+00:26.220 --> 00:29.730
+and take the new private window, right?
+
+00:29.730 --> 00:34.080
+And I'm going to access HTTP, and then test it.
+
+00:34.080 --> 00:37.020
+So once we implement again, we can test this one, right?
+
+00:37.020 --> 00:40.410
+So, and then, it surfs the not secure page
+
+00:40.410 --> 00:43.110
+which is nothing but whatever we have provided, HTTP,
+
+00:43.110 --> 00:45.510
+it provided the HTTP URL only.
+
+00:45.510 --> 00:47.130
+And once we implement this change,
+
+00:47.130 --> 00:48.930
+even though if we provide HTTP,
+
+00:48.930 --> 00:50.880
+it is going to redirect to HTTPs.
+
+00:50.880 --> 00:52.470
+So let me close this,
+
+00:52.470 --> 00:57.470
+and go back to our browser, and then implement this.
+
+00:57.810 --> 01:00.720
+Okay? So let's go back to terminal,
+
+01:00.720 --> 01:05.010
+and then go to 08-ELB application Load Balancer.
+
+01:05.010 --> 01:07.930
+And inside that, we are going to go to 0805
+
+01:08.779 --> 01:12.240
+which is ALB Ingress SSL redirect, okay?
+
+01:12.240 --> 01:15.510
+And kubectl apply -f kube-manifest. Okay?
+
+01:15.510 --> 01:18.090
+So what happens here is already other things are created,
+
+01:18.090 --> 01:19.770
+Pod, Deployment, all those things.
+
+01:19.770 --> 01:21.060
+So those will not be,
+
+01:21.060 --> 01:22.860
+those will be in unchanged state.
+
+01:22.860 --> 01:26.280
+Only the Ingress usermgmt-restapp-service will be configured
+
+01:26.280 --> 01:30.090
+with whatever the additional changes we have applied here.
+
+01:30.090 --> 01:31.650
+Okay? So the additional two changes
+
+01:31.650 --> 01:33.660
+which is SSL redirect setting,
+
+01:33.660 --> 01:36.630
+and then SSL redirect path, right?
+
+01:36.630 --> 01:41.630
+So now, let's go to our EC2 Management Console,
+
+01:42.150 --> 01:46.890
+and refresh our Load Balancer, right?
+
+01:46.890 --> 01:51.030
+And let's go ahead, and then edit the HTTP 80 rule.
+
+01:51.030 --> 01:53.040
+Earlier, you have seen all other rules.
+
+01:53.040 --> 01:56.160
+So now, you see automatically this has been changed.
+
+01:56.160 --> 01:58.090
+So earlier you have seen app1, app2,
+
+01:58.090 --> 02:00.270
+and then, /* for user management.
+
+02:00.270 --> 02:02.730
+But now, the rule has been changed stating
+
+02:02.730 --> 02:04.680
+that path: /*
+
+02:04.680 --> 02:09.120
+then go https host:443/ again, /path
+
+02:09.120 --> 02:14.120
+and then ? and then query, and then status code is HTTP_301.
+
+02:14.220 --> 02:17.430
+So this change, whatever we applied, it took place, okay?
+
+02:17.430 --> 02:21.000
+So now, we are going to say, file, new private window,
+
+02:21.000 --> 02:22.620
+and then I'm going to say,
+
+02:22.620 --> 02:27.620
+http//ssldemokubeoncloud.com, right?
+
+02:29.289 --> 02:34.289
+And so, I'm going to say app1/index.html.
+
+02:34.620 --> 02:37.230
+So it should redirect to HTTPs.
+
+02:37.230 --> 02:38.550
+You can see that, right?
+
+02:38.550 --> 02:41.370
+So, now, I can close this again,
+
+02:41.370 --> 02:44.400
+and then, I can open a new private window,
+
+02:44.400 --> 02:45.233
+and I can say,
+
+02:45.233 --> 02:50.180
+http://ssldemo.kubeoncloud.com /usermgmt/health-status.
+
+02:56.640 --> 02:59.670
+Okay? So now, if I click on Enter,
+
+02:59.670 --> 03:02.880
+it should redirect to HTTPs, right?
+
+03:02.880 --> 03:06.510
+It redirected. You can see the secure symbol here, right?
+
+03:06.510 --> 03:09.300
+So you can even see the certificate here. Okay?
+
+03:09.300 --> 03:10.230
+So that's about it.
+
+03:10.230 --> 03:11.850
+So whatever we implemented,
+
+03:11.850 --> 03:14.850
+it has been taken place, and then working as expected.
+
+03:14.850 --> 03:17.340
+Okay? So let me close this browser,
+
+03:17.340 --> 03:19.650
+and then come back to our steps,
+
+03:19.650 --> 03:23.070
+and we have implemented, and then tested everything.
+
+03:23.070 --> 03:27.240
+So the next thing is if you want to, means like, this one,
+
+03:27.240 --> 03:28.410
+this step, you can remove.
+
+03:28.410 --> 03:31.260
+So I added unnecessarily. Okay?
+
+03:31.260 --> 03:32.550
+So I'll remove it. Okay?
+
+03:32.550 --> 03:34.440
+So now, you have accessed the application,
+
+03:34.440 --> 03:35.400
+and then tested it,
+
+03:35.400 --> 03:38.160
+and then now, finally, you can clean it up. Okay?
+
+03:38.160 --> 03:41.934
+So now, you can clean it up whatever we have implemented.
+
+03:41.934 --> 03:45.363
+Okay? And then kube-manifest. Okay?
+
+03:51.720 --> 03:54.240
+So I have completed the cleaning of the manifest.
+
+03:54.240 --> 03:55.890
+So if you go here, and then refresh,
+
+03:55.890 --> 03:57.300
+no load balancer is available.
+
+03:57.300 --> 03:58.740
+One thing, we need to do is we need
+
+03:58.740 --> 04:03.120
+to manually remove our ssldemokubeoncloud record set. Okay?
+
+04:03.120 --> 04:04.500
+So this also charges money.
+
+04:04.500 --> 04:07.200
+So ideally, if it is minor cents only
+
+04:07.200 --> 04:09.080
+but why we need to have it here. Okay?
+
+04:09.080 --> 04:12.210
+So our demo related to SSL is completed.
+
+04:12.210 --> 04:14.460
+I will delete this. Okay?
+
+04:14.460 --> 04:15.720
+So this is gone.
+
+04:15.720 --> 04:18.420
+The next thing here is, cleanup is done.
+
+04:18.420 --> 04:19.560
+One important thing you need
+
+04:19.560 --> 04:21.630
+to know about Annotation References,
+
+04:21.630 --> 04:24.300
+about the location where this Annotation can be put.
+
+04:24.300 --> 04:25.590
+Okay? So this is additional tip.
+
+04:25.590 --> 04:28.680
+So, we'll open this in a browser, right?
+
+04:28.680 --> 04:31.050
+And if you see this Annotation table, right?
+
+04:31.050 --> 04:33.810
+So this Annotation can be created only
+
+04:33.810 --> 04:35.370
+in the ingress manifest,
+
+04:35.370 --> 04:37.740
+means like this Annotation, you need to only update
+
+04:37.740 --> 04:39.420
+in ingress manifest.
+
+04:39.420 --> 04:42.510
+You can see other Annotations, they can be provided both
+
+04:42.510 --> 04:46.320
+in ingress, service, either ingress or either in service.
+
+04:46.320 --> 04:47.153
+Service, in the sense,
+
+04:47.153 --> 04:49.980
+whatever the node port service we are creating there,
+
+04:49.980 --> 04:50.970
+you can add it.
+
+04:50.970 --> 04:55.970
+So the best example for it is our health check URL, right?
+
+04:56.610 --> 05:00.000
+So ALB Ingress Health Check path, right?
+
+05:00.000 --> 05:03.090
+So this will be provided, means like it can be used
+
+05:03.090 --> 05:07.320
+either in ingress manifest or, in the service manifest
+
+05:07.320 --> 05:09.330
+which is nothing but our node port service.
+
+05:09.330 --> 05:11.010
+So like that, the location
+
+05:11.010 --> 05:13.380
+of Annotations will be provided here
+
+05:13.380 --> 05:14.940
+where you need to add it accordingly.
+
+05:14.940 --> 05:17.460
+We need to be careful about where we are adding.
+
+05:17.460 --> 05:20.100
+So if you have a service level scope for that then,
+
+05:20.100 --> 05:21.870
+and then, if you need it in service level
+
+05:21.870 --> 05:23.250
+for specific applications.
+
+05:23.250 --> 05:24.600
+You have 10 applications,
+
+05:24.600 --> 05:27.540
+and then you want the asked session cookie to be only
+
+05:27.540 --> 05:29.070
+from one specific application.
+
+05:29.070 --> 05:32.970
+So you can apply that only in that respective service level.
+
+05:32.970 --> 05:35.700
+So like that, the greatest advantage also we have
+
+05:35.700 --> 05:37.740
+with these Annotations related
+
+05:37.740 --> 05:40.920
+to Application Load Balancer in our ingress manifest.
+
+05:40.920 --> 05:45.920
+Okay? So this completes our SSL redirect section,
+
+05:46.710 --> 05:48.960
+and in our next lecture, we are going to work
+
+05:48.960 --> 05:51.780
+on ALB Ingress External DNS, okay?
+
+05:51.780 --> 05:54.240
+So, so far, you went to route 53,
+
+05:54.240 --> 05:57.120
+and then, adding the things manually here, right?
+
+05:57.120 --> 06:01.080
+So, but once we implement the External DNS concepts,
+
+06:01.080 --> 06:03.540
+so once you deploy all the manifests,
+
+06:03.540 --> 06:05.970
+then automatically, your Route 53 records
+
+06:05.970 --> 06:08.820
+that also get created automatically.
+
+06:08.820 --> 06:13.140
+So in our next section, we are going to deal with that.
+
+06:13.140 --> 06:15.210
+So, I'll see you in the next lecture.
+
+06:15.210 --> 06:16.680
+Until then, bye bye.
+
+06:16.680 --> 06:17.513
+Thank you.

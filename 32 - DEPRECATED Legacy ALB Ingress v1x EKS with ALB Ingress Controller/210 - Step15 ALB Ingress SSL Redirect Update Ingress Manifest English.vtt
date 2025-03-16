@@ -1,0 +1,682 @@
+WEBVTT
+
+00:00.180 --> 00:01.013
+-: Welcome back.
+
+00:01.013 --> 00:01.890
+In this lecture,
+
+00:01.890 --> 00:05.730
+we are going to understand about Ingress SSL redirect.
+
+00:05.730 --> 00:08.280
+So, which is nothing, but, in general,
+
+00:08.280 --> 00:10.470
+whenever we are building our applications
+
+00:10.470 --> 00:12.030
+and then deploying in production,
+
+00:12.030 --> 00:14.163
+we usually have a requirement like,
+
+00:15.000 --> 00:18.720
+our http URL should be auto redirected to https.
+
+00:18.720 --> 00:21.240
+So, most generalize the requirement and then,
+
+00:21.240 --> 00:24.210
+in most of the load balances we usually do this.
+
+00:24.210 --> 00:26.670
+Okay, so this became a load balancer setting
+
+00:26.670 --> 00:31.170
+wherein if you want to read out your URL from http to https,
+
+00:31.170 --> 00:32.520
+you can do it.
+
+00:32.520 --> 00:35.013
+So, how we are going to do that in Ingress?
+
+00:35.970 --> 00:36.960
+Manifest means like,
+
+00:36.960 --> 00:40.080
+Ingress Kubernetes manifest how we are going to write it.
+
+00:40.080 --> 00:42.000
+So, we are going to look into.
+
+00:42.000 --> 00:43.320
+So, before going there,
+
+00:43.320 --> 00:46.410
+so, we also need to understand something about
+
+00:46.410 --> 00:48.730
+custom action annotations in
+
+00:49.800 --> 00:52.410
+Ingress specifically.
+
+00:52.410 --> 00:56.330
+So, let's go back to our GitHub repo and then
+
+00:56.330 --> 00:59.247
+we'll go to zero eight zero five
+
+00:59.247 --> 01:02.400
+ALB Ingress SSL redirect, right?
+
+01:02.400 --> 01:04.260
+So, inside this, we need to go to
+
+01:04.260 --> 01:05.730
+this respect to link, okay?
+
+01:05.730 --> 01:07.290
+So, which is nothing but, a reference
+
+01:07.290 --> 01:09.330
+for custom actions, okay?
+
+01:09.330 --> 01:11.010
+So, I'll open it here.
+
+01:11.010 --> 01:13.320
+So, in the annotation section, right?
+
+01:13.320 --> 01:15.120
+So, the first annotation is nothing but,
+
+01:15.120 --> 01:17.400
+the actions dot custom action name.
+
+01:17.400 --> 01:19.830
+So, the first annotation whatever you're seeing ALB
+
+01:19.830 --> 01:24.830
+Ingress given it's dot ivo actions dot custom action name
+
+01:25.170 --> 01:26.730
+whatever you can provide here.
+
+01:26.730 --> 01:29.444
+So, inside that, if you see it in a very detailed manner
+
+01:29.444 --> 01:33.031
+so, it provides a method for configuring custom actions
+
+01:33.031 --> 01:35.809
+on a listener such as for redirect actions.
+
+01:35.809 --> 01:38.330
+So, that is one important thing, and the second is the
+
+01:38.330 --> 01:39.602
+action name in the annotation
+
+01:39.602 --> 01:42.532
+must match the service naming Ingress rules and
+
+01:42.532 --> 01:45.548
+service port must be use annotation.
+
+01:45.548 --> 01:47.630
+Okay? So this one we'll come to next but,
+
+01:47.630 --> 01:49.920
+first, let's see the first point here
+
+01:49.920 --> 01:51.269
+which is provides a method
+
+01:51.269 --> 01:54.136
+for configuring custom actions on it, listener.
+
+01:54.136 --> 01:57.116
+Let's go back to over load balancer.
+
+01:57.116 --> 01:59.730
+So, we have created this load balancer
+
+01:59.730 --> 02:02.070
+as part of the previous section
+
+02:02.070 --> 02:03.750
+which is nothing but, zero eight zero four
+
+02:05.346 --> 02:07.069
+LB ingress SSL, and in
+
+02:07.069 --> 02:09.750
+this section we really didn't clean
+
+02:09.750 --> 02:13.410
+up at the end, so, we want evident cleaned up in here
+
+02:13.410 --> 02:16.050
+so, we'll, again, come back to zero eight
+
+02:16.050 --> 02:19.800
+zero five ingress SSL redirect and let's
+
+02:19.800 --> 02:20.850
+try to understand more
+
+02:20.850 --> 02:23.070
+about what is this provides the method
+
+02:23.070 --> 02:26.130
+for configuring custom actions on it, listener, right?
+
+02:26.130 --> 02:27.330
+So, what are those actions
+
+02:27.330 --> 02:29.070
+from load balances perspective first
+
+02:29.070 --> 02:30.795
+see that and then go back and then write
+
+02:30.795 --> 02:33.251
+it in the cube and notice ingress manifest.
+
+02:33.251 --> 02:36.990
+Okay? So if you see here forty-eight "R" four four three
+
+02:36.990 --> 02:38.284
+if you click on view edit rules
+
+02:38.284 --> 02:41.490
+so, there are a lot of rules, you are writing in here, okay?
+
+02:41.490 --> 02:43.680
+So, when the path is slash "F" slash "star"
+
+02:43.680 --> 02:47.280
+so, then, go to this respective target group
+
+02:47.280 --> 02:49.493
+in the same way if you take it here
+
+02:49.493 --> 02:53.100
+so, go to this respective target group is the action.
+
+02:53.100 --> 02:56.520
+So, if you want, you can insert a rule here saying that.
+
+02:56.520 --> 02:59.467
+So, when the path is slash star, right?
+
+02:59.467 --> 03:01.950
+and now, this is the action
+
+03:01.950 --> 03:04.980
+this is the custom action whatever we are discussing, right?
+
+03:04.980 --> 03:06.270
+So, when this is the case
+
+03:06.270 --> 03:08.790
+when, when it is slash star then redirect
+
+03:08.790 --> 03:11.014
+to to so and so redirect to to https
+
+03:11.014 --> 03:13.280
+or redirect to to where we want to redirect.
+
+03:13.280 --> 03:15.460
+Redirect to a different protocol, redirect
+
+03:15.460 --> 03:17.810
+to http, another URL or redirect
+
+03:17.810 --> 03:21.180
+to https with a three zero one permanently redirect.
+
+03:21.180 --> 03:25.080
+Okay? So with original host path query.
+
+03:25.080 --> 03:27.510
+So, this is the default rule, whatever is present here,
+
+03:27.510 --> 03:28.343
+okay?
+
+03:28.343 --> 03:29.640
+So, in the port, whatever you want to
+
+03:29.640 --> 03:30.690
+give four four three and
+
+03:30.690 --> 03:33.420
+if you say add, so you get this value, right?
+
+03:33.420 --> 03:37.380
+Which is nothing but to https hash host path and then
+
+03:37.380 --> 03:38.820
+query whatever is provided with their
+
+03:38.820 --> 03:40.774
+status score http three zero one.
+
+03:40.774 --> 03:43.350
+Exactly whatever we have done here
+
+03:43.350 --> 03:46.620
+on the AWS management console, we are going to
+
+03:46.620 --> 03:50.340
+write the same thing in the Kubernetes ingress manifest.
+
+03:50.340 --> 03:53.310
+That's all, and this path, whatever you have
+
+03:53.310 --> 03:55.050
+written slash star is going to
+
+03:55.050 --> 03:57.420
+be the first one in the forty eighty rules.
+
+03:57.420 --> 03:59.640
+Okay? So all these things will be ignored as soon
+
+03:59.640 --> 04:00.630
+as we write this
+
+04:00.630 --> 04:03.480
+because anything with slash star automatically
+
+04:03.480 --> 04:05.386
+it needs to redirect to https colon
+
+04:05.386 --> 04:10.380
+whatever the host came in from the browser and the path
+
+04:10.380 --> 04:12.030
+whatever came from the browser and
+
+04:12.030 --> 04:14.220
+if any query tags also up and all those things.
+
+04:14.220 --> 04:16.800
+So like this, so if once we add the send and
+
+04:16.800 --> 04:17.760
+save it automatically
+
+04:17.760 --> 04:19.985
+all these things will become invalidated.
+
+04:19.985 --> 04:22.680
+So, now, currently, we are not doing it
+
+04:22.680 --> 04:26.730
+via UI and we are going to do it via Kubernetes manifest.
+
+04:26.730 --> 04:29.010
+So, we are going to update our ingress manifest
+
+04:29.010 --> 04:32.082
+with these details and then apply it and then see
+
+04:32.082 --> 04:34.890
+that these changes takes place automatically here.
+
+04:34.890 --> 04:36.330
+So, everything we are going to update
+
+04:36.330 --> 04:37.950
+in our manifest and then do it.
+
+04:37.950 --> 04:40.262
+Okay, so now let's go back here, right?
+
+04:40.262 --> 04:44.820
+So, we'll go back and then in addition to whatever I said
+
+04:44.820 --> 04:48.060
+right that we are using it for http two https
+
+04:48.060 --> 04:50.460
+but, there will be many redirect things you need
+
+04:50.460 --> 04:51.750
+on the load balances.
+
+04:51.750 --> 04:54.120
+Like, you want to send a custom response for
+
+04:54.120 --> 04:55.560
+your five zero three error.
+
+04:55.560 --> 04:56.460
+So, you can do that.
+
+04:56.460 --> 04:58.080
+Here is the sample they have provided
+
+04:58.080 --> 05:00.330
+for how you want to do it and
+
+05:00.330 --> 05:01.710
+second, is you want to redirect
+
+05:01.710 --> 05:03.930
+to another external URL.
+
+05:03.930 --> 05:05.640
+You can do that or you can forward
+
+05:05.640 --> 05:08.010
+to a single target group or you can forward
+
+05:08.010 --> 05:09.420
+to multiple target groups.
+
+05:09.420 --> 05:12.120
+So, all these things are already available here and
+
+05:12.120 --> 05:13.170
+how much you want to do
+
+05:13.170 --> 05:14.790
+and all those things like, example,
+
+05:14.790 --> 05:18.150
+like, you can take the path this one and then
+
+05:18.150 --> 05:19.956
+add action and then forward to
+
+05:19.956 --> 05:22.500
+so, which target group and how much percent,
+
+05:22.500 --> 05:25.560
+ten percent of the traffic and this target group and
+
+05:25.560 --> 05:26.550
+remaining ninety percent
+
+05:26.550 --> 05:31.410
+of the traffic for slash KBC star, something like that.
+
+05:31.410 --> 05:34.333
+Okay? So all these things are doable, via UI and
+
+05:34.333 --> 05:36.720
+now, all these things we will be able to do
+
+05:36.720 --> 05:38.070
+via Kubernetes manifests.
+
+05:38.070 --> 05:40.680
+Okay? So that's what I'm trying to explain.
+
+05:40.680 --> 05:44.910
+So, now, here if we go back to this one
+
+05:44.910 --> 05:46.500
+so, this part we have cleared out
+
+05:46.500 --> 05:50.010
+what is it by seeing it at the screen.
+
+05:50.010 --> 05:53.040
+Okay, it means like AWS management console alb screens.
+
+05:53.040 --> 05:55.006
+Okay? Now, what is this part?
+
+05:55.006 --> 05:57.480
+So, the action name, whatever you provide
+
+05:57.480 --> 05:59.597
+in the annotation must match the service name
+
+05:59.597 --> 06:01.020
+in the Ingress rule and
+
+06:01.020 --> 06:04.165
+service port must have use annotation compulsory.
+
+06:04.165 --> 06:07.920
+So, let's go ahead and then see our manifest and
+
+06:07.920 --> 06:11.424
+then, get that understanding little bit, right?
+
+06:11.424 --> 06:14.680
+So, let's go back here
+
+06:16.680 --> 06:17.513
+and
+
+06:18.420 --> 06:19.253
+we will
+
+06:20.160 --> 06:22.680
+we'll close my read me file here and then we'll go
+
+06:22.680 --> 06:25.560
+to zero eight zero five ALB ingress SSL
+
+06:25.560 --> 06:27.360
+redirect and this is the one.
+
+06:27.360 --> 06:30.990
+So, now let's see, the first thing is SSL redirect setting.
+
+06:30.990 --> 06:33.875
+So, let's go ahead and then understand that first.
+
+06:33.875 --> 06:37.620
+So, in our manifest we are supposed to make two changes
+
+06:37.620 --> 06:40.080
+one is are the custom action annotation based
+
+06:40.080 --> 06:41.760
+on whatever we have provided.
+
+06:41.760 --> 06:44.400
+So, I have added ALB, Ingress, whatever the Kubernetes
+
+06:44.400 --> 06:47.340
+dot actions dot whatever the name you want to give.
+
+06:47.340 --> 06:49.560
+You can give the action name here I give SSL
+
+06:49.560 --> 06:52.561
+hyphen redirect and I provided the JSUN file
+
+06:52.561 --> 06:54.390
+with the standard syntax saying
+
+06:54.390 --> 06:56.929
+that the type is going to be redirect, and the
+
+06:56.929 --> 07:00.810
+redirect config is going to be https protocol and
+
+07:00.810 --> 07:02.783
+port is four four three and the status score
+
+07:02.783 --> 07:05.340
+for the redirect is going to be http
+
+07:05.340 --> 07:06.510
+underscore three zero one,
+
+07:06.510 --> 07:08.610
+the same thing I have provided here.
+
+07:08.610 --> 07:11.070
+So, this is change one and change two
+
+07:11.070 --> 07:13.440
+relates to what we have discussed here.
+
+07:13.440 --> 07:15.420
+Okay? So which is nothing but the action name
+
+07:15.420 --> 07:17.970
+in the annotation must match the service name.
+
+07:17.970 --> 07:20.760
+So, as we told in port eighty rule,
+
+07:20.760 --> 07:23.220
+the first rule should be slash star for this, correct?
+
+07:23.220 --> 07:25.650
+Right? So path is equal to slash star and
+
+07:25.650 --> 07:28.500
+the back end with service name and service port.
+
+07:28.500 --> 07:31.950
+So, service name should be always the action name,
+
+07:31.950 --> 07:33.420
+whatever you have given here
+
+07:33.420 --> 07:36.360
+which is nothing but, SSL redirect, right?
+
+07:36.360 --> 07:39.330
+And the service port is going to be use annotation
+
+07:39.330 --> 07:41.515
+the same thing, whatever we have discussed here.
+
+07:41.515 --> 07:45.060
+So, service name is going to be the action name
+
+07:45.060 --> 07:47.190
+which is nothing, but SSL redirect and
+
+07:47.190 --> 07:49.860
+service port is going to be use annotation,
+
+07:49.860 --> 07:52.680
+the same thing we have defined here.
+
+07:52.680 --> 07:55.680
+So, once we make these two changes from the template,
+
+07:55.680 --> 07:59.344
+whatever we took from zero to zero eight four which is zero
+
+07:59.344 --> 08:03.597
+seven "L" being SSL, just add these two changes which is
+
+08:03.597 --> 08:06.926
+SSL redirect setting and one more is path related
+
+08:06.926 --> 08:09.180
+SSL redirect setting, and then
+
+08:09.180 --> 08:11.790
+once we apply these things automatically
+
+08:11.790 --> 08:15.660
+what happens is all the rules present here, right?
+
+08:15.660 --> 08:18.240
+All these rules will go away and then whatever the rule
+
+08:18.240 --> 08:19.073
+we have seen, right?
+
+08:19.073 --> 08:23.203
+Whenever it is slash star then redirected to http colon host
+
+08:23.203 --> 08:27.440
+and then colon four four three port slash path, dollar path
+
+08:27.440 --> 08:31.230
+and then again query question mark and then query.
+
+08:31.230 --> 08:34.440
+So, like, that it is going to auto create all those things.
+
+08:34.440 --> 08:39.090
+So, now we have completed this step related to it, okay?
+
+08:39.090 --> 08:41.640
+So, now we'll go ahead and then deploy all the manifests
+
+08:41.640 --> 08:42.690
+in our next lecture.
+
+08:42.690 --> 08:46.020
+So, after implementing this, what is going to happen?
+
+08:46.020 --> 08:47.820
+So, that's another important thing, right?
+
+08:47.820 --> 08:49.937
+So, http two https, it is going to redirect,
+
+08:49.937 --> 08:51.780
+so, let's see that, also.
+
+08:51.780 --> 08:55.011
+So, this is our current architecture, whatever we have seen,
+
+08:55.011 --> 08:57.270
+as part of previous section
+
+08:57.270 --> 09:00.431
+which is Ingress SSL and then the
+
+09:00.431 --> 09:03.510
+context part based routing and all those things.
+
+09:03.510 --> 09:05.820
+So, now, what happens whenever you implement this
+
+09:05.820 --> 09:09.960
+SSL redirect is so SSL redirect related changes
+
+09:09.960 --> 09:11.880
+we will be updating in our Ingress.
+
+09:11.880 --> 09:12.810
+Those are two changes,
+
+09:12.810 --> 09:15.570
+whatever we just now discussed, and then,
+
+09:15.570 --> 09:18.750
+what happens is whenever you access any http URL
+
+09:18.750 --> 09:21.331
+automatically browser will redirect
+
+09:21.331 --> 09:23.130
+to https URL, okay?
+
+09:23.130 --> 09:25.230
+So, that's what is going to happen now.
+
+09:25.230 --> 09:28.380
+So, let's go ahead and then deploy and then test it now.
+
+09:28.380 --> 09:29.910
+So, I'll see you in the next lecture.
+
+09:29.910 --> 09:30.930
+Until then, bye bye.
+
+09:30.930 --> 09:31.763
+Thank you.

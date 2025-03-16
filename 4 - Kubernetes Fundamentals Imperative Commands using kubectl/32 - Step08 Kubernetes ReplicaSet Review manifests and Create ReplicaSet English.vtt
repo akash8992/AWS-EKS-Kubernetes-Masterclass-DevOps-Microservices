@@ -1,0 +1,343 @@
+WEBVTT
+
+00:00.120 --> 00:00.953
+-: Welcome back.
+
+00:00.953 --> 00:01.786
+In this lecture,
+
+00:01.786 --> 00:04.260
+we are looking into the ReplicaSets demo.
+
+00:04.260 --> 00:06.240
+So let's check into it, okay?
+
+00:06.240 --> 00:08.060
+So we are in our Kubernetes Fundamental
+
+00:08.060 --> 00:11.970
+03-ReplicaSets-with-kubectl section,
+
+00:11.970 --> 00:14.940
+and we completed the Step 01 introduction just now.
+
+00:14.940 --> 00:18.180
+And then we are moving into the Creating ReplicaSets.
+
+00:18.180 --> 00:20.130
+So one important thing about ReplicaSet
+
+00:20.130 --> 00:22.350
+is we really don't have a imperative command
+
+00:22.350 --> 00:23.940
+to create a ReplicaSet.
+
+00:23.940 --> 00:27.420
+So we need to definitely define our YAML Manifest, okay?
+
+00:27.420 --> 00:29.910
+So here, we are going to only look into
+
+00:29.910 --> 00:33.300
+whatever is required inside, in this YAML Manifest,
+
+00:33.300 --> 00:35.280
+and then, more than that,
+
+00:35.280 --> 00:36.750
+other things we are going to discuss
+
+00:36.750 --> 00:38.340
+when we are going to write the YAML,
+
+00:38.340 --> 00:40.020
+once we learn the YAML fundamentals,
+
+00:40.020 --> 00:41.520
+and then all those things.
+
+00:41.520 --> 00:43.530
+So for us, if you see here,
+
+00:43.530 --> 00:45.720
+apiVersion is /apps/v1,
+
+00:45.720 --> 00:47.370
+and the kind is ReplicaSet,
+
+00:47.370 --> 00:48.360
+which we are going to create.
+
+00:48.360 --> 00:50.340
+It means like the object which we are going to create
+
+00:50.340 --> 00:52.583
+in Kubernetes is ReplicaSet.
+
+00:52.583 --> 00:57.150
+And the ReplicaSet name is my-helloworld-rs.
+
+00:57.150 --> 01:00.150
+So that's the ReplicaSet name.
+
+01:00.150 --> 01:01.350
+And in addition to that,
+
+01:01.350 --> 01:03.750
+number of replicas means like number of pods
+
+01:03.750 --> 01:06.480
+it need to get created is three pods, okay?
+
+01:06.480 --> 01:09.510
+Forget about labels and these selectors
+
+01:09.510 --> 01:11.460
+and these labels, all these things.
+
+01:11.460 --> 01:13.080
+Let's forget about it for now.
+
+01:13.080 --> 01:16.740
+We'll see when we are writing YAML definitions, okay?
+
+01:16.740 --> 01:19.350
+So now, replicas is 3 replicas.
+
+01:19.350 --> 01:21.570
+And the next is container spec, right?
+
+01:21.570 --> 01:24.150
+So name of the container is my-helloworld-app,
+
+01:24.150 --> 01:29.150
+and my image is stacksimplify/kube-helloworld:1.0.0.
+
+01:29.623 --> 01:31.650
+So this is the application.
+
+01:31.650 --> 01:35.670
+So let's go ahead and then create it using kubectl create
+
+01:35.670 --> 01:39.367
+and then file name is replicaset-demo.yml.
+
+01:40.230 --> 01:43.440
+So let's go ahead and then create it now.
+
+01:43.440 --> 01:46.020
+So if you fork this respective directory,
+
+01:46.020 --> 01:48.750
+which is nothing but this Kubernetes Fundamentals,
+
+01:48.750 --> 01:49.890
+fork our download,
+
+01:49.890 --> 01:54.210
+fork and then download our download to your local repo.
+
+01:54.210 --> 01:58.410
+And you need to just go into 03-ReplicaSets-with-kubectl,
+
+01:58.410 --> 02:02.790
+and you'll find this replicaset-demo.yml file here, right?
+
+02:02.790 --> 02:04.770
+So I'll go into that now.
+
+02:04.770 --> 02:07.950
+So if you see here, in Kubernetes Fundamentals,
+
+02:07.950 --> 02:10.110
+I'm going to 03-ReplicaSets.
+
+02:10.110 --> 02:12.150
+And I can find the file here.
+
+02:12.150 --> 02:17.150
+So I'm saying kubectl create -f and replicasets-demo.yml.
+
+02:21.630 --> 02:24.240
+My ReplicaSet is getting created.
+
+02:24.240 --> 02:29.240
+So now, the next thing is to list the ReplicaSet, right?
+
+02:29.970 --> 02:34.350
+So you can say kubectl get replicaset,
+
+02:34.350 --> 02:35.490
+and it will be listed.
+
+02:35.490 --> 02:36.900
+my-helloworld-rs.
+
+02:36.900 --> 02:39.360
+You can see here, desired number of replicas are 3,
+
+02:39.360 --> 02:41.970
+whatever we have configured here.
+
+02:41.970 --> 02:43.590
+And the current is 3,
+
+02:43.590 --> 02:46.110
+and then release 3, okay?
+
+02:46.110 --> 02:50.790
+So now, the alias for ReplicaSets is kubectl get rs.
+
+02:50.790 --> 02:54.150
+Even you can use rs, if you want to, right?
+
+02:54.150 --> 02:57.906
+So, and the next thing is to describe the ReplicaSet.
+
+02:57.906 --> 03:01.830
+Kubectl describe and rs.
+
+03:01.830 --> 03:03.960
+rs is alias of ReplicaSet.
+
+03:03.960 --> 03:08.100
+And my ReplicaSet name is my-helloworld-rs.
+
+03:08.100 --> 03:12.090
+So let's describe the ReplicaSet, right?
+
+03:12.090 --> 03:15.030
+So now if you see, in this ReplicaSet,
+
+03:15.030 --> 03:17.340
+so let's go here,
+
+03:17.340 --> 03:20.760
+and we can see all the information, okay?
+
+03:20.760 --> 03:24.480
+So successfully created the ReplicaSet controller for,
+
+03:24.480 --> 03:26.430
+and it created three pods here, okay?
+
+03:26.430 --> 03:27.390
+So, for all the pods,
+
+03:27.390 --> 03:30.690
+it doesn't have any issue in creating it.
+
+03:30.690 --> 03:33.690
+So now let's list the pods.
+
+03:33.690 --> 03:36.753
+So kubectl get pods.
+
+03:38.820 --> 03:40.440
+So now we have three pods.
+
+03:40.440 --> 03:42.450
+Means like three replicas got created,
+
+03:42.450 --> 03:46.020
+my-helloworld-rs and some dynamic name, right?
+
+03:46.020 --> 03:47.610
+So in the same way,
+
+03:47.610 --> 03:50.530
+we can even list the pods with
+
+03:52.890 --> 03:53.880
+wide option,
+
+03:53.880 --> 03:58.880
+so that we know on which nodes these pods were scheduled.
+
+03:58.950 --> 04:01.440
+So on 118, we have one pod scheduled.
+
+04:01.440 --> 04:05.040
+On 145, we have two pods scheduled.
+
+04:05.040 --> 04:06.690
+So in addition to that,
+
+04:06.690 --> 04:09.930
+if you want to verify the owner of the pod, right?
+
+04:09.930 --> 04:14.130
+So we can give the kubectl get pods and then pod name
+
+04:14.130 --> 04:16.110
+and then -o and then yaml.
+
+04:16.110 --> 04:17.430
+Get that YAML output,
+
+04:17.430 --> 04:20.580
+and inside that, when you refer the ownerReferences,
+
+04:20.580 --> 04:22.470
+you'll get those details.
+
+04:22.470 --> 04:25.860
+So kubectl get pods
+
+04:25.860 --> 04:28.920
+and then any one of the pod names.
+
+04:28.920 --> 04:32.373
+So we'll get the ReplicaSet as the owner.
+
+04:37.200 --> 04:38.190
+Right?
+
+04:38.190 --> 04:39.880
+So if you go up
+
+04:41.340 --> 04:42.260
+and...
+
+04:45.000 --> 04:46.800
+We can see here, right?
+
+04:46.800 --> 04:48.800
+So ownerReferences.
+
+04:48.800 --> 04:50.670
+We can see the name tag here,
+
+04:50.670 --> 04:52.860
+which is nothing but my-helloworld-rs,
+
+04:52.860 --> 04:55.170
+which is nothing but the ReplicaSet.
+
+04:55.170 --> 04:56.343
+So in simple terms,
+
+04:57.210 --> 04:58.800
+to whom this pod belongs to
+
+04:58.800 --> 05:00.000
+is nothing but this pod
+
+05:00.000 --> 05:02.610
+belongs to that respective ReplicaSet.
+
+05:02.610 --> 05:05.610
+So that you can find using ownerReferences.
+
+05:05.610 --> 05:07.050
+So now in our next step,
+
+05:07.050 --> 05:12.050
+we'll focus on exposing this as a ReplicaSet as a service.
+
+05:12.750 --> 05:14.100
+I'll see you in the next lecture.
+
+05:14.100 --> 05:15.877
+Until then, bye bye. Thank you.

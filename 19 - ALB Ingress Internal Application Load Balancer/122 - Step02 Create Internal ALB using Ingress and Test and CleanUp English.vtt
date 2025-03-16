@@ -1,0 +1,574 @@
+WEBVTT
+
+00:00.000 --> 00:01.140
+-: Welcome back.
+
+00:01.140 --> 00:03.990
+Let's go to our Github repository
+
+00:03.990 --> 00:07.480
+and we are in 0-8 new LB application load balancers
+
+00:07.480 --> 00:09.540
+and we are entering into
+
+00:09.540 --> 00:13.440
+the section 0-8-14 Ingress internal LB.
+
+00:13.440 --> 00:15.510
+And inside that you'll find two folders.
+
+00:15.510 --> 00:18.840
+One is Kube manifest and Kube manifest curl,
+
+00:18.840 --> 00:21.801
+which is nothing but we are going to deploy the curl pod
+
+00:21.801 --> 00:24.360
+and curl pod related Kube manifest.
+
+00:24.360 --> 00:26.250
+We have put it separate.
+
+00:26.250 --> 00:28.260
+So as part of introductory section
+
+00:28.260 --> 00:31.200
+we already understood about we are going to create
+
+00:31.200 --> 00:32.970
+a internal application load balancer
+
+00:32.970 --> 00:35.250
+using Kubernetes English manifest
+
+00:35.250 --> 00:37.830
+and also test it with the curl pod.
+
+00:37.830 --> 00:40.080
+So we'll go to our visual studio code
+
+00:40.080 --> 00:42.990
+and review the Kubernetes manifest.
+
+00:42.990 --> 00:45.750
+So let's go back to our visual studio code here
+
+00:45.750 --> 00:49.456
+and we are in 0-8-14 Ingress internal LB.
+
+00:49.456 --> 00:53.220
+And if you see the Kube manifest so 0-1, 0-2, 0-3,
+
+00:53.220 --> 00:56.130
+you will have the app 1, app 2, app 3 deployment
+
+00:56.130 --> 00:57.960
+and NodePort services.
+
+00:57.960 --> 01:01.950
+And 0-4 you'll have the LB Ingress internal LB.
+
+01:01.950 --> 01:04.140
+So the name of the Ingress resource
+
+01:04.140 --> 01:06.990
+is going to be ingress internal LB demo.
+
+01:06.990 --> 01:08.340
+And name of the load balancer
+
+01:08.340 --> 01:10.503
+is going to be Ingress internal LB.
+
+01:11.580 --> 01:14.700
+And if you see here we don't have any other things.
+
+01:14.700 --> 01:17.280
+This is a plain context, part based routing use
+
+01:17.280 --> 01:19.950
+case which we have taken from that demo.
+
+01:19.950 --> 01:22.710
+So there is no SSL and there is nothing else.
+
+01:22.710 --> 01:25.637
+So we have added the create internal application
+
+01:25.637 --> 01:27.030
+load balancer.
+
+01:27.030 --> 01:29.280
+So we committed the internet facing scheme
+
+01:29.280 --> 01:31.410
+and then we have added internal.
+
+01:31.410 --> 01:33.180
+And these are health check settings.
+
+01:33.180 --> 01:34.770
+That's all, right?
+
+01:34.770 --> 01:35.910
+So there is nothing else.
+
+01:35.910 --> 01:37.973
+Very simple load balancer name
+
+01:37.973 --> 01:41.910
+and the schema internal and health check settings
+
+01:41.910 --> 01:43.650
+and then English class name
+
+01:43.650 --> 01:45.420
+and as usual the default backend
+
+01:45.420 --> 01:47.880
+for app 3 Nginx Nodeport service.
+
+01:47.880 --> 01:51.480
+And for app 1, it is going to be slash app 1 related rules
+
+01:51.480 --> 01:55.140
+and for slash app 2, slash app 2 related rules.
+
+01:55.140 --> 01:59.220
+So now let's also review the curl pod ones, right?
+
+01:59.220 --> 02:00.750
+So in the curl pod this is just,
+
+02:00.750 --> 02:02.880
+it is going to directly create a pod
+
+02:02.880 --> 02:05.029
+for a CAPA version of kind pod
+
+02:05.029 --> 02:07.980
+and it is going to create a curl pod for us.
+
+02:07.980 --> 02:11.220
+So it'll download the curl pod and run it.
+
+02:11.220 --> 02:13.450
+So now let's come back here
+
+02:14.610 --> 02:17.249
+and go back to our GitHub repository
+
+02:17.249 --> 02:20.700
+and go ahead and then deploy the Kube manifests.
+
+02:20.700 --> 02:25.700
+So we'll say here 0-8 N 14 Ingress internal load balancer.
+
+02:27.240 --> 02:29.364
+So we already discussed about this.
+
+02:29.364 --> 02:32.220
+So whenever you have the scheme as internal,
+
+02:32.220 --> 02:35.700
+it is going to create the internal load balancer for us.
+
+02:35.700 --> 02:40.260
+So I'll say Kube CTL, apply hyphen F and Kube manifest.
+
+02:40.260 --> 02:41.220
+So this should create
+
+02:41.220 --> 02:44.550
+the app 1 app 2 app 3 application deployments
+
+02:44.550 --> 02:47.010
+and also the 3 NodePort services.
+
+02:47.010 --> 02:50.088
+In addition to that it should create a Ingress service
+
+02:50.088 --> 02:52.860
+with the internal load balancer.
+
+02:52.860 --> 02:56.610
+So if I say Kube CTL get ports,
+
+02:56.610 --> 03:00.360
+Nginx ports 1,2,3 should be displayed here.
+
+03:00.360 --> 03:03.930
+And we'll also say Kube CTL get SVC
+
+03:03.930 --> 03:06.773
+and Nginx related app 1, app 2, app 3
+
+03:06.773 --> 03:09.750
+related NodePort services should be displayed.
+
+03:09.750 --> 03:14.410
+And now we will run the command Cube CTL get Ingress.
+
+03:15.360 --> 03:17.610
+And you should see the Ingress service
+
+03:17.610 --> 03:19.710
+created with internal.
+
+03:19.710 --> 03:22.980
+So this is our ingress internal LB is the name.
+
+03:22.980 --> 03:25.710
+But also Ingress ensure
+
+03:25.710 --> 03:28.680
+that it also appended with internal hyphen.
+
+03:28.680 --> 03:30.240
+So if you come back here
+
+03:30.240 --> 03:33.960
+and verify your load balancer name is Ingress internal LB.
+
+03:33.960 --> 03:36.000
+So only til here, right?
+
+03:36.000 --> 03:38.529
+But it also opened it with internal hyphen
+
+03:38.529 --> 03:42.090
+to tell us that it is creating a internal load balancer
+
+03:42.090 --> 03:44.340
+for us for the address, right?
+
+03:44.340 --> 03:46.500
+So in this one as usual the name became same
+
+03:46.500 --> 03:48.930
+Ingress internal LB demo.
+
+03:48.930 --> 03:50.430
+So this is the one, right?
+
+03:50.430 --> 03:51.420
+So that is good.
+
+03:51.420 --> 03:54.013
+So now let's come back here, right?
+
+03:54.013 --> 03:57.720
+And verify the listeners and ports and all those things.
+
+03:57.720 --> 03:59.880
+So let's go to load balances here.
+
+03:59.880 --> 04:02.430
+Ingress internal LB is getting created
+
+04:02.430 --> 04:04.200
+and if you see on port 80,
+
+04:04.200 --> 04:08.220
+there is no 4-4-3 related annotations here
+
+04:08.220 --> 04:11.730
+or any 4-4-3 related SSL annotations
+
+04:11.730 --> 04:13.050
+and all those things for remote.
+
+04:13.050 --> 04:17.460
+It is a plain simple load balancer with port 80.
+
+04:17.460 --> 04:19.170
+And port 80 is a default setting.
+
+04:19.170 --> 04:23.070
+You really don't need to specify the listen ports for that.
+
+04:23.070 --> 04:25.560
+So now let's come back here
+
+04:25.560 --> 04:29.190
+and go to this view our edit rules for port 80.
+
+04:29.190 --> 04:32.370
+And you can see slash app 1 should go to app 1 target group
+
+04:32.370 --> 04:34.740
+app 2 should go to app 2 target group
+
+04:34.740 --> 04:37.590
+and default should go to app 3 target group.
+
+04:37.590 --> 04:40.290
+And also if you see here
+
+04:40.290 --> 04:43.050
+this is the load balancer DNS name.
+
+04:43.050 --> 04:47.430
+So let's copy and do a, and let's look up for that, right?
+
+04:47.430 --> 04:50.550
+So it should have a internal name, right?
+
+04:50.550 --> 04:55.550
+So 190 to 168, 110 dot 94, 190 to 168, 77 dot 250.
+
+04:56.550 --> 04:59.220
+So this is from internal cluster,
+
+04:59.220 --> 05:01.140
+internal related subnet space,
+
+05:01.140 --> 05:04.770
+but not the external internet edge subnet space for us.
+
+05:04.770 --> 05:08.250
+So which means this one we cannot access it.
+
+05:08.250 --> 05:10.920
+So if I say curl, so it is not accessible
+
+05:10.920 --> 05:12.990
+for us from the internet.
+
+05:12.990 --> 05:13.950
+So that's about it.
+
+05:13.950 --> 05:15.930
+So now let's come back here
+
+05:15.930 --> 05:19.530
+and if we want we can also verify our target groups, also.
+
+05:19.530 --> 05:22.650
+There is no change in NodePort service or deployments.
+
+05:22.650 --> 05:25.170
+So obviously those are going to be same,
+
+05:25.170 --> 05:27.328
+which means it'll have them,
+
+05:27.328 --> 05:30.870
+if you take the app 1 Nginx related target group.
+
+05:30.870 --> 05:32.790
+So two nodes were registered here
+
+05:32.790 --> 05:34.770
+with those respective NodePorts
+
+05:34.770 --> 05:38.100
+and those are healthy, right?
+
+05:38.100 --> 05:40.192
+Why? Because we have used the NodePort service here, right?
+
+05:40.192 --> 05:42.420
+So the instance type
+
+05:42.420 --> 05:45.390
+or the target type is NodePort by default.
+
+05:45.390 --> 05:48.900
+So automatically all the worker nodes registered here.
+
+05:48.900 --> 05:50.943
+So now let's come back here
+
+05:50.943 --> 05:55.250
+and go to the curl pod to do the testing, right?
+
+05:55.250 --> 05:57.060
+So we have reviewed this.
+
+05:57.060 --> 05:59.700
+We'll go back here and then deploy the curl pod.
+
+05:59.700 --> 06:01.710
+So let's come back here
+
+06:01.710 --> 06:05.070
+and Kube CTL apply hyphen F Kube manifest curl.
+
+06:05.070 --> 06:07.410
+So this should create the curl pod for us.
+
+06:07.410 --> 06:10.150
+So it has created, if I say Kube CTL get pods,
+
+06:10.150 --> 06:13.200
+curl pod should be running for us.
+
+06:13.200 --> 06:15.180
+See curl pod is running.
+
+06:15.180 --> 06:18.510
+So now we will connect to this curl pod, right?
+
+06:18.510 --> 06:20.790
+Kube CTL exit hyphen D curl pod,
+
+06:20.790 --> 06:23.400
+pod name and hyphen hyphen SH.
+
+06:23.400 --> 06:24.930
+And if you see here,
+
+06:24.930 --> 06:27.960
+this is we are inside the curl pod now.
+
+06:27.960 --> 06:29.700
+You see the terminal here, right?
+
+06:29.700 --> 06:32.190
+So we are in the curl pod. Or I'll exit.
+
+06:32.190 --> 06:34.980
+And first I'll clear this, right?
+
+06:34.980 --> 06:37.650
+And clear.
+
+06:37.650 --> 06:39.660
+And we'll come from the top.
+
+06:39.660 --> 06:43.173
+Let's wait for it and we'll connect to the curl pod now.
+
+06:44.970 --> 06:48.360
+And if I say host name, we are in the curl pod, right?
+
+06:48.360 --> 06:50.208
+So now let's come back here
+
+06:50.208 --> 06:52.287
+and if you want you can say curl.
+
+06:52.287 --> 06:55.800
+And our outbound is open from our EKS cluster
+
+06:55.800 --> 06:57.911
+via NAT gateway for the private subnet.
+
+06:57.911 --> 07:00.890
+So which means if I say google dot com also
+
+07:00.890 --> 07:03.330
+it should be allowed for us, see?
+
+07:03.330 --> 07:05.970
+3-0-1 more. It is accessible for us.
+
+07:05.970 --> 07:10.350
+So now we will use the, this one to access our application.
+
+07:10.350 --> 07:14.790
+So this is our DNS name of my internal pod,
+
+07:14.790 --> 07:17.397
+internal load balancer. So I'll say curl.
+
+07:17.397 --> 07:20.233
+And this should get me that default page
+
+07:20.233 --> 07:22.920
+which is Kubernetes fundamentals demo
+
+07:22.920 --> 07:26.490
+which is the root context are the app 3 Nginx, right?
+
+07:26.490 --> 07:31.490
+So now if I say slash app 1 slash index dot html
+
+07:31.560 --> 07:34.620
+so it should give me the app 1, right?
+
+07:34.620 --> 07:36.720
+See where application name, app 1.
+
+07:36.720 --> 07:39.180
+It has been successful.
+
+07:39.180 --> 07:41.460
+And we'll also test the app 2 related thing
+
+07:41.460 --> 07:42.963
+with the same curl command.
+
+07:43.920 --> 07:46.290
+So you can see app 2 is successful.
+
+07:46.290 --> 07:49.620
+So you have successfully created the internal load balancer
+
+07:49.620 --> 07:52.270
+and you have deployed a curl pod in the EKS cluster
+
+07:52.270 --> 07:54.066
+and from that EKS cluster
+
+07:54.066 --> 07:56.340
+because this internal load balancer
+
+07:56.340 --> 07:59.029
+is from the internal networks of EKS cluster.
+
+07:59.029 --> 08:01.470
+So obviously you are able to access that
+
+08:01.470 --> 08:04.920
+and do the curl from this respective curl pod.
+
+08:04.920 --> 08:07.320
+So this is also successful for us.
+
+08:07.320 --> 08:10.800
+So now let's go back here and then clean up the stuff.
+
+08:10.800 --> 08:13.308
+So for cleaning up, we'll say Kube CTL
+
+08:13.308 --> 08:16.320
+delete hyphen F Kube manifest
+
+08:16.320 --> 08:19.710
+and also delete hyphen F curl pod.
+
+08:19.710 --> 08:21.750
+So all our app 1, app 2, app 3
+
+08:21.750 --> 08:25.260
+and then Ingress related Kubernetes objects were deleted.
+
+08:25.260 --> 08:28.320
+So we'll also delete the Kube CTL
+
+08:28.320 --> 08:32.070
+and delete and hyphen F
+
+08:32.070 --> 08:34.290
+and Kube manifests hyphen curl.
+
+08:34.290 --> 08:36.690
+So that whatever the curl pod we have deployed
+
+08:36.690 --> 08:39.330
+also will be removed.
+
+08:39.330 --> 08:44.280
+So this completes the Ingress internal load balancer demo.
+
+08:44.280 --> 08:45.840
+I'll see you in the next lecture.
+
+08:45.840 --> 08:47.070
+Until then, bye bye.
+
+08:47.070 --> 08:47.903
+Thank you.

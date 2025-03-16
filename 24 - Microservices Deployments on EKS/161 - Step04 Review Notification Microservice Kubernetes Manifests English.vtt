@@ -1,0 +1,448 @@
+WEBVTT
+
+00:00.270 --> 00:01.710
+-: Welcome back.
+
+00:01.710 --> 00:03.690
+In this lecture, we are going to discuss
+
+00:03.690 --> 00:05.460
+about the Kubernetes manifest
+
+00:05.460 --> 00:08.100
+related to user management microservice,
+
+00:08.100 --> 00:10.200
+and then notification-microservice
+
+00:10.200 --> 00:13.567
+and also our ALB Ingress service.
+
+00:13.567 --> 00:16.170
+So step four, five, six,
+
+00:16.170 --> 00:18.570
+and then seven and then eight.
+
+00:18.570 --> 00:21.960
+So all these four steps are primarily related
+
+00:21.960 --> 00:23.670
+to this manifest only.
+
+00:23.670 --> 00:25.140
+So, let's start with step four,
+
+00:25.140 --> 00:27.060
+which is create notification
+
+00:27.060 --> 00:29.820
+microservice deployment manifest, right?
+
+00:29.820 --> 00:33.240
+So, I have created everything and then put it ready here.
+
+00:33.240 --> 00:35.220
+So, it's a standard deployment manifest.
+
+00:35.220 --> 00:37.560
+So, we really didn't add anything special here
+
+00:37.560 --> 00:40.230
+but we'll go and then review it step by step.
+
+00:40.230 --> 00:42.210
+Okay, so let's go to...
+
+00:42.210 --> 00:45.690
+if you see here 01, 02, 03 to 07
+
+00:45.690 --> 00:49.020
+are our templates in 12 microservices deployment
+
+00:49.020 --> 00:51.689
+on EKS and inside that queue manifests, okay?
+
+00:51.689 --> 00:53.880
+So you know that 01 is related
+
+00:53.880 --> 00:56.520
+to our MySQL external name service.
+
+00:56.520 --> 00:59.880
+And then you need to replace your external name here
+
+00:59.880 --> 01:02.730
+related to your RDS database.
+
+01:02.730 --> 01:06.522
+So, whatever the RDS database endpoint is present with you,
+
+01:06.522 --> 01:10.020
+so you need to replace this value.
+
+01:10.020 --> 01:11.070
+So, let me go there
+
+01:11.070 --> 01:13.710
+and then show you that one more time, okay?
+
+01:13.710 --> 01:16.620
+So this endpoint you need to replace here.
+
+01:16.620 --> 01:18.270
+So this is the endpoint information
+
+01:18.270 --> 01:20.370
+what you need to replace in 01.
+
+01:20.370 --> 01:23.760
+And user management microservices deployment,
+
+01:23.760 --> 01:25.170
+we are not going to touch this.
+
+01:25.170 --> 01:27.000
+First, we'll go back to notification
+
+01:27.000 --> 01:28.650
+and then come back to user management.
+
+01:28.650 --> 01:31.740
+Okay, so this is user management microservice deployment
+
+01:31.740 --> 01:34.170
+and this is user management node port service, okay?
+
+01:34.170 --> 01:35.880
+Those two are standard ones, okay?
+
+01:35.880 --> 01:38.490
+So, now we'll go to notification
+
+01:38.490 --> 01:40.500
+microservice deployment.
+
+01:40.500 --> 01:43.140
+So, if you see here API version, kind, metadata
+
+01:43.140 --> 01:45.180
+are standard stuff here, right?
+
+01:45.180 --> 01:46.500
+And inside deployment,
+
+01:46.500 --> 01:48.720
+you know that we will have spec, replica,
+
+01:48.720 --> 01:50.740
+selector and then port template, okay?
+
+01:50.740 --> 01:53.250
+So, selector will have the match labels
+
+01:53.250 --> 01:56.850
+with whatever is presenting port template label.
+
+01:56.850 --> 01:58.020
+This is same, okay?
+
+01:58.020 --> 01:59.070
+So, that is good.
+
+01:59.070 --> 02:03.570
+And replicas, we know that we are going to have two replicas
+
+02:03.570 --> 02:05.760
+of our application, right?
+
+02:05.760 --> 02:07.500
+So, we can have two or one.
+
+02:07.500 --> 02:09.270
+Whatever we want we can have it.
+
+02:09.270 --> 02:10.320
+Okay, So that's fine.
+
+02:10.320 --> 02:13.140
+So, I'm just having it one for now.
+
+02:13.140 --> 02:16.710
+So, now the next thing is in PodTemplateSpec
+
+02:16.710 --> 02:18.459
+you are going to have the container name
+
+02:18.459 --> 02:21.570
+and then images whatever we have discussed here,
+
+02:21.570 --> 02:25.590
+right in our section related to images stack.
+
+02:25.590 --> 02:29.730
+Simplify cube notification-microservice 1.0.0.
+
+02:29.730 --> 02:31.560
+And for user management
+
+02:31.560 --> 02:33.750
+you have seen already in multiple sections
+
+02:33.750 --> 02:36.870
+it is going to be 809 (indistinct) the port.
+
+02:36.870 --> 02:40.080
+So, here it is going to be 8096.
+
+02:40.080 --> 02:43.110
+So here, one additional thing I have added
+
+02:43.110 --> 02:45.710
+it is image-pull-policy always, okay?
+
+02:45.710 --> 02:46.950
+So you can remove it.
+
+02:46.950 --> 02:49.050
+So, what this does is whenever you are doing
+
+02:49.050 --> 02:51.510
+the notification-microservice deployment,
+
+02:51.510 --> 02:55.110
+immediately even though it is present in your worker notes,
+
+02:55.110 --> 02:56.610
+that respect to image,
+
+02:56.610 --> 02:59.070
+so it is going to download it from Docker hub.
+
+02:59.070 --> 03:01.590
+So, just to add some additional option to let you know
+
+03:01.590 --> 03:03.510
+that we will have in container definition,
+
+03:03.510 --> 03:06.180
+something like image pool policy.
+
+03:06.180 --> 03:09.990
+So, always means it is going to go to Docker hub
+
+03:09.990 --> 03:12.480
+and then pull that image to these worker notes
+
+03:12.480 --> 03:16.170
+and then use that image from worker notes
+
+03:16.170 --> 03:18.030
+So, if this option is not there,
+
+03:18.030 --> 03:19.860
+what it is going to do is like,
+
+03:19.860 --> 03:22.740
+so it is going to use
+
+03:22.740 --> 03:26.400
+whatever previously downloaded notification service image,
+
+03:26.400 --> 03:29.130
+Okay, with whatever the same tag is available.
+
+03:29.130 --> 03:30.270
+So, that's about it.
+
+03:30.270 --> 03:33.330
+And now you can see it here and we are on mental variables
+
+03:33.330 --> 03:35.610
+whatever we discussed, right?
+
+03:35.610 --> 03:37.410
+So, these are the things, okay?
+
+03:37.410 --> 03:39.450
+Mail server, host, username, password,
+
+03:39.450 --> 03:40.650
+and then from address.
+
+03:40.650 --> 03:42.900
+So, let me copy that username from here,
+
+03:42.900 --> 03:45.180
+whatever we made a note or we can go here
+
+03:45.180 --> 03:47.827
+and then copy the username from here also if you want, okay?
+
+03:47.827 --> 03:49.980
+So, I'm going to copy this
+
+03:49.980 --> 03:54.980
+and go back to our notification-microservice deployment here
+
+03:56.430 --> 03:59.344
+and I'm going to paste that, right?
+
+03:59.344 --> 04:00.840
+So that's the thing.
+
+04:00.840 --> 04:02.340
+And the mail server password,
+
+04:02.340 --> 04:04.830
+I'm going to remove this first, right?
+
+04:04.830 --> 04:08.070
+And I'm going to get it from here, right?
+
+04:08.070 --> 04:10.920
+Copy and then paste.
+
+04:10.920 --> 04:14.130
+And username, you know that it is stacksimplify@gmail.com
+
+04:14.130 --> 04:16.950
+The from address from which the email is getting initiated
+
+04:16.950 --> 04:19.050
+means like it looks like whenever you reach the email,
+
+04:19.050 --> 04:21.193
+the from address should be this one, okay?
+
+04:21.193 --> 04:25.080
+And mail server host, you can see SMTP service.
+
+04:25.080 --> 04:28.230
+So, let's go ahead and then see what is this SMTP service.
+
+04:28.230 --> 04:29.730
+Okay, so you can see here,
+
+04:29.730 --> 04:32.160
+notification-microservice SMTP,
+
+04:32.160 --> 04:34.410
+external name service, okay?
+
+04:34.410 --> 04:37.140
+So API version, kind and metadata, and then spec.
+
+04:37.140 --> 04:37.973
+All these are same,
+
+04:37.973 --> 04:40.500
+same as MySQL external name service, okay?
+
+04:40.500 --> 04:43.110
+Only thing the value under the external name
+
+04:43.110 --> 04:45.540
+is going to be whatever is present here, right?
+
+04:45.540 --> 04:48.900
+So in simple email service,
+
+04:48.900 --> 04:51.480
+in SMTP settings, right?
+
+04:51.480 --> 04:53.610
+So if you see here, this is the server name.
+
+04:53.610 --> 04:57.930
+So that is what will be your external name here, okay?
+
+04:57.930 --> 05:01.380
+So, that whenever the notification-microservice
+
+05:01.380 --> 05:04.950
+want to connect to SMTP server and send the email,
+
+05:04.950 --> 05:08.190
+the mail server host is going to be SMTP service
+
+05:08.190 --> 05:10.740
+which is nothing but the SMTP service
+
+05:10.740 --> 05:12.900
+external name service, SMTP service.
+
+05:12.900 --> 05:17.400
+This is the service which we are referencing here, okay?
+
+05:17.400 --> 05:21.063
+So, if I name it as SMTP service-abc,
+
+05:22.440 --> 05:25.333
+this value becomes SMTP service-abc.
+
+05:25.333 --> 05:28.260
+So, it's just only a naming convention, okay?
+
+05:28.260 --> 05:30.870
+So, I'm just going to remove this, but that's the thing.
+
+05:30.870 --> 05:33.150
+So, we created external name service here
+
+05:33.150 --> 05:36.930
+and then reference that in our environmental variable here.
+
+05:36.930 --> 05:39.150
+So, we have a completed discussing
+
+05:39.150 --> 05:41.490
+about this notification cluster IP service,
+
+05:41.490 --> 05:43.950
+notification-microservice deployment,
+
+05:43.950 --> 05:46.440
+and then notification related SMTP
+
+05:46.440 --> 05:48.210
+external name service, okay?
+
+05:48.210 --> 05:49.860
+So which means our step four,
+
+05:49.860 --> 05:52.350
+create notification, microservice-notification,
+
+05:52.350 --> 05:54.840
+microservice SMTP, external name service
+
+05:54.840 --> 05:57.063
+and then notification-microservice
+
+05:57.063 --> 05:59.640
+SMTP port services completed.
+
+05:59.640 --> 06:00.870
+So, in our next lecture,
+
+06:00.870 --> 06:02.700
+we'll focus on these other steps,
+
+06:02.700 --> 06:04.454
+which is YAML's node port service
+
+06:04.454 --> 06:07.050
+user management microservice deployment,
+
+06:07.050 --> 06:11.760
+MySQL external name service, and UMS Ingress service.
+
+06:11.760 --> 06:13.590
+So, I'll see you in the next lecture.
+
+06:13.590 --> 06:14.700
+Until then, bye-bye.
+
+06:14.700 --> 06:15.533
+Thank you.

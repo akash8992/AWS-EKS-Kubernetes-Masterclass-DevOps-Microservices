@@ -1,0 +1,193 @@
+WEBVTT
+
+00:00.120 --> 00:00.953
+-: Welcome back.
+
+00:00.953 --> 00:02.850
+In step two, we are going to look into
+
+00:02.850 --> 00:06.637
+prerequisites required for our this section implementation.
+
+00:06.637 --> 00:07.470
+So as usual,
+
+00:07.470 --> 00:11.851
+we need to have the AWS database up and running.
+
+00:11.851 --> 00:15.517
+So because we are using the My Skill External Service
+
+00:15.517 --> 00:17.068
+and then we are referencing the same thing
+
+00:17.068 --> 00:21.133
+in our user management deployment service.
+
+00:21.133 --> 00:23.384
+So next thing is we also need to ensure
+
+00:23.384 --> 00:26.095
+that we have our ALB ingress controller
+
+00:26.095 --> 00:29.330
+and then external DNS port up and running
+
+00:29.330 --> 00:30.790
+because we are going to use
+
+00:30.790 --> 00:34.380
+the ALB ingress related manifest here
+
+00:34.380 --> 00:36.540
+and also leverage the external DNS
+
+00:36.540 --> 00:41.540
+for registering the cany demo dot qan cloud.com in Route 53.
+
+00:41.627 --> 00:43.325
+And in addition to that,
+
+00:43.325 --> 00:47.325
+we also need to ensure that Xray demos up and running.
+
+00:47.325 --> 00:50.640
+So for the fact that we are going to
+
+00:50.640 --> 00:53.530
+leverage all the Xray related ports here
+
+00:54.450 --> 00:56.910
+which means Xray related demo set is deployed
+
+00:56.910 --> 00:58.200
+and then it should be up and running.
+
+00:58.200 --> 01:01.530
+Those things we need to ensure those are running.
+
+01:01.530 --> 01:03.960
+So let's crosscheck our ingress is up and running.
+
+01:03.960 --> 01:06.679
+So in every section this is a common prerequisite step,
+
+01:06.679 --> 01:09.338
+but if it is not mentioned,
+
+01:09.338 --> 01:10.879
+then by any chance we have issues.
+
+01:10.879 --> 01:14.340
+So then this prerequisite step is the core thing
+
+01:14.340 --> 01:16.150
+that these need to be required
+
+01:16.150 --> 01:18.727
+for those templates, whatever built.
+
+01:18.727 --> 01:22.238
+So LB ingress controller, it should be up and running.
+
+01:22.238 --> 01:26.700
+And in default name space, we should have external DNS
+
+01:26.700 --> 01:29.280
+and then X-Ray Damon.
+
+01:29.280 --> 01:30.990
+So both should be up and running.
+
+01:30.990 --> 01:32.401
+So external DNS is up and running.
+
+01:32.401 --> 01:36.480
+And then Xray demos are up and running. Good.
+
+01:36.480 --> 01:39.870
+So this confirms that our prerequisites are good
+
+01:39.870 --> 01:42.840
+and if you want, you can go back to your RDS database
+
+01:42.840 --> 01:44.160
+and then crosscheck.
+
+01:44.160 --> 01:47.297
+And for RDS, you have an option to also use alternate
+
+01:47.297 --> 01:48.630
+which is nothing.
+
+01:48.630 --> 01:51.120
+But instead of using RDS database
+
+01:51.120 --> 01:53.040
+if you want to use in memory database
+
+01:53.040 --> 01:57.480
+just change this to 4.0.0 xray H two db.
+
+01:57.480 --> 02:00.612
+So the CME is also shown in ara hub dot doca
+
+02:00.612 --> 02:02.374
+dot com earlier also.
+
+02:02.374 --> 02:04.050
+So the same thing you can use
+
+02:04.050 --> 02:06.780
+for RDS database if you want to use that.
+
+02:06.780 --> 02:09.526
+But always try to ensure that we are using
+
+02:09.526 --> 02:11.776
+My Skill type of stuff so that we
+
+02:11.776 --> 02:14.610
+it means like when we are learning
+
+02:14.610 --> 02:15.923
+or when we are planning to learn also,
+
+02:15.923 --> 02:19.710
+we are leaning towards more real-time examples
+
+02:19.710 --> 02:21.533
+instead of some in memory stuff.
+
+02:21.533 --> 02:25.710
+But for backup also, I have provided this image for you
+
+02:25.710 --> 02:26.737
+and it is also going to work
+
+02:26.737 --> 02:30.000
+with all these use cases without any issues.
+
+02:30.000 --> 02:31.980
+Only thing is data is not going to persist
+
+02:31.980 --> 02:35.936
+if try to create user and then list users, all those things.
+
+02:35.936 --> 02:37.500
+That's about it.
+
+02:37.500 --> 02:38.760
+So in our next lecture,
+
+02:38.760 --> 02:40.680
+we'll focus on reviewing the manifest.
+
+02:40.680 --> 02:41.949
+So I'll see you in the next lecture.
+
+02:41.949 --> 02:43.630
+Until then, bye bye.
+
+02:43.630 --> 02:44.733
+Thank you.

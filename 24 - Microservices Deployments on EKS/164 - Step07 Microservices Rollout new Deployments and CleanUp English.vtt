@@ -1,0 +1,532 @@
+WEBVTT
+
+00:00.150 --> 00:01.230
+-: Welcome back.
+
+00:01.230 --> 00:03.030
+In this lecture we are going
+
+00:03.030 --> 00:05.670
+to work on rollout new deployments
+
+00:05.670 --> 00:09.000
+for our notification service using three options
+
+00:09.000 --> 00:10.410
+available in Kubernetes.
+
+00:10.410 --> 00:14.190
+One is set image option, kubectl edit,
+
+00:14.190 --> 00:17.160
+and then update manifest, and then deploy.
+
+00:17.160 --> 00:21.300
+So in any of the three ways you can upgrade your application
+
+00:21.300 --> 00:25.740
+version from 1.0.0 to 2.0.0.
+
+00:25.740 --> 00:27.090
+So before going there,
+
+00:27.090 --> 00:30.420
+so we'll go to our notification service
+
+00:30.420 --> 00:34.380
+and the current running version you can see is V1, right?
+
+00:34.380 --> 00:39.380
+So let me go here and then let's do this now, right?
+
+00:39.841 --> 00:42.540
+Let's go to step 14,
+
+00:42.540 --> 00:46.140
+rollout new deployment using set image option.
+
+00:46.140 --> 00:49.200
+So we can say kubectl set image
+
+00:49.200 --> 00:51.630
+for the deployment notification microservice.
+
+00:51.630 --> 00:54.180
+You can say that notification hyphen service
+
+00:54.180 --> 00:56.130
+is equal to, right?
+
+00:56.130 --> 00:57.930
+So notification hyphen service
+
+00:57.930 --> 01:01.470
+is nothing but your respective container name.
+
+01:01.470 --> 01:05.550
+So if you go to your visual studio code here
+
+01:05.550 --> 01:08.040
+and then go to kube manifest
+
+01:08.040 --> 01:13.040
+and then go to notification microservice deployment.
+
+01:13.740 --> 01:15.060
+See this is the name.
+
+01:15.060 --> 01:19.470
+So for the deployment notification microservice
+
+01:19.470 --> 01:20.730
+this is the name, right?
+
+01:20.730 --> 01:25.023
+And for the container notification hyphen service container,
+
+01:25.860 --> 01:30.270
+the image it need to set is 2.0.0.
+
+01:30.270 --> 01:32.077
+So currently it using 1.0.0.
+
+01:33.120 --> 01:35.520
+So I want to use 2.0.0
+
+01:35.520 --> 01:37.500
+and then record this statement, okay?
+
+01:37.500 --> 01:39.060
+So that's what it is saying.
+
+01:39.060 --> 01:41.910
+So let me copy this, okay?
+
+01:41.910 --> 01:43.263
+And then paste it here.
+
+01:45.510 --> 01:50.510
+And now, automatically kube ctl get pods.
+
+01:52.770 --> 01:55.890
+We should see that old notification microservice
+
+01:55.890 --> 02:00.210
+should be terminating and the new one should be creating.
+
+02:00.210 --> 02:03.750
+Okay, so now it got created, so four seconds.
+
+02:03.750 --> 02:06.180
+So let's, if you want we can verify the logs,
+
+02:06.180 --> 02:08.310
+but we'll go here and then access
+
+02:08.310 --> 02:10.950
+the tendency notification service, right?
+
+02:10.950 --> 02:13.365
+So shift. Ah, refreshed it, okay?
+
+02:13.365 --> 02:15.570
+So you can see I have refreshed it
+
+02:15.570 --> 02:18.630
+and notification service V2 version is deployed
+
+02:18.630 --> 02:21.840
+just with kubectl set image option, right?
+
+02:21.840 --> 02:25.320
+So whatever we have done with set image for that deployment.
+
+02:25.320 --> 02:27.630
+So this is one rollout option we have
+
+02:27.630 --> 02:30.330
+and default is rolling update.
+
+02:30.330 --> 02:34.200
+So obviously you have 10 replicas, up to 10 replicas.
+
+02:34.200 --> 02:37.740
+So it'll be like default rolling update.
+
+02:37.740 --> 02:40.620
+So we'll not have any downtime, okay?
+
+02:40.620 --> 02:43.800
+And if you want, we can have the settings also there.
+
+02:43.800 --> 02:45.090
+How much should be taken
+
+02:45.090 --> 02:48.151
+in the rolling update model, 25% of 10 parts,
+
+02:48.151 --> 02:50.685
+or four parts or whatever we want, we can configure.
+
+02:50.685 --> 02:52.687
+But putting that aside,
+
+02:52.687 --> 02:56.760
+so now we are seeing the V2 version here.
+
+02:56.760 --> 02:59.310
+So, now we can go back here.
+
+02:59.310 --> 03:00.990
+So, you can see rollout status.
+
+03:00.990 --> 03:02.610
+You can see with this command.
+
+03:02.610 --> 03:05.640
+So why about now already it's only one pod,
+
+03:05.640 --> 03:07.020
+it's already rolled out.
+
+03:07.020 --> 03:09.570
+So we'll not see anything here with this, right?
+
+03:09.570 --> 03:12.300
+Successfully rolled out, you can say that's all, okay?
+
+03:12.300 --> 03:14.850
+And you can see the new replica set will be created
+
+03:14.850 --> 03:17.700
+with kubectl get RS, right?
+
+03:17.700 --> 03:19.809
+So this is the new replica created
+
+03:19.809 --> 03:23.797
+for this respect, new 2.0 rollout, okay?
+
+03:23.797 --> 03:27.150
+And one important thing is this entire section
+
+03:27.150 --> 03:28.620
+related to rollouts,
+
+03:28.620 --> 03:31.290
+we have seen in our foundation section,
+
+03:31.290 --> 03:32.940
+which is fundamental section,
+
+03:32.940 --> 03:35.820
+but now we are completely dealing with microservices.
+
+03:35.820 --> 03:40.530
+I want to add it as an extra option to see you one more time
+
+03:40.530 --> 03:43.860
+but if you already gone through the fundamental section
+
+03:43.860 --> 03:46.110
+and then if you are aware of these commands,
+
+03:46.110 --> 03:49.020
+you can ignore this section, okay?
+
+03:49.020 --> 03:52.680
+So if you want, you can see the rollout history also here
+
+03:52.680 --> 03:55.020
+because we said record is equal to true.
+
+03:55.020 --> 03:57.540
+So now the rollout history is what revision two
+
+03:57.540 --> 04:00.365
+is nothing but 2.0.0 version, okay?
+
+04:00.365 --> 04:03.090
+And if you want to roll back to previous version
+
+04:03.090 --> 04:05.010
+so you can say kubectl rollout
+
+04:05.010 --> 04:07.440
+undo that respect to deployment, okay?
+
+04:07.440 --> 04:10.500
+So if you do that, then it is going to go back
+
+04:10.500 --> 04:12.270
+to the older version.
+
+04:12.270 --> 04:15.510
+So, now if you see kubectl get pods, right?
+
+04:15.510 --> 04:19.379
+So now the one new one, whatever it has created
+
+04:19.379 --> 04:21.870
+is terminate and then it is going to again
+
+04:21.870 --> 04:23.460
+get the V1 version for us,
+
+04:23.460 --> 04:26.070
+notification V1 version for us.
+
+04:26.070 --> 04:30.623
+So if you access now the the notification health status.
+
+04:30.623 --> 04:34.830
+So let me refresh this and we should get V1 now.
+
+04:34.830 --> 04:36.121
+Good.
+
+04:36.121 --> 04:39.120
+So now we have successfully upgraded to new version
+
+04:39.120 --> 04:41.400
+means like went to the new version
+
+04:41.400 --> 04:44.700
+and then again roll back to the new version here, okay?
+
+04:44.700 --> 04:46.350
+In step 15 again we are going
+
+04:46.350 --> 04:50.940
+to do the rollout new deployment using kubectl edit, okay?
+
+04:50.940 --> 04:54.900
+So kubectl edit will using kubectl edit
+
+04:54.900 --> 04:56.550
+we can edit the deployment
+
+04:56.550 --> 05:01.550
+and then update the respect to image path directly.
+
+05:01.860 --> 05:03.300
+So, let me show you that, okay?
+
+05:03.300 --> 05:06.240
+So we are doing the step 15 here.
+
+05:06.240 --> 05:09.330
+So I'll paste it, kubectl edit, deployment
+
+05:09.330 --> 05:12.180
+and then notification microservice.
+
+05:12.180 --> 05:15.960
+So I can go here, I can go down
+
+05:15.960 --> 05:17.550
+and then go up from here.
+
+05:17.550 --> 05:19.140
+So from down if you catch it,
+
+05:19.140 --> 05:20.010
+it is easy, right?
+
+05:20.010 --> 05:21.450
+It's a poor definition.
+
+05:21.450 --> 05:22.350
+Okay?
+
+05:22.350 --> 05:24.477
+So now let it up,
+
+05:24.477 --> 05:28.323
+let it up, where is it?
+
+05:32.123 --> 05:33.933
+Come down, come down.
+
+05:37.470 --> 05:39.507
+So I need to search for 1.0.0.
+
+05:41.490 --> 05:42.990
+We got it here, okay?
+
+05:42.990 --> 05:43.830
+So here is the thing.
+
+05:43.830 --> 05:46.620
+So images, start simplified kube notification
+
+05:46.620 --> 05:49.170
+microservice to 1.0.0.
+
+05:49.170 --> 05:52.620
+So with edit we can change it to 2.0.0
+
+05:52.620 --> 05:53.673
+and then save it.
+
+05:54.784 --> 05:56.580
+And if we see this kubectl get parts
+
+05:56.580 --> 05:58.680
+so it should get getting terminated
+
+05:58.680 --> 06:01.200
+and then new one is getting created.
+
+06:01.200 --> 06:04.110
+And you can even see with the rollout deployments
+
+06:04.110 --> 06:06.300
+our replica sets are all these comments
+
+06:06.300 --> 06:08.182
+are common for us, right?
+
+06:08.182 --> 06:10.200
+So only thing is we can directly
+
+06:10.200 --> 06:12.000
+verify our application right?
+
+06:12.000 --> 06:14.460
+So now it should be again V2.
+
+06:14.460 --> 06:17.433
+So let me come here and then refresh it.
+
+06:18.330 --> 06:20.280
+It is V2, that's the thing.
+
+06:20.280 --> 06:23.520
+So, now what we will do is like if you want
+
+06:23.520 --> 06:25.500
+to again roll back, you can use rollout,
+
+06:25.500 --> 06:26.978
+undo deployment, okay?
+
+06:26.978 --> 06:31.978
+So, I'll say undo and I'll verify get pods.
+
+06:34.800 --> 06:38.340
+It's terminating and the new one is getting created
+
+06:38.340 --> 06:42.660
+and I'll go back here and it should be V1 now.
+
+06:42.660 --> 06:44.190
+Good, that's good.
+
+06:44.190 --> 06:45.690
+So we have rolled back.
+
+06:45.690 --> 06:49.470
+And one more way is like you can go back to your manifest
+
+06:49.470 --> 06:50.430
+here, right?
+
+06:50.430 --> 06:52.020
+So notification manifest
+
+06:52.020 --> 06:54.541
+and then change it to 2.0
+
+06:54.541 --> 06:59.541
+and then say kubectl apply-hyphen cube manifest.
+
+06:59.760 --> 07:04.710
+And then this also should change us to version 2.0, right?
+
+07:04.710 --> 07:08.943
+So let's kubectl and then if you say get pods,
+
+07:09.780 --> 07:12.960
+now it's terminating and then creating new one.
+
+07:12.960 --> 07:15.660
+And if you go here and if you refresh here
+
+07:15.660 --> 07:17.203
+it should be V2.
+
+07:17.203 --> 07:19.200
+And again if you want to roll back,
+
+07:19.200 --> 07:21.417
+again you change it to 1.0.0
+
+07:22.350 --> 07:26.463
+and then say kubtctl apply-F kube manifest.
+
+07:27.660 --> 07:31.350
+And then kubectl get pods, right?
+
+07:31.350 --> 07:34.440
+So it is terminating and then creating a new one.
+
+07:34.440 --> 07:37.113
+So let me refresh here and then it should be.
+
+07:38.040 --> 07:41.010
+So that's about the entire deployment strategies,
+
+07:41.010 --> 07:42.690
+means like roll out new deployment
+
+07:42.690 --> 07:44.370
+with the three options we have
+
+07:44.370 --> 07:45.870
+which is a setting image option
+
+07:45.870 --> 07:49.800
+or kubectl edit or update manifest and then deploy.
+
+07:49.800 --> 07:53.280
+So finally we can go ahead and then clean up our stuff.
+
+07:53.280 --> 07:54.113
+Okay?
+
+07:54.113 --> 07:55.500
+So let me see here.
+
+07:55.500 --> 07:58.593
+kubectl delete-F, right?
+
+07:58.593 --> 08:00.663
+And then kube manifest.
+
+08:01.749 --> 08:03.240
+And then whatever we have created so far,
+
+08:03.240 --> 08:05.330
+all will get deleted.
+
+08:05.330 --> 08:06.870
+That's about it.
+
+08:06.870 --> 08:11.297
+So this complete server microservices deployment
+
+08:11.297 --> 08:16.050
+on AWS EKS with user management microservice
+
+08:16.050 --> 08:19.050
+and then notification microservice.
+
+08:19.050 --> 08:21.900
+So, I'll see you in the next lecture.
+
+08:21.900 --> 08:23.370
+Until then, bye bye.
+
+08:23.370 --> 08:24.203
+Thank you.

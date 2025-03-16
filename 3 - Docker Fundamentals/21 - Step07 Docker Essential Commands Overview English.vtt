@@ -1,0 +1,226 @@
+WEBVTT
+
+00:00.540 --> 00:01.373
+-: Welcome back.
+
+00:01.373 --> 00:03.540
+So in the previous lecture, we have ensured
+
+00:03.540 --> 00:05.730
+that we have created a new Docker image,
+
+00:05.730 --> 00:07.260
+we have built the new Docker image
+
+00:07.260 --> 00:08.790
+and then pushed it to the Docker Hub,
+
+00:08.790 --> 00:10.380
+and then verified it.
+
+00:10.380 --> 00:13.860
+So now we are going to see few essential Docker commands.
+
+00:13.860 --> 00:16.470
+So most of them already we have used,
+
+00:16.470 --> 00:18.450
+and then we have implemented so far
+
+00:18.450 --> 00:22.920
+in our last few lectures, but we can again one more time,
+
+00:22.920 --> 00:24.390
+have a look into it, okay?
+
+00:24.390 --> 00:26.730
+So, docker ps, which is nothing but,
+
+00:26.730 --> 00:29.010
+list all running containers,
+
+00:29.010 --> 00:31.800
+docker ps -a, list all containers,
+
+00:31.800 --> 00:34.260
+stopped and then running, so both.
+
+00:34.260 --> 00:37.110
+So and then, docker stop and then container ID,
+
+00:37.110 --> 00:38.790
+stop the container which is running.
+
+00:38.790 --> 00:40.740
+So either it is a container ID,
+
+00:40.740 --> 00:42.750
+or you can give the container name also,
+
+00:42.750 --> 00:44.640
+if your container is named
+
+00:44.640 --> 00:46.860
+with hyphen hyphen name when you are running it.
+
+00:46.860 --> 00:49.770
+Docker run and then hyphen hyphen name if you have given.
+
+00:49.770 --> 00:52.410
+So then when you're stopping it or starting it,
+
+00:52.410 --> 00:54.660
+instead of finding the container ID and giving it,
+
+00:54.660 --> 00:56.820
+you know the name, then you can directly give the name,
+
+00:56.820 --> 00:58.740
+even for start and then restart also,
+
+00:58.740 --> 01:00.060
+you can use those.
+
+01:00.060 --> 01:02.760
+So docker port container ID will provide you
+
+01:02.760 --> 01:06.210
+the list of port mappings of a specific container.
+
+01:06.210 --> 01:09.240
+And for removing the container, either container ID
+
+01:09.240 --> 01:11.160
+or name you can provide.
+
+01:11.160 --> 01:14.220
+And docker remove the running containers forcefully,
+
+01:14.220 --> 01:18.690
+you can use -f as the one of the argument.
+
+01:18.690 --> 01:20.970
+So, and if you want to see the image info,
+
+01:20.970 --> 01:23.340
+pull the image from Docker Hub repository.
+
+01:23.340 --> 01:25.530
+So docker pull and then image info.
+
+01:25.530 --> 01:28.710
+Image info is nothing but the complete image name.
+
+01:28.710 --> 01:31.560
+And pull the image from Docker Hub repository,
+
+01:31.560 --> 01:32.940
+this is an additional example
+
+01:32.940 --> 01:34.710
+for whatever we are seeing here.
+
+01:34.710 --> 01:36.210
+This is the example.
+
+01:36.210 --> 01:39.300
+So, in addition you are seeing the docker exec -it
+
+01:39.300 --> 01:42.000
+and the container name, and then /bin/sh
+
+01:42.000 --> 01:44.430
+to connect to the Linux container
+
+01:44.430 --> 01:47.460
+and execute commands on that respective container.
+
+01:47.460 --> 01:49.020
+So, which means connect to the container
+
+01:49.020 --> 01:51.000
+and then execute commands or verify something,
+
+01:51.000 --> 01:52.440
+you can do this one.
+
+01:52.440 --> 01:55.410
+And to remove the image, docker rmi,
+
+01:55.410 --> 01:59.820
+and to log out from our Docker Hub account, docker logout.
+
+01:59.820 --> 02:01.950
+To log in, docker login.
+
+02:01.950 --> 02:04.500
+And then to display a live stats of our container,
+
+02:04.500 --> 02:06.180
+docker stats.
+
+02:06.180 --> 02:08.970
+So to display the running processes of a container,
+
+02:08.970 --> 02:11.070
+docker top.
+
+02:11.070 --> 02:14.160
+And finally, you see here the docker version.
+
+02:14.160 --> 02:16.140
+So there will be lot of sub-commands
+
+02:16.140 --> 02:18.330
+under docker run and all those things,
+
+02:18.330 --> 02:21.360
+but on a very high level, to manage Docker,
+
+02:21.360 --> 02:24.540
+these are the core commands which we should be aware of.
+
+02:24.540 --> 02:26.283
+And more commands we'll be adding,
+
+02:27.150 --> 02:29.940
+when we are getting more, gaining experience
+
+02:29.940 --> 02:33.510
+on the Docker, by implementing multiple use cases.
+
+02:33.510 --> 02:35.520
+But, from fundamentals perspective,
+
+02:35.520 --> 02:38.190
+how to stop containers, start container, what is an image,
+
+02:38.190 --> 02:40.710
+how to download the image, how to run the image,
+
+02:40.710 --> 02:42.300
+and how to remove the image,
+
+02:42.300 --> 02:43.680
+and how to remove the container,
+
+02:43.680 --> 02:46.590
+or how to connect to the container terminal,
+
+02:46.590 --> 02:48.180
+all these things are required,
+
+02:48.180 --> 02:50.370
+and all these things are listed here.
+
+02:50.370 --> 02:53.940
+So this completes the essential commands overview
+
+02:53.940 --> 02:54.990
+for Docker.
+
+02:54.990 --> 02:56.730
+So, I'll see you in the next lecture.
+
+02:56.730 --> 02:58.623
+Until then, bye bye, thank you.

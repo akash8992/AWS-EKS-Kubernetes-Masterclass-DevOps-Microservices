@@ -1,0 +1,199 @@
+WEBVTT
+
+00:00.150 --> 00:01.020
+-: Welcome back.
+
+00:01.020 --> 00:03.210
+In this lecture we are going to install
+
+00:03.210 --> 00:06.210
+the AWS CLI on our Mac.
+
+00:06.210 --> 00:10.470
+So we need to first download the AWS CLI binary
+
+00:10.470 --> 00:12.330
+which is CLI V2 version.
+
+00:12.330 --> 00:14.280
+So we are going to use the latest version.
+
+00:14.280 --> 00:16.650
+These are the reference links for you to
+
+00:16.650 --> 00:18.840
+follow the documentation if you want,
+
+00:18.840 --> 00:21.360
+directly from AWS.
+
+00:21.360 --> 00:24.900
+So I just cut short and then used only whatever is required
+
+00:24.900 --> 00:27.813
+for me directly to install on Mac.
+
+00:29.130 --> 00:32.643
+I'm just going to download the binary and then install it.
+
+00:35.820 --> 00:39.420
+So it's going to get downloaded and once it is downloaded
+
+00:39.420 --> 00:41.310
+so using pseudo installer,
+
+00:41.310 --> 00:44.529
+I'm going to install the binary.
+
+00:44.529 --> 00:46.279
+So let's do that now.
+
+00:49.116 --> 00:51.616
+So let me provide my password.
+
+00:55.740 --> 00:57.300
+So it's installing now.
+
+00:57.300 --> 00:58.410
+So once install,
+
+00:58.410 --> 01:03.210
+so let's verify that version, right?
+
+01:03.210 --> 01:07.577
+So we should be in the latest version 2.0, right?
+
+01:08.550 --> 01:12.060
+2.0.22 as on today, right?
+
+01:12.060 --> 01:17.060
+So now we'll go to configuring the AWS command line.
+
+01:18.330 --> 01:21.030
+So if you want to install it on your Windows 10
+
+01:21.030 --> 01:23.220
+so you can follow these steps.
+
+01:23.220 --> 01:25.170
+And in addition to that, you have the reference
+
+01:25.170 --> 01:28.800
+documentation link to install it using the link also.
+
+01:28.800 --> 01:30.090
+Means like you can go to that link
+
+01:30.090 --> 01:33.240
+and then follow the AWS steps provided
+
+01:33.240 --> 01:36.030
+for installing it on Windows.
+
+01:36.030 --> 01:40.110
+So let me close these things and then go to configuring.
+
+01:40.110 --> 01:41.100
+So we need to go ahead
+
+01:41.100 --> 01:43.740
+and then generate the security credentials
+
+01:43.740 --> 01:45.420
+for our IAM account
+
+01:45.420 --> 01:48.300
+and then configure them on our command line.
+
+01:48.300 --> 01:50.220
+So let's do that now.
+
+01:50.220 --> 01:52.200
+So in the AWS management console,
+
+01:52.200 --> 01:56.613
+so let's search for IAM and go to IAM.
+
+01:58.290 --> 02:00.390
+And go to users.
+
+02:00.390 --> 02:04.440
+And I have the user Kalyan who is a admin user.
+
+02:04.440 --> 02:07.200
+So let me go to security credentials
+
+02:07.200 --> 02:11.597
+and then create the access key, right?
+
+02:15.630 --> 02:18.120
+And using this access key,
+
+02:18.120 --> 02:22.800
+we can copy it and then we can come here
+
+02:22.800 --> 02:27.800
+and then say AWS configure and base the access key here
+
+02:29.970 --> 02:32.267
+and the secret access key, right?
+
+02:36.000 --> 02:37.950
+And your default region,
+
+02:37.950 --> 02:40.740
+I'm going to select as us-east-1
+
+02:40.740 --> 02:43.920
+and my output is going to be JSON.
+
+02:43.920 --> 02:45.600
+So I configured it.
+
+02:45.600 --> 02:47.820
+So the next thing is to verify it.
+
+02:47.820 --> 02:50.850
+So whether it is successfully configured or not.
+
+02:50.850 --> 02:53.790
+So if I say AWS EC to describe VPCs
+
+02:53.790 --> 02:57.540
+I'm trying to execute some of the CLI commands
+
+02:57.540 --> 02:58.860
+like one CLI command here
+
+02:58.860 --> 03:00.760
+and then see what happens here, right?
+
+03:03.390 --> 03:07.560
+And I got the default VPC whatever is present there.
+
+03:07.560 --> 03:11.070
+So, which means like I am able to connect
+
+03:11.070 --> 03:14.730
+to my AWS account from my local command line,
+
+03:14.730 --> 03:18.750
+using AWS CLI and then fetch the information.
+
+03:18.750 --> 03:20.160
+So we are good with this.
+
+03:20.160 --> 03:23.580
+So that's about the installation of AWS CLI.
+
+03:23.580 --> 03:25.590
+In our next lecture we'll focus on
+
+03:25.590 --> 03:27.750
+installing the kubectl CLI.
+
+03:27.750 --> 03:29.250
+So I'll see you in the next lecture.
+
+03:29.250 --> 03:30.843
+Until then, bye bye, Thank you.

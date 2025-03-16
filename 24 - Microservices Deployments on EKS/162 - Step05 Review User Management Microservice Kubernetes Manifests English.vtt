@@ -1,0 +1,352 @@
+WEBVTT
+
+00:00.120 --> 00:00.990
+Instructor: Welcome back.
+
+00:00.990 --> 00:04.260
+In previous lecture we have reviewed all the
+
+00:04.260 --> 00:07.590
+Kubernetes manifest related to notification
+
+00:07.590 --> 00:10.230
+cluster IP service, notification related
+
+00:10.230 --> 00:11.610
+external name service,
+
+00:11.610 --> 00:15.840
+and then notification microservice deployment manifest.
+
+00:15.840 --> 00:18.030
+So now we are going to look into
+
+00:18.030 --> 00:21.867
+user management microservice which is UMS note port service,
+
+00:21.867 --> 00:25.680
+UMS deployment, UMS my skill, external name service
+
+00:25.680 --> 00:28.680
+and then UMS ingress service.
+
+00:28.680 --> 00:31.500
+So let's go ahead and then review them now.
+
+00:31.500 --> 00:36.300
+So if you go to our GitHub repo, so the step seven here
+
+00:36.300 --> 00:39.780
+whatever it outlines is like update user management
+
+00:39.780 --> 00:44.430
+microservice deployment, manifest with notification service
+
+00:44.430 --> 00:46.560
+and we on mental variables.
+
+00:46.560 --> 00:50.190
+So if you see in this architecture diagram, so UMS service
+
+00:50.190 --> 00:52.680
+need to call them notification service.
+
+00:52.680 --> 00:54.030
+So how it is going to call
+
+00:54.030 --> 00:56.970
+it'll call the notification cluster IP service
+
+00:56.970 --> 00:59.550
+and then cluster IP service will call it soon
+
+00:59.550 --> 01:01.890
+notification respect to port, right?
+
+01:01.890 --> 01:03.570
+So now let's go back
+
+01:03.570 --> 01:06.030
+and then review that in our visual studio code.
+
+01:06.030 --> 01:08.160
+So user management microservice.
+
+01:08.160 --> 01:10.830
+So if you see its environmental variables, this is
+
+01:10.830 --> 01:13.680
+the same user management microservice deployment template
+
+01:13.680 --> 01:17.340
+whatever we have been using from EBS block store
+
+01:17.340 --> 01:20.490
+and then RDS databases or network load balances
+
+01:20.490 --> 01:22.980
+application ,load balancers, Fargate, everywhere.
+
+01:22.980 --> 01:26.010
+Okay? So that's the reason we are not going in detail.
+
+01:26.010 --> 01:29.550
+What is kind and then what is spec
+
+01:29.550 --> 01:31.710
+what is selector, what is spot template here?
+
+01:31.710 --> 01:33.630
+Okay, so we are directly getting
+
+01:33.630 --> 01:35.550
+into the environmental variables
+
+01:35.550 --> 01:37.800
+and in environmental variables.
+
+01:37.800 --> 01:39.990
+So these are the standard ones which are related
+
+01:39.990 --> 01:43.800
+to RDS database, which we have discussed in our RDS section.
+
+01:43.800 --> 01:47.160
+Only differences here, we really didn't put our secret
+
+01:47.160 --> 01:48.690
+in a separate AML manifest.
+
+01:48.690 --> 01:50.640
+Okay? So this is one Kubernetes subject
+
+01:50.640 --> 01:53.310
+and with the three hyphens we have separated
+
+01:53.310 --> 01:56.040
+and then added one more secrets manifest here directly.
+
+01:56.040 --> 01:58.383
+Instead of having them in two separate files,
+
+01:59.340 --> 02:02.130
+both deployment and then it's own secrets
+
+02:02.130 --> 02:04.530
+we have put it in the same file. That's all.
+
+02:04.530 --> 02:08.520
+Okay, so now in addition to those environmental variables
+
+02:08.520 --> 02:11.460
+we are going to add two more environmental variables
+
+02:11.460 --> 02:13.650
+which is notification service host
+
+02:13.650 --> 02:15.810
+and then notification service port.
+
+02:15.810 --> 02:17.910
+And notification service port we know that
+
+02:17.910 --> 02:19.260
+it is going to be 8096.
+
+02:20.126 --> 02:20.959
+That is good.
+
+02:20.959 --> 02:23.700
+Okay? So for notification service it is a 8096
+
+02:23.700 --> 02:26.400
+and user management it is 8095
+
+02:26.400 --> 02:29.250
+and the notification service host value is going to
+
+02:29.250 --> 02:31.920
+be a notification cluster IP service.
+
+02:31.920 --> 02:34.860
+So you can go to this notification cluster IP service
+
+02:34.860 --> 02:36.930
+and get this name from metadata
+
+02:36.930 --> 02:40.260
+and then you can directly update it here.
+
+02:40.260 --> 02:44.040
+So now you have completed the adaptation means
+
+02:44.040 --> 02:46.050
+like we already have it updated here.
+
+02:46.050 --> 02:47.580
+So we just discussed about that.
+
+02:47.580 --> 02:48.840
+Okay, So now you know
+
+02:48.840 --> 02:51.690
+that user management will have a note port service here
+
+02:51.690 --> 02:54.780
+because that using the note port service only
+
+02:54.780 --> 02:56.760
+we are going to integrate it
+
+02:56.760 --> 02:58.800
+with the ALB ingress controller.
+
+02:58.800 --> 03:00.510
+So which we discussed in our
+
+03:00.510 --> 03:02.490
+ingress controller section also.
+
+03:02.490 --> 03:04.650
+So this is the note port service standard template
+
+03:04.650 --> 03:06.000
+which is coming from previous thing.
+
+03:06.000 --> 03:07.500
+Only thing is health check path is going
+
+03:07.500 --> 03:10.380
+to be the same thing. Whatever we have earlier also.
+
+03:10.380 --> 03:11.940
+No changes to our note port service
+
+03:11.940 --> 03:13.680
+from our user management note port service
+
+03:13.680 --> 03:15.990
+from our previous templates.
+
+03:15.990 --> 03:18.450
+Okay, but now let's come back
+
+03:18.450 --> 03:21.330
+to our ingress as a cylinder ingress service.
+
+03:21.330 --> 03:25.980
+Okay? The name is going to be EKS microservices demo.
+
+03:25.980 --> 03:29.670
+This I have changed it. So, and the label.
+
+03:29.670 --> 03:32.190
+So you can put the label as the same.
+
+03:32.190 --> 03:36.550
+Okay? So you can map it to user management rest stop.
+
+03:36.550 --> 03:39.330
+Okay? So okay fine.
+
+03:39.330 --> 03:43.290
+So EKS microservices demo and if you see it here
+
+03:43.290 --> 03:46.470
+so slash star SSL redirect is already there from beginning
+
+03:46.470 --> 03:47.790
+which we have seen.
+
+03:47.790 --> 03:50.940
+And in this, if you want to change
+
+03:50.940 --> 03:53.310
+what are the things you need to change
+
+03:53.310 --> 03:55.350
+if you are doing it right?
+
+03:55.350 --> 03:57.900
+So primarily you need to change your SSL certificate
+
+03:57.900 --> 03:58.733
+path here, right?
+
+03:58.733 --> 04:01.530
+Means like your SSL certificate information
+
+04:01.530 --> 04:03.720
+with your account ID and then all these things
+
+04:03.720 --> 04:06.660
+you need to put in this template to
+
+04:06.660 --> 04:10.110
+make it work for you and rest all.
+
+04:10.110 --> 04:12.300
+And then you need to update your own domain.
+
+04:12.300 --> 04:15.450
+So this is services.Q1cloud.com.
+
+04:15.450 --> 04:19.230
+So in your case it is going to be something else, right?
+
+04:19.230 --> 04:22.770
+See here this ALB ingress manifest also only two changes
+
+04:22.770 --> 04:24.900
+as we discuss it which is your certificate
+
+04:24.900 --> 04:26.040
+you need to update
+
+04:26.040 --> 04:28.470
+and then your domain name you need to update.
+
+04:28.470 --> 04:31.050
+And one thing you need to make a note of is
+
+04:31.050 --> 04:33.960
+this one is going to send the traffic to user management
+
+04:33.960 --> 04:37.080
+rest stop note port service, which is nothing but our
+
+04:37.080 --> 04:39.510
+this respect you note port service.
+
+04:39.510 --> 04:42.360
+Which eventually will catch up the pod using this selector
+
+04:42.360 --> 04:44.940
+and then send that traffic to user management
+
+04:44.940 --> 04:46.950
+microservice container here.
+
+04:46.950 --> 04:48.450
+Okay? So that's about it.
+
+04:48.450 --> 04:51.060
+So this is about the manifest discussion
+
+04:51.060 --> 04:56.060
+from 01 to 07 in this two lectures.
+
+04:56.790 --> 04:59.220
+Okay? So we have discussed everything
+
+04:59.220 --> 05:01.110
+in our next lecture we'll go ahead
+
+05:01.110 --> 05:03.540
+and then deploy and then test everything.
+
+05:03.540 --> 05:05.190
+So I'll see you in the next lecture.
+
+05:05.190 --> 05:06.873
+Until then, bye bye. Thank you.

@@ -1,0 +1,379 @@
+WEBVTT
+
+00:00.120 --> 00:01.050
+-: Welcome back.
+
+00:01.050 --> 00:02.610
+As part of step six,
+
+00:02.610 --> 00:04.380
+we are going to test the order in
+
+00:04.380 --> 00:06.720
+context path based routing.
+
+00:06.720 --> 00:10.710
+So let me close all these things, three apps here.
+
+00:10.710 --> 00:14.220
+And let's come back to our GitHub repository
+
+00:14.220 --> 00:17.160
+and go back to our visual studio code
+
+00:17.160 --> 00:21.120
+and in 04 ALB ingress context path based routing.
+
+00:21.120 --> 00:25.590
+So you'll find something here called in path based routing,
+
+00:25.590 --> 00:27.810
+order is very important.
+
+00:27.810 --> 00:30.150
+So if we are going to use slash star
+
+00:30.150 --> 00:32.370
+which is the root context at the end
+
+00:32.370 --> 00:33.810
+or our root context, right?
+
+00:33.810 --> 00:38.490
+slash star or you can also say this as root context.
+
+00:38.490 --> 00:42.270
+Try to use it at the end of all the rules.
+
+00:42.270 --> 00:44.460
+So that is very important.
+
+00:44.460 --> 00:47.160
+So if you don't define root context at the end
+
+00:47.160 --> 00:50.070
+and then if you define that as the first one, right?
+
+00:50.070 --> 00:53.460
+So what happens, we are going to see now, right?
+
+00:53.460 --> 00:55.920
+So we have moved the root context on the top
+
+00:55.920 --> 00:59.400
+and after that we have defined app one and then app two.
+
+00:59.400 --> 01:02.760
+So now what we are going to do is we'll go to the terminal
+
+01:02.760 --> 01:06.810
+and we'll say kubectl apply -f kube manifest.
+
+01:06.810 --> 01:08.970
+So we have changed the ingress service
+
+01:08.970 --> 01:12.570
+and slightly reordered the context path based routing,
+
+01:12.570 --> 01:15.090
+root context we have moved to the top
+
+01:15.090 --> 01:17.760
+and we are redeploying the kube manifest
+
+01:17.760 --> 01:19.170
+for ingress service.
+
+01:19.170 --> 01:22.350
+So no changes for app one nginx deployment
+
+01:22.350 --> 01:23.250
+or nord port service.
+
+01:23.250 --> 01:25.470
+Same for app one, app two and app three.
+
+01:25.470 --> 01:27.810
+But for ingress CPR demo,
+
+01:27.810 --> 01:30.810
+so there is a change so it has reconfigured it.
+
+01:30.810 --> 01:35.810
+So now let's come back here and go to CPR ingress
+
+01:35.910 --> 01:39.900
+and go to the listeners here and open the rules.
+
+01:39.900 --> 01:42.720
+So earlier you have seen slash app one and app two
+
+01:42.720 --> 01:45.930
+are the one, two and this one is going to be the third one
+
+01:45.930 --> 01:48.300
+but now this is the first one.
+
+01:48.300 --> 01:51.300
+So now let's see what happens, right?
+
+01:51.300 --> 01:54.930
+So let's go back here and access it
+
+01:54.930 --> 01:57.300
+so you can access it here.
+
+01:57.300 --> 02:00.150
+And what happens is for app one and app two,
+
+02:00.150 --> 02:01.620
+the request will fail,
+
+02:01.620 --> 02:04.560
+but for a root context it is going to pass.
+
+02:04.560 --> 02:05.790
+So let's see what happens.
+
+02:05.790 --> 02:08.040
+And after that we'll discuss more.
+
+02:08.040 --> 02:13.040
+So I'll say kubectl get ingress
+
+02:13.560 --> 02:16.090
+and copy the address here
+
+02:17.250 --> 02:20.190
+and go here and say
+
+02:20.190 --> 02:24.660
+slash app one slash index.html.
+
+02:24.660 --> 02:27.780
+This is coming from the cache, browser cache.
+
+02:27.780 --> 02:30.420
+So I'll say here incognito
+
+02:30.420 --> 02:35.400
+and I'll provide this and slash app slash index.html.
+
+02:35.400 --> 02:38.400
+So it is saying that 404 not found.
+
+02:38.400 --> 02:40.800
+what exactly is that right, right?
+
+02:40.800 --> 02:45.270
+Slash app two slash index.html
+
+02:45.270 --> 02:47.790
+and 404 not found
+
+02:47.790 --> 02:50.580
+and we'll access that root context
+
+02:50.580 --> 02:53.640
+and it should work.
+
+02:53.640 --> 02:56.760
+See the root context one which is the app three one,
+
+02:56.760 --> 02:58.140
+it worked as expected,
+
+02:58.140 --> 03:00.540
+but for app one and app two it didn't work.
+
+03:00.540 --> 03:04.290
+So what is happening here is, so let me go back here
+
+03:04.290 --> 03:07.710
+and what is happening is any request
+
+03:07.710 --> 03:10.830
+coming with any context path including slash,
+
+03:10.830 --> 03:13.020
+it is going to only app three nginx.
+
+03:13.020 --> 03:16.410
+Why because, this is the priority one rule defined here.
+
+03:16.410 --> 03:20.940
+So it never goes to the app one nginx related target group
+
+03:20.940 --> 03:23.190
+or app two related target groups.
+
+03:23.190 --> 03:26.760
+Always the first rule with root context takes the priority
+
+03:26.760 --> 03:28.230
+and it matches here.
+
+03:28.230 --> 03:31.080
+So slash comes it'll go to app three.
+
+03:31.080 --> 03:34.440
+Slash app one also is part of slash star only, right?
+
+03:34.440 --> 03:35.730
+So it goes to app three
+
+03:35.730 --> 03:38.880
+and slash app two, also part of slash star, right?
+
+03:38.880 --> 03:41.580
+It goes to app three nginx related target group.
+
+03:41.580 --> 03:43.710
+And in app three nginx related port,
+
+03:43.710 --> 03:45.600
+we don't have anything with context
+
+03:45.600 --> 03:47.670
+app one and then app two.
+
+03:47.670 --> 03:48.840
+So that's the reason,
+
+03:48.840 --> 03:52.830
+so from this respective app three nginx part
+
+03:52.830 --> 03:57.090
+we are getting the 404 error like this.
+
+03:57.090 --> 03:59.070
+So that is what happened.
+
+03:59.070 --> 04:03.360
+So now let's go back to our visual studio code
+
+04:03.360 --> 04:06.060
+and change the thing here, right?
+
+04:06.060 --> 04:08.710
+Roll back whatever we have implemented now
+
+04:09.570 --> 04:13.080
+and come back and paste it back.
+
+04:13.080 --> 04:15.990
+So this is one thing for important discussion.
+
+04:15.990 --> 04:16.890
+What is that?
+
+04:16.890 --> 04:19.560
+In pah based at routing, order is very important.
+
+04:19.560 --> 04:21.690
+If you are going to use root context
+
+04:21.690 --> 04:25.380
+try to use it at the end of all rules.
+
+04:25.380 --> 04:26.670
+That is one thing
+
+04:26.670 --> 04:29.520
+and another important thing we need to discuss here.
+
+04:29.520 --> 04:33.060
+So with this we have completed what we have implemented
+
+04:33.060 --> 04:35.520
+Right, so roll back the change, it is completed
+
+04:35.520 --> 04:39.000
+and if you want you can clean up whatever you have created.
+
+04:39.000 --> 04:41.100
+So cleanup is very important.
+
+04:41.100 --> 04:44.220
+kubectl delete -f cube manifests.
+
+04:44.220 --> 04:46.650
+So why because it is creating
+
+04:46.650 --> 04:48.900
+a application load balancer for us
+
+04:48.900 --> 04:51.210
+and application load balancer costs a lot
+
+04:51.210 --> 04:53.400
+if you don't clean up properly.
+
+04:53.400 --> 04:56.820
+So now we have successfully deleted all our app one,
+
+04:56.820 --> 04:59.940
+app two, app three nginx related deployments
+
+04:59.940 --> 05:03.960
+and nord port services and also our ingress CPR demo.
+
+05:03.960 --> 05:07.200
+So which means if you go back here and refresh
+
+05:07.200 --> 05:09.810
+so you should not find any ingress service.
+
+05:09.810 --> 05:13.710
+But another important thing we need to discuss here is
+
+05:13.710 --> 05:15.870
+instead of root context, also
+
+05:15.870 --> 05:18.240
+if you want you can also enable
+
+05:18.240 --> 05:20.640
+directly that default backend.
+
+05:20.640 --> 05:22.320
+So you can comment this part
+
+05:22.320 --> 05:25.170
+or remove this part and uncomment this part.
+
+05:25.170 --> 05:27.330
+So default backend is nothing but
+
+05:27.330 --> 05:29.850
+anything with root context, it,
+
+05:29.850 --> 05:32.580
+or anything with any other context other than
+
+05:32.580 --> 05:36.420
+slash app one and slash app two goes to the default backend,
+
+05:36.420 --> 05:39.810
+same as root context only, right?
+
+05:39.810 --> 05:43.680
+So you can also use default backend if you want to use it.
+
+05:43.680 --> 05:47.280
+So this completes the ingress context path
+
+05:47.280 --> 05:49.770
+based routing demo.
+
+05:49.770 --> 05:52.080
+In our next lecture we are going to focus on
+
+05:52.080 --> 05:53.910
+another ingress concept.
+
+05:53.910 --> 05:55.410
+So I'll see you in the next lecture.
+
+05:55.410 --> 05:56.643
+Until then, bye bye.

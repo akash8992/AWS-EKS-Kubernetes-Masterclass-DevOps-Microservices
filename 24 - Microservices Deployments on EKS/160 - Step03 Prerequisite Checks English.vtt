@@ -1,0 +1,745 @@
+WEBVTT
+
+00:00.120 --> 00:01.140
+-: Welcome back.
+
+00:01.140 --> 00:03.300
+In previous lecture we have understood
+
+00:03.300 --> 00:04.980
+about what are microservices
+
+00:04.980 --> 00:06.990
+and then what we are going to deploy
+
+00:06.990 --> 00:09.843
+as part of microservices deployment on EKS.
+
+00:10.920 --> 00:13.080
+So let's see what is that one more time?
+
+00:13.080 --> 00:14.850
+So this is the entire architecture
+
+00:14.850 --> 00:17.190
+which we are going to implement now.
+
+00:17.190 --> 00:18.990
+So what we are going to do is we'll go
+
+00:18.990 --> 00:21.870
+to our respective GitHub repo section
+
+00:21.870 --> 00:26.610
+which is tool microservices deployment on eCase, right?
+
+00:26.610 --> 00:29.940
+So step one and then step zero zero we have completed.
+
+00:29.940 --> 00:33.690
+So just to look on a very high level the use cases
+
+00:33.690 --> 00:36.750
+from user management microservice create user API.
+
+00:36.750 --> 00:40.260
+If you create a user, it is going to create that user
+
+00:40.260 --> 00:43.320
+and then store that data, user in the database.
+
+00:43.320 --> 00:46.680
+And then it is also going to call the notification services
+
+00:46.680 --> 00:48.720
+send a notification API,
+
+00:48.720 --> 00:50.280
+to send an email to that user
+
+00:50.280 --> 00:53.730
+when we call the create user service.
+
+00:53.730 --> 00:56.460
+So that's about the entire use case description.
+
+00:56.460 --> 00:59.730
+And then these are the docker images we are going to use
+
+00:59.730 --> 01:01.140
+as part of this section
+
+01:01.140 --> 01:03.240
+which is user management microservice.
+
+01:03.240 --> 01:04.470
+So this is the one
+
+01:04.470 --> 01:07.230
+and notification microservice from docker hub
+
+01:07.230 --> 01:10.440
+cube notification microservice one dot zero dot zero,
+
+01:10.440 --> 01:13.410
+and then notification microservice V2 version
+
+01:13.410 --> 01:16.470
+which is two dot zero dot zero, right?
+
+01:16.470 --> 01:18.660
+So now as a prerequisite step
+
+01:18.660 --> 01:21.270
+so there is going to be one prerequisite step
+
+01:21.270 --> 01:23.580
+related to RDS database,
+
+01:23.580 --> 01:26.010
+Ingress controllers and then external DNS.
+
+01:26.010 --> 01:30.213
+And then one more prerequisite step related to SMTP server
+
+01:30.213 --> 01:33.480
+which is AWS simple email services.
+
+01:33.480 --> 01:35.970
+So in this lecture we'll primarily focus on
+
+01:35.970 --> 01:38.850
+prerequisite one, okay?
+
+01:38.850 --> 01:41.340
+So first thing is we, we need to ensure
+
+01:41.340 --> 01:44.550
+that we have our RDS database up and running.
+
+01:44.550 --> 01:47.130
+So we have created RDS database as part
+
+01:47.130 --> 01:51.600
+of section zero six EKS storage with RDS database.
+
+01:51.600 --> 01:53.580
+So as part of this respect to section
+
+01:53.580 --> 01:56.130
+we already created the RDS database.
+
+01:56.130 --> 01:57.330
+So if it is not running,
+
+01:57.330 --> 01:59.310
+and then if you have stopped it by any chance,
+
+01:59.310 --> 02:02.970
+let's go there and then start that database.
+
+02:02.970 --> 02:06.030
+Okay, so mine is running so we really don't need to worry.
+
+02:06.030 --> 02:08.640
+So, and that respect to RDS database,
+
+02:08.640 --> 02:11.520
+we are going to associate in our communities
+
+02:11.520 --> 02:14.220
+for our user management microservice application
+
+02:14.220 --> 02:16.380
+using external name service
+
+02:16.380 --> 02:18.960
+with this respect to manifest, okay?
+
+02:18.960 --> 02:21.660
+And the second thing is ALB-Ingress controller
+
+02:21.660 --> 02:23.790
+and then external DNS.
+
+02:23.790 --> 02:25.800
+So if you see our architecture here,
+
+02:25.800 --> 02:27.270
+so we have also highlighted
+
+02:27.270 --> 02:29.790
+that we are going to use the Ingress service here
+
+02:29.790 --> 02:31.500
+for exposing this respect
+
+02:31.500 --> 02:33.690
+to application user management microservice
+
+02:33.690 --> 02:35.760
+to the internet world.
+
+02:35.760 --> 02:38.100
+So for that purpose you need to have the
+
+02:38.100 --> 02:40.830
+Ingress controller installed and then running.
+
+02:40.830 --> 02:42.810
+So that's what we need to crosscheck.
+
+02:42.810 --> 02:44.190
+And then in addition to that,
+
+02:44.190 --> 02:46.680
+we also need to ensure that external DNS
+
+02:46.680 --> 02:49.840
+is also running external DNS parts so that
+
+02:50.730 --> 02:55.110
+whatever the application we are going to install here are
+
+02:55.110 --> 02:57.330
+create its sequel and Ingress service.
+
+02:57.330 --> 03:01.860
+So it's a DNS also auto registered inside the route 53.
+
+03:01.860 --> 03:05.400
+So for that purpose, external DNS also should be running.
+
+03:05.400 --> 03:07.590
+So they're equal in sections when we have done
+
+03:07.590 --> 03:10.380
+is in 0 8 0 1 ALB-Ingress install,
+
+03:10.380 --> 03:13.110
+and then 0 8 0 6 0 1 deploy external DNS
+
+03:13.110 --> 03:14.580
+in during these two sections,
+
+03:14.580 --> 03:16.110
+we already have done that
+
+03:16.110 --> 03:18.210
+and those should be already available
+
+03:18.210 --> 03:19.788
+so we can crosscheck that.
+
+03:19.788 --> 03:21.150
+Okay?
+
+03:21.150 --> 03:25.113
+So let me clear this out and paste it, right.
+
+03:26.160 --> 03:28.980
+So ALB-Ingress controller is running
+
+03:28.980 --> 03:32.730
+and one more is in default name space.
+
+03:32.730 --> 03:34.350
+We are going to have something called
+
+03:34.350 --> 03:36.120
+external DNS parties running.
+
+03:36.120 --> 03:37.710
+So we are good here, okay.
+
+03:37.710 --> 03:40.980
+So now we look into prerequisite two
+
+03:40.980 --> 03:44.160
+which is, create simple email service,
+
+03:44.160 --> 03:46.830
+which is SES SMTP credentials
+
+03:46.830 --> 03:49.590
+we need to generate as part of this section.
+
+03:49.590 --> 03:51.720
+So if you see here in the prerequisite two,
+
+03:51.720 --> 03:56.070
+So first thing is we need to generate our SMTP credentials
+
+03:56.070 --> 03:58.950
+and then validate our email addresses
+
+03:58.950 --> 04:01.050
+and then move on to the next steps.
+
+04:01.050 --> 04:02.101
+Okay?
+
+04:02.101 --> 04:03.660
+So it is subdivided into two steps.
+
+04:03.660 --> 04:05.940
+One is generating SMTP credentials
+
+04:05.940 --> 04:08.640
+and the second is verifying our email addresses.
+
+04:08.640 --> 04:09.473
+Okay?
+
+04:09.473 --> 04:14.160
+So first start with creating our SMTP credentials, right?
+
+04:14.160 --> 04:18.360
+So let me go to the simple email service.
+
+04:18.360 --> 04:20.587
+Simple email service in AWS.
+
+04:21.458 --> 04:26.458
+So if you see here in the SMTP settings, okay
+
+04:26.580 --> 04:29.490
+in left navigation you can see SMTP settings
+
+04:29.490 --> 04:31.800
+you can generate your SMTP settings here.
+
+04:31.800 --> 04:32.633
+Okay?
+
+04:32.633 --> 04:33.990
+So server name is going to be this
+
+04:33.990 --> 04:36.840
+for this respect to entire AWS region,
+
+04:36.840 --> 04:38.520
+US east one, so
+
+04:38.520 --> 04:41.520
+and then ports a default ports are going to be these things
+
+04:41.520 --> 04:43.680
+and we are going to generate the credentials
+
+04:43.680 --> 04:46.230
+to access this SMTP server.
+
+04:46.230 --> 04:50.013
+So I'm going to say create my SMTP credentials.
+
+04:51.780 --> 04:52.613
+Okay?
+
+04:52.613 --> 04:54.000
+And I can say this as
+
+04:54.000 --> 04:56.089
+either whatever the name I want to give
+
+04:56.089 --> 04:58.020
+it says a CS SMTP user.
+
+04:58.020 --> 05:02.117
+I'm going to say microservices SMTP user are
+
+05:02.117 --> 05:04.950
+user management microservice or whatever, right?
+
+05:04.950 --> 05:07.043
+So I'm going to say microservices, okay?
+
+05:08.355 --> 05:10.800
+Microservices SMTP user, okay?
+
+05:10.800 --> 05:13.170
+So now I'm going to say Create
+
+05:13.170 --> 05:16.230
+and it generates some credentials for us.
+
+05:16.230 --> 05:18.870
+So let me make a note of these credentials.
+
+05:18.870 --> 05:20.490
+So copy.
+
+05:20.490 --> 05:22.500
+So we can even take these things
+
+05:22.500 --> 05:25.350
+and we can even download the credentials.
+
+05:25.350 --> 05:28.500
+And in addition to that, so we can take these credentials
+
+05:28.500 --> 05:31.920
+and then directly update wherever it is required.
+
+05:31.920 --> 05:34.380
+So, what I can do is we'll leave it here
+
+05:34.380 --> 05:36.300
+we have generated the credentials
+
+05:36.300 --> 05:38.010
+and one more time we'll go inside
+
+05:38.010 --> 05:40.290
+simply email service on a new tab, okay?
+
+05:40.290 --> 05:42.330
+So we'll save it here later when we are updating
+
+05:42.330 --> 05:43.860
+we'll copy from here.
+
+05:43.860 --> 05:47.010
+So I'll go to simple email service now
+
+05:47.010 --> 05:49.560
+and this step we have completed now, okay?
+
+05:49.560 --> 05:51.930
+So download the credentials and update that
+
+05:51.930 --> 05:53.970
+the same for below environmental variables
+
+05:53.970 --> 05:57.330
+which you are going to provide in Kubernetes notification
+
+05:57.330 --> 05:59.970
+microservice deployment.yaml.
+
+05:59.970 --> 06:02.640
+So you can copy these things
+
+06:02.640 --> 06:04.890
+and go to your use your studio core
+
+06:04.890 --> 06:08.820
+and take any new file, right?
+
+06:08.820 --> 06:13.480
+File, new file where I'll create here just, okay
+
+06:15.120 --> 06:17.130
+I don't know what is happening.
+
+06:17.130 --> 06:21.810
+So I'll say new file, okay, temp, okay
+
+06:22.950 --> 06:24.750
+and I'll paste it here.
+
+06:24.750 --> 06:28.170
+And this is going to be our mail server host, right?
+
+06:28.170 --> 06:29.250
+So if you see here
+
+06:29.250 --> 06:30.780
+the mail server host is going to be
+
+06:30.780 --> 06:32.190
+whatever the same thing.
+
+06:32.190 --> 06:34.530
+And now the mail server username
+
+06:34.530 --> 06:39.150
+so this is going to be our username, right?
+
+06:39.150 --> 06:41.550
+And this is going to be our password.
+
+06:41.550 --> 06:43.020
+So I made a note of these things
+
+06:43.020 --> 06:44.910
+and my, from address for my
+
+06:44.910 --> 06:47.040
+from where the email is getting initiated
+
+06:47.040 --> 06:49.240
+or from address in my email should look like
+
+06:50.078 --> 06:54.450
+stacksimplifyheader@gmail.com.
+
+06:54.450 --> 06:56.520
+So this is my settings.
+
+06:56.520 --> 06:59.910
+I'm going to update in my notification microservice
+
+06:59.910 --> 07:02.550
+related, environmental variables.
+
+07:02.550 --> 07:05.160
+Okay, so now first thing here is
+
+07:05.160 --> 07:06.960
+we need to verify our email addresses.
+
+07:06.960 --> 07:10.680
+So we are not going to use the production grid SES surveys.
+
+07:10.680 --> 07:13.124
+We are going to test only for testing purposes.
+
+07:13.124 --> 07:16.500
+So whatever the email you are sending it from
+
+07:16.500 --> 07:17.880
+means like the from address
+
+07:17.880 --> 07:20.370
+and two addresses, whatever you are sending it.
+
+07:20.370 --> 07:22.710
+So all those things need to be added here
+
+07:22.710 --> 07:24.180
+and then validated.
+
+07:24.180 --> 07:26.040
+So that's what I have written here clearly.
+
+07:26.040 --> 07:27.630
+So the from address, right?
+
+07:27.630 --> 07:29.220
+So we need two email addresses
+
+07:29.220 --> 07:30.815
+for testing notification service
+
+07:30.815 --> 07:33.450
+Verify a new email address.
+
+07:33.450 --> 07:35.100
+So email address certification request
+
+07:35.100 --> 07:36.990
+will be sent to that addresses clicking on,
+
+07:36.990 --> 07:38.760
+too verify your email.
+
+07:38.760 --> 07:40.530
+So from address and then too address.
+
+07:40.530 --> 07:43.800
+So both you need at least two email addresses for you.
+
+07:43.800 --> 07:45.780
+And then those email addresses should be
+
+07:45.780 --> 07:48.810
+in verification state from Management console, right?
+
+07:48.810 --> 07:51.060
+So I'll say verify a new email address
+
+07:51.060 --> 07:54.757
+and I'm going to say stacksimplify@therategmail.com.
+
+07:57.374 --> 07:58.500
+And one more email
+
+07:58.500 --> 08:00.780
+which is two address also I'm going to use
+
+08:00.780 --> 08:04.157
+which is nothing but dcallianready@redgmail.com, right?
+
+08:08.280 --> 08:13.280
+So let me close this and I open my Gmail for Stack Simplify
+
+08:13.350 --> 08:14.820
+and then D Callian Ready.
+
+08:14.820 --> 08:17.580
+And I got the email related to that just now.
+
+08:17.580 --> 08:20.290
+So I'm going to click on this verification email
+
+08:21.390 --> 08:22.290
+and one is done.
+
+08:22.290 --> 08:23.640
+I am also going to do further
+
+08:23.640 --> 08:26.760
+stacksimplify@therategmail.com too.
+
+08:26.760 --> 08:28.050
+So I'm clicking on that.
+
+08:28.050 --> 08:30.330
+So this is also done, right?
+
+08:30.330 --> 08:32.620
+So let me go back now
+
+08:33.660 --> 08:37.290
+and then refresh it, right?
+
+08:37.290 --> 08:40.560
+So now verification data should be verified.
+
+08:40.560 --> 08:43.170
+So this tells that these two emails we can use
+
+08:43.170 --> 08:45.030
+in from and too currently, okay?
+
+08:45.030 --> 08:46.590
+So we can even send test emails
+
+08:46.590 --> 08:48.690
+and even test it now from here.
+
+08:48.690 --> 08:49.523
+Okay?
+
+08:49.523 --> 08:50.670
+So only two options.
+
+08:50.670 --> 08:51.503
+We use it here.
+
+08:51.503 --> 08:52.830
+One is SMTP credentials.
+
+08:52.830 --> 08:57.210
+So there we have taken the server name from here, right?
+
+08:57.210 --> 09:00.330
+And then credentials we have generated from here
+
+09:00.330 --> 09:02.490
+and then made a note of those credentials here.
+
+09:02.490 --> 09:03.323
+And from address,
+
+09:03.323 --> 09:05.430
+we said that whatever is the first email address
+
+09:05.430 --> 09:06.300
+we verified here, right?
+
+09:06.300 --> 09:07.133
+This one.
+
+09:07.133 --> 09:09.780
+And too address the other email address, how many number
+
+09:09.780 --> 09:10.770
+of too addresses you want,
+
+09:10.770 --> 09:12.720
+you can add those things, okay?
+
+09:12.720 --> 09:15.090
+So now this, everything is completed.
+
+09:15.090 --> 09:16.710
+So you also, you can also verify
+
+09:16.710 --> 09:18.690
+that whatever the user created, right,
+
+09:18.690 --> 09:19.860
+disrespect your user
+
+09:19.860 --> 09:23.490
+will already be there in our IAM, okay?
+
+09:23.490 --> 09:27.990
+So this user is created as SMTP user in your IAM console.
+
+09:27.990 --> 09:29.340
+So it'll be here.
+
+09:29.340 --> 09:31.770
+So in future, if you really don't want this user
+
+09:31.770 --> 09:32.880
+and then you want to delete it
+
+09:32.880 --> 09:35.550
+you can go to IAM and then delete it.
+
+09:35.550 --> 09:38.100
+So these credentials are going to be dummy for you.
+
+09:38.100 --> 09:39.690
+These are not going to work for you.
+
+09:39.690 --> 09:42.090
+You need to generate SMTP credentials
+
+09:42.090 --> 09:43.650
+from your AWS account
+
+09:43.650 --> 09:46.980
+and then use it in your case, okay?
+
+09:46.980 --> 09:49.350
+So anyway, after this respective section
+
+09:49.350 --> 09:50.730
+I'm going to delete this part.
+
+09:50.730 --> 09:51.900
+So at that time,
+
+09:51.900 --> 09:54.480
+these things are going to be invalid.
+
+09:54.480 --> 09:55.855
+So that's about the
+
+09:55.855 --> 09:58.530
+SMTP credential generation step
+
+09:58.530 --> 10:00.570
+which is nothing but step three.
+
+10:00.570 --> 10:01.403
+Okay?
+
+10:01.403 --> 10:02.460
+So we have discussed step two
+
+10:02.460 --> 10:04.170
+and step three in this lecture.
+
+10:04.170 --> 10:05.760
+In our next lecture, we'll move on
+
+10:05.760 --> 10:08.760
+with discussing the Kubernetes manifests required
+
+10:08.760 --> 10:12.090
+for this entire microservices use case.
+
+10:12.090 --> 10:13.680
+So I'll see you in the next lecture.
+
+10:13.680 --> 10:14.820
+Until then, bye bye.
+
+10:14.820 --> 10:15.653
+Thank you.

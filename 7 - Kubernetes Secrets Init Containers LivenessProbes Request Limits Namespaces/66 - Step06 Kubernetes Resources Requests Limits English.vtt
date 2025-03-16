@@ -1,0 +1,685 @@
+WEBVTT
+
+00:00.330 --> 00:01.163
+Lecturer: Welcome back.
+
+00:01.163 --> 00:01.996
+In this lecture,
+
+00:01.996 --> 00:04.620
+we are going to implement requests sending limits,
+
+00:04.620 --> 00:06.960
+which is nothing but resources for our container
+
+00:06.960 --> 00:09.690
+inside the port, right?
+
+00:09.690 --> 00:12.360
+So, if you see here on a very high-level,
+
+00:12.360 --> 00:15.450
+we can specify how much each container in a port
+
+00:15.450 --> 00:18.870
+needs the resources like CPU and then memory.
+
+00:18.870 --> 00:21.780
+When we provide this information in our port,
+
+00:21.780 --> 00:24.090
+the scheduler uses this information
+
+00:24.090 --> 00:27.540
+to decide which note to place this port on.
+
+00:27.540 --> 00:31.170
+In simple terms, so once we provide this information,
+
+00:31.170 --> 00:32.700
+so scheduler will find out
+
+00:32.700 --> 00:35.340
+on which node I have the equivalent resources
+
+00:35.340 --> 00:37.590
+whatever provided is available,
+
+00:37.590 --> 00:40.740
+and based on that, it'll go ahead and then schedule it.
+
+00:40.740 --> 00:44.280
+So when you specify a resource limit for a container,
+
+00:44.280 --> 00:47.190
+the Kubelet enforces those limits
+
+00:47.190 --> 00:50.700
+so that the running container is not allowed to use
+
+00:50.700 --> 00:54.210
+more than the resource, the limit we have set.
+
+00:54.210 --> 00:58.620
+In addition to that, the Kubelet also results at least
+
+00:58.620 --> 01:01.590
+the requested amount of that system resource
+
+01:01.590 --> 01:04.530
+specifically for that container use.
+
+01:04.530 --> 01:06.060
+So these two are very important.
+
+01:06.060 --> 01:08.280
+So if we have some critical container,
+
+01:08.280 --> 01:10.260
+we are going to run on Kubernetes
+
+01:10.260 --> 01:15.150
+which should always have that set of CPU and then memory.
+
+01:15.150 --> 01:19.110
+So, using these resources like requests and then limit
+
+01:19.110 --> 01:21.000
+for your respective container
+
+01:21.000 --> 01:23.190
+which is so critical application,
+
+01:23.190 --> 01:27.120
+so you can reserve the memory and CPU what it needs.
+
+01:27.120 --> 01:31.050
+In addition to that, in high traffic conditions
+
+01:31.050 --> 01:33.630
+it might increase to 500 (indistinct) memory
+
+01:33.630 --> 01:37.110
+and then 100,000 EMA of CPU,
+
+01:37.110 --> 01:40.110
+so then automatically you can even provide that limits.
+
+01:40.110 --> 01:42.180
+But it should not cross more than this,
+
+01:42.180 --> 01:44.610
+so like that you can even provide these things.
+
+01:44.610 --> 01:48.660
+So 1000m is equal to one VCPU core, okay?
+
+01:48.660 --> 01:51.660
+So we have provided 0.5 CPU, which is nothing
+
+01:51.660 --> 01:56.660
+but 500 M in the same way memory also 128 MI we have given
+
+01:57.030 --> 01:58.710
+which is nothing but maybe bytes.
+
+01:58.710 --> 01:59.543
+Okay?
+
+01:59.543 --> 02:02.790
+So 128 maybe byte is equal to 135 megabytes.
+
+02:02.790 --> 02:05.640
+Usually we'll say 1 0 2 4 nbr 100 nbr
+
+02:05.640 --> 02:06.810
+fire nbr, right?
+
+02:06.810 --> 02:10.020
+So in the same way you can define here maybe bytes, okay?
+
+02:10.020 --> 02:13.740
+So I have provided 128 maybe bytes
+
+02:13.740 --> 02:18.360
+of memory for my application and CPU I have provided 500 M
+
+02:18.360 --> 02:20.220
+which is nothing, but that means milli CPU.
+
+02:20.220 --> 02:23.598
+And I also provided the limit that pharma
+
+02:23.598 --> 02:25.860
+my user management microservice application
+
+02:25.860 --> 02:29.460
+I should not give more than 500 MI
+
+02:29.460 --> 02:33.240
+off memory and one core CPU one v CPU.
+
+02:33.240 --> 02:37.200
+So now if you see we are using two T3 missions here, right?
+
+02:37.200 --> 02:39.930
+So if you go ahead and then provide the limit
+
+02:39.930 --> 02:42.660
+US five CPU means like 5,000 M, right?
+
+02:42.660 --> 02:44.130
+So based on our limit only
+
+02:44.130 --> 02:45.898
+it'll go ahead and then schedule, right?
+
+02:45.898 --> 02:47.370
+So our 8,000 CPU.
+
+02:47.370 --> 02:50.190
+So, and if my reso, if my respect
+
+02:50.190 --> 02:52.620
+to two P three missions doesn't have that
+
+02:52.620 --> 02:55.650
+then automatically the port will go under pending state.
+
+02:55.650 --> 02:58.050
+Okay? So it'll not come and then create it.
+
+02:58.050 --> 03:00.330
+So that's the reason always whenever we are
+
+03:00.330 --> 03:03.240
+valuing our resources requests
+
+03:03.240 --> 03:06.210
+with the memory CPU limits and then requests.
+
+03:06.210 --> 03:07.170
+So we need to ensure
+
+03:07.170 --> 03:09.870
+that what is my cluster size and then all those things.
+
+03:09.870 --> 03:12.540
+But the other hand here is whenever we go
+
+03:12.540 --> 03:14.250
+to the auto scaling concepts, right?
+
+03:14.250 --> 03:19.250
+So horizontal part or vertical part or cluster autoscales
+
+03:19.290 --> 03:20.970
+whenever you enable those things.
+
+03:20.970 --> 03:23.280
+So these things really doesn't matter
+
+03:23.280 --> 03:25.410
+which means once you define these things
+
+03:25.410 --> 03:28.050
+for your specific things which are critical
+
+03:28.050 --> 03:30.870
+and already you enable the auto scaling stuff there.
+
+03:30.870 --> 03:34.260
+So whenever things reaches the limits automatically
+
+03:34.260 --> 03:35.820
+the cluster will auto scale
+
+03:35.820 --> 03:38.070
+with notes and in addition to that
+
+03:38.070 --> 03:41.520
+it'll also scale whatever the resources it is required.
+
+03:41.520 --> 03:44.250
+So based on that, usually it'll not have an issue.
+
+03:44.250 --> 03:46.410
+But if you are using small clusters
+
+03:46.410 --> 03:50.580
+and then if you have trouble right in defining those things
+
+03:50.580 --> 03:53.490
+so then obviously you need to be very careful
+
+03:53.490 --> 03:54.780
+about what you are defining
+
+03:54.780 --> 03:58.080
+and then how much your application is going to consume.
+
+03:58.080 --> 03:59.730
+So with that set we can go ahead
+
+03:59.730 --> 04:03.210
+and then define these things in our application, right?
+
+04:03.210 --> 04:05.820
+So which is nothing but resources, requests, memory, CPU
+
+04:05.820 --> 04:08.280
+and then limits memory CPU, okay?
+
+04:08.280 --> 04:10.740
+So this is part of our container definition.
+
+04:10.740 --> 04:13.050
+So which is nothing but which should be under environment
+
+04:13.050 --> 04:15.840
+same level, which is liveness probes, readiness probes.
+
+04:15.840 --> 04:18.420
+And it should be here also at the same level, okay?
+
+04:18.420 --> 04:22.740
+So which is nothing but resources.
+
+04:22.740 --> 04:24.480
+And under that we'll have two things.
+
+04:24.480 --> 04:27.240
+One is request and the other is limits.
+
+04:27.240 --> 04:31.149
+Okay? Under request we are going to have CPU
+
+04:31.149 --> 04:33.480
+and memory, right?
+
+04:33.480 --> 04:35.923
+And under limits also we are going to have CPU
+
+04:36.795 --> 04:39.300
+and memory and you can copy
+
+04:39.300 --> 04:41.340
+and paste whatever is there available here, right?
+
+04:41.340 --> 04:45.960
+So memory is going to be 128 MI, right?
+
+04:45.960 --> 04:50.400
+And CPU is 500 M, okay?
+
+04:50.400 --> 04:53.700
+So in the same way here also the CPU is going
+
+04:53.700 --> 04:57.420
+to be 100 M, right?
+
+04:57.420 --> 05:00.900
+And this one is going to be 500 MI, okay
+
+05:00.900 --> 05:02.700
+so for this demo I'm going to put this
+
+05:02.700 --> 05:05.940
+and then later I'm going to remove this resource request
+
+05:05.940 --> 05:08.010
+in the next lectures means like
+
+05:08.010 --> 05:10.110
+in all the templates I'm going to remove these things.
+
+05:10.110 --> 05:12.900
+Why? Because I really don't want to block my cluster
+
+05:12.900 --> 05:15.810
+related resources for 500 means
+
+05:15.810 --> 05:18.390
+like half CPU and then 128 MI
+
+05:18.390 --> 05:21.300
+for this respective user management microservice only.
+
+05:21.300 --> 05:22.320
+So if it want to take
+
+05:22.320 --> 05:23.910
+how much it want to take, it can take it.
+
+05:23.910 --> 05:26.010
+But if I want to scale this right means like
+
+05:26.010 --> 05:29.940
+if I scale to 10 and then automatically my cluster
+
+05:29.940 --> 05:32.790
+whatever these two P three medium servers might go
+
+05:32.790 --> 05:34.530
+into pending state.
+
+05:34.530 --> 05:36.360
+So that's the reason I'm going to remove.
+
+05:36.360 --> 05:38.070
+And the next templates, whatever you see
+
+05:38.070 --> 05:40.740
+in the next sections of here, whatever you see
+
+05:40.740 --> 05:43.440
+these might not be there but you really don't need to worry.
+
+05:43.440 --> 05:45.090
+We learned it in this section
+
+05:45.090 --> 05:46.680
+and then after that we removed it.
+
+05:46.680 --> 05:49.650
+Okay? So let's have it that way.
+
+05:49.650 --> 05:52.680
+Okay, so let me save it, right?
+
+05:52.680 --> 05:56.700
+So we have savor this one and now what we are going
+
+05:56.700 --> 05:59.430
+to do here is we'll go back
+
+05:59.430 --> 06:03.900
+to our create gate objects and then test it.
+
+06:03.900 --> 06:06.180
+So let's go back to our terminal.
+
+06:06.180 --> 06:09.746
+So I am in zero, we'll go to zero five section
+
+06:09.746 --> 06:12.810
+and then 0 5, 0 4 section we need to go
+
+06:12.810 --> 06:15.960
+which is request and then limits and I'll clear
+
+06:15.960 --> 06:20.430
+and Q CT apply high for F and then cube manifests.
+
+06:20.430 --> 06:23.730
+Okay? So and then everything should get created
+
+06:23.730 --> 06:26.030
+and then ideally we should not have any issue.
+
+06:26.910 --> 06:27.743
+So why?
+
+06:27.743 --> 06:30.420
+Because our cluster has that level of capacity.
+
+06:30.420 --> 06:33.360
+So, and then we can watch the ports here
+
+06:33.360 --> 06:35.605
+and it will take a while to get the container
+
+06:35.605 --> 06:38.340
+my scale container gets created and then
+
+06:38.340 --> 06:40.050
+from in container it need to go
+
+06:40.050 --> 06:41.880
+to liveness and then readiness probes
+
+06:41.880 --> 06:43.580
+all those things will take, right?
+
+06:44.490 --> 06:46.800
+So until it is ready, I'll pause the video.
+
+06:46.800 --> 06:49.410
+So our part is running now user management part.
+
+06:49.410 --> 06:51.720
+So let me come back out of this
+
+06:51.720 --> 06:55.260
+and then I can secure parts and then all our running.
+
+06:55.260 --> 06:58.920
+So we can go to browser and then verify.
+
+06:58.920 --> 07:01.230
+And our application is up and running.
+
+07:01.230 --> 07:03.640
+So one thing we can check here is kubectl
+
+07:04.590 --> 07:09.150
+and then get notes and then let's see our node, right?
+
+07:09.150 --> 07:13.980
+So kubectl and then describe one of the node
+
+07:13.980 --> 07:16.620
+right to understand what we have
+
+07:16.620 --> 07:20.790
+how the resources are distributed for that node, right?
+
+07:20.790 --> 07:23.670
+So I just need to provide that describe node here.
+
+07:23.670 --> 07:26.973
+So let me do that, right?
+
+07:29.250 --> 07:32.550
+Okay. So if you see here, so for my scale
+
+07:32.550 --> 07:35.880
+we didn't define any CPU requests are CPU limits, okay?
+
+07:35.880 --> 07:38.880
+For cube system, AWS node already it is defined
+
+07:38.880 --> 07:40.890
+which is system related stuff, okay?
+
+07:40.890 --> 07:43.637
+Or for cube system cube proxy also 100
+
+07:43.637 --> 07:45.090
+MF CPU is reserved for them.
+
+07:45.090 --> 07:47.220
+Okay? In the same way, let's see our
+
+07:47.220 --> 07:49.740
+in our default name space we have something
+
+07:49.740 --> 07:53.080
+called user management microservice.
+
+07:53.080 --> 07:56.700
+Okay? So let me make this smaller and then see what happens.
+
+07:56.700 --> 07:57.533
+Okay?
+
+07:57.533 --> 08:00.810
+So I just reduce the font to understand little bit clear.
+
+08:00.810 --> 08:02.850
+So you can see in the default name space we
+
+08:02.850 --> 08:04.591
+have user management microservice.
+
+08:04.591 --> 08:07.320
+So we have requested 500 M means
+
+08:07.320 --> 08:10.860
+like my request is 500 M and my limit is one.
+
+08:10.860 --> 08:11.693
+So what is this?
+
+08:11.693 --> 08:13.380
+25%? And then what is this?
+
+08:13.380 --> 08:17.680
+51% is from this node of 25% of this node.
+
+08:17.680 --> 08:19.410
+I am, I have already requested
+
+08:19.410 --> 08:20.940
+and then I'm going to, that is resort
+
+08:20.940 --> 08:24.960
+for this respective too user management microservice, okay?
+
+08:24.960 --> 08:26.370
+And it's limited
+
+08:26.370 --> 08:28.590
+I'm going to use one CPU, which is nothing.
+
+08:28.590 --> 08:33.030
+But if you see here for that T3 medium, so if you come here
+
+08:33.030 --> 08:35.190
+right? No, not this one.
+
+08:35.190 --> 08:36.750
+Okay? Yeah.
+
+08:36.750 --> 08:39.390
+So if you come here for the T3 medium
+
+08:39.390 --> 08:42.180
+so you have something called two V CPU
+
+08:42.180 --> 08:44.070
+and then four gbf memory.
+
+08:44.070 --> 08:47.910
+So out of two V C P, one V C P, you have already resort
+
+08:47.910 --> 08:49.680
+for this user management microservice.
+
+08:49.680 --> 08:54.223
+What it states for us is already you are using 51%
+
+08:54.223 --> 08:56.760
+of the CPU from this respective note.
+
+08:56.760 --> 08:58.590
+So that's what it is trying to tell us.
+
+08:58.590 --> 08:59.640
+In the same way
+
+08:59.640 --> 09:02.970
+128 MI I am using as a request, which is nothing
+
+09:02.970 --> 09:04.830
+but three percent is already resolved
+
+09:04.830 --> 09:06.600
+from the entire four gb.
+
+09:06.600 --> 09:08.730
+And in addition to that 500 MI
+
+09:08.730 --> 09:11.310
+which is 14% is result for this limit.
+
+09:11.310 --> 09:14.070
+Okay, So how much is the limit here?
+
+09:14.070 --> 09:17.820
+It is 4G ib, out of which this much it is resort.
+
+09:17.820 --> 09:20.940
+It is saying in the same way, if you see here
+
+09:20.940 --> 09:22.860
+this is the overall for this node.
+
+09:22.860 --> 09:25.402
+In the same way for the other node also we'll have, right
+
+09:25.402 --> 09:30.402
+So in that line, so whenever we are defining the requests
+
+09:31.290 --> 09:35.250
+and then limits for our respective containers
+
+09:35.250 --> 09:38.460
+we need to ensure that proper planning is required and then
+
+09:38.460 --> 09:42.090
+if my cluster will sustain in high load conditions or not.
+
+09:42.090 --> 09:44.460
+And considering the cluster level resources
+
+09:44.460 --> 09:47.430
+what it consumes, like whatever the cube system
+
+09:47.430 --> 09:49.290
+or whatever is present in the cube system
+
+09:49.290 --> 09:52.440
+like in future you might install external DNS
+
+09:52.440 --> 09:53.910
+or L being risk controller.
+
+09:53.910 --> 09:55.080
+A lot of other things will come
+
+09:55.080 --> 09:57.180
+into the picture which are system related.
+
+09:57.180 --> 09:59.970
+So for all those things, considering we need to ensure
+
+09:59.970 --> 10:03.180
+that how much this cluster can allocate
+
+10:03.180 --> 10:05.580
+and then accordingly we need to decide.
+
+10:05.580 --> 10:09.810
+So this completes the understanding of resources
+
+10:09.810 --> 10:12.720
+and requests and then we have also implemented it.
+
+10:12.720 --> 10:15.453
+So let's go ahead and then delete them now.
+
+10:17.910 --> 10:21.120
+So let me paste it and then delete it.
+
+10:21.120 --> 10:25.020
+And let's also go back for our previous font.
+
+10:25.020 --> 10:28.500
+Okay? So in our next lecture we'll focus on name spaces.
+
+10:28.500 --> 10:31.320
+So I'll see you in the next lecture and then bye bye.
+
+10:31.320 --> 10:32.153
+Thank you.

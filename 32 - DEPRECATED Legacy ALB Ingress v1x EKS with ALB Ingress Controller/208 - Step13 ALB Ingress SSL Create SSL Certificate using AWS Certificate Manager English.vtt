@@ -1,0 +1,289 @@
+WEBVTT
+
+00:00.000 --> 00:00.930
+-: Welcome back.
+
+00:00.930 --> 00:03.480
+So let's get into our ALB ingress,
+
+00:03.480 --> 00:05.220
+SSL zero eight zero four
+
+00:05.220 --> 00:07.980
+and we have completed our step one introduction.
+
+00:07.980 --> 00:09.000
+And then step two,
+
+00:09.000 --> 00:11.310
+register a domain in Route 53.
+
+00:11.310 --> 00:12.510
+So now we are in the
+
+00:12.510 --> 00:14.700
+step three create SSL certificate
+
+00:14.700 --> 00:15.533
+in
+
+00:15.533 --> 00:16.770
+certificate manager.
+
+00:16.770 --> 00:18.600
+So let's go ahead and then
+
+00:18.600 --> 00:21.120
+do that now, right?
+
+00:21.120 --> 00:24.360
+So we'll go here and then in services we'll search
+
+00:24.360 --> 00:26.636
+for certificate manager.
+
+00:26.636 --> 00:29.373
+Right? Here In the certificate manager.
+
+00:31.650 --> 00:35.820
+And we already have a certificate related
+
+00:35.820 --> 00:38.119
+to StarDot stack simplify.com.
+
+00:38.119 --> 00:41.010
+So which we are even not using it now.
+
+00:41.010 --> 00:42.790
+So we are primarily focused
+
+00:43.902 --> 00:47.040
+on using star dot cube on cloud.com.
+
+00:47.040 --> 00:49.050
+So request a certificate
+
+00:49.050 --> 00:52.410
+request a public certificate, right?
+
+00:52.410 --> 00:55.230
+And provide our domain name, right?
+
+00:55.230 --> 00:59.580
+So our domain name, whatever need is cube on cloud.com.
+
+00:59.580 --> 01:00.970
+So we are going to give the
+
+01:02.329 --> 01:04.440
+domain name is star dot q
+
+01:04.440 --> 01:06.480
+on cloud.com.
+
+01:06.480 --> 01:10.750
+So let me provide this right and
+
+01:11.760 --> 01:14.730
+if you want to add any other names to this certificate, no
+
+01:14.730 --> 01:16.170
+we already give Star, right?
+
+01:16.170 --> 01:17.940
+So ideally we should be good.
+
+01:17.940 --> 01:21.440
+So use an star to request a wild card certificate.
+
+01:21.440 --> 01:23.760
+So which will be applicable for
+
+01:23.760 --> 01:24.750
+several sites
+
+01:24.750 --> 01:26.580
+which is nothing but any number of sites.
+
+01:26.580 --> 01:30.360
+Three W side.example.com images.example.com, like that
+
+01:30.360 --> 01:32.760
+we can use it for many stuff.
+
+01:32.760 --> 01:34.039
+So now I'll click on
+
+01:34.039 --> 01:34.968
+next
+
+01:34.968 --> 01:37.620
+and it is asking for the validation method.
+
+01:37.620 --> 01:39.270
+Do you want a DNS validation?
+
+01:39.270 --> 01:43.740
+Or a email validation? Okay, so if our choose this option
+
+01:43.740 --> 01:46.080
+if you have or obtain a permission to modify
+
+01:46.080 --> 01:48.030
+that DNS configuration on the domains
+
+01:48.030 --> 01:49.289
+which means if you have the
+
+01:49.289 --> 01:50.280
+access
+
+01:50.280 --> 01:51.150
+to your
+
+01:51.150 --> 01:53.670
+Route 53 and then with your user
+
+01:53.670 --> 01:56.910
+you are able to modify your Route 53 domains here.
+
+01:56.910 --> 01:59.340
+So then ideally not an issue, okay?
+
+01:59.340 --> 02:01.112
+So you can directly
+
+02:01.112 --> 02:02.730
+use it.
+
+02:02.730 --> 02:04.351
+So I'll do the DNS validation.
+
+02:04.351 --> 02:08.520
+So I'll click on next and any tags you want to view
+
+02:08.520 --> 02:11.033
+I really don't need to give anything review
+
+02:11.033 --> 02:14.520
+and then confirm and then request.
+
+02:14.520 --> 02:16.923
+So we are creating this SSL certificate now.
+
+02:19.164 --> 02:20.190
+So what it says is
+
+02:20.190 --> 02:22.200
+like create a senior record in the
+
+02:22.200 --> 02:23.310
+DNS configuration
+
+02:23.310 --> 02:26.010
+for each of these domains listed below.
+
+02:26.010 --> 02:27.990
+So how you can do that is just click
+
+02:27.990 --> 02:31.530
+on this and then automatically it'll provide a link here.
+
+02:31.530 --> 02:34.020
+So you really don't need to go to route 53 and do it.
+
+02:34.020 --> 02:35.160
+If you click on this link
+
+02:35.160 --> 02:39.030
+create a record in route 53, it automatically creates.
+
+02:39.030 --> 02:41.670
+So if you see on Cube on cloud.com currently
+
+02:41.670 --> 02:43.847
+only two record that is there after adding
+
+02:43.847 --> 02:45.750
+let's see how many it'll be there.
+
+02:45.750 --> 02:47.340
+Okay? So you can see here
+
+02:47.340 --> 02:49.140
+only two should be there record sets,
+
+02:49.140 --> 02:50.359
+default record sets.
+
+02:50.359 --> 02:52.457
+So now let's come to certificate manager
+
+02:52.457 --> 02:56.080
+and click on create record in route 53.
+
+02:56.080 --> 02:58.886
+Okay, so it is going to create this scene record there.
+
+02:58.886 --> 03:01.260
+Okay? So it should be created,
+
+03:01.260 --> 03:02.710
+it'll take a while to create.
+
+03:03.780 --> 03:05.640
+Okay, so it created, okay
+
+03:05.640 --> 03:08.580
+so now what happens is once it is created, we can click
+
+03:08.580 --> 03:10.770
+on continue and wait for the
+
+03:10.770 --> 03:11.858
+validation to happen.
+
+03:11.858 --> 03:14.340
+So it'll take hardly not less
+
+03:14.340 --> 03:16.080
+than means like five to 10 minutes.
+
+03:16.080 --> 03:17.939
+This validation should be completed.
+
+03:17.939 --> 03:21.208
+I'll pass the video and then once it is completed
+
+03:21.208 --> 03:23.093
+we will verify that and then
+
+03:23.093 --> 03:25.560
+move on with the next steps.
+
+03:25.560 --> 03:26.580
+So we can see it now.
+
+03:26.580 --> 03:29.880
+Star dot cube on cloud.com is issued
+
+03:29.880 --> 03:32.520
+and then ready for us for the use.
+
+03:32.520 --> 03:34.960
+So in our next step we'll focus on
+
+03:36.090 --> 03:37.680
+creating the annotations related
+
+03:37.680 --> 03:41.910
+to SSL in our alb ingre SSL dot yml.
+
+03:41.910 --> 03:43.560
+So I'll see you in the next lecture.
+
+03:43.560 --> 03:44.910
+Until then, bye bye.
+
+03:44.910 --> 03:45.743
+Thank you.

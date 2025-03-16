@@ -1,0 +1,430 @@
+WEBVTT
+
+00:00.060 --> 00:01.200
+-: Welcome back.
+
+00:01.200 --> 00:04.620
+So in this lecture we are going to work on step two
+
+00:04.620 --> 00:06.840
+step three and then step four.
+
+00:06.840 --> 00:10.200
+So as part of step two we are supposed to have
+
+00:10.200 --> 00:14.430
+the metrics server installed on our Kubernetes cluster.
+
+00:14.430 --> 00:18.600
+So metrics server we have already installed as part of HPA.
+
+00:18.600 --> 00:21.600
+So if you want we can go ahead and then check
+
+00:21.600 --> 00:25.920
+that Kubectl, get ports, hyphen N, which is in kube-system.
+
+00:25.920 --> 00:26.970
+We have it.
+
+00:26.970 --> 00:29.410
+So let's verify in kube-system
+
+00:30.960 --> 00:35.310
+and we can see that metric servers happen running.
+
+00:35.310 --> 00:37.020
+So the next thing is we are going to
+
+00:37.020 --> 00:40.650
+deploy the vertical port auto scaler.
+
+00:40.650 --> 00:44.358
+So to do that we need to get clone auto scaler
+
+00:44.358 --> 00:47.280
+Kubernetes Auto scaler, git repository.
+
+00:47.280 --> 00:52.080
+So we will come out of our existing git repository
+
+00:52.080 --> 00:54.610
+and I'll try to create a
+
+00:55.797 --> 00:57.450
+VPA demo folder
+
+00:57.450 --> 00:59.160
+and we'll go inside that
+
+00:59.160 --> 01:03.933
+and then we'll git clone this repository, right?
+
+01:04.950 --> 01:09.950
+So once that is done we are going inside the VPA folder
+
+01:09.960 --> 01:14.370
+which is nothing but vertical pod auto scaler folder
+
+01:14.370 --> 01:17.730
+and then we are going to install it directly.
+
+01:17.730 --> 01:21.180
+So to uninstall it is VPA down dot
+
+01:21.180 --> 01:24.543
+and to install it is VPA up dot.
+
+01:25.440 --> 01:27.750
+So let's wait for it to complete.
+
+01:27.750 --> 01:32.250
+So we went inside CD auto scaler, vertical port auto scaler
+
+01:32.250 --> 01:37.250
+and then to install we are going to use this option, right?
+
+01:37.530 --> 01:39.843
+So let it install everything.
+
+01:42.210 --> 01:46.350
+And once installed we are going to verify the ports present
+
+01:46.350 --> 01:49.593
+inside the kube-system name space.
+
+01:51.240 --> 01:53.790
+So it installed.
+
+01:53.790 --> 01:54.840
+So let's go ahead
+
+01:54.840 --> 01:59.670
+and then verify the VPA ports in kube-system, right?
+
+01:59.670 --> 02:02.670
+So now we can see VPA admission controller
+
+02:02.670 --> 02:04.863
+VPA recommender and then VPA updater.
+
+02:05.850 --> 02:08.220
+So three parts are already running now
+
+02:08.220 --> 02:12.090
+as part of whatever the VPA deployment we have done.
+
+02:12.090 --> 02:14.670
+So in our next step we are going to review
+
+02:14.670 --> 02:17.160
+and then deploy our application manifest
+
+02:17.160 --> 02:20.730
+which is deployment and then service inside that.
+
+02:20.730 --> 02:23.190
+Those are going to be a standard deployment
+
+02:23.190 --> 02:24.023
+and then service.
+
+02:24.023 --> 02:27.510
+So in EKS VPA, vertical port auto scaler
+
+02:27.510 --> 02:29.010
+we have two kube manifests.
+
+02:29.010 --> 02:31.830
+Inside that demo application is zero one
+
+02:31.830 --> 02:34.650
+and original VPA manifest is zero two.
+
+02:34.650 --> 02:38.490
+Okay? So it is a standard kube Nginx deployment.
+
+02:38.490 --> 02:41.850
+Simple kube Nginx file with replicas as four
+
+02:41.850 --> 02:44.130
+and to export it with NodePort service
+
+02:44.130 --> 02:45.840
+and internal Cluster IP service also
+
+02:45.840 --> 02:47.430
+It will be available like this
+
+02:47.430 --> 02:50.700
+but this one you can access externally only
+
+02:50.700 --> 02:53.760
+if your cluster node groups are present
+
+02:53.760 --> 02:55.020
+on the public subnets.
+
+02:55.020 --> 02:58.020
+So my cluster currently is in private subnets.
+
+02:58.020 --> 03:01.200
+You really don't need to access it externally
+
+03:01.200 --> 03:02.340
+to generate the load.
+
+03:02.340 --> 03:05.370
+We generate the load using Apache bench container
+
+03:05.370 --> 03:08.130
+and then pod inside the cluster only.
+
+03:08.130 --> 03:09.840
+So, but just for a names sake
+
+03:09.840 --> 03:13.470
+I have created it as a standard so we can leave it as is.
+
+03:13.470 --> 03:16.260
+So now the important point to discuss inside
+
+03:16.260 --> 03:18.900
+this is the resources section, okay?
+
+03:18.900 --> 03:20.190
+So in the resources section
+
+03:20.190 --> 03:23.400
+for vertical port auto scaler we are telling means
+
+03:23.400 --> 03:25.590
+like we are telling the Kubernetes that we are going to
+
+03:25.590 --> 03:28.830
+request a CPU as this much and then memory as this much.
+
+03:28.830 --> 03:30.330
+So these are very, very low
+
+03:30.330 --> 03:33.000
+if you see for any container or any port, right?
+
+03:33.000 --> 03:35.580
+So these are very, very low five mb.
+
+03:35.580 --> 03:37.410
+And then what is
+
+03:37.410 --> 03:40.290
+0.05005 CPU
+
+03:40.290 --> 03:42.150
+which is very, very less, okay?
+
+03:42.150 --> 03:45.360
+But we are going to put very minimal to our application
+
+03:45.360 --> 03:49.020
+and then how our auto scaler vertical port
+
+03:49.020 --> 03:52.200
+auto scaler is going to performance tune your application
+
+03:52.200 --> 03:55.050
+when we put the lot of load on our application
+
+03:55.050 --> 03:56.700
+we are going to see that.
+
+03:56.700 --> 03:59.610
+So to practically demonstrate it, we have reduced
+
+03:59.610 --> 04:01.980
+our memory and CPU requests
+
+04:01.980 --> 04:05.520
+for our deployment manifest to be very minimal.
+
+04:05.520 --> 04:07.410
+So now let's go back here.
+
+04:07.410 --> 04:11.490
+So that's what I want to discuss as part of this sections.
+
+04:11.490 --> 04:13.980
+So now these are the requests
+
+04:13.980 --> 04:16.350
+and the limits we define in our VPA definition.
+
+04:16.350 --> 04:18.270
+So when we are doing the VPA definition
+
+04:18.270 --> 04:19.740
+we are going to discuss that.
+
+04:19.740 --> 04:22.200
+So let's go ahead and then deploy this.
+
+04:22.200 --> 04:24.960
+So this information I need to update a little bit
+
+04:24.960 --> 04:26.313
+just give me one second.
+
+04:27.240 --> 04:28.530
+I just changed the path
+
+04:28.530 --> 04:30.600
+of our application where it is located.
+
+04:30.600 --> 04:32.970
+Okay? So it is present in kube manifest
+
+04:32.970 --> 04:36.840
+and then my file is zero one VPN demo application dot YAML.
+
+04:36.840 --> 04:39.810
+So let me go ahead and then deploy this
+
+04:39.810 --> 04:43.560
+so I can deploy from wherever it is kubectl, right?
+
+04:43.560 --> 04:45.390
+So we can deploy it. Okay?
+
+04:45.390 --> 04:47.340
+So only one thing is like we are not
+
+04:47.340 --> 04:48.450
+in that location
+
+04:48.450 --> 04:50.751
+we went to the vertical port auto scaler
+
+04:50.751 --> 04:53.550
+we have cloned the repository and present there, right?
+
+04:53.550 --> 04:57.210
+So we'll go back to our course repository, right?
+
+04:57.210 --> 04:58.560
+So I'll come back
+
+04:58.560 --> 05:02.130
+and I'll go to my course repository main folder.
+
+05:02.130 --> 05:05.460
+And inside that I need to go to 16, which is nothing
+
+05:05.460 --> 05:10.080
+but EKS, VPA, vertical part auto scaler, right?
+
+05:10.080 --> 05:14.010
+So now I'm going to deploy my application, right?
+
+05:14.010 --> 05:15.000
+So this looks good.
+
+05:15.000 --> 05:19.050
+So I'll say kubectl, get port SVC,
+
+05:19.050 --> 05:20.670
+deploy all the stuff.
+
+05:20.670 --> 05:24.820
+Okay, so now if you see we have the VPA demo deployment
+
+05:26.250 --> 05:29.340
+four ports are running, okay, all are up and running now
+
+05:29.340 --> 05:33.690
+and it's SQL VPA demo service NodePort service with the
+
+05:33.690 --> 05:37.530
+internal Cluster IP with 80 also available for us.
+
+05:37.530 --> 05:40.140
+So deployment four by four ready?
+
+05:40.140 --> 05:42.670
+So now describe one of the pod here.
+
+05:42.670 --> 05:47.670
+Okay, kubectl describe and then pod.
+
+05:48.150 --> 05:51.810
+And then this is the pod we want to describe. Okay?
+
+05:51.810 --> 05:53.910
+So I'll say any one
+
+05:53.910 --> 05:56.970
+of the pod from our VPA demo, right?
+
+05:56.970 --> 05:59.700
+So if you see here the current information
+
+05:59.700 --> 06:02.850
+whatever we see is it has requested five M
+
+06:02.850 --> 06:06.150
+and then five MI for our CPU and then memory.
+
+06:06.150 --> 06:07.770
+So just make a note of that
+
+06:07.770 --> 06:10.320
+and then we'll see later what happens.
+
+06:10.320 --> 06:13.950
+So now we have completed the step four also.
+
+06:13.950 --> 06:16.680
+And this one if you want to access your application
+
+06:16.680 --> 06:18.960
+you can access only if your application is
+
+06:18.960 --> 06:22.230
+in public subnet means like if you're cluster node group.
+
+06:22.230 --> 06:26.670
+So our cluster node group is in git nodes hyphen
+
+06:26.670 --> 06:28.340
+oh, why it is in private subnets.
+
+06:28.340 --> 06:30.990
+So we really don't have any external IP, so that's fine.
+
+06:30.990 --> 06:32.820
+Okay? So this step is optional.
+
+06:32.820 --> 06:35.940
+Why? Because our test is mainly related to VPA resources.
+
+06:35.940 --> 06:37.230
+We can ignore this.
+
+06:37.230 --> 06:39.600
+Okay? So in our next lecture we'll discuss
+
+06:39.600 --> 06:42.480
+about create and deploy our VPA manifest
+
+06:42.480 --> 06:44.850
+our review and then deploy our VPA manifest
+
+06:44.850 --> 06:47.100
+and then move on with the next steps.
+
+06:47.100 --> 06:49.140
+So I'll see you in the next lecture.
+
+06:49.140 --> 06:50.430
+Until then, bye bye.
+
+06:50.430 --> 06:51.263
+Thank you.

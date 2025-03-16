@@ -1,0 +1,244 @@
+WEBVTT
+
+00:00.240 --> 00:01.230
+-: Welcome back.
+
+00:01.230 --> 00:03.509
+In this lecture we are going to understand
+
+00:03.509 --> 00:07.350
+about ingress and then external DNS.
+
+00:07.350 --> 00:10.140
+So what is this external DNS,
+
+00:10.140 --> 00:12.510
+and then how we are going to use it.
+
+00:12.510 --> 00:15.510
+So, if you see our current architecture diagram
+
+00:15.510 --> 00:17.790
+whatever we have discussed so far.
+
+00:17.790 --> 00:20.790
+So if you see other than RDS databases
+
+00:20.790 --> 00:23.370
+and then route 53 entries remaining
+
+00:23.370 --> 00:27.690
+everything we have provisioned using Kubernetes manifest.
+
+00:27.690 --> 00:30.720
+So which means like, whatever the deployment
+
+00:30.720 --> 00:34.110
+our note port services, our application load balances,
+
+00:34.110 --> 00:38.610
+and then part paced routing, SSL and then SSL redirect.
+
+00:38.610 --> 00:41.340
+So we just created the certificate,
+
+00:41.340 --> 00:44.340
+our route 53 related register domains
+
+00:44.340 --> 00:47.070
+and then hosted Jones with the record sets.
+
+00:47.070 --> 00:49.440
+These things we have done manually.
+
+00:49.440 --> 00:52.890
+So, but certificate is a one time job that is fine.
+
+00:52.890 --> 00:56.010
+And RDS, yes means like,
+
+00:56.010 --> 00:58.170
+if we have something from Kubernetes,
+
+00:58.170 --> 01:02.010
+if we can create automatically RDS databases, that is great.
+
+01:02.010 --> 01:02.843
+Okay?
+
+01:02.843 --> 01:03.676
+But these type
+
+01:03.676 --> 01:07.650
+of explorations are currently in the initial phases.
+
+01:07.650 --> 01:10.620
+So there is something called, "K Operator."
+
+01:10.620 --> 01:13.560
+So what it does is from Kubernetes itself you'll
+
+01:13.560 --> 01:16.020
+be able to create the Dynamo DB.
+
+01:16.020 --> 01:18.720
+Okay? So they are enhancing that.
+
+01:18.720 --> 01:19.553
+And then maybe
+
+01:19.553 --> 01:22.560
+in future many of AWS services will be able to
+
+01:22.560 --> 01:27.560
+be get created using Kubernetes manifest with K Operator.
+
+01:27.570 --> 01:31.860
+But, as on today, we need to go for RDS databases manually.
+
+01:31.860 --> 01:35.220
+But, for route 53 interest, we have something called
+
+01:35.220 --> 01:36.780
+external DNS.
+
+01:36.780 --> 01:39.270
+Using that from Kubernetes manifests,
+
+01:39.270 --> 01:40.710
+using Kubernetes manifests.
+
+01:40.710 --> 01:44.670
+And then, in ingress adding the annotations related
+
+01:44.670 --> 01:46.920
+to external DNS.
+
+01:46.920 --> 01:50.550
+DNS will allow us to automatically
+
+01:50.550 --> 01:55.440
+add record sets or DNS interest in the route 53.
+
+01:55.440 --> 01:59.100
+So using this external DNS related annotations updated
+
+01:59.100 --> 02:00.180
+in the ingress.
+
+02:00.180 --> 02:04.560
+In addition to deploying the external DNS related deployment
+
+02:04.560 --> 02:07.170
+in our existing EKS cluster
+
+02:07.170 --> 02:10.980
+which will allow us to update the route 53 entries.
+
+02:10.980 --> 02:15.180
+So let's go back to our GitHub repo once
+
+02:15.180 --> 02:17.460
+and then see what we are going to do.
+
+02:17.460 --> 02:22.460
+So we are going inside 08, 06 ALB ingress, external DNS.
+
+02:22.830 --> 02:25.380
+So this is divided into primarily two parts.
+
+02:25.380 --> 02:29.370
+One is deploying the external DNS on EKS, which is nothing
+
+02:29.370 --> 02:32.340
+but it is a simple deployment with a single part related
+
+02:32.340 --> 02:33.990
+to external DNS.
+
+02:33.990 --> 02:35.520
+And, after that,
+
+02:35.520 --> 02:38.640
+applying our external DNS related annotations
+
+02:38.640 --> 02:41.037
+for our application and then testing it will be
+
+02:41.037 --> 02:42.540
+the next step. Okay?
+
+02:42.540 --> 02:46.863
+So now let's go into the 08, 06, 01.
+
+02:48.120 --> 02:52.560
+And then if you see here, as usual, if our pod
+
+02:52.560 --> 02:55.170
+inside the Kubernetes it need to access
+
+02:55.170 --> 02:58.890
+the external AWS services, it need to follow a
+
+02:58.890 --> 03:02.520
+process which is nothing but it need to have a I AM role
+
+03:02.520 --> 03:03.870
+and then I AM policy.
+
+03:03.870 --> 03:06.960
+I AM policy outlining which AWS services
+
+03:06.960 --> 03:08.400
+it needs access to.
+
+03:08.400 --> 03:11.310
+Example, it needs access to route 53. Right?
+
+03:11.310 --> 03:13.380
+So I AM policy and I AM role
+
+03:13.380 --> 03:15.210
+in addition to that a service account
+
+03:15.210 --> 03:17.100
+in Kubernetes which will be associated
+
+03:17.100 --> 03:20.370
+with this disrespect you external DNS part.
+
+03:20.370 --> 03:22.890
+And then altogether I AM role
+
+03:22.890 --> 03:25.470
+and then service account need to be associated
+
+03:25.470 --> 03:29.790
+so that the external DNS part will be able to go ahead
+
+03:29.790 --> 03:32.070
+and then add the interest in rock 53.
+
+03:32.070 --> 03:35.730
+So related those changes, whatever is required
+
+03:35.730 --> 03:37.440
+like I AM policy, I AM role,
+
+03:37.440 --> 03:40.020
+all those things will be our next steps to implement
+
+03:40.020 --> 03:42.870
+for our external DNS deployment.
+
+03:42.870 --> 03:44.700
+So I'll see you in the next lecture,
+
+03:44.700 --> 03:46.410
+and then, we'll go ahead
+
+03:46.410 --> 03:50.340
+and then implement the steps related to external DNS.
+
+03:50.340 --> 03:51.903
+Until then, bye bye. Thank you.

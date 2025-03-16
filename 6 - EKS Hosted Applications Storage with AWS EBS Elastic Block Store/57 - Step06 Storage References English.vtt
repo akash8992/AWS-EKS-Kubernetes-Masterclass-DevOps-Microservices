@@ -1,0 +1,259 @@
+WEBVTT
+
+00:00.180 --> 00:01.140
+-: Welcome back.
+
+00:01.140 --> 00:03.600
+So in this lecture we are going to discuss
+
+00:03.600 --> 00:06.420
+about the references section exclusively, mainly related
+
+00:06.420 --> 00:08.280
+to EBS CSI driver.
+
+00:08.280 --> 00:10.350
+So I have provided all the links for you
+
+00:10.350 --> 00:12.720
+for your additional understanding and then more
+
+00:12.720 --> 00:15.540
+about the features available there and all those things.
+
+00:15.540 --> 00:18.990
+So this is the core link about our EBS CSI driver.
+
+00:18.990 --> 00:22.380
+So we can go in there and this is the dynamic provisioning
+
+00:22.380 --> 00:25.950
+whatever we have implemented and more examples
+
+00:25.950 --> 00:28.080
+are provided here for additional stuff here.
+
+00:28.080 --> 00:29.100
+So let's go here.
+
+00:29.100 --> 00:31.680
+Okay, so this is the EBS CSI driver.
+
+00:31.680 --> 00:35.310
+And if you see the current version it is running is V 0 5 0.
+
+00:35.310 --> 00:37.710
+And whenever you are testing it might be even 1.0
+
+00:37.710 --> 00:38.910
+or whatever, right?
+
+00:38.910 --> 00:41.070
+But whatever it may be the case.
+
+00:41.070 --> 00:45.150
+So the core thing here we need to understand is here, okay?
+
+00:45.150 --> 00:47.760
+So whatever the features it provides, static provisioning
+
+00:47.760 --> 00:51.030
+dynamic provisioning, mount option, NVME, block volume
+
+00:51.030 --> 00:53.730
+volume snapshot, and then volume resizing
+
+00:53.730 --> 00:55.980
+and important things when we are seeing the feature
+
+00:55.980 --> 00:58.920
+says all fasted, Okay?
+
+00:58.920 --> 01:02.610
+So volume resizing and volume snapshot are in alpha State
+
+01:02.610 --> 01:06.030
+and they are sometimes working, sometimes not working.
+
+01:06.030 --> 01:08.130
+They are in stable as on today.
+
+01:08.130 --> 01:10.440
+So that's the reason I didn't include these things.
+
+01:10.440 --> 01:14.280
+Okay, so block volume is in beta stage and the dynamic
+
+01:14.280 --> 01:15.810
+provisioning, these are also in beta
+
+01:15.810 --> 01:18.570
+stage, but the thing is they're ready for production.
+
+01:18.570 --> 01:19.920
+That's what AWS says.
+
+01:19.920 --> 01:21.510
+So we can use these things happily
+
+01:21.510 --> 01:24.390
+but the core thing is whatever you see, Alfa stages
+
+01:24.390 --> 01:28.080
+you crosscheck before you are using for your things means
+
+01:28.080 --> 01:30.630
+like when you want to use resizing, you need to
+
+01:30.630 --> 01:35.630
+say allow expansion through in our, in your storage class.
+
+01:35.700 --> 01:36.900
+Okay? I didn't define that here.
+
+01:36.900 --> 01:37.920
+Allow expansion through.
+
+01:37.920 --> 01:40.410
+You need to define an additional tag here, okay?
+
+01:40.410 --> 01:42.090
+So, but as it is in all frustrated
+
+01:42.090 --> 01:45.660
+it is not good to add that and then demonstrate it, okay?
+
+01:45.660 --> 01:49.200
+So it might change the why, because once it comes to beta
+
+01:49.200 --> 01:52.230
+the changes will be minimal, but if it is in alpha
+
+01:52.230 --> 01:54.150
+the tag might change or whatever it is.
+
+01:54.150 --> 01:55.260
+Okay?
+
+01:55.260 --> 01:56.520
+-: So that's about it.
+
+01:56.520 --> 01:57.990
+Don't worry about installation steps
+
+01:57.990 --> 01:59.370
+whatever here, here provided.
+
+01:59.370 --> 02:02.400
+So you need to allow, you follow the steps
+
+02:02.400 --> 02:03.600
+whatever I have provided here
+
+02:03.600 --> 02:05.490
+which is straight and then easy.
+
+02:05.490 --> 02:08.010
+And now next thing here is
+
+02:08.010 --> 02:10.620
+one more thing is this is the one examples
+
+02:10.620 --> 02:12.150
+for EBS CSI driver.
+
+02:12.150 --> 02:14.160
+So we have implemented dynamic provisioning
+
+02:14.160 --> 02:16.200
+with our Myer skill and we have
+
+02:16.200 --> 02:18.510
+for block volume and then for resizing.
+
+02:18.510 --> 02:21.840
+So if you see the resizing allow, I told you right?
+
+02:21.840 --> 02:23.730
+Allow volume expansion rules.
+
+02:23.730 --> 02:25.530
+So like this, you can provide all these things
+
+02:25.530 --> 02:28.260
+but you whatever you want to provide.
+
+02:28.260 --> 02:29.640
+and then based on your requirement
+
+02:29.640 --> 02:31.500
+what you want to use accordingly
+
+02:31.500 --> 02:33.990
+you can refer these examples means like you can go
+
+02:33.990 --> 02:37.530
+inside these examples and then go inside the spec
+
+02:37.530 --> 02:40.410
+and then find the example dot AML or whatever
+
+02:40.410 --> 02:43.350
+and then find the options related to your storage class
+
+02:43.350 --> 02:46.440
+and then persistent volume accordingly, and then leverage
+
+02:46.440 --> 02:48.030
+and then use it whenever you're doing
+
+02:48.030 --> 02:49.830
+in your real time environments based
+
+02:49.830 --> 02:52.260
+on the requirement, whatever you have.
+
+02:52.260 --> 02:56.310
+Okay? So that's about the references section here.
+
+02:56.310 --> 02:58.530
+Okay? So dynamic provision
+
+02:58.530 --> 03:01.020
+direct link I have provided and resizing snapshots
+
+03:01.020 --> 03:03.120
+everything you can see here, all the examples here.
+
+03:03.120 --> 03:05.640
+Okay? So in our next lecture we'll focus
+
+03:05.640 --> 03:08.580
+on creating the user management microservice
+
+03:08.580 --> 03:09.413
+which is connecting
+
+03:09.413 --> 03:11.370
+to the Myer scale database we have created.
+
+03:11.370 --> 03:13.500
+We'll create some users and then reference them
+
+03:13.500 --> 03:16.800
+in the database and list those users and everything.
+
+03:16.800 --> 03:18.570
+And then again, we'll clean up everything.
+
+03:18.570 --> 03:19.620
+So that's about it.
+
+03:19.620 --> 03:21.090
+So I'll see you in the next lecture.
+
+03:21.090 --> 03:22.170
+Until then, bye bye.
+
+03:22.170 --> 03:23.003
+Thank you.

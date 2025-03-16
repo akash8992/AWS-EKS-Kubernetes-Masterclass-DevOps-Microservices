@@ -1,0 +1,304 @@
+WEBVTT
+
+00:00.270 --> 00:01.230
+-: Welcome back.
+
+00:01.230 --> 00:02.580
+As part of step five,
+
+00:02.580 --> 00:05.790
+we are going to deploy the external DNS.
+
+00:05.790 --> 00:08.100
+So let's go to our terminal here,
+
+00:08.100 --> 00:10.320
+and we'll enter into the section 08
+
+00:10.320 --> 00:13.170
+new year B application load balances.
+
+00:13.170 --> 00:17.400
+And inside that, we will go to 0807 0806,
+
+00:19.710 --> 00:23.280
+which is nothing but deploy external DNS.
+
+00:23.280 --> 00:25.200
+And we'll say kubectl.
+
+00:25.200 --> 00:28.140
+And if you want, we can verify a less alert year
+
+00:28.140 --> 00:29.130
+and Kube manifest.
+
+00:29.130 --> 00:32.947
+You'll find the 01 deploy external DNS.YML.
+
+00:33.973 --> 00:38.280
+So I'll say kubectl apply hyphen F and Kube manifest.
+
+00:38.280 --> 00:42.840
+So this should create or deploy the external DNS for us.
+
+00:42.840 --> 00:45.363
+So let's wait for it to complete.
+
+00:47.100 --> 00:48.600
+So we can see here,
+
+00:48.600 --> 00:52.080
+the service account external DNS configure cluster roll
+
+00:52.080 --> 00:54.000
+and then cluster roll binding created
+
+00:54.000 --> 00:57.630
+and deployment external DNS also created.
+
+00:57.630 --> 00:59.400
+And this warning, you can ignore.
+
+00:59.400 --> 01:00.690
+So that is fine.
+
+01:00.690 --> 01:02.970
+So now let's come back here
+
+01:02.970 --> 01:05.370
+and run the command kubectl,
+
+01:05.370 --> 01:09.060
+get all from the new default namespace.
+
+01:09.060 --> 01:12.960
+So all the deployments and whatever the resources present
+
+01:12.960 --> 01:16.230
+in default namespace, we are going to get here.
+
+01:16.230 --> 01:21.230
+So we can see here, external DNS pod is running
+
+01:21.720 --> 01:25.020
+and we can see external DNS related deployment
+
+01:25.020 --> 01:28.680
+and external DNS related ReplicaSet.
+
+01:28.680 --> 01:29.910
+And if we want,
+
+01:29.910 --> 01:34.350
+we can also list only the external DNS pod here.
+
+01:34.350 --> 01:37.350
+So get pods, right?
+
+01:37.350 --> 01:41.250
+And now you can see external DNS pod running.
+
+01:41.250 --> 01:43.020
+So if you want to verify the logs,
+
+01:43.020 --> 01:44.340
+so we can run this command
+
+01:44.340 --> 01:48.270
+to verify the external DNS pod logs here.
+
+01:48.270 --> 01:51.240
+And we can see if there are any errors or anything also,
+
+01:51.240 --> 01:52.073
+we can see here.
+
+01:52.073 --> 01:55.740
+All you can see is everything is working as expected
+
+01:55.740 --> 01:58.110
+and didn't see any errors here, right?
+
+01:58.110 --> 02:00.630
+So using in-cluster conflicts service token
+
+02:00.630 --> 02:01.920
+and created Kubernetes
+
+02:01.920 --> 02:04.080
+client applying provider record filter,
+
+02:04.080 --> 02:06.660
+all are info messages.
+
+02:06.660 --> 02:08.370
+So all are info messages.
+
+02:08.370 --> 02:10.860
+So there are no errors inside this.
+
+02:10.860 --> 02:13.560
+So if any errors also, it will be continuously throwing
+
+02:13.560 --> 02:16.500
+and then we can easily find it, right?
+
+02:16.500 --> 02:19.050
+So this completes that deployment
+
+02:19.050 --> 02:22.770
+of our external DNS related things.
+
+02:22.770 --> 02:26.430
+So what we have done, so we have created a IAM policy
+
+02:26.430 --> 02:29.160
+and we have created a Kubernetes service account
+
+02:29.160 --> 02:31.440
+with IAM role and annotated
+
+02:31.440 --> 02:36.440
+that IAM Kubernetes service account with the IAM role ERN.
+
+02:36.450 --> 02:40.050
+So all those things we have done using eksctl,
+
+02:40.050 --> 02:43.020
+create IAM service account command.
+
+02:43.020 --> 02:45.840
+And using that single command only further,
+
+02:45.840 --> 02:49.950
+we have also associated the IAM policy to IAM role.
+
+02:49.950 --> 02:52.200
+After that, we have updated
+
+02:52.200 --> 02:55.710
+the external DNS default manifest,
+
+02:55.710 --> 03:00.180
+which will create the external DNS related service account
+
+03:00.180 --> 03:03.240
+and cluster role, cluster role binding,
+
+03:03.240 --> 03:06.750
+and also it has created the deployment
+
+03:06.750 --> 03:09.630
+which created the external DNS pod.
+
+03:09.630 --> 03:13.080
+So this Kubernetes manifest, whatever it has created,
+
+03:13.080 --> 03:14.400
+whatever it has provided
+
+03:14.400 --> 03:17.970
+is from the external DNS related documentation.
+
+03:17.970 --> 03:21.990
+Ideally, already we have created this part.
+
+03:21.990 --> 03:25.020
+So we really don't need to have this here.
+
+03:25.020 --> 03:27.120
+We can remove it, if we don't want.
+
+03:27.120 --> 03:30.120
+But I took how the documentation is present,
+
+03:30.120 --> 03:33.120
+exactly how took in then put it here.
+
+03:33.120 --> 03:35.220
+But that's the reason you can see this error also
+
+03:35.220 --> 03:36.390
+whatever you're seeing, right?
+
+03:36.390 --> 03:37.980
+This a warning message.
+
+03:37.980 --> 03:39.630
+Also came because it is saying
+
+03:39.630 --> 03:41.580
+that you already have the external DNS
+
+03:41.580 --> 03:43.560
+and then why you are trying to reconfigure it
+
+03:43.560 --> 03:44.760
+or something like that.
+
+03:44.760 --> 03:46.950
+But ideally, we don't need this part,
+
+03:46.950 --> 03:51.540
+but it is given in the documentation I have, I read it.
+
+03:51.540 --> 03:55.440
+So deploy external DNS-related Kubernetes manifest.
+
+03:55.440 --> 03:59.160
+So we already using eksctl create IAM service account,
+
+03:59.160 --> 04:01.530
+we have created external DNS,
+
+04:01.530 --> 04:03.120
+and we have also annotated that
+
+04:03.120 --> 04:05.580
+with this respect to IAM role,
+
+04:05.580 --> 04:08.640
+which means this part here is not needed,
+
+04:08.640 --> 04:11.190
+so this service account part.
+
+04:11.190 --> 04:14.820
+But anyway, so it is part of the documentation manifest.
+
+04:14.820 --> 04:16.650
+So that's the reason I have put it in,
+
+04:16.650 --> 04:18.090
+which is no harm for us.
+
+04:18.090 --> 04:19.800
+So that is fine for us, right?
+
+04:19.800 --> 04:21.720
+So now, let's come back
+
+04:21.720 --> 04:25.050
+and in our next section or in the next demo,
+
+04:25.050 --> 04:30.050
+we are going to focus on using this external DNS concepts
+
+04:30.300 --> 04:33.360
+and adding the annotation in our Ingress service
+
+04:33.360 --> 04:36.270
+and then test it whether our DNS records
+
+04:36.270 --> 04:40.770
+get automatically created in Route 53 hosted zones.
+
+04:40.770 --> 04:42.390
+So I'll see you in the next lecture.
+
+04:42.390 --> 04:43.590
+Until then, bye-bye.
+
+04:43.590 --> 04:44.423
+Thank you.

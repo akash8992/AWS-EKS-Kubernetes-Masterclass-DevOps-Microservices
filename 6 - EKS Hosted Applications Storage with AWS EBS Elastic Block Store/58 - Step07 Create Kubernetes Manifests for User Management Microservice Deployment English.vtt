@@ -1,0 +1,655 @@
+WEBVTT
+
+00:00.180 --> 00:01.013
+-: Welcome back.
+
+00:01.013 --> 00:04.830
+In this lecture, we are going to create the deployment
+
+00:04.830 --> 00:07.230
+for our user management microservice.
+
+00:07.230 --> 00:08.820
+And also we are going to create
+
+00:08.820 --> 00:11.100
+the user management node port service
+
+00:11.100 --> 00:13.410
+related Kubernetes manifest,
+
+00:13.410 --> 00:17.100
+and then also provide the environmental variables required
+
+00:17.100 --> 00:18.810
+for this application to connect
+
+00:18.810 --> 00:21.450
+to the MySQL deployment,
+
+00:21.450 --> 00:24.300
+whatever we have created earlier, right?
+
+00:24.300 --> 00:27.660
+So let's go ahead and then do that now.
+
+00:27.660 --> 00:30.330
+So let's go to our GitHub repo,
+
+00:30.330 --> 00:34.170
+and we'll go to 0403 user management microservice
+
+00:34.170 --> 00:37.080
+with MySQL DB.
+
+00:37.080 --> 00:40.410
+So we are going to create two YAML file manifests,
+
+00:40.410 --> 00:45.210
+so microservice deployment and then also node port service.
+
+00:45.210 --> 00:47.820
+So as part of that, we are supposed to provide
+
+00:47.820 --> 00:49.920
+the following environmental variables
+
+00:49.920 --> 00:52.410
+to our respective container,
+
+00:52.410 --> 00:55.560
+which is nothing but a user management service container.
+
+00:55.560 --> 00:58.023
+So let's go ahead and then do that now.
+
+00:59.160 --> 01:03.660
+So now if you see here, 0403 user management microservice,
+
+01:03.660 --> 01:05.550
+and inside that kube manifest.
+
+01:05.550 --> 01:07.620
+So whatever I have created the five things,
+
+01:07.620 --> 01:11.220
+whatever as part of 0402 storage class,
+
+01:11.220 --> 01:13.320
+and then persistent volume claim config map,
+
+01:13.320 --> 01:15.030
+and then MySQL deployment.
+
+01:15.030 --> 01:17.670
+So all those five I have copied back here,
+
+01:17.670 --> 01:20.130
+whatever we have created in our previous lectures.
+
+01:20.130 --> 01:20.963
+Okay?
+
+01:20.963 --> 01:22.440
+So now we need to create zero six,
+
+01:22.440 --> 01:25.350
+and then zero seven, microservice deployment,
+
+01:25.350 --> 01:27.540
+and then microservice node port service.
+
+01:27.540 --> 01:30.300
+So if you see the best template related to our Kubernetes,
+
+01:30.300 --> 01:33.120
+which is a version kind metadata and then spec also,
+
+01:33.120 --> 01:34.170
+I'll put it here.
+
+01:34.170 --> 01:36.450
+So what we need to do, so now we are creating
+
+01:36.450 --> 01:39.390
+the user management microservice deployment.
+
+01:39.390 --> 01:42.210
+So the kind is going to be deployment.
+
+01:42.210 --> 01:44.880
+And for deployments, the API version is going
+
+01:44.880 --> 01:46.770
+to be app slash V-1.
+
+01:46.770 --> 01:51.300
+And for metadata, we can say it is going to be name, right?
+
+01:51.300 --> 01:54.900
+So user mgmt microservice.
+
+01:54.900 --> 01:57.960
+And we can also give labels if you want to.
+
+01:57.960 --> 01:59.700
+And I'm going to queue the label
+
+01:59.700 --> 02:04.700
+as app colon space user mgmt rest app,
+
+02:04.800 --> 02:07.440
+or even microservice, whatever you want to give.
+
+02:07.440 --> 02:09.510
+So now we are in the spec part,
+
+02:09.510 --> 02:13.230
+and under spec we'll have three core child elements
+
+02:13.230 --> 02:14.100
+for a deployment.
+
+02:14.100 --> 02:18.540
+So one is replicas, and second is selector,
+
+02:18.540 --> 02:21.093
+and third is going to be pod template.
+
+02:21.990 --> 02:25.380
+So now replicas, we can start with one replica,
+
+02:25.380 --> 02:26.910
+so that's not an issue.
+
+02:26.910 --> 02:28.830
+And selector means in deployment,
+
+02:28.830 --> 02:31.560
+we'll have something called match labels.
+
+02:31.560 --> 02:32.393
+Okay?
+
+02:32.393 --> 02:35.340
+So and whatever we are going to give here is app
+
+02:35.340 --> 02:38.730
+and then user mgmt rest app.
+
+02:38.730 --> 02:41.220
+As usual, whatever is present in match labels,
+
+02:41.220 --> 02:45.000
+pod template, labels, also we need to have the same value.
+
+02:45.000 --> 02:47.700
+Okay, so under template, means like this is nothing,
+
+02:47.700 --> 02:49.320
+but this is the pod template.
+
+02:49.320 --> 02:50.730
+And under pod template,
+
+02:50.730 --> 02:52.950
+we are going to have two core things, okay?
+
+02:52.950 --> 02:55.500
+So child elements, okay, metadata,
+
+02:55.500 --> 02:57.900
+and one more is going to be spec,
+
+02:57.900 --> 03:00.240
+which is nothing but pod specification.
+
+03:00.240 --> 03:01.073
+Okay?
+
+03:01.073 --> 03:04.470
+So, and under metadata, we are going to have labels only.
+
+03:04.470 --> 03:06.690
+Name, ideally we are in pod deployment,
+
+03:06.690 --> 03:08.844
+we really don't need to give pod a name here, okay?
+
+03:08.844 --> 03:11.460
+And the label, we are going to give the same thing,
+
+03:11.460 --> 03:12.840
+whatever is present here.
+
+03:12.840 --> 03:14.580
+Okay, so good.
+
+03:14.580 --> 03:16.080
+So still here, we are good.
+
+03:16.080 --> 03:18.030
+Under template, we have two child objects,
+
+03:18.030 --> 03:19.020
+metadata completed.
+
+03:19.020 --> 03:21.450
+Now we are writing the spec.
+
+03:21.450 --> 03:25.110
+So under spec, we'll have something called containers.
+
+03:25.110 --> 03:28.230
+And then if we have any volumes to be mounted to this part,
+
+03:28.230 --> 03:30.060
+then we can have volume.
+
+03:30.060 --> 03:31.680
+But currently we don't have anything.
+
+03:31.680 --> 03:34.350
+So we have only containers, right?
+
+03:34.350 --> 03:35.910
+So containers is a list.
+
+03:35.910 --> 03:38.490
+And then you can have one container under this,
+
+03:38.490 --> 03:43.490
+which is name, and then user mgmt rest app,
+
+03:43.860 --> 03:46.740
+and its image, right?
+
+03:46.740 --> 03:50.130
+Container image, you are going to provide, right?
+
+03:50.130 --> 03:52.080
+So we'll provide that shortly.
+
+03:52.080 --> 03:56.460
+And next is going to be container ports, right?
+
+03:56.460 --> 03:59.793
+So let's define the ports here.
+
+04:00.690 --> 04:05.690
+And I'll say container port, 8095 is my application port
+
+04:06.690 --> 04:09.150
+for user management microservice.
+
+04:09.150 --> 04:10.890
+So it means like which is my container port,
+
+04:10.890 --> 04:13.290
+whatever I have defined in my application,
+
+04:13.290 --> 04:14.640
+whenever I built the container.
+
+04:14.640 --> 04:16.320
+It is 8095.
+
+04:16.320 --> 04:17.580
+So I'm providing it.
+
+04:17.580 --> 04:19.590
+So if you want to give the name of the port also,
+
+04:19.590 --> 04:22.420
+you can give it the tag name, if you want to.
+
+04:22.420 --> 04:23.790
+Okay, so I am leaving it.
+
+04:23.790 --> 04:25.800
+Okay, so all those are minor things.
+
+04:25.800 --> 04:27.418
+So I'm leaving it.
+
+04:27.418 --> 04:30.690
+So we have completed name, image, and then ports.
+
+04:30.690 --> 04:34.140
+So the next thing is going to be the ENV, right?
+
+04:34.140 --> 04:38.130
+So let's complete the environmental variables.
+
+04:38.130 --> 04:39.720
+So under environmental variables,
+
+04:39.720 --> 04:41.730
+we provided task key value base, right?
+
+04:41.730 --> 04:45.030
+So in the environmental variables are also list, okay?
+
+04:45.030 --> 04:49.020
+So we can have name and then value, like this, okay?
+
+04:49.020 --> 04:51.960
+So we are going to provide DB host name, DB port,
+
+04:51.960 --> 04:54.840
+DB name, DB user name, and then DB password.
+
+04:54.840 --> 04:56.250
+So five things, okay?
+
+04:56.250 --> 04:58.620
+So we need to have five things, like this, okay?
+
+04:58.620 --> 05:03.620
+So let me copy, paste, and 2, 3, 4, 5, okay?
+
+05:05.520 --> 05:09.134
+So now let's start with that DB underscore host name.
+
+05:09.134 --> 05:09.967
+Okay?
+
+05:09.967 --> 05:13.380
+My DB under score host name is going to be MySQL.
+
+05:13.380 --> 05:16.080
+Okay, so that is what is my thing,
+
+05:16.080 --> 05:18.720
+whatever we are defined here, right?
+
+05:18.720 --> 05:23.147
+So, and the next is DB underscore port, right?
+
+05:24.540 --> 05:26.970
+And the value of DB underscore port
+
+05:26.970 --> 05:29.520
+is going to be 3306.
+
+05:29.520 --> 05:31.530
+Put this in double quotes,
+
+05:31.530 --> 05:34.800
+and ensure that we have the DB name.
+
+05:34.800 --> 05:37.710
+So which is nothing but our application means,
+
+05:37.710 --> 05:39.210
+like user management application
+
+05:39.210 --> 05:42.090
+to which schema in our database, MySQL database,
+
+05:42.090 --> 05:43.710
+it is going to connect to.
+
+05:43.710 --> 05:48.710
+So we have created a schema named user mgmt schema,
+
+05:48.780 --> 05:49.980
+so we can use that.
+
+05:49.980 --> 05:54.980
+And the next is DB underscore user name, right?
+
+05:55.470 --> 05:58.920
+So we have going to use root user,
+
+05:58.920 --> 06:01.590
+and the root user password also with MySQL
+
+06:01.590 --> 06:03.150
+underscore root underscore password,
+
+06:03.150 --> 06:05.760
+we have defined it as DB password one one.
+
+06:05.760 --> 06:08.820
+So let's define the variable DB password,
+
+06:08.820 --> 06:11.583
+and I'm going to provide it as,
+
+06:12.750 --> 06:14.910
+so let's also provide that DB password.
+
+06:14.910 --> 06:16.020
+So whatever we have given
+
+06:16.020 --> 06:17.610
+in our MySQL deployment here,
+
+06:17.610 --> 06:19.523
+which is nothing but MySQL underscore root
+
+06:19.523 --> 06:21.750
+underscore password, the same thing,
+
+06:21.750 --> 06:24.720
+let's provide it here, right?
+
+06:24.720 --> 06:29.720
+So which is nothing but DB password one one, okay?
+
+06:31.620 --> 06:34.860
+Now let's also update the image name here.
+
+06:34.860 --> 06:36.762
+So let's go to our Docker Hub.
+
+06:36.762 --> 06:38.970
+And if you see in the repositories,
+
+06:38.970 --> 06:39.840
+you'll find something
+
+06:39.840 --> 06:42.789
+called kube user management microservice.
+
+06:42.789 --> 06:43.622
+Okay?
+
+06:43.622 --> 06:45.300
+So inside that, you'll have three tags.
+
+06:45.300 --> 06:49.233
+One is 1.0.0, 2.0.0, has two DB, and then 3.0.0, et cetera.
+
+06:50.610 --> 06:53.794
+So whatever you find, 1.0.0 is going to be there.
+
+06:53.794 --> 06:57.483
+User management microservice connecting to the MySQL DB.
+
+06:58.590 --> 07:00.930
+So you can take this tag completely.
+
+07:00.930 --> 07:03.960
+User kube, user stack, simplify kube,
+
+07:03.960 --> 07:07.320
+user management microservice column 1.0.0,
+
+07:07.320 --> 07:09.570
+which is nothing but this one.
+
+07:09.570 --> 07:11.880
+So usually I have also in the read me updated
+
+07:11.880 --> 07:15.330
+that this need is now following the environmental variables
+
+07:15.330 --> 07:18.540
+passed to our respective container, right?
+
+07:18.540 --> 07:23.540
+So now let me copy this and come back, and then add it here.
+
+07:24.270 --> 07:29.270
+Okay, so now this complete server microservice
+
+07:30.840 --> 07:33.630
+deployment creation will move on
+
+07:33.630 --> 07:36.300
+to our user management node port service,
+
+07:36.300 --> 07:38.220
+whatever we want to create.
+
+07:38.220 --> 07:41.520
+So let's start with the kind is service,
+
+07:41.520 --> 07:43.650
+and the API version is V-1.
+
+07:43.650 --> 07:46.080
+And the name of, means like the under metadata
+
+07:46.080 --> 07:48.030
+that will have usually two child items,
+
+07:48.030 --> 07:50.370
+name and then labels, primarily.
+
+07:50.370 --> 07:52.500
+And in future, if you want to use name spaces,
+
+07:52.500 --> 07:54.570
+you will have the name space item,
+
+07:54.570 --> 07:56.357
+but we are not using anything like that for now.
+
+07:56.357 --> 07:58.800
+We are going to go to the default name space.
+
+07:58.800 --> 08:00.690
+So we'll leave it like this, okay?
+
+08:00.690 --> 08:04.500
+And user mgmt, hyphen, rest app, hyphen,
+
+08:04.500 --> 08:07.170
+service will be my service name.
+
+08:07.170 --> 08:11.880
+And under labels, I'm going to give it as user mgmt app,
+
+08:11.880 --> 08:13.500
+rest app, okay?
+
+08:13.500 --> 08:15.870
+So now the next thing is under spec.
+
+08:15.870 --> 08:18.450
+So we'll have three things usually under a service,
+
+08:18.450 --> 08:20.220
+which is under spec, child elements,
+
+08:20.220 --> 08:22.350
+primarily important ones.
+
+08:22.350 --> 08:26.460
+So selector and ports, okay?
+
+08:26.460 --> 08:28.350
+So type, selector, and ports.
+
+08:28.350 --> 08:30.600
+So as we are going to create a node port service
+
+08:30.600 --> 08:34.260
+to access this user management application via internet.
+
+08:34.260 --> 08:36.573
+So we are going to create it as node port,
+
+08:37.410 --> 08:38.940
+and next is selector.
+
+08:38.940 --> 08:41.250
+So selector is nothing but whatever is present
+
+08:41.250 --> 08:43.140
+in the port template label,
+
+08:43.140 --> 08:46.350
+which is nothing but, so in the port, template, label,
+
+08:46.350 --> 08:47.730
+whatever is the label.
+
+08:47.730 --> 08:50.010
+So we need to provide the same thing here.
+
+08:50.010 --> 08:52.560
+So that what happens is whatever that traffic
+
+08:52.560 --> 08:54.570
+comes to this service, it will be able
+
+08:54.570 --> 08:57.090
+to send to that port based on this label,
+
+08:57.090 --> 08:58.500
+means like it can select that port
+
+08:58.500 --> 09:01.800
+based on this label, whatever we provided.
+
+09:01.800 --> 09:03.960
+And we'll have three types of ports.
+
+09:03.960 --> 09:06.690
+So one is we have provided the ports
+
+09:06.690 --> 09:09.960
+and another one port will be our service port.
+
+09:09.960 --> 09:13.702
+Port is nothing but service port, and our container port.
+
+09:13.702 --> 09:17.430
+So we can give it as 8095, same thing.
+
+09:17.430 --> 09:21.240
+And we can even define our node port, whatever we want.
+
+09:21.240 --> 09:23.673
+So now again, we can say it as 31231.
+
+09:24.510 --> 09:25.410
+Okay?
+
+09:25.410 --> 09:27.150
+So this completes the creation
+
+09:27.150 --> 09:30.540
+of user management node port service also.
+
+09:30.540 --> 09:33.750
+So we have created deployment and then service.
+
+09:33.750 --> 09:36.420
+So in our next lecture, we are going to test these things
+
+09:36.420 --> 09:39.120
+and then understand how it is going to behave.
+
+09:39.120 --> 09:40.800
+So I'll see you in the next lecture.
+
+09:40.800 --> 09:42.060
+Until then, bye bye.
+
+09:42.060 --> 09:42.893
+Thank you.

@@ -1,0 +1,604 @@
+WEBVTT
+
+00:00.330 --> 00:01.163
+-: Welcome back.
+
+00:01.163 --> 00:04.230
+In this step we are going to add annotations related
+
+00:04.230 --> 00:09.230
+to SSL in 07-ALB-Ingress-SSL.yml.
+
+00:09.330 --> 00:12.780
+So here we have two important annotations,
+
+00:12.780 --> 00:16.020
+which are needed for SSL to be enabled
+
+00:16.020 --> 00:19.380
+on our application load balancer when we do it
+
+00:19.380 --> 00:22.200
+from our kubernetes ingress manifest.
+
+00:22.200 --> 00:24.210
+Okay, so one is lezyne ports
+
+00:24.210 --> 00:26.910
+and the second is certificate ERN.
+
+00:26.910 --> 00:30.420
+So lezyne ports by default, even if you define it or not
+
+00:30.420 --> 00:32.790
+has TP port 80 is a default one.
+
+00:32.790 --> 00:34.950
+It is going to get created.
+
+00:34.950 --> 00:38.610
+So in addition to 80 lezyne port for our load balancer
+
+00:38.610 --> 00:41.550
+if you want 443 also to be created.
+
+00:41.550 --> 00:43.107
+So we need to define that
+
+00:43.107 --> 00:46.000
+ALB ingress kubernetes dot io / lezyne ports
+
+00:47.467 --> 00:50.280
+annotation in our kubernetes ingress manifest.
+
+00:50.280 --> 00:53.940
+In addition to that, we also need to define the certificate.
+
+00:53.940 --> 00:58.200
+Yeah, ARN related annotation also.
+
+00:58.200 --> 01:02.310
+So which ARN we need to take is for the recent certificate
+
+01:02.310 --> 01:03.810
+whatever we have created here
+
+01:03.810 --> 01:05.940
+right in the certificate manager.
+
+01:05.940 --> 01:08.950
+So let's go to certificate manager
+
+01:09.930 --> 01:12.720
+and we say cube on cloud.com.
+
+01:12.720 --> 01:16.450
+So let's make it bigger and then copy this ERN
+
+01:18.126 --> 01:22.050
+and right and let's go to our manifest here.
+
+01:22.050 --> 01:24.270
+So 1, 2, 6 are going to be same
+
+01:24.270 --> 01:27.247
+and which from the previous context
+
+01:27.247 --> 01:28.980
+which is context part based routing.
+
+01:28.980 --> 01:31.350
+And in seven you will have two more additional
+
+01:31.350 --> 01:33.780
+settings added here, which are related
+
+01:33.780 --> 01:37.680
+to Lezyne port certificate and then SSL policy.
+
+01:37.680 --> 01:39.180
+So here you need to update
+
+01:39.180 --> 01:41.220
+and then put your certificate here.
+
+01:41.220 --> 01:42.840
+So your domain name is different
+
+01:42.840 --> 01:44.820
+and then if you want to add different, right?
+
+01:44.820 --> 01:47.280
+So why, because everyone will have their own domain names
+
+01:47.280 --> 01:48.303
+in route 53.
+
+01:49.590 --> 01:52.410
+So you need to update this certificate, ERN
+
+01:52.410 --> 01:55.200
+by bringing it from this location.
+
+01:55.200 --> 01:57.420
+So the next thing is SSL policy.
+
+01:57.420 --> 02:00.810
+By default, if there is no SSL policy defined here
+
+02:00.810 --> 02:02.790
+it is going to pick the default one.
+
+02:02.790 --> 02:04.170
+If you want to define something,
+
+02:04.170 --> 02:06.210
+then you need to define it there
+
+02:06.210 --> 02:08.850
+and then provide the name here, okay?
+
+02:08.850 --> 02:12.000
+So that's about the SSL policies.
+
+02:12.000 --> 02:14.280
+So this is an additional setting host setting
+
+02:14.280 --> 02:15.810
+which you can put it here.
+
+02:15.810 --> 02:17.910
+So wherein you really don't need to
+
+02:17.910 --> 02:19.470
+provide the certificate ARN
+
+02:19.470 --> 02:22.170
+but you can directly provide your domain name here
+
+02:22.170 --> 02:25.260
+whatever you want to have the certificate from.
+
+02:25.260 --> 02:27.870
+So SSL demo dot kube on cloud.com will pick
+
+02:27.870 --> 02:31.050
+the star dot kube on cloud.com related certificate.
+
+02:31.050 --> 02:34.140
+ARN, and then associate it automatically.
+
+02:34.140 --> 02:37.170
+So, but all these things we are not using currently.
+
+02:37.170 --> 02:39.420
+Let's have it as is.
+
+02:39.420 --> 02:40.980
+And then just only two,
+
+02:40.980 --> 02:43.020
+two lines of additional code we have added.
+
+02:43.020 --> 02:43.920
+One is Lezyne ports
+
+02:43.920 --> 02:48.920
+and then other is certificate ERN as part of this SSL demo.
+
+02:49.770 --> 02:51.360
+So now we have created it.
+
+02:51.360 --> 02:55.817
+So let's go back here and then create it, okay.
+
+02:55.817 --> 02:57.817
+So we are in 0804 ELB ingress SSL, okay.
+
+03:00.540 --> 03:02.520
+So I'll check kubectl,
+
+03:02.520 --> 03:05.070
+apply H and F and then kube manifest.
+
+03:05.070 --> 03:09.183
+So this should create as everything, all the manifest here.
+
+03:10.230 --> 03:13.650
+And if you see any errors, it is always good to crosscheck
+
+03:13.650 --> 03:18.650
+from your kube ingress controller log using this command.
+
+03:19.023 --> 03:22.140
+In first two sections, I already added it.
+
+03:22.140 --> 03:23.790
+So everything shows successful here,
+
+03:23.790 --> 03:25.680
+successfully reconciled.
+
+03:25.680 --> 03:26.970
+So that is good.
+
+03:26.970 --> 03:31.970
+So let me go back to our browser and go
+
+03:32.610 --> 03:37.610
+to easy two and go to load balances and click on listeners.
+
+03:42.330 --> 03:45.390
+Okay, so we can see now listener 80 is created
+
+03:45.390 --> 03:48.090
+and then listener 443 is created.
+
+03:48.090 --> 03:52.062
+Okay, so now let's go ahead and then see the rules in 443.
+
+03:52.062 --> 03:54.930
+So all the same rules app one slash star
+
+03:54.930 --> 03:58.410
+and this one going to one target group app two to app two
+
+03:58.410 --> 04:00.423
+and then slash star two user management.
+
+04:01.651 --> 04:05.790
+Okay, so now come back and also verify this one right, SSL.
+
+04:07.380 --> 04:10.721
+So SSL also same rules added which is nothing
+
+04:10.721 --> 04:12.690
+but app one going to some target group, app two,
+
+04:12.690 --> 04:15.720
+and then app three and in both it is there.
+
+04:15.720 --> 04:17.760
+So which means in our architecture diagram,
+
+04:17.760 --> 04:21.630
+we have discussed that we will be able serve http URLs
+
+04:21.630 --> 04:23.250
+and then http yes URLs.
+
+04:23.250 --> 04:25.470
+So that is satisfied here.
+
+04:25.470 --> 04:29.190
+And the next thing is you can verify your SSL certificate.
+
+04:29.190 --> 04:31.230
+You are edit your certificate
+
+04:31.230 --> 04:33.570
+and you can see our certificate associated
+
+04:33.570 --> 04:37.890
+for our load balancer is star dot kube on cloud.com
+
+04:37.890 --> 04:39.390
+whatever we have created.
+
+04:39.390 --> 04:41.100
+Okay, so that's good.
+
+04:41.100 --> 04:44.490
+So these are the verifications we are supposed to perform.
+
+04:44.490 --> 04:47.400
+And in addition to that, once we deploy
+
+04:47.400 --> 04:48.750
+we have verified all those things.
+
+04:48.750 --> 04:49.740
+And in addition to that
+
+04:49.740 --> 04:51.960
+if you want to verify the target groups
+
+04:51.960 --> 04:54.510
+you can verify it is as earlier, same, only, right?
+
+04:54.510 --> 04:56.460
+So ideally don't need to worry.
+
+04:56.460 --> 04:58.780
+So I can say refresh here and soon they'll become healthy.
+
+04:58.780 --> 05:03.630
+So let me see this one and then refresh here.
+
+05:03.630 --> 05:07.200
+Okay, so it'll take a while to get it up and running.
+
+05:07.200 --> 05:10.420
+So next thing for us to verify is
+
+05:13.947 --> 05:15.468
+kubectl getting ingress even
+
+05:15.468 --> 05:16.301
+that is going to provide the value.
+
+05:16.301 --> 05:18.390
+So now we need to go ahead and then also do that
+
+05:18.390 --> 05:21.540
+DNS registration in route 53.
+
+05:21.540 --> 05:22.770
+So before doing that,
+
+05:22.770 --> 05:26.040
+let's verify everything is up and running.
+
+05:26.040 --> 05:28.312
+So let's refresh the target groups here and go inside
+
+05:28.312 --> 05:31.492
+and then it should be healthy.
+
+05:31.492 --> 05:35.940
+So user management is healthy and we'll go for app one
+
+05:35.940 --> 05:39.780
+and refresh here and it should be healthy.
+
+05:39.780 --> 05:43.230
+And we'll also go for app two and then refresh it
+
+05:43.230 --> 05:44.430
+is healthy, okay?
+
+05:44.430 --> 05:46.800
+So all three apps are healthy so we can even
+
+05:46.800 --> 05:50.130
+test them directly via load balancer, DNS name.
+
+05:50.130 --> 05:55.130
+So here and then I will say, I'll just test one for now
+
+05:58.395 --> 06:02.153
+and then I'll move on with route 53, DNS registration, okay.
+
+06:03.853 --> 06:04.882
+So it's up and running.
+
+06:04.882 --> 06:08.055
+So we'll close this and certificate manager will close it
+
+06:08.055 --> 06:10.570
+and then we'll go to route 53
+
+06:11.630 --> 06:13.530
+and then do the DNS registration, okay.
+
+06:13.530 --> 06:15.390
+With some name here, okay.
+
+06:15.390 --> 06:19.800
+So I'm going to say SSL demo dot kube on cloud.com, okay?
+
+06:19.800 --> 06:24.800
+So I'll go back to Route 53, right?
+
+06:25.350 --> 06:28.950
+So before that we can even copy this value
+
+06:28.950 --> 06:31.020
+DNS name record, okay?
+
+06:31.020 --> 06:34.683
+And I will say Route 53, right?
+
+06:36.158 --> 06:39.630
+And we'll go to register domains
+
+06:39.630 --> 06:42.903
+and we are going into kube on cloud.com, okay?
+
+06:44.250 --> 06:47.520
+So we'll go to hosted zones, right?
+
+06:47.520 --> 06:49.350
+So register domains is for registration
+
+06:49.350 --> 06:52.710
+and hosted zones is for adding that record sets, okay?
+
+06:52.710 --> 06:56.493
+So we went into hosted zones and kube one cloud.com.
+
+06:57.450 --> 07:00.030
+So you can see now here
+
+07:00.030 --> 07:03.060
+so we are going to create a record set, okay?
+
+07:03.060 --> 07:07.560
+And I'm going to say SSL demo dot kube on cloud.com
+
+07:07.560 --> 07:09.960
+and I'll select the ELS here.
+
+07:09.960 --> 07:12.780
+And that ELS name I'm going to select is
+
+07:12.780 --> 07:15.420
+whatever I have copied from there, the DNS name, right?
+
+07:15.420 --> 07:17.420
+The same thing, okay, I can copy it
+
+07:17.420 --> 07:20.790
+or I can even find it in the, if I remove it
+
+07:20.790 --> 07:24.000
+and then see you can even find the same thing here, okay?
+
+07:24.000 --> 07:25.320
+So, but I'll copy it.
+
+07:25.320 --> 07:28.140
+I feel more comfortable in copying and then pasting.
+
+07:28.140 --> 07:30.030
+So I'll do that way, okay?
+
+07:30.030 --> 07:31.683
+And then I'll create it, okay?
+
+07:32.640 --> 07:35.230
+So once created, so next thing we need to
+
+07:36.534 --> 07:39.270
+do is we need to do the NS look up and then test
+
+07:39.270 --> 07:42.900
+whether SSL demo dot kube on cloud.com is resolving.
+
+07:42.900 --> 07:46.980
+Okay? So we can go here and then say clear.
+
+07:46.980 --> 07:49.230
+So it'll take a while, close to five to 10 minutes to
+
+07:49.230 --> 07:51.960
+get this thing resolving to the IPs.
+
+07:51.960 --> 07:54.600
+So it is quick now, so it completed.
+
+07:54.600 --> 07:57.450
+So now with this domain name, we are going to
+
+07:57.450 --> 08:00.900
+access everything with HTTP first and then next https.
+
+08:00.900 --> 08:03.240
+So I'll say HTTP
+
+08:03.240 --> 08:08.240
+and then SSL demo slash app one slash index dot html, right?
+
+08:09.510 --> 08:10.773
+So it's accessible.
+
+08:12.104 --> 08:14.580
+So I will also say on the same line app two,
+
+08:14.580 --> 08:16.170
+accessible, not secure.
+
+08:16.170 --> 08:17.340
+You can see.
+
+08:17.340 --> 08:22.200
+And I will also say user NGMT slash
+
+08:25.151 --> 08:27.256
+health status all are up and running.
+
+08:27.256 --> 08:31.233
+We can see it now here, okay?
+
+08:32.342 --> 08:34.260
+So now we are going to use http, yes url.
+
+08:34.260 --> 08:38.450
+Okay, so I'll say http, yes slash slash and the same url
+
+08:38.450 --> 08:42.690
+SSL demo dot kube on cloud.com, right?
+
+08:42.690 --> 08:47.690
+And now I'll say app one slash index dot html, okay.
+
+08:49.740 --> 08:51.870
+Yes, now SSL is server here.
+
+08:51.870 --> 08:56.610
+Now we can see the information SSL certificate
+
+08:56.610 --> 08:57.510
+we can see it, right?
+
+08:57.510 --> 09:01.350
+The certificate symbol, you can see it here in the same way.
+
+09:01.350 --> 09:04.980
+If you want we can test it via even Google Chrome.
+
+09:04.980 --> 09:06.363
+So it'll be good here.
+
+09:07.554 --> 09:09.450
+So https slash slash
+
+09:09.450 --> 09:14.370
+and then I'll say slash app two dot index dot html.
+
+09:15.780 --> 09:17.800
+And you can see the certificate symbol
+
+09:18.945 --> 09:20.160
+and then you can see certificate is valued
+
+09:20.160 --> 09:23.458
+and the certificate you can see right Amazon route
+
+09:23.458 --> 09:27.138
+year one Amazon star dot kube on cloud.com, okay.
+
+09:27.138 --> 09:28.773
+So it's valid 22 August, 2021.
+
+09:30.300 --> 09:31.323
+So that's about it.
+
+09:33.081 --> 09:34.498
+Okay, so let me close this.
+
+09:34.498 --> 09:35.910
+And finally also access our third application
+
+09:35.910 --> 09:40.910
+which is user MGMT slash health status, right?
+
+09:43.200 --> 09:45.750
+So this should be up and running on SSL two.
+
+09:45.750 --> 09:49.650
+So this completes the implementation
+
+09:49.650 --> 09:53.200
+of means like enabling SSL using alb English controller
+
+09:54.143 --> 09:54.976
+from from English Manifest.
+
+09:54.976 --> 09:57.783
+We have enabled SSL for all of our applications.
+
+09:58.752 --> 10:02.190
+So the CME is applied on the application load balancers.
+
+10:02.190 --> 10:06.510
+So in our next lecture we'll focus on enabling SSL redirect.
+
+10:06.510 --> 10:08.220
+So I'll see you in the next lecture.
+
+10:08.220 --> 10:09.450
+Until then, bye bye.
+
+10:09.450 --> 10:10.283
+Thank you.

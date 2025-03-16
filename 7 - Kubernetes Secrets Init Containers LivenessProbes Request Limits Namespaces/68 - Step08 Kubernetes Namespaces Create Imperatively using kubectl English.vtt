@@ -1,0 +1,754 @@
+WEBVTT
+
+00:00.180 --> 00:01.170
+-: Welcome back.
+
+00:01.170 --> 00:04.587
+So let's go into our GitHub repo zero five, zero five,
+
+00:04.587 --> 00:06.600
+(indistinct) name spaces.
+
+00:06.600 --> 00:09.480
+So we are going to deal name spaces in three ways.
+
+00:09.480 --> 00:12.090
+One is we are going to do it in an imperative way,
+
+00:12.090 --> 00:14.340
+and then just understand in a quicker way,
+
+00:14.340 --> 00:16.590
+what is name spaces,
+
+00:16.590 --> 00:19.290
+and then how we are going to create multiple environments
+
+00:19.290 --> 00:23.040
+with the same Cuban that is manifest using imperative way.
+
+00:23.040 --> 00:26.030
+And then we are going to write a manifest,
+
+00:26.030 --> 00:30.270
+for name space and also for limit range,
+
+00:30.270 --> 00:34.620
+and then implement the limit range concept for name spaces.
+
+00:34.620 --> 00:35.453
+After that,
+
+00:35.453 --> 00:38.640
+we are also going to implement the resource quota concept.
+
+00:38.640 --> 00:39.630
+So we are going to write,
+
+00:39.630 --> 00:43.710
+that respective Kubernetes manifest and then implement that.
+
+00:43.710 --> 00:46.590
+So let's do that step by step now.
+
+00:46.590 --> 00:49.833
+So we are going into zero five, zero one, name spaces,
+
+00:49.833 --> 00:51.210
+in (indistinct), so introduction part,
+
+00:51.210 --> 00:54.120
+we already took care in our previous lecture.
+
+00:54.120 --> 00:56.910
+So let's start with name spaces, (indistinct) decline
+
+00:56.910 --> 00:59.400
+dev one and then two and environments.
+
+00:59.400 --> 01:00.360
+So what does this mean?
+
+01:00.360 --> 01:02.280
+Dev one and then dev two environments,
+
+01:02.280 --> 01:04.980
+so we are going to create two name spaces.
+
+01:04.980 --> 01:08.460
+One is nothing but dev one and the other is dev two.
+
+01:08.460 --> 01:11.250
+And we are going to deploy the same manifest,
+
+01:11.250 --> 01:13.890
+so whatever we have created
+
+01:13.890 --> 01:16.470
+as part of request limits till that time.
+
+01:16.470 --> 01:18.930
+So all those manifests, okay?
+
+01:18.930 --> 01:22.230
+So eight manifests which will create a background
+
+01:22.230 --> 01:24.480
+of my skill database and then front end,
+
+01:24.480 --> 01:26.850
+as a user management microservice,
+
+01:26.850 --> 01:29.460
+and then which will call them my skill database,
+
+01:29.460 --> 01:31.800
+as it's a persistent store.
+
+01:31.800 --> 01:34.050
+So, and then all that, whatever we have built so,
+
+01:34.050 --> 01:37.170
+far is available here and the same things, whatever,
+
+01:37.170 --> 01:39.900
+from previous section I have copied here to cube manifest.
+
+01:39.900 --> 01:42.060
+And then we are going to leverage that.
+
+01:42.060 --> 01:46.800
+So let's first go to our terminal and then verify,
+
+01:46.800 --> 01:50.640
+and what are the existing name spaces, right?
+
+01:50.640 --> 01:52.230
+So we have default,
+
+01:52.230 --> 01:55.290
+and then whatever is provided the current four name spaces.
+
+01:55.290 --> 01:58.950
+So we are going to say cube CTL, create name space.
+
+01:58.950 --> 02:02.490
+So you can say even name space are even you can say yes.
+
+02:02.490 --> 02:04.500
+So I'll start using (indistinct)
+
+02:04.500 --> 02:07.380
+so that it'll be easy for you later.
+
+02:07.380 --> 02:10.650
+So instead of typing entire name space, right?
+
+02:10.650 --> 02:13.590
+So and also I'll create one more which is dev two,
+
+02:13.590 --> 02:16.740
+and then I'll say cube CTL get amess,
+
+02:16.740 --> 02:18.870
+which is nothing but name spaces.
+
+02:18.870 --> 02:21.360
+So now you can see dev and and then dev two also
+
+02:21.360 --> 02:24.600
+created eight seconds and six seconds back.
+
+02:24.600 --> 02:26.130
+So let me clear,
+
+02:26.130 --> 02:29.820
+and now one important thing we need to do,
+
+02:29.820 --> 02:32.820
+in our user management note port services,
+
+02:32.820 --> 02:35.040
+we have provided the note port as three, one,
+
+02:35.040 --> 02:35.873
+two, three, one.
+
+02:35.873 --> 02:38.100
+So as you know what is note port is nothing
+
+02:38.100 --> 02:39.270
+but the worker note port,
+
+02:39.270 --> 02:41.070
+it is going to tie with that.
+
+02:41.070 --> 02:43.380
+So three, one, two, three, one will be our worker node,
+
+02:43.380 --> 02:45.360
+easy to instance port.
+
+02:45.360 --> 02:47.340
+So if you keep deploying these templates
+
+02:47.340 --> 02:50.910
+in multiple name spaces, so every time it,
+
+02:50.910 --> 02:53.730
+cannot attach it to the three, one, two, three, one,
+
+02:53.730 --> 02:57.480
+node port and then it'll have the error because for our easy
+
+02:57.480 --> 03:00.540
+two instances three, one, two, three, one is only one port
+
+03:00.540 --> 03:04.440
+and then it cannot be shared across multiple name spaces.
+
+03:04.440 --> 03:06.900
+So if we comment this part in our respective,
+
+03:06.900 --> 03:09.060
+user management note port surveys,
+
+03:09.060 --> 03:12.000
+so then automatically (indistinct)
+
+03:12.000 --> 03:16.950
+is going to assign the dynamic port, for note port.
+
+03:16.950 --> 03:19.410
+So let's go ahead and then comment that now,
+
+03:19.410 --> 03:21.360
+so why we are doing this one, okay?
+
+03:21.360 --> 03:23.730
+I can take a simple engineers application and
+
+03:23.730 --> 03:27.060
+then show you how to do all these things in name spaces.
+
+03:27.060 --> 03:29.940
+But the thing here is whenever you go into a
+
+03:29.940 --> 03:32.280
+bigger things then only the problem starts are
+
+03:32.280 --> 03:34.590
+all these types of issues you'll understand and
+
+03:34.590 --> 03:36.540
+then you'll be able to resolve.
+
+03:36.540 --> 03:38.580
+So that's the reason we have taken one set,
+
+03:38.580 --> 03:40.110
+of application with Mayr skill
+
+03:40.110 --> 03:42.810
+and then (indistinct) service and then we started,
+
+03:42.810 --> 03:45.900
+with EBS and then we have come till here, okay?
+
+03:45.900 --> 03:49.260
+So I'll go to user management service zero seven,
+
+03:49.260 --> 03:51.060
+and you can see this is already commented.
+
+03:51.060 --> 03:53.460
+If not you can go ahead and then comment it.
+
+03:53.460 --> 03:55.050
+So now the note port assigned,
+
+03:55.050 --> 03:57.600
+for this service is going to be dynamic, okay?
+
+03:57.600 --> 03:59.190
+So I commented it out.
+
+03:59.190 --> 04:04.190
+So let's come here and now we have commented it,
+
+04:04.260 --> 04:05.910
+so I will go ahead and then deploy.
+
+04:05.910 --> 04:08.010
+So as usual we are going to deploy,
+
+04:08.010 --> 04:11.850
+with our standard command cube CTL apply, okay?
+
+04:11.850 --> 04:15.900
+So cube CTL apply hyphen F cube manifests.
+
+04:15.900 --> 04:18.810
+So whenever I do this it is going to deploy to a,
+
+04:18.810 --> 04:20.280
+default namespace.
+
+04:20.280 --> 04:21.780
+So you need to tell the system,
+
+04:21.780 --> 04:24.090
+in which name space it is going to deploy.
+
+04:24.090 --> 04:27.720
+So I'll say hyphen N and then deploy it in dev one.
+
+04:27.720 --> 04:30.960
+So means like this command will deploy all these objects,
+
+04:30.960 --> 04:34.320
+in dev one namespace in the same way.
+
+04:34.320 --> 04:36.990
+Once this is done we'll also do the deployment,
+
+04:36.990 --> 04:40.470
+in dev two namespace, okay?
+
+04:40.470 --> 04:44.520
+And now you see that creating a Mayr scale database
+
+04:44.520 --> 04:47.520
+and then it's front end application deployment, everything
+
+04:47.520 --> 04:51.690
+in multiple environments is like seconds we are doing it.
+
+04:51.690 --> 04:54.960
+So that's the advantage of Kubernetes.
+
+04:54.960 --> 04:58.140
+So how fast we can do and then everything is speed here.
+
+04:58.140 --> 05:01.560
+Okay, so now let's go here and then we have deployed it.
+
+05:01.560 --> 05:05.730
+So we can even say cube CTL, get all hyphen dev one.
+
+05:05.730 --> 05:10.230
+So what all deployed in dev one, we are going to get here.
+
+05:10.230 --> 05:14.640
+So we have two deployments we have done,
+
+05:14.640 --> 05:17.130
+and then two services got created,
+
+05:17.130 --> 05:20.250
+and then two ports got created which is Mayr scale.
+
+05:20.250 --> 05:23.910
+And then user management microservice part in the same way
+
+05:23.910 --> 05:27.990
+for dev two, also you can verify and then all those will be
+
+05:27.990 --> 05:29.010
+dev two, right?
+
+05:29.010 --> 05:32.700
+And you can even say cube CTL get all and from default,
+
+05:32.700 --> 05:34.380
+name space you should get nothing, right?
+
+05:34.380 --> 05:37.570
+Other than the cluster I service of Kubernetes.
+
+05:37.570 --> 05:38.700
+Okay? You can see right?
+
+05:38.700 --> 05:41.880
+So now you can clearly confirm that these things were
+
+05:41.880 --> 05:44.730
+deployed in those respective and rear on means,
+
+05:44.730 --> 05:47.940
+like those respective name spaces.
+
+05:47.940 --> 05:51.390
+So now you can verify few stuff here, okay?
+
+05:51.390 --> 05:54.810
+Right? So you have got part service deployment,
+
+05:54.810 --> 05:56.160
+and then replicase it.
+
+05:56.160 --> 05:59.190
+So what happened to storage class,
+
+05:59.190 --> 06:02.190
+and then PVC and then PV, right?
+
+06:02.190 --> 06:04.230
+So now you need to understand one thing here,
+
+06:04.230 --> 06:06.480
+those are not the general objects here, okay?
+
+06:06.480 --> 06:09.840
+So which means you can say Q CTL get PVC.
+
+06:09.840 --> 06:12.090
+So it'll provide the persistent volume claim,
+
+06:12.090 --> 06:13.710
+in default namespace nothing.
+
+06:13.710 --> 06:16.950
+But if you see in dev one it should be there right?
+
+06:16.950 --> 06:19.020
+In dev two it should be there.
+
+06:19.020 --> 06:22.920
+So persistent volume claim is a name space, level of object.
+
+06:22.920 --> 06:24.870
+It is present in those name spaces,
+
+06:24.870 --> 06:28.590
+and then if you specifically query for it to verify,
+
+06:28.590 --> 06:30.930
+you can see those things here.
+
+06:30.930 --> 06:35.610
+Okay, so now let's also verify CTL get PV
+
+06:35.610 --> 06:39.300
+and then hyphen dev one and then hyphen dev two.
+
+06:39.300 --> 06:40.770
+So okay, so nothing,
+
+06:40.770 --> 06:43.710
+so these are not specific to name spaces.
+
+06:43.710 --> 06:47.490
+Even if you give or get PV, you are going to get mince,
+
+06:47.490 --> 06:50.580
+like the persistent volume created and then associated,
+
+06:50.580 --> 06:52.710
+with those name spaces right from dev one,
+
+06:52.710 --> 06:54.240
+it is associated here,
+
+06:54.240 --> 06:56.640
+and for dev two it is associated here, right?
+
+06:56.640 --> 06:59.940
+So whatever it is associated with the claim,
+
+06:59.940 --> 07:01.440
+PVC claim, right?
+
+07:01.440 --> 07:05.130
+So it is not specific to respective namespace,
+
+07:05.130 --> 07:06.630
+means like the storage volume,
+
+07:06.630 --> 07:10.080
+whatever is mounted here is not respect specific,
+
+07:10.080 --> 07:14.010
+to that namespace in the same way you can also see get SC,
+
+07:14.010 --> 07:15.870
+which is nothing but the storage class.
+
+07:15.870 --> 07:19.440
+Even that is not specific to respective name space.
+
+07:19.440 --> 07:20.790
+So these are generic objects,
+
+07:20.790 --> 07:23.100
+and then created generically not pointing,
+
+07:23.100 --> 07:25.770
+to any specific name spaces.
+
+07:25.770 --> 07:28.290
+So now one thing we need to do is we need to go ahead,
+
+07:28.290 --> 07:30.750
+and then access our application.
+
+07:30.750 --> 07:33.823
+So do so we need to get the service port, right?
+
+07:36.840 --> 07:40.500
+So the port is three double one, double one,
+
+07:40.500 --> 07:43.440
+three triple one, five, that is the port.
+
+07:43.440 --> 07:45.270
+And for this one also we'll get the port,
+
+07:45.270 --> 07:48.345
+and then I'll also get get notes.
+
+07:48.345 --> 07:51.420
+Hyphen no wide, okay, cube CTL, I'll get notes.
+
+07:51.420 --> 07:54.153
+Hyphen no wide, I got the public IP,
+
+07:55.140 --> 07:58.413
+I'll copy it and then access one after the other.
+
+07:59.520 --> 08:03.330
+I'll go here and then say provide this,
+
+08:03.330 --> 08:07.110
+and then three, triple one, five, right?
+
+08:07.110 --> 08:08.340
+Three, triple one, five.
+
+08:08.340 --> 08:11.460
+This is the one for the faster dev one environment,
+
+08:11.460 --> 08:16.097
+and I'll say user MGMT health status,
+
+08:17.486 --> 08:21.210
+and you can see that this is up and running, right?
+
+08:21.210 --> 08:22.950
+The first dev one.
+
+08:22.950 --> 08:26.580
+Now we'll go and then check for the second one.
+
+08:26.580 --> 08:29.430
+Second one's port is three, double zero, double one.
+
+08:29.430 --> 08:34.050
+Okay, so three double zero double one slash user,
+
+08:34.050 --> 08:39.050
+MGMT slash health status, okay?
+
+08:39.150 --> 08:41.010
+And here also it is up and running.
+
+08:41.010 --> 08:43.350
+So it took few seconds,
+
+08:43.350 --> 08:45.750
+or few minutes to create the end environments
+
+08:45.750 --> 08:47.220
+with the same set of stuff.
+
+08:47.220 --> 08:50.580
+The power of Cuban, it is yaml, declarative style,
+
+08:50.580 --> 08:55.500
+and also the power of name spaces we have seen now.
+
+08:55.500 --> 08:58.740
+So that's all about the name spaces in an imperative way,
+
+08:58.740 --> 09:01.590
+creating them and using cube CTL apply how,
+
+09:01.590 --> 09:04.590
+we can redirect all our templates to be created,
+
+09:04.590 --> 09:08.460
+or all of our objects to be created in that name space.
+
+09:08.460 --> 09:11.760
+So this complete server current zero, five, zero, five,
+
+09:11.760 --> 09:13.110
+zero, one section.
+
+09:13.110 --> 09:17.400
+So in our next section we can focus on other topic here,
+
+09:17.400 --> 09:19.950
+from name spaces perspective, which is limit range.
+
+09:19.950 --> 09:22.530
+And if you want to clean up all these things.
+
+09:22.530 --> 09:24.030
+So there are two ways to clean up,
+
+09:24.030 --> 09:25.710
+so this is a clean up step.
+
+09:25.710 --> 09:28.590
+So one is whatever you have created,
+
+09:28.590 --> 09:30.390
+apply whatever you have done.
+
+09:30.390 --> 09:32.610
+You can say delete, hyphen half,
+
+09:32.610 --> 09:36.720
+and then cube manifests, and then minus,
+
+09:36.720 --> 09:41.220
+N dev one, with one command, everything is done right?
+
+09:41.220 --> 09:44.640
+So, but there is also other way to do it, which is nothing,
+
+09:44.640 --> 09:47.070
+but with one command only, which is nothing but cube.
+
+09:47.070 --> 09:50.580
+CTL, delete NS, which is nothing but namespace.
+
+09:50.580 --> 09:53.220
+And then dev one.
+
+09:53.220 --> 09:56.820
+So entire dev one objects will be created or deleted, okay?
+
+09:56.820 --> 09:58.800
+So it means like when that name space is deleted,
+
+09:58.800 --> 10:01.770
+all the objects present in that respect,
+
+10:01.770 --> 10:04.503
+your name space also will get deleted.
+
+10:05.970 --> 10:10.260
+And let's, after this deletion, we'll also delete dev two.
+
+10:10.260 --> 10:12.720
+But only one thing will be remaining at the end,
+
+10:12.720 --> 10:15.510
+which is nothing but storage class, which is generic.
+
+10:15.510 --> 10:17.520
+So that you need to separately go ahead,
+
+10:17.520 --> 10:20.820
+and then delete that respective storage class, okay?
+
+10:20.820 --> 10:22.860
+So in this concept we have storage class,
+
+10:22.860 --> 10:23.850
+but you might have different,
+
+10:23.850 --> 10:26.190
+different applications you are deploying.
+
+10:26.190 --> 10:27.930
+So in that case with one command,
+
+10:27.930 --> 10:31.140
+of deleting that name space, everything will go away, okay?
+
+10:31.140 --> 10:33.543
+So I'll also delete dev two,
+
+10:34.380 --> 10:36.990
+and after that I'll also delete the storage class.
+
+10:36.990 --> 10:40.290
+And then after that nothing will be available for us.
+
+10:40.290 --> 10:41.850
+Even the namespace is not there.
+
+10:41.850 --> 10:44.220
+You can, you will not be able to see what is present,
+
+10:44.220 --> 10:46.080
+in those name spaces, right?
+
+10:46.080 --> 10:49.500
+So once dev two is deleted, we'll delete the storage clause
+
+10:49.500 --> 10:50.400
+also,
+
+10:50.400 --> 10:54.104
+let's also delete the storage clause Cube CTL delete
+
+10:54.104 --> 10:57.351
+(indistinct)
+
+10:57.351 --> 10:59.460
+is my storage's class name, I have deleted it.
+
+10:59.460 --> 11:02.130
+And Q CTL get all,
+
+11:02.130 --> 11:05.880
+we are going to get all objects from all name spaces, okay?
+
+11:05.880 --> 11:10.800
+So hyphen, all hyphen name spaces, okay?
+
+11:10.800 --> 11:12.750
+And we should not see anything related,
+
+11:12.750 --> 11:16.170
+to our user management or (indistinct) anything, okay?
+
+11:16.170 --> 11:17.850
+So you can see we are getting only,
+
+11:17.850 --> 11:21.510
+the ports which are related to our system cube system.
+
+11:21.510 --> 11:23.460
+So you can see all the name spaces you,
+
+11:23.460 --> 11:26.670
+you can see in this list, Cube system, default cube system
+
+11:26.670 --> 11:27.570
+and then Cube System.
+
+11:27.570 --> 11:30.930
+But we really didn't see anything about our dev one and two.
+
+11:30.930 --> 11:33.810
+You can even say Cube get NS,
+
+11:33.810 --> 11:36.810
+and then you'll find nothing about Dev one
+
+11:36.810 --> 11:40.500
+and dev two because those name spaces we have deleted it.
+
+11:40.500 --> 11:45.210
+So let's catch up in our next lecture with limit range.
+
+11:45.210 --> 11:46.590
+So I'll see you in the next lecture.
+
+11:46.590 --> 11:48.140
+Until then, bye bye. Thank you.

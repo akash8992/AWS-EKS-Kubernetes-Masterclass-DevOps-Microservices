@@ -1,0 +1,595 @@
+WEBVTT
+
+00:00.300 --> 00:01.230
+-: Welcome back.
+
+00:01.230 --> 00:02.100
+In this demo,
+
+00:02.100 --> 00:05.040
+we are going to add the external DNS annotation
+
+00:05.040 --> 00:08.040
+for our Kubernetes ingress service,
+
+00:08.040 --> 00:08.910
+and then test it
+
+00:08.910 --> 00:11.790
+and then see that whether our DNS records
+
+00:11.790 --> 00:13.560
+got automatically created
+
+00:13.560 --> 00:18.270
+by external DNS in Route 53 hosted zones.
+
+00:18.270 --> 00:22.170
+So let's see the network design once before moving on.
+
+00:22.170 --> 00:24.060
+So in the ingress service,
+
+00:24.060 --> 00:28.200
+we are going to add the external DNS-related annotations.
+
+00:28.200 --> 00:29.760
+And after that,
+
+00:29.760 --> 00:32.910
+it is going to automatically add the DNS names
+
+00:32.910 --> 00:36.270
+in the AWS Route 53 hosted zones,
+
+00:36.270 --> 00:39.720
+and we'll be able to test those DNS names
+
+00:39.720 --> 00:43.500
+by accessing them directly in the browser, right?
+
+00:43.500 --> 00:47.430
+So now let's go back to our GitHub repository
+
+00:47.430 --> 00:51.150
+and enter into the section 0807,
+
+00:51.150 --> 00:56.150
+use external DNS for Kubernetes ingress, right?
+
+00:56.310 --> 00:58.410
+And if you see here,
+
+00:58.410 --> 01:02.880
+update ingress manifest by adding external DNS annotation.
+
+01:02.880 --> 01:04.360
+So let's come back here
+
+01:05.550 --> 01:07.530
+to our Visual Studio code
+
+01:07.530 --> 01:11.610
+and enter into the section 0807,
+
+01:11.610 --> 01:15.060
+use external DNS for Kubernetes ingress
+
+01:15.060 --> 01:17.880
+and 010203 Kubernetes manifest
+
+01:17.880 --> 01:20.010
+for NGINX app one, app two, app three,
+
+01:20.010 --> 01:22.830
+no changes coming from the previous sections,
+
+01:22.830 --> 01:25.680
+and 04ALB ingress SSL redirect
+
+01:25.680 --> 01:27.690
+with external DNS is the thing
+
+01:27.690 --> 01:30.780
+which we are going to update here, right?
+
+01:30.780 --> 01:33.210
+So in this, the name of the ingress service
+
+01:33.210 --> 01:36.630
+is going to be ingress external DNS demo,
+
+01:36.630 --> 01:41.130
+and load balance, her name is external DNS ingress.
+
+01:41.130 --> 01:42.690
+And if you come down here,
+
+01:42.690 --> 01:47.180
+so this is the external DNS-related annotation.
+
+01:48.120 --> 01:49.350
+And inside that,
+
+01:49.350 --> 01:52.410
+we are providing comma-separated two DNS names:
+
+01:52.410 --> 01:55.920
+dnstest901.stacksimplify.com,
+
+01:55.920 --> 01:59.850
+DNS test 902.stacksimplify.com.
+
+01:59.850 --> 02:02.820
+So like this, you can add multiple DNSs
+
+02:02.820 --> 02:04.380
+or multiple subdomains,
+
+02:04.380 --> 02:06.513
+or even we have provided,
+
+02:08.010 --> 02:10.500
+currently, we didn't comment this part.
+
+02:10.500 --> 02:11.640
+We commented this part
+
+02:11.640 --> 02:14.940
+so that all the hosted zones will be applicable here,
+
+02:14.940 --> 02:17.460
+which means I have something called DevOps in cloud.
+
+02:17.460 --> 02:19.890
+So I can say abc.devops in cloud.
+
+02:19.890 --> 02:23.880
+So one more DNS will be added with abc.devops in cloud
+
+02:23.880 --> 02:26.490
+inside that DevOps in cloud hosted zone.
+
+02:26.490 --> 02:27.780
+See domain filter.
+
+02:27.780 --> 02:29.430
+We didn't provide any filter here.
+
+02:29.430 --> 02:32.040
+So which means all the applicable domains
+
+02:32.040 --> 02:34.290
+present in hosted zone can be added here,
+
+02:34.290 --> 02:36.150
+not only stacksimplify.com.
+
+02:36.150 --> 02:38.040
+So you can use other domains also
+
+02:38.040 --> 02:40.560
+because you have commented that option here
+
+02:40.560 --> 02:43.200
+and said that all the hosted zones present
+
+02:43.200 --> 02:46.710
+are applicable here to add the DNS entries
+
+02:46.710 --> 02:48.360
+by external DNS.
+
+02:48.360 --> 02:50.070
+For now, we are going to test
+
+02:50.070 --> 02:53.370
+with the dnstest901.stacksimplify.com
+
+02:53.370 --> 02:56.850
+and dnstest902.stacksimplify.com.
+
+02:56.850 --> 02:59.820
+In addition to that, another important thing here is,
+
+02:59.820 --> 03:03.990
+so if you need to ensure that this should be your domain.com
+
+03:03.990 --> 03:06.057
+and also ensure that your certificate here
+
+03:06.057 --> 03:09.870
+are also updated with your own certificate error
+
+03:09.870 --> 03:12.330
+in this ingress manifest, right?
+
+03:12.330 --> 03:14.910
+From your account, whatever the error is there,
+
+03:14.910 --> 03:16.620
+that one, you update it.
+
+03:16.620 --> 03:19.690
+So now let's go back to our GitHub report
+
+03:20.640 --> 03:22.320
+and move on to the next step
+
+03:22.320 --> 03:26.250
+which is deploy this Kubernetes manifest and then test it.
+
+03:26.250 --> 03:29.340
+So let's come back to terminal, clear,
+
+03:29.340 --> 03:33.060
+and come out of deploy external DNS-related section
+
+03:33.060 --> 03:37.920
+which is 0806 and go inside 0807.
+
+03:37.920 --> 03:41.730
+Use external DNS for ingress Kubernetes.
+
+03:41.730 --> 03:46.730
+And let's say LS-LRTA and Kube manifest
+
+03:48.030 --> 03:51.900
+just to check that we have all the files 01, 02, 03,
+
+03:51.900 --> 03:54.270
+and then 04, right?
+
+03:54.270 --> 03:59.270
+And we'll say kubectl, apply-F kube manifest.
+
+03:59.640 --> 04:02.670
+So this should deploy the app one, app two,
+
+04:02.670 --> 04:06.060
+app three related deployment and NodePort services
+
+04:06.060 --> 04:07.050
+and also create
+
+04:07.050 --> 04:11.490
+the external DNS-related ingress service, right?
+
+04:11.490 --> 04:13.230
+So now this is created.
+
+04:13.230 --> 04:16.530
+Another important thing here is the most important thing
+
+04:16.530 --> 04:20.740
+is let's keep monitoring your external DNS logs
+
+04:21.750 --> 04:23.763
+so that we'll get the clarity.
+
+04:25.410 --> 04:26.553
+Let's wait for it.
+
+04:28.650 --> 04:33.650
+So we can see here, create dns901stacksimplify.com
+
+04:33.840 --> 04:36.450
+and 902.stacksimplify.com.
+
+04:36.450 --> 04:39.030
+This is our core goal to verify that, right?
+
+04:39.030 --> 04:43.680
+So now let's go to Route 53 and go to stacksimplify.com
+
+04:43.680 --> 04:48.680
+and if you see here, DNS test 901, DNS test 902.
+
+04:49.350 --> 04:51.750
+And if you see the values inside them, right?
+
+04:51.750 --> 04:56.105
+So this is the external DNS ingress-related manifest
+
+04:56.105 --> 05:01.105
+load balancer service, so 144 863 844.
+
+05:01.110 --> 05:03.120
+So now let's come back here
+
+05:03.120 --> 05:07.920
+and go to the EC2 and find the same name here.
+
+05:07.920 --> 05:11.790
+So let's come back here and go to load balancers,
+
+05:11.790 --> 05:15.720
+and you should find the load balancer related DNS name,
+
+05:15.720 --> 05:19.983
+externaldns-ingress-1448638444.
+
+05:21.420 --> 05:24.480
+And here also, you'll find the same thing, right?
+
+05:24.480 --> 05:29.280
+1448638444, which means the DNS name,
+
+05:29.280 --> 05:31.110
+whatever you have created,
+
+05:31.110 --> 05:36.110
+is associated with your external ingress related DNS name.
+
+05:37.200 --> 05:40.050
+Load balancer DNS name successfully.
+
+05:40.050 --> 05:42.690
+So now the next thing here is go
+
+05:42.690 --> 05:45.330
+and then do the NS lookup tests, right?
+
+05:45.330 --> 05:47.070
+So let's come back here.
+
+05:47.070 --> 05:50.250
+So you have verified your external DNS pod
+
+05:50.250 --> 05:52.080
+with the create, create, create, create.
+
+05:52.080 --> 05:53.430
+All the things are good.
+
+05:53.430 --> 05:55.140
+So let's come out and do it,
+
+05:55.140 --> 05:58.470
+and let's look up test for DNS test 901
+
+05:58.470 --> 06:00.810
+and it is resolving to the IP address
+
+06:00.810 --> 06:03.180
+and also verify for 902
+
+06:03.180 --> 06:06.150
+and it is resolving to the IP address.
+
+06:06.150 --> 06:07.140
+So that is good.
+
+06:07.140 --> 06:12.140
+And if you want, you can access the application DNS test 901
+
+06:12.300 --> 06:13.743
+and then 902.
+
+06:14.760 --> 06:17.760
+So let me close this IAM,
+
+06:17.760 --> 06:21.900
+come back here, and DNS test 901 is good
+
+06:21.900 --> 06:24.030
+and this is app one is good
+
+06:24.030 --> 06:27.240
+and app two with a DNS test 901 is good
+
+06:27.240 --> 06:30.390
+and also we'll access the root context also.
+
+06:30.390 --> 06:33.750
+So all redirected from http to https
+
+06:33.750 --> 06:37.950
+and everything is accessible with DNS test 901.
+
+06:37.950 --> 06:39.690
+So now close this tab
+
+06:39.690 --> 06:40.523
+and if you want,
+
+06:40.523 --> 06:44.610
+you can also access with DNS test 902, right?
+
+06:44.610 --> 06:46.860
+You are accessing the http URL
+
+06:46.860 --> 06:49.650
+and it should auto redirect to https, right?
+
+06:49.650 --> 06:52.230
+You can see the certificate lock symbol here.
+
+06:52.230 --> 06:54.510
+And app one is good and if we want,
+
+06:54.510 --> 06:59.510
+we can also access the app two with 902 and that is good
+
+07:00.660 --> 07:04.290
+and root context also we can access and then test it.
+
+07:04.290 --> 07:07.770
+So this completes the verification
+
+07:07.770 --> 07:12.770
+of using the external DNS with the ingress service, right?
+
+07:13.500 --> 07:16.290
+And another important thing here is when you are testing it,
+
+07:16.290 --> 07:18.780
+this should be you domain name.
+
+07:18.780 --> 07:21.420
+And now, we'll go ahead and then clean up this
+
+07:21.420 --> 07:23.490
+and it should also delete the 901
+
+07:23.490 --> 07:25.800
+and then 902 DNS records, why?
+
+07:25.800 --> 07:28.290
+Because if you go back here, right?
+
+07:28.290 --> 07:29.940
+So if you go back to here
+
+07:29.940 --> 07:33.270
+and if you see you have commented this policy upset only,
+
+07:33.270 --> 07:36.690
+so which means it should be in the full synchronization.
+
+07:36.690 --> 07:38.850
+Whenever you delete your ingress resource,
+
+07:38.850 --> 07:42.180
+automatically, the DNS records updated
+
+07:42.180 --> 07:44.220
+inside that ingress service, right?
+
+07:44.220 --> 07:45.660
+Whatever is present inside that
+
+07:45.660 --> 07:48.360
+in the external DNS related annotation,
+
+07:48.360 --> 07:51.510
+so those should get automatically deleted.
+
+07:51.510 --> 07:54.570
+So let's go here and say kubectl,
+
+07:54.570 --> 07:57.840
+delete-F, and Kube manifest.
+
+07:57.840 --> 08:00.600
+And once you delete it, immediately go ahead
+
+08:00.600 --> 08:04.920
+and then start monitoring your external DNS logs, right?
+
+08:04.920 --> 08:07.440
+So let it delete, right?
+
+08:07.440 --> 08:09.303
+Ingress service is getting deleted.
+
+08:10.320 --> 08:13.710
+So let's wait for the command line to come for us.
+
+08:13.710 --> 08:15.300
+We'll monitor the logs here
+
+08:15.300 --> 08:18.663
+and let's wait for it, wait for the logs.
+
+08:19.710 --> 08:21.480
+So you can see create logs you have seen.
+
+08:21.480 --> 08:23.760
+Let's wait further delete logs
+
+08:23.760 --> 08:28.440
+in the external DNS logs for external DNS pod.
+
+08:28.440 --> 08:31.440
+In meantime, we can go here and then verify
+
+08:31.440 --> 08:35.460
+if our load balancer is successfully deleted.
+
+08:35.460 --> 08:36.300
+So this is good.
+
+08:36.300 --> 08:38.250
+So we need to always ensure
+
+08:38.250 --> 08:42.270
+that our application load balancer is successfully deleted.
+
+08:42.270 --> 08:43.770
+By any chance it is present,
+
+08:43.770 --> 08:46.590
+again, it is going to add cost for us.
+
+08:46.590 --> 08:50.580
+See now, you are back to your external DNS pod logs
+
+08:50.580 --> 08:53.940
+and you can see it is having the desire change,
+
+08:53.940 --> 08:56.580
+which is a delete so and so DNSs
+
+08:56.580 --> 08:58.980
+and it has deleted those DNSs
+
+08:58.980 --> 09:01.440
+and successfully updated that hosted zone.
+
+09:01.440 --> 09:04.950
+So now come back here and go to Route 53
+
+09:04.950 --> 09:09.870
+and go back and again go inside stacksimplify.com
+
+09:09.870 --> 09:11.760
+and you should not find anything related
+
+09:11.760 --> 09:15.510
+to DNS test 901 or 902.
+
+09:15.510 --> 09:17.940
+So which means whenever you have created
+
+09:17.940 --> 09:19.200
+that ingress resource,
+
+09:19.200 --> 09:24.200
+it has automatically created those external DNS records
+
+09:24.480 --> 09:27.210
+in the Route 53 using external DNS.
+
+09:27.210 --> 09:28.740
+And whenever you have deleted
+
+09:28.740 --> 09:31.050
+or destroyed your ingress resource
+
+09:31.050 --> 09:33.540
+or you undeployed your ingress resource,
+
+09:33.540 --> 09:37.380
+automatically, external DNS also remove your DNS entries
+
+09:37.380 --> 09:40.230
+from your Route 53 service.
+
+09:40.230 --> 09:43.620
+So this completes the external DNS
+
+09:43.620 --> 09:45.330
+with ingress service demo.
+
+09:45.330 --> 09:48.870
+In the next demo, we are going to do the external DNS
+
+09:48.870 --> 09:51.630
+with regular Kubernetes service demo.
+
+09:51.630 --> 09:53.250
+So I'll see you in the next lecture.
+
+09:53.250 --> 09:55.023
+Until then, bye-bye. Thank you.

@@ -1,0 +1,547 @@
+WEBVTT
+
+00:00.000 --> 00:02.160
+-: Welcome back, in this lecture,
+
+00:02.160 --> 00:05.640
+we are going to understand about YAML basics.
+
+00:05.640 --> 00:09.690
+To write Kubernetes declarative manifest,
+
+00:09.690 --> 00:13.590
+we definitely need a little bit of knowledge on YAML.
+
+00:13.590 --> 00:16.620
+So we are going to look into a few YAML basics
+
+00:16.620 --> 00:21.270
+which are required for our Kubernetes manifests.
+
+00:21.270 --> 00:24.720
+So let's go ahead and then understand what is YAML
+
+00:24.720 --> 00:28.920
+on a high level, and then move on and then implement few
+
+00:28.920 --> 00:32.760
+sample things required to understand better about YAML.
+
+00:33.600 --> 00:37.470
+So YAML is not a markup language.
+
+00:37.470 --> 00:42.470
+So YAML is used to store information about different things.
+
+00:42.600 --> 00:45.960
+So we can use YAML to define key-value pairs,
+
+00:45.960 --> 00:49.740
+like variables, lists, and then objects.
+
+00:49.740 --> 00:52.230
+So YAML is very similar to JSON,
+
+00:52.230 --> 00:55.350
+which is nothing but JavaScript Object Notation.
+
+00:55.350 --> 00:58.500
+YAML primarily focuses on readability,
+
+00:58.500 --> 01:00.780
+and then user-friendliness.
+
+01:00.780 --> 01:05.490
+So YAML is designed to be clean and easy to read.
+
+01:05.490 --> 01:10.297
+So we can define YAML files with two different extensions,
+
+01:10.297 --> 01:15.297
+.yml or .yaml, anything would work for us, okay?
+
+01:16.590 --> 01:19.980
+So the next thing is, what are the core topics
+
+01:19.980 --> 01:21.891
+we are going to cover here, okay?
+
+01:21.891 --> 01:25.170
+So YAML comments, and then key-value pairs,
+
+01:25.170 --> 01:28.500
+dictionary or map, arrays or lists,
+
+01:28.500 --> 01:33.150
+spaces, and then document separator.
+
+01:33.150 --> 01:37.170
+So let's go ahead and then implement them now.
+
+01:37.170 --> 01:40.290
+So we'll go back to our GitHub repo,
+
+01:40.290 --> 01:43.890
+and we are in Kubernetes Fundamentals GitHub repo,
+
+01:43.890 --> 01:48.240
+and we are going inside "06 YAML Basics."
+
+01:48.240 --> 01:50.640
+So we are going to start with comments,
+
+01:50.640 --> 01:52.470
+and then key-value pairs.
+
+01:52.470 --> 01:57.470
+So in YAML, so to define comments, you are going to
+
+01:59.130 --> 02:02.340
+provide it with hash, and key-value pairs,
+
+02:02.340 --> 02:06.360
+you can see, name, colon, space, and then value.
+
+02:06.360 --> 02:10.020
+So key, colon, space, and then value.
+
+02:10.020 --> 02:13.800
+Space after colon is mandatory to differentiate
+
+02:13.800 --> 02:16.140
+key and then value.
+
+02:16.140 --> 02:21.090
+So let's go ahead and then define this on YAML now, right?
+
+02:21.090 --> 02:24.810
+So here, in our YAML Basics, we'll simply say,
+
+02:24.810 --> 02:29.730
+sampleFile.yml.
+
+02:29.730 --> 02:33.570
+So I try to use .yml instead of .yaml
+
+02:33.570 --> 02:36.570
+in all our notifications, so both are same.
+
+02:36.570 --> 02:41.570
+So we are going to define a simple key-value pairs, okay?
+
+02:43.140 --> 02:48.140
+So now we are going to say name is equal to Kalia,
+
+02:48.210 --> 02:53.210
+and age is equal to 23, and city is equal to Hyderabad.
+
+02:54.300 --> 02:57.660
+Okay, so everywhere, if you see here, space.
+
+02:57.660 --> 03:01.740
+So this space is mandatory for any of these things, okay?
+
+03:01.740 --> 03:04.620
+So to differentiate key and then value,
+
+03:04.620 --> 03:06.060
+so we need to have this space.
+
+03:06.060 --> 03:08.100
+So if you say, if you remove the space,
+
+03:08.100 --> 03:10.980
+you can see that the notation looks different, right?
+
+03:10.980 --> 03:14.313
+So have the space, and it looks as a key-value pair.
+
+03:15.300 --> 03:18.750
+And now we are going to use Visual Studio Code for that,
+
+03:18.750 --> 03:20.160
+and whatever you want.
+
+03:20.160 --> 03:24.630
+You can just go here, and then say VS Code, Download,
+
+03:24.630 --> 03:27.060
+and then you'll be able to download the
+
+03:27.060 --> 03:29.400
+Microsoft Visual Studio Code.
+
+03:29.400 --> 03:33.930
+And next is dictionary, or map.
+
+03:33.930 --> 03:36.060
+So what is the dictionary, or a map?
+
+03:36.060 --> 03:40.230
+So set of properties grouped together after an item
+
+03:40.230 --> 03:43.920
+is called dictionary, or map, okay?
+
+03:43.920 --> 03:48.450
+So now if you see here this name, age and then city
+
+03:48.450 --> 03:53.310
+are grouped under a property, or item, named Person.
+
+03:53.310 --> 03:56.940
+So now Person item has these properties.
+
+03:56.940 --> 04:01.710
+So now this Person is a dictionary object, okay?
+
+04:01.710 --> 04:03.750
+So now let's define that now.
+
+04:03.750 --> 04:07.980
+So we are going to say Parson, and like this,
+
+04:07.980 --> 04:09.540
+so if you define like this,
+
+04:09.540 --> 04:11.790
+so these are not grouped under Person.
+
+04:11.790 --> 04:14.910
+If you see this one, so this is one more key-value pair,
+
+04:14.910 --> 04:16.410
+like it looks, so it is wrong.
+
+04:16.410 --> 04:20.370
+So now we need to select all these things, and then say Tab.
+
+04:20.370 --> 04:23.430
+So we need to have equal amount of spaces here.
+
+04:23.430 --> 04:25.260
+And now if you see this is the parent,
+
+04:25.260 --> 04:27.330
+and these look as child.
+
+04:27.330 --> 04:30.510
+And now under Person, we have these properties,
+
+04:30.510 --> 04:32.610
+name, age and then city.
+
+04:32.610 --> 04:36.720
+So now this is dictionary, okay?
+
+04:36.720 --> 04:40.590
+So now the next thing here is equal amount of blank spaces
+
+04:40.590 --> 04:43.740
+required for all the items under a dictionary.
+
+04:43.740 --> 04:46.230
+So we have equal amount of spaces.
+
+04:46.230 --> 04:49.320
+So one tip here is whatever you select here, okay?
+
+04:49.320 --> 04:51.540
+So if you say Enter, directly it will come here
+
+04:51.540 --> 04:53.670
+in Visual Studio Code, and then if you want to
+
+04:53.670 --> 04:56.722
+write something else, you can write school, okay?
+
+04:56.722 --> 04:59.670
+ABC School something, if you want to write, you can write.
+
+04:59.670 --> 05:02.370
+So directly it will come under the same indentation
+
+05:02.370 --> 05:05.280
+level in VS Code, okay?
+
+05:05.280 --> 05:07.740
+And another important thing here is whenever
+
+05:07.740 --> 05:11.040
+you are writing YAML in VS Code, so if you want to
+
+05:11.040 --> 05:13.830
+give these indentations, you can say Tab,
+
+05:13.830 --> 05:16.860
+and then it gives us two spaces for us.
+
+05:16.860 --> 05:20.850
+So instead of typing two times Space, so you can even
+
+05:20.850 --> 05:24.090
+say Tab, Tab, Tab, wherever you want to write.
+
+05:24.090 --> 05:26.040
+So that is one way of doing it.
+
+05:26.040 --> 05:29.040
+So now we completed the dictionary and then map.
+
+05:29.040 --> 05:33.090
+So let's understand about arrays, or lists, okay?
+
+05:33.090 --> 05:36.330
+So dash indicates an element of an array.
+
+05:36.330 --> 05:38.850
+So I have something called for this Person here,
+
+05:38.850 --> 05:42.660
+some Hobbies, and listed those hobbies, okay.
+
+05:42.660 --> 05:45.150
+So listing means those are lists, right?
+
+05:45.150 --> 05:50.150
+So now we'll go here, and immediately under Hobbies, right?
+
+05:51.540 --> 05:55.815
+So I'm going to say Tab, and I'm going to say,
+
+05:55.815 --> 06:00.815
+cooking and cycling.
+
+06:01.080 --> 06:02.190
+So like this, okay?
+
+06:02.190 --> 06:04.260
+So like this, you can write those things.
+
+06:04.260 --> 06:07.290
+Now, one more means like lists, you can define this way,
+
+06:07.290 --> 06:10.020
+or you can define the list in the other way,
+
+06:10.020 --> 06:13.560
+which is Hobbies, and then square brackets,
+
+06:13.560 --> 06:17.190
+and you can say, cooking, comma, cycling.
+
+06:17.190 --> 06:19.530
+So in any way, you can write the list.
+
+06:19.530 --> 06:22.710
+So this one, we are not going to use an entire Kubernetes
+
+06:22.710 --> 06:25.350
+manifest, we are going to use list this way.
+
+06:25.350 --> 06:27.990
+So now the next thing is multiple lists.
+
+06:27.990 --> 06:31.590
+So how you are going to define multiple lists, right?
+
+06:31.590 --> 06:34.470
+So let's example, you have friends, okay?
+
+06:34.470 --> 06:38.730
+And you want to define your list of friends, okay?
+
+06:38.730 --> 06:43.270
+So I can say name of my friend is Friend1,
+
+06:44.250 --> 06:45.883
+and his age is 23.
+
+06:47.250 --> 06:49.203
+And I have one more friend, okay,
+
+06:50.250 --> 06:55.250
+whose name is Friend2, and whose age is 22.
+
+06:55.557 --> 06:57.750
+And I have one more, so you can, like this,
+
+06:57.750 --> 07:00.960
+you can keep writing the lists, okay?
+
+07:00.960 --> 07:05.430
+So multiple lists, okay, multiple lists.
+
+07:05.430 --> 07:07.290
+So that's about multiple lists,
+
+07:07.290 --> 07:09.450
+whatever we are going to define.
+
+07:09.450 --> 07:11.910
+So now you can consider this as one document,
+
+07:11.910 --> 07:15.090
+this Person document as one document.
+
+07:15.090 --> 07:16.050
+So what next, okay?
+
+07:16.050 --> 07:17.940
+So you want to write one more document
+
+07:17.940 --> 07:20.280
+in the sample file, okay?
+
+07:20.280 --> 07:23.670
+So in the sampleFile.yml, I need to write one more document.
+
+07:23.670 --> 07:27.570
+I really don't want to create one more file here,
+
+07:27.570 --> 07:31.950
+saying sample2.yml, and then I really don't want
+
+07:31.950 --> 07:33.690
+to write it here, I want to write everything
+
+07:33.690 --> 07:35.250
+in a single file.
+
+07:35.250 --> 07:37.830
+So for that, what I can do, right?
+
+07:37.830 --> 07:40.890
+So there will be something called document separator
+
+07:40.890 --> 07:44.370
+in YAML, so I can save this one,
+
+07:44.370 --> 07:48.180
+and then now I can write one more file here, okay?
+
+07:48.180 --> 07:50.220
+So I can copy my sample part template,
+
+07:50.220 --> 07:53.100
+and then paste it here.
+
+07:53.100 --> 07:57.450
+Now if you see, so this is a separate document of YAML,
+
+07:57.450 --> 08:00.000
+and this is separate document,
+
+08:00.000 --> 08:05.000
+and then it is separated using, okay, document separator,
+
+08:05.910 --> 08:08.823
+right, YAML document separator.
+
+08:11.430 --> 08:12.263
+That's the thing.
+
+08:12.263 --> 08:15.000
+So if you see here this part template and all these things.
+
+08:15.000 --> 08:18.630
+We'll move on with the next steps of live template writing.
+
+08:18.630 --> 08:20.970
+And there also you'll understand in detail,
+
+08:20.970 --> 08:24.240
+but you can see here, you can define, you can come from top.
+
+08:24.240 --> 08:27.540
+So API version is a string, and then we have V1 value,
+
+08:27.540 --> 08:30.150
+and then kind is part, and it's a string,
+
+08:30.150 --> 08:32.250
+and metadata is a dictionary,
+
+08:32.250 --> 08:33.960
+and you have name and then labels.
+
+08:33.960 --> 08:37.740
+Under labels, you can define multiple values here, okay?
+
+08:37.740 --> 08:41.070
+So tier is a call to front end, et cetera.
+
+08:41.070 --> 08:43.890
+So now this is one more dictionary, okay?
+
+08:43.890 --> 08:46.740
+And under root element Spec, you have Containers,
+
+08:46.740 --> 08:50.400
+and in Containers, you can define multiple things, okay?
+
+08:50.400 --> 08:52.260
+So here it is one more time, you can save this
+
+08:52.260 --> 08:55.440
+as list, and under Containers, this is one container.
+
+08:55.440 --> 08:57.630
+If you want to define one more container,
+
+08:57.630 --> 09:01.740
+so you can say name and container is myApp2,
+
+09:01.740 --> 09:05.463
+and then you can write one more image here, right?
+
+09:07.500 --> 09:10.500
+So I can say, where is this?
+
+09:10.500 --> 09:14.581
+So I can even write here, image is a call to
+
+09:14.581 --> 09:19.581
+ABC-slash-something, stack simplify slash Kubernetes 2.0.0.
+
+09:21.960 --> 09:24.300
+And if you want to define ports one more time,
+
+09:24.300 --> 09:26.160
+for this respect to container,
+
+09:26.160 --> 09:28.470
+then you can even define those things, okay?
+
+09:28.470 --> 09:30.840
+And then you can define container port,
+
+09:30.840 --> 09:34.050
+and all the information you can define.
+
+09:34.050 --> 09:36.840
+So like this, you can keep writing whatever you want
+
+09:36.840 --> 09:40.374
+in the format it is required in YAML.
+
+09:40.374 --> 09:44.400
+So the core things involve around the YAML is comments,
+
+09:44.400 --> 09:48.000
+key-value pairs, dictionary or map, array lists,
+
+09:48.000 --> 09:52.050
+spaces, and then document separator.
+
+09:52.050 --> 09:53.520
+These things will be sufficient
+
+09:53.520 --> 09:57.000
+for writing our Kubernetes manifests.
+
+09:57.000 --> 09:59.100
+So I'll see you in the next lecture.
+
+09:59.100 --> 10:01.053
+Until then, bye-bye, thank you.

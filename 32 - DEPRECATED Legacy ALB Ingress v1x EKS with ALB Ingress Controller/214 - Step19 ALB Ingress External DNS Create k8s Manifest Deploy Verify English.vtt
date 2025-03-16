@@ -1,0 +1,625 @@
+WEBVTT
+
+00:00.120 --> 00:00.953
+-: Welcome back.
+
+00:00.953 --> 00:03.234
+In the previous step we have completed the IM role
+
+00:03.234 --> 00:06.540
+IM policy and then Kubernetes service account.
+
+00:06.540 --> 00:08.700
+So now what we are going to do is we are going to
+
+00:08.700 --> 00:11.842
+update the external DS Kubernetes manifest.
+
+00:11.842 --> 00:13.987
+So the original manifest you can find
+
+00:13.987 --> 00:18.090
+in this respective link and you can always copy it
+
+00:18.090 --> 00:21.090
+and then use it as if how you want to need it.
+
+00:21.090 --> 00:25.110
+Okay, so this is the manifest letter to external DNS.
+
+00:25.110 --> 00:28.077
+Okay, so I have commented it and then used it as
+
+00:28.077 --> 00:28.910
+per our needs.
+
+00:28.910 --> 00:31.040
+So let's go ahead and then see that now.
+
+00:31.040 --> 00:33.979
+So we are going to make three changes to the original file.
+
+00:33.979 --> 00:38.979
+So let me go back to our 0 8 0 6 0 1 deploy external DNS
+
+00:40.603 --> 00:42.240
+on EKS.
+
+00:42.240 --> 00:44.076
+So you will have a cube manifest folder and
+
+00:44.076 --> 00:48.810
+inside that you'll have zero one deploy external DNS, right?
+
+00:48.810 --> 00:51.125
+So this, if you see this entire manifest, let's
+
+00:51.125 --> 00:54.040
+have a high level look on what is this manifest.
+
+00:54.040 --> 00:56.703
+Okay? So it says that create a service account
+
+00:56.703 --> 01:00.300
+with external DNS and then also
+
+01:00.300 --> 01:01.706
+it's equal and means like for this service
+
+01:01.706 --> 01:04.261
+account what all cluster roll permissions it need
+
+01:04.261 --> 01:05.160
+to have, okay?
+
+01:05.160 --> 01:07.232
+Our back roll permissions in Cuban it is, okay?
+
+01:07.232 --> 01:09.142
+So it'll have permissions to services
+
+01:09.142 --> 01:11.940
+and points and then parts with the get to watch
+
+01:11.940 --> 01:13.375
+and then list those permissions
+
+01:13.375 --> 01:17.330
+and it'll also have ingress related get watch and then list
+
+01:17.330 --> 01:19.320
+and like this.
+
+01:19.320 --> 01:22.680
+Now we are going to bind this respective cluster roll
+
+01:22.680 --> 01:26.730
+external DNS and then service account external
+
+01:26.730 --> 01:28.800
+DNS using cluster roll binding.
+
+01:28.800 --> 01:30.270
+So you can see it here.
+
+01:30.270 --> 01:33.240
+So cluster roll is external DNS role reference
+
+01:33.240 --> 01:35.580
+and then subject is service account external DNS.
+
+01:35.580 --> 01:37.606
+So we bind at using cluster roll binding.
+
+01:37.606 --> 01:41.640
+So this is a pretty straightforward manifest related to
+
+01:41.640 --> 01:42.817
+deploy external DNS.
+
+01:42.817 --> 01:45.763
+And so the RBack related stuff is completed
+
+01:45.763 --> 01:49.004
+our standard deployment stuff comes into the picture.
+
+01:49.004 --> 01:53.730
+So deployment template will have a strategy primarily.
+
+01:53.730 --> 01:55.779
+So default is rolling, update strategy
+
+01:55.779 --> 01:59.854
+and in exclusive cases we are going to use recreate.
+
+01:59.854 --> 02:02.130
+Okay? So that is the thing
+
+02:02.130 --> 02:04.590
+so delete that part and then recreate that part.
+
+02:04.590 --> 02:07.320
+Okay? So that is the story in exclusive cases.
+
+02:07.320 --> 02:09.720
+Okay, so now we are using the strategy recreate
+
+02:09.720 --> 02:12.480
+and selector is going to be match level external DNS
+
+02:12.480 --> 02:13.313
+which is same
+
+02:13.313 --> 02:16.350
+as whatever the port related metadata information.
+
+02:16.350 --> 02:17.835
+Okay? So now selector is over.
+
+02:17.835 --> 02:19.590
+The next thing is template
+
+02:19.590 --> 02:21.330
+which is nothing but the port template
+
+02:21.330 --> 02:23.086
+and inside that you'll have metadata labels
+
+02:23.086 --> 02:26.910
+and then label name of our respective pod.
+
+02:26.910 --> 02:28.929
+Okay? So in template two things
+
+02:28.929 --> 02:30.105
+metadata and spec we will have
+
+02:30.105 --> 02:32.940
+and spec we will have our existing means
+
+02:32.940 --> 02:35.593
+like our pod related manifest, right?
+
+02:35.593 --> 02:38.100
+So first thing is service account.
+
+02:38.100 --> 02:40.823
+This pod will have a service account named external DNS.
+
+02:40.823 --> 02:45.420
+So it's in it's authorization is restricted
+
+02:45.420 --> 02:49.294
+inside Kubernetes and external documented AWS services based
+
+02:49.294 --> 02:51.426
+on permissions, whatever we have provided
+
+02:51.426 --> 02:53.820
+for this external DNS service account.
+
+02:53.820 --> 02:56.040
+Okay? And containers, it said that name
+
+02:56.040 --> 02:59.017
+of the container is external DNS and the image it is taking
+
+02:59.017 --> 03:01.067
+from some of the external site, okay?
+
+03:01.067 --> 03:03.690
+Which is registry dot opensource dot all port
+
+03:03.690 --> 03:05.700
+and then external DNS latest.
+
+03:05.700 --> 03:08.386
+Okay? And these are the arguments we are going to provide
+
+03:08.386 --> 03:11.974
+to this external DNS container, right?
+
+03:11.974 --> 03:13.294
+So what are those?
+
+03:13.294 --> 03:15.021
+So primarily we need to focus
+
+03:15.021 --> 03:17.430
+on two things which we have commented.
+
+03:17.430 --> 03:19.080
+Okay? So the source says service
+
+03:19.080 --> 03:20.832
+and then source says ingress, right?
+
+03:20.832 --> 03:23.209
+So now what we are trying to tell here is we
+
+03:23.209 --> 03:24.571
+have commented two things here.
+
+03:24.571 --> 03:25.680
+What are those?
+
+03:25.680 --> 03:29.580
+Okay, so one is domain filter, okay?
+
+03:29.580 --> 03:31.914
+External DNS dot myar dot com.
+
+03:31.914 --> 03:34.560
+Okay? So we'll make external DNS C only
+
+03:34.560 --> 03:36.686
+on the hostage matching this value.
+
+03:36.686 --> 03:39.549
+Okay? So we commented this out because I really
+
+03:39.549 --> 03:43.680
+don't want to specifically allow external DNS means
+
+03:43.680 --> 03:46.110
+like I can just say Q one cloud dot com here
+
+03:46.110 --> 03:47.847
+so that it'll only match
+
+03:47.847 --> 03:51.240
+to the entries related to Q one cloud dot com.
+
+03:51.240 --> 03:53.400
+Okay? But I am leaving it open
+
+03:53.400 --> 03:55.952
+so that whatever we want we can modify
+
+03:55.952 --> 03:58.077
+in our entire space, right?
+
+03:58.077 --> 03:59.670
+So that is one thing
+
+03:59.670 --> 04:02.212
+one is domain filter and second is policy.
+
+04:02.212 --> 04:03.470
+So up certainly.
+
+04:03.470 --> 04:04.975
+So if you enable this option
+
+04:04.975 --> 04:09.262
+it would prevent the external DNS from deleting any records.
+
+04:09.262 --> 04:11.880
+So usually whenever we are testing it
+
+04:11.880 --> 04:12.911
+or whenever we are doing it, right?
+
+04:12.911 --> 04:14.910
+So what happens is like
+
+04:14.910 --> 04:16.830
+in production you can enable this feature
+
+04:16.830 --> 04:21.690
+so that no DNS entries once created will get deleted.
+
+04:21.690 --> 04:23.820
+But for us, whenever we are deploying testing
+
+04:23.820 --> 04:26.889
+and then again removing the manifest, obviously
+
+04:26.889 --> 04:30.390
+those entries in the entries need to be deleted, right?
+
+04:30.390 --> 04:32.730
+So for that purpose I commented this option.
+
+04:32.730 --> 04:34.618
+So this, if you enable it, it'll
+
+04:34.618 --> 04:38.146
+it would prevent us from external res deleting any records.
+
+04:38.146 --> 04:40.198
+So in the record sets of route 53.
+
+04:40.198 --> 04:41.181
+So it'll allow us
+
+04:41.181 --> 04:44.880
+to not to delete anything, whatever it has created, okay?
+
+04:44.880 --> 04:49.880
+So we can go back here to route 53, right?
+
+04:50.940 --> 04:54.563
+And any entries created inside that respect you hosted zone
+
+04:54.563 --> 04:57.840
+as part of this external DNS.
+
+04:57.840 --> 04:59.798
+Also, it'll not allow us to delete them.
+
+04:59.798 --> 05:03.600
+So if you go inside, so if it creates anything here
+
+05:03.600 --> 05:06.720
+those things will not get deleted if you enable this option.
+
+05:06.720 --> 05:07.830
+So I really don't need it.
+
+05:07.830 --> 05:10.470
+So these two things we have commented and one change
+
+05:10.470 --> 05:13.472
+what we need to do additionally is finally this one, okay?
+
+05:13.472 --> 05:16.856
+So already a service account is created ideally
+
+05:16.856 --> 05:18.510
+in this template.
+
+05:18.510 --> 05:20.258
+This is not required in general, okay?
+
+05:20.258 --> 05:21.660
+But whatever they say it
+
+05:21.660 --> 05:24.390
+whatever they have provided a standard template
+
+05:24.390 --> 05:27.105
+why we want to change it to different ways, right?
+
+05:27.105 --> 05:30.651
+So that's the reason we really don't need to change it.
+
+05:30.651 --> 05:34.050
+So what happens is for external DNS service account,
+
+05:34.050 --> 05:36.021
+we already seen that it is annotated with the,
+
+05:36.021 --> 05:39.840
+it is annotated with the role,
+
+05:39.840 --> 05:42.930
+whatever it is provided, right?
+
+05:42.930 --> 05:45.390
+IM role AWS, IM role, okay?
+
+05:45.390 --> 05:46.223
+The same thing.
+
+05:46.223 --> 05:47.610
+You need to provide it here one more time.
+
+05:47.610 --> 05:48.443
+That's all.
+
+05:48.443 --> 05:50.370
+Okay, so let's go back to here
+
+05:50.370 --> 05:55.233
+and go back to our cloud formation, right?
+
+05:56.850 --> 06:00.000
+So this is the one right rule already we have put this open
+
+06:00.000 --> 06:02.670
+okay? So this is the one which has the all external update.
+
+06:02.670 --> 06:07.410
+So I'm going to copy this AR and and then paste it here.
+
+06:07.410 --> 06:11.370
+So only one change primarily you need to do
+
+06:11.370 --> 06:14.760
+for this template directly if you use from this course
+
+06:14.760 --> 06:19.020
+but if you directly download from the URL, so then this one
+
+06:19.020 --> 06:22.410
+and farthest demo things to work, then we will also ensure
+
+06:22.410 --> 06:27.410
+that this line's 65 and then 67 also get commented.
+
+06:27.780 --> 06:28.770
+So that's the thing
+
+06:28.770 --> 06:30.570
+if you use this template, there is no issue.
+
+06:30.570 --> 06:31.710
+Those two are already there.
+
+06:31.710 --> 06:35.070
+Only you need to update your role from your account, right?
+
+06:35.070 --> 06:36.450
+This information.
+
+06:36.450 --> 06:37.680
+So that's about it.
+
+06:37.680 --> 06:42.680
+So now let's go back to our browser, right?
+
+06:42.840 --> 06:46.950
+And we have completed this IM role update successfully
+
+06:46.950 --> 06:50.807
+and we have ensured that 55 and 56 command these lines.
+
+06:50.807 --> 06:53.430
+Okay? So why we need to comment these lines.
+
+06:53.430 --> 06:55.690
+This also we need to discuss, okay, so if you
+
+06:55.690 --> 07:00.690
+are using K IM or cube to IM to create your IM roles.
+
+07:01.170 --> 07:02.737
+So then these things, okay?
+
+07:02.737 --> 07:05.523
+But we created our IM role
+
+07:05.523 --> 07:09.900
+IM policy and then service accounts with the EKS ctl.
+
+07:09.900 --> 07:12.744
+So this thing no need to be enabled.
+
+07:12.744 --> 07:15.629
+So those will be in the commented state only.
+
+07:15.629 --> 07:17.640
+Okay? So that's about it.
+
+07:17.640 --> 07:21.150
+And line 65 and 67 we discussed about these things
+
+07:21.150 --> 07:23.250
+exclusively. So this is good.
+
+07:23.250 --> 07:26.340
+So finally we are going to deploy this send, then verify it.
+
+07:26.340 --> 07:28.380
+Okay, so cube CTL apply.
+
+07:28.380 --> 07:30.960
+So we need to go to those respective folders.
+
+07:30.960 --> 07:32.340
+So I'm going to say zero eight
+
+07:32.340 --> 07:35.179
+which is ERB application load balances and 0 8
+
+07:35.179 --> 07:39.180
+0 6 will be ALB ingress, external DNS.
+
+07:39.180 --> 07:43.782
+Okay? So I'm going to say Q CTL apply hyphen F cube manifest
+
+07:43.782 --> 07:47.250
+right? So what happened inside that two folders
+
+07:47.250 --> 07:52.250
+will be there 0 8 0 6 0 1, which is deploy external DNS N.
+
+07:53.229 --> 07:56.927
+Okay? So now inside this Q CTL
+
+07:56.927 --> 08:00.003
+apply hyphen F cube manifests.
+
+08:01.950 --> 08:03.723
+So let this get created.
+
+08:06.150 --> 08:07.080
+That's fine.
+
+08:07.080 --> 08:10.885
+Okay, so now once this is created we are going to
+
+08:10.885 --> 08:12.840
+verify the logs.
+
+08:12.840 --> 08:16.680
+Okay? So before that, if you want we can say cube
+
+08:16.680 --> 08:19.470
+CTL get ports, it is going to get created in the default
+
+08:19.470 --> 08:21.450
+name space only it is running.
+
+08:21.450 --> 08:25.053
+So we can even verify the logs with the logs command, right?
+
+08:26.100 --> 08:28.358
+So all records are already up to date, there is
+
+08:28.358 --> 08:33.358
+no other errors related to access permission.
+
+08:34.020 --> 08:36.840
+So okay, access denied our access, forbidden nothing
+
+08:36.840 --> 08:38.670
+related to that as far as possible.
+
+08:38.670 --> 08:40.290
+Okay? So we'll see later what happens.
+
+08:40.290 --> 08:42.570
+Okay, for now it is no issues.
+
+08:42.570 --> 08:46.418
+Okay, so I'll see, I'll close this and this complete
+
+08:46.418 --> 08:49.980
+our external DNS related deployment.
+
+08:49.980 --> 08:51.467
+In our next lecture we'll apply this to our
+
+08:51.467 --> 08:54.780
+application. So one thing important here
+
+08:54.780 --> 08:56.400
+is these reference links, okay?
+
+08:56.400 --> 08:57.725
+Two reference links I have provided.
+
+08:57.725 --> 09:00.393
+So if you need additional information
+
+09:00.393 --> 09:04.860
+about this external DNS so you can use this information.
+
+09:04.860 --> 09:09.860
+Okay? So AWS are directly publishes this respected tool
+
+09:09.870 --> 09:11.670
+like external DNS they're supporting
+
+09:11.670 --> 09:13.230
+but currently in all first stage, but they
+
+09:13.230 --> 09:15.180
+they're supporting in their documentation too.
+
+09:15.180 --> 09:17.709
+Okay? So I am closing this and
+
+09:17.709 --> 09:20.820
+in our next lecture we'll focus on applying it.
+
+09:20.820 --> 09:21.866
+Okay? I'll see you in the next lecture.
+
+09:21.866 --> 09:22.871
+Until then, bye bye.
+
+09:22.871 --> 09:23.793
+Thank you.

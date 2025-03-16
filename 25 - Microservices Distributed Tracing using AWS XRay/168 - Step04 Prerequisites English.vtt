@@ -1,0 +1,250 @@
+WEBVTT
+
+00:00.120 --> 00:01.050
+-: Welcome back.
+
+00:01.050 --> 00:02.130
+In this lecture
+
+00:02.130 --> 00:05.370
+we are going to work on the microservices
+
+00:05.370 --> 00:08.220
+distributed tracing prerequisites section.
+
+00:08.220 --> 00:11.610
+Okay. So we are going into 13 microservices
+
+00:11.610 --> 00:14.460
+distributed tracing using AWS X-Ray on
+
+00:14.460 --> 00:15.990
+EKS, okay.
+
+00:15.990 --> 00:17.850
+So, from introductory part,
+
+00:17.850 --> 00:19.890
+we remember that we discussed about
+
+00:19.890 --> 00:22.512
+understanding abouts AWS X-Ray services,
+
+00:22.512 --> 00:25.650
+understanding about Kubernetes DAM inserts,
+
+00:25.650 --> 00:28.740
+and then X-Ray and microservices network design
+
+00:28.740 --> 00:29.850
+we have looked into,
+
+00:29.850 --> 00:31.170
+and also we have looked into
+
+00:31.170 --> 00:33.270
+sample soft service map traces
+
+00:33.270 --> 00:36.031
+and then segments in AWS X-Ray.
+
+00:36.031 --> 00:39.300
+So the use case we are going to implement here
+
+00:39.300 --> 00:41.850
+which we also discussed in the segment section
+
+00:41.850 --> 00:45.150
+that we are going to call a get notification app info
+
+00:45.150 --> 00:46.860
+from user management service
+
+00:46.860 --> 00:50.460
+which will call the notification service notification X-ray.
+
+00:50.460 --> 00:53.100
+So which is nothing, but we are going to call a URL
+
+00:53.100 --> 00:56.210
+and then like this user management notification X-ray
+
+00:56.210 --> 00:59.099
+which will call the notification app info service.
+
+00:59.099 --> 01:04.099
+So which we will also send our traces to our X-ray service.
+
+01:04.170 --> 01:06.660
+So we are also going to depict one microservice
+
+01:06.660 --> 01:10.140
+calling other microservice in our X-ray service map.
+
+01:10.140 --> 01:13.380
+We have also seen that in our service map section.
+
+01:13.380 --> 01:14.213
+So the list
+
+01:14.213 --> 01:16.560
+of dock images we are going to use are with
+
+01:16.560 --> 01:20.460
+the stack simplify slash cube user management microservice
+
+01:20.460 --> 01:24.210
+and then notification microservice, which are highlighted
+
+01:24.210 --> 01:29.210
+with 3 dot 00 , X-ray, my scale db, and
+
+01:29.280 --> 01:32.520
+then 3 dot 0 dot 0 AWS X-ray refer
+
+01:32.520 --> 01:34.650
+notification microservice.
+
+01:34.650 --> 01:35.483
+So with that said
+
+01:35.483 --> 01:39.358
+Myas LDBs mandatory when you use this service, right?
+
+01:39.358 --> 01:43.410
+So now the prerequisite section includes few things here.
+
+01:43.410 --> 01:46.380
+One is your RDS database should be up and running.
+
+01:46.380 --> 01:48.600
+So if it is down, so we have created this
+
+01:48.600 --> 01:51.876
+as part of our 0, 6 section, right?
+
+01:51.876 --> 01:54.000
+So if it is not up and running
+
+01:54.000 --> 01:57.765
+just go ahead and then start that RDS service, okay?
+
+01:57.765 --> 02:01.020
+And whatever the database you are continuing from beginning.
+
+02:01.020 --> 02:03.780
+So that database, if it is stopped for any reason
+
+02:03.780 --> 02:06.150
+just go ahead and then start that.
+
+02:06.150 --> 02:09.150
+And the second thing is LB ingress controller
+
+02:09.150 --> 02:10.860
+and then external DNS.
+
+02:10.860 --> 02:14.070
+So if we have seen architecture diagram, we are trying to
+
+02:14.070 --> 02:16.335
+depict everything, whatever is possible for us
+
+02:16.335 --> 02:18.660
+in AWS perspective.
+
+02:18.660 --> 02:21.840
+So we have, as part of this service, we are going to
+
+02:21.840 --> 02:24.780
+introduce X-ray, but we have simple email service
+
+02:24.780 --> 02:27.390
+we have route 53, we have certificate manager
+
+02:27.390 --> 02:29.910
+in the EKS cluster, we have the RDS DB
+
+02:29.910 --> 02:33.480
+all this stuff for part of this entire architecture.
+
+02:33.480 --> 02:36.570
+So with that said, so application load balancer
+
+02:36.570 --> 02:38.460
+is also one section.
+
+02:38.460 --> 02:41.430
+Okay? So for that purpose application load balancer
+
+02:41.430 --> 02:44.700
+and then external DNS also you should be up and running
+
+02:44.700 --> 02:46.547
+and then those should be installed on your
+
+02:46.547 --> 02:49.260
+respective EKS cluster.
+
+02:49.260 --> 02:51.810
+So every section we are adding this prerequisite step
+
+02:51.810 --> 02:53.170
+because, so our
+
+02:54.060 --> 02:56.040
+specific templates will ensure
+
+02:56.040 --> 02:58.506
+that you, it'll create a application
+
+02:58.506 --> 03:00.180
+ingress service only means
+
+03:00.180 --> 03:03.090
+like application load balancer related ingress service only.
+
+03:03.090 --> 03:04.317
+It is going to create.
+
+03:04.317 --> 03:05.700
+So we need to ensure
+
+03:05.700 --> 03:07.758
+that our LB ingress controller is running
+
+03:07.758 --> 03:11.100
+and also our respective parts related
+
+03:11.100 --> 03:12.428
+to external DNS is running
+
+03:12.428 --> 03:15.707
+because we are going to DNS resist and then tested.
+
+03:15.707 --> 03:20.490
+So external DNS is also running for me in my cluster.
+
+03:20.490 --> 03:22.087
+Okay? So with that said
+
+03:22.087 --> 03:25.470
+so we have verified our LB ingress controller
+
+03:25.470 --> 03:29.306
+and also we have verified our external DNS.
+
+03:29.306 --> 03:33.337
+So in our next step we'll focus on core X-ray demo
+
+03:33.337 --> 03:38.337
+how we need to run on our AWS EKS cluster.
+
+03:38.340 --> 03:39.900
+So I'll see you in the next lecture.
+
+03:39.900 --> 03:40.733
+Until then, bye bye.
+
+03:40.733 --> 03:41.673
+Thank you.

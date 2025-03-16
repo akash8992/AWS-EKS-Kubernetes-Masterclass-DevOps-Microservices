@@ -1,0 +1,115 @@
+WEBVTT
+
+00:00.030 --> 00:01.472
+-: Welcome back.
+
+00:01.472 --> 00:04.800
+In this lecture we are going to install the kubectl CLI.
+
+00:04.800 --> 00:09.800
+So, AWS provides the EKS vendor kubectl binary.
+
+00:10.200 --> 00:12.900
+So, if we are using the EKS clusters,
+
+00:12.900 --> 00:17.900
+it is always recommended to use the their own kubectl binary
+
+00:18.090 --> 00:21.750
+so that we really don't run into many issues.
+
+00:21.750 --> 00:24.180
+So we can even download that directly
+
+00:24.180 --> 00:26.370
+using this reference link.
+
+00:26.370 --> 00:28.410
+So one important thing here we need to follow
+
+00:28.410 --> 00:31.890
+is based on the cluster version, whatever you are using,
+
+00:31.890 --> 00:33.690
+here the binary will be available
+
+00:33.690 --> 00:38.263
+for 1.13, for 1.14, 1.15 and then 1.16.
+
+00:39.320 --> 00:41.580
+So we are going to use 1.16.
+
+00:41.580 --> 00:43.830
+So this link and in my documentation,
+
+00:43.830 --> 00:46.560
+whatever you see it is going to be same.
+
+00:46.560 --> 00:50.250
+But whenever you are going to execute using my video,
+
+00:50.250 --> 00:53.400
+please ensure that you go to this reference link
+
+00:53.400 --> 00:55.380
+and based on the latest cluster version
+
+00:55.380 --> 00:56.610
+you are going to use.
+
+00:56.610 --> 01:00.183
+So from there you take the download link.
+
+01:01.050 --> 01:03.660
+Rest all commands you can execute as is.
+
+01:03.660 --> 01:06.300
+But for the download, the package link,
+
+01:06.300 --> 01:09.420
+always go to this documentation link.
+
+01:09.420 --> 01:12.832
+So now let's go ahead and then download this.
+
+01:12.832 --> 01:16.233
+So I'm just going to create a binary folder here.
+
+01:19.264 --> 01:21.487
+And I'm going to go inside that
+
+01:25.380 --> 01:27.663
+and I'm going to download the package.
+
+01:33.150 --> 01:37.293
+So let's provide the exhibit permissions for the binary.
+
+01:40.770 --> 01:45.420
+And set the path by copying it to the home directory.
+
+01:45.420 --> 01:48.810
+So we'll create a bin folder in our home directory
+
+01:48.810 --> 01:51.513
+and then we'll copy there and then set the path.
+
+01:56.287 --> 01:58.953
+And ones done, so let's verify that version.
+
+02:02.220 --> 02:03.570
+So we can see it here.
+
+02:03.570 --> 02:08.570
+V1.16.8-EKS means like the last Kubernetes service of AWS.
+
+02:09.780 --> 02:14.631
+So this respective kubectl binary is EKS vendor,
+
+02:14.631 --> 02:17.940
+AWS EKS vendor, binary which we are going to use.
+
+02:17.940 --> 02:22.050
+In our next lecture, we'll focus on installing the EKS CTL.
+
+02:22.050 --> 02:23.283
+Until then, bye bye.

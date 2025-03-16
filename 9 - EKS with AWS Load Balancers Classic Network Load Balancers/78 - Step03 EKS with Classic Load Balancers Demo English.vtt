@@ -1,0 +1,649 @@
+WEBVTT
+
+00:00.300 --> 00:01.320
+-: Welcome back.
+
+00:01.320 --> 00:05.040
+In this lecture we are going to implement this entire thing.
+
+00:05.040 --> 00:08.160
+So which is nothing but audio's database is already created
+
+00:08.160 --> 00:10.410
+and then ready for us.
+
+00:10.410 --> 00:11.850
+So what we are going to do is,
+
+00:11.850 --> 00:16.590
+we are going to deploy the MySQL external name service,
+
+00:16.590 --> 00:19.590
+and our user management deployment.
+
+00:19.590 --> 00:21.350
+And also we are going to write
+
+00:21.350 --> 00:25.440
+a classic load balancer service cube and it is manifest.
+
+00:25.440 --> 00:28.290
+And then deploy all these three things
+
+00:28.290 --> 00:32.490
+and then ensure that everything is working as expected,
+
+00:32.490 --> 00:36.150
+for us when we access our application via browser.
+
+00:36.150 --> 00:40.290
+So let's go ahead and then do that now.
+
+00:40.290 --> 00:43.650
+So we will go back to our browser
+
+00:43.650 --> 00:46.440
+and we are going to zero seven zero two
+
+00:46.440 --> 00:50.190
+classic load balances CLB, right?
+
+00:50.190 --> 00:51.960
+And as a step one,
+
+00:51.960 --> 00:56.100
+we are supposed to create our loadbalancer.yml, right?
+
+00:56.100 --> 00:59.400
+So let's go back to our visual studio code
+
+00:59.400 --> 01:03.150
+and if you see in zero seven zero two in cube manifest.
+
+01:03.150 --> 01:05.100
+So we'll have the external name service
+
+01:05.100 --> 01:09.060
+which we have copied from our previous RDS database section.
+
+01:09.060 --> 01:11.070
+It is going to be same thing.
+
+01:11.070 --> 01:13.740
+And user management microservice also no changes
+
+01:13.740 --> 01:17.220
+inside that after integrating with the RDS database.
+
+01:17.220 --> 01:19.680
+So nothing we are going to copy the same.
+
+01:19.680 --> 01:21.120
+Secrets also same.
+
+01:21.120 --> 01:25.170
+It is the same and even the load balancer service, right?
+
+01:25.170 --> 01:27.720
+Which is nothing, but previously it is a note port service.
+
+01:27.720 --> 01:30.030
+The same thing we have copied here.
+
+01:30.030 --> 01:30.863
+Okay?
+
+01:30.863 --> 01:32.100
+So now what we are going to do
+
+01:32.100 --> 01:34.080
+is that respect your note port service.
+
+01:34.080 --> 01:37.080
+Whatever we have created as part of RDS service,
+
+01:37.080 --> 01:39.300
+means like RDS database integration.
+
+01:39.300 --> 01:42.900
+So now we are going to change it to load balancer type.
+
+01:42.900 --> 01:44.430
+So what we need to do.
+
+01:44.430 --> 01:48.570
+Earlier we used to create a load balance note port service.
+
+01:48.570 --> 01:50.070
+So now we are going to create it
+
+01:50.070 --> 01:53.401
+as a load balancer type, okay?
+
+01:53.401 --> 01:55.260
+Our services, our Kubernetes service.
+
+01:55.260 --> 01:58.200
+Whatever we are going to create is a load balancer
+
+01:58.200 --> 02:00.951
+and we already know that default.
+
+02:00.951 --> 02:03.240
+Whenever we create this manifest
+
+02:03.240 --> 02:05.400
+and deploy it in Kubernetes,
+
+02:05.400 --> 02:10.400
+it is going to create a classic load balancer by default.
+
+02:10.620 --> 02:13.740
+And one more important thing here is.
+
+02:13.740 --> 02:16.830
+Because we are using the load balancer type,
+
+02:16.830 --> 02:19.950
+we really don't need to mention this note put here.
+
+02:19.950 --> 02:20.783
+Okay?
+
+02:20.783 --> 02:21.810
+So that one is remote
+
+02:21.810 --> 02:24.900
+and the type is load balancer is implemented.
+
+02:24.900 --> 02:25.733
+So done.
+
+02:25.733 --> 02:28.080
+Okay, so this default is going to be CLB.
+
+02:28.080 --> 02:32.022
+And now one more important thing here is port.
+
+02:32.022 --> 02:32.855
+Okay?
+
+02:32.855 --> 02:36.360
+So eight zero nine five browser also you can say.
+
+02:36.360 --> 02:39.300
+CLB DNS URL colon eight zero nine five,
+
+02:39.300 --> 02:42.930
+or you can even use the listener portals J key.
+
+02:42.930 --> 02:46.740
+So which means like browser default port, right?
+
+02:46.740 --> 02:49.290
+Means like you really don't need to provide any port there.
+
+02:49.290 --> 02:52.050
+So you can use J key in addition to that,
+
+02:52.050 --> 02:55.200
+if you want to change the name of your service, right?
+
+02:55.200 --> 02:58.593
+So little bit like CLB user management.
+
+03:00.360 --> 03:02.223
+Rest app, something like this, okay?
+
+03:03.432 --> 03:05.370
+CLB user management rest app.
+
+03:05.370 --> 03:08.580
+And if you want you can even add service whatever you want.
+
+03:08.580 --> 03:09.413
+Okay?
+
+03:09.413 --> 03:11.160
+So I'll say CLB which is nothing,
+
+03:11.160 --> 03:14.640
+but classic load balancer user management rest app.
+
+03:14.640 --> 03:15.473
+So that's all.
+
+03:15.473 --> 03:16.950
+We have done only three changes.
+
+03:16.950 --> 03:18.870
+One is very more than note port here
+
+03:18.870 --> 03:20.160
+from our note port service
+
+03:20.160 --> 03:22.740
+and we ensure that the type is going to be load balancer.
+
+03:22.740 --> 03:24.450
+Which means we remove the note port here
+
+03:24.450 --> 03:26.640
+and then add a load balancer.
+
+03:26.640 --> 03:29.700
+And then we change the port to browser default port.
+
+03:29.700 --> 03:32.160
+So whenever we access our load balancer
+
+03:32.160 --> 03:35.040
+will be created with a listener port 80, right?
+
+03:35.040 --> 03:36.180
+Our service port is nothing
+
+03:36.180 --> 03:38.580
+but our load balancer port here right?
+
+03:38.580 --> 03:40.110
+So which means on a browser,
+
+03:40.110 --> 03:42.150
+you really don't need to give eight zero nine five,
+
+03:42.150 --> 03:42.990
+something like that.
+
+03:42.990 --> 03:43.823
+Okay?
+
+03:43.823 --> 03:45.060
+So that's about it.
+
+03:45.060 --> 03:46.650
+Now this is completed.
+
+03:46.650 --> 03:49.800
+It'll go to our next step here.
+
+03:49.800 --> 03:52.320
+Which is nothing but deploy this manifest.
+
+03:52.320 --> 03:53.153
+Okay?
+
+03:53.153 --> 03:56.220
+So I'm going to edit this section little bit.
+
+03:56.220 --> 03:59.040
+So ideally this should be cube hyphen manifests here.
+
+03:59.040 --> 04:01.830
+So I didn't edit that.
+
+04:01.830 --> 04:02.780
+Now I have edited it.
+
+04:02.780 --> 04:04.440
+It should be good now.
+
+04:04.440 --> 04:07.470
+So now let's go ahead and then deploy it, okay?
+
+04:07.470 --> 04:12.407
+So we'll go to zero seven and inside zero seven,
+
+04:12.407 --> 04:16.620
+we are going to go to zero seven zero two, right?
+
+04:16.620 --> 04:21.030
+And inside that we are going to say Q CTL
+
+04:21.030 --> 04:24.570
+apply hyphen F cube manifest.
+
+04:24.570 --> 04:27.570
+So where we have all the files there, okay?
+
+04:27.570 --> 04:31.830
+So now it is going to first create our MySQL service
+
+04:31.830 --> 04:35.010
+and also do the user management microservice deployment
+
+04:35.010 --> 04:37.470
+and it's a secrets thing.
+
+04:37.470 --> 04:41.460
+And also deploy the CLB user management rest app service.
+
+04:41.460 --> 04:42.780
+Okay?
+
+04:42.780 --> 04:47.780
+So now we can say get SVC, should create a load balancer.
+
+04:48.450 --> 04:51.540
+And it also provided the load balancer URL here, right?
+
+04:51.540 --> 04:55.200
+You can see and the port is EAT, okay?
+
+04:55.200 --> 04:58.560
+So now it also created the external name service also.
+
+04:58.560 --> 05:00.510
+Whatever we have implemented.
+
+05:00.510 --> 05:03.330
+So let me clear Q CTL.
+
+05:03.330 --> 05:06.510
+I'll say get ports here, okay?
+
+05:06.510 --> 05:08.640
+And it's waiting for two come up.
+
+05:08.640 --> 05:12.040
+So if you want we can parallelly check the logs
+
+05:14.740 --> 05:15.753
+of our application.
+
+05:18.660 --> 05:20.100
+So it came up successfully.
+
+05:20.100 --> 05:21.750
+No issues with the database.
+
+05:21.750 --> 05:26.527
+So Q CTL get SVC.
+
+05:29.700 --> 05:30.736
+Right?
+
+05:30.736 --> 05:32.790
+So this is the load balancer.
+
+05:32.790 --> 05:34.260
+Usually it'll take some time
+
+05:34.260 --> 05:36.930
+to get the load balancer pinned up, created
+
+05:36.930 --> 05:38.850
+and then available for us.
+
+05:38.850 --> 05:43.830
+So let's go here and go to EKS.
+
+05:43.830 --> 05:47.160
+Now we'll go to service, easy to service,
+
+05:47.160 --> 05:51.660
+and inside that we'll go to left navigation load balances.
+
+05:51.660 --> 05:52.493
+Okay?
+
+05:52.493 --> 05:56.250
+So network and security load balancing, load balances.
+
+05:56.250 --> 06:00.720
+So now you can see here the classic load balancer
+
+06:00.720 --> 06:01.710
+is getting created.
+
+06:01.710 --> 06:04.950
+You can see type is classic, right?
+
+06:04.950 --> 06:07.350
+And states still not available for us.
+
+06:07.350 --> 06:08.790
+So we can wait.
+
+06:08.790 --> 06:11.820
+So instances is out of disturb but they're out of service,
+
+06:11.820 --> 06:14.820
+because of maybe our port is still coming up.
+
+06:14.820 --> 06:18.510
+Once it comes up it'll take a while to register
+
+06:18.510 --> 06:19.620
+and then ready.
+
+06:19.620 --> 06:20.920
+So let's wait for a while.
+
+06:22.410 --> 06:24.000
+So it is in service now.
+
+06:24.000 --> 06:25.650
+So it is available for us.
+
+06:25.650 --> 06:28.230
+So health checks are passing.
+
+06:28.230 --> 06:30.900
+So we can copy the DNS name from here.
+
+06:30.900 --> 06:32.160
+Whatever is provided, right?
+
+06:32.160 --> 06:34.920
+So this is the DNS name off of our ALB.
+
+06:34.920 --> 06:37.516
+So you can, we can directly use this
+
+06:37.516 --> 06:42.516
+or we can even copy the DNS name from this section, okay?
+
+06:43.320 --> 06:47.820
+And copy this, and we can go to browser,
+
+06:47.820 --> 06:52.777
+and say that DNS URL slash user MGMT
+
+06:54.390 --> 06:59.390
+slash health hyphen status, right?
+
+06:59.550 --> 07:03.780
+So we can see it, user management services open running.
+
+07:03.780 --> 07:07.140
+Want to even test the entire flow till the RDS database.
+
+07:07.140 --> 07:09.000
+So we can even go to our postman
+
+07:09.000 --> 07:11.370
+and then create a user and then test it.
+
+07:11.370 --> 07:12.990
+So first to list the users.
+
+07:12.990 --> 07:16.530
+So there should not be any users available by default.
+
+07:16.530 --> 07:18.900
+So let me cancel this.
+
+07:18.900 --> 07:22.320
+So first we need to provide the environment here, right?
+
+07:22.320 --> 07:24.120
+So let's go to settings
+
+07:24.120 --> 07:29.120
+and then add a environment and it should be URL, right?
+
+07:30.240 --> 07:33.090
+And we are going to say CLB, right?
+
+07:33.090 --> 07:36.960
+And we are going to say http://,
+
+07:36.960 --> 07:40.680
+the entire AB DNS URL, right?
+
+07:40.680 --> 07:43.230
+And then add it right?
+
+07:43.230 --> 07:47.343
+And close it and go to CLB environment, okay?
+
+07:48.210 --> 07:50.100
+And let me close this.
+
+07:50.100 --> 07:50.940
+Close this
+
+07:50.940 --> 07:53.640
+Let's close everything here,
+
+07:53.640 --> 07:57.900
+and we'll go to list users once and then test it.
+
+07:57.900 --> 07:58.733
+Okay?
+
+07:58.733 --> 08:00.180
+The environment we have selected CLB,
+
+08:00.180 --> 08:03.090
+which is nothing but classic load balancer.
+
+08:03.090 --> 08:06.750
+So nothing 200, no, no data available inside that.
+
+08:06.750 --> 08:09.930
+So let's go ahead and then create a user now, okay?
+
+08:09.930 --> 08:12.480
+So it is going to create a admin to user.
+
+08:12.480 --> 08:14.100
+So let's create it.
+
+08:14.100 --> 08:16.500
+So user created and the error is related
+
+08:16.500 --> 08:19.110
+to notification service we can ignore.
+
+08:19.110 --> 08:21.810
+And one more time list services.
+
+08:21.810 --> 08:25.110
+And we should have the user available for us.
+
+08:25.110 --> 08:26.970
+So which completes the entire flow.
+
+08:26.970 --> 08:28.530
+Which means from your browser,
+
+08:28.530 --> 08:30.390
+you have access to the load balancer.
+
+08:30.390 --> 08:33.510
+And then load balancer has forwarded the request
+
+08:33.510 --> 08:35.040
+to one of the pod here.
+
+08:35.040 --> 08:36.630
+And this pod has been sent
+
+08:36.630 --> 08:39.870
+to the MySQL external name service.
+
+08:39.870 --> 08:42.780
+And from external name service, we went to RDS DB,
+
+08:42.780 --> 08:46.650
+and then created that respective user.
+
+08:46.650 --> 08:49.830
+So entire flow we have tested.
+
+08:49.830 --> 08:52.320
+So in our next lecture,
+
+08:52.320 --> 08:55.470
+we'll focus on network load balancer.
+
+08:55.470 --> 08:58.260
+So far now we'll go ahead and then delete all these things.
+
+08:58.260 --> 08:59.093
+Okay?
+
+08:59.093 --> 09:01.710
+So I'll change this also to cube manifest.
+
+09:01.710 --> 09:03.150
+So not an issue.
+
+09:03.150 --> 09:06.660
+So let's go back here, and cube seat here,
+
+09:06.660 --> 09:10.440
+and delete high fund half, and then cube manifest
+
+09:10.440 --> 09:12.600
+And everything whatever we have created
+
+09:12.600 --> 09:14.700
+should get deleted now.
+
+09:14.700 --> 09:18.180
+So from Kubernetes you have created
+
+09:18.180 --> 09:21.060
+the classic load balancer in AWS
+
+09:21.060 --> 09:23.910
+and then you are also deleting the classic load balancer
+
+09:23.910 --> 09:25.050
+in AWS.
+
+09:25.050 --> 09:27.570
+So we really didn't touch any management console.
+
+09:27.570 --> 09:30.060
+We didn't create anything here, okay?
+
+09:30.060 --> 09:32.730
+So everything is automatic for a C.
+
+09:32.730 --> 09:34.290
+Now everything is gone.
+
+09:34.290 --> 09:35.370
+So once we delete it
+
+09:35.370 --> 09:38.640
+and our classic load balancer also got deleted.
+
+09:38.640 --> 09:42.330
+So this completes the classic load balancer demo
+
+09:42.330 --> 09:45.840
+and then we'll see the network load balancer demo shortly.
+
+09:45.840 --> 09:47.400
+So I'll see you in the next lecture.
+
+09:47.400 --> 09:48.570
+Until then, bye bye.
+
+09:48.570 --> 09:49.403
+Thank you.

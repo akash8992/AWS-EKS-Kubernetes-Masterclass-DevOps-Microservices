@@ -1,0 +1,766 @@
+WEBVTT
+
+00:00.000 --> 00:01.230
+-: Welcome back.
+
+00:01.230 --> 00:03.660
+In this section, we are going to understand
+
+00:03.660 --> 00:07.620
+about ALB Ingress controller on a very high level.
+
+00:07.620 --> 00:10.590
+So, before going to ALB Ingress controller,
+
+00:10.590 --> 00:15.300
+we are going to look into AWS application load balancer.
+
+00:15.300 --> 00:18.630
+So, let's see what is application load balancer
+
+00:18.630 --> 00:20.610
+and then what it supports,
+
+00:20.610 --> 00:24.930
+and how this application load balancer can be created
+
+00:24.930 --> 00:29.070
+from Kubernetes manifest using ALB Ingress manifest,
+
+00:29.070 --> 00:31.080
+using ALB Ingress controller.
+
+00:31.080 --> 00:32.940
+So, we are going to see all those things
+
+00:32.940 --> 00:35.490
+in our this respective section, okay?
+
+00:35.490 --> 00:39.180
+So, let's move on with what is application load balancer
+
+00:39.180 --> 00:41.010
+in AWS, right?
+
+00:41.010 --> 00:43.260
+So, ALB is a super advanced,
+
+00:43.260 --> 00:46.080
+next generation load balancer in AWS.
+
+00:46.080 --> 00:48.270
+So, it supports tons of features.
+
+00:48.270 --> 00:51.660
+Let's see what are those to get a high level idea
+
+00:51.660 --> 00:55.350
+on how much it is capable of, okay?
+
+00:55.350 --> 00:58.770
+So, it supports path-based routing, which is nothing
+
+00:58.770 --> 01:02.460
+but context path-based routing for our applications.
+
+01:02.460 --> 01:05.820
+So, single load balancer can be leveraged for,
+
+01:05.820 --> 01:08.280
+using for multiple applications hosted
+
+01:08.280 --> 01:11.730
+on AWS based on context paths, okay?
+
+01:11.730 --> 01:15.150
+In the same way it supports host-based routing.
+
+01:15.150 --> 01:19.410
+So, which means in addition to context path-based routing,
+
+01:19.410 --> 01:21.810
+we can deploy multiple applications
+
+01:21.810 --> 01:24.330
+and then using different host names
+
+01:24.330 --> 01:27.270
+we can route to those respective applications back
+
+01:27.270 --> 01:28.590
+of this load balancer.
+
+01:28.590 --> 01:33.590
+Example, apps.cubeoncloud.com will go to applications, okay?
+
+01:34.170 --> 01:36.660
+And users.cubeoncloud.com
+
+01:36.660 --> 01:39.480
+can go to user management rest services.
+
+01:39.480 --> 01:41.070
+So, something like that, okay?
+
+01:41.070 --> 01:45.540
+And next is support for routing based on fields inside
+
+01:45.540 --> 01:49.170
+the request like HTTP headers, HTTP methods,
+
+01:49.170 --> 01:52.410
+query parameters and source IP addresses.
+
+01:52.410 --> 01:54.690
+So, by seeing these three features itself
+
+01:54.690 --> 01:57.480
+we can understand that it's not only a load balancer,
+
+01:57.480 --> 02:02.480
+it is also a routing solution on the HTTP level, okay?
+
+02:02.850 --> 02:05.280
+And supports for redirecting request
+
+02:05.280 --> 02:07.860
+from one URL to another.
+
+02:07.860 --> 02:10.470
+So, more or less standard apache web server
+
+02:10.470 --> 02:14.220
+are nginx related features it has, okay?
+
+02:14.220 --> 02:18.270
+Supporting for a returning a custom HTTP response to
+
+02:18.270 --> 02:21.810
+and supporting for registering lambda functions as targets.
+
+02:21.810 --> 02:25.620
+So, anything deployed in AWS one service always integrates
+
+02:25.620 --> 02:27.060
+with multiple other services.
+
+02:27.060 --> 02:29.790
+In the same way, multiple lambda functions also,
+
+02:29.790 --> 02:30.690
+we can register them
+
+02:30.690 --> 02:34.080
+to this respective load balancer targets.
+
+02:34.080 --> 02:36.780
+In the same way, it supports for load balancers
+
+02:36.780 --> 02:39.390
+to authenticate users of our applications
+
+02:39.390 --> 02:42.060
+through their corporate or social identities
+
+02:42.060 --> 02:43.830
+before routing requests.
+
+02:43.830 --> 02:45.810
+So, this is a latest feature available
+
+02:45.810 --> 02:49.740
+and then it is for providing the out of box authentication
+
+02:49.740 --> 02:53.850
+for our applications hosted on this respective load balancer
+
+02:53.850 --> 02:57.060
+with our corporator social identities.
+
+02:57.060 --> 03:00.450
+So, it also supports containerized applications,
+
+03:00.450 --> 03:03.360
+mainly AWS ECS out of the box integrated
+
+03:03.360 --> 03:07.020
+with this respective application load balancer.
+
+03:07.020 --> 03:09.180
+It also supports monitoring the health
+
+03:09.180 --> 03:11.460
+of each service independently
+
+03:11.460 --> 03:14.310
+as health checks are defined at the target group level.
+
+03:14.310 --> 03:17.370
+Okay? So, that is also one important feature.
+
+03:17.370 --> 03:21.240
+It supports registering targets by IP addresses.
+
+03:21.240 --> 03:24.600
+So, due to this support, we are able
+
+03:24.600 --> 03:29.600
+to leverage this very effectively in fargate with EKS, okay?
+
+03:29.820 --> 03:32.640
+So, because of this respective feature, okay?
+
+03:32.640 --> 03:35.640
+And in inside VPC or outside VPC also
+
+03:35.640 --> 03:37.830
+it can do this stuff, okay?
+
+03:37.830 --> 03:42.830
+Using the IP address and all in all, ALB's latest
+
+03:43.170 --> 03:46.740
+and greatest load balancer with many good features.
+
+03:46.740 --> 03:49.620
+So, this is about what application load balancer
+
+03:49.620 --> 03:51.660
+is capable of and what it can do.
+
+03:51.660 --> 03:54.510
+So now, if this type of load balancers,
+
+03:54.510 --> 03:57.900
+if we can use it as a Ingress service
+
+03:57.900 --> 03:59.520
+for us from Kubernetes.
+
+03:59.520 --> 04:03.510
+So, we are going to have a leverage of all these features
+
+04:03.510 --> 04:07.320
+for our applications hosted on Kubernetes.
+
+04:07.320 --> 04:10.350
+So, that's the beauty of AWS here, okay?
+
+04:10.350 --> 04:13.890
+So, which means like, AWS application load balancer
+
+04:13.890 --> 04:16.320
+can be provisioned for our Kubernetes
+
+04:16.320 --> 04:19.200
+using Kubernetes Ingress manifest, okay?
+
+04:19.200 --> 04:20.250
+So, let's move on.
+
+04:20.250 --> 04:22.557
+So, let's see what is this ALB IC.
+
+04:22.557 --> 04:26.730
+ALB IC is nothing but ALB Ingress controller, right?
+
+04:26.730 --> 04:29.610
+So, ALB IC triggers the creation
+
+04:29.610 --> 04:31.920
+of an application load balancer
+
+04:31.920 --> 04:34.950
+and the necessary support AWS resources
+
+04:34.950 --> 04:36.450
+whenever an Ingress resource
+
+04:36.450 --> 04:40.140
+is created in the EKS cluster, okay?
+
+04:40.140 --> 04:43.763
+With annotation name Kubernetes.ioIngress.class
+
+04:43.763 --> 04:46.200
+is equal to ALB, okay?
+
+04:46.200 --> 04:50.310
+So, the ALB Ingress controller supports two traffic modes,
+
+04:50.310 --> 04:52.530
+instance mode and then IP mode.
+
+04:52.530 --> 04:56.100
+We also seen that application load balancer supports
+
+04:56.100 --> 04:58.320
+both the traffic modes, instance and IP.
+
+04:58.320 --> 04:59.940
+So, the same things are available
+
+04:59.940 --> 05:02.490
+in ALB Ingress Controller also.
+
+05:02.490 --> 05:04.890
+Okay, let's see what are those in detail.
+
+05:04.890 --> 05:07.080
+And so, this is one more documentation link
+
+05:07.080 --> 05:09.180
+for this ALB Ingress controller.
+
+05:09.180 --> 05:11.010
+So, you can review this link
+
+05:11.010 --> 05:13.350
+and then understand annotations inside that,
+
+05:13.350 --> 05:15.240
+and everything whenever you are going through it.
+
+05:15.240 --> 05:18.120
+And when you are going in the advanced sections,
+
+05:18.120 --> 05:21.630
+you'll understand more and then more about it, okay?
+
+05:21.630 --> 05:25.710
+So now, let's see the instance mode.
+
+05:25.710 --> 05:29.220
+So, in instance mode, Ingress controller registers nodes
+
+05:29.220 --> 05:31.443
+within your cluster as targets for the ALB.
+
+05:32.430 --> 05:34.920
+So, which is nothing but, nodes are nothing
+
+05:34.920 --> 05:38.610
+but our worker nodes in our EKS cluster will be registered
+
+05:38.610 --> 05:42.360
+to the targets inside the application load balancer.
+
+05:42.360 --> 05:45.480
+So, traffic reaching the ALB is routed to NodePort
+
+05:45.480 --> 05:48.900
+for your service and the proxy to the pods.
+
+05:48.900 --> 05:51.780
+So, which means like, whatever the NodePort services
+
+05:51.780 --> 05:55.200
+we are going to create in front of our applications,
+
+05:55.200 --> 05:58.230
+means like, in front of our application deployments.
+
+05:58.230 --> 06:01.590
+So, first ALB routes to those NodePort services
+
+06:01.590 --> 06:05.520
+and that NodePort service is routing to our pods, okay?
+
+06:05.520 --> 06:08.070
+So, this is the default traffic mode available
+
+06:08.070 --> 06:11.220
+in our ALB Ingress manifest, okay?
+
+06:11.220 --> 06:12.960
+And you really don't need to define
+
+06:12.960 --> 06:16.110
+or specify that implement instance mode.
+
+06:16.110 --> 06:18.210
+By default it is applicable for us
+
+06:18.210 --> 06:21.360
+but we can also explicitly specify it,
+
+06:21.360 --> 06:24.000
+like this with target type as instance annotation
+
+06:24.000 --> 06:26.700
+in our Ingress manifest if we want it
+
+06:26.700 --> 06:28.830
+and we have the IP mode.
+
+06:28.830 --> 06:33.603
+So, in IP mode, it register pods as targets for the ALB.
+
+06:33.603 --> 06:37.110
+Here if you see, it registered the EKS worker notes
+
+06:37.110 --> 06:40.440
+as targets for our ALB target types, okay?
+
+06:40.440 --> 06:45.360
+But here it registers the pods as targets for the ALB.
+
+06:45.360 --> 06:48.600
+So, traffic reaching the ALB is directly routed
+
+06:48.600 --> 06:51.030
+to our pods for our service.
+
+06:51.030 --> 06:53.610
+So, now here, if you want to use IP
+
+06:53.610 --> 06:56.460
+then you can use the target type as IP.
+
+06:56.460 --> 06:58.800
+So now, why these two instance modes
+
+06:58.800 --> 07:03.240
+and then how it is useful for us from AWS EKS perspective.
+
+07:03.240 --> 07:05.070
+That's the core thing here, right?
+
+07:05.070 --> 07:07.920
+So, when you are using worker nodes,
+
+07:07.920 --> 07:11.100
+means like, manager node groups in your EKS cluster,
+
+07:11.100 --> 07:13.860
+by default you can use instance mode.
+
+07:13.860 --> 07:15.660
+Or if you want to use IP mode,
+
+07:15.660 --> 07:19.230
+still you have an option of using the IP mode.
+
+07:19.230 --> 07:22.680
+But when you are using only fargate only profile,
+
+07:22.680 --> 07:23.940
+which means in your cluster
+
+07:23.940 --> 07:26.850
+you really don't have any other node groups,
+
+07:26.850 --> 07:29.010
+manager node groups like EC2 instances,
+
+07:29.010 --> 07:31.440
+you are just only using fargate profiles.
+
+07:31.440 --> 07:34.410
+At that point of time, you need to use
+
+07:34.410 --> 07:37.050
+and if you want to use application load balancer,
+
+07:37.050 --> 07:39.780
+then you need to use only IP mode.
+
+07:39.780 --> 07:40.613
+Why?
+
+07:40.613 --> 07:44.340
+Because fargate nodes doesn't support the NodePort service.
+
+07:44.340 --> 07:47.070
+Why? Because we really don't have control
+
+07:47.070 --> 07:50.280
+on fargate related notes whatever it has created
+
+07:50.280 --> 07:51.113
+in the background
+
+07:51.113 --> 07:53.310
+because that is a serverless concept, right?
+
+07:53.310 --> 07:56.550
+So, that's about the reason you need to use IP mode.
+
+07:56.550 --> 07:58.230
+So, whenever you are using fargate,
+
+07:58.230 --> 08:00.300
+for those things if you need Ingress manifest,
+
+08:00.300 --> 08:02.130
+you can use IP mode.
+
+08:02.130 --> 08:04.830
+And whenever you are using manager node groups,
+
+08:04.830 --> 08:08.520
+you can use either instance mode or IP mode.
+
+08:08.520 --> 08:11.310
+So, that's about these traffic modes.
+
+08:11.310 --> 08:12.480
+So, now moving on.
+
+08:12.480 --> 08:15.690
+So, let's see how ALB Ingress works.
+
+08:15.690 --> 08:19.980
+So this diagram, I directly took it from their website
+
+08:19.980 --> 08:21.390
+and we will see what it is,
+
+08:21.390 --> 08:23.847
+and then from step by step process how it looks like.
+
+08:23.847 --> 08:27.840
+And the link for this diagram is available here in detail.
+
+08:27.840 --> 08:32.460
+Okay? So now, you see this is a Kubernetes cluster, okay?
+
+08:32.460 --> 08:34.830
+And these are AWS resources.
+
+08:34.830 --> 08:38.250
+So, we already said that whenever we provision
+
+08:38.250 --> 08:41.190
+our Ingress manifest on the Kubernetes cluster
+
+08:41.190 --> 08:44.970
+it is going to create a AWS resources.
+
+08:44.970 --> 08:47.160
+So, what are those AWS resources
+
+08:47.160 --> 08:50.280
+is what we are going to see now, right?
+
+08:50.280 --> 08:54.030
+So, in the step one the controller watches for,
+
+08:54.030 --> 08:56.250
+which is nothing but the Kubernetes controller,
+
+08:56.250 --> 08:59.370
+watches for Ingress events from API server.
+
+08:59.370 --> 09:01.770
+And when it finds Ingress resources
+
+09:01.770 --> 09:03.480
+that satisfies the requirements,
+
+09:03.480 --> 09:07.440
+it begins the creation of these AWS resources.
+
+09:07.440 --> 09:09.270
+So, what are those AWS resources?
+
+09:09.270 --> 09:13.410
+You can see number two, which is application load balancer.
+
+09:13.410 --> 09:15.990
+So, application load balancer is created
+
+09:15.990 --> 09:19.290
+in AWS for the new Ingress resource provision
+
+09:19.290 --> 09:21.510
+in a Kubernetes cluster, okay?
+
+09:21.510 --> 09:22.680
+But one thing here is
+
+09:22.680 --> 09:26.333
+this application load balancer will have a version
+
+09:26.333 --> 09:28.770
+of ELB v2, okay?
+
+09:28.770 --> 09:32.432
+So, whenever you see we have two types of resources
+
+09:32.432 --> 09:34.650
+in elastic load balancers in AWS
+
+09:34.650 --> 09:36.750
+and this application load balancer,
+
+09:36.750 --> 09:41.100
+whatever it is getting created is ELB v2.
+
+09:41.100 --> 09:44.700
+So, that's one important note you need to remember, okay?
+
+09:44.700 --> 09:47.250
+Why? Because whenever you are giving IAM permissions
+
+09:47.250 --> 09:49.170
+and all those stuff, you need to ensure
+
+09:49.170 --> 09:52.320
+that ELB V2 also included in those stuff, okay?
+
+09:52.320 --> 09:55.410
+And the next thing is target groups, okay?
+
+09:55.410 --> 09:58.200
+So, now the point number three is target groups
+
+09:58.200 --> 10:02.970
+are created in AWS for each unique Kubernetes service
+
+10:02.970 --> 10:05.640
+described in Ingress resource, okay?
+
+10:05.640 --> 10:09.690
+So, whatever the application related NodePort services
+
+10:09.690 --> 10:11.580
+you have defined in your manifest,
+
+10:11.580 --> 10:14.490
+so, those related stuff has been created.
+
+10:14.490 --> 10:16.890
+And with that, including those NodePort services
+
+10:16.890 --> 10:18.930
+it is also going to create whatever the pods
+
+10:18.930 --> 10:20.910
+you have defined also, right?
+
+10:20.910 --> 10:22.680
+So now, another important thing
+
+10:22.680 --> 10:25.620
+in your Ingress manifest is listeners, right?
+
+10:25.620 --> 10:28.290
+So, whatever the listeners you specify
+
+10:28.290 --> 10:30.420
+for your application load balancer,
+
+10:30.420 --> 10:34.290
+those gets created here which is 8ER 443,
+
+10:34.290 --> 10:35.490
+whatever you define.
+
+10:35.490 --> 10:37.770
+So, those listeners also will get created
+
+10:37.770 --> 10:40.380
+in your application load balancer.
+
+10:40.380 --> 10:42.420
+So finally, rules, right?
+
+10:42.420 --> 10:45.300
+So, as we said that application load balancer
+
+10:45.300 --> 10:48.030
+supports context path-based routing,
+
+10:48.030 --> 10:50.610
+so which is nothing but slash star, slash products,
+
+10:50.610 --> 10:51.930
+slash accounts, okay?
+
+10:51.930 --> 10:54.150
+So, slash star should go to one target group,
+
+10:54.150 --> 10:56.220
+slash product should go to one target group
+
+10:56.220 --> 10:59.280
+and then slash account should go to one target group.
+
+10:59.280 --> 11:01.860
+So, all these things are supported.
+
+11:01.860 --> 11:04.560
+In our respect to application load balancer
+
+11:04.560 --> 11:08.820
+which we are provisioning as a Kubernetes manifest.
+
+11:08.820 --> 11:11.580
+Okay? So, now another thing here is like,
+
+11:11.580 --> 11:13.380
+if you want to delete, right?
+
+11:13.380 --> 11:15.690
+So, if you want to delete all these things,
+
+11:15.690 --> 11:19.260
+just delete our Kubernetes Ingress manifest here,
+
+11:19.260 --> 11:22.020
+means like, pro Ingress resource whatever
+
+11:22.020 --> 11:23.580
+we have provision deleted
+
+11:23.580 --> 11:26.490
+and then all these things will get deleted.
+
+11:26.490 --> 11:29.520
+So, that's about the Ingress on a very high level.
+
+11:29.520 --> 11:31.770
+But the core thing here is what we need
+
+11:31.770 --> 11:34.080
+to look into is, what we are going to build
+
+11:34.080 --> 11:38.430
+in next five to six sections related to Ingress.
+
+11:38.430 --> 11:42.030
+So, if you see here on the GitHub repo, right?
+
+11:42.030 --> 11:44.910
+So, from application load balancer perspective
+
+11:44.910 --> 11:48.090
+you are going to do close to six sections, step by step.
+
+11:48.090 --> 11:51.360
+Very big, big sections we are going to implement
+
+11:51.360 --> 11:52.650
+and everywhere you are going
+
+11:52.650 --> 11:55.020
+to have multiple manifests available
+
+11:55.020 --> 11:57.600
+for us to implement the stuff.
+
+11:57.600 --> 11:59.340
+So, what are we going to do?
+
+11:59.340 --> 12:02.160
+We are going to see in our next lecture.
+
+12:02.160 --> 12:04.020
+So, I'll see you in the next lecture.
+
+12:04.020 --> 12:05.280
+Until then, bye bye.
+
+12:05.280 --> 12:06.113
+Thank you.

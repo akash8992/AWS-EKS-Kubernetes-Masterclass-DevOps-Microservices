@@ -1,0 +1,517 @@
+WEBVTT
+
+00:00.120 --> 00:00.953
+-: Welcome back.
+
+00:00.953 --> 00:02.610
+So in this lecture we are going to create
+
+00:02.610 --> 00:04.680
+the Kubernetes objects and then test it.
+
+00:04.680 --> 00:07.980
+And then also, go ahead and then clean up the stuff.
+
+00:07.980 --> 00:11.520
+So as usual, now we are going to create the stuff, okay.
+
+00:11.520 --> 00:14.910
+So in 0502 you can see you have the 'Cube manifest' folder.
+
+00:14.910 --> 00:16.980
+And then inside that you have all the files
+
+00:16.980 --> 00:19.842
+with 00 namespace, 'Limit range' added now, okay.
+
+00:19.842 --> 00:20.675
+(mouse clicks)
+
+00:20.675 --> 00:23.043
+So let's come back and be in 0502.
+
+00:24.390 --> 00:26.250
+050502.
+
+00:26.250 --> 00:27.669
+And I will say
+
+00:27.669 --> 00:29.718
+(typing)
+
+00:29.718 --> 00:33.360
+'Q-CTL', 'Apply Hyphen F' 'Q manifest', Okay.
+
+00:33.360 --> 00:34.740
+So now you really don't need to
+
+00:34.740 --> 00:37.500
+view 'Hyphen N', 'DEV-3' of something.
+
+00:37.500 --> 00:39.480
+Why? Because 'Hyphen N', 'DEV-3' is not needed
+
+00:39.480 --> 00:43.350
+because we have coded our namespace information
+
+00:43.350 --> 00:44.940
+in all the templates.
+
+00:44.940 --> 00:47.097
+Okay, so I'll say 'Apply'.
+
+00:48.390 --> 00:50.220
+So it should create the namespace
+
+00:50.220 --> 00:52.680
+and then it should create the limit range and then it
+
+00:52.680 --> 00:55.590
+it created the 'Storage class', 'Persistent volume claim',
+
+00:55.590 --> 00:58.660
+'Config map', 'Deployment services' and
+
+00:58.660 --> 01:00.750
+'User Management Microservice deployment'
+
+01:00.750 --> 01:02.580
+and then it's equal in service
+
+01:02.580 --> 01:05.370
+and also the secrets required for those things.
+
+01:05.370 --> 01:09.840
+Okay, so now let's go ahead and then verify the stuff.
+
+01:09.840 --> 01:14.840
+Okay, so 'Cube CTL', 'Get ports', 'Hyphen N', DEV-3'
+
+01:14.880 --> 01:16.620
+which is nothing but in 'DEV-3'
+
+01:16.620 --> 01:18.120
+and then keep watching it, okay?
+
+01:18.120 --> 01:20.010
+Till those things are completed.
+
+01:20.010 --> 01:23.190
+So now my scale is up and running, right?
+
+01:23.190 --> 01:25.770
+So which means my scale port is done.
+
+01:25.770 --> 01:28.320
+And then finally initialization means
+
+01:28.320 --> 01:31.350
+like that it verifies for the MYA scale is a partner
+
+01:31.350 --> 01:33.960
+that container has run and then completed.
+
+01:33.960 --> 01:37.980
+And then 'User Management Microservice' also got created.
+
+01:37.980 --> 01:40.440
+Okay, so finally my scale is run ready
+
+01:40.440 --> 01:42.270
+and then 'User Management' is also running
+
+01:42.270 --> 01:44.160
+and then it is waiting for its liveness,
+
+01:44.160 --> 01:46.500
+And then readiness probe checks are going to happen
+
+01:46.500 --> 01:49.020
+for 60 seconds. It is going to wait, right?
+
+01:49.020 --> 01:51.750
+So there it is waiting currently.
+
+01:51.750 --> 01:53.670
+We can see here after 90 seconds
+
+01:53.670 --> 01:57.090
+when the 'User Management Microservices' open, running here.
+
+01:57.090 --> 02:01.930
+Okay, so now let me say 'Control-C', 'Clear',
+
+02:01.930 --> 02:04.060
+'Q-CTL', 'Get port's
+
+02:04.060 --> 02:06.690
+'Hyphen N', 'DEV-3' directly.
+
+02:06.690 --> 02:08.550
+And all should be running now, okay.
+
+02:08.550 --> 02:10.950
+My scale is running and then User Management is running,
+
+02:10.950 --> 02:13.800
+no restarts, everything worked as expected.
+
+02:13.800 --> 02:16.891
+So now we need to go ahead and then view the
+
+02:16.891 --> 02:18.960
+YAML output of these things, okay.
+
+02:18.960 --> 02:21.313
+So for that you are going to say 'Cube CTL',
+
+02:21.313 --> 02:25.590
+'Get port' and the pod name and then 'Hyphen 0' YAML
+
+02:25.590 --> 02:28.140
+and then 'Hyphen N', 'DEV-3' namespace.
+
+02:28.140 --> 02:30.210
+Okay, so let's go ahead and do that
+
+02:30.210 --> 02:31.043
+'Q-CTL',
+
+02:31.043 --> 02:31.876
+(typing)
+
+02:31.876 --> 02:33.273
+'Get port's', okay?
+
+02:34.140 --> 02:37.080
+And then 'Get port', okay.
+
+02:37.080 --> 02:38.850
+And provide that port name
+
+02:38.850 --> 02:42.630
+which is nothing but My SQL, right?
+
+02:42.630 --> 02:45.720
+And 'Hyphen 0', 'YAML'.
+
+02:45.720 --> 02:48.750
+And where this part is located is L3.
+
+02:48.750 --> 02:51.330
+So now you'll get that YAML output of it.
+
+02:51.330 --> 02:54.183
+So now we are getting the, we got My SQL.
+
+02:54.183 --> 02:58.200
+YAML output, okay, so let's go up, go up, go up.
+
+02:58.200 --> 03:00.690
+So now you can see for the MYA scale also
+
+03:00.690 --> 03:03.570
+you have the resources defined by default
+
+03:03.570 --> 03:05.700
+for this MYA scale container.
+
+03:05.700 --> 03:08.760
+So in each spec you can see this is the MYA scale container
+
+03:08.760 --> 03:13.760
+right? So, so all this in namespace 'DEV-3'
+
+03:13.800 --> 03:15.390
+you can see resource information
+
+03:15.390 --> 03:18.570
+for that is also added in the container spec definition.
+
+03:18.570 --> 03:21.300
+Okay, so in the container, this is the spec
+
+03:21.300 --> 03:23.340
+and then containers you have the environment,
+
+03:23.340 --> 03:25.350
+you have the image, image pool policy,
+
+03:25.350 --> 03:27.600
+name of your container, 'My SQL'
+
+03:27.600 --> 03:30.240
+and the ports you have and resources section
+
+03:30.240 --> 03:34.410
+automatically added whenever you added the limit range.
+
+03:34.410 --> 03:36.750
+So which means you have two containers inside that.
+
+03:36.750 --> 03:38.190
+You have verified for My SQL.
+
+03:38.190 --> 03:40.710
+You can also verify the same thing for other things.
+
+03:40.710 --> 03:44.790
+Okay? So, 'Group CTL', 'Get port's' 'Minus N', 'DEV-3"
+
+03:44.790 --> 03:47.947
+and 'Cube CTL', 'Get pod'.
+
+03:47.947 --> 03:51.513
+And then the board name is this one.
+
+03:51.513 --> 03:52.346
+(mouse clicking)
+
+03:52.346 --> 03:54.990
+And I'm going to say 'Hyphen O'
+
+03:54.990 --> 03:56.820
+and then I need that YAML output.
+
+03:56.820 --> 04:01.290
+And it is present namespace 'DEV-3', right?
+
+04:01.290 --> 04:05.043
+So now again go up, go up, go up, up, up, up, up.
+
+04:06.060 --> 04:08.250
+See, now if you see here.
+
+04:08.250 --> 04:11.880
+So this is the image, okay, so where is it?
+
+04:11.880 --> 04:14.430
+Okay, so you can see the resources section
+
+04:14.430 --> 04:18.450
+for initiation DB also it has added these things.
+
+04:18.450 --> 04:20.580
+Okay, so now let's come down
+
+04:20.580 --> 04:24.870
+and also verify for our other container too, Okay.
+
+04:24.870 --> 04:27.270
+So it has terminated
+
+04:27.270 --> 04:30.870
+and whereabout what 'User Management' container.
+
+04:30.870 --> 04:33.390
+Okay, so it is the 'User Management' container.
+
+04:33.390 --> 04:35.970
+See we said it is per container.
+
+04:35.970 --> 04:38.730
+So in this we are going to run two containers, right?
+
+04:38.730 --> 04:41.340
+So one use initialization container which will wait
+
+04:41.340 --> 04:44.040
+for our respective DB2 up.
+
+04:44.040 --> 04:46.410
+And for that it associated the resources
+
+04:46.410 --> 04:48.840
+which is nothing but the in DB container.
+
+04:48.840 --> 04:51.300
+And also for the 'User Management' container.
+
+04:51.300 --> 04:53.580
+This is the 'User Management' container.
+
+04:53.580 --> 04:55.890
+And you can see 'Health status' and all this stuff.
+
+04:55.890 --> 04:57.660
+See this is the name of the User Management
+
+04:57.660 --> 04:59.100
+'Rest stop' container.
+
+04:59.100 --> 05:02.640
+And further down also you can see resources are associated.
+
+05:02.640 --> 05:07.640
+So this tells that whenever we associate the limit range
+
+05:07.770 --> 05:11.010
+for the namespace, all the containers present
+
+05:11.010 --> 05:14.700
+inside that namespace are going to get that default limits
+
+05:14.700 --> 05:17.340
+whatever we have defined here.
+
+05:17.340 --> 05:20.460
+So these are the limits we have defined and all those things
+
+05:20.460 --> 05:23.850
+are going to get for our all the containers present
+
+05:23.850 --> 05:25.710
+inside that namespace.
+
+05:25.710 --> 05:27.870
+So let's also see little bit about this.
+
+05:27.870 --> 05:30.990
+Limits means like 'get' and then describe the limits.
+
+05:30.990 --> 05:33.030
+Okay, so let me clear this.
+
+05:33.030 --> 05:37.380
+'Q-CTL', 'Get limits', 'Hyphen N', 'DEV-3'.
+
+05:37.380 --> 05:39.660
+So we have the limit, this is the limit name.
+
+05:39.660 --> 05:44.190
+So let's describe this limit, 'Q-CTL', describe limit
+
+05:44.190 --> 05:46.290
+and the limit name.
+
+05:46.290 --> 05:48.000
+Okay, so this is the limit name.
+
+05:48.000 --> 05:51.420
+Let me past it here and 'Hyphen N', 'DEV-3'.
+
+05:51.420 --> 05:53.253
+So let's see what it is, okay.
+
+05:54.480 --> 05:58.740
+What happened? "Doesn't have a resource type limit."
+
+05:58.740 --> 06:01.350
+So it should be 'limits', right?
+
+06:01.350 --> 06:05.880
+So slight mistake I have done here, it should be 'Limits'.
+
+06:05.880 --> 06:06.713
+Okay.
+
+06:07.980 --> 06:11.220
+So now you can see here the container CPU
+
+06:11.220 --> 06:12.870
+and then container memory, right?
+
+06:12.870 --> 06:16.133
+So default is 300 M and then 256 M.
+
+06:17.220 --> 06:19.470
+And default limit also whatever is there
+
+06:19.470 --> 06:21.630
+for this limit it is trying to show here.
+
+06:21.630 --> 06:24.000
+So whatever we have defined, the spec we are seeing
+
+06:24.000 --> 06:27.450
+in a visual manner, whatever we have defined it.
+
+06:27.450 --> 06:30.450
+So in addition to that, now if you want to test it.
+
+06:30.450 --> 06:34.213
+So we can access 'Cube CTL',
+
+06:34.213 --> 06:35.580
+okay, 'Get SVC'
+
+06:35.580 --> 06:39.390
+which is nothing but services in my iPhone and 'DEV-3'
+
+06:39.390 --> 06:41.550
+which is nothing but in 'DEV-3' namespace.
+
+06:41.550 --> 06:45.000
+So three, triple zero, two is my port, okay?
+
+06:45.000 --> 06:48.630
+So I need to go here and then update the portals.
+
+06:48.630 --> 06:53.512
+Three, triple zero, two and slash, okay.
+
+06:53.512 --> 06:54.412
+(typing)
+
+06:54.412 --> 06:57.390
+And then if I say 'Enter', ideally, it should come up.
+
+06:57.390 --> 06:58.620
+Okay, so it's coming up okay,
+
+06:58.620 --> 07:01.350
+with three triple zero two, it is coming.
+
+07:01.350 --> 07:03.570
+If you want we can even take the new tab
+
+07:03.570 --> 07:06.690
+and then paste it and then we'll get the response.
+
+07:06.690 --> 07:09.180
+Okay, so refreshed it and then we are getting it.
+
+07:09.180 --> 07:13.110
+Okay, so now we have even tested it, right?
+
+07:13.110 --> 07:14.730
+So now for cleanup, as usual
+
+07:14.730 --> 07:16.410
+if you want to delete your namespace
+
+07:16.410 --> 07:19.140
+you can delete it and then, delete storage class R.
+
+07:19.140 --> 07:21.240
+If you want you can delete via manifest.
+
+07:21.240 --> 07:25.230
+Okay, I'll say 'Q-CTL', 'Delete', 'Hyphen FQ' manifest
+
+07:25.230 --> 07:27.390
+with single command it will be done.
+
+07:27.390 --> 07:29.550
+So my namespace is deleted limit range.
+
+07:29.550 --> 07:31.890
+All the objects, whatever is present here
+
+07:31.890 --> 07:34.110
+are going to get deleted.
+
+07:34.110 --> 07:36.180
+So in our next lecture we'll focus
+
+07:36.180 --> 07:38.520
+on the resource quota concept.
+
+07:38.520 --> 07:40.590
+So I'll see you in the next lecture.
+
+07:40.590 --> 07:41.850
+Until then, bye bye.
+
+07:41.850 --> 07:42.683
+Thank you.

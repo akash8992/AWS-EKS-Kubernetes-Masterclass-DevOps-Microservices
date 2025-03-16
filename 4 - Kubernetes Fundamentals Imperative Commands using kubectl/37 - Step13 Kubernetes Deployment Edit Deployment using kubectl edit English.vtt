@@ -1,0 +1,316 @@
+WEBVTT
+
+00:00.000 --> 00:01.260
+Speaker: Welcome back.
+
+00:01.260 --> 00:03.990
+In this step, we are going to update our application
+
+00:03.990 --> 00:07.140
+from V2 to V3, using the kubectl
+
+00:07.140 --> 00:08.790
+edit deployment option.
+
+00:08.790 --> 00:10.830
+So this is very important option.
+
+00:10.830 --> 00:12.420
+And then this is the option
+
+00:12.420 --> 00:13.710
+we are going to use
+
+00:13.710 --> 00:14.760
+in real time.
+
+00:14.760 --> 00:16.170
+Most of the time, whenever,
+
+00:16.170 --> 00:17.070
+running deployments
+
+00:17.070 --> 00:17.903
+we have.
+
+00:17.903 --> 00:19.380
+So Kubectl, edit,
+
+00:19.380 --> 00:21.960
+deployment, deployment, name
+
+00:21.960 --> 00:23.340
+and then we'll go inside
+
+00:23.340 --> 00:24.690
+that deployment spec
+
+00:24.690 --> 00:26.220
+and then update it.
+
+00:26.220 --> 00:27.240
+So that's the reason.
+
+00:27.240 --> 00:28.740
+So just look into it.
+
+00:28.740 --> 00:29.700
+You see it here.
+
+00:29.700 --> 00:31.539
+kubectl, edit, deployment,
+
+00:31.539 --> 00:32.640
+and then space.
+
+00:32.640 --> 00:33.573
+My first deployment means
+
+00:33.573 --> 00:34.830
+like deployment name
+
+00:34.830 --> 00:36.180
+or slash whatever it is.
+
+00:36.180 --> 00:38.125
+Okay, so and then you are going to go
+
+00:38.125 --> 00:41.760
+to container spec dot container start image
+
+00:41.760 --> 00:43.740
+and change your image version
+
+00:43.740 --> 00:48.210
+from 2 dot 0. 0. 2. 3. 0. 0.
+
+00:48.210 --> 00:50.520
+So let's go ahead and then do that now.
+
+00:50.520 --> 00:51.353
+So whenever you are doing it,
+
+00:51.353 --> 00:52.186
+you can even say that you
+
+00:52.186 --> 00:54.328
+if you want to save the version history
+
+00:54.328 --> 00:56.430
+you can say that hyphen iPhone
+
+00:56.430 --> 00:58.740
+record is equal to true.
+
+00:58.740 --> 01:00.480
+So let's go here.
+
+01:00.480 --> 01:02.730
+And so I can even say
+
+01:02.730 --> 01:05.695
+kubectl edit deployment,
+
+01:05.695 --> 01:09.300
+my first deployment and it is
+
+01:09.300 --> 01:12.570
+nothing but hyphen iphone.
+
+01:12.570 --> 01:15.153
+Record is equal to true.
+
+01:17.880 --> 01:18.713
+Right?
+
+01:18.713 --> 01:20.490
+And I'm going to go at the end
+
+01:20.490 --> 01:23.400
+which is nothing but escape shift G.
+
+01:23.400 --> 01:25.350
+And I'll go up and
+
+01:25.350 --> 01:28.980
+if you see this is the spec dot container start image.
+
+01:28.980 --> 01:32.640
+So I am going to change from 2 to 3 here.
+
+01:32.640 --> 01:36.180
+Three zero two zero and I'm going to save it.
+
+01:36.180 --> 01:39.450
+Escape : W, Q, right?
+
+01:39.450 --> 01:43.110
+So now deployment got edited,
+
+01:43.110 --> 01:43.943
+right?
+
+01:43.943 --> 01:44.776
+So if you want
+
+01:44.776 --> 01:45.609
+you can see that rollout
+
+01:45.609 --> 01:46.500
+history one more time.
+
+01:46.500 --> 01:48.630
+Okay, so maybe I am delayed.
+
+01:48.630 --> 01:51.180
+So it might have already got completed.
+
+01:51.180 --> 01:52.847
+Okay, so it already rolled out.
+
+01:52.847 --> 01:54.840
+So if you see the ports again,
+
+01:54.840 --> 01:57.540
+all the ports will be terminated and then recreated.
+
+01:57.540 --> 02:00.093
+See all these are 15 seconds only.
+
+02:00.990 --> 02:02.790
+Started just 15 seconds
+
+02:02.790 --> 02:04.770
+before our 20 seconds before.
+
+02:04.770 --> 02:06.000
+So that's a good thing.
+
+02:06.000 --> 02:08.430
+So now if you see one more observation here,
+
+02:08.430 --> 02:10.410
+is so one more time you have edited
+
+02:10.410 --> 02:12.420
+one more Replica set means
+
+02:12.420 --> 02:13.920
+like this is one more deployment.
+
+02:13.920 --> 02:15.810
+So you are one more replica
+
+02:15.810 --> 02:16.920
+set you'll be able to see
+
+02:16.920 --> 02:18.420
+for your third version.
+
+02:18.420 --> 02:20.670
+So let's go ahead and then see that
+
+02:20.670 --> 02:21.503
+now.
+
+02:21.503 --> 02:23.550
+QCT get RS,
+
+02:23.550 --> 02:24.383
+right?
+
+02:24.383 --> 02:26.460
+And CT get ports.
+
+02:26.460 --> 02:29.430
+So you can verify the hashtag here, right?
+
+02:29.430 --> 02:30.320
+So, which is nothing,
+
+02:30.320 --> 02:31.903
+but this is the one current live one
+
+02:31.903 --> 02:34.950
+which is nothing but three two 0 0 version
+
+02:34.950 --> 02:36.150
+and 7 7 4 B.
+
+02:36.150 --> 02:39.300
+And for our ports also you can see 7 7 4 B
+
+02:39.300 --> 02:41.190
+as the hash label, right?
+
+02:41.190 --> 02:42.450
+So that's about it.
+
+02:42.450 --> 02:44.400
+So now the next thing is rollout history.
+
+02:44.400 --> 02:47.490
+So let's see that rollout history of our thing
+
+02:47.490 --> 02:50.340
+and it should be version three,
+
+02:50.340 --> 02:51.173
+right?
+
+02:52.020 --> 02:54.180
+So this is the one we have done in version three
+
+02:54.180 --> 02:56.760
+and then that is what we are seeing it now.
+
+02:56.760 --> 02:58.650
+So finally, whenever we access the
+
+02:58.650 --> 02:59.730
+application,
+
+02:59.730 --> 03:00.563
+right,
+
+03:00.563 --> 03:01.860
+So we should see version three.
+
+03:01.860 --> 03:04.680
+Currently it is V2 here and
+
+03:04.680 --> 03:06.270
+if you want I can make it bigger.
+
+03:06.270 --> 03:10.200
+Yeah. And if I refresh it should be V3, see, Right?
+
+03:10.200 --> 03:13.290
+So now the application version is V3.
+
+03:13.290 --> 03:15.720
+So this complete server,
+
+03:15.720 --> 03:16.553
+two options
+
+03:16.553 --> 03:19.470
+whatever we have available using the imperative way to
+
+03:19.470 --> 03:22.680
+update our deployments, we have completed.
+
+03:22.680 --> 03:24.831
+So in our next lecture we are going to focus
+
+03:24.831 --> 03:28.410
+on roll back deployments.
+
+03:28.410 --> 03:30.210
+So I'll see you in the next lecture.
+
+03:30.210 --> 03:31.590
+Until then, bye bye.
+
+03:31.590 --> 03:32.423
+Thank you.

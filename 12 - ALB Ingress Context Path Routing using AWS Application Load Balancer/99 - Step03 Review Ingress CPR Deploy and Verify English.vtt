@@ -1,0 +1,901 @@
+WEBVTT
+
+00:00.450 --> 00:01.440
+-: Welcome back.
+
+00:01.440 --> 00:03.000
+So let's go to the file
+
+00:03.000 --> 00:07.530
+04 ALB ingress context path based routing dot YAML,
+
+00:07.530 --> 00:11.250
+and let's define the ingress service here.
+
+00:11.250 --> 00:14.070
+So let's go back to our Visual Studio Code here.
+
+00:14.070 --> 00:17.340
+And we are in zero four ALB ingress context path
+
+00:17.340 --> 00:18.420
+based routing.
+
+00:18.420 --> 00:21.360
+So this template we have took from the
+
+00:21.360 --> 00:24.390
+0802 ALB ingress basics.
+
+00:24.390 --> 00:26.670
+So where we have written return 02 ALB
+
+00:26.670 --> 00:30.030
+ingress basic with rules, we have copied that
+
+00:30.030 --> 00:32.940
+and we have changed the way we need it.
+
+00:32.940 --> 00:36.630
+So the first thing, what we need to change here is,
+
+00:36.630 --> 00:40.080
+let's go back here to context path based routing
+
+00:40.080 --> 00:43.860
+and the name of my service, ingress CPR demo,
+
+00:43.860 --> 00:46.680
+context path based routing demo.
+
+00:46.680 --> 00:48.900
+And also the load balancer name we are going to
+
+00:48.900 --> 00:52.350
+give here is CPR ingress.
+
+00:52.350 --> 00:54.330
+And now let's come down here
+
+00:54.330 --> 00:58.260
+and change these rules as per our needs, right?
+
+00:58.260 --> 01:01.110
+So the first things first is let me,
+
+01:01.110 --> 01:04.140
+we are going to implement three apps,
+
+01:04.140 --> 01:06.450
+app one app two and then, app three.
+
+01:06.450 --> 01:09.930
+So we'll put this as three times the paths,
+
+01:09.930 --> 01:13.530
+and the first path is app one.
+
+01:13.530 --> 01:14.820
+So for app one,
+
+01:14.820 --> 01:18.360
+it need to go to app one Nginx nodeport service.
+
+01:18.360 --> 01:21.750
+So if you want to verify the name of our nodeport service,
+
+01:21.750 --> 01:24.420
+go to zero one Nginx app one deployment
+
+01:24.420 --> 01:28.350
+and this should be app one Nginx nodeport service.
+
+01:28.350 --> 01:30.090
+So let me close this,
+
+01:30.090 --> 01:33.960
+come back here and put the same thing here, right?
+
+01:33.960 --> 01:37.410
+And now the second one is app two
+
+01:37.410 --> 01:40.110
+and for app two, the service name is going to be
+
+01:40.110 --> 01:42.240
+app two Nginx nodeport service.
+
+01:42.240 --> 01:44.280
+So go to zero two
+
+01:44.280 --> 01:48.933
+and get the name from here and come back here and put that.
+
+01:49.920 --> 01:51.840
+And for the root context, right,
+
+01:51.840 --> 01:54.330
+it is going to be app three.
+
+01:54.330 --> 01:57.570
+So let's go to zero three Nginx app three
+
+01:57.570 --> 02:00.570
+and get the name of the nodeport service app three
+
+02:00.570 --> 02:03.360
+Nginx nodeport service, right?
+
+02:03.360 --> 02:05.130
+So let me put this here.
+
+02:05.130 --> 02:07.350
+So now you can see that for,
+
+02:07.350 --> 02:10.590
+whenever the request comes with slash app one,
+
+02:10.590 --> 02:13.380
+it goes to app one Nginx nodeport service.
+
+02:13.380 --> 02:17.220
+From there, it'll go to app one related pods
+
+02:17.220 --> 02:19.800
+and when request comes with slash app two
+
+02:19.800 --> 02:22.920
+in the context path URL slash app two,
+
+02:22.920 --> 02:26.070
+so then it goes to app two Nginx nodeport service
+
+02:26.070 --> 02:28.920
+and from there it'll go to that respective pod,
+
+02:28.920 --> 02:32.340
+and same applies for app three Nginx nodeport service,
+
+02:32.340 --> 02:35.130
+anything other than app one or app two context,
+
+02:35.130 --> 02:36.900
+anything comes, so it goes to
+
+02:36.900 --> 02:39.630
+app three Nginx nodeport service.
+
+02:39.630 --> 02:43.800
+So let's come back here and move on to the next step.
+
+02:43.800 --> 02:47.520
+Next step is to deploy all the manifest and test it.
+
+02:47.520 --> 02:50.790
+So let's go back to our terminal here,
+
+02:50.790 --> 02:53.850
+go into zero eight, new, right,
+
+02:53.850 --> 02:58.320
+which is zero eight new ELB application load balancers.
+
+02:58.320 --> 03:01.323
+And inside that, we are going inside 0803,
+
+03:02.190 --> 03:06.120
+which is ALB ingress context path based routing.
+
+03:06.120 --> 03:07.200
+And if you see here,
+
+03:07.200 --> 03:10.050
+we should have the kube manifest folder.
+
+03:10.050 --> 03:12.120
+And if you go inside and verify that,
+
+03:12.120 --> 03:16.060
+you should find 01, 02, 03 and then 04,
+
+03:16.060 --> 03:20.370
+04 is ALB ingress context path based routing YAML.
+
+03:20.370 --> 03:24.947
+So let's come out of this and then be inside 0803, right?
+
+03:26.190 --> 03:28.620
+And say kubectl
+
+03:28.620 --> 03:29.453
+apply
+
+03:30.300 --> 03:32.940
+hyphen F and then kube manifest.
+
+03:32.940 --> 03:35.310
+So this should deploy three applications
+
+03:35.310 --> 03:38.250
+related deployments, nodeport services
+
+03:38.250 --> 03:41.340
+and also create a ingress service for us.
+
+03:41.340 --> 03:44.070
+So you can see app one Nginx deployment
+
+03:44.070 --> 03:47.100
+and app one Nginx nodeport service is completed
+
+03:47.100 --> 03:49.320
+and app two Nginx deployment
+
+03:49.320 --> 03:51.200
+and nodeport service is created,
+
+03:51.200 --> 03:53.880
+in same line, app three Nginx deployment
+
+03:53.880 --> 03:56.670
+and app three Nginx nodeport service.
+
+03:56.670 --> 04:00.210
+And finally it also created the ingress CPR
+
+04:00.210 --> 04:02.550
+demo related ingress service.
+
+04:02.550 --> 04:06.840
+So now let's come back here and verify the application pods
+
+04:06.840 --> 04:09.120
+and then nodeport services.
+
+04:09.120 --> 04:13.830
+So kubectl get ports should provide us the app one, app two
+
+04:13.830 --> 04:18.240
+and then app three related Nginx pods created here
+
+04:18.240 --> 04:22.290
+and one by one they are ready and then running, no issues.
+
+04:22.290 --> 04:26.100
+And we'll also verify the kubectl get SVC,
+
+04:26.100 --> 04:28.350
+so which is services and it should display
+
+04:28.350 --> 04:31.680
+as the nodeport services, app one, app two and then
+
+04:31.680 --> 04:32.910
+app three.
+
+04:32.910 --> 04:35.280
+And now let's come back here
+
+04:35.280 --> 04:38.970
+and verify the ingress load balancer related service.
+
+04:38.970 --> 04:42.210
+So we'll say, "Kubectl get ingress",
+
+04:42.210 --> 04:45.529
+and this should display the CPR ingress
+
+04:45.529 --> 04:48.270
+CPR demo related ingress service
+
+04:48.270 --> 04:52.140
+and it is using the ingress class, my AWS ingress class.
+
+04:52.140 --> 04:54.120
+And this is the address it has created,
+
+04:54.120 --> 04:57.780
+the load balancer DNS name with port 80.
+
+04:57.780 --> 05:01.170
+So let's go back here and if you want we can also
+
+05:01.170 --> 05:05.640
+review the rules inside this respective ingress service.
+
+05:05.640 --> 05:09.180
+So we need to say kubectl, right,
+
+05:09.180 --> 05:10.013
+describe
+
+05:11.310 --> 05:12.270
+ingress,
+
+05:12.270 --> 05:16.290
+and this is the ingress service name, ingress CPR demo.
+
+05:16.290 --> 05:19.500
+And let's see the rules, whatever we have implemented
+
+05:19.500 --> 05:22.530
+in our ingress service manifest were created
+
+05:22.530 --> 05:23.790
+as expected or not.
+
+05:23.790 --> 05:27.240
+So you can see here slash app one goes to
+
+05:27.240 --> 05:30.810
+app one Nginx nodeport service on port 80,
+
+05:30.810 --> 05:33.420
+and slash app two context path goes to
+
+05:33.420 --> 05:35.580
+app two Nginx nodeport service,
+
+05:35.580 --> 05:38.880
+and slash goes to app three Nginx nodeport service.
+
+05:38.880 --> 05:41.610
+And we didn't define any default backend,
+
+05:41.610 --> 05:43.560
+so it's nothing here, right?
+
+05:43.560 --> 05:45.000
+So now let's come back here
+
+05:45.000 --> 05:46.830
+and you can see successfully reconciled
+
+05:46.830 --> 05:49.200
+and there are no error events also here.
+
+05:49.200 --> 05:51.120
+And these are the annotations
+
+05:51.120 --> 05:54.420
+whatever we have specified, those were displayed here.
+
+05:54.420 --> 05:56.820
+So now let's come back here
+
+05:56.820 --> 06:01.770
+and verify the load balancer controller logs, right?
+
+06:01.770 --> 06:03.480
+So you can go here,
+
+06:03.480 --> 06:06.450
+kubectl hyphen n kube system get pods
+
+06:06.450 --> 06:08.790
+will provide us the load balancer controller.
+
+06:08.790 --> 06:11.130
+And if we want to review the logs also,
+
+06:11.130 --> 06:12.750
+we can review these things.
+
+06:12.750 --> 06:16.740
+Kubectl hyphen n kube system, right?
+
+06:16.740 --> 06:18.040
+And you can say logs
+
+06:19.080 --> 06:20.040
+hyphen F.
+
+06:20.040 --> 06:22.350
+And for both the pods, you can verify the logs
+
+06:22.350 --> 06:24.210
+if there are any errors in those things
+
+06:24.210 --> 06:27.870
+because of the ingress service, whatever you have deployed.
+
+06:27.870 --> 06:29.790
+So we really don't need to do this,
+
+06:29.790 --> 06:32.520
+but it's forever additional learning.
+
+06:32.520 --> 06:34.770
+You can see here, registering the targets and so,
+
+06:34.770 --> 06:37.350
+and so, you can see all the logs in detail
+
+06:37.350 --> 06:40.860
+and understand little bit more, ideally not needed.
+
+06:40.860 --> 06:43.950
+So I'll remove this and I'll say, "Clear"
+
+06:43.950 --> 06:47.460
+and we'll go to verifying our application load balancer
+
+06:47.460 --> 06:50.190
+on AWS management console.
+
+06:50.190 --> 06:54.300
+So let's come back here and in EC2, let's go to
+
+06:54.300 --> 06:56.100
+load balancers,
+
+06:56.100 --> 06:58.710
+and load balancer CPR ingress,
+
+06:58.710 --> 07:02.040
+CPR ingress related load balancer is created
+
+07:02.040 --> 07:05.310
+and in basic configuration, so you can find the DNS name.
+
+07:05.310 --> 07:08.700
+So this DNS name should match whatever we got here,
+
+07:08.700 --> 07:12.960
+which is kubectl get ingress, right,
+
+07:12.960 --> 07:16.375
+ingress and 1104311640,
+
+07:16.375 --> 07:19.440
+1104311640.
+
+07:19.440 --> 07:20.340
+So this is good.
+
+07:20.340 --> 07:22.290
+And state of the ingress service or the
+
+07:23.280 --> 07:25.080
+application load balancer is active
+
+07:25.080 --> 07:27.780
+which means we can access in the browser and test it.
+
+07:27.780 --> 07:30.630
+So we'll go to that a little bit later.
+
+07:30.630 --> 07:32.970
+First we'll go to the listeners and we can see
+
+07:32.970 --> 07:35.220
+the port 80 listener is there,
+
+07:35.220 --> 07:36.360
+and under this listener,
+
+07:36.360 --> 07:39.750
+we will see the what all rules it has been defined.
+
+07:39.750 --> 07:42.570
+So you'll go here and you'll find something
+
+07:42.570 --> 07:46.860
+like slash app one and whose priority is top most,
+
+07:46.860 --> 07:49.470
+the way how you define the priority is,
+
+07:49.470 --> 07:52.020
+slash app one will be the first priority.
+
+07:52.020 --> 07:55.980
+And, you can see it is going to some, forwarding
+
+07:55.980 --> 07:59.160
+to some app one Nginx related target group
+
+07:59.160 --> 08:01.890
+and slash app two or slash app two slash star
+
+08:01.890 --> 08:04.890
+should go to app two Nginx target group
+
+08:04.890 --> 08:09.510
+and slash star goes to app three Nginx target group, right?
+
+08:09.510 --> 08:11.160
+So now let's come back here
+
+08:11.160 --> 08:14.400
+and go to the target groups, right?
+
+08:14.400 --> 08:17.700
+And you should find three target groups, app one, app two
+
+08:17.700 --> 08:22.200
+and then app three and all are using the nodeport service
+
+08:22.200 --> 08:24.840
+which is nothing but whatever we have defined there.
+
+08:24.840 --> 08:28.830
+So let's open one of the target group and verify that.
+
+08:28.830 --> 08:31.950
+App one Nginx target group, right?
+
+08:31.950 --> 08:34.590
+So total, it has two targets which means, why,
+
+08:34.590 --> 08:37.680
+because we have a two worker nodes running.
+
+08:37.680 --> 08:40.140
+So those two worker nodes were registered here
+
+08:40.140 --> 08:43.170
+with those respective nodeport services
+
+08:43.170 --> 08:45.900
+and then respective nodeport service.
+
+08:45.900 --> 08:48.900
+And you can see both, from both
+
+08:48.900 --> 08:52.500
+of the nodes, it is healthy, the pod is healthy for us.
+
+08:52.500 --> 08:55.770
+And now if you see here, the health check path
+
+08:55.770 --> 08:58.920
+should be slash app one index dot HTML and,
+
+08:58.920 --> 09:01.260
+you can see it is healthy, right?
+
+09:01.260 --> 09:03.720
+Even though you have created only one pod,
+
+09:03.720 --> 09:06.990
+but the nodeport services span across all the nodes.
+
+09:06.990 --> 09:08.610
+So which means in the worker nodes
+
+09:08.610 --> 09:11.730
+whenever you are using the nodeport service, right,
+
+09:11.730 --> 09:14.430
+so it is span across all the worker nodes in a,
+
+09:14.430 --> 09:18.060
+in a worker node group, you have created ten nodes.
+
+09:18.060 --> 09:20.700
+So those ten nodes will be registered here
+
+09:20.700 --> 09:23.940
+with that respective nodeport service related port,
+
+09:23.940 --> 09:27.210
+which means even though you have created only one pod
+
+09:27.210 --> 09:31.110
+and it is running in any one of the worker node,
+
+09:31.110 --> 09:34.590
+but the concept here is, nodeport service will be,
+
+09:34.590 --> 09:36.810
+or the service, Kubernetes service will be
+
+09:36.810 --> 09:40.110
+spanned across all the nodes.
+
+09:40.110 --> 09:42.210
+In that line, you can see here,
+
+09:42.210 --> 09:45.330
+all those nodes will be registered here.
+
+09:45.330 --> 09:47.970
+Now let's come back and verify
+
+09:47.970 --> 09:50.550
+app two related one and it's health check path.
+
+09:50.550 --> 09:53.220
+Those also healthy, both nodes registered
+
+09:53.220 --> 09:54.570
+and you can come back here,
+
+09:54.570 --> 09:57.660
+and app two index dot HTML is the path for that
+
+09:57.660 --> 09:59.970
+and it is working as expected.
+
+09:59.970 --> 10:01.530
+And this is the app three Nginx,
+
+10:01.530 --> 10:05.353
+which will be with root contact slash index dot HTML
+
+10:05.353 --> 10:06.882
+and it is also healthy.
+
+10:06.882 --> 10:09.050
+So why we are verifying the health check paths here
+
+10:09.050 --> 10:12.015
+very specifically is, so whatever we have defined
+
+10:12.015 --> 10:14.641
+at the service level annotation right,
+
+10:14.641 --> 10:18.527
+here health check path has been populated here successfully
+
+10:18.527 --> 10:21.671
+or not in the ALB application load balancer,
+
+10:21.671 --> 10:22.999
+we are cross-checking.
+
+10:22.999 --> 10:26.497
+So why, because we said that we have defined
+
+10:26.497 --> 10:29.641
+the context part based routing related ingress service,
+
+10:29.641 --> 10:32.123
+but we didn't define the health check path here
+
+10:32.123 --> 10:34.337
+but we defined at the service level here,
+
+10:34.337 --> 10:36.594
+whether it came here successfully or not,
+
+10:36.594 --> 10:39.548
+we are cross-checking and it came successfully here
+
+10:39.548 --> 10:41.431
+and we can see for all the three parts,
+
+10:41.431 --> 10:44.771
+whatever we define in the nodeport service annotations,
+
+10:44.771 --> 10:46.938
+so same is populated here.
+
+10:47.935 --> 10:50.311
+So now let's come back, right?
+
+10:50.311 --> 10:52.354
+So we verified the target groups,
+
+10:52.354 --> 10:53.896
+health check paths and everything.
+
+10:53.896 --> 10:55.991
+So now finally, we will go ahead
+
+10:55.991 --> 10:58.187
+and then access the application.
+
+10:58.187 --> 11:00.109
+So how we are going to access it?
+
+11:00.109 --> 11:02.429
+So we can take the DNS name from here,
+
+11:02.429 --> 11:05.221
+from the load balancer description here
+
+11:05.221 --> 11:09.031
+or we can go here and copy this address.
+
+11:09.031 --> 11:11.683
+And for app one, it is going to be,
+
+11:11.683 --> 11:16.683
+we are going to say slash app one slash index dot HTML,
+
+11:17.031 --> 11:20.603
+and you can see it should be coming online now.
+
+11:20.603 --> 11:24.722
+So welcome to Stack Simplify and application name is app one
+
+11:24.722 --> 11:27.558
+and app one is in light green color.
+
+11:27.558 --> 11:31.891
+So now we'll go to slash app two and index dot HTML.
+
+11:33.241 --> 11:36.852
+And this should show us app two related things
+
+11:36.852 --> 11:39.464
+and you can see, this is in different color.
+
+11:39.464 --> 11:41.670
+And now finally, we'll also access
+
+11:41.670 --> 11:45.303
+the root context slash index HTML, right?
+
+11:45.303 --> 11:46.997
+So whenever we access the route,
+
+11:46.997 --> 11:49.006
+so it should be the default app which is
+
+11:49.006 --> 11:52.389
+welcome to Stack Simplify Kubernetes fundamentals demo,
+
+11:52.389 --> 11:54.419
+application version is V1.
+
+11:54.419 --> 11:56.004
+So this is app one.
+
+11:56.004 --> 11:58.822
+So this is app two under the app two context
+
+11:58.822 --> 12:01.320
+and this is the default app three one
+
+12:01.320 --> 12:03.784
+with the root context slash index dot HTML.
+
+12:03.784 --> 12:06.960
+And you can see all three are of three different colors.
+
+12:06.960 --> 12:10.440
+So the requests are going to three different apps for us.
+
+12:10.440 --> 12:12.900
+And if you want to further also verify,
+
+12:12.900 --> 12:16.920
+so you can go to kubectl get pods,
+
+12:16.920 --> 12:18.330
+and,
+
+12:18.330 --> 12:22.140
+for each port right, kubectl logs hyphen F
+
+12:22.140 --> 12:26.910
+and then you can go to those pods and then verify the logs.
+
+12:27.990 --> 12:29.400
+Let's wait for it.
+
+12:29.400 --> 12:32.400
+And you can see slash app one index dot HTML,
+
+12:32.400 --> 12:34.890
+the health check path also using the same thing.
+
+12:34.890 --> 12:37.740
+So that's the reason you can see the, 190 to 168, 91.189,
+
+12:40.350 --> 12:44.130
+all these things are coming from our load balancer,
+
+12:44.130 --> 12:46.200
+right, here you can see, this is app one.
+
+12:46.200 --> 12:50.790
+So whenever you check the logs for your app one related pod,
+
+12:50.790 --> 12:54.600
+so it is saying 200 for app one index dot HTML.
+
+12:54.600 --> 12:55.800
+And if you see, for,
+
+12:55.800 --> 12:58.380
+kubectl get ports
+
+12:58.380 --> 13:01.200
+and if you check for app two,
+
+13:01.200 --> 13:04.890
+kubectl logs hyphen F and app two pod,
+
+13:04.890 --> 13:09.600
+you should see the health check for app two running there.
+
+13:09.600 --> 13:14.400
+So the logs for app two index dot HTML and it is also 200.
+
+13:14.400 --> 13:18.480
+And also we will say one more here,
+
+13:18.480 --> 13:19.330
+kubectl
+
+13:20.370 --> 13:22.740
+get pods, right?
+
+13:22.740 --> 13:25.740
+And we will also see for our app three which is,
+
+13:25.740 --> 13:29.730
+it should have the health check path for root context.
+
+13:29.730 --> 13:32.280
+So let's say logs hyphen F,
+
+13:32.280 --> 13:35.323
+and this is the app three Nginx pods.
+
+13:36.570 --> 13:39.540
+Come back here and verify this
+
+13:39.540 --> 13:42.903
+and it should have slash index dot HTML,
+
+13:44.700 --> 13:47.190
+get slash index dot HTML
+
+13:47.190 --> 13:50.700
+and it is coming from the ELB health checker.
+
+13:50.700 --> 13:53.820
+So this is the thing, and you can see one more here.
+
+13:53.820 --> 13:55.350
+This is not ELB health checker.
+
+13:55.350 --> 13:58.050
+So whenever we have accessed from the browser,
+
+13:58.050 --> 14:02.430
+so Intel, MacOS X10.15, which is my MacOS there,
+
+14:02.430 --> 14:06.420
+it has accessed and it is the public IP of my machine,
+
+14:06.420 --> 14:10.170
+124:123:166 dot three, right?
+
+14:10.170 --> 14:11.460
+So this is the thing.
+
+14:11.460 --> 14:15.870
+So this completes the use case, which is,
+
+14:15.870 --> 14:18.930
+implement the context path based routing
+
+14:18.930 --> 14:22.740
+using ingress service and then test it, right?
+
+14:22.740 --> 14:24.840
+So in our next lecture, we are going to
+
+14:24.840 --> 14:27.690
+test the context path based routing order,
+
+14:27.690 --> 14:31.080
+how important is the defining the order
+
+14:31.080 --> 14:33.450
+for our context path based routing.
+
+14:33.450 --> 14:34.920
+So I'll see you in the next lecture.
+
+14:34.920 --> 14:36.090
+Until then, bye bye.
+
+14:36.090 --> 14:36.923
+Thank you.

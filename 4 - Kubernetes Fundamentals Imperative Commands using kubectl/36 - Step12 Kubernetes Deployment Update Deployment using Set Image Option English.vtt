@@ -1,0 +1,475 @@
+WEBVTT
+
+00:00.210 --> 00:01.080
+-: Welcome back.
+
+00:01.080 --> 00:02.940
+In this lecture we are going to work
+
+00:02.940 --> 00:05.250
+on updating our Deployments.
+
+00:05.250 --> 00:10.140
+So we are going to go into 0 4 0 2, update Deployment.
+
+00:10.140 --> 00:13.500
+And if you see here we can do the update Deployment using
+
+00:13.500 --> 00:17.580
+either set image, or edit Deployment options.
+
+00:17.580 --> 00:20.580
+So in step one, we'll use set image
+
+00:20.580 --> 00:24.930
+and in step two, we are going to use the edit Deployment.
+
+00:24.930 --> 00:27.660
+So, and then there will be multiple things to understand
+
+00:27.660 --> 00:30.510
+and then multiple observations we need to make
+
+00:30.510 --> 00:31.590
+when we are doing this.
+
+00:31.590 --> 00:33.720
+So that will be in this model
+
+00:33.720 --> 00:36.870
+we'll get a lot of knowledge on what we are doing.
+
+00:36.870 --> 00:39.723
+So let's go up and then,
+
+00:40.710 --> 00:45.330
+so for the update Deployment using set image, right?
+
+00:45.330 --> 00:46.980
+So one thing we need to do is
+
+00:46.980 --> 00:50.280
+like we need to get the container name correctly.
+
+00:50.280 --> 00:51.600
+So first thing is if
+
+00:51.600 --> 00:53.850
+let's see the update Deployment command.
+
+00:53.850 --> 00:57.300
+So cube CTL, set image, and then Deployment,
+
+00:57.300 --> 00:59.010
+and the Deployment name,
+
+00:59.010 --> 01:03.000
+and container name is equal to container image.
+
+01:03.000 --> 01:05.850
+So here, we need to have the container name.
+
+01:05.850 --> 01:08.880
+So to get this container name, we can get that
+
+01:08.880 --> 01:13.380
+container name using this command, cube CTL, get Deployment.
+
+01:13.380 --> 01:16.170
+Deployment name, hyphen O AML,
+
+01:16.170 --> 01:19.410
+and where we can find it is, spec dot, container name.
+
+01:19.410 --> 01:21.120
+There we can find it.
+
+01:21.120 --> 01:24.153
+So let's find our container name.
+
+01:26.550 --> 01:30.480
+So if you go up, you can see that spec dot,
+
+01:30.480 --> 01:32.190
+container start, name,
+
+01:32.190 --> 01:34.920
+and then you can find cube engine X.
+
+01:34.920 --> 01:37.680
+So that's our container name.
+
+01:37.680 --> 01:41.970
+So in cube CTL set image, Deployment, Deployment name
+
+01:41.970 --> 01:44.700
+and then container name is cube NGX is equal
+
+01:44.700 --> 01:47.610
+to my new container image, which is nothing
+
+01:47.610 --> 01:50.130
+but stack simplifies slash, cube NGX,
+
+01:50.130 --> 01:52.470
+colon two dot zero dot zero.
+
+01:52.470 --> 01:55.350
+So earlier we have used one dot zero dot zero.
+
+01:55.350 --> 01:57.450
+So that's the reason our application is coming
+
+01:57.450 --> 01:59.220
+as application V one.
+
+01:59.220 --> 02:02.220
+So now if we are going to update it to
+
+02:02.220 --> 02:04.020
+two dot zero dot zero.
+
+02:04.020 --> 02:06.720
+So let's go ahead and then do that now.
+
+02:06.720 --> 02:09.780
+So cube CTL, set image, and then this one.
+
+02:09.780 --> 02:13.380
+And then we said that hyphen hyphen record true
+
+02:13.380 --> 02:15.330
+for our versioning rollout.
+
+02:15.330 --> 02:20.330
+Versioning to be enabled. Copy and come here and paste it.
+
+02:23.880 --> 02:27.960
+Right? So now our Deployment got updated immediately
+
+02:27.960 --> 02:31.773
+we can see the rollout status here.
+
+02:32.790 --> 02:35.310
+So waiting for the Deployment and out of nine
+
+02:35.310 --> 02:36.570
+nine of 10 updated.
+
+02:36.570 --> 02:38.463
+And finally 10th one also updated.
+
+02:39.668 --> 02:42.270
+So using rollout status, you can see how the rollout
+
+02:42.270 --> 02:43.140
+is going to happen.
+
+02:43.140 --> 02:46.470
+Now if you see the cube CTL get forwards
+
+02:46.470 --> 02:50.550
+then ideally you see that all the pods got recreated
+
+02:50.550 --> 02:53.190
+which means its age is only 23 seconds
+
+02:53.190 --> 02:55.560
+just now it got created.
+
+02:55.560 --> 02:58.830
+So with the new image, right? So now you can even
+
+02:58.830 --> 03:02.700
+see cube CTL get deployed, right?
+
+03:02.700 --> 03:04.350
+So to see that all are up
+
+03:04.350 --> 03:08.580
+and running up to date and then available is 10.
+
+03:08.580 --> 03:10.620
+So now describe the Deployment.
+
+03:10.620 --> 03:12.450
+So by describing the Deployment
+
+03:12.450 --> 03:14.100
+what we are going to understand
+
+03:14.100 --> 03:17.070
+we can verify that events and understand that Kubernetes
+
+03:17.070 --> 03:21.060
+by default do rolling update for new application releases.
+
+03:21.060 --> 03:22.530
+So what is the rolling update
+
+03:22.530 --> 03:25.230
+and then why we do rolling update by default?
+
+03:25.230 --> 03:28.140
+So when the Kubernetes does the rolling update
+
+03:28.140 --> 03:29.910
+what happens is like the downtime
+
+03:29.910 --> 03:32.640
+of our application is going to be zero, right?
+
+03:32.640 --> 03:36.360
+So one after the other it is going to update our parts
+
+03:36.360 --> 03:39.669
+and there is one more strategy in this update Deployment.
+
+03:39.669 --> 03:42.300
+There is one more strategies in addition to rolling
+
+03:42.300 --> 03:44.640
+there will be something called recreate.
+
+03:44.640 --> 03:46.290
+So if it recreates, which means
+
+03:46.290 --> 03:48.420
+like it'll delete all the parts
+
+03:48.420 --> 03:50.790
+and then recreate at that time.
+
+03:50.790 --> 03:53.280
+So at that time you can expect the downtime
+
+03:53.280 --> 03:54.555
+for your application.
+
+03:54.555 --> 03:57.150
+By default it is going to be rolling update.
+
+03:57.150 --> 03:59.294
+So we really don't need to define anything even
+
+03:59.294 --> 04:03.000
+in our Deployment spec itself whenever we are
+
+04:03.000 --> 04:05.130
+writing the YAML manifest.
+
+04:05.130 --> 04:08.110
+But there will be some cases like my skill
+
+04:09.000 --> 04:12.060
+my skill containers are these things wherein
+
+04:12.060 --> 04:14.010
+you want to recreate the stuff.
+
+04:14.010 --> 04:17.340
+So in those cases you can use the recreate strategy
+
+04:17.340 --> 04:21.410
+but in general applications, whatever you use
+
+04:21.410 --> 04:24.628
+99.99% will be using the rolling update.
+
+04:24.628 --> 04:28.530
+So that's the reason is by default defaulted it.
+
+04:28.530 --> 04:33.000
+Okay, so let's go here and then describe our Deployment
+
+04:33.000 --> 04:37.410
+cube ctl, describe Deployment, and my Deployment name.
+
+04:37.410 --> 04:42.410
+Right? So, let's see the events here once it comes, right?
+
+04:46.440 --> 04:47.850
+So you can see it here.
+
+04:47.850 --> 04:51.030
+So it has done a rolling update one after the other.
+
+04:51.030 --> 04:52.789
+Okay, scaled up replica said
+
+04:52.789 --> 04:55.410
+and then it started updating one
+
+04:55.410 --> 04:56.790
+after the other, one after the other
+
+04:56.790 --> 05:00.210
+and then it already completed all the things.
+
+05:00.210 --> 05:02.370
+Okay, so one important thing we need to notice here
+
+05:02.370 --> 05:03.810
+is the replica set.
+
+05:03.810 --> 05:06.900
+So whenever we have done the update, it is going to
+
+05:06.900 --> 05:08.673
+create a new replica set.
+
+05:10.200 --> 05:12.510
+So the old replica set becomes zero
+
+05:12.510 --> 05:13.710
+and the new replica set.
+
+05:13.710 --> 05:16.800
+So 26 minutes back we created the first Deployment
+
+05:16.800 --> 05:18.390
+in our previous section.
+
+05:18.390 --> 05:21.420
+At that time this replica set is created means like
+
+05:21.420 --> 05:24.792
+with this replica set we have the old version 1 dot 0 dot 0
+
+05:24.792 --> 05:27.060
+and it created a new replica set
+
+05:27.060 --> 05:30.270
+with the two dot zero dot zero off our application.
+
+05:30.270 --> 05:33.450
+So this is one more observation which we need to know.
+
+05:33.450 --> 05:36.210
+And one more thing is get pods, okay?
+
+05:36.210 --> 05:37.680
+Pod template, hash label.
+
+05:37.680 --> 05:39.930
+So this also you can compare and understand
+
+05:39.930 --> 05:41.400
+that it's a different one.
+
+05:41.400 --> 05:45.060
+So let's see here our pod and then template.
+
+05:45.060 --> 05:47.550
+So pod template, hash label, you can see it here
+
+05:47.550 --> 05:50.340
+it is pointing to our second replica set
+
+05:50.340 --> 05:52.260
+whatever it got created.
+
+05:52.260 --> 05:54.660
+So recently, which is two minutes back.
+
+05:54.660 --> 05:56.460
+Okay? So that's about it
+
+05:56.460 --> 06:00.930
+and verify your rollout history of a Deployment.
+
+06:00.930 --> 06:03.720
+So we have that rollout history so we can switch back
+
+06:03.720 --> 06:06.450
+to older versions using revision history available
+
+06:06.450 --> 06:08.550
+to us in our next section.
+
+06:08.550 --> 06:12.330
+So 0 4 0 3, we are going to do the rollbacks.
+
+06:12.330 --> 06:14.400
+So at that time this will be helpful
+
+06:14.400 --> 06:17.490
+but now we are going to just see the rollout history
+
+06:17.490 --> 06:21.210
+of our my first Deployment application
+
+06:21.210 --> 06:24.600
+right cube CTL, rollout, history, deployment,
+
+06:24.600 --> 06:26.040
+and then deployment name.
+
+06:26.040 --> 06:28.680
+So it says that the version is 2 dot 0 dot 0
+
+06:28.680 --> 06:30.240
+and this is the second one.
+
+06:30.240 --> 06:33.000
+So we have recorded it so it is true.
+
+06:33.000 --> 06:36.720
+So now the last thing is access your application.
+
+06:36.720 --> 06:38.700
+So already I have it in our browser, but
+
+06:38.700 --> 06:41.410
+if you want you can go and then go to cube ctl
+
+06:42.390 --> 06:46.230
+get avc, and then get the note pod here
+
+06:46.230 --> 06:50.430
+three two one six nine and get notes iPhone.
+
+06:50.430 --> 06:54.330
+Why? To get your external IP and then access it.
+
+06:54.330 --> 06:55.500
+I already have it here.
+
+06:55.500 --> 06:56.580
+3 2 1 6 9.
+
+06:56.580 --> 07:01.290
+So if I refresh it, so now it is avc, it should become v2.
+
+07:01.290 --> 07:03.810
+See now my application version is V2
+
+07:03.810 --> 07:07.020
+and the background also got change two sky blue color.
+
+07:07.020 --> 07:08.340
+So that's about it.
+
+07:08.340 --> 07:11.550
+So now our successful Deployment has been happen means
+
+07:11.550 --> 07:15.960
+like we updated our Deployment using the set image option
+
+07:15.960 --> 07:19.740
+without any issues and all these observations we have done.
+
+07:19.740 --> 07:21.840
+So in our next lecture we'll focus
+
+07:21.840 --> 07:25.500
+on doing it using cube CTL added Deployment.
+
+07:25.500 --> 07:27.240
+So I'll see you in the next lecture.
+
+07:27.240 --> 07:28.590
+Until then, bye bye.
+
+07:28.590 --> 07:29.423
+Thank you.

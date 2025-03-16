@@ -1,0 +1,352 @@
+WEBVTT
+
+00:00.450 --> 00:01.283
+-: Welcome back.
+
+00:01.283 --> 00:04.530
+In this demo we are going to use the Kubernetes service
+
+00:04.530 --> 00:06.480
+with external DNS.
+
+00:06.480 --> 00:09.150
+So, which means Kubernetes, service,
+
+00:09.150 --> 00:10.650
+off type load balancer
+
+00:10.650 --> 00:14.910
+we are going to add that external DNS annotation here.
+
+00:14.910 --> 00:17.970
+And we are going to provide that DNS name here
+
+00:17.970 --> 00:21.540
+and the application whatever you are going to deploy
+
+00:21.540 --> 00:24.120
+with this respect your load balancer service.
+
+00:24.120 --> 00:26.880
+So, you're going to now access it directly
+
+00:26.880 --> 00:30.930
+with the custom DNS whatever we have created, right?
+
+00:30.930 --> 00:35.460
+So, the Kubernetes service off type load balancer
+
+00:35.460 --> 00:37.450
+creates a classic load balancer in AWS
+
+00:38.310 --> 00:40.890
+and it's DNS name will be registered
+
+00:40.890 --> 00:45.660
+as alias in the Route 53 for the external DNS name,
+
+00:45.660 --> 00:47.850
+whatever you have specified.
+
+00:47.850 --> 00:51.120
+And whenever you access external DNS KES service
+
+00:51.120 --> 00:53.190
+demo.stacksimplified.com
+
+00:53.190 --> 00:55.110
+request will come to classic load balancer
+
+00:55.110 --> 00:55.943
+and from there,
+
+00:55.943 --> 00:59.190
+you'll be able to access your application parts
+
+00:59.190 --> 01:03.510
+load balancer under this respect too load balancer, right?
+
+01:03.510 --> 01:06.210
+Let's go back to our GitHub repository
+
+01:06.210 --> 01:09.120
+and enter into the section 0808
+
+01:09.120 --> 01:12.930
+use external DNS for Kubernetes service.
+
+01:12.930 --> 01:15.660
+And if you see here,
+
+01:15.660 --> 01:17.870
+we are going to create a Kubernetes service
+
+01:17.870 --> 01:20.550
+of type load balancer and annotate it
+
+01:20.550 --> 01:25.530
+with external DNS related annotation for it DNS name, right?
+
+01:25.530 --> 01:28.290
+So, and then deploy and then verify the stuff.
+
+01:28.290 --> 01:30.120
+So, let's go back here
+
+01:30.120 --> 01:32.610
+and if you see in 0808
+
+01:32.610 --> 01:35.400
+use external DNS for Kubernetes service.
+
+01:35.400 --> 01:39.840
+So you can see this 01 Nginx is app one deployment, right?
+
+01:39.840 --> 01:43.620
+And 0 to Nginx is a load balancer service.
+
+01:43.620 --> 01:46.800
+It is like humanity service of type load balancer.
+
+01:46.800 --> 01:49.410
+And here, we have added the annotation here.
+
+01:49.410 --> 01:54.210
+External DNS KES service demo 201.stacksimplify.com
+
+01:54.210 --> 01:57.750
+Our sum 101.stacksimplify.com
+
+01:57.750 --> 01:59.220
+whatever it is, right?
+
+01:59.220 --> 02:01.860
+So, now let's go back to GitHub repository
+
+02:01.860 --> 02:04.830
+and go to step three deploy and then verify.
+
+02:04.830 --> 02:07.375
+So, let's go to the terminal here
+
+02:07.375 --> 02:11.010
+and enter into the section 0808.
+
+02:11.010 --> 02:14.400
+Use external DNS for Kubernetes surveys
+
+02:14.400 --> 02:18.060
+and clear and we'll say kube manifest.
+
+02:18.060 --> 02:22.530
+We should find the two files here and kubectl.
+
+02:22.530 --> 02:26.190
+apply -f and kube manifest.
+
+02:26.190 --> 02:29.280
+So, this should create the Nginx app 1 deployment
+
+02:29.280 --> 02:33.150
+and Nginx app fund load balancer service for us.
+
+02:33.150 --> 02:36.690
+So, let's wait for the deployment to get completed.
+
+02:36.690 --> 02:41.690
+So, now let's go back here and go to load balancers here
+
+02:42.930 --> 02:45.180
+in EC2 and refresh it.
+
+02:45.180 --> 02:48.210
+So, it is creating a classic load balancer for us.
+
+02:48.210 --> 02:51.510
+So, let's wait for this to get created.
+
+02:51.510 --> 02:53.070
+Currently, the status is zero
+
+02:53.070 --> 02:55.260
+out of two instances is in service,
+
+02:55.260 --> 02:58.230
+so we'll wait for these things to come into service.
+
+02:58.230 --> 02:59.490
+In addition to that,
+
+02:59.490 --> 03:00.360
+we can go back
+
+03:00.360 --> 03:04.170
+and then verify our external DNS logs in parallel.
+
+03:04.170 --> 03:07.440
+So, let's come here and verify those things.
+
+03:07.440 --> 03:09.610
+So, let's wait for the logs to display
+
+03:10.680 --> 03:13.800
+and you can see it has already created desired change,
+
+03:13.800 --> 03:18.800
+create external DNS KES service demo101.stack simplify.com
+
+03:19.710 --> 03:22.260
+in so and so hosted zone.
+
+03:22.260 --> 03:26.010
+So now, two records in zonestacksimplify.com
+
+03:26.010 --> 03:28.410
+were successfully updated.
+
+03:28.410 --> 03:32.937
+So, now let's go back here and go to the route 53
+
+03:32.937 --> 03:37.320
+and go to stack simplify.com related hosted zone
+
+03:37.320 --> 03:39.840
+and you should find that external DNS KES
+
+03:39.840 --> 03:43.800
+servicedemo101.stacksimplify.com
+
+03:43.800 --> 03:45.330
+and you can copy this,
+
+03:45.330 --> 03:50.330
+and come here and run the NS lookup and provide the DNS name
+
+03:50.850 --> 03:53.520
+and it is resolving to the IP address.
+
+03:53.520 --> 03:58.080
+So, let's wait for this thing like it to come in service.
+
+03:58.080 --> 03:59.580
+So, now it is in service
+
+03:59.580 --> 04:01.920
+two out of two instances are in service.
+
+04:01.920 --> 04:06.660
+So, now let's access this in the browser with this DNS name.
+
+04:06.660 --> 04:07.860
+So, what is the DNS name?
+
+04:07.860 --> 04:10.230
+So, this is the DNS name we have used.
+
+04:10.230 --> 04:13.410
+So, let's take this and put it here.
+
+04:13.410 --> 04:17.040
+And we are using the app1/index.html.
+
+04:17.040 --> 04:18.720
+So, that is what right.
+
+04:18.720 --> 04:21.000
+If you see here and let's look up is done.
+
+04:21.000 --> 04:25.800
+And this is the DNS name /app1/index.html
+
+04:25.800 --> 04:28.800
+And this is a HTTP URL, right?
+
+04:28.800 --> 04:32.880
+So, simple thing and your app1 is accessible.
+
+04:32.880 --> 04:36.120
+So which means we have used the external DNS
+
+04:36.120 --> 04:39.660
+with the Kubernetes service and it is successful.
+
+04:39.660 --> 04:40.770
+So, now we can go ahead
+
+04:40.770 --> 04:43.230
+and then delete the kube manifest here.
+
+04:43.230 --> 04:47.760
+So, I'll say kubectl, delete -f kube manifest.
+
+04:47.760 --> 04:49.410
+And once it is deleted,
+
+04:49.410 --> 04:53.640
+we'll go ahead and also verify our external DNS logs here.
+
+04:53.640 --> 04:55.440
+So, let me go here
+
+04:55.440 --> 04:58.480
+and get the external DNS logs related command
+
+05:00.060 --> 05:03.720
+and let's run this command and wait for the logs.
+
+05:03.720 --> 05:07.650
+So, automatically it need to delete the DNS record
+
+05:07.650 --> 05:08.910
+whatever it has created.
+
+05:08.910 --> 05:11.640
+So, here you have seen the create related message.
+
+05:11.640 --> 05:15.000
+So, let's wait further delete related message now.
+
+05:15.000 --> 05:16.770
+We can see here we got the message.
+
+05:16.770 --> 05:20.820
+Delete external DNS, delete external DNS, so and so,
+
+05:20.820 --> 05:23.850
+and two records in zone got updated now.
+
+05:23.850 --> 05:27.600
+So, let's go back here to stacksimplify.com.
+
+05:27.600 --> 05:28.433
+And you should see
+
+05:28.433 --> 05:32.070
+there is no external DNS related DNS entry inside this
+
+05:32.070 --> 05:34.320
+which we have created just now.
+
+05:34.320 --> 05:36.690
+And also verify for load balancer,
+
+05:36.690 --> 05:40.440
+classic load balancer got deleted successfully, right?
+
+05:40.440 --> 05:42.630
+So this completes them.
+
+05:42.630 --> 05:45.360
+They more related to using external DNS
+
+05:45.360 --> 05:47.580
+for Kubernetes service.
+
+05:47.580 --> 05:49.230
+So, I'll see you in the next demo.
+
+05:49.230 --> 05:50.460
+Until then, bye-bye.
+
+05:50.460 --> 05:51.293
+Thank you.

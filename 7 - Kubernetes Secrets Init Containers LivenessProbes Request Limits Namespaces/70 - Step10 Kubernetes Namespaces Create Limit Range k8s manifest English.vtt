@@ -1,0 +1,615 @@
+WEBVTT
+
+00:00.270 --> 00:01.103
+-: Welcome back.
+
+00:01.103 --> 00:05.190
+Let's get into our limit range default concept here.
+
+00:05.190 --> 00:09.570
+Okay, so 05, 05, 02, namespaces, limit range, default.
+
+00:09.570 --> 00:10.500
+So as a step one,
+
+00:10.500 --> 00:12.660
+we are going to create a namespace manifest,
+
+00:12.660 --> 00:13.710
+and then as a step two,
+
+00:13.710 --> 00:17.580
+we are going to create the limit range manifest, okay?
+
+00:17.580 --> 00:21.210
+And then, we are going to update all the manifest
+
+00:21.210 --> 00:24.420
+with respect to namespaces with namespace dev3.
+
+00:24.420 --> 00:26.880
+So, let's understand this little bit later, okay.
+
+00:26.880 --> 00:30.750
+So let's complete the creating the manifests for now.
+
+00:30.750 --> 00:35.100
+So let's go back to our visual studio code.
+
+00:35.100 --> 00:36.450
+And if you see here,
+
+00:36.450 --> 00:41.070
+we are in 05, 05, 02, namespaces, limit range, default.
+
+00:41.070 --> 00:43.860
+So if you see 01 to 08 are same from
+
+00:43.860 --> 00:46.050
+whatever we have took from imperative command,
+
+00:46.050 --> 00:47.760
+or whatever, what it is coming
+
+00:47.760 --> 00:50.400
+or getting forwarded from previous sections, okay?
+
+00:50.400 --> 00:52.290
+So which is 01 to 08.
+
+00:52.290 --> 00:55.590
+In 00, we have going to create a namespace,
+
+00:55.590 --> 00:58.170
+and then limit range, default related manifest.
+
+00:58.170 --> 01:01.470
+Two manifests we are going to create here under 00.
+
+01:01.470 --> 01:02.640
+So now, the question comes,
+
+01:02.640 --> 01:05.670
+why we are going to put it as 00?
+
+01:05.670 --> 01:09.360
+So the reason we are putting the 00 instead of 09,
+
+01:09.360 --> 01:12.630
+why you are putting it as 00 as the first one, okay?
+
+01:12.630 --> 01:15.510
+Because, you have two options to create a namespace.
+
+01:15.510 --> 01:18.570
+One is imperative or, other way is, declarative.
+
+01:18.570 --> 01:21.510
+And in declarative also, you can create first namespace,
+
+01:21.510 --> 01:24.360
+and then later, you want to create all these things, right?
+
+01:24.360 --> 01:26.010
+Because all these things need to be
+
+01:26.010 --> 01:28.140
+created inside that namespace.
+
+01:28.140 --> 01:32.760
+So, if that is the case, if you put this as 09, so then,
+
+01:32.760 --> 01:35.520
+it is not going to, all these are going to be in error.
+
+01:35.520 --> 01:38.370
+So if it is in order from 00 to 08,
+
+01:38.370 --> 01:39.960
+first it'll create the namespace,
+
+01:39.960 --> 01:42.210
+and then, rest all it will get created.
+
+01:42.210 --> 01:44.160
+So that's the reason I have given 00,
+
+01:44.160 --> 01:46.350
+because I want to create all these things with this
+
+01:46.350 --> 01:49.740
+single command kubectl apply hyphen F, okay?
+
+01:49.740 --> 01:51.630
+So I really don't want to first create
+
+01:51.630 --> 01:55.457
+kubectl apply hyphen F, and then, faster this file.
+
+01:55.457 --> 01:57.480
+And after that, rest of the files,
+
+01:57.480 --> 01:58.800
+I really don't want to do that way.
+
+01:58.800 --> 02:01.320
+So with one command I want to create it.
+
+02:01.320 --> 02:04.230
+So that's the reason I have put it under 00.
+
+02:04.230 --> 02:07.110
+So we have discussed more about this ordering.
+
+02:07.110 --> 02:09.430
+So now, let's go ahead and then create the
+
+02:11.430 --> 02:12.600
+namespace template, okay?
+
+02:12.600 --> 02:17.040
+So as usual, we'll start with API version, and then,
+
+02:17.040 --> 02:19.110
+we'll have something called kind,
+
+02:19.110 --> 02:22.290
+and we'll have something called metadata, right?
+
+02:22.290 --> 02:24.750
+And we'll have something called spec
+
+02:24.750 --> 02:26.850
+in our standard stuff, right?
+
+02:26.850 --> 02:29.400
+So now, let's also copy this.
+
+02:29.400 --> 02:30.810
+And we are also create one...
+
+02:30.810 --> 02:32.340
+We are going to create one more, right?
+
+02:32.340 --> 02:34.440
+One more manifest here.
+
+02:34.440 --> 02:38.010
+So if you want to separate the AML, two AML definitions,
+
+02:38.010 --> 02:40.320
+so you can give this way, okay?
+
+02:40.320 --> 02:41.973
+Three hyphens, okay?
+
+02:44.160 --> 02:44.993
+Right?
+
+02:44.993 --> 02:46.530
+So now, I'll put it this way.
+
+02:46.530 --> 02:49.260
+So now, the one is namespace one we are going to create.
+
+02:49.260 --> 02:52.403
+So I'll say, kind is going to be namespace,
+
+02:52.403 --> 02:55.530
+and API version is V1, and metadata,
+
+02:55.530 --> 02:58.740
+and under that, the childitem we can have name,
+
+02:58.740 --> 03:01.740
+and the name is dev3 namespace, okay?
+
+03:01.740 --> 03:04.200
+And namespaces doesn't have any spec concepts.
+
+03:04.200 --> 03:07.140
+So I'm going to remove the spec here, okay?
+
+03:07.140 --> 03:10.290
+So now, the next one starts, which is the limit range.
+
+03:10.290 --> 03:14.340
+So let's go ahead and then, quickly create the limit range.
+
+03:14.340 --> 03:15.880
+Okay? So the kind is
+
+03:17.203 --> 03:19.290
+(typing)
+limit range,
+
+03:19.290 --> 03:21.570
+and the version is going to be VI.
+
+03:21.570 --> 03:22.890
+And we'll have two things here.
+
+03:22.890 --> 03:25.737
+One is name of my limit range,
+
+03:25.737 --> 03:29.130
+and the second is namespace it is going to belong to.
+
+03:29.130 --> 03:30.750
+So why I am writing namespace?
+
+03:30.750 --> 03:33.540
+Because I, with one command I want to create everything.
+
+03:33.540 --> 03:35.610
+And then, I want to hardcore the namespace
+
+03:35.610 --> 03:38.370
+in each of my Kubernetes object, okay?
+
+03:38.370 --> 03:41.640
+So we are also going to update this namespace,
+
+03:41.640 --> 03:43.950
+dev3, in all the things also, okay?
+
+03:43.950 --> 03:46.290
+So in all these things also, we are going to update later,
+
+03:46.290 --> 03:48.540
+but for now, let's leave it like this.
+
+03:48.540 --> 03:50.130
+And then I'll say name.
+
+03:50.130 --> 03:53.010
+And name, I'm going to put it as
+
+03:53.010 --> 03:56.531
+default CPU mem limit range,
+
+03:56.531 --> 03:58.230
+(typing)
+
+03:58.230 --> 03:59.100
+okay?
+
+03:59.100 --> 04:00.780
+And namespace, it is going to be dev3.
+
+04:00.780 --> 04:03.600
+It is going to create in dev3 namespace.
+
+04:03.600 --> 04:05.310
+And under spec, you are going to have
+
+04:05.310 --> 04:06.840
+only one thing for limit range,
+
+04:06.840 --> 04:08.610
+which is nothing but limits.
+
+04:08.610 --> 04:12.120
+And you'll have the default limits you can define here.
+
+04:12.120 --> 04:14.370
+So, which is nothing but the limit, maximum limit,
+
+04:14.370 --> 04:16.620
+how much you can define for memory CPU.
+
+04:16.620 --> 04:18.484
+And one more you'll have,
+
+04:18.484 --> 04:20.190
+(typing)
+default request.
+
+04:20.190 --> 04:21.780
+Okay? And one more.
+
+04:21.780 --> 04:24.450
+At this level, you'll have something called type.
+
+04:24.450 --> 04:29.040
+So, to whom you are going to define these limits.
+
+04:29.040 --> 04:31.920
+So of type container, these will be applicable.
+
+04:31.920 --> 04:33.180
+Okay? So that's all.
+
+04:33.180 --> 04:34.680
+So now, let's go ahead and then,
+
+04:34.680 --> 04:37.200
+define our CPU and memory, right?
+
+04:37.200 --> 04:41.490
+So I'll say, CPU and then, I'll say, memory.
+
+04:41.490 --> 04:43.350
+And it's the same way here, also.
+
+04:43.350 --> 04:46.800
+CPU, and then, memory.
+
+04:46.800 --> 04:48.870
+So this is the template for limit range.
+
+04:48.870 --> 04:51.690
+So now you can define whatever we want.
+
+04:51.690 --> 04:53.100
+So I'm saying per container.
+
+04:53.100 --> 04:56.040
+Mine is a small T3 medium cluster.
+
+04:56.040 --> 05:00.270
+So I am giving 512, well I'm going to run only two cores.
+
+05:00.270 --> 05:04.560
+So it might reach one core, when I say 512 AMI, right?
+
+05:04.560 --> 05:05.550
+So like that.
+
+05:05.550 --> 05:06.660
+Okay, so this is MB.
+
+05:06.660 --> 05:09.060
+So, let me take this out,
+
+05:09.060 --> 05:10.560
+and then, put it here.
+
+05:10.560 --> 05:14.010
+Okay, 512 AMI memory.
+
+05:14.010 --> 05:15.600
+And default request.
+
+05:15.600 --> 05:18.900
+It can take it as 256 when it is starting, okay?
+
+05:18.900 --> 05:19.740
+So I have done that.
+
+05:19.740 --> 05:22.623
+Now the next thing is CPU.
+
+05:22.623 --> 05:26.250
+And CPU, I'm going to use here is like,
+
+05:26.250 --> 05:28.590
+a 300M I'll use for my initial,
+
+05:28.590 --> 05:30.540
+whenever the container starts, okay?
+
+05:30.540 --> 05:34.770
+And later, I'll try to increase, means like, it's limit,
+
+05:34.770 --> 05:37.470
+I am going to give it as maximum limit of the CPU
+
+05:37.470 --> 05:38.520
+in this namespace.
+
+05:38.520 --> 05:42.000
+This respective container is going to use this 500 M,
+
+05:42.000 --> 05:44.820
+which is 0.5 core of a CPU.
+
+05:44.820 --> 05:49.770
+So that's about the limit range manifest.
+
+05:49.770 --> 05:52.650
+But few things which we need to understand here is,
+
+05:52.650 --> 05:57.240
+if we don't specify the CPU here, right?
+
+05:57.240 --> 06:00.900
+So then, automatically, that default maximum limit
+
+06:00.900 --> 06:03.870
+per container, whenever you are using the limit range,
+
+06:03.870 --> 06:08.010
+Kubernetes is going to assign is one VCPU.
+
+06:08.010 --> 06:09.540
+So that is the thing.
+
+06:09.540 --> 06:12.360
+In the same way, if you don't assign the memory here,
+
+06:12.360 --> 06:14.670
+means like, these two things are not defined
+
+06:14.670 --> 06:16.890
+under this default, right?
+
+06:16.890 --> 06:18.360
+So what happens is, like,
+
+06:18.360 --> 06:22.062
+it is going to assign 512 EMI as the...
+
+06:22.062 --> 06:24.000
+it's like 512 MB as the default memory
+
+06:24.000 --> 06:25.950
+for my respective container
+
+06:25.950 --> 06:28.980
+when we apply this limit range in that namespace.
+
+06:28.980 --> 06:30.480
+In the same way.
+
+06:30.480 --> 06:34.470
+So now, if it is CPU or memory,
+
+06:34.470 --> 06:37.530
+if you don't specify this default request,
+
+06:37.530 --> 06:39.570
+so this is dangerous one, okay?
+
+06:39.570 --> 06:44.063
+So if you don't specify this default request, automatically,
+
+06:44.063 --> 06:48.390
+these containers, whatever is under this namespace,
+
+06:48.390 --> 06:51.090
+are going to consider this maximum limit,
+
+06:51.090 --> 06:52.710
+whatever you have defined here,
+
+06:52.710 --> 06:54.870
+as their even their request limit.
+
+06:54.870 --> 06:56.580
+Okay? So that's the thing.
+
+06:56.580 --> 06:58.170
+So if you don't define these things,
+
+06:58.170 --> 07:01.230
+then it takes these as the values for this one also.
+
+07:01.230 --> 07:04.950
+So that's the story about limit range additional stuff here.
+
+07:04.950 --> 07:07.410
+Okay, so we have created this one,
+
+07:07.410 --> 07:10.500
+and then, let's also complete our other spec update stuff,
+
+07:10.500 --> 07:12.990
+which is nothing but all this manifests update stuff.
+
+07:12.990 --> 07:15.720
+Okay, so now, let's go ahead and take the
+
+07:15.720 --> 07:17.730
+namespace value from here, copy it,
+
+07:17.730 --> 07:20.640
+and then, update in metadata section of all these sections.
+
+07:20.640 --> 07:24.180
+Okay, so I'll come from Kubernetes sequence from down.
+
+07:24.180 --> 07:26.700
+So I'll copy here, namespace dev3.
+
+07:26.700 --> 07:29.650
+So this sequence is going to get created in namespace dev3.
+
+07:31.200 --> 07:35.160
+Same way, I'll do the same for our user management service.
+
+07:35.160 --> 07:37.230
+And then, I'll do the same for our
+
+07:37.230 --> 07:41.370
+user management deployment in metadata section after name,
+
+07:41.370 --> 07:43.620
+in the same level we are giving namespace dev3.
+
+07:43.620 --> 07:45.660
+So for cluster IP service,
+
+07:45.660 --> 07:47.580
+so we are going to do that.
+
+07:47.580 --> 07:49.920
+And for my scale deployment, also.
+
+07:49.920 --> 07:52.592
+Enter. Go to home. And then copy.
+
+07:52.592 --> 07:53.425
+(typing)
+
+07:53.425 --> 07:55.530
+So, and user management config map, also.
+
+07:55.530 --> 07:57.840
+Under metadata section we are going to do that.
+
+07:57.840 --> 07:59.910
+And in persistent volume claim,
+
+07:59.910 --> 08:03.180
+yes it is a storage, it is a namespace level object.
+
+08:03.180 --> 08:04.620
+We are going to create it.
+
+08:04.620 --> 08:07.470
+Which we have discussed in our previous section itself.
+
+08:07.470 --> 08:10.080
+When we are doing namespace it is imperative.
+
+08:10.080 --> 08:13.170
+And one more we have, which is, storage class.
+
+08:13.170 --> 08:15.420
+Storage class is not namespace level object.
+
+08:15.420 --> 08:17.130
+We really don't need to update.
+
+08:17.130 --> 08:19.860
+So we have updated from 02 to 08,
+
+08:19.860 --> 08:22.650
+all the objects with namespace as dev3.
+
+08:22.650 --> 08:24.450
+So now if you go ahead and then just say,
+
+08:24.450 --> 08:26.880
+kubectl apply high F,
+
+08:26.880 --> 08:29.310
+and then automatically you should get created.
+
+08:29.310 --> 08:31.590
+Okay, so now, we have completed step one,
+
+08:31.590 --> 08:33.930
+creating namespace, creating limit range,
+
+08:33.930 --> 08:36.480
+and then updating all (indistinct) manifest.
+
+08:36.480 --> 08:38.610
+So in our next lecture we'll create the objects,
+
+08:38.610 --> 08:40.170
+and then test, and then also,
+
+08:40.170 --> 08:42.900
+we'll go ahead and then clean up the stuff.
+
+08:42.900 --> 08:44.490
+So I'll see you in the next lecture.
+
+08:44.490 --> 08:45.630
+Until then, bye bye.
+
+08:45.630 --> 08:46.463
+Thank you.

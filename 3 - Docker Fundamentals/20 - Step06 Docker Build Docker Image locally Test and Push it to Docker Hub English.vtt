@@ -1,0 +1,712 @@
+WEBVTT
+
+00:00.600 --> 00:01.433
+-: Welcome back.
+
+00:01.433 --> 00:03.960
+In the previous lecture we have completed
+
+00:03.960 --> 00:05.340
+about pulling a Docker image
+
+00:05.340 --> 00:08.700
+from Docker Hub and then running it on our local mission.
+
+00:08.700 --> 00:12.720
+So now in 04 we are going to build a new Docker image
+
+00:12.720 --> 00:14.760
+and then run it on locally
+
+00:14.760 --> 00:16.650
+and then push it to the Docker hub.
+
+00:16.650 --> 00:20.040
+Okay, so let's see how we are going to do it, right?
+
+00:20.040 --> 00:21.900
+So as a prerequisite step
+
+00:21.900 --> 00:25.230
+please ensure you have your own Docker hub account.
+
+00:25.230 --> 00:26.063
+So you can go
+
+00:26.063 --> 00:29.580
+to hub.docker.com and then create your account here.
+
+00:29.580 --> 00:33.690
+Okay? So you can click on sign up for Docker hub
+
+00:33.690 --> 00:35.700
+and then provide your docker ID email
+
+00:35.700 --> 00:38.040
+and then password to complete those things.
+
+00:38.040 --> 00:40.710
+Okay, so I already have the Docker hub account.
+
+00:40.710 --> 00:44.100
+So what I'm going to do is I'm going to log in.
+
+00:44.100 --> 00:45.600
+Okay? So sign up
+
+00:45.600 --> 00:48.030
+for your Docker Hub account and then put it ready.
+
+00:48.030 --> 00:49.560
+Okay, now moving on.
+
+00:49.560 --> 00:50.790
+The next thing is to run the
+
+00:50.790 --> 00:53.100
+base Nginx container, right?
+
+00:53.100 --> 00:55.620
+So why we are going to run the base Nginx container.
+
+00:55.620 --> 00:56.700
+What we are going to do
+
+00:56.700 --> 00:59.130
+as part of this complete step series
+
+00:59.130 --> 01:02.910
+like we have a Nginx docker files folder here.
+
+01:02.910 --> 01:06.570
+Inside that you can find docker file and then index.html.
+
+01:06.570 --> 01:09.960
+So whenever you run a base Nginx image, it is going to
+
+01:09.960 --> 01:13.560
+provide the Nginx related simple index.html.
+
+01:13.560 --> 01:15.780
+So what we are going to do is we are going to
+
+01:15.780 --> 01:18.630
+change that to a different index dot html
+
+01:18.630 --> 01:19.980
+and then so I'm going to
+
+01:19.980 --> 01:23.550
+say welcome to stack simplify Nginx V one custom image,
+
+01:23.550 --> 01:25.410
+right, in the index.html.
+
+01:25.410 --> 01:29.100
+And in my docker file I'm going to say get the base image
+
+01:29.100 --> 01:32.400
+from Nginx and then copy my index.html
+
+01:32.400 --> 01:36.960
+whatever I have created to the USR share Nginx html, okay?
+
+01:36.960 --> 01:39.480
+Which is nothing but inside the image to this location.
+
+01:39.480 --> 01:40.380
+Copy it.
+
+01:40.380 --> 01:42.240
+And now if I run it
+
+01:42.240 --> 01:44.460
+so obviously instead of default Nginx index.html
+
+01:46.501 --> 01:48.862
+we are going to get our index start html.
+
+01:48.862 --> 01:50.247
+So that image, whatever we are going to build it
+
+01:51.552 --> 01:53.580
+we are going to push it to our docker hub.
+
+01:53.580 --> 01:55.710
+Okay? So let's see how we are going to do it.
+
+01:55.710 --> 01:59.520
+So first before that let's get our base Nginx image
+
+01:59.520 --> 02:01.620
+and then run it and then see what it is showing.
+
+02:01.620 --> 02:05.100
+Okay, so in our previous step three, means, like in
+
+02:05.100 --> 02:07.260
+in section three what we have done is we have
+
+02:07.260 --> 02:09.930
+used the docker pool command to get the image
+
+02:09.930 --> 02:11.850
+and then run it using Docker run.
+
+02:11.850 --> 02:14.400
+But ideally if you want to run it, you can
+
+02:14.400 --> 02:16.140
+even without using the docker pool
+
+02:16.140 --> 02:19.230
+you can directly use the docker run to do it.
+
+02:19.230 --> 02:22.620
+Okay? So what I'm doing here is using docker run
+
+02:22.620 --> 02:24.240
+I'm saying - - name
+
+02:24.240 --> 02:26.880
+and then I'm saying my Nginx default.
+
+02:26.880 --> 02:28.950
+Okay? So my container name I'm giving
+
+02:28.950 --> 02:31.560
+as my Nginx default and port mappings
+
+02:31.560 --> 02:35.370
+my local host is 80 and also the container port is 80
+
+02:35.370 --> 02:37.170
+and the image name is Nginx.
+
+02:37.170 --> 02:40.997
+Okay? So you can search for Nginx here, right?
+
+02:42.600 --> 02:44.970
+So, and then you get that default Nginx image, okay?
+
+02:44.970 --> 02:47.130
+So that one we are going to use.
+
+02:47.130 --> 02:51.540
+So I'm going to say docker run Nginx, okay, I'm copying it,
+
+02:51.540 --> 02:55.233
+and then going back okay to my terminal and then testing it.
+
+02:56.430 --> 02:58.830
+So unable to find the image locally.
+
+02:58.830 --> 03:00.930
+So it'll go and then download that image, okay
+
+03:00.930 --> 03:03.300
+pulling from the library Nginx.
+
+03:03.300 --> 03:04.560
+So once it is downloaded
+
+03:04.560 --> 03:07.350
+it is going to automatically start also.
+
+03:07.350 --> 03:09.930
+Okay? So it's downloaded and then started.
+
+03:09.930 --> 03:12.330
+So let's see, Docker PS, right?
+
+03:12.330 --> 03:14.430
+So whenever we see it is already running
+
+03:14.430 --> 03:18.900
+so let's go to local host and then see what happens.
+
+03:18.900 --> 03:21.780
+Okay? So we can minimize this.
+
+03:21.780 --> 03:24.090
+So we can see here we are getting welcome to Nginx.
+
+03:24.090 --> 03:27.966
+So this is the default index.html of Nginx.
+
+03:27.966 --> 03:30.150
+So we are going to edit it and then change it.
+
+03:30.150 --> 03:32.700
+So that's what we are going to build a new docker image.
+
+03:32.700 --> 03:34.920
+Very simple docker image we are going to build
+
+03:34.920 --> 03:36.540
+with docker file.
+
+03:36.540 --> 03:39.450
+So let's see how we are going to do it.
+
+03:39.450 --> 03:42.930
+Okay, so let's go here in the step two, create a docker file
+
+03:42.930 --> 03:46.260
+and copy our customized index.html here.
+
+03:46.260 --> 03:48.810
+So to do so what we are going to do is
+
+03:48.810 --> 03:52.590
+so we can go to any of the folders here, okay?
+
+03:52.590 --> 03:57.520
+And in documents, I'll create a folder call M K D A R, okay
+
+03:58.890 --> 04:01.020
+Nginx image, okay?
+
+04:01.020 --> 04:03.270
+Inside that I'm first I'm going to create
+
+04:03.270 --> 04:05.670
+that docker file, okay?
+
+04:05.670 --> 04:08.940
+So in docker file I'm going to copy these two lines
+
+04:08.940 --> 04:11.340
+which is nothing but from Nginx
+
+04:11.340 --> 04:13.170
+and then copy the index.html
+
+04:13.170 --> 04:16.170
+from local two, this location, right?
+
+04:16.170 --> 04:20.910
+So let me copy these two lines and then paste it, right?
+
+04:20.910 --> 04:22.860
+So I have created the docker file.
+
+04:22.860 --> 04:26.160
+So I also should have the index.html here, right?
+
+04:26.160 --> 04:28.980
+So I'll create the index.html
+
+04:28.980 --> 04:33.753
+and I'll say welcome to stack simplify.
+
+04:35.490 --> 04:37.590
+And I'm going to say Nginx,
+
+04:37.590 --> 04:40.230
+I'm not following any HTML standards
+
+04:40.230 --> 04:43.350
+or anything here, I'm saying Nginx, V1
+
+04:43.350 --> 04:46.620
+and this is going to be a custom image, okay?
+
+04:46.620 --> 04:48.990
+And this is a simple file, okay?
+
+04:48.990 --> 04:49.980
+Index.html.
+
+04:49.980 --> 04:52.110
+So now what we are going to do is we are going to
+
+04:52.110 --> 04:55.710
+build a docker image and then run it locally, right?
+
+04:55.710 --> 05:00.710
+So docker build -t and then you are dockerhubID/
+
+05:02.550 --> 05:06.390
+and your image name and then the tag you are going to use
+
+05:06.390 --> 05:08.880
+and where you are going to build it dot, means like
+
+05:08.880 --> 05:11.910
+from current location it need to take the docker file
+
+05:11.910 --> 05:15.540
+and then also the respective index.html file
+
+05:15.540 --> 05:17.220
+that's the reason, dot.
+
+05:17.220 --> 05:19.650
+So if it is, in your environment means
+
+05:19.650 --> 05:21.480
+like you have your own docker hub ID, right?
+
+05:21.480 --> 05:24.270
+So whatever you have created as part of prerequisites
+
+05:24.270 --> 05:26.670
+so you need to replace this command
+
+05:26.670 --> 05:28.590
+with your docker hub ID here, okay?
+
+05:28.590 --> 05:31.020
+So just if, if your docker hub ID is ABC
+
+05:31.020 --> 05:33.000
+then just put the ABC here
+
+05:33.000 --> 05:36.060
+and then copy this entire thing in there, run it, okay?
+
+05:36.060 --> 05:39.270
+So docker and then build the image -t
+
+05:39.270 --> 05:41.370
+which is nothing but a tag name, right?
+
+05:41.370 --> 05:46.260
+So stack simplifies /myNginx_imageone:V1
+
+05:46.260 --> 05:47.220
+and then dot.
+
+05:47.220 --> 05:48.053
+So okay, build
+
+05:48.053 --> 05:50.310
+from the current location means the current location.
+
+05:50.310 --> 05:51.600
+I have that docker file.
+
+05:51.600 --> 05:52.830
+So build from there.
+
+05:52.830 --> 05:57.003
+Okay, so I'm copying this and then I will run it now.
+
+06:00.180 --> 06:04.110
+Okay, so now if I see docker images, my new image, okay
+
+06:04.110 --> 06:05.850
+so Nginx already downloaded
+
+06:05.850 --> 06:07.689
+and using that it created a tag,
+
+06:07.689 --> 06:09.914
+simplifymyNginx_imageone
+
+06:09.914 --> 06:13.680
+with V1 tag and it is created four seconds before.
+
+06:13.680 --> 06:16.230
+Okay, so now I need to run it, right?
+
+06:16.230 --> 06:18.750
+So let me clear this and Docker run
+
+06:18.750 --> 06:21.420
+-: -name and my image name is going to
+
+06:21.420 --> 06:25.830
+be my Nginx1 and port mapping is 80:80, right?
+
+06:25.830 --> 06:27.180
+So if you don't stop this
+
+06:27.180 --> 06:28.680
+then we are going to get the error.
+
+06:28.680 --> 06:31.770
+So let's go ahead and then stop our earlier one.
+
+06:31.770 --> 06:34.710
+So if you see my Nginx default is also using 80
+
+06:34.710 --> 06:36.150
+for local mission, right?
+
+06:36.150 --> 06:38.910
+So let me stop the old one, okay?
+
+06:38.910 --> 06:41.880
+And then now come back here and then run this one.
+
+06:41.880 --> 06:45.930
+Okay, so docker run my Nginx1 with port 80:80 and
+
+06:45.930 --> 06:47.370
+my image name is
+
+06:47.370 --> 06:50.070
+tag simplifies last my Nginx image 1 V1.
+
+06:50.070 --> 06:52.200
+Okay, so let's run it in your case
+
+06:52.200 --> 06:55.473
+you just replace it with your, your docker ID here, okay?
+
+06:58.440 --> 06:59.730
+Okay, you have run it now.
+
+06:59.730 --> 07:03.360
+So let's go to local host and then check it.
+
+07:03.360 --> 07:04.953
+So it's coming.
+
+07:06.120 --> 07:07.290
+Computer: Welcome to voice -
+
+07:07.290 --> 07:08.490
+Narrator: One second.
+
+07:09.630 --> 07:12.093
+Ideally it should come.
+
+07:14.850 --> 07:16.980
+So it's coming from the local cash.
+
+07:16.980 --> 07:18.870
+So let me try one more time.
+
+07:18.870 --> 07:20.370
+Yeah, so now it is coming.
+
+07:20.370 --> 07:21.270
+Okay, so it it came
+
+07:21.270 --> 07:23.820
+from the local cash whenever we tried here.
+
+07:23.820 --> 07:25.230
+So let me close this.
+
+07:25.230 --> 07:28.110
+So welcome to stack simplify Nginx V1 custom
+
+07:28.110 --> 07:29.190
+image we have got it.
+
+07:29.190 --> 07:32.130
+Okay, so now we have completed building the docker image
+
+07:32.130 --> 07:33.270
+and then running it.
+
+07:33.270 --> 07:35.400
+Okay? So if you want, you can even stop it.
+
+07:35.400 --> 07:39.150
+Okay? So docker PS it is running now
+
+07:39.150 --> 07:43.350
+docker stop my Nginx 1, okay?
+
+07:43.350 --> 07:46.620
+And if you say docker PS no other containers are running
+
+07:46.620 --> 07:48.030
+but the stopper containers
+
+07:48.030 --> 07:51.630
+you can see my Nginx 1 and then my Nginx default.
+
+07:51.630 --> 07:53.160
+Okay? So if you want to remove them
+
+07:53.160 --> 07:54.870
+you can even remove them.
+
+07:54.870 --> 07:59.850
+Okay? So I'll say my Nginx 1
+
+07:59.850 --> 08:02.760
+and then all these things you can do via additional command.
+
+08:02.760 --> 08:03.593
+Now, docker...
+
+08:07.800 --> 08:10.440
+PS - a - q, right?
+
+08:10.440 --> 08:12.840
+Which is nothing, but you'll give the docker image
+
+08:12.840 --> 08:15.420
+docker container IDs, okay?
+
+08:15.420 --> 08:17.670
+So you can even remove them using this command.
+
+08:17.670 --> 08:21.990
+Okay? So now if you say docker, PS - a, nothing is there.
+
+08:21.990 --> 08:24.240
+Okay? So that's the reason why we are going to
+
+08:24.240 --> 08:28.260
+use -q is because to get that docker container IDs or
+
+08:28.260 --> 08:31.470
+docker image IDs and then pass this output
+
+08:31.470 --> 08:33.090
+to another command like this.
+
+08:33.090 --> 08:35.100
+Okay? So earlier we discussed this, right?
+
+08:35.100 --> 08:37.380
+So for that purpose I have excluded this command
+
+08:37.380 --> 08:38.850
+and then shown it even
+
+08:38.850 --> 08:41.040
+though it is not in our current things, okay.
+
+08:41.040 --> 08:42.000
+So now moving on,
+
+08:42.000 --> 08:44.850
+we are going to tag and push the docker image to docker hub.
+
+08:44.850 --> 08:47.040
+So currently our docker image name is
+
+08:47.040 --> 08:50.430
+myNginx_image1:V1 okay?
+
+08:50.430 --> 08:52.590
+So, but what I felt is like
+
+08:52.590 --> 08:55.050
+or V1 is not my, not looks good.
+
+08:55.050 --> 08:57.450
+So we'll say we want - release, okay?
+
+08:57.450 --> 09:00.990
+So then if I want to change my docker images tag name
+
+09:00.990 --> 09:03.900
+then we can use that docker tag, right?
+
+09:03.900 --> 09:06.150
+So docker tag command to do that.
+
+09:06.150 --> 09:08.220
+So let's do that now.
+
+09:08.220 --> 09:10.080
+So docker images
+
+09:10.080 --> 09:13.272
+and we'll have the tag simplify myNginx image one.
+
+09:13.272 --> 09:15.404
+So let's say docker tag
+
+09:15.404 --> 09:18.060
+and then stack simplify my Nginx image V1
+
+09:18.060 --> 09:20.220
+change it to V1 - release.
+
+09:20.220 --> 09:22.953
+Okay? So let's change that.
+
+09:25.290 --> 09:28.170
+Right, and if you see the images,
+
+09:28.170 --> 09:31.080
+so now you have both V1 and then also V1 release.
+
+09:31.080 --> 09:33.270
+Okay? So now let's push the V1 release
+
+09:33.270 --> 09:36.390
+to our Docker hub account.
+
+09:36.390 --> 09:39.390
+Okay, in your case, please replace your docker hub ID
+
+09:39.390 --> 09:43.020
+at every place wherever you see the stack simplify, right?
+
+09:43.020 --> 09:44.943
+So now I'm going to push this.
+
+09:49.110 --> 09:50.940
+Okay, it is pushing to my docker hub.
+
+09:50.940 --> 09:52.500
+So let's see once it is pushed.
+
+09:52.500 --> 09:53.940
+Okay, so let's go here,
+
+09:53.940 --> 09:55.710
+docker hub, right?
+
+09:55.710 --> 09:59.400
+So this is my dockor hub and my repositories are here.
+
+09:59.400 --> 10:01.800
+So let's wait for it to be completely pushed,
+
+10:01.800 --> 10:03.780
+and once it is pushed we can crosscheck
+
+10:03.780 --> 10:06.990
+whether it is available on our docker hub repositories
+
+10:06.990 --> 10:07.823
+or not.
+
+10:07.823 --> 10:09.900
+Okay? It is pushed now, okay so lets see.
+
+10:09.900 --> 10:13.500
+The next step is to verify the same on the docker hub.
+
+10:13.500 --> 10:16.353
+Okay, so let's go here and then refresh it.
+
+10:18.660 --> 10:21.000
+And you can see my Nginx_image1
+
+10:21.000 --> 10:23.730
+just now came updated a few seconds ago
+
+10:23.730 --> 10:27.270
+and you can see the tag name is V1 -release.
+
+10:27.270 --> 10:31.530
+So this completes the creation of a new docker image
+
+10:31.530 --> 10:35.190
+run it as a container and then push to the docker hub.
+
+10:35.190 --> 10:38.490
+Okay? So we have seen that in a series of five steps.
+
+10:38.490 --> 10:40.710
+Okay? So I'll see you in the next lecture.
+
+10:40.710 --> 10:42.060
+Until then, bye bye.
+
+10:42.060 --> 10:42.893
+Thank you.

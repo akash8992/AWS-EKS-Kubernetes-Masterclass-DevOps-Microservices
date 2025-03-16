@@ -1,0 +1,637 @@
+WEBVTT
+
+00:00.150 --> 00:00.983
+-: Welcome back.
+
+00:00.983 --> 00:01.890
+In this lecture,
+
+00:01.890 --> 00:04.290
+we are going to create the definition,
+
+00:04.290 --> 00:06.600
+YAML definition for our ReplicaSets.
+
+00:06.600 --> 00:10.200
+So this is nothing but 08-ReplicaSets.
+
+00:10.200 --> 00:11.490
+So let's go here,
+
+00:11.490 --> 00:12.540
+and as a step one,
+
+00:12.540 --> 00:15.150
+we are going to create the ReplicaSet definition.
+
+00:15.150 --> 00:16.260
+And then as a step two,
+
+00:16.260 --> 00:19.230
+we are going to create ReplicaSet and then verify it.
+
+00:19.230 --> 00:20.310
+And as a step three,
+
+00:20.310 --> 00:22.260
+we are going to create the NodePort service,
+
+00:22.260 --> 00:23.790
+and then access it via browser,
+
+00:23.790 --> 00:25.950
+and then test it, right?
+
+00:25.950 --> 00:28.860
+So let's go to our Visual Studio Code.
+
+00:28.860 --> 00:30.210
+And if you see here,
+
+00:30.210 --> 00:32.190
+01 is the kube-base-definition,
+
+00:32.190 --> 00:36.090
+which will have apiVersion, kind, metadata, and then spec.
+
+00:36.090 --> 00:37.380
+So let me copy this.
+
+00:37.380 --> 00:40.590
+Go to our 02-replicaset-definition, which is empty.
+
+00:40.590 --> 00:42.270
+I copied these things.
+
+00:42.270 --> 00:45.840
+And then, let's move on to find the API version
+
+00:45.840 --> 00:48.900
+by referring our documentation here, okay?
+
+00:48.900 --> 00:51.530
+So Kubenetes API Reference Doc for ReplicaSet
+
+00:51.530 --> 00:53.730
+is v1 apps, okay?
+
+00:53.730 --> 00:55.590
+So, which is nothing but group is apps
+
+00:55.590 --> 00:57.360
+and then version is v1.
+
+00:57.360 --> 01:01.860
+So let's make it as apps/v1, okay?
+
+01:01.860 --> 01:02.730
+So if it is core,
+
+01:02.730 --> 01:04.890
+we really don't need to mention it is core.
+
+01:04.890 --> 01:06.990
+Just if you type v1, it is good.
+
+01:06.990 --> 01:10.740
+But if it is apps, then we can say apps/v1.
+
+01:10.740 --> 01:13.890
+And the kind is going to be ReplicaSet.
+
+01:13.890 --> 01:15.510
+We can see it here.
+
+01:15.510 --> 01:17.520
+So now one important thing here is,
+
+01:17.520 --> 01:20.790
+90% of the cases, or many cases what we know,
+
+01:20.790 --> 01:23.070
+always a ReplicaSet will get created
+
+01:23.070 --> 01:25.710
+or triggered by creating a deployment.
+
+01:25.710 --> 01:29.760
+So which means like 99.99% we try to create a deployment,
+
+01:29.760 --> 01:32.940
+and automatically a ReplicaSet get created.
+
+01:32.940 --> 01:35.460
+But why we are learning first ReplicaSet
+
+01:35.460 --> 01:36.750
+and then moving to deployment
+
+01:36.750 --> 01:37.583
+is both are same.
+
+01:37.583 --> 01:39.210
+It's not a different thing.
+
+01:39.210 --> 01:41.730
+But if you change this to deployment,
+
+01:41.730 --> 01:43.260
+the same thing, entire definition,
+
+01:43.260 --> 01:45.090
+whatever we are going to create now
+
+01:45.090 --> 01:47.370
+is going to match with the ReplicaSet.
+
+01:47.370 --> 01:49.410
+And in addition to ReplicaSet,
+
+01:49.410 --> 01:52.110
+we can keep adding more and more features under the spec
+
+01:52.110 --> 01:54.600
+when you add as a deployment, okay?
+
+01:54.600 --> 01:55.760
+But when it is a ReplicaSet,
+
+01:55.760 --> 01:58.200
+it is only a few things you can add here.
+
+01:58.200 --> 01:59.730
+But let's learn few things now,
+
+01:59.730 --> 02:02.820
+and then extend it to become a deployment
+
+02:02.820 --> 02:04.770
+in our next lectures, okay?
+
+02:04.770 --> 02:08.540
+Always a deployment is a superset of the ReplicaSet,
+
+02:08.540 --> 02:10.147
+or you can say that ReplicaSet
+
+02:10.147 --> 02:13.230
+is a small subset of the deployment features, okay?
+
+02:13.230 --> 02:15.780
+So now let's go to metadata.
+
+02:15.780 --> 02:17.370
+In metadata, we already know,
+
+02:17.370 --> 02:20.040
+Enter and then Tab, and then name, right?
+
+02:20.040 --> 02:21.630
+So this is a dictionary.
+
+02:21.630 --> 02:24.070
+So we are going to say name is going to be
+
+02:25.020 --> 02:26.160
+whatever we want, okay?
+
+02:26.160 --> 02:30.510
+So, myapp2-rs.
+
+02:30.510 --> 02:32.820
+rs is nothing but ReplicaSet, okay?
+
+02:32.820 --> 02:35.700
+So, and now let's start with the spec
+
+02:35.700 --> 02:37.530
+in our ReplicaSet, okay?
+
+02:37.530 --> 02:40.170
+So we'll have three things here to discuss.
+
+02:40.170 --> 02:42.990
+So one is replicas, okay?
+
+02:42.990 --> 02:45.090
+So second is selector,
+
+02:45.090 --> 02:47.880
+and third is template, okay?
+
+02:47.880 --> 02:49.830
+So now replicas are going to be
+
+02:49.830 --> 02:51.540
+nothing but how many replicas.
+
+02:51.540 --> 02:52.470
+Again, these are,
+
+02:52.470 --> 02:53.910
+spec is a dictionary object,
+
+02:53.910 --> 02:56.580
+and then you have three types of properties under it.
+
+02:56.580 --> 03:00.120
+Replica, selector, and then template, okay?
+
+03:00.120 --> 03:02.070
+So let's start with replicas.
+
+03:02.070 --> 03:06.120
+So we need three pods to be created using this ReplicaSet.
+
+03:06.120 --> 03:08.490
+So that type of definition you can provide here
+
+03:08.490 --> 03:09.990
+for the replicas.
+
+03:09.990 --> 03:11.610
+And now the selector.
+
+03:11.610 --> 03:16.610
+Selector will have something called matchLabels, okay?
+
+03:16.750 --> 03:18.660
+Okay. So what does this mean?
+
+03:18.660 --> 03:21.570
+Is like, what is your pod definition,
+
+03:21.570 --> 03:24.570
+how I need to identify your pod definition label,
+
+03:24.570 --> 03:26.100
+and then have the same thing here.
+
+03:26.100 --> 03:29.610
+Means like whatever we define the label for our pod,
+
+03:29.610 --> 03:31.860
+the same thing need to be defined here
+
+03:31.860 --> 03:35.670
+so that ReplicaSet will identify this is my pod definition
+
+03:35.670 --> 03:37.560
+and that respective pod definition
+
+03:37.560 --> 03:41.370
+need to be ensure that it scales accordingly
+
+03:41.370 --> 03:43.560
+or it need to be increased or decreased, everything.
+
+03:43.560 --> 03:46.800
+Means like ReplicaSet will identify your respective pod
+
+03:46.800 --> 03:49.980
+based on the label you have identified in the pod
+
+03:49.980 --> 03:51.180
+and then the same label
+
+03:51.180 --> 03:54.330
+if you mention in the match labels, okay?
+
+03:54.330 --> 03:56.100
+So let's not define anything here.
+
+03:56.100 --> 03:58.830
+Let's move to that template first, okay?
+
+03:58.830 --> 03:59.970
+So template is nothing
+
+03:59.970 --> 04:02.310
+but your entire pod definition copy
+
+04:02.310 --> 04:04.200
+should be present under the template.
+
+04:04.200 --> 04:07.380
+So you already know that we have defined a pod definition
+
+04:07.380 --> 04:10.590
+in our respective pods with YAML, okay?
+
+04:10.590 --> 04:12.630
+So let me copy.
+
+04:12.630 --> 04:14.880
+Means like let me open it in a parallel window.
+
+04:14.880 --> 04:17.160
+So how to open here is like
+
+04:17.160 --> 04:20.550
+let's catch Ctrl and then right-click
+
+04:20.550 --> 04:23.160
+and open to the side, okay?
+
+04:23.160 --> 04:24.960
+And let's make this simple.
+
+04:24.960 --> 04:27.570
+So now you have your pod definition here.
+
+04:27.570 --> 04:30.780
+So the entire pod definition from metadata, okay?
+
+04:30.780 --> 04:34.080
+So kind and apiVersion is not required from here, okay?
+
+04:34.080 --> 04:35.230
+So from metadata
+
+04:36.150 --> 04:38.640
+and whatever is there that is your pod definition
+
+04:38.640 --> 04:42.330
+comes under your template section of your ReplicaSet.
+
+04:42.330 --> 04:44.670
+So go to the starting and then paste it.
+
+04:44.670 --> 04:45.660
+So is it aligned?
+
+04:45.660 --> 04:47.700
+So now let me close this pod definition
+
+04:47.700 --> 04:48.720
+we really don't need, right?
+
+04:48.720 --> 04:50.010
+We copied it, okay?
+
+04:50.010 --> 04:52.440
+So now it doesn't look like aligned.
+
+04:52.440 --> 04:54.780
+So why? Because it came at the root element.
+
+04:54.780 --> 04:56.790
+But ideally, it should be under template
+
+04:56.790 --> 04:58.290
+as a child element, okay?
+
+04:58.290 --> 05:00.120
+So what I'll say is select,
+
+05:00.120 --> 05:03.060
+and one tab, it came directly equal and to template.
+
+05:03.060 --> 05:06.210
+So I'll again type tab one more time,
+
+05:06.210 --> 05:09.660
+so that now, under template, metadata is a child element,
+
+05:09.660 --> 05:12.330
+and it has the pod name as myapp2-pod.
+
+05:12.330 --> 05:14.190
+So we are checking for two, right?
+
+05:14.190 --> 05:18.870
+So in the labels, I'll say app is equal to myapp2, okay?
+
+05:18.870 --> 05:20.670
+And spec, containers,
+
+05:20.670 --> 05:23.070
+and then container near myapp2 container
+
+05:23.070 --> 05:24.780
+or whatever you want to put it here,
+
+05:24.780 --> 05:26.040
+that is fine, okay?
+
+05:26.040 --> 05:27.360
+So that's all.
+
+05:27.360 --> 05:29.550
+Now this is the template section.
+
+05:29.550 --> 05:32.220
+So now we need to discuss about match labels.
+
+05:32.220 --> 05:35.100
+Means like selector match labels for our ReplicaSet.
+
+05:35.100 --> 05:37.590
+So whatever the label we have
+
+05:37.590 --> 05:41.190
+present in our pod definition here, right,
+
+05:41.190 --> 05:42.570
+or my pod label,
+
+05:42.570 --> 05:45.412
+the same thing should be present here, okay?
+
+05:45.412 --> 05:46.920
+So I'll paste it here.
+
+05:46.920 --> 05:48.750
+So if you see now,
+
+05:48.750 --> 05:50.790
+under matchLabels, you have myapp2,
+
+05:50.790 --> 05:53.610
+which means like the ReplicaSet will identify this
+
+05:53.610 --> 05:56.760
+as your respective pod it need to scale up or scale down.
+
+05:56.760 --> 05:58.740
+Okay? So this pod, okay?
+
+05:58.740 --> 06:01.680
+So one more change we will do here is this one, okay?
+
+06:01.680 --> 06:03.480
+So earlier, for the pods with YAML,
+
+06:03.480 --> 06:05.310
+we have done 1.0.0.
+
+06:05.310 --> 06:08.670
+So now what we'll do is like we'll use 2.0.0.
+
+06:08.670 --> 06:11.490
+So now your tag is app2.
+
+06:11.490 --> 06:15.870
+This will not be in confusion with the existing myapp-pod,
+
+06:15.870 --> 06:18.210
+whatever you have created as a single pod, okay?
+
+06:18.210 --> 06:21.030
+So you'll not have any issues related to that, okay?
+
+06:21.030 --> 06:23.910
+So now let's go ahead and then create this pod,
+
+06:23.910 --> 06:25.530
+and then test it, okay?
+
+06:25.530 --> 06:27.600
+So now we'll go here,
+
+06:27.600 --> 06:30.390
+and then now we are going to create our pod, okay?
+
+06:30.390 --> 06:32.820
+So let's go back here,
+
+06:32.820 --> 06:35.670
+and I should be in the section
+
+06:35.670 --> 06:39.060
+08-ReplicaSets-with-YAML/kube-manifests.
+
+06:39.060 --> 06:40.440
+I am inside of that.
+
+06:40.440 --> 06:45.270
+So I'll say kubectl apply -f
+
+06:45.270 --> 06:48.480
+and 02-replicaset-definition.yml.
+
+06:48.480 --> 06:51.210
+So if any issues, it is going to throw an error for us.
+
+06:51.210 --> 06:53.040
+It didn't throw any error.
+
+06:53.040 --> 06:55.620
+So get rs, it looks good.
+
+06:55.620 --> 06:59.610
+Okay, so let's wait for the response to come back.
+
+06:59.610 --> 07:02.730
+So all are running current and ready, everything is ready.
+
+07:02.730 --> 07:07.110
+Kubectl get pods, and we should see the pods running.
+
+07:07.110 --> 07:10.067
+So kubectl describe pod.
+
+07:10.067 --> 07:13.530
+And then myapp2 pod, let's describe it, okay?
+
+07:13.530 --> 07:17.220
+And see if it is 2.0.0 images running here, okay?
+
+07:17.220 --> 07:18.270
+So yeah, I download it,
+
+07:18.270 --> 07:20.400
+and then using that 2.0.0.
+
+07:20.400 --> 07:22.110
+So now one thing we can do is,
+
+07:22.110 --> 07:24.240
+we already know ReplicaSet will ensure
+
+07:24.240 --> 07:26.970
+that always whatever the defined replicas
+
+07:26.970 --> 07:27.803
+present inside that,
+
+07:27.803 --> 07:31.440
+it is going to maintain the same number of replicas.
+
+07:31.440 --> 07:34.803
+So what we are going to do is kubectl get pods,
+
+07:37.380 --> 07:40.530
+and then we are going to delete one pod.
+
+07:40.530 --> 07:42.120
+And then automatically,
+
+07:42.120 --> 07:45.900
+your ReplicaSet should recreate that pod.
+
+07:45.900 --> 07:47.223
+So it's taking time.
+
+07:48.150 --> 07:50.880
+So now my ReplicaSet-related pods are running.
+
+07:50.880 --> 07:54.210
+So I'll say kubectl delete pod,
+
+07:54.210 --> 07:58.530
+and I will delete this respective pod, okay?
+
+07:58.530 --> 08:02.610
+And it's age now should be not 93 seconds, okay?
+
+08:02.610 --> 08:06.840
+So it should be lesser than that once ReplicaSet creates it.
+
+08:06.840 --> 08:11.103
+Let's cross-check that now after the deletion is completed.
+
+08:11.940 --> 08:15.693
+So one more time, kubectl get pods.
+
+08:20.370 --> 08:22.830
+So I got a timeout error. We can ignore that.
+
+08:22.830 --> 08:25.170
+So now if you see here,
+
+08:25.170 --> 08:27.660
+these two pods are with the age of two minutes,
+
+08:27.660 --> 08:29.190
+but whatever we have deleted,
+
+08:29.190 --> 08:32.100
+it automatically recreated, ReplicaSet recreated,
+
+08:32.100 --> 08:34.230
+and it is 34 seconds, okay?
+
+08:34.230 --> 08:35.220
+So in our next lecture,
+
+08:35.220 --> 08:37.290
+we'll go ahead and then create the NodePort service
+
+08:37.290 --> 08:38.910
+for this ReplicaSet
+
+08:38.910 --> 08:41.760
+and ensure that we access it via browser.
+
+08:41.760 --> 08:42.720
+And then in browser,
+
+08:42.720 --> 08:45.660
+we get the v2 version of our application.
+
+08:45.660 --> 08:47.280
+So I'll see you in the next lecture.
+
+08:47.280 --> 08:48.843
+Until then, bye bye. Thank you.

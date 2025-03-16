@@ -1,0 +1,304 @@
+WEBVTT
+
+00:00.240 --> 00:01.073
+-: Welcome back.
+
+00:01.073 --> 00:03.510
+In this step we are going to create MySQL database
+
+00:03.510 --> 00:07.110
+with all above manifests, whatever we have created, right?
+
+00:07.110 --> 00:08.340
+So we are going to create it
+
+00:08.340 --> 00:11.370
+and then verify the storage class, PVC, PV, pods
+
+00:11.370 --> 00:13.800
+and then also list the pods.
+
+00:13.800 --> 00:16.830
+And then connect to our respective MySQL database
+
+00:16.830 --> 00:18.180
+and then see the schemas.
+
+00:18.180 --> 00:19.470
+Okay?
+
+00:19.470 --> 00:22.590
+So let's go ahead and then do that now.
+
+00:22.590 --> 00:25.140
+So we are in our respective folder,
+
+00:25.140 --> 00:30.000
+which is nothing but a 0402 SCP SV config map MySQL, okay?
+
+00:30.000 --> 00:34.740
+So Kubectl apply hyphen "f" cube manifest.
+
+00:34.740 --> 00:36.360
+So whatever the manifest is under that
+
+00:36.360 --> 00:37.530
+it is going to create it.
+
+00:37.530 --> 00:39.570
+If any issues, it is going to throw the error
+
+00:39.570 --> 00:41.910
+and then we are going to know about it.
+
+00:41.910 --> 00:44.490
+So we know that under the cluster IP service,
+
+00:44.490 --> 00:46.290
+we have a validation error.
+
+00:46.290 --> 00:49.620
+I didn't provide Cluster, C L U S E R.
+
+00:49.620 --> 00:51.330
+I didn't provide that "T" here. Okay?
+
+00:51.330 --> 00:55.050
+So let's go there and then fix that, okay?
+
+00:55.050 --> 00:58.680
+So cluster IP, right?
+
+00:58.680 --> 01:00.000
+So that's good.
+
+01:00.000 --> 01:02.580
+So now let's try one more time.
+
+01:02.580 --> 01:06.120
+So it should get created and the service also got created.
+
+01:06.120 --> 01:08.193
+So now if you see the,
+
+01:09.480 --> 01:13.290
+get PVC persistent volume claim.
+
+01:13.290 --> 01:15.540
+So now it is bound, you can see, right?
+
+01:15.540 --> 01:17.130
+So earlier it is in pending state
+
+01:17.130 --> 01:19.620
+whenever we have directly created them.
+
+01:19.620 --> 01:22.200
+And then no, MySQL pod got created.
+
+01:22.200 --> 01:23.407
+So now we'll see PV,
+
+01:23.407 --> 01:26.640
+which is nothing but persistent volume got created
+
+01:26.640 --> 01:28.020
+and then it's in use.
+
+01:28.020 --> 01:28.950
+Okay? It's bound.
+
+01:28.950 --> 01:32.310
+Okay? So this is the persistent volume, it got created.
+
+01:32.310 --> 01:37.310
+So now let's go back and then see the pods.
+
+01:38.010 --> 01:38.843
+Right?
+
+01:38.843 --> 01:41.550
+So our MySQL pod is running.
+
+01:41.550 --> 01:43.500
+Okay? So that's about it.
+
+01:43.500 --> 01:44.673
+So if you want to,
+
+01:45.960 --> 01:48.180
+find it with the respective label,
+
+01:48.180 --> 01:49.920
+means like app is equal to MySQL
+
+01:49.920 --> 01:52.080
+so you can do like this, okay?
+
+01:52.080 --> 01:55.530
+Hyphen "l" app is equal to MySQL
+
+01:55.530 --> 01:58.080
+Even you can list using MySQL pods.
+
+01:58.080 --> 01:59.160
+That's all, okay?
+
+01:59.160 --> 02:02.160
+So how to use labels, this is a just simple command.
+
+02:02.160 --> 02:04.920
+So now we'll move on to connect to this MySQL
+
+02:04.920 --> 02:06.030
+and then see what happens.
+
+02:06.030 --> 02:07.320
+Okay?
+
+02:07.320 --> 02:11.430
+So let's use the command Kubectl run
+
+02:11.430 --> 02:14.700
+and then use the interactive terminal IT
+
+02:14.700 --> 02:18.510
+and then delete this pod whenever it has been exited.
+
+02:18.510 --> 02:22.140
+And then we are going to use image, right?
+
+02:22.140 --> 02:25.980
+MySQL 5.6 for our client also, restart never.
+
+02:25.980 --> 02:27.210
+And then MySQL client
+
+02:27.210 --> 02:30.210
+and then MySQL hyphen host is MySQL only.
+
+02:30.210 --> 02:31.603
+Why? Because whatever is running is
+
+02:31.603 --> 02:32.860
+a MySQL service only, right?
+
+02:32.860 --> 02:37.380
+And the password is DV password, 114 for our route password.
+
+02:37.380 --> 02:40.050
+Okay, so let's run this and then see what happens.
+
+02:40.050 --> 02:41.220
+Okay?
+
+02:41.220 --> 02:43.620
+So, right.
+
+02:43.620 --> 02:46.470
+So we should get the MySQL terminal, ideally.
+
+02:46.470 --> 02:47.313
+So let's see.
+
+02:51.450 --> 02:53.700
+It's taking a little bit of time.
+
+02:53.700 --> 02:56.310
+If you don't... Yeah, we got it, okay?
+
+02:56.310 --> 02:58.650
+So now if I say show schemas,
+
+02:58.650 --> 02:59.910
+so I should have,
+
+02:59.910 --> 03:03.750
+in addition to default schemas, user MGMT schema.
+
+03:03.750 --> 03:04.920
+So it got created.
+
+03:04.920 --> 03:09.510
+So whatever we have defined in our config map under data,
+
+03:09.510 --> 03:13.710
+the MySQL underscore user MGMT dot SQL got executed
+
+03:13.710 --> 03:18.000
+and it also created the user MGMT schema.
+
+03:18.000 --> 03:20.280
+So with this we have completed
+
+03:20.280 --> 03:23.785
+the creation of our entire section,
+
+03:23.785 --> 03:26.760
+which is creating a storage class,
+
+03:26.760 --> 03:28.770
+creating a persistent volume claim
+
+03:28.770 --> 03:31.230
+and then using the dynamic provisioning.
+
+03:31.230 --> 03:33.150
+And we have created the config map.
+
+03:33.150 --> 03:36.540
+And then we have also created the deployment for MySQL
+
+03:36.540 --> 03:40.410
+and also the cluster IP service for MySQL, okay?
+
+03:40.410 --> 03:42.300
+So if you want to see, we can even see.
+
+03:42.300 --> 03:43.860
+So I can exit from this.
+
+03:43.860 --> 03:45.750
+So I'll say quit.
+
+03:45.750 --> 03:48.160
+And my container, my pod got terminated.
+
+03:48.160 --> 03:51.060
+Okay, MySQL client pod got terminated.
+
+03:51.060 --> 03:51.893
+So good.
+
+03:51.893 --> 03:54.660
+So if I say Kubectl get pods
+
+03:54.660 --> 03:57.030
+and I should have only one pod now, yeah.
+
+03:57.030 --> 04:00.960
+And then I should see SVC which is our cluster IP service.
+
+04:00.960 --> 04:01.793
+So that's good.
+
+04:01.793 --> 04:04.380
+Okay, so now this is about entire stuff.
+
+04:04.380 --> 04:05.220
+In our next lecture,
+
+04:05.220 --> 04:07.860
+we'll discuss little bit about the references section.
+
+04:07.860 --> 04:10.860
+And then we'll close this entire 0402 section
+
+04:10.860 --> 04:13.710
+And then we'll move on to user management service.
+
+04:13.710 --> 04:15.270
+So I'll see you in the next lecture.
+
+04:15.270 --> 04:16.893
+Until then, bye bye. Thank you.

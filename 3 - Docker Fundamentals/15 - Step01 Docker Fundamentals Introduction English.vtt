@@ -1,0 +1,160 @@
+WEBVTT
+
+00:00.720 --> 00:02.130
+-: Welcome back.
+
+00:02.130 --> 00:05.220
+In this section we are going to primarily focus on
+
+00:05.220 --> 00:07.350
+Docker Fundamentals.
+
+00:07.350 --> 00:09.630
+So, what are the topics involved
+
+00:09.630 --> 00:11.700
+in understanding the Docker Fundamentals?
+
+00:11.700 --> 00:14.850
+Let's go ahead and then see that now.
+
+00:14.850 --> 00:17.820
+So, we are in our github slash,
+
+00:17.820 --> 00:21.480
+github.com/stacksimplify git repository.
+
+00:21.480 --> 00:24.060
+So in that, there is one repository called
+
+00:24.060 --> 00:26.580
+Docker-fundamentals.
+
+00:26.580 --> 00:27.930
+So if you go inside,
+
+00:27.930 --> 00:31.590
+we have a five sections involved in this understanding
+
+00:31.590 --> 00:34.860
+and then learning the Docker fundamentals, okay?
+
+00:34.860 --> 00:37.980
+So we are going to first understand what is Docker
+
+00:37.980 --> 00:40.530
+and then in traditional approach
+
+00:40.530 --> 00:42.690
+what are the problems we are having
+
+00:42.690 --> 00:46.290
+and then why, with the Docker how we are going to solve it.
+
+00:46.290 --> 00:49.050
+And we are going to understand the Docker terminology
+
+00:49.050 --> 00:51.240
+or Docker architecture.
+
+00:51.240 --> 00:53.850
+So once all that is covered in first section
+
+00:53.850 --> 00:56.970
+then we'll move on to the Docker installation.
+
+00:56.970 --> 00:58.500
+So in Docker installation,
+
+00:58.500 --> 01:01.950
+we'll focus on installation on Windows, Mac
+
+01:01.950 --> 01:05.760
+and also troubleshooting Docker desktop issues on Mac.
+
+01:05.760 --> 01:09.300
+So from there on, we'll move on to two major flows,
+
+01:09.300 --> 01:12.540
+which are more essential for understanding the Docker.
+
+01:12.540 --> 01:16.350
+So the primary flow is like pull a Docker image
+
+01:16.350 --> 01:19.020
+from Docker hub and then run the Docker image
+
+01:19.020 --> 01:20.070
+as a container.
+
+01:20.070 --> 01:22.800
+So we have existing Docker images available
+
+01:22.800 --> 01:24.540
+for different applications
+
+01:24.540 --> 01:25.980
+and then how we need to pull that
+
+01:25.980 --> 01:28.800
+and then run it on our local Docker machine.
+
+01:28.800 --> 01:29.970
+We are going to see it.
+
+01:29.970 --> 01:34.290
+In addition, the flow two is like build a new Docker image
+
+01:34.290 --> 01:36.090
+and then run it locally
+
+01:36.090 --> 01:38.700
+and then again push it back to the Docker hub.
+
+01:38.700 --> 01:40.230
+So how we are going to do that?
+
+01:40.230 --> 01:42.990
+So if we understand basic these two flows.
+
+01:42.990 --> 01:44.880
+So we are very good with the Docker
+
+01:44.880 --> 01:47.640
+in the sense like we got the fundamentals thoroughly.
+
+01:47.640 --> 01:52.440
+In addition, we'll also focus on essential Docker commands.
+
+01:52.440 --> 01:54.480
+So the Docker architecture what we are seeing
+
+01:54.480 --> 01:56.670
+already covered in Docker introduction.
+
+01:56.670 --> 01:59.490
+So we really don't need to worry about it, okay?
+
+01:59.490 --> 02:01.800
+But the core thing is we are also going to focus on
+
+02:01.800 --> 02:04.110
+essential Docker commands on day to day life
+
+02:04.110 --> 02:08.430
+what we are going to use when we are using the Docker.
+
+02:08.430 --> 02:11.580
+So this is the core things we are going to perform now.
+
+02:11.580 --> 02:13.500
+So I'll see you in the next lecture
+
+02:13.500 --> 02:15.570
+with the Docker introduction.
+
+02:15.570 --> 02:16.800
+Until then, bye bye.
+
+02:16.800 --> 02:17.633
+Thank you.

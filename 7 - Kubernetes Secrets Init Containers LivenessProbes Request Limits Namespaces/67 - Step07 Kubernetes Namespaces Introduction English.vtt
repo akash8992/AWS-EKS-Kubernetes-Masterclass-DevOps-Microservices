@@ -1,0 +1,664 @@
+WEBVTT
+
+00:00.150 --> 00:01.050
+-: Welcome back.
+
+00:01.050 --> 00:02.160
+So in this lecture,
+
+00:02.160 --> 00:04.950
+we are going to understand about Kubernetes namespaces
+
+00:04.950 --> 00:06.930
+on a very high level.
+
+00:06.930 --> 00:09.810
+So name spaces are also called virtual clusters
+
+00:09.810 --> 00:12.330
+in our physical Kubernetes cluster.
+
+00:12.330 --> 00:13.385
+Why?
+
+00:13.385 --> 00:15.480
+Because we create a Kubernetes objects
+
+00:15.480 --> 00:18.210
+inside these namespaces which will be isolated
+
+00:18.210 --> 00:21.510
+from other objects outside of this namespace.
+
+00:21.510 --> 00:25.620
+So that's the reason we call it as a virtual cluster.
+
+00:25.620 --> 00:29.640
+So usually these name spaces are used in environments
+
+00:29.640 --> 00:31.770
+where we have many users spread
+
+00:31.770 --> 00:34.350
+across multiple teams or projects.
+
+00:34.350 --> 00:37.440
+So we have many projects and then many teams
+
+00:37.440 --> 00:39.150
+which are accessing all these projects
+
+00:39.150 --> 00:41.190
+deployed on the Kubernetes cluster.
+
+00:41.190 --> 00:45.210
+And if you want the complete isolation boundaries defined
+
+00:45.210 --> 00:47.940
+for these each teams of the end environments,
+
+00:47.940 --> 00:50.760
+then we can use the namespaces.
+
+00:50.760 --> 00:54.300
+For simple clusters with the minimum number of users
+
+00:54.300 --> 00:55.950
+or minimum number of applications,
+
+00:55.950 --> 00:58.320
+which we really don't feel as complex,
+
+00:58.320 --> 01:01.710
+we can directly don't need to use namespaces.
+
+01:01.710 --> 01:04.380
+But personally what I recommend
+
+01:04.380 --> 01:06.660
+is this is what document recommends,
+
+01:06.660 --> 01:09.936
+but personally what I recommend based on my experiences,
+
+01:09.936 --> 01:13.020
+start using namespaces.
+
+01:13.020 --> 01:15.450
+If respect you have if you use the resource quota
+
+01:15.450 --> 01:17.580
+and then other advanced options,
+
+01:17.580 --> 01:20.460
+at least if you start using the namespaces
+
+01:20.460 --> 01:22.400
+and then pushing your objects
+
+01:22.400 --> 01:25.444
+to that respective isolated boundary,
+
+01:25.444 --> 01:28.260
+excluding the resource quota concepts,
+
+01:28.260 --> 01:29.820
+so what happens here is like
+
+01:29.820 --> 01:31.847
+you'll get a lot of advantages
+
+01:31.847 --> 01:34.170
+when you are doing,
+
+01:34.170 --> 01:36.630
+when you are getting to experience those things,
+
+01:36.630 --> 01:38.100
+you'll understand better.
+
+01:38.100 --> 01:39.660
+But my personal recommendation
+
+01:39.660 --> 01:41.640
+is start using namespaces
+
+01:41.640 --> 01:44.940
+even in these tens of users of in this area
+
+01:44.940 --> 01:46.500
+also start using namespaces.
+
+01:46.500 --> 01:48.960
+It's no harm in having your objects
+
+01:48.960 --> 01:50.850
+dedicated in a namespace
+
+01:50.850 --> 01:53.880
+instead of having them in a default namespace.
+
+01:53.880 --> 01:56.730
+I respect you if you don't use this namespace concept also,
+
+01:56.730 --> 01:57.810
+whatever you are creating
+
+01:57.810 --> 02:00.780
+is going to go into it a default namespace.
+
+02:00.780 --> 02:04.761
+So if that is the case, what is wrong in using namespaces?
+
+02:04.761 --> 02:06.960
+So, that's my recommendation.
+
+02:06.960 --> 02:08.040
+So, moving on.
+
+02:08.040 --> 02:10.290
+So, what are the benefits we are going to get?
+
+02:10.290 --> 02:13.052
+So, when we create these namespaces
+
+02:13.052 --> 02:15.670
+it creates the isolation boundary
+
+02:16.557 --> 02:17.603
+from other created objects,
+
+02:18.500 --> 02:20.517
+further objects whatever we have created
+
+02:20.517 --> 02:21.715
+inside that namespace.
+
+02:21.715 --> 02:23.850
+So we are going to see all those things in our next slide.
+
+02:23.850 --> 02:27.450
+We can also limit the resources like CPU and memory
+
+02:27.450 --> 02:29.010
+on per namespace basis
+
+02:29.010 --> 02:32.280
+using the resource quota option available in Kubernetes.
+
+02:32.280 --> 02:33.810
+So you can create a namespace
+
+02:33.810 --> 02:35.220
+and provide that resource quota
+
+02:35.220 --> 02:38.100
+like it need to use only two CPU codes
+
+02:38.100 --> 02:41.850
+and then 4GB of memory, so you can do that.
+
+02:41.850 --> 02:42.870
+So that's the reason
+
+02:42.870 --> 02:46.188
+you can even call it as a virtual cluster.
+
+02:46.188 --> 02:48.090
+So, now moving on.
+
+02:48.090 --> 02:49.950
+So how to get the namespaces?
+
+02:49.950 --> 02:52.350
+So you can say kubectl, get namespace
+
+02:52.350 --> 02:54.960
+and then you'll get the by default
+
+02:54.960 --> 02:58.170
+to whatever has created as part of the cluster creation.
+
+02:58.170 --> 02:59.850
+So Kubernetes cluster creation,
+
+02:59.850 --> 03:02.460
+all those default namespaces will be available.
+
+03:02.460 --> 03:05.670
+So let's start with what is this default namespace.
+
+03:05.670 --> 03:08.790
+So let's understand this default namespace is nothing.
+
+03:08.790 --> 03:10.800
+But so far whatever we have done
+
+03:10.800 --> 03:12.750
+in our continuous previous lectures,
+
+03:12.750 --> 03:15.630
+whatever we have done so far, whatever we deployed,
+
+03:15.630 --> 03:19.440
+all objects were deployed under this default namespace.
+
+03:19.440 --> 03:21.180
+Our user management application,
+
+03:21.180 --> 03:25.860
+or our Nginx application, whatever we have done
+
+03:25.860 --> 03:28.650
+all those are getting under this default namespace.
+
+03:28.650 --> 03:30.060
+That's the reason, whatever I say
+
+03:30.060 --> 03:32.280
+is like whatever we create anywhere
+
+03:32.280 --> 03:34.080
+going into one default namespace.
+
+03:34.080 --> 03:36.240
+Instead of that, if you want to clearly
+
+03:36.240 --> 03:39.330
+and then clarity manage your objects in Kubernetes,
+
+03:39.330 --> 03:42.450
+start trying to use namespaces.
+
+03:42.450 --> 03:46.050
+And next thing is kube node release, okay?
+
+03:46.050 --> 03:49.230
+So this namespace is for the lease objects
+
+03:49.230 --> 03:51.690
+associated with each node,
+
+03:51.690 --> 03:54.840
+which improves performance of our node heartbeats
+
+03:54.840 --> 03:57.540
+as the cluster keeps scaling.
+
+03:57.540 --> 03:58.373
+Okay?
+
+03:58.373 --> 04:00.240
+So using the auto scaling when the cluster is scaling.
+
+04:00.240 --> 04:02.340
+So this, using this kube node release,
+
+04:02.340 --> 04:04.980
+we are going to have the better performance of our cluster.
+
+04:04.980 --> 04:06.162
+Okay?
+
+04:06.162 --> 04:07.230
+But the core thing is we really don't need
+
+04:07.230 --> 04:09.780
+to worry about that or we really need to
+
+04:09.780 --> 04:12.090
+or look into that one.
+
+04:12.090 --> 04:14.287
+So, one more will be there, which is kube public.
+
+04:14.287 --> 04:17.407
+So this namespace is created automatically
+
+04:17.407 --> 04:21.570
+and is readable by all users, even the unauthenticated users
+
+04:21.570 --> 04:23.550
+of my Kubernetes cluster.
+
+04:23.550 --> 04:26.790
+So this name space is mostly reserved for cluster usage
+
+04:26.790 --> 04:29.760
+in case that some resources should be visible
+
+04:29.760 --> 04:33.180
+and readable publicly throughout the whole cluster.
+
+04:33.180 --> 04:35.340
+So kube node release and kube public,
+
+04:35.340 --> 04:38.340
+we really don't need to worry about these things, okay?
+
+04:38.340 --> 04:40.020
+So one thing which is default,
+
+04:40.020 --> 04:41.460
+where we create by default
+
+04:41.460 --> 04:43.080
+whenever no namespace is mentioned
+
+04:43.080 --> 04:45.390
+it is going to go into default.
+
+04:45.390 --> 04:48.810
+And another thing which we have is kube system.
+
+04:48.810 --> 04:51.390
+So this is what we should be aware of.
+
+04:51.390 --> 04:54.630
+So all the Kubernetes system-related objects
+
+04:54.630 --> 04:57.000
+will be created in the kube system.
+
+04:57.000 --> 04:59.790
+So let's go ahead and then see that now.
+
+04:59.790 --> 05:01.680
+So, let's see what I'll present
+
+05:01.680 --> 05:04.535
+in our kube system namespace, okay?
+
+05:04.535 --> 05:06.570
+So I'll say kubectl, okay?
+
+05:06.570 --> 05:10.937
+So get all objects and then hyphen, hypen,
+
+05:12.094 --> 05:17.094
+namespace kube-system, right?
+
+05:19.200 --> 05:21.600
+So it'll provide all the objects
+
+05:21.600 --> 05:23.970
+present in our system, okay?
+
+05:23.970 --> 05:25.680
+So you can see it here.
+
+05:25.680 --> 05:27.840
+So, the following parts are present
+
+05:27.840 --> 05:30.420
+and then you also have a service named kube DNS,
+
+05:30.420 --> 05:31.920
+which is a cluster IP.
+
+05:31.920 --> 05:34.950
+And you also haves AWS node two parts
+
+05:34.950 --> 05:36.540
+and then code DNS two parts
+
+05:36.540 --> 05:38.370
+and then EBS CSI controller,
+
+05:38.370 --> 05:41.550
+which is elastic block toward CSA controller two ports.
+
+05:41.550 --> 05:43.530
+And the CSI node which is a DaemonSet
+
+05:43.530 --> 05:45.600
+running on each of our cluster nodes.
+
+05:45.600 --> 05:48.330
+Two cluster easy two instances we have.
+
+05:48.330 --> 05:49.770
+And on them they're running.
+
+05:49.770 --> 05:51.600
+And we also have kube proxy.
+
+05:51.600 --> 05:54.668
+So you can sees AWS node is a DaemonSet
+
+05:54.668 --> 05:56.989
+and EBS CSI note is a DaemonSet
+
+05:56.989 --> 05:59.520
+and Kube proxy's a DaemonSet here, okay?
+
+05:59.520 --> 06:01.410
+And in addition to that you have core DNS
+
+06:01.410 --> 06:04.680
+and then EBS CSI controller deployment created
+
+06:04.680 --> 06:06.670
+and you also equal and replicate cells
+
+06:07.836 --> 06:09.145
+also you can see here.
+
+06:09.145 --> 06:11.100
+So kube system is nothing but all the system objects
+
+06:11.100 --> 06:15.120
+are running here inside the kube system namespace.
+
+06:15.120 --> 06:16.954
+So let's understand little bit, okay?
+
+06:16.954 --> 06:20.910
+So kubectl, get namespaces, you can say NS.
+
+06:20.910 --> 06:24.060
+NS is the alias for name spaces here, okay?
+
+06:24.060 --> 06:25.170
+And in addition to that,
+
+06:25.170 --> 06:27.360
+one thing we have done just now is kubectl,
+
+06:27.360 --> 06:29.040
+get all, right?
+
+06:29.040 --> 06:31.320
+So and then hyphen, hyphen namespace we have given.
+
+06:31.320 --> 06:34.620
+You can even view hyphen N and then kube system
+
+06:34.620 --> 06:38.251
+and the output should be same, right?
+
+06:38.251 --> 06:42.330
+So, get to all objects from the kube system using hyphen N.
+
+06:42.330 --> 06:43.800
+So that's about it, okay?
+
+06:43.800 --> 06:46.200
+so now let's come back
+
+06:46.200 --> 06:49.560
+and we'll move on to the next slide.
+
+06:49.560 --> 06:52.140
+So here what we are going to understand
+
+06:52.140 --> 06:56.010
+is a pictorial representation of our namespaces.
+
+06:56.010 --> 06:58.410
+So if you see I have a simple application
+
+06:58.410 --> 07:01.230
+with a simple backend application.
+
+07:01.230 --> 07:03.030
+So maybe my REST service application
+
+07:03.030 --> 07:05.520
+which we have seen in in our previous examples
+
+07:05.520 --> 07:09.750
+and then which is front-end with the Nginx proxy, right?
+
+07:09.750 --> 07:12.750
+So now whatever my backend application,
+
+07:12.750 --> 07:14.580
+whatever I do the deployment,
+
+07:14.580 --> 07:17.970
+when it creates a replica and it's equivalent port.
+
+07:17.970 --> 07:20.880
+At the same time, to access that inside the cluster
+
+07:20.880 --> 07:23.190
+we create a cluster IP service.
+
+07:23.190 --> 07:25.590
+And once for the front-end service,
+
+07:25.590 --> 07:28.200
+you create the deployment and automatically
+
+07:28.200 --> 07:30.240
+the replica second port created.
+
+07:30.240 --> 07:32.040
+And if you want to access via internet,
+
+07:32.040 --> 07:33.360
+you can use node port service
+
+07:33.360 --> 07:36.090
+or the load balancer service, okay?
+
+07:36.090 --> 07:39.480
+So now all these objects are packed under it.
+
+07:39.480 --> 07:41.340
+Namespace name, dev.
+
+07:41.340 --> 07:44.070
+So which means, whenever you create these objects
+
+07:44.070 --> 07:45.360
+you can direct them
+
+07:45.360 --> 07:48.780
+to create it directly on the namespace dev.
+
+07:48.780 --> 07:51.120
+In the same way, if I want to create QA,
+
+07:51.120 --> 07:54.450
+again the same objects can be created in QA.
+
+07:54.450 --> 07:56.670
+So now if you see by default
+
+07:56.670 --> 07:58.770
+if these gets created in default namespace
+
+07:58.770 --> 08:01.470
+with the same names, they cannot get created
+
+08:01.470 --> 08:04.020
+in the same default namespace one more time.
+
+08:04.020 --> 08:06.360
+But now our namespaces are different.
+
+08:06.360 --> 08:10.350
+If for example, this deployment name is backend one, okay?
+
+08:10.350 --> 08:12.690
+So now it is in dev it gets created
+
+08:12.690 --> 08:14.580
+and in QA it gets created.
+
+08:14.580 --> 08:16.830
+In other environments it gets created.
+
+08:16.830 --> 08:18.240
+How it can get created
+
+08:18.240 --> 08:21.690
+is because of it is completely a isolation boundary
+
+08:21.690 --> 08:25.488
+for all these objects using this namespaces.
+
+08:25.488 --> 08:29.400
+Now, let's see the namespace manifest
+
+08:29.400 --> 08:31.200
+in a declarative manner.
+
+08:31.200 --> 08:34.410
+So as usual, our standard template is API version kind,
+
+08:34.410 --> 08:36.390
+metadata name and then spec.
+
+08:36.390 --> 08:39.270
+So namespace doesn't have any other additional information.
+
+08:39.270 --> 08:41.280
+We really don't need to have any spec there.
+
+08:41.280 --> 08:43.878
+So you'll have API version is V1,
+
+08:43.878 --> 08:45.720
+kind is namespace and metadata inside that name,
+
+08:45.720 --> 08:48.725
+I'm giving my namespace name as dev3 here, okay?
+
+08:48.725 --> 08:51.600
+And if you want to do it in imperative way,
+
+08:51.600 --> 08:54.060
+again it is going to be very, very simple
+
+08:54.060 --> 08:57.930
+which is kubectl, create namespace, dev1, that's all.
+
+08:57.930 --> 09:00.090
+So this is a very high level introduction
+
+09:00.090 --> 09:02.190
+about the namespaces.
+
+09:02.190 --> 09:03.960
+So, in our next lecture we'll go ahead
+
+09:03.960 --> 09:07.920
+and then create applications in dev1, dev2 namespaces,
+
+09:07.920 --> 09:09.720
+and then understand it better.
+
+09:09.720 --> 09:13.920
+And then get our hands on with these namespaces.
+
+09:13.920 --> 09:15.750
+So I'll see you in the next lecture.
+
+09:15.750 --> 09:16.950
+Until then, bye bye.
+
+09:16.950 --> 09:17.783
+Thank you.

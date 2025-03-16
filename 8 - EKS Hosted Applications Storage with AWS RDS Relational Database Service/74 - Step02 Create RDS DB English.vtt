@@ -1,0 +1,667 @@
+WEBVTT
+
+00:00.000 --> 00:00.833
+-: Welcome back.
+
+00:00.833 --> 00:03.240
+So we are in our GitHub repo.
+
+00:03.240 --> 00:07.290
+So let's get into our EKS storage with RDS database section
+
+00:07.290 --> 00:08.730
+which is zero six section.
+
+00:08.730 --> 00:11.538
+Okay? So the step one introduction just now
+
+00:11.538 --> 00:13.410
+we have completed, which is nothing
+
+00:13.410 --> 00:15.480
+but what are the problems with myas skill port
+
+00:15.480 --> 00:17.040
+and then EBS CSA
+
+00:17.040 --> 00:20.676
+and how are we going to solve them with AWS RDS database?
+
+00:20.676 --> 00:23.670
+So now we need to review the VPC
+
+00:23.670 --> 00:26.525
+which is created as part of our EKS cluster.
+
+00:26.525 --> 00:28.230
+The reason for that is
+
+00:28.230 --> 00:31.525
+because inside that VPC in the private subject
+
+00:31.525 --> 00:36.525
+we are going to create our respected RDS database.
+
+00:36.900 --> 00:38.811
+Okay? So let's go to EC two
+
+00:38.811 --> 00:43.811
+and let's go here and from go to VPC.
+
+00:51.390 --> 00:53.880
+And if you see we have two VPCs available
+
+00:53.880 --> 00:56.250
+one should be default and then one created
+
+00:56.250 --> 01:00.750
+as part of our EKS CTL EKS demo one VPC.
+
+01:00.750 --> 01:02.430
+So now as part of this VPC
+
+01:02.430 --> 01:05.853
+it might have already created the subnets, right?
+
+01:05.853 --> 01:10.080
+So if you see here, so these are the subnets it has created.
+
+01:10.080 --> 01:12.990
+Okay? So it has created the two private subnets in one is
+
+01:12.990 --> 01:16.940
+in US east one year and then one is in US East one B.
+
+01:16.940 --> 01:19.710
+So we are going to create the RDS database
+
+01:19.710 --> 01:21.510
+in these private subnets.
+
+01:21.510 --> 01:25.204
+Okay, So let's go ahead and then create them now.
+
+01:25.204 --> 01:30.000
+So where is this?
+
+01:30.000 --> 01:32.820
+Yeah, so we have reviewed and then understood that
+
+01:32.820 --> 01:36.864
+as part of this cluster it created four subnets two private
+
+01:36.864 --> 01:38.220
+and then two public.
+
+01:38.220 --> 01:40.320
+And our cluster notes means like our easy to
+
+01:40.320 --> 01:43.080
+worker notes are currently running in public subnets
+
+01:43.080 --> 01:46.551
+and the RDS database we are creating in the private subnet.
+
+01:46.551 --> 01:49.411
+So let's create a DB security group
+
+01:49.411 --> 01:51.690
+for us as a prerequisite one
+
+01:51.690 --> 01:55.120
+which we'll leverage when creating the security group.
+
+01:55.120 --> 01:57.370
+So let me go to EC two here
+
+01:59.987 --> 02:03.320
+and I will go to security groups, right?
+
+02:04.909 --> 02:06.522
+And I'll create a security group.
+
+02:06.522 --> 02:09.000
+And the name of the security group is this.
+
+02:09.000 --> 02:13.680
+And I can also copy this and I'll paste it.
+
+02:13.680 --> 02:17.208
+Allow access for RDS database on port 3 3 0 6
+
+02:17.208 --> 02:22.080
+and the VPCs EKS CTL EKS demo one cluster VPC.
+
+02:22.080 --> 02:25.530
+Okay? And I'm going to add the inbound rule saying
+
+02:25.530 --> 02:27.030
+that myas skill, right?
+
+02:27.030 --> 02:30.480
+So I'm going to allow access for myas skill 3 3 0 6
+
+02:30.480 --> 02:33.330
+from anywhere even as it is in private subnet.
+
+02:33.330 --> 02:35.460
+Ideally we really don't need to worry.
+
+02:35.460 --> 02:39.420
+So even if you say access from anywhere, okay
+
+02:39.420 --> 02:44.420
+so I'll create the security group and this is completed.
+
+02:45.120 --> 02:47.368
+So the next step is to prerequisite two
+
+02:47.368 --> 02:51.266
+create a DB subnet group in RDS, right?
+
+02:51.266 --> 02:55.440
+So let's go to RDS service, so search
+
+02:55.440 --> 03:00.440
+for RDS here and select the RDS national database Service.
+
+03:05.670 --> 03:07.680
+And once it is open
+
+03:07.680 --> 03:11.130
+so we are going to create a DB subnet group
+
+03:11.130 --> 03:14.643
+okay with us east one year and then one B.
+
+03:17.010 --> 03:18.960
+So we'll go here and then you can see
+
+03:18.960 --> 03:22.020
+in the left navigation, you can see the subnet groups here.
+
+03:22.020 --> 03:25.830
+So I'm going to create a subnet group like this
+
+03:25.830 --> 03:30.660
+and we'll also have description, EKS, RDS db subnet group
+
+03:30.660 --> 03:31.870
+choose vpc.
+
+03:31.870 --> 03:34.590
+VPC is our eks, ctl EKS demo one.
+
+03:34.590 --> 03:37.920
+And availability zones we are going to use one year
+
+03:37.920 --> 03:41.550
+and then one B so that whatever the audio's database it
+
+03:41.550 --> 03:45.287
+gets created can be available in those locations and
+
+03:45.287 --> 03:46.770
+in one year.
+
+03:46.770 --> 03:50.370
+And then one B, what are our private things, right?
+
+03:50.370 --> 03:52.620
+Private subnets we need to select now.
+
+03:52.620 --> 03:57.453
+So let's go to VPC and identify which are our private subnet
+
+04:02.340 --> 04:03.173
+things, okay?
+
+04:03.173 --> 04:06.240
+So we have four here.
+
+04:06.240 --> 04:11.240
+Let's go here and go to subnets and prove subnet this one.
+
+04:15.390 --> 04:17.733
+So it is 64 dot 0 slash 19.
+
+04:19.193 --> 04:20.443
+So that is one.
+
+04:22.314 --> 04:25.065
+So I'll select a 64 dot 0.
+
+04:25.065 --> 04:26.898
+Okay? So that is one.
+
+04:26.898 --> 04:31.898
+And in one B it is going to be 96 dot 0 slash 19.
+
+04:34.210 --> 04:37.530
+Okay? So I'm going to select 96, okay?
+
+04:37.530 --> 04:41.400
+So 64 and 96 are private subnets here.
+
+04:41.400 --> 04:45.120
+So in our DB subnet group we created that and then
+
+04:45.120 --> 04:47.103
+we are going to create it.
+
+04:49.080 --> 04:52.110
+Okay? So now our DB subnet group got created.
+
+04:52.110 --> 04:55.533
+So we are going to create the RDS database.
+
+04:55.533 --> 05:00.533
+Okay? So let's go back here and then go to databases
+
+05:01.350 --> 05:04.443
+and create a database, right?
+
+05:05.400 --> 05:08.370
+And we are going to create a standard create.
+
+05:08.370 --> 05:11.430
+So that's what we have selected here.
+
+05:11.430 --> 05:13.750
+And the engine is going to be myas skill
+
+05:15.840 --> 05:17.940
+And it is going to be a
+
+05:17.940 --> 05:20.970
+myas skill communication and the version
+
+05:20.970 --> 05:24.510
+whatever it is populated automatically I'm using it, okay?
+
+05:24.510 --> 05:26.130
+So we really don't need to worry
+
+05:26.130 --> 05:28.380
+about what version it populates here.
+
+05:28.380 --> 05:30.180
+Even in future when you see it
+
+05:30.180 --> 05:33.270
+it might be 5 7, 2, 2 or five eight.
+
+05:33.270 --> 05:35.640
+Our application is going to work everywhere.
+
+05:35.640 --> 05:38.280
+Okay? So now the next thing is we are going to
+
+05:38.280 --> 05:39.750
+select free tier.
+
+05:39.750 --> 05:41.490
+Okay? So if you use production
+
+05:41.490 --> 05:42.810
+you'll have the high availability
+
+05:42.810 --> 05:45.120
+and fast consistent performance.
+
+05:45.120 --> 05:47.550
+And if it is free tier, you are going to use a single
+
+05:47.550 --> 05:50.610
+nor far our RDS database testing.
+
+05:50.610 --> 05:52.950
+So we are going to use free tier for now
+
+05:52.950 --> 05:56.190
+and the DB instance identifier, okay
+
+05:56.190 --> 05:59.550
+so we are going to say user MGMT db.
+
+05:59.550 --> 06:01.980
+So that is what we are going to use the name.
+
+06:01.980 --> 06:04.620
+So this name, whatever you want, you can put it.
+
+06:04.620 --> 06:09.620
+So, and the master username we are going to use is DB admin.
+
+06:10.590 --> 06:13.094
+Okay? So now the DB admin will be my master
+
+06:13.094 --> 06:15.090
+username to connect to it.
+
+06:15.090 --> 06:17.619
+So we also need to update our user management
+
+06:17.619 --> 06:20.790
+deployment manifest there.
+
+06:20.790 --> 06:22.440
+We'll do it in our next steps.
+
+06:22.440 --> 06:23.400
+Earlier we have given
+
+06:23.400 --> 06:25.000
+whenever we have a myas skill pod running
+
+06:25.000 --> 06:29.400
+inside EKS cluster, we have user there, root user there.
+
+06:29.400 --> 06:31.271
+So now we need to update that root user to
+
+06:31.271 --> 06:35.904
+DB admin and password, we are going to use that same one
+
+06:35.904 --> 06:40.380
+which is nothing, but we are going to use DB password one.
+
+06:40.380 --> 06:43.830
+One, Okay, so what is this?
+
+06:43.830 --> 06:44.913
+Why it is showing?
+
+06:46.800 --> 06:49.830
+So my safari browser auto generated something here
+
+06:49.830 --> 06:51.030
+I'm not going to use that.
+
+06:51.030 --> 06:55.350
+I'll say don't use and I will use DB password one, one.
+
+06:55.350 --> 06:57.600
+So whatever we have generated
+
+06:57.600 --> 06:59.149
+as a Kubernetes secret, right?
+
+06:59.149 --> 07:02.010
+So the same thing I'm going to use.
+
+07:02.010 --> 07:06.183
+So DB password one, one.
+
+07:10.050 --> 07:12.120
+Good. So now instance size
+
+07:12.120 --> 07:15.390
+I'm going to leave it as T two micro one, CPU one GB.
+
+07:15.390 --> 07:17.220
+That should be fine for us.
+
+07:17.220 --> 07:18.554
+And the general purpose storage.
+
+07:18.554 --> 07:20.820
+And then all these things, 20 GB.
+
+07:20.820 --> 07:23.850
+I'm going to leave these things as is here
+
+07:23.850 --> 07:26.940
+and we are going to say availability and durability
+
+07:26.940 --> 07:29.940
+we are going to leave it as is here, okay?
+
+07:29.940 --> 07:31.290
+So if you want the once
+
+07:31.290 --> 07:33.960
+if we would've selected the production here
+
+07:33.960 --> 07:36.990
+then obviously would've got the automatic
+
+07:36.990 --> 07:38.858
+this option would have been enabled here.
+
+07:38.858 --> 07:41.186
+And then multi asay deployment we have done.
+
+07:41.186 --> 07:43.730
+But this is for our testing purpose.
+
+07:43.730 --> 07:46.170
+We really don't need to worry about these things.
+
+07:46.170 --> 07:51.170
+Okay, so now what in vpc we are going to say eks, CT L vpc
+
+07:51.240 --> 07:52.637
+which we want to create this.
+
+07:52.637 --> 07:56.580
+And inside that vpc, this is the DB subnet group.
+
+07:56.580 --> 07:59.064
+We have selected eks, RDS DB subnet group
+
+07:59.064 --> 08:01.980
+and we are creating in the private subnet
+
+08:01.980 --> 08:03.240
+we really don't need to worry
+
+08:03.240 --> 08:06.570
+about publicly accessible default is no
+
+08:06.570 --> 08:11.570
+and choose an existing security group as a prerequisite one.
+
+08:12.420 --> 08:13.320
+We have created
+
+08:13.320 --> 08:16.890
+that VPC security group means like DB security group.
+
+08:16.890 --> 08:18.750
+So let's go ahead and then select that.
+
+08:18.750 --> 08:20.130
+So which is nothing but E eks
+
+08:20.130 --> 08:25.130
+RDS db sg, okay, so what happened?
+
+08:28.920 --> 08:29.970
+Remove the default one.
+
+08:29.970 --> 08:32.610
+We only need eks RDS DB sg.
+
+08:32.610 --> 08:33.960
+So that is selected here.
+
+08:33.960 --> 08:37.650
+And then default one, we have remote and availability zone.
+
+08:37.650 --> 08:41.010
+I wanted to be created in US east one year
+
+08:41.010 --> 08:45.300
+and database port, I'm going to use 33 0 6, okay?
+
+08:45.300 --> 08:47.340
+So I'm going to use the password authentication
+
+08:47.340 --> 08:49.260
+which is nothing but DV password 11
+
+08:49.260 --> 08:50.880
+whatever we have created.
+
+08:50.880 --> 08:53.870
+Okay? So these are additional database options
+
+08:53.870 --> 08:57.120
+if you want to use, so initial database
+
+08:57.120 --> 08:58.350
+whatever you want to create.
+
+08:58.350 --> 09:01.315
+So I can directly say user MGMT to DB schema
+
+09:01.315 --> 09:05.610
+IT need to get created here and all these things.
+
+09:05.610 --> 09:07.560
+So let's go here.
+
+09:07.560 --> 09:11.080
+And I really didn't worry much about other stuff here, but
+
+09:12.480 --> 09:17.050
+if you want the initial database, you can say user MGMT db.
+
+09:18.570 --> 09:22.650
+So this schema is required for us to automatically
+
+09:22.650 --> 09:26.130
+create this schema will help us to connect to this.
+
+09:26.130 --> 09:29.100
+It means like whenever our user management
+
+09:29.100 --> 09:31.170
+application spring boot application starts
+
+09:31.170 --> 09:34.183
+it expects this database schema available for us.
+
+09:34.183 --> 09:38.820
+Okay? So user MGMT db, you can directly give it here
+
+09:38.820 --> 09:43.820
+if you want to, or you can leave it as is and then move on.
+
+09:44.250 --> 09:47.040
+And then I have created one more step for us.
+
+09:47.040 --> 09:48.630
+So that is an interesting step.
+
+09:48.630 --> 09:52.048
+Okay? So the reason I created that way is
+
+09:52.048 --> 09:56.520
+from our Kubernetes cube ct, I should be able to connect
+
+09:56.520 --> 09:59.670
+to the RDS database and then run the commands
+
+09:59.670 --> 10:02.070
+for myas skill because it is in private subnet
+
+10:02.070 --> 10:05.160
+you cannot connect via internet or from your desktop, right?
+
+10:05.160 --> 10:08.430
+But from our Kubernetes cluster, using Cube ctl
+
+10:08.430 --> 10:10.380
+you'll be able to connect.
+
+10:10.380 --> 10:13.350
+So to ex to use this step and then create the
+
+10:13.350 --> 10:15.572
+user M GMT schema from here
+
+10:15.572 --> 10:19.620
+ideally not using this configuration option to
+
+10:19.620 --> 10:23.372
+create a initial database name, so just for our learning.
+
+10:23.372 --> 10:26.089
+And then in future, if you have any issues to connect
+
+10:26.089 --> 10:28.106
+to the database, RDS database
+
+10:28.106 --> 10:30.660
+then you need to know the way, how you need to
+
+10:30.660 --> 10:33.810
+connect it when it is in the private subnet, right?
+
+10:33.810 --> 10:36.090
+So for that purpose, I am not initializing
+
+10:36.090 --> 10:39.150
+or not creating a initial database user mgmt
+
+10:39.150 --> 10:43.560
+which is required by our user management microservice.
+
+10:43.560 --> 10:46.781
+So we will leave it empty and then we'll create
+
+10:46.781 --> 10:49.110
+at this respective to step four so far.
+
+10:49.110 --> 10:52.682
+Now we'll move on and then create the database, right?
+
+10:52.682 --> 10:57.682
+So now if you want this password to be saved here
+
+10:57.690 --> 10:58.523
+in my, this one, not now.
+
+10:58.523 --> 11:00.600
+Okay? So I really don't care.
+
+11:00.600 --> 11:03.240
+So it'll take close to 10 minutes
+
+11:03.240 --> 11:05.520
+or something to create this database.
+
+11:05.520 --> 11:08.010
+So I will pause the video
+
+11:08.010 --> 11:11.250
+and then our database is available now.
+
+11:11.250 --> 11:14.350
+So if you click on this user MGMT db
+
+11:15.210 --> 11:17.040
+so you'll find the endpoint here.
+
+11:17.040 --> 11:19.920
+So this is the endpoint we are going to configure
+
+11:19.920 --> 11:24.920
+in our external name service so that our workloads running
+
+11:25.110 --> 11:27.810
+on Kubernetes cluster will be able to connect
+
+11:27.810 --> 11:30.420
+to this RDS database.
+
+11:30.420 --> 11:32.370
+So I'll see you in the next lecture.
+
+11:32.370 --> 11:33.497
+Until then, bye bye.
+
+11:33.497 --> 11:34.330
+Thank you.

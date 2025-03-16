@@ -1,0 +1,751 @@
+WEBVTT
+
+00:00.180 --> 00:01.200
+-: Welcome back.
+
+00:01.200 --> 00:04.260
+In previous lecture, we have completed testing
+
+00:04.260 --> 00:07.920
+by fixing the SDS Zoom role fix, okay?
+
+00:07.920 --> 00:10.620
+So now we are going to change the app version
+
+00:10.620 --> 00:13.080
+to V2 or V3 and then checking the code
+
+00:13.080 --> 00:14.940
+and then see how pipeline triggers
+
+00:14.940 --> 00:17.850
+and then how the changes flow across the thing, okay?
+
+00:17.850 --> 00:21.680
+So now let me go and then close this EC2
+
+00:21.680 --> 00:23.430
+or we can leave it like this.
+
+00:23.430 --> 00:25.320
+So the next thing is make changes
+
+00:25.320 --> 00:26.970
+in the index data html, okay?
+
+00:26.970 --> 00:30.060
+So we can say V3 or V2, whatever it is, okay?
+
+00:30.060 --> 00:34.470
+So we'll go there and then make the change, right?
+
+00:34.470 --> 00:36.300
+So let me make this smaller.
+
+00:36.300 --> 00:37.410
+Let me close this.
+
+00:37.410 --> 00:40.200
+And here is the folder I have added
+
+00:40.200 --> 00:43.020
+from my local get triple, right?
+
+00:43.020 --> 00:44.880
+And this is the index.html.
+
+00:44.880 --> 00:47.940
+So I'm going to say something like V3, okay?
+
+00:47.940 --> 00:50.100
+And then I will save it, okay?
+
+00:50.100 --> 00:53.640
+And if I go here and then say get status,
+
+00:53.640 --> 00:56.370
+so there is a change for our index.html.
+
+00:56.370 --> 01:01.370
+So I will say get add, get commit, hyphen am,
+
+01:02.100 --> 01:05.850
+and V3 deployment, I will say, okay?
+
+01:05.850 --> 01:09.270
+And I will say get push, right?
+
+01:09.270 --> 01:10.590
+And now we'll go back
+
+01:10.590 --> 01:13.230
+and then verify the same thing on our pipeline.
+
+01:13.230 --> 01:18.230
+So let's go here and go to our pipelines.
+
+01:18.540 --> 01:21.390
+And if you open this DevOps pipeline,
+
+01:21.390 --> 01:23.160
+so currently, nothing one added.
+
+01:23.160 --> 01:25.170
+First set is the source it is referencing.
+
+01:25.170 --> 01:27.750
+So let's wait for the changes to happen.
+
+01:27.750 --> 01:29.640
+So now the changes came in.
+
+01:29.640 --> 01:32.940
+So V3 deployment is the source it is referencing now
+
+01:32.940 --> 01:34.770
+and it moved onto the build phase.
+
+01:34.770 --> 01:37.503
+And then here, if I click on details,
+
+01:38.370 --> 01:41.640
+we will see that build locks now, right?
+
+01:41.640 --> 01:44.130
+So let's wait for the build locks
+
+01:44.130 --> 01:46.563
+to come in here to see what happens, right?
+
+01:47.850 --> 01:48.750
+We got the locks
+
+01:48.750 --> 01:50.940
+and then it says that status also succeeded.
+
+01:50.940 --> 01:54.240
+So we can go down and then all the changes looks good.
+
+01:54.240 --> 01:56.430
+It is going down, down, down, down.
+
+01:56.430 --> 01:59.250
+So it went here and then as you move the role
+
+01:59.250 --> 02:00.780
+and then if you see it here earlier,
+
+02:00.780 --> 02:02.970
+it got created because it is the first time.
+
+02:02.970 --> 02:05.340
+So now it is saying configured, right?
+
+02:05.340 --> 02:08.850
+So far EKS DevOps deployment, okay?
+
+02:08.850 --> 02:11.820
+So inside this EKS DevOps deployment object,
+
+02:11.820 --> 02:12.780
+it said configured.
+
+02:12.780 --> 02:16.350
+But we didn't change anything related to node port service
+
+02:16.350 --> 02:17.370
+or Ingress service.
+
+02:17.370 --> 02:20.070
+So it is in the unchanged state only, okay?
+
+02:20.070 --> 02:22.020
+And then we completed this.
+
+02:22.020 --> 02:24.060
+So now we can go back
+
+02:24.060 --> 02:27.150
+and then verify our EC2 management console.
+
+02:27.150 --> 02:28.800
+This is nothing unchanged, okay?
+
+02:28.800 --> 02:30.690
+So nothing happened here, okay?
+
+02:30.690 --> 02:34.920
+So now if we click here, Enter, it should become V3, right?
+
+02:34.920 --> 02:36.210
+Whatever we have provided.
+
+02:36.210 --> 02:40.170
+So one thing we didn't check here is S3 buckets, right?
+
+02:40.170 --> 02:42.321
+So we also need to see our source
+
+02:42.321 --> 02:45.150
+build whatever has the artifact section.
+
+02:45.150 --> 02:48.690
+So in artifacts section for our buildspec.yml,
+
+02:48.690 --> 02:51.749
+so whatever we said is take the build.gsn
+
+02:51.749 --> 02:54.120
+and then kube manifests, okay?
+
+02:54.120 --> 02:58.800
+So kube manifests should have our respective deployment file
+
+02:58.800 --> 03:00.630
+and then this value should be replaced
+
+03:00.630 --> 03:02.220
+with the latest container image.
+
+03:02.220 --> 03:03.690
+So we need to verify that, okay?
+
+03:03.690 --> 03:07.200
+So that's our understanding and the learning process
+
+03:07.200 --> 03:10.050
+about what happened inside that, right?
+
+03:10.050 --> 03:11.880
+So let's go there and then verify that.
+
+03:11.880 --> 03:13.230
+So go to build details,
+
+03:13.230 --> 03:16.710
+and if you go inside build details, so if you see here,
+
+03:16.710 --> 03:19.620
+artifact upload location, inside artifacts.
+
+03:19.620 --> 03:21.780
+So if you click on that, this is the correct build
+
+03:21.780 --> 03:25.260
+whatever happened as part of this current build, okay?
+
+03:25.260 --> 03:28.170
+So I'll open that, right?
+
+03:28.170 --> 03:31.830
+And it opened this respective build.
+
+03:31.830 --> 03:33.933
+So I'm going to download it.
+
+03:38.130 --> 03:40.410
+So I have downloaded it and then opened it
+
+03:40.410 --> 03:44.460
+in my local BLKHS7WA, right?
+
+03:44.460 --> 03:46.140
+So it is matching the same thing here.
+
+03:46.140 --> 03:48.780
+I'll go inside kube manifest, right?
+
+03:48.780 --> 03:51.360
+So if you see here in the builder.json
+
+03:51.360 --> 03:55.050
+open with the Visual Studio code,
+
+03:55.050 --> 03:57.450
+you'll find the image URL, right?
+
+03:57.450 --> 04:02.450
+So at the end, you'll see that 09631C52, right?
+
+04:03.210 --> 04:06.450
+So you can see the same in our bill logs also,
+
+04:06.450 --> 04:07.653
+we should see that okay.
+
+04:12.270 --> 04:14.160
+Repository, when we are pushing it,
+
+04:14.160 --> 04:15.540
+we are printing it, okay?
+
+04:15.540 --> 04:19.650
+So here, okay, so 09613C52.
+
+04:19.650 --> 04:22.740
+So this is what we pushed it and then we found the same.
+
+04:22.740 --> 04:26.490
+At the end, you can see 3C52, 3C52.
+
+04:26.490 --> 04:27.660
+The same thing you should see
+
+04:27.660 --> 04:31.833
+in our DevOps deployment object, okay?
+
+04:31.833 --> 04:33.810
+So go to kube manifest
+
+04:33.810 --> 04:38.220
+and then see this and you'll find that, okay?
+
+04:38.220 --> 04:41.700
+So container image is replaced with the repository URL
+
+04:41.700 --> 04:45.750
+and then tag with the 09613C52.
+
+04:45.750 --> 04:47.310
+So that's the thing, okay?
+
+04:47.310 --> 04:49.710
+So we have verified those things, good.
+
+04:49.710 --> 04:52.290
+So now I am happy, okay?
+
+04:52.290 --> 04:53.640
+So this completes this
+
+04:53.640 --> 04:55.020
+and now what we are going to do
+
+04:55.020 --> 04:56.550
+is we have verified this stuff, okay?
+
+04:56.550 --> 04:58.230
+V3 stuff, okay?
+
+04:58.230 --> 05:01.200
+Now we are going to make a change to our Ingress manifest
+
+05:01.200 --> 05:04.890
+by adding additional DevOps to .q1cloud.com.
+
+05:04.890 --> 05:08.010
+So these changes are not only
+
+05:08.010 --> 05:11.340
+for our Docker application images,
+
+05:11.340 --> 05:13.410
+but even if you want to apply the changes
+
+05:13.410 --> 05:14.640
+for your kube manifest,
+
+05:14.640 --> 05:17.580
+only thing is your application build one more time generated
+
+05:17.580 --> 05:19.620
+and then new Docker image came,
+
+05:19.620 --> 05:22.590
+but still you'll be able to do it this way, okay?
+
+05:22.590 --> 05:25.740
+So devops.devops2.kube1cloud.com,
+
+05:25.740 --> 05:28.320
+you are going to add for our manifest here.
+
+05:28.320 --> 05:29.938
+So this is our Ingress manifest
+
+05:29.938 --> 05:33.150
+in our local get triple, right?
+
+05:33.150 --> 05:35.730
+So I'll go here and then copy this
+
+05:35.730 --> 05:38.940
+and I'll put a comma space,
+
+05:38.940 --> 05:41.640
+and then I'll say DevOps two,
+
+05:41.640 --> 05:44.190
+and then I will save it, right?
+
+05:44.190 --> 05:47.220
+And if I go back here and then clear
+
+05:47.220 --> 05:51.780
+and if I say get status, so my Ingress service has a change.
+
+05:51.780 --> 05:54.570
+So I'll say getcommit-am,
+
+05:54.570 --> 05:58.493
+and I'm going to say V4 and V4 deployment.
+
+05:58.493 --> 06:02.937
+And I'm going to say Ingress DevOps two
+
+06:08.340 --> 06:11.010
+DNS name change, right?
+
+06:11.010 --> 06:13.310
+And then I'm going to push this change
+
+06:13.310 --> 06:16.290
+to the remote code commit repository, right?
+
+06:16.290 --> 06:17.970
+So the change is pushed.
+
+06:17.970 --> 06:20.250
+So let's go back here
+
+06:20.250 --> 06:24.663
+and go to our code build and go to our pipeline, right?
+
+06:25.620 --> 06:29.133
+And now soon the pipeline should trigger, it triggered.
+
+06:30.150 --> 06:31.470
+So if you see here,
+
+06:31.470 --> 06:34.470
+code committee is picking the latest source now.
+
+06:34.470 --> 06:36.663
+So let's wait for the source to be picked.
+
+06:37.920 --> 06:40.893
+Once it is picked, it will move on to the build phase.
+
+06:42.930 --> 06:44.463
+So let's wait for it.
+
+06:45.600 --> 06:46.440
+So good.
+
+06:46.440 --> 06:47.960
+So now we got the Ingress DevOps
+
+06:47.960 --> 06:50.160
+to DNS name change related thing.
+
+06:50.160 --> 06:51.900
+So now the build is running.
+
+06:51.900 --> 06:53.770
+So I'm going to click on details
+
+06:54.750 --> 06:56.820
+and we'll go to that respective build details
+
+06:56.820 --> 06:57.900
+and then logs.
+
+06:57.900 --> 06:59.820
+So we can see build got succeeded
+
+06:59.820 --> 07:01.770
+and all the phases got succeeded.
+
+07:01.770 --> 07:05.550
+So let's go to build logs and verify what it changed, right?
+
+07:05.550 --> 07:07.920
+So you can see Ingress manifest got configured
+
+07:07.920 --> 07:10.710
+and then deployment because Docker also runs
+
+07:10.710 --> 07:12.210
+for creating a new Docker image.
+
+07:12.210 --> 07:14.580
+So deployment also got configured,
+
+07:14.580 --> 07:17.310
+and then node port service unchanged, okay?
+
+07:17.310 --> 07:20.970
+So now, let's go back to our route 53
+
+07:20.970 --> 07:24.030
+and then verify if we have a new
+
+07:24.030 --> 07:25.800
+two more DNS names here, okay?
+
+07:25.800 --> 07:29.553
+So let's go to hostage zones and Q1 cloud.
+
+07:30.420 --> 07:33.210
+So we need to refresh the entire stuff here, okay?
+
+07:33.210 --> 07:34.620
+So screen refresh, okay?
+
+07:34.620 --> 07:37.680
+Browser refresh, that's good, okay?
+
+07:37.680 --> 07:40.800
+And I'm not sure why this still didn't come.
+
+07:40.800 --> 07:41.633
+It got it right.
+
+07:41.633 --> 07:46.170
+So devops2.q1cloud.com, you can see them here, okay?
+
+07:46.170 --> 07:49.860
+So now let's go to here and then clear it
+
+07:49.860 --> 07:53.780
+and then say NS lookup devops2.q1cloud.com.
+
+07:57.480 --> 07:59.730
+And then it's resolving 13 and triple two.
+
+07:59.730 --> 08:01.080
+It looks good.
+
+08:01.080 --> 08:05.070
+So now, take it in a new tab,
+
+08:05.070 --> 08:10.070
+http//devops2.kubeoncloud.com/1/index.html.
+
+08:19.530 --> 08:21.480
+So now we should have our application
+
+08:21.480 --> 08:25.140
+up and running with V3 version, right?
+
+08:25.140 --> 08:27.270
+So this is very nice now.
+
+08:27.270 --> 08:32.130
+So this completes the DevOps section implementation
+
+08:32.130 --> 08:36.240
+with code commit, code build, and then code pipeline.
+
+08:36.240 --> 08:38.430
+So if you want to delete all the manifest,
+
+08:38.430 --> 08:41.580
+whatever we created, we need to delete definitely
+
+08:41.580 --> 08:44.010
+because we have a load balancer here
+
+08:44.010 --> 08:45.630
+which is charging, okay?
+
+08:45.630 --> 08:46.710
+So which is chargeable
+
+08:46.710 --> 08:49.440
+and then it'll be a high price, right?
+
+08:49.440 --> 08:51.690
+So first, let's remove that manifest.
+
+08:51.690 --> 08:55.170
+So as you in your local already kubectl is configured.
+
+08:55.170 --> 08:56.100
+So I am going to say,
+
+08:56.100 --> 08:59.340
+and I am inside this DevOps engine X folder only
+
+08:59.340 --> 09:01.530
+and I have the kube manifest here.
+
+09:01.530 --> 09:05.040
+So I'm going to say kubectl delete hyphen F kube manifest.
+
+09:05.040 --> 09:06.330
+So I'm doing the full cleanup
+
+09:06.330 --> 09:10.410
+of my whatever I have created inside Kubernetes cluster.
+
+09:10.410 --> 09:12.060
+So once that is done,
+
+09:12.060 --> 09:14.880
+so we'll also remove the other stuff, right?
+
+09:14.880 --> 09:16.800
+So now this is done.
+
+09:16.800 --> 09:21.330
+If I go ahead and then say kubectl get pods,
+
+09:21.330 --> 09:23.100
+nothing should be there, right?
+
+09:23.100 --> 09:24.360
+External DNS only.
+
+09:24.360 --> 09:26.010
+Right? Yeah.
+
+09:26.010 --> 09:29.070
+Now let's go here and my load balancer is gone.
+
+09:29.070 --> 09:31.560
+Good, so now this is good.
+
+09:31.560 --> 09:32.670
+So now we'll go back
+
+09:32.670 --> 09:36.210
+and then removal pipeline is per month $1 or something.
+
+09:36.210 --> 09:37.043
+It charges.
+
+09:37.043 --> 09:39.707
+If you want, you can even delete that pipeline, okay?
+
+09:39.707 --> 09:42.210
+So I'm going to say delete no resource
+
+09:42.210 --> 09:44.010
+that needed for this source action.
+
+09:44.010 --> 09:45.690
+So delete, okay.
+
+09:45.690 --> 09:47.430
+So I deleted it, okay.
+
+09:47.430 --> 09:48.720
+So now pipeline is gone.
+
+09:48.720 --> 09:50.730
+So we have the code built projects here
+
+09:50.730 --> 09:52.260
+which we are going to clean up.
+
+09:52.260 --> 09:56.553
+So EKS DevOps pipe, so I'm going to delete it.
+
+09:57.510 --> 10:01.743
+So delete build project, and I'm going to say delete.
+
+10:03.090 --> 10:05.580
+And I'm also going to delete the old ones
+
+10:05.580 --> 10:07.350
+which I have created as part of this.
+
+10:07.350 --> 10:08.880
+Also, let me delete this
+
+10:08.880 --> 10:11.043
+so that it will be clean for us, okay?
+
+10:15.150 --> 10:17.970
+Good, so now only one thing we have with us
+
+10:17.970 --> 10:20.730
+is code commit, right?
+
+10:20.730 --> 10:23.820
+So let's go here and then in code commit,
+
+10:23.820 --> 10:27.750
+we have something called EKS DevOps engine X.
+
+10:27.750 --> 10:30.540
+So if you're not interested, you can delete this repository.
+
+10:30.540 --> 10:33.240
+But usually, I hold my repository here.
+
+10:33.240 --> 10:35.100
+It doesn't cost much for me,
+
+10:35.100 --> 10:36.570
+so I leave it like this, okay?
+
+10:36.570 --> 10:39.750
+So if you want, you can delete this repository also.
+
+10:39.750 --> 10:42.300
+So this completes the cleanup process.
+
+10:42.300 --> 10:43.410
+Also, in addition to that,
+
+10:43.410 --> 10:45.060
+if you want to delete all the roles,
+
+10:45.060 --> 10:47.640
+whatever we have created as part of this,
+
+10:47.640 --> 10:50.160
+so you can go there and then even delete those, okay?
+
+10:50.160 --> 10:53.230
+So we can say IM surveys
+
+10:54.218 --> 10:57.090
+and if we go for the roles,
+
+10:57.090 --> 11:00.300
+so we'll find something called EKS, right?
+
+11:00.300 --> 11:04.140
+And then we'll find something called code build EKS DevOps.
+
+11:04.140 --> 11:06.870
+This is one rule which we have created.
+
+11:06.870 --> 11:11.870
+And EKS code build kubectl role, this one we have created.
+
+11:11.880 --> 11:13.923
+So let's delete them, okay.
+
+11:16.290 --> 11:18.480
+Good, and these roles are related
+
+11:18.480 --> 11:20.490
+to CloudWatch related roles, events.
+
+11:20.490 --> 11:22.830
+If you want, you can even delete them, okay?
+
+11:22.830 --> 11:24.750
+So I'll leave it as is for me.
+
+11:24.750 --> 11:28.140
+So this completes the entire DevOps section
+
+11:28.140 --> 11:29.640
+we have implemented.
+
+11:29.640 --> 11:32.940
+So in our next section, we'll focus on another concept
+
+11:32.940 --> 11:36.390
+like microservices or autoscaling or something else.
+
+11:36.390 --> 11:38.130
+So until then, bye-bye.
+
+11:38.130 --> 11:38.963
+Thank you.

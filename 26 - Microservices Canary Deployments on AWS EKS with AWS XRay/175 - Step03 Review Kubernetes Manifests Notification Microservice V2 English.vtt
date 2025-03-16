@@ -1,0 +1,190 @@
+WEBVTT
+
+00:00.060 --> 00:02.370
+-: Welcome back. In this lecture we are going to
+
+00:02.370 --> 00:03.837
+review the deployment manifest
+
+00:03.837 --> 00:07.740
+and also the English manifests required
+
+00:07.740 --> 00:10.860
+for our application deployment.
+
+00:10.860 --> 00:12.930
+So in step three we are going to review
+
+00:12.930 --> 00:16.290
+the deployment manifest for V2 notification service.
+
+00:16.290 --> 00:18.720
+So we are going to distribute 50% draft
+
+00:18.720 --> 00:21.720
+to each of the V1 and V2 version of application.
+
+00:21.720 --> 00:23.700
+So NSV1 replicas are two
+
+00:23.700 --> 00:25.530
+and then NSV2 replicas are two.
+
+00:25.530 --> 00:27.420
+We have put it there, even one one
+
+00:27.420 --> 00:31.140
+if you put also it is going to be 50% traffic.
+
+00:31.140 --> 00:32.880
+So if you see here this is the
+
+00:32.880 --> 00:35.370
+notification microservice deployment zero four.
+
+00:35.370 --> 00:38.910
+This is V1 notification and we have two replicas
+
+00:38.910 --> 00:41.190
+and zero eight V2 notification.
+
+00:41.190 --> 00:42.840
+We have two replicas.
+
+00:42.840 --> 00:45.630
+Okay? And the next thing is verify means
+
+00:45.630 --> 00:46.830
+like the change one is
+
+00:46.830 --> 00:50.463
+in the zero eight V2 notification microservice
+
+00:50.463 --> 00:54.998
+your image tag should be 4.0.0 a double s x-ray.
+
+00:54.998 --> 00:56.790
+So verify the same thing.
+
+00:56.790 --> 00:57.623
+It is the same.
+
+00:57.623 --> 00:59.430
+And if you go for a V1
+
+00:59.430 --> 01:01.852
+it should be 3.0.0 a double s x-ray.
+
+01:01.852 --> 01:03.499
+So that looks good.
+
+01:03.499 --> 01:07.560
+And next is change to new environmental variables
+
+01:07.560 --> 01:10.110
+will be added here so these things are going to be same
+
+01:10.110 --> 01:13.134
+which is XLA context missing and then X name and address.
+
+01:13.134 --> 01:15.540
+But X-ray tracing name
+
+01:15.540 --> 01:19.590
+we are going to give it as V2 notification microservice
+
+01:19.590 --> 01:21.300
+so that you get the name here.
+
+01:21.300 --> 01:23.453
+V2 notification microservice in
+
+01:23.453 --> 01:28.020
+from x-ray picture visual service map view.
+
+01:28.020 --> 01:30.180
+Okay, so that's about notification
+
+01:30.180 --> 01:33.233
+microservice related review of that respect to manifest and
+
+01:33.233 --> 01:37.860
+rest all manifests are same my ask user management
+
+01:37.860 --> 01:38.940
+from previous sections.
+
+01:38.940 --> 01:41.310
+It is coming as is so we really don't need to
+
+01:41.310 --> 01:42.390
+worry about them.
+
+01:42.390 --> 01:44.910
+So next we will move on to ingress manifest.
+
+01:44.910 --> 01:47.310
+Okay, so let's go to ingress manifest.
+
+01:47.310 --> 01:49.890
+And first thing is SSL certificate.
+
+01:49.890 --> 01:51.420
+This is for you in the sense
+
+01:51.420 --> 01:53.809
+like whenever you are using this manifest
+
+01:53.809 --> 01:57.438
+please add your SSL certificate here and here.
+
+01:57.438 --> 02:01.309
+And the second thing is external dns, right?
+
+02:01.309 --> 02:04.920
+So for external dns, so you can use means
+
+02:04.920 --> 02:07.830
+like I'm using Canary demo dot coupon cloud.com.
+
+02:07.830 --> 02:10.937
+In your case, the coupon cloud.com might be something
+
+02:10.937 --> 02:13.207
+of your domain.com.
+
+02:13.207 --> 02:16.320
+So that's about the ingress manifest changes.
+
+02:16.320 --> 02:17.991
+And if you want we can even change
+
+02:17.991 --> 02:22.470
+E case micro services demo and the name of this is Canary.
+
+02:22.470 --> 02:25.115
+If you want we can even add this way forever
+
+02:25.115 --> 02:27.840
+ingress manifest name.
+
+02:27.840 --> 02:29.580
+Okay, so that's about it.
+
+02:29.580 --> 02:31.200
+So rest all looks good.
+
+02:31.200 --> 02:33.840
+And then as is, so in our next lecture
+
+02:33.840 --> 02:36.067
+we are going to deploy and then test the stuff.
+
+02:36.067 --> 02:38.700
+So I'll see you in the next lecture.
+
+02:38.700 --> 02:39.930
+Until then, bye bye.
+
+02:39.930 --> 02:40.763
+Thank you.

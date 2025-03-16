@@ -1,0 +1,388 @@
+WEBVTT
+
+00:00.570 --> 00:02.430
+Instructor: Welcome back. In this step,
+
+00:02.430 --> 00:07.380
+we are going to update the external DNS Kubernetes manifest.
+
+00:07.380 --> 00:10.110
+So let's go to our visual studio code here,
+
+00:10.110 --> 00:15.110
+and we are in 0806 deploy external DNS on EKS
+
+00:15.480 --> 00:19.176
+and we have the Kubernetes Kube manifest folder.
+
+00:19.176 --> 00:24.176
+And inside that we have 01 deploy external DNS.yaml.
+
+00:24.233 --> 00:29.233
+And this is the external DNS related Kubernetes manifest.
+
+00:29.576 --> 00:34.326
+And inside this, we are going to update the IM role here,
+
+00:35.730 --> 00:38.130
+whatever the role we are in we have created.
+
+00:38.130 --> 00:39.810
+So we can update it.
+
+00:39.810 --> 00:42.134
+So let's go back here.
+
+00:42.134 --> 00:45.450
+And so this is the role (indistinct), right?
+
+00:45.450 --> 00:50.450
+So let me copy it and come back here and add it here.
+
+00:51.030 --> 00:53.460
+And now the next thing, right?
+
+00:53.460 --> 00:55.380
+So let's come back here,
+
+00:55.380 --> 00:57.540
+and if you see change one line number nine,
+
+00:57.540 --> 00:59.700
+IAM role update is completed,
+
+00:59.700 --> 01:02.847
+and we'll go to line number 56-- 55 and 56,
+
+01:02.847 --> 01:04.830
+and then comment them.
+
+01:04.830 --> 01:09.000
+We used EKS CTL to create the IAM role and attach it
+
+01:09.000 --> 01:12.240
+the allow external DNS updates policy.
+
+01:12.240 --> 01:15.653
+So we didn't use Kiam or kube2iam,
+
+01:15.653 --> 01:19.020
+so we didn't need to add these two lines.
+
+01:19.020 --> 01:21.450
+So these things are not required here
+
+01:21.450 --> 01:25.380
+in line 55 and then 56, right?
+
+01:25.380 --> 01:28.410
+So let's come back here. Where is it?
+
+01:28.410 --> 01:30.360
+So these things are commented here
+
+01:30.360 --> 01:35.360
+because we are not using any Kiam or kube2iam tools here
+
+01:36.120 --> 01:37.740
+and now in this, right?
+
+01:37.740 --> 01:41.370
+So if you see here, this is the deployment specification.
+
+01:41.370 --> 01:42.960
+So if you go top, so this is the
+
+01:42.960 --> 01:46.410
+service account related Kubernetes manifest,
+
+01:46.410 --> 01:48.540
+and these are related to cluster role,
+
+01:48.540 --> 01:52.440
+and then cluster role bindings related external DNS things.
+
+01:52.440 --> 01:55.980
+And now here you'll find the external DNS deployment
+
+01:55.980 --> 01:58.380
+related Kubernetes manifest.
+
+01:58.380 --> 02:02.730
+And inside that in the pod template specification
+
+02:02.730 --> 02:06.060
+you are using the service account name as external DNS,
+
+02:06.060 --> 02:09.810
+and containers, you are using k8s.gcr.io
+
+02:09.810 --> 02:13.680
+So whatever the latest external DNS pod version available...
+
+02:13.680 --> 02:16.020
+So, we are taking today, which is as on today
+
+02:16.020 --> 02:18.390
+V0.10.2 is the latest.
+
+02:18.390 --> 02:21.540
+So we are using this. And, in future, if it changes...
+
+02:21.540 --> 02:24.990
+So, you can change the version here accordingly.
+
+02:24.990 --> 02:28.020
+And in addition to that as part of change three
+
+02:28.020 --> 02:32.130
+if you come back here to the documentation, right?
+
+02:32.130 --> 02:35.400
+So line 65 and 67 commented here.
+
+02:35.400 --> 02:36.870
+So what exactly that means?
+
+02:36.870 --> 02:38.760
+So this is a very important step.
+
+02:38.760 --> 02:42.900
+So 65 and 67 were commented and inside those things
+
+02:42.900 --> 02:45.688
+you'll find something called domain filter ex.
+
+02:45.688 --> 02:49.470
+So if you want to filter your domain, so currently
+
+02:49.470 --> 02:52.440
+I remove the domain filter or I commented it
+
+02:52.440 --> 02:56.010
+which means this external DNS is applicable
+
+02:56.010 --> 03:01.010
+to all the hosted zones available in my AWS Route 53.
+
+03:01.680 --> 03:03.600
+So if you go back here
+
+03:03.600 --> 03:08.600
+and go to route 53 service here or let me go from here
+
+03:08.970 --> 03:11.178
+and go to route 53 and you'll find lot
+
+03:11.178 --> 03:14.550
+of domains available here for me in the hosted zones.
+
+03:14.550 --> 03:17.100
+So you can see here all Cloud Guru DevOps
+
+03:17.100 --> 03:19.050
+in CloudStack simplified Terraform Guru.
+
+03:19.050 --> 03:21.960
+So like there are multiple domains available here,
+
+03:21.960 --> 03:24.030
+and for all these domains, right?
+
+03:24.030 --> 03:28.837
+So this external DNS can update, delete, create,
+
+03:28.837 --> 03:31.590
+-: -inside that, the DNS records.
+
+03:31.590 --> 03:34.867
+But if you want to do only for specific domains,
+
+03:34.867 --> 03:36.540
+-: -so, you can filter those domains
+
+03:36.540 --> 03:38.040
+and only provide those domains.
+
+03:38.040 --> 03:40.080
+Example, if you want to provide only
+
+03:40.080 --> 03:43.080
+for Stacksimplify.com, then you can provide
+
+03:43.080 --> 03:46.020
+for Stacksimplify.com like that, okay?
+
+03:46.020 --> 03:47.370
+So matching provider domain,
+
+03:47.370 --> 03:52.050
+omit it, o-- omit to process all available hosted zones.
+
+03:52.050 --> 03:55.020
+So I omitted it or commented it so that it is,
+
+03:55.020 --> 03:58.740
+it'll process all the available hosted zones for me.
+
+03:58.740 --> 04:00.840
+So I commented it and in the same way,
+
+04:00.840 --> 04:02.550
+this is another important setting
+
+04:02.550 --> 04:05.340
+which is policy absurd only, right?
+
+04:05.340 --> 04:08.220
+If you see here policy absurd only.
+
+04:08.220 --> 04:10.496
+So when you enable this, right?
+
+04:10.496 --> 04:13.950
+What happens is it'll be able to create the DNS
+
+04:13.950 --> 04:16.500
+but it'll not be able to delete the DNS.
+
+04:16.500 --> 04:19.980
+So would prevent external DNS from deleting any regards.
+
+04:19.980 --> 04:23.010
+So omit to enable full synchronization.
+
+04:23.010 --> 04:25.170
+So which means if you commend this
+
+04:25.170 --> 04:29.010
+then this path policy absurd only when you comment it
+
+04:29.010 --> 04:32.610
+which means whenever you create an ingress service and then
+
+04:32.610 --> 04:36.240
+there you have the external DNS annotation related DNS name,
+
+04:36.240 --> 04:38.070
+so it'll go ahead and then create it.
+
+04:38.070 --> 04:40.260
+So whenever you delete that ingress service,
+
+04:40.260 --> 04:41.880
+then automatically the record
+
+04:41.880 --> 04:44.760
+inside route 53 also will get deleted.
+
+04:44.760 --> 04:48.030
+So for full synchronization, comment this part.
+
+04:48.030 --> 04:50.580
+So, accordingly I have commented it, but
+
+04:50.580 --> 04:55.020
+if you want the external DNS to only create the DNSs,
+
+04:55.020 --> 04:58.560
+but it should not delete them at that point,
+
+04:58.560 --> 05:00.030
+un-comment this, right?
+
+05:00.030 --> 05:03.570
+And that is not going to be a full synchronization
+
+05:03.570 --> 05:07.773
+and AWS zone type, only look at public hosted zones
+
+05:07.773 --> 05:12.060
+and valid values are public, private are no value for both.
+
+05:12.060 --> 05:13.777
+So these are the things available for us.
+
+05:13.777 --> 05:16.620
+-: -additional setting for us. And registry type is txt,
+
+05:16.620 --> 05:21.060
+txt owner IDs, my hosted zone, identify some identifier
+
+05:21.060 --> 05:22.290
+you can put it.
+
+05:22.290 --> 05:25.230
+So these are the things you need to pass to the external DNS
+
+05:25.230 --> 05:28.980
+pod as an argument so that it will take those things.
+
+05:28.980 --> 05:31.230
+And if you see here, it'll take the source
+
+05:31.230 --> 05:34.080
+as a service or a source as a ingress.
+
+05:34.080 --> 05:36.120
+So which we have discussed here, right?
+
+05:36.120 --> 05:39.300
+So if you go back here and see this, right?
+
+05:39.300 --> 05:42.540
+So your source can be, means like, your ingress service.
+
+05:42.540 --> 05:44.820
+Y--Your source can be, means like...
+
+05:44.820 --> 05:47.460
+the Kubernetes manifest can be a ingress service
+
+05:47.460 --> 05:50.340
+or a regular Kubernetes service of type load balancer.
+
+05:50.340 --> 05:53.430
+So that what happens is those can go ahead and then
+
+05:53.430 --> 05:57.660
+create the route 53 record automatically by external DNS
+
+05:57.660 --> 06:02.340
+whenever you provide this respective annotation.
+
+06:02.340 --> 06:06.060
+So this is good. So now we have successfully reviewed this.
+
+06:06.060 --> 06:07.440
+And another important thing:
+
+06:07.440 --> 06:10.920
+You will have something here is the image name.
+
+06:10.920 --> 06:14.250
+So get the latest docker image name so you can click on this
+
+06:14.250 --> 06:17.640
+and get a latest docker image name available and use it.
+
+06:17.640 --> 06:21.540
+So as on today it is V 0 10 0 2 available latest.
+
+06:21.540 --> 06:25.140
+So that's what we have updated here in our container's name.
+
+06:25.140 --> 06:28.110
+And then in image name we have updated this.
+
+06:28.110 --> 06:30.420
+So in our next lecture, we are going to go ahead
+
+06:30.420 --> 06:32.760
+and then deploy this external DNS.
+
+06:32.760 --> 06:34.170
+So I'll see you in the next lecture.
+
+06:34.170 --> 06:35.943
+Until then, bye bye. Thank you.

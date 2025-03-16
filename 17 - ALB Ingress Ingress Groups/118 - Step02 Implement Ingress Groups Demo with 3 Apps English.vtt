@@ -1,0 +1,625 @@
+WEBVTT
+
+00:00.360 --> 00:01.290
+-: Welcome back.
+
+00:01.290 --> 00:03.880
+Let's go to the GitHub repository now
+
+00:04.770 --> 00:09.330
+and go into the section zero eight 12 Ingress groups.
+
+00:09.330 --> 00:12.750
+And in Ingress groups, as part of introductory section,
+
+00:12.750 --> 00:15.750
+we already understood what we are going to implement
+
+00:15.750 --> 00:17.730
+as part of this section.
+
+00:17.730 --> 00:19.350
+So let's go to step two.
+
+00:19.350 --> 00:22.710
+Which is review app one Ingress manifest.
+
+00:22.710 --> 00:25.410
+So let's go back to our visual studio code here.
+
+00:25.410 --> 00:28.200
+And in zero eight 12 in Ingress groups,
+
+00:28.200 --> 00:30.270
+you have a cube manifest folder.
+
+00:30.270 --> 00:32.310
+And inside that you have app one, app two,
+
+00:32.310 --> 00:33.690
+and then app three.
+
+00:33.690 --> 00:35.400
+So we'll start with app one,
+
+00:35.400 --> 00:38.511
+and in app one zero one Nginx app one deployment
+
+00:38.511 --> 00:40.320
+and note port service.
+
+00:40.320 --> 00:44.040
+So no changes in this as usual from the previous sections.
+
+00:44.040 --> 00:47.130
+And for zero two app one Ingress, right?
+
+00:47.130 --> 00:50.190
+So if you see here in zero two app one Ingress.
+
+00:50.190 --> 00:53.850
+The first thing changes name of my Ingress resource.
+
+00:53.850 --> 00:56.580
+It is app one Ingress.
+
+00:56.580 --> 00:57.960
+And my load balancer name
+
+00:57.960 --> 01:01.320
+is going to be Ingress groups demo.
+
+01:01.320 --> 01:03.720
+And now let's come down here.
+
+01:03.720 --> 01:06.990
+And this are the Ingress groups, we are going to define.
+
+01:06.990 --> 01:08.880
+So two annotations for Ingress group,
+
+01:08.880 --> 01:12.480
+which is group.name and group.order.
+
+01:12.480 --> 01:15.660
+And in the group.name, we are giving them myapps.web.
+
+01:15.660 --> 01:19.860
+And group.order, I'm giving them 10 as the number.
+
+01:19.860 --> 01:22.800
+And I am only providing one rule here,
+
+01:22.800 --> 01:25.590
+which is slash app one.
+
+01:25.590 --> 01:28.860
+So in this Ingress, I have only one rule.
+
+01:28.860 --> 01:31.890
+But in this app one application, you have hundred rules.
+
+01:31.890 --> 01:35.580
+So define all your hundred rules related to your application
+
+01:35.580 --> 01:37.890
+and implement them here, right?
+
+01:37.890 --> 01:40.440
+So this is only for my app one.
+
+01:40.440 --> 01:43.170
+And now let's go to app two.
+
+01:43.170 --> 01:45.780
+And no changes in app two deployment
+
+01:45.780 --> 01:49.260
+and note port service as usual the same content.
+
+01:49.260 --> 01:51.300
+And for zero to app two Ingress.
+
+01:51.300 --> 01:53.460
+So if you see here on the top.
+
+01:53.460 --> 01:57.390
+So the name of my Ingress resources app two Ingress.
+
+01:57.390 --> 01:59.507
+But the load balancer name,
+
+01:59.507 --> 02:03.390
+as usual it is the same thing from app funding results,
+
+02:03.390 --> 02:04.500
+Ingress groups demo.
+
+02:04.500 --> 02:05.550
+Why because it is going
+
+02:05.550 --> 02:08.760
+to create a single application load balancer for us
+
+02:08.760 --> 02:11.670
+and its name is going to be Ingress Groups demo.
+
+02:11.670 --> 02:15.330
+And all these things you need to group with group name,
+
+02:15.330 --> 02:17.550
+Ingress group name my app start web.
+
+02:17.550 --> 02:21.240
+And this is the app two and it's rule priorities port 20.
+
+02:21.240 --> 02:23.970
+And you have the part of slash app two
+
+02:23.970 --> 02:25.620
+for this respect to application,
+
+02:25.620 --> 02:29.070
+which goes to app two Nginx note port service.
+
+02:29.070 --> 02:32.220
+And now let's go to app three here.
+
+02:32.220 --> 02:34.920
+And zero one Nginx app three deployment
+
+02:34.920 --> 02:37.020
+and note port service, no changes in it.
+
+02:37.020 --> 02:40.200
+We'll leave as is and we'll go to app three here.
+
+02:40.200 --> 02:42.690
+And you see the name is app three Ingress
+
+02:42.690 --> 02:46.230
+and LB Ingress load balancer name cms previous app one,
+
+02:46.230 --> 02:48.510
+and app two, which is Ingress groups demo.
+
+02:48.510 --> 02:53.510
+And these this also belongs to my apps.web Ingress group
+
+02:54.480 --> 02:56.550
+and the group order is 30.
+
+02:56.550 --> 02:59.370
+And here you have the default backend.
+
+02:59.370 --> 03:04.370
+So now let's go back here and go to the next step,
+
+03:04.710 --> 03:06.840
+which is deploy apps with two.
+
+03:06.840 --> 03:09.900
+These two are three Ingress resources and then verify.
+
+03:09.900 --> 03:10.980
+So this should be three.
+
+03:10.980 --> 03:12.120
+So that's fine.
+
+03:12.120 --> 03:15.900
+So Cube CTL apply hyphen R, hyphen F.
+
+03:15.900 --> 03:19.080
+So what this hyphen capital R does is.
+
+03:19.080 --> 03:23.760
+So whatever the sub folders present in cube manifest, right?
+
+03:23.760 --> 03:26.700
+So cube manifests present inside the folders
+
+03:26.700 --> 03:29.850
+of cube manifest, also will be deployed.
+
+03:29.850 --> 03:32.910
+Which means all these sub folders app one app two app three.
+
+03:32.910 --> 03:34.890
+So re cast your folders, whatever is there.
+
+03:34.890 --> 03:39.480
+From them also the Kubernetes Alma files will be deployed.
+
+03:39.480 --> 03:41.700
+So let's go to the terminal here
+
+03:41.700 --> 03:44.640
+and go into the section zero eight 12.
+
+03:44.640 --> 03:48.480
+So we are in zero eight new ELB application load balances
+
+03:48.480 --> 03:52.650
+and we are into C A CD zero eight 12 Ingress groups.
+
+03:52.650 --> 03:57.650
+And I'm going to say Cube CTL, apply hyphen F and hyphen R.
+
+03:59.100 --> 04:02.220
+And I'm going to provide that cube manifest.
+
+04:02.220 --> 04:05.790
+Or you can just say, this is one way of doing it.
+
+04:05.790 --> 04:09.750
+Or you can remove cube CTL, apply hyphen F
+
+04:09.750 --> 04:11.910
+cube manifest app one.
+
+04:11.910 --> 04:13.800
+And once this is deployed app two
+
+04:13.800 --> 04:15.600
+and that is deployed after that app three.
+
+04:15.600 --> 04:17.610
+So like this also you can try.
+
+04:17.610 --> 04:22.610
+So we will go with cube CTL apply hyphen F
+
+04:22.770 --> 04:24.840
+and hyphen R cube manifest.
+
+04:24.840 --> 04:27.630
+So that all the things will be deployed.
+
+04:27.630 --> 04:32.630
+So we'll start with Cube CTL, apply hyphen R
+
+04:32.820 --> 04:34.503
+hyphen F cube manifest.
+
+04:35.430 --> 04:36.660
+What happened?
+
+04:36.660 --> 04:41.660
+Space Cube CTL space apply hyphen R, hyphen F cube manifest.
+
+04:43.170 --> 04:44.003
+Good.
+
+04:44.003 --> 04:46.740
+So this should deploy all the things for us.
+
+04:46.740 --> 04:50.010
+So now let's go back here and for all these things,
+
+04:50.010 --> 04:53.790
+another common thing you can see here is external DNS name.
+
+04:53.790 --> 04:57.720
+So Ingress groups demo six zero one stacksimplify.com
+
+04:57.720 --> 04:59.040
+in app for Ingress.
+
+04:59.040 --> 05:00.420
+And in app to Ingress also,
+
+05:00.420 --> 05:03.060
+you'll see that same name, right?
+
+05:03.060 --> 05:06.840
+In app three Ingress also, you can see it's the same name.
+
+05:06.840 --> 05:09.240
+So now let's come out of this, right?
+
+05:09.240 --> 05:10.950
+Minimize these things.
+
+05:10.950 --> 05:14.430
+Close and come back here to the terminal.
+
+05:14.430 --> 05:17.730
+And you can see app one, app two, app three related
+
+05:17.730 --> 05:22.140
+deployment 10 note port service created, and also app one,
+
+05:22.140 --> 05:23.070
+app two, and app three.
+
+05:23.070 --> 05:24.450
+App one Ingress created.
+
+05:24.450 --> 05:27.810
+App two Ingress created and app three Ingress created.
+
+05:27.810 --> 05:32.220
+So now if you say Cube CTL get ports should say that
+
+05:32.220 --> 05:34.230
+all app one, app two, app three ports
+
+05:34.230 --> 05:36.150
+you can see here running.
+
+05:36.150 --> 05:38.130
+And also you can see the services.
+
+05:38.130 --> 05:41.220
+App one, app two, app three note port services
+
+05:41.220 --> 05:42.870
+also you can see.
+
+05:42.870 --> 05:43.740
+Let's clear this.
+
+05:43.740 --> 05:45.540
+Now the important thing is.
+
+05:45.540 --> 05:49.740
+Very important command is Cube CTL get Ingress.
+
+05:49.740 --> 05:53.250
+And under this whatever you see is the very important thing.
+
+05:53.250 --> 05:55.800
+So it has created three resources app,
+
+05:55.800 --> 05:59.400
+one Ingress, app two Ingress and app three Ingress.
+
+05:59.400 --> 06:02.220
+So it created three Ingress resources.
+
+06:02.220 --> 06:03.990
+But if you see here.
+
+06:03.990 --> 06:07.530
+It is referencing to a single, right?
+
+06:07.530 --> 06:09.900
+Single address here Ingress groups demo
+
+06:09.900 --> 06:12.540
+one six three six one zero four seven eight .
+
+06:12.540 --> 06:15.000
+So this is same for all three things.
+
+06:15.000 --> 06:16.680
+Which means it is referencing
+
+06:16.680 --> 06:20.160
+to a single application load balancer.
+
+06:20.160 --> 06:23.130
+So now let's come back here and verify.
+
+06:23.130 --> 06:26.070
+So we have verified three Ingress resources will be created
+
+06:26.070 --> 06:27.480
+with same address value.
+
+06:27.480 --> 06:28.800
+We have verified that.
+
+06:28.800 --> 06:31.140
+So three Ingress resources are merged to create
+
+06:31.140 --> 06:34.320
+a single application load balancer.
+
+06:34.320 --> 06:38.033
+So now go to the load balancer and verify the same thing.
+
+06:38.033 --> 06:42.450
+So we'll refresh here in the EC two load balancer section.
+
+06:42.450 --> 06:45.690
+And now if you see Ingress groups demo,
+
+06:45.690 --> 06:47.472
+a single load balancer is created,
+
+06:47.472 --> 06:50.640
+and it is currently in the provisioning state.
+
+06:50.640 --> 06:53.220
+So let's wait for it to provision.
+
+06:53.220 --> 06:57.998
+And in meantime we can go here and verify our external DNS,
+
+06:57.998 --> 07:01.110
+whatever it has registered here.
+
+07:01.110 --> 07:04.590
+So it should be something related to Ingress groups demo
+
+07:04.590 --> 07:07.110
+601.stacksimplifiy.com.
+
+07:07.110 --> 07:08.250
+So that is good.
+
+07:08.250 --> 07:10.980
+So I can copy this, and I can come back here,
+
+07:10.980 --> 07:15.283
+and verify that, and let's look up for that, right?
+
+07:15.283 --> 07:17.160
+And it is authoritative.
+
+07:17.160 --> 07:18.930
+So it is working.
+
+07:18.930 --> 07:22.410
+So now let me clear this and wait for the load balancer
+
+07:22.410 --> 07:25.200
+to be in the active state.
+
+07:25.200 --> 07:28.170
+So we can see here our load balancer is in active state.
+
+07:28.170 --> 07:29.550
+We'll go to listeners,
+
+07:29.550 --> 07:32.760
+and we'll go to the four four three related listeners,
+
+07:32.760 --> 07:35.580
+and then click on view all edit rules.
+
+07:35.580 --> 07:38.220
+So you can see it has created a rule one,
+
+07:38.220 --> 07:39.810
+which is slash app one.
+
+07:39.810 --> 07:43.010
+So which goes to the default app one Nginx
+
+07:43.010 --> 07:45.120
+related note port service.
+
+07:45.120 --> 07:47.790
+Which is nothing but it created a target group
+
+07:47.790 --> 07:49.470
+app one Nginx related.
+
+07:49.470 --> 07:51.213
+And for app two,
+
+07:51.213 --> 07:53.790
+it is app two Nginx related target group created.
+
+07:53.790 --> 07:57.390
+And default backend, it is going to app three Nginx.
+
+07:57.390 --> 08:00.180
+So all three rules created with priority one two
+
+08:00.180 --> 08:02.400
+and this one is at the last.
+
+08:02.400 --> 08:04.980
+And now let's come back here and if you want,
+
+08:04.980 --> 08:06.960
+we can go and then access them.
+
+08:06.960 --> 08:08.730
+Same thing via browser.
+
+08:08.730 --> 08:12.540
+So we are just implemented the Ingress groups concept,
+
+08:12.540 --> 08:16.320
+and we have created three Ingress resources, and
+
+08:16.320 --> 08:18.330
+from three Ingress resources also.
+
+08:18.330 --> 08:19.410
+All those things, right?
+
+08:19.410 --> 08:22.200
+Get Ingress and all those things.
+
+08:22.200 --> 08:23.610
+Merge it together
+
+08:23.610 --> 08:26.580
+to create a single application load balancer.
+
+08:26.580 --> 08:28.500
+And we are testing that if it is going
+
+08:28.500 --> 08:31.410
+to work as expected or not.
+
+08:31.410 --> 08:35.783
+So we access it Ingress Groups demo 601.stacksimplify.com,
+
+08:35.783 --> 08:40.783
+app one is accessible, and we will also access app two
+
+08:41.070 --> 08:43.020
+and also app two is accessible.
+
+08:43.020 --> 08:47.460
+And finally we'll access the default one,
+
+08:47.460 --> 08:50.392
+which is Kubernetes Fundamentals
+
+08:50.392 --> 08:51.810
+demo application version three one.
+
+08:51.810 --> 08:54.750
+So all three apps are access accessible
+
+08:54.750 --> 08:58.230
+and our Ingress group demo is successful.
+
+08:58.230 --> 09:01.470
+So let's go there and then clean up the stuff now.
+
+09:01.470 --> 09:03.750
+So I'll say Cube CTL, delete hyphen R,
+
+09:03.750 --> 09:05.550
+hyphen F cube manifest.
+
+09:05.550 --> 09:08.580
+So all app one, app two and then app three related
+
+09:08.580 --> 09:11.190
+Kubernetes manifest will be undeployed.
+
+09:11.190 --> 09:14.190
+So let's wait for it to undeploy.
+
+09:14.190 --> 09:16.920
+We can see here all the resources got deleted.
+
+09:16.920 --> 09:19.860
+So let's go back here and refresh.
+
+09:19.860 --> 09:22.290
+And our Ingress resources should go away.
+
+09:22.290 --> 09:26.006
+And also we'll see the hosted zone stacksimplify.com
+
+09:26.006 --> 09:28.770
+and anything related to Ingress groups demo
+
+09:28.770 --> 09:30.780
+is not present now.
+
+09:30.780 --> 09:33.780
+So this completes the Ingress groups demo.
+
+09:33.780 --> 09:35.220
+I'll see you in the next section
+
+09:35.220 --> 09:37.380
+with another Ingress concept.
+
+09:37.380 --> 09:38.520
+Until then, bye bye.
+
+09:38.520 --> 09:39.353
+Thank you.

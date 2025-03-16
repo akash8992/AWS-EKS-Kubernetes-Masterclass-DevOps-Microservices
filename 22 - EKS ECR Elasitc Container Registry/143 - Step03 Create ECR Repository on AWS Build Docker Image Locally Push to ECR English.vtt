@@ -1,0 +1,799 @@
+WEBVTT
+
+00:00.330 --> 00:02.340
+-: Welcome back, in this lecture,
+
+00:02.340 --> 00:06.090
+we're going to create the ECR repository,
+
+00:06.090 --> 00:08.940
+and also create the Docker image locally,
+
+00:08.940 --> 00:12.130
+and then even push the Docker image to AWS ECR.
+
+00:13.320 --> 00:14.430
+So let's go ahead
+
+00:14.430 --> 00:17.190
+and then do the step one by one, okay?
+
+00:17.190 --> 00:21.690
+So we'll go to ECR service in AWS Management Console.
+
+00:21.690 --> 00:24.270
+So search for the service E-C-R,
+
+00:24.270 --> 00:27.540
+which is nothing but Elastic Container Registry.
+
+00:27.540 --> 00:32.540
+And let's go there and go to Repositories, right?
+
+00:34.140 --> 00:37.560
+So you can even directly click on Repositories here, right?
+
+00:37.560 --> 00:41.190
+ECR Repositories, so let me close this
+
+00:41.190 --> 00:43.920
+and create a repository, right?
+
+00:43.920 --> 00:45.780
+So let's go here,
+
+00:45.780 --> 00:50.780
+and then take the name as aws-ecr-kube-nginx, okay?
+
+00:51.210 --> 00:53.280
+And then paste it here.
+
+00:53.280 --> 00:55.170
+So this is my repository name,
+
+00:55.170 --> 00:58.620
+so it's not just aws-ecr-kube-nginx.
+
+00:58.620 --> 01:00.420
+So this will be the repository name
+
+01:00.420 --> 01:03.450
+but the repository URL means it is going to be entire
+
+01:03.450 --> 01:05.400
+from here to here, okay?
+
+01:05.400 --> 01:07.380
+So it is going to be unique for you.
+
+01:07.380 --> 01:11.190
+This value is going to be different for you also, okay?
+
+01:11.190 --> 01:14.550
+So also enable Tag Immutability
+
+01:14.550 --> 01:17.070
+to prevent image tags from being overwritten
+
+01:17.070 --> 01:21.270
+by subsequent image pushes using the same tag.
+
+01:21.270 --> 01:23.130
+So we will enable it.
+
+01:23.130 --> 01:27.360
+And enable Scan on Push to have each image
+
+01:27.360 --> 01:30.660
+automatically scanned after pushed to repository.
+
+01:30.660 --> 01:32.520
+So it'll do a security scan
+
+01:32.520 --> 01:34.740
+of your image once you push it.
+
+01:34.740 --> 01:36.120
+So we can enable it.
+
+01:36.120 --> 01:37.800
+So that's a very good setting,
+
+01:37.800 --> 01:39.930
+so you can push it, okay?
+
+01:39.930 --> 01:42.750
+And then it'll provide a detailed security report
+
+01:42.750 --> 01:44.280
+about your Docker image.
+
+01:44.280 --> 01:46.650
+So I'll click on Create Repository
+
+01:46.650 --> 01:49.980
+and our repository should get created, right?
+
+01:49.980 --> 01:53.280
+So if you want, we can see our push commands here
+
+01:53.280 --> 01:55.320
+how we're going to do it, okay?
+
+01:55.320 --> 01:57.480
+So this is the push command for us
+
+01:57.480 --> 02:00.090
+whenever we build our Docker image, okay?
+
+02:00.090 --> 02:02.490
+So this is for our latest one, okay?
+
+02:02.490 --> 02:04.890
+So, but anyway, we can leave these things here.
+
+02:04.890 --> 02:06.510
+We have anywhere documented here,
+
+02:06.510 --> 02:08.520
+all those things in our lectures
+
+02:08.520 --> 02:10.140
+or even if you want, you can select this,
+
+02:10.140 --> 02:13.470
+and then one more time if you want to refer for macOS,
+
+02:13.470 --> 02:15.000
+what will be your push commands,
+
+02:15.000 --> 02:16.680
+and then for Windows also.
+
+02:16.680 --> 02:18.960
+AWS also provided a detailed documentation
+
+02:18.960 --> 02:21.180
+here for the same.
+
+02:21.180 --> 02:25.410
+So now we'll go back to our GitHub repo
+
+02:25.410 --> 02:26.460
+and then start working
+
+02:26.460 --> 02:29.430
+on creating a Docker image locally, right?
+
+02:29.430 --> 02:32.524
+So let's go to 10 ECR Container Registry,
+
+02:32.524 --> 02:36.450
+01-aws-ecr-kube-nginx, right?
+
+02:36.450 --> 02:40.563
+So I want to change this name to EC,
+
+02:42.720 --> 02:45.720
+so I want to change this ECS to ECR.
+
+02:45.720 --> 02:47.970
+I have done it, so let me refresh it,
+
+02:47.970 --> 02:50.100
+and then it should come here, okay?
+
+02:50.100 --> 02:53.700
+So 01-aws-ecr-kube-nginx, okay?
+
+02:53.700 --> 02:55.890
+So we're going to go inside this folder,
+
+02:55.890 --> 02:57.210
+and then review the files,
+
+02:57.210 --> 02:59.580
+and then build it, and then push it, okay?
+
+02:59.580 --> 03:02.310
+So let me go to our this one.
+
+03:02.310 --> 03:06.660
+So which is nothing but our GitHub Visual Studio code.
+
+03:06.660 --> 03:09.540
+And if you see in 10 ECR Elastic Container Registry
+
+03:09.540 --> 03:13.890
+and EKS, you can find 01-aws-ecr-kube-nginx,
+
+03:13.890 --> 03:16.530
+and 02 is related to Kube manifest, okay?
+
+03:16.530 --> 03:20.490
+So first we'll focus on building our Docker image.
+
+03:20.490 --> 03:23.970
+So inside this, you'll find the Docker file.
+
+03:23.970 --> 03:26.640
+So from, means like Docker file, inside Docker file,
+
+03:26.640 --> 03:29.730
+what we're saying is bring the NGINX image
+
+03:29.730 --> 03:32.460
+and then copy the index.html,
+
+03:32.460 --> 03:34.950
+whatever is present here, okay,
+
+03:34.950 --> 03:38.430
+to usr/share/nginx/html in the Docker image,
+
+03:38.430 --> 03:40.350
+whatever you're going to build.
+
+03:40.350 --> 03:44.640
+That's all, very simple Docker image we're going to build.
+
+03:44.640 --> 03:46.020
+And then we're going to push it
+
+03:46.020 --> 03:48.990
+to the ECR repository, right?
+
+03:48.990 --> 03:51.090
+So we need to go inside this folder
+
+03:51.090 --> 03:53.400
+and then run the docker build command.
+
+03:53.400 --> 03:56.523
+So we need to go to 01_aws_ecr_kube_nginx.
+
+03:57.510 --> 03:59.460
+So let's go to the terminal
+
+03:59.460 --> 04:04.460
+and go to 10 ECR Elastic Container Registry related folder,
+
+04:04.860 --> 04:07.893
+and I'll go to 01_aws_ecr_kube_nginx.
+
+04:09.930 --> 04:13.320
+So now we're going to build the Docker image.
+
+04:13.320 --> 04:16.720
+So the template is nothing but docker build -t
+
+04:18.120 --> 04:21.600
+and then ECR repository:tag.
+
+04:21.600 --> 04:23.940
+Means like repository URI:tag.
+
+04:23.940 --> 04:26.340
+And then the location.
+
+04:26.340 --> 04:28.860
+Location is nothing but the current location.
+
+04:28.860 --> 04:31.290
+So dot will be the story here, okay?
+
+04:31.290 --> 04:35.280
+So now let's see what is my repository URI, right?
+
+04:35.280 --> 04:38.760
+So let me go back here, right, ECR.
+
+04:38.760 --> 04:42.690
+And you can see that this is my repository URI.
+
+04:42.690 --> 04:45.840
+So which is us-east-1 and it is same.
+
+04:45.840 --> 04:50.070
+So ideally, these two things, if I copy this one.
+
+04:50.070 --> 04:52.230
+And whatever is, I'll just paste it here
+
+04:52.230 --> 04:53.310
+and then remove it.
+
+04:53.310 --> 04:56.550
+And if I go back to my this one
+
+04:56.550 --> 04:58.950
+and this one, both should be same for me.
+
+04:58.950 --> 05:01.050
+So but in your case, you need to build it
+
+05:01.050 --> 05:03.840
+accordingly by putting in your notepad, okay?
+
+05:03.840 --> 05:06.210
+So it is same, okay?
+
+05:06.210 --> 05:07.680
+So not an issue for me.
+
+05:07.680 --> 05:10.950
+So what I'll do is I'll remove these things.
+
+05:10.950 --> 05:12.840
+I'll remove these things, okay?
+
+05:12.840 --> 05:14.670
+And then save it back, okay?
+
+05:14.670 --> 05:16.080
+So if you want, what you can do
+
+05:16.080 --> 05:17.880
+is you can say, File, New File,
+
+05:17.880 --> 05:20.763
+and then copy this command here,
+
+05:22.140 --> 05:25.920
+and then get your repository URI from here, right?
+
+05:25.920 --> 05:28.080
+So that is an easy job for you, right?
+
+05:28.080 --> 05:30.300
+So let me do this,
+
+05:30.300 --> 05:33.630
+and then here, you can give your version, right?
+
+05:33.630 --> 05:35.820
+So I'm going to give 1.0.0.
+
+05:35.820 --> 05:38.730
+And this is our docker build command,
+
+05:38.730 --> 05:40.440
+what we're going to use,
+
+05:40.440 --> 05:42.510
+and then execute there, okay?
+
+05:42.510 --> 05:43.830
+So that is the same one.
+
+05:43.830 --> 05:47.133
+So let me go here and then paste it.
+
+05:50.880 --> 05:54.150
+So successfully built the image.
+
+05:54.150 --> 05:57.180
+So I'm going to say docker images.
+
+05:57.180 --> 05:58.770
+So I'm going to have a lot of images.
+
+05:58.770 --> 06:00.660
+So let me say clear,
+
+06:00.660 --> 06:03.360
+and let me see my image here, okay?
+
+06:03.360 --> 06:04.890
+So this is the latest image,
+
+06:04.890 --> 06:07.620
+whatever I have built just now, 13 seconds before.
+
+06:07.620 --> 06:11.190
+So the image and then its tag also displaying here.
+
+06:11.190 --> 06:12.780
+So I want to run it locally
+
+06:12.780 --> 06:15.090
+and then test how it is behaving, okay?
+
+06:15.090 --> 06:17.160
+So docker run --name
+
+06:17.160 --> 06:19.110
+and the name of your container,
+
+06:19.110 --> 06:20.880
+whatever you want to run, okay?
+
+06:20.880 --> 06:22.350
+So you can give whatever you want.
+
+06:22.350 --> 06:24.270
+So I give whatever my image name,
+
+06:24.270 --> 06:26.100
+the same thing I have given here.
+
+06:26.100 --> 06:27.960
+And the port is local port,
+
+06:27.960 --> 06:30.120
+and then means like on my desktop port
+
+06:30.120 --> 06:32.250
+and the container port I'm mapping here.
+
+06:32.250 --> 06:35.160
+And --rm, what it does is like whenever you
+
+06:35.160 --> 06:36.930
+do a docker stop, automatically
+
+06:36.930 --> 06:40.800
+your Docker container will be killed, okay?
+
+06:40.800 --> 06:42.960
+So it'll not be available there, okay?
+
+06:42.960 --> 06:45.360
+In previous processes, okay?
+
+06:45.360 --> 06:46.440
+So and then -d
+
+06:46.440 --> 06:50.490
+and then the Docker-related image information,
+
+06:50.490 --> 06:51.870
+the entire image information.
+
+06:51.870 --> 06:53.970
+So I'm going to take this,
+
+06:53.970 --> 06:57.120
+and copy it, and then put it here.
+
+06:57.120 --> 07:00.510
+In your case, you provide your ECR repository URI:tag
+
+07:00.510 --> 07:01.890
+and the name of the container,
+
+07:01.890 --> 07:04.650
+you can put the same thing, not an issue, okay?
+
+07:04.650 --> 07:09.030
+So I'll say clear and then paste, okay?
+
+07:09.030 --> 07:11.880
+So now if I say docker ps,
+
+07:11.880 --> 07:15.360
+so I have this container running now, okay?
+
+07:15.360 --> 07:18.480
+So what I'll do now is like I'll go to localhost
+
+07:18.480 --> 07:19.990
+and then access it, okay?
+
+07:19.990 --> 07:21.870
+So it is running on port 80.
+
+07:21.870 --> 07:25.050
+So "Welcome to Stack Simplify AWS EKS Masterclass,
+
+07:25.050 --> 07:27.210
+Integration with ECR Registries,
+
+07:27.210 --> 07:29.400
+Up and Running Locally," right?
+
+07:29.400 --> 07:32.070
+So if I go ahead and then stop this container, right?
+
+07:32.070 --> 07:34.770
+So you can go here, and then take the command,
+
+07:34.770 --> 07:36.600
+and then stop this container,
+
+07:36.600 --> 07:39.213
+and verify, it should be not available, okay?
+
+07:40.710 --> 07:45.710
+So stopper, docker ps -a -q, nothing is available.
+
+07:45.840 --> 07:46.860
+That's good, okay?
+
+07:46.860 --> 07:49.500
+So now you have built the image locally
+
+07:49.500 --> 07:51.780
+and then tested it, okay?
+
+07:51.780 --> 07:53.490
+In this step, we're going to push that
+
+07:53.490 --> 07:56.400
+to our AWS ECR, right?
+
+07:56.400 --> 07:59.610
+So let's go ahead and then push that now, right?
+
+07:59.610 --> 08:02.130
+As usual, you need to have CLI version 2.6,
+
+08:02.130 --> 08:04.980
+which we already discussed in Prerequisites also.
+
+08:04.980 --> 08:08.040
+So first, we need to do is get the login password
+
+08:08.040 --> 08:11.190
+and then push the Docker image, okay?
+
+08:11.190 --> 08:14.670
+So I'm going to say aws ecr get-login-password,
+
+08:14.670 --> 08:16.320
+and region is us-east-1,
+
+08:16.320 --> 08:18.120
+and then take that password,
+
+08:18.120 --> 08:20.310
+and then pipe it to the next command, okay?
+
+08:20.310 --> 08:25.080
+So which is nothing but docker login --username is AWS
+
+08:25.080 --> 08:27.570
+and password is std, which is whatever
+
+08:27.570 --> 08:29.670
+the command output coming from here,
+
+08:29.670 --> 08:32.100
+docker get ecr, get login.
+
+08:32.100 --> 08:33.330
+Whatever you're getting from there,
+
+08:33.330 --> 08:35.160
+you're passing the password here,
+
+08:35.160 --> 08:38.070
+and then which image you're going to push.
+
+08:38.070 --> 08:40.680
+So this is the Docker repository URI,
+
+08:40.680 --> 08:42.720
+you're going to push, okay?
+
+08:42.720 --> 08:46.350
+So, but one thing I am doubtful about here
+
+08:46.350 --> 08:50.520
+is I didn't mention the tag, okay?
+
+08:50.520 --> 08:53.160
+So, but repository URI,
+
+08:53.160 --> 08:56.910
+only that, you're getting the login password here, okay?
+
+08:56.910 --> 08:58.740
+So push with tag is here, okay?
+
+08:58.740 --> 09:00.090
+So that's good, okay?
+
+09:00.090 --> 09:02.250
+So docker login, username/password,
+
+09:02.250 --> 09:04.470
+and the repository URI is this one, right?
+
+09:04.470 --> 09:05.460
+So that is the one.
+
+09:05.460 --> 09:08.490
+Good, so this is the repository URI, okay?
+
+09:08.490 --> 09:09.480
+So this looks good.
+
+09:09.480 --> 09:12.573
+So let me copy this and then paste it here, okay?
+
+09:17.460 --> 09:19.200
+And it should do the docker login
+
+09:19.200 --> 09:21.420
+for us successfully, okay?
+
+09:21.420 --> 09:23.520
+Your password will be stored unencrypted
+
+09:23.520 --> 09:25.500
+in so and so file, but that's fine.
+
+09:25.500 --> 09:27.480
+Login got succeeded.
+
+09:27.480 --> 09:29.820
+So now we want to push this image.
+
+09:29.820 --> 09:32.370
+So before pushing it, if you go inside and then verify,
+
+09:32.370 --> 09:35.160
+there are no images available here, okay?
+
+09:35.160 --> 09:37.830
+So let's go ahead and then push that now.
+
+09:37.830 --> 09:39.780
+So I'm going to push it.
+
+09:39.780 --> 09:41.550
+So in your case, it is going to be your
+
+09:41.550 --> 09:44.610
+repository URI:tag, okay?
+
+09:44.610 --> 09:47.193
+So let me come here and then paste it.
+
+09:49.200 --> 09:51.540
+So it is trying to push, it will take a while.
+
+09:51.540 --> 09:53.730
+So maybe less than a minute, it will push it.
+
+09:53.730 --> 09:55.230
+Small image, right?
+
+09:55.230 --> 09:56.700
+But here, you're clear, right?
+
+09:56.700 --> 09:59.880
+So you get your login password for this,
+
+09:59.880 --> 10:01.290
+respect to your region,
+
+10:01.290 --> 10:04.290
+and then for docker login with username AWS
+
+10:04.290 --> 10:05.460
+and password is this,
+
+10:05.460 --> 10:07.590
+and the repository URI is this,
+
+10:07.590 --> 10:09.720
+which you brought from here, right?
+
+10:09.720 --> 10:11.340
+So repository URI.
+
+10:11.340 --> 10:13.230
+So you're going to provide the password
+
+10:13.230 --> 10:16.740
+and then do the login to our Docker repository,
+
+10:16.740 --> 10:19.530
+to this respective Docker repository, okay?
+
+10:19.530 --> 10:21.390
+And then you're going to push it.
+
+10:21.390 --> 10:23.130
+So now let's see it got pushed, okay?
+
+10:23.130 --> 10:27.030
+So let's go inside and then do a refresh if you want.
+
+10:27.030 --> 10:31.560
+So now you can see that 1.0.0 image that got pushed, okay?
+
+10:31.560 --> 10:33.270
+And during the push, we also said
+
+10:33.270 --> 10:36.540
+that it need to scan the stuff, okay, so vulnerabilities.
+
+10:36.540 --> 10:38.400
+So this is a basic NGINX image
+
+10:38.400 --> 10:40.560
+which we have taken out of the box,
+
+10:40.560 --> 10:43.440
+and these are the current scanning results.
+
+10:43.440 --> 10:44.640
+So with critical zero,
+
+10:44.640 --> 10:46.470
+but with high impact, one you have,
+
+10:46.470 --> 10:48.540
+and then medium 16, low 21,
+
+10:48.540 --> 10:50.580
+and then informational 52.
+
+10:50.580 --> 10:53.460
+So that's what the vulnerability scan it has done.
+
+10:53.460 --> 10:55.230
+So this is the very-high-impact thing
+
+10:55.230 --> 10:58.380
+related to Perl before has an integer overflow-related
+
+10:58.380 --> 11:01.290
+mishandling of a PL_XYZ, something, okay?
+
+11:01.290 --> 11:02.123
+So like that,
+
+11:02.123 --> 11:04.200
+you can have instruction-injection-related stuff,
+
+11:04.200 --> 11:06.780
+it might happen, something it is trying to tell us that.
+
+11:06.780 --> 11:10.140
+So you need to fix all these things to have a valid
+
+11:10.140 --> 11:12.930
+and then highly-secure repository for you.
+
+11:12.930 --> 11:14.310
+So that's a very good option
+
+11:14.310 --> 11:18.240
+in AWS Elastic Container Registry
+
+11:18.240 --> 11:19.800
+about the vulnerability scanning
+
+11:19.800 --> 11:21.960
+automatically happens on our images,
+
+11:21.960 --> 11:24.510
+whatever we push here, okay?
+
+11:24.510 --> 11:27.030
+So this completes the creation,
+
+11:27.030 --> 11:29.910
+means like a creation of a Docker image
+
+11:29.910 --> 11:32.820
+and then pushing it to the Docker
+
+11:32.820 --> 11:35.400
+AWS Elastic Container Registry, okay?
+
+11:35.400 --> 11:36.660
+So in our next lecture,
+
+11:36.660 --> 11:39.750
+we'll focus on about Amazon EKS.
+
+11:39.750 --> 11:41.520
+So I'll see you in the next lecture.
+
+11:41.520 --> 11:43.353
+Until then, bye-bye, thank you.

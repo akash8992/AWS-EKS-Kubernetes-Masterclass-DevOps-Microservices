@@ -1,0 +1,847 @@
+WEBVTT
+
+00:00.000 --> 00:01.020
+-: Welcome back.
+
+00:01.020 --> 00:01.853
+In this step,
+
+00:01.853 --> 00:04.500
+we are going to deploy our ALB ingress template,
+
+00:04.500 --> 00:07.200
+all the manifests, whatever we have here.
+
+00:07.200 --> 00:10.440
+So which is MySQL external in name service, user management
+
+00:10.440 --> 00:12.900
+microservice deployment, Kubernetes secrets
+
+00:12.900 --> 00:15.300
+and then user management node port service
+
+00:15.300 --> 00:17.610
+and also ALB ingress basic.
+
+00:17.610 --> 00:19.620
+So we are going to deploy all these manifests
+
+00:19.620 --> 00:21.780
+and then test it now.
+
+00:21.780 --> 00:22.920
+So before going that
+
+00:22.920 --> 00:25.410
+let's go to this Meyer scale external name service
+
+00:25.410 --> 00:27.750
+which means like this Meyer scale RDS end point
+
+00:27.750 --> 00:30.870
+and then ensure that it is up and running.
+
+00:30.870 --> 00:32.250
+So that's one important thing.
+
+00:32.250 --> 00:33.930
+So if it is not running then,
+
+00:33.930 --> 00:35.610
+the application will not come up, right?
+
+00:35.610 --> 00:37.710
+That user management microservice.
+
+00:37.710 --> 00:38.700
+So that's the reason.
+
+00:38.700 --> 00:42.090
+Go to DB instances and you can see that user
+
+00:42.090 --> 00:44.520
+management DB is up and running, it's available.
+
+00:44.520 --> 00:45.450
+So we are good.
+
+00:45.450 --> 00:47.400
+So that first step is done.
+
+00:47.400 --> 00:49.770
+Second step is like we can go ahead
+
+00:49.770 --> 00:52.470
+and then deploy the stuff.
+
+00:52.470 --> 00:54.330
+So let me go here
+
+00:54.330 --> 00:57.870
+and then we'll go to zero eight is our thing
+
+00:57.870 --> 01:00.660
+which is ALB application load balances inside
+
+01:00.660 --> 01:04.290
+that we are doing with 0 8 0 2, right?
+
+01:04.290 --> 01:06.330
+And there you can find our Kube manifest
+
+01:06.330 --> 01:08.970
+whatever we have updated just now, right?
+
+01:08.970 --> 01:12.057
+So I'll say kubectl, apply,
+
+01:12.057 --> 01:14.730
+hyphen F and then Kube manifest.
+
+01:14.730 --> 01:17.730
+So any error is there also it is going to throw to us.
+
+01:17.730 --> 01:19.890
+So let's wait for it to get created.
+
+01:19.890 --> 01:21.990
+So my skill got created,
+
+01:21.990 --> 01:23.880
+microservice deployment got created,
+
+01:23.880 --> 01:25.260
+dbpassword got created,
+
+01:25.260 --> 01:27.510
+node port service got created
+
+01:27.510 --> 01:30.000
+and then ingress got created.
+
+01:30.000 --> 01:33.990
+So what is our next step here to verify the stuff.
+
+01:33.990 --> 01:37.230
+So kubectl, get pods.
+
+01:37.230 --> 01:38.640
+So this is the pod.
+
+01:38.640 --> 01:41.760
+So I'll say kubectl, logs,
+
+01:41.760 --> 01:43.050
+hyphen F,
+
+01:43.050 --> 01:45.780
+and then I'll take the pod name.
+
+01:45.780 --> 01:46.950
+So I'll tail the logs
+
+01:46.950 --> 01:50.310
+and then see that it came up properly, right?
+
+01:50.310 --> 01:52.200
+So it started, but it's waiting
+
+01:52.200 --> 01:55.593
+on his livenes and then readiness probes to be completed.
+
+01:58.054 --> 02:02.310
+So I'll say watch, get pods and then watch.
+
+02:02.310 --> 02:05.190
+So zero by one is there until and unless it comes
+
+02:05.190 --> 02:08.670
+as one by one, we need to wait ideally, right?
+
+02:08.670 --> 02:10.710
+So to access it by a browser
+
+02:10.710 --> 02:13.620
+but before that we can check other stuff here, right?
+
+02:13.620 --> 02:17.370
+So which is nothing but get ingress, right?
+
+02:17.370 --> 02:21.630
+So get ingress will provide the ALB DNS name.
+
+02:21.630 --> 02:23.640
+So this is our ALB DNS name
+
+02:23.640 --> 02:25.800
+whatever it has provided for us.
+
+02:25.800 --> 02:29.430
+So it created a ingress user management rest tab service
+
+02:29.430 --> 02:30.780
+and this is that DNS name,
+
+02:30.780 --> 02:33.060
+whatever it is providing for us, okay?
+
+02:33.060 --> 02:37.140
+So now we'll also verify our kubectl, get svc.
+
+02:37.140 --> 02:37.973
+Which is nothing
+
+02:37.973 --> 02:40.020
+but the user management node port service
+
+02:40.020 --> 02:42.630
+whatever it has created, we need to crosscheck.
+
+02:42.630 --> 02:44.400
+So it created the node port service
+
+02:44.400 --> 02:47.790
+with 31329 dynamic port.
+
+02:47.790 --> 02:50.070
+Okay, so that's about it.
+
+02:50.070 --> 02:53.490
+So now let's go back here
+
+02:53.490 --> 02:56.400
+and then verify the ingress controller
+
+02:56.400 --> 03:00.090
+describe the ingress controller, whatever we have created.
+
+03:00.090 --> 03:04.980
+Okay, so we can paste it here and then describe it.
+
+03:04.980 --> 03:07.650
+So this is for our additional understanding only.
+
+03:07.650 --> 03:12.141
+So which means like what all annotations it has taken
+
+03:12.141 --> 03:14.820
+into consideration when deploying it
+
+03:14.820 --> 03:17.380
+and what is the host star slash star should go
+
+03:18.309 --> 03:19.329
+to this node port service.
+
+03:19.329 --> 03:21.043
+All this information you can see.
+
+03:21.043 --> 03:21.876
+So whatever we have deployed
+
+03:21.876 --> 03:24.720
+the same thing is going to be there in the describe also.
+
+03:24.720 --> 03:27.540
+But just to understand what it has deployed
+
+03:27.540 --> 03:30.570
+we can see it here and you can even see the events, right?
+
+03:30.570 --> 03:35.490
+Any Kubernetes object in Kubernetes, whenever you go ahead
+
+03:35.490 --> 03:38.580
+and then describe it, you'll get the series of events
+
+03:38.580 --> 03:40.710
+whatever it has been implemented.
+
+03:40.710 --> 03:44.310
+So if any issues also you can find it here.
+
+03:44.310 --> 03:47.550
+Finally, one important thing is always whenever
+
+03:47.550 --> 03:49.710
+you deploy your ingress manifest, at least
+
+03:49.710 --> 03:51.510
+for the first to one or two times
+
+03:51.510 --> 03:55.110
+go ahead and then verify the ingress controller logs.
+
+03:55.110 --> 03:58.083
+So why you need to verify your ingress controller logs.
+
+03:59.724 --> 04:00.930
+So you have done lot of work related
+
+04:00.930 --> 04:04.410
+to creating a Kubernetes service account,
+
+04:04.410 --> 04:05.310
+cluster role,
+
+04:05.310 --> 04:06.480
+cluster role binding,
+
+04:06.480 --> 04:09.420
+and then IAM policy and then IAM role.
+
+04:09.420 --> 04:12.450
+So all these four, five things you have integrated.
+
+04:12.450 --> 04:14.970
+So if there are any issues in that process
+
+04:14.970 --> 04:17.790
+then it is going to tell us from here.
+
+04:17.790 --> 04:20.253
+So I'm going to verify the logs,
+
+04:21.180 --> 04:22.013
+okay?
+
+04:22.013 --> 04:24.000
+So successfully reconciled, okay?
+
+04:24.000 --> 04:26.520
+So there is no issues or no error related.
+
+04:26.520 --> 04:27.660
+So if there is an error
+
+04:27.660 --> 04:29.850
+it is going to show an error like this,
+
+04:29.850 --> 04:33.090
+reconcile our error failed due to build load
+
+04:33.090 --> 04:37.879
+balancer configuration due to unable to fetch subnets,
+
+04:37.879 --> 04:38.712
+okay?
+
+04:38.712 --> 04:40.140
+So some error related to access denied.
+
+04:40.140 --> 04:42.300
+So if we have any issues related
+
+04:42.300 --> 04:45.510
+to accessments like roll based access control
+
+04:45.510 --> 04:48.540
+whatever we have provided there, if you do any mistake.
+
+04:48.540 --> 04:51.600
+So this type of errors are possible.
+
+04:51.600 --> 04:52.440
+So that's the thing.
+
+04:52.440 --> 04:54.150
+So that's the reason always it's good to
+
+04:54.150 --> 04:57.720
+verify the ALB ingress controller locks.
+
+04:57.720 --> 05:00.810
+So now we have verified this stuff from the Kubernetes side.
+
+05:00.810 --> 05:03.540
+So let's go to our management console
+
+05:03.540 --> 05:05.580
+and verify the listeners target groups
+
+05:05.580 --> 05:08.130
+and then finally access the application.
+
+05:08.130 --> 05:11.190
+So let's go to EC2, right?
+
+05:11.190 --> 05:13.983
+In EC2 let's go to load balancers.
+
+05:16.860 --> 05:20.160
+And in load balancer you can see a load balancer is created
+
+05:20.160 --> 05:23.400
+and off type application load balancer, okay?
+
+05:23.400 --> 05:25.620
+And now one thing we need to see is
+
+05:25.620 --> 05:28.200
+in listeners we need to go inside listeners.
+
+05:28.200 --> 05:30.360
+The default listener is 80.
+
+05:30.360 --> 05:33.930
+So if you see the manifest here, so related to ingress
+
+05:33.930 --> 05:36.240
+you don't see anything here, right?
+
+05:36.240 --> 05:40.830
+So nothing related to listener we have provided
+
+05:40.830 --> 05:44.790
+but still it has created everything for us, okay?
+
+05:44.790 --> 05:47.130
+So default because default is 80.
+
+05:47.130 --> 05:51.210
+And now let's also review the rules, right?
+
+05:51.210 --> 05:55.410
+In rules, anything with slash star go to this target group.
+
+05:55.410 --> 05:58.650
+Okay, so let me open this target group, right?
+
+05:58.650 --> 06:01.440
+So anything with slash star go to this target group,
+
+06:01.440 --> 06:03.900
+hundred percent traffic going to this target group.
+
+06:03.900 --> 06:06.420
+So we open the target groups in target groups also
+
+06:06.420 --> 06:09.090
+you can find only one target group here
+
+06:09.090 --> 06:12.393
+and in targets, right?
+
+06:13.322 --> 06:15.810
+It picked up the 31329 port.
+
+06:15.810 --> 06:18.630
+So this should be our node port, right?
+
+06:18.630 --> 06:21.900
+So let's go here and then clear this up.
+
+06:21.900 --> 06:25.650
+And then kubectl get svc, right?
+
+06:25.650 --> 06:30.480
+So you can see 31239 is our user management
+
+06:30.480 --> 06:33.660
+rest tab node port services node port.
+
+06:33.660 --> 06:37.950
+So this load balancer is created in public subnet.
+
+06:37.950 --> 06:39.030
+So let's go here.
+
+06:39.030 --> 06:42.060
+So this load balancer is created in public subnet.
+
+06:42.060 --> 06:44.640
+So it is connecting to this node port service
+
+06:44.640 --> 06:48.693
+on 31239 of this worker nodes port.
+
+06:49.985 --> 06:52.230
+So this worker nodes node port is 31239.
+
+06:52.230 --> 06:53.063
+Why are that?
+
+06:53.063 --> 06:55.560
+It'll come to this service which will be internally
+
+06:55.560 --> 06:58.170
+a cluster IP service of 8095.
+
+06:58.170 --> 06:59.250
+And from here it'll go
+
+06:59.250 --> 07:00.720
+to the respect to part,
+
+07:00.720 --> 07:03.003
+means like target port is 8095.
+
+07:03.870 --> 07:07.200
+So this understanding is very important for us
+
+07:07.200 --> 07:10.980
+in what is happening from load balancer perspective
+
+07:10.980 --> 07:13.680
+and also on the worker node, node port service,
+
+07:13.680 --> 07:16.350
+a node port service perspective, right?
+
+07:16.350 --> 07:17.183
+So that's about it.
+
+07:17.183 --> 07:18.690
+So it connected on 31239
+
+07:18.690 --> 07:20.940
+and then from both the servers it is healthy.
+
+07:20.940 --> 07:21.937
+Why?
+
+07:21.937 --> 07:22.770
+Because service can be spanned
+
+07:22.770 --> 07:25.140
+across all the worker nodes, right?
+
+07:25.140 --> 07:27.990
+So from here you access also you can access this pod
+
+07:27.990 --> 07:30.090
+or from this worker node you access also
+
+07:30.090 --> 07:31.620
+you can access this pod.
+
+07:31.620 --> 07:33.810
+So that's the reason from both the nodes
+
+07:33.810 --> 07:35.970
+it is connecting to this respective pod
+
+07:35.970 --> 07:38.520
+and then it is telling us it is healthy.
+
+07:38.520 --> 07:39.840
+And one final thing we need to
+
+07:39.840 --> 07:42.090
+cross-check is group details, right?
+
+07:42.090 --> 07:42.930
+So which is nothing
+
+07:42.930 --> 07:44.910
+but whatever we have configured the path
+
+07:44.910 --> 07:47.700
+whatever we have provided in the annotation here, right?
+
+07:47.700 --> 07:51.720
+User management health status, the same thing came here
+
+07:51.720 --> 07:52.830
+and it checked the health
+
+07:52.830 --> 07:56.010
+and ensure that our backend is healthy.
+
+07:56.010 --> 07:57.120
+That's about it.
+
+07:57.120 --> 08:00.330
+So this completes the creation
+
+08:00.330 --> 08:04.080
+of application load balancer using ingress
+
+08:04.080 --> 08:07.500
+manifest whatever we have created just now.
+
+08:07.500 --> 08:09.480
+So we verified our load balancer,
+
+08:09.480 --> 08:11.130
+we verified the target groups.
+
+08:11.130 --> 08:13.680
+So now let's go ahead and then access the application.
+
+08:13.680 --> 08:15.090
+We can even say health status
+
+08:15.090 --> 08:17.670
+or even we can list the users also, right?
+
+08:17.670 --> 08:18.870
+Slash users.
+
+08:18.870 --> 08:23.430
+So let's go and then get our ALB ingress URL.
+
+08:23.430 --> 08:25.230
+So which is nothing but the DNS URL.
+
+08:25.230 --> 08:27.150
+We can get it directly from DNS name
+
+08:27.150 --> 08:30.600
+in our load balancer here in the description section.
+
+08:30.600 --> 08:32.460
+Or we can get from
+
+08:32.460 --> 08:36.300
+kubectl get ingress in from this address section, okay?
+
+08:36.300 --> 08:38.513
+So I can take it from here, copy
+
+08:38.513 --> 08:41.400
+and then go to the new browser history
+
+08:41.400 --> 08:43.320
+http://
+
+08:43.320 --> 08:48.320
+and then I will say userMGMT/health hyphen status.
+
+08:49.320 --> 08:51.270
+Okay, health is good.
+
+08:51.270 --> 08:52.980
+And if you want to list the users
+
+08:52.980 --> 08:55.290
+whatever is present in our database.
+
+08:55.290 --> 08:57.690
+So we can say users, okay?
+
+08:57.690 --> 09:00.750
+So we also have the list of users displayed.
+
+09:00.750 --> 09:02.290
+So now if you see it here
+
+09:03.150 --> 09:05.670
+when we called the users, the request went
+
+09:05.670 --> 09:09.930
+from internet browser to the application load balancer
+
+09:09.930 --> 09:12.090
+which is nothing but our ingress service
+
+09:12.090 --> 09:15.540
+and then validated the path here slash star and then went
+
+09:15.540 --> 09:18.360
+into the user management node port service present
+
+09:18.360 --> 09:20.580
+on these worker nodes, right?
+
+09:20.580 --> 09:23.940
+And from there it went into the UMS pod,
+
+09:23.940 --> 09:25.110
+respective pod
+
+09:25.110 --> 09:27.570
+and from there it went into the Meyer scale
+
+09:27.570 --> 09:29.430
+external name service and it went
+
+09:29.430 --> 09:31.740
+to RDS database and then picked the user
+
+09:31.740 --> 09:35.010
+and then displayed to the user back, okay?
+
+09:35.010 --> 09:37.920
+So that's about happened on a overall flow.
+
+09:37.920 --> 09:41.790
+If you want to again test further, test it via postman
+
+09:41.790 --> 09:43.260
+you can even do that.
+
+09:43.260 --> 09:45.750
+So you can go to settings here
+
+09:45.750 --> 09:49.050
+and create a new environment and environment.
+
+09:49.050 --> 09:53.790
+You can say ALB, ingress basic testing, right?
+
+09:53.790 --> 09:56.310
+And the URL will be the variable name,
+
+09:56.310 --> 09:58.110
+whatever you can find it here, right?
+
+09:58.110 --> 10:02.340
+So URL and whatever, we copied this one, right?
+
+10:02.340 --> 10:04.170
+So this one we have copied.
+
+10:04.170 --> 10:06.960
+So I'll say, http://,
+
+10:06.960 --> 10:08.340
+when I update an initial value
+
+10:08.340 --> 10:10.860
+automatically current value should be updated.
+
+10:10.860 --> 10:12.600
+The primary thing is we need the value
+
+10:12.600 --> 10:14.250
+in current value only, okay?
+
+10:14.250 --> 10:16.590
+So I'll click on add, right
+
+10:16.590 --> 10:20.490
+and then close this and I'll go to environment here, right?
+
+10:20.490 --> 10:22.230
+ALB ingress basic
+
+10:22.230 --> 10:25.380
+and I can first test the health status.
+
+10:25.380 --> 10:28.620
+I got the response, I can test the list users
+
+10:28.620 --> 10:31.620
+and I got the response admin two and then admin three stuff.
+
+10:33.333 --> 10:34.500
+Now I can create a user, right?
+
+10:34.500 --> 10:38.760
+So I can create a user saying ALB ingress,
+
+10:38.760 --> 10:42.900
+or ALB I basic, okay?
+
+10:42.900 --> 10:45.270
+Simply I basic is ingress basic, okay?
+
+10:45.270 --> 10:47.970
+So I'll paste the same as the email.
+
+10:47.970 --> 10:51.960
+I'll paste the F name also same and L name also same.
+
+10:51.960 --> 10:54.000
+Okay, so L name
+
+10:54.000 --> 10:57.870
+and then F name, something like this, okay?
+
+10:57.870 --> 10:59.760
+And then I'll post it
+
+10:59.760 --> 11:03.030
+and anywhere we'll get the 504 hour notification service.
+
+11:03.030 --> 11:04.680
+That is fine.
+
+11:04.680 --> 11:06.930
+I'll come back to list users
+
+11:06.930 --> 11:09.810
+and then I'll list the user, right?
+
+11:09.810 --> 11:11.790
+So I can see that ALB basic user
+
+11:11.790 --> 11:16.710
+whatever we have posted, it got created in our RDS database.
+
+11:16.710 --> 11:19.650
+So entire workflow worker forever post service,
+
+11:19.650 --> 11:21.600
+also in addition to guest service.
+
+11:21.600 --> 11:23.160
+Finally, let's go ahead and then clean
+
+11:23.160 --> 11:24.540
+up whatever we have created
+
+11:24.540 --> 11:27.780
+as part of our ingress basic section.
+
+11:27.780 --> 11:32.400
+So I'll go to my terminal, I am in 0802 ALB ingress
+
+11:32.400 --> 11:37.400
+basics kubectl delete hyphen F, Kube manifests, right?
+
+11:38.460 --> 11:41.940
+So whatever we have created should get deleted now.
+
+11:41.940 --> 11:46.350
+So let's go back and then verify the same.
+
+11:46.350 --> 11:49.200
+So our load balancer should get deleted.
+
+11:49.200 --> 11:50.130
+So that's good.
+
+11:50.130 --> 11:52.320
+Okay, so our target should be cleaned up.
+
+11:52.320 --> 11:53.580
+Yeah, this looks good.
+
+11:53.580 --> 11:58.410
+Okay, so this completes the implementation
+
+11:58.410 --> 12:02.220
+of application load balancer using ingress
+
+12:02.220 --> 12:04.530
+manifest the very basic, okay?
+
+12:04.530 --> 12:08.760
+So in our next lecture we will enable the SSL
+
+12:08.760 --> 12:10.733
+and then in following lecture we'll enable
+
+12:10.733 --> 12:14.070
+HTTP to HTTP S redirection.
+
+12:14.070 --> 12:16.170
+So like that we'll incrementally build the
+
+12:17.250 --> 12:20.370
+ingress basic manifest to a very good level
+
+12:20.370 --> 12:23.040
+and then we'll close the entire section, okay?
+
+12:23.040 --> 12:24.870
+So I'll see you in the next lecture.
+
+12:24.870 --> 12:26.250
+Until then, bye bye.
+
+12:26.250 --> 12:27.083
+Thank you.

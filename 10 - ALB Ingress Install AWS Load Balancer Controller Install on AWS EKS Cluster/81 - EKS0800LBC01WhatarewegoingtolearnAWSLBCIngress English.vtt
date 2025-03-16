@@ -1,0 +1,280 @@
+WEBVTT
+
+00:00.480 --> 00:01.440
+Instructor: Welcome back!
+
+00:01.440 --> 00:06.440
+As part of AWS EKS load balancer controller, Kubernetes
+
+00:06.600 --> 00:11.010
+Ingress, Application Load Balancer, and also external DNS.
+
+00:11.010 --> 00:13.680
+So considering all these four things,
+
+00:13.680 --> 00:16.890
+we are going to implement 14 demos.
+
+00:16.890 --> 00:19.500
+If you see here, as part of demo one,
+
+00:19.500 --> 00:23.670
+we are going to install the AWS load balancer controller.
+
+00:23.670 --> 00:27.000
+And after that, we will learn the Ingress basics
+
+00:27.000 --> 00:28.620
+as part of demo two.
+
+00:28.620 --> 00:32.070
+And later, we will implement the Ingress context
+
+00:32.070 --> 00:35.430
+part based routing as part of demo three.
+
+00:35.430 --> 00:38.790
+And later, we will implement the Ingress SSL
+
+00:38.790 --> 00:43.312
+and Ingress SSL redirect as part of demo four
+
+00:43.312 --> 00:44.145
+and demo five.
+
+00:44.145 --> 00:46.350
+So considering all these demos will be related
+
+00:46.350 --> 00:48.360
+to application load balancer,
+
+00:48.360 --> 00:51.000
+which means every demo whatever we are creating
+
+00:51.000 --> 00:54.000
+we are going to implement these things using
+
+00:54.000 --> 00:58.590
+Kubernetes manifest on AWS application load balancer.
+
+00:58.590 --> 01:01.770
+And we are also going to install external DNS
+
+01:01.770 --> 01:03.540
+using demo six.
+
+01:03.540 --> 01:07.890
+And later we will implement Ingress plus external DNS
+
+01:07.890 --> 01:10.980
+and Kubernetes service plus external DNS
+
+01:10.980 --> 01:14.280
+as part of demo seven and demo eight.
+
+01:14.280 --> 01:16.650
+Ingress plus external DNS in the sense,
+
+01:16.650 --> 01:19.380
+so whenever we deploy our Ingress manifest,
+
+01:19.380 --> 01:22.680
+automatically, the DNS registration happens
+
+01:22.680 --> 01:26.220
+in the AWS route 53 whatever the DNS names
+
+01:26.220 --> 01:28.230
+defined in the Ingress manifest.
+
+01:28.230 --> 01:31.620
+So that we are going to learn as part of demo seven.
+
+01:31.620 --> 01:33.270
+And as part of demo eight,
+
+01:33.270 --> 01:36.360
+not only with Ingress with regular Kubernetes service,
+
+01:36.360 --> 01:39.390
+which is of type load balancer, our note port services.
+
+01:39.390 --> 01:44.390
+So they also Ingress external DNS related annotations be
+
+01:44.490 --> 01:48.900
+can be added to DNS restart those service related DNS names
+
+01:48.900 --> 01:51.240
+inside the route 53.
+
+01:51.240 --> 01:53.310
+So which means the Kubernetes service
+
+01:53.310 --> 01:56.010
+inside that you can add the external DNS annotation
+
+01:56.010 --> 01:57.570
+for your application and
+
+01:57.570 --> 02:02.040
+that DNS name using external DNS can be DNS restart
+
+02:02.040 --> 02:03.720
+in AWS route 53.
+
+02:03.720 --> 02:06.480
+So both demos, Ingress plus external DNS
+
+02:06.480 --> 02:07.650
+and Kubernetes service
+
+02:07.650 --> 02:10.470
+plus external DNS we are going to implement.
+
+02:10.470 --> 02:13.560
+After that we are also going to implement Ingress
+
+02:13.560 --> 02:15.630
+name based virtual host routing.
+
+02:15.630 --> 02:19.200
+So we already implemented Ingress context part base routing,
+
+02:19.200 --> 02:21.090
+so which is nothing but when the request comes to
+
+02:21.090 --> 02:24.090
+slash app one, go to app one whenever the request comes to
+
+02:24.090 --> 02:27.810
+slash app two, go to app two related backend.
+
+02:27.810 --> 02:30.060
+So those are context path based routing's.
+
+02:30.060 --> 02:32.760
+So name based virtual host routing is nothing but,
+
+02:32.760 --> 02:35.520
+whenever you access your application with app one dot
+
+02:35.520 --> 02:38.460
+some domain.com, go to that respect to app one
+
+02:38.460 --> 02:39.660
+related backends.
+
+02:39.660 --> 02:42.720
+And when you access with app two dot some domain.com,
+
+02:42.720 --> 02:44.730
+the request should go to app two.
+
+02:44.730 --> 02:47.550
+So even that example we are going to implement using
+
+02:47.550 --> 02:51.720
+Kubernetes Ingress manifest and equivalent ALB rules
+
+02:51.720 --> 02:53.100
+will be created.
+
+02:53.100 --> 02:55.110
+And after that we are also going to
+
+02:55.110 --> 02:59.910
+implement SSL discovery host and SSL discovery DLS.
+
+02:59.910 --> 03:04.320
+So without hard coding the AWS certificate manager,
+
+03:04.320 --> 03:06.660
+certificate ARN in your Ingress,
+
+03:06.660 --> 03:08.160
+so you can use the options
+
+03:08.160 --> 03:11.940
+like SSL discovery host and SSL discovery DLS.
+
+03:11.940 --> 03:13.920
+So those things also we are going to learn
+
+03:13.920 --> 03:16.230
+in detail with practical demos.
+
+03:16.230 --> 03:20.520
+And after that, we are going to implement Ingress groups.
+
+03:20.520 --> 03:23.070
+So with Ingress groups the large configuration
+
+03:23.070 --> 03:27.090
+of Kubernetes Ingress manifest can be split into small,
+
+03:27.090 --> 03:29.040
+small Kubernetes manifest
+
+03:29.040 --> 03:31.500
+and we can create multiple Ingress resources
+
+03:31.500 --> 03:35.430
+and combine them to a single group with a priority order.
+
+03:35.430 --> 03:36.510
+So we are going to learn
+
+03:36.510 --> 03:39.840
+that in detail as part of demo two.
+
+03:39.840 --> 03:42.210
+And after that, we are also going to learn
+
+03:42.210 --> 03:44.040
+about Ingress target types,
+
+03:44.040 --> 03:46.560
+which is instance mode and then IP mode.
+
+03:46.560 --> 03:49.860
+So far, whatever the demos we have implemented is
+
+03:49.860 --> 03:51.780
+default is going to be instance mode
+
+03:51.780 --> 03:54.543
+and we implemented it with instance mode.
+
+03:55.401 --> 03:57.870
+So here as part of demo 13, we are going to learn
+
+03:57.870 --> 04:02.160
+about IP mode and implement that with IP mode.
+
+04:02.160 --> 04:04.797
+And finally, we are also going to implement
+
+04:04.797 --> 04:07.380
+the Ingress internal ALB.
+
+04:07.380 --> 04:10.470
+And to test that, we are also going to deploy a cold port
+
+04:10.470 --> 04:12.930
+and connect to cold port and test it.
+
+04:12.930 --> 04:13.800
+So let's go ahead
+
+04:13.800 --> 04:16.860
+and then practically implement all these things now.
+
+04:16.860 --> 04:18.420
+So I'll see you in the next lecture.
+
+04:18.420 --> 04:19.620
+Until then, bye-bye.
+
+04:19.620 --> 04:20.453
+Thank you.

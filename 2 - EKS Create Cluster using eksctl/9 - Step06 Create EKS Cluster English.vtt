@@ -1,0 +1,349 @@
+WEBVTT
+
+00:00.270 --> 00:01.710
+-: Welcome back.
+
+00:01.710 --> 00:03.777
+So in this lecture we are going to create
+
+00:03.777 --> 00:05.340
+the EKS cluster now.
+
+00:05.340 --> 00:08.610
+So let's go into zero one zero to create EKS cluster,
+
+00:08.610 --> 00:09.960
+and then node groups.
+
+00:09.960 --> 00:12.720
+So when we go to the step zero one here,
+
+00:12.720 --> 00:14.610
+step 00 we just now completed,
+
+00:14.610 --> 00:17.370
+which is nothing but understanding about EKS core objects,
+
+00:17.370 --> 00:18.690
+control plane, worker nodes,
+
+00:18.690 --> 00:21.960
+and then far get profiles and then BPC in detail.
+
+00:21.960 --> 00:24.150
+So now we are going to go into step zero one
+
+00:24.150 --> 00:28.050
+which is nothing but create EKS cluster, using eksctl.
+
+00:28.050 --> 00:30.660
+So one important thing here we need to understand is
+
+00:30.660 --> 00:32.700
+like it'll take 15 to 20 minutes to
+
+00:32.700 --> 00:34.920
+create the cluster control plane.
+
+00:34.920 --> 00:36.270
+And what is this command?
+
+00:36.270 --> 00:39.000
+So using eksctl create cluster,
+
+00:39.000 --> 00:41.700
+we are going to create the cluster and its name
+
+00:41.700 --> 00:44.760
+is going to be EKS demo one.
+
+00:44.760 --> 00:45.593
+And the region we
+
+00:45.593 --> 00:49.020
+are going to create this cluster is in US east one.
+
+00:49.020 --> 00:54.020
+And my EKS cluster should be presenting US east one A
+
+00:54.750 --> 00:56.880
+and then one B availability zone.
+
+00:56.880 --> 00:59.910
+So I'm restricting my cluster at one A and then one B.
+
+00:59.910 --> 01:02.130
+So if you don't give this zones then it is going to
+
+01:02.130 --> 01:04.350
+automatically select the zones.
+
+01:04.350 --> 01:06.120
+And if it selects one D
+
+01:06.120 --> 01:08.730
+or some other zones, most of the time we get error
+
+01:08.730 --> 01:12.060
+about the availability of workloads present there.
+
+01:12.060 --> 01:12.893
+Means like availability
+
+01:12.893 --> 01:14.310
+of servers and all those things.
+
+01:14.310 --> 01:16.920
+So because of that I specifically say one A
+
+01:16.920 --> 01:18.840
+and then one B here.
+
+01:18.840 --> 01:20.010
+In addition to that.
+
+01:20.010 --> 01:21.900
+So without node group, which means like
+
+01:21.900 --> 01:24.810
+if you don't give this additional parameter
+
+01:24.810 --> 01:27.330
+with eksctl create cluster itself
+
+01:27.330 --> 01:30.750
+it is going to automatically create the node group also
+
+01:30.750 --> 01:34.650
+for us with two nodes inside that with M four large.
+
+01:34.650 --> 01:36.900
+And then it is going to apply directly
+
+01:36.900 --> 01:39.810
+the production grade cluster creation automatically
+
+01:39.810 --> 01:42.000
+without our involvement.
+
+01:42.000 --> 01:43.710
+So what happens at that point is
+
+01:43.710 --> 01:48.390
+like we are going to get a cluster
+
+01:48.390 --> 01:51.780
+without any knowledge of what it is creating.
+
+01:51.780 --> 01:53.580
+So that's the reason what I've done is
+
+01:53.580 --> 01:56.640
+like I have created a specific step
+
+01:56.640 --> 01:58.110
+for node groups separately.
+
+01:58.110 --> 02:01.260
+So as we've seen earlier how EKS works.
+
+02:01.260 --> 02:03.510
+So we are going to create cluster which is nothing
+
+02:03.510 --> 02:05.250
+but control plane separately
+
+02:05.250 --> 02:08.160
+and also the node groups separately.
+
+02:08.160 --> 02:08.993
+So instead of
+
+02:08.993 --> 02:11.820
+by using the default things and then using default
+
+02:11.820 --> 02:15.000
+we customize it to see in a way how we need it.
+
+02:15.000 --> 02:17.970
+So that's the reason I said that without node group.
+
+02:17.970 --> 02:18.840
+So let's go ahead
+
+02:18.840 --> 02:23.840
+and then execute this command on our command line, right?
+
+02:23.940 --> 02:25.890
+So it is going to take close to 15
+
+02:25.890 --> 02:28.740
+20 minutes to create this cluster.
+
+02:28.740 --> 02:30.960
+So I'm going to pause the video and
+
+02:30.960 --> 02:34.800
+once it is created so we can move on with the next steps.
+
+02:34.800 --> 02:38.100
+So if you see here in this, so it has selected the subnets
+
+02:38.100 --> 02:40.770
+for US east one A public
+
+02:40.770 --> 02:41.790
+and then one more.
+
+02:41.790 --> 02:45.420
+It is again another public subnet it has selected
+
+02:45.420 --> 02:48.510
+and it is using the Kubernetes version 1.16.
+
+02:48.510 --> 02:51.660
+As on today that is the latest as per EKS.
+
+02:51.660 --> 02:55.500
+So it means like even the 1.18 is real latest
+
+02:55.500 --> 02:57.570
+as Kubernetes.io.
+
+02:57.570 --> 02:59.070
+So it'll be two versions lesser
+
+02:59.070 --> 03:01.590
+than EKS is using two versions lesser
+
+03:01.590 --> 03:03.270
+than the live Kubernetes.
+
+03:03.270 --> 03:05.550
+So, and another thing is it is creating the cluster
+
+03:05.550 --> 03:10.050
+in US east one with the name EKS demo one.
+
+03:10.050 --> 03:11.940
+And one more thing here is
+
+03:11.940 --> 03:14.550
+like you can see public access proof
+
+03:14.550 --> 03:18.180
+for our API server in point and private access is false.
+
+03:18.180 --> 03:21.030
+So this is nothing but if you remember we discuss it
+
+03:21.030 --> 03:24.210
+about our API server endpoint should be accessible
+
+03:24.210 --> 03:25.980
+for the worker nodes.
+
+03:25.980 --> 03:27.030
+So it is going to means
+
+03:27.030 --> 03:30.390
+like our Kube API server endpoint is going to
+
+03:30.390 --> 03:32.220
+be publicly accessible for us.
+
+03:32.220 --> 03:34.590
+That's the reason it is saying public access,
+
+03:34.590 --> 03:35.423
+true.
+
+03:35.423 --> 03:36.540
+So that's about it.
+
+03:36.540 --> 03:39.330
+So it is going to create a control plane now
+
+03:39.330 --> 03:44.330
+and I'll pause the video until it is created and then ready.
+
+03:44.550 --> 03:48.030
+So our cluster got created now and we can see it also
+
+03:48.030 --> 03:52.110
+updated the Kube config file in my dot Kube folder
+
+03:52.110 --> 03:54.540
+in my home user home directory.
+
+03:54.540 --> 03:58.360
+So, which is nothing but it also updated the cluster
+
+03:59.550 --> 04:01.290
+Kube config file.
+
+04:01.290 --> 04:05.310
+So which means like my Kube CTL context is directly pointed
+
+04:05.310 --> 04:07.080
+to this cluster.
+
+04:07.080 --> 04:10.980
+So we can even directly check Kube ctl, get nodes and see
+
+04:10.980 --> 04:13.620
+if we have any nodes in this cluster.
+
+04:13.620 --> 04:16.650
+So without any node group, we have created it.
+
+04:16.650 --> 04:19.350
+Ideally no node should be present here.
+
+04:19.350 --> 04:21.120
+So in our next upcoming step anyway
+
+04:21.120 --> 04:24.573
+we are going to create the node group separately.
+
+04:26.700 --> 04:29.700
+So no resources found in our default name space.
+
+04:29.700 --> 04:30.630
+So now moving on.
+
+04:30.630 --> 04:33.600
+So let's go ahead and then list our clusters.
+
+04:33.600 --> 04:37.080
+So eksctl get clusters.
+
+04:37.080 --> 04:39.630
+So it'll list the clusters created for us
+
+04:39.630 --> 04:44.630
+in our AWS account in US East one North Virginia region.
+
+04:45.240 --> 04:47.970
+So let's see how many clusters it has created.
+
+04:47.970 --> 04:50.430
+Ideally we have created only EKS demo one.
+
+04:50.430 --> 04:53.220
+It need to list the EKS demo.
+
+04:53.220 --> 04:54.630
+So we can see it here.
+
+04:54.630 --> 04:58.620
+EKS demo one created in the US East one region.
+
+04:58.620 --> 05:00.630
+So I'll see you in the next lecture.
+
+05:00.630 --> 05:04.590
+Now next lecture will focus on IAM OIDC provider.
+
+05:04.590 --> 05:05.763
+Until then, bye bye.

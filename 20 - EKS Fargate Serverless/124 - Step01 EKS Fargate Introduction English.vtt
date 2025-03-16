@@ -1,0 +1,922 @@
+WEBVTT
+
+00:00.330 --> 00:01.470
+-: Welcome back.
+
+00:01.470 --> 00:03.420
+In this lecture we are going
+
+00:03.420 --> 00:05.790
+to get a very high level introduction
+
+00:05.790 --> 00:08.610
+about what are Fargate profiles
+
+00:08.610 --> 00:09.810
+and what is Fargate
+
+00:09.810 --> 00:12.780
+and then what is this Fargate serverless.
+
+00:12.780 --> 00:13.613
+So as part
+
+00:13.613 --> 00:16.320
+of this section we are going to add our new feature
+
+00:16.320 --> 00:20.130
+to our EKS cluster, which is Fargate profiles.
+
+00:20.130 --> 00:21.720
+So let's move on and understand
+
+00:21.720 --> 00:24.240
+on a very high level what is Fargate?
+
+00:24.240 --> 00:27.090
+So Fargate is a serverless compute platform
+
+00:27.090 --> 00:28.353
+for containers on AWS.
+
+00:29.580 --> 00:30.960
+So Fargate provides
+
+00:30.960 --> 00:35.550
+on demand right-sized compute capacity for our containers.
+
+00:35.550 --> 00:39.810
+So EKS integrates Kubernetes with Fargate
+
+00:39.810 --> 00:42.660
+by using the controllers that are built
+
+00:42.660 --> 00:47.250
+by AWS using the upstream extensible model provided
+
+00:47.250 --> 00:48.723
+by Kubernetes.
+
+00:49.770 --> 00:51.930
+So these controllers run as part
+
+00:51.930 --> 00:56.930
+of EKS manager Kubernetes control plane and are responsible
+
+00:56.970 --> 01:00.480
+for scheduling net Kubernetes port onto Fargate.
+
+01:00.480 --> 01:04.770
+So the Fargate controllers include a new scheduler that runs
+
+01:04.770 --> 01:08.640
+alongside that default Kubernetes scheduler in addition
+
+01:08.640 --> 01:09.960
+to several mutating
+
+01:09.960 --> 01:13.440
+and then validating admission controllers.
+
+01:13.440 --> 01:16.680
+So these four points are very important
+
+01:16.680 --> 01:20.400
+on a Kubernetes perspective
+
+01:20.400 --> 01:23.580
+on EKs in relation with Fargate.
+
+01:23.580 --> 01:26.370
+So these four points I directly took it
+
+01:26.370 --> 01:29.790
+from documentation and then tested here.
+
+01:29.790 --> 01:33.090
+So the reason is like, so when we want
+
+01:33.090 --> 01:38.090
+to understand how Kubernetes sees scheduling the ports
+
+01:38.100 --> 01:42.390
+on Fargate related serverless infrastructure
+
+01:42.390 --> 01:47.100
+the answer is we have the Fargate controllers created
+
+01:47.100 --> 01:52.100
+by AWS using this upstream extensible model.
+
+01:52.560 --> 01:55.860
+And due to that, it is able to schedule the parts
+
+01:55.860 --> 01:59.070
+on the Fargate serverless platform.
+
+01:59.070 --> 02:02.220
+So when we start a part that meets the criteria
+
+02:02.220 --> 02:06.030
+for running on Fargate, the Fargate controllers running
+
+02:06.030 --> 02:08.880
+in the cluster recognize update
+
+02:08.880 --> 02:11.910
+and then schedule the ports on the Fargate.
+
+02:11.910 --> 02:16.290
+So that's about the Fargate on a very high level
+
+02:16.290 --> 02:19.800
+but the key point in the slide is we are going
+
+02:19.800 --> 02:22.230
+to have Fargate controllers
+
+02:22.230 --> 02:25.540
+inside our EKs manager control plane
+
+02:26.400 --> 02:31.020
+which is built using upstream extensible model provided
+
+02:31.020 --> 02:35.700
+by Kubernetes for scheduling the parts on Fargate.
+
+02:35.700 --> 02:37.980
+So that's the key point here.
+
+02:37.980 --> 02:41.760
+Moving on, so AWS, EKS on Fargate.
+
+02:41.760 --> 02:45.360
+So let's understand what we are going to get using that.
+
+02:45.360 --> 02:49.260
+Okay, so we can directly bring our existing ports
+
+02:49.260 --> 02:54.260
+and then deploy to Fargate without any hassle.
+
+02:55.020 --> 02:58.080
+So we don't need to change our existing ports.
+
+02:58.080 --> 03:00.570
+So Fargate works with existing workflows
+
+03:00.570 --> 03:01.650
+and services that run
+
+03:01.650 --> 03:04.170
+on Kubernetes no changes straight away.
+
+03:04.170 --> 03:06.930
+You can bring and then deploy here
+
+03:06.930 --> 03:08.910
+but there is one condition.
+
+03:08.910 --> 03:10.200
+The last slide
+
+03:10.200 --> 03:14.100
+of this lecture will have something called considerations.
+
+03:14.100 --> 03:16.230
+So very, very important thing.
+
+03:16.230 --> 03:18.870
+So when we are running things on Fargate
+
+03:18.870 --> 03:21.390
+so how we say bring and then run as easily
+
+03:21.390 --> 03:24.360
+at the same time there are some architectural decisions
+
+03:24.360 --> 03:26.100
+and then what it supports
+
+03:26.100 --> 03:28.470
+and then what it doesn't support also provided
+
+03:28.470 --> 03:31.410
+by AWS and that is a big list.
+
+03:31.410 --> 03:33.240
+Okay, so that one also we need
+
+03:33.240 --> 03:36.000
+to see those are called Fargate considerations.
+
+03:36.000 --> 03:37.830
+So we also need to have a knowledge
+
+03:37.830 --> 03:39.240
+on those things if we want
+
+03:39.240 --> 03:42.420
+to bring our applications to run on Fargate.
+
+03:42.420 --> 03:44.520
+So next thing is they are production ready.
+
+03:44.520 --> 03:47.940
+So now EKS Fargate is production ready.
+
+03:47.940 --> 03:52.440
+So we can launch ports easily to Fargate and it runs ports
+
+03:52.440 --> 03:55.590
+across availability zones for high high availability
+
+03:55.590 --> 04:00.590
+and each port runs in an isolated compute and environment.
+
+04:01.080 --> 04:04.410
+So this is a very important point from Fargate perspective.
+
+04:04.410 --> 04:07.200
+We will multiple times trust this point
+
+04:07.200 --> 04:10.020
+in our course in the next upcoming hands
+
+04:10.020 --> 04:15.020
+on lectures stating that one point is one part is equal
+
+04:15.540 --> 04:19.770
+to one easy to Fargate instance in our EKS.
+
+04:19.770 --> 04:22.410
+So whenever we launch a port, it is going
+
+04:22.410 --> 04:26.670
+to generate a easy to Fargate instance automatically
+
+04:26.670 --> 04:27.840
+in the background.
+
+04:27.840 --> 04:31.440
+And whenever you say cube CTL get notes whenever you
+
+04:31.440 --> 04:35.370
+have deployed five Fargate ports, then you'll get five easy
+
+04:35.370 --> 04:38.010
+to Fargate worker notes available for you.
+
+04:38.010 --> 04:41.880
+And then you can see that using Q CTL get notes
+
+04:41.880 --> 04:45.360
+and next thing is right sized and then integrated.
+
+04:45.360 --> 04:47.850
+So this is something like how much you need use
+
+04:47.850 --> 04:48.683
+that much only.
+
+04:48.683 --> 04:51.150
+So if my part needs these many resources
+
+04:51.150 --> 04:52.320
+then use that much only.
+
+04:52.320 --> 04:55.800
+So only pay for resources you need to run your ports.
+
+04:55.800 --> 04:58.140
+So it also includes means like Fargate
+
+04:58.140 --> 05:00.570
+also includes AWS integrations
+
+05:00.570 --> 05:03.810
+for networking and then security.
+
+05:03.810 --> 05:07.050
+So networking and security is not compromised
+
+05:07.050 --> 05:09.240
+by using Fargate on EKS.
+
+05:09.240 --> 05:11.520
+Moreover, your security is doubled.
+
+05:11.520 --> 05:13.110
+Only we can say not reduced.
+
+05:13.110 --> 05:18.110
+Okay, so now EKS deployment options available for us.
+
+05:19.080 --> 05:21.480
+Okay, when we bringing Fargate into the picture.
+
+05:21.480 --> 05:24.180
+So what all deployment options EKS is available
+
+05:24.180 --> 05:27.660
+If it take a look on a very high level, that looks great.
+
+05:27.660 --> 05:30.360
+Okay, so that's the reason I have put this slide.
+
+05:30.360 --> 05:32.880
+Okay, so we can have only easy
+
+05:32.880 --> 05:36.060
+to node groups which are managed or unmanaged
+
+05:36.060 --> 05:39.817
+or we can have a mixer deployment with the easy to manage
+
+05:39.817 --> 05:41.123
+in node groups, easy to unmanaged it in not groups.
+
+05:42.897 --> 05:45.540
+And then Fargate are only Fargate cluster means
+
+05:45.540 --> 05:48.510
+like only a cluster EKS cluster control plan
+
+05:48.510 --> 05:51.300
+which Fargate profiles can be created.
+
+05:51.300 --> 05:52.770
+So you can see easy to node groups
+
+05:52.770 --> 05:53.970
+with manage are easy too
+
+05:53.970 --> 05:56.850
+and then unmanaged it easy two nodes.
+
+05:56.850 --> 06:00.750
+And if you see overall our entire this course
+
+06:00.750 --> 06:02.570
+will be dependent on manager easy
+
+06:02.570 --> 06:04.860
+to nodes and the Fargate profiles.
+
+06:04.860 --> 06:07.590
+So we really didn't do anything related
+
+06:07.590 --> 06:10.650
+to unmanaged easy node, easy to notes wherein you need
+
+06:10.650 --> 06:15.480
+to bring your own AMI and then your own AMI
+
+06:15.480 --> 06:19.710
+and then you need to manage it using EKS control plan
+
+06:19.710 --> 06:20.940
+and this is legacy.
+
+06:20.940 --> 06:23.160
+And then this is the trend which is running now
+
+06:23.160 --> 06:25.410
+which is managed easy two nodes.
+
+06:25.410 --> 06:27.960
+So we focus on this one primarily
+
+06:27.960 --> 06:32.130
+but as this option is available, so I just put it here.
+
+06:32.130 --> 06:35.100
+Okay, so now the next thing is manage it notes
+
+06:35.100 --> 06:36.587
+and manage it notes and then Fargate notes
+
+06:36.587 --> 06:38.250
+in the mixer mode.
+
+06:38.250 --> 06:41.190
+And in Fargate you can only have Fargate notes
+
+06:41.190 --> 06:43.203
+in simple terms Fargate serverless.
+
+06:44.093 --> 06:46.950
+Okay, so you don't even need to say notes here.
+
+06:46.950 --> 06:50.910
+Okay, and next thing is in deployment options when
+
+06:50.910 --> 06:52.350
+you have easy to node groups.
+
+06:52.350 --> 06:53.850
+Okay primarily we are focusing
+
+06:53.850 --> 06:55.740
+on manage or node groups only.
+
+06:55.740 --> 06:58.170
+Wherever I say node groups it is going
+
+06:58.170 --> 07:00.030
+to be managed node groups, okay?
+
+07:00.030 --> 07:01.530
+So in a AWS cloud
+
+07:01.530 --> 07:04.560
+whenever you create a EKS cluster it is also
+
+07:04.560 --> 07:06.360
+going to create a VPC.
+
+07:06.360 --> 07:10.020
+And when we create a manager node group as part of that
+
+07:10.020 --> 07:12.000
+so you can create your manager node group
+
+07:12.000 --> 07:15.570
+in public subnet or you can create in private subnet.
+
+07:15.570 --> 07:17.700
+So this flexibility we have when we
+
+07:17.700 --> 07:20.520
+are do dealing with EC two instances.
+
+07:20.520 --> 07:23.670
+So you can have your manager node groups created in
+
+07:23.670 --> 07:27.600
+both public and then private subnets and then handle that.
+
+07:27.600 --> 07:28.680
+So, but when we go
+
+07:28.680 --> 07:31.350
+to Fargate you'll have a restriction there.
+
+07:31.350 --> 07:33.690
+So we'll go there and then see it.
+
+07:33.690 --> 07:35.640
+So in only Fargate more.
+
+07:35.640 --> 07:39.720
+So we are going to have our respective Fargate profiles
+
+07:39.720 --> 07:43.110
+get created only inside private subnet.
+
+07:43.110 --> 07:44.130
+So parts running
+
+07:44.130 --> 07:48.445
+on Fargate are only supported on private subnets.
+
+07:48.445 --> 07:51.930
+In that case whenever you have a EKS cluster
+
+07:51.930 --> 07:54.060
+and then whenever you want to deploy your loads
+
+07:54.060 --> 07:55.950
+on Fargate in your cluster
+
+07:55.950 --> 07:58.110
+at least to one private subnet should be there
+
+07:58.110 --> 08:02.490
+to create your Fargate profiles and moving on.
+
+08:02.490 --> 08:04.890
+So how the mixer mode deployment looks like.
+
+08:04.890 --> 08:07.290
+Okay, so you can see that in mixer mode.
+
+08:07.290 --> 08:09.880
+So you'll have the easy to instances in private
+
+08:09.880 --> 08:13.380
+and then public subnets and then you can create your public
+
+08:13.380 --> 08:15.930
+and then private manage node groups there.
+
+08:15.930 --> 08:18.180
+And then for Fargate you definitely need
+
+08:18.180 --> 08:21.300
+to force yourself to create your EKS Fargate profile
+
+08:21.300 --> 08:24.270
+in your private subnets and moving
+
+08:24.270 --> 08:28.590
+on EKS Fargate versus manage it versus unmanaged nodes.
+
+08:28.590 --> 08:32.548
+So this is one thing which AWS highly portraits and
+
+08:32.548 --> 08:36.690
+and this simple thing makes us understand many stuff here.
+
+08:36.690 --> 08:39.960
+Okay, so one is units of work, okay?
+
+08:39.960 --> 08:43.710
+So in units of work for Fargate it is just only a port.
+
+08:43.710 --> 08:45.780
+So it is concerned with only a port.
+
+08:45.780 --> 08:47.910
+So whenever you deploy a port it is going
+
+08:47.910 --> 08:51.360
+to create a new underlying Fargate easy to instance
+
+08:51.360 --> 08:54.630
+but it it concerns about only a port.
+
+08:54.630 --> 08:57.990
+But in manager notes we first create easy two instances
+
+08:57.990 --> 09:00.120
+and then we deploy our parts in them
+
+09:00.120 --> 09:03.300
+and in unmanaged notes also it is the same thing.
+
+09:03.300 --> 09:05.370
+And unit soft charge means like
+
+09:05.370 --> 09:07.620
+how the billing happens, okay?
+
+09:07.620 --> 09:11.220
+So here in Fargate it is going to be ports.
+
+09:11.220 --> 09:13.800
+So when you are dealing with multi-tenancy and environments
+
+09:13.800 --> 09:16.740
+and then you want to charge for specific clients
+
+09:16.740 --> 09:18.840
+per port meant, like they have few parts running
+
+09:18.840 --> 09:20.800
+and then for them you want to charge
+
+09:21.750 --> 09:24.630
+this is one good option for us, okay?
+
+09:24.630 --> 09:26.700
+And in the charging perspective
+
+09:26.700 --> 09:28.350
+in manage notes is going to be based
+
+09:28.350 --> 09:31.320
+on the number of easy two worker notes in
+
+09:31.320 --> 09:36.320
+in unmanaged also it's the same and host life cycle, okay?
+
+09:36.780 --> 09:38.340
+So there is no visibility
+
+09:38.340 --> 09:40.650
+of the host from Fargate perspective.
+
+09:40.650 --> 09:44.280
+So visibility in the sense you will not be able to connect
+
+09:44.280 --> 09:45.810
+to that host visible in the sense
+
+09:45.810 --> 09:47.940
+if you say Q CTL get notes.
+
+09:47.940 --> 09:50.880
+So this Fargate notes also will be visible
+
+09:50.880 --> 09:54.150
+for us per pod it is going to span one node, right?
+
+09:54.150 --> 09:57.450
+So but ideally we don't have access to that nodes, okay?
+
+09:57.450 --> 09:58.380
+So they can terminate
+
+09:58.380 --> 10:01.020
+and then recreate our what is happening inside that node
+
+10:01.020 --> 10:03.720
+is not our business, only our business
+
+10:03.720 --> 10:05.640
+is what I'm going to deploy
+
+10:05.640 --> 10:09.870
+from port perspective in Fargate but in manage nodes.
+
+10:09.870 --> 10:12.570
+So we'll have the AWS SS such is allowed
+
+10:12.570 --> 10:14.130
+in the manager nodes.
+
+10:14.130 --> 10:16.500
+So whenever we are creating the cluster also
+
+10:16.500 --> 10:19.140
+we are giving a tag there to provide SSH although
+
+10:19.140 --> 10:21.990
+and then access and then keep our information also
+
+10:21.990 --> 10:24.360
+in our node group creation command
+
+10:24.360 --> 10:26.520
+whatever we have seen so far.
+
+10:26.520 --> 10:28.230
+And in unmanaged nodes.
+
+10:28.230 --> 10:31.650
+So the host life cycles customer dependent, okay?
+
+10:31.650 --> 10:33.780
+So we really don't care here, okay?
+
+10:33.780 --> 10:35.580
+So which means AWS really don't care
+
+10:35.580 --> 10:37.500
+about what you are going to use
+
+10:37.500 --> 10:38.520
+and then how you are going
+
+10:38.520 --> 10:42.540
+to handle your authentication authorization about your host
+
+10:42.540 --> 10:44.610
+and in host AMI perspective.
+
+10:44.610 --> 10:48.330
+So we really don't have any visibility about the host AMI
+
+10:48.330 --> 10:51.570
+in our Fargate because we are not even able to log
+
+10:51.570 --> 10:52.860
+in or we are not controlling that.
+
+10:52.860 --> 10:55.970
+Okay, but in manage notes it is AWS
+
+10:55.970 --> 10:58.170
+whether AMS will be provided for us
+
+10:58.170 --> 11:01.650
+and then they will be patched auto updated from AWS for us.
+
+11:01.650 --> 11:05.730
+Okay, so that's the reason that is called manager notes.
+
+11:05.730 --> 11:08.790
+And from unmanaged notes perspective customer
+
+11:08.790 --> 11:10.040
+bring your own thing, okay?
+
+11:10.040 --> 11:13.620
+So which means including the OS also you need to bring
+
+11:13.620 --> 11:14.453
+and then just
+
+11:14.453 --> 11:17.563
+to use the EKS cluster control plan with that so lot
+
+11:17.563 --> 11:20.040
+and lot of hard work we need to do.
+
+11:20.040 --> 11:22.767
+But why do you use unmanaged notes, right?
+
+11:22.767 --> 11:25.260
+So that's based on means like it's a legacy.
+
+11:25.260 --> 11:27.990
+And then recently they introduce the manager notes
+
+11:27.990 --> 11:30.480
+and then we can start using management notes.
+
+11:30.480 --> 11:32.490
+So now host to two ports relations.
+
+11:32.490 --> 11:34.260
+So this is very, very important
+
+11:34.260 --> 11:37.770
+for us to make a note from Fargate perspective.
+
+11:37.770 --> 11:42.030
+So one host, one Fargate host is equal to one port.
+
+11:42.030 --> 11:46.770
+So if you span 10 ports, then it is 10 Fargate hosts, okay?
+
+11:46.770 --> 11:49.680
+But in manager notes you can have two instances
+
+11:49.680 --> 11:52.350
+and then you can span many ports based on the CPU
+
+11:52.350 --> 11:55.080
+and then memory resources available in those notes.
+
+11:55.080 --> 11:58.740
+It's the same case one too many in unmanaged notes.
+
+11:58.740 --> 11:59.573
+So that's
+
+11:59.573 --> 12:03.270
+about the Fargate versus manage it versus unmanaged notes.
+
+12:03.270 --> 12:05.910
+And next thing is Fargate considerations.
+
+12:05.910 --> 12:07.980
+Okay, so these are very big.
+
+12:07.980 --> 12:09.900
+So what we need to do is we need
+
+12:09.900 --> 12:12.570
+to take this documentation link and then review them.
+
+12:12.570 --> 12:15.030
+So there are many considerations we need to be aware
+
+12:15.030 --> 12:18.450
+of before we decide our Kubernetes workloads to run
+
+12:18.450 --> 12:20.430
+on Fargate, okay?
+
+12:20.430 --> 12:22.140
+So that's very important here.
+
+12:22.140 --> 12:27.140
+So let me copy this link and then go here and paste it.
+
+12:29.221 --> 12:30.054
+Okay.
+
+12:31.140 --> 12:34.110
+And if you see here the considerations, right?
+
+12:34.110 --> 12:37.083
+So let me make it bigger right?
+
+12:38.790 --> 12:39.750
+Okay, this looks good.
+
+12:39.750 --> 12:42.660
+Okay, so these are the Fargate considerations we need
+
+12:42.660 --> 12:45.330
+to worry about when we are dealing with it.
+
+12:45.330 --> 12:47.010
+Okay, so when you see here
+
+12:47.010 --> 12:49.950
+the first thing itself is the thing classic load balancer
+
+12:49.950 --> 12:51.870
+and network load balancer are not supported
+
+12:51.870 --> 12:55.260
+on Fargate only application load balancer
+
+12:55.260 --> 12:58.050
+with LB ingress is supported with the minimum version.
+
+12:58.050 --> 12:59.010
+It should have this one.
+
+12:59.010 --> 13:01.432
+This is one thing and like this
+
+13:01.432 --> 13:02.970
+there are many things, okay?
+
+13:02.970 --> 13:04.470
+Damon sets are not supported.
+
+13:04.470 --> 13:07.260
+So you can grow, go through all this stuff here.
+
+13:07.260 --> 13:10.560
+So as we have documentation link whenever you
+
+13:10.560 --> 13:13.800
+are deciding your real production workloads planning to run
+
+13:13.800 --> 13:15.210
+on Fargate.
+
+13:15.210 --> 13:17.790
+So you need to go go through all these things.
+
+13:17.790 --> 13:19.980
+Currently, GPU was also not available
+
+13:19.980 --> 13:22.290
+and privilege containers you cannot run
+
+13:22.290 --> 13:24.330
+and demonstrates are not supported.
+
+13:24.330 --> 13:27.870
+So like this, there are many things, parts running
+
+13:27.870 --> 13:30.720
+on Fargate need to only run on private subnets, okay?
+
+13:30.720 --> 13:32.820
+You can use the vertical port auto scale
+
+13:32.820 --> 13:34.954
+to initially right size the CPU and memory
+
+13:34.954 --> 13:35.790
+for your Fargate ports
+
+13:35.790 --> 13:38.250
+and then use the HAR gentle port auto scaler.
+
+13:38.250 --> 13:41.340
+Okay, so state full applications are not recommended
+
+13:41.340 --> 13:44.250
+for parts running on Fargate as on today, okay?
+
+13:44.250 --> 13:47.220
+They, they doesn't have a persistent database, okay?
+
+13:47.220 --> 13:48.750
+Persistent disc.
+
+13:48.750 --> 13:51.570
+So for purpose, these are not load, okay?
+
+13:51.570 --> 13:53.790
+So like this many things are there here.
+
+13:53.790 --> 13:56.250
+So which you need to go through and then understand.
+
+13:56.250 --> 14:00.030
+And then based on that, only decide if you
+
+14:00.030 --> 14:01.800
+if your workloads can run here
+
+14:01.800 --> 14:05.010
+your production workloads can run on Fargate or not.
+
+14:05.010 --> 14:09.510
+So that's about the overall Fargate introduction, okay?
+
+14:09.510 --> 14:12.600
+So we'll continue to the hands on section
+
+14:12.600 --> 14:13.860
+in our next lecture.
+
+14:13.860 --> 14:15.870
+So I'll see you in the next lecture.
+
+14:15.870 --> 14:17.010
+Until then, bye bye.
+
+14:17.010 --> 14:17.843
+Thank you.

@@ -1,0 +1,652 @@
+WEBVTT
+
+00:00.120 --> 00:00.990
+-: Welcome back.
+
+00:00.990 --> 00:04.680
+So we are looking into cluster autoscaler now.
+
+00:04.680 --> 00:05.820
+So which is nothing but
+
+00:05.820 --> 00:10.080
+17 EKS auto scaling cluster autoscaler.
+
+00:10.080 --> 00:13.740
+So as part of its step two we are going to verify
+
+00:13.740 --> 00:15.810
+whether our node group whatever we have
+
+00:15.810 --> 00:18.840
+has the ASG access or not, right?
+
+00:18.840 --> 00:21.540
+So we have created our recent node group
+
+00:21.540 --> 00:24.390
+which is nothing but inside the private subnets
+
+00:24.390 --> 00:26.730
+as part of 07 section
+
+00:26.730 --> 00:30.930
+which is ELB classic and then network load balancers.
+
+00:30.930 --> 00:33.780
+So inside that we have created a private node group.
+
+00:33.780 --> 00:36.000
+So when we created a private node group
+
+00:36.000 --> 00:38.430
+so we have ensured that
+
+00:38.430 --> 00:41.340
+so we have the ASG access enabled.
+
+00:41.340 --> 00:44.280
+So what does ASG access enable mean?
+
+00:44.280 --> 00:48.000
+Auto scaling group access and its equivalent roles
+
+00:48.000 --> 00:50.460
+or its equivalent policies will be associated
+
+00:50.460 --> 00:52.950
+to the node group role.
+
+00:52.950 --> 00:54.120
+In the same way
+
+00:54.120 --> 00:56.640
+whenever we created our public subnet also
+
+00:56.640 --> 01:00.390
+means like public subnet related node group initially also,
+
+01:00.390 --> 01:03.390
+we ensured that we are following the standards
+
+01:03.390 --> 01:06.240
+wherein our respective node group,
+
+01:06.240 --> 01:08.850
+whatever we created in EKS cluster
+
+01:08.850 --> 01:10.770
+always will have the standard stuff.
+
+01:10.770 --> 01:12.840
+So if you see here, here also
+
+01:12.840 --> 01:14.473
+for our public node group also we ensured that
+
+01:14.473 --> 01:17.220
+we created the ASG access.
+
+01:17.220 --> 01:18.150
+So that's about it.
+
+01:18.150 --> 01:20.610
+So now let's come back to our section here
+
+01:20.610 --> 01:24.330
+which is 17 and in step two,
+
+01:24.330 --> 01:27.390
+so we verify that ASG access is enabled.
+
+01:27.390 --> 01:29.460
+So that's what from command perspective,
+
+01:29.460 --> 01:32.880
+but let's go back to our management console
+
+01:32.880 --> 01:35.580
+and go to our EC2, right?
+
+01:35.580 --> 01:38.040
+So that is what this step outlines, okay?
+
+01:38.040 --> 01:41.010
+So whether we have that respective inline policy
+
+01:41.010 --> 01:44.490
+associated with our node group, IAM rule.
+
+01:44.490 --> 01:46.050
+So running instances,
+
+01:46.050 --> 01:48.900
+so we have two EC2 instances available here,
+
+01:48.900 --> 01:51.000
+running for our EKS cluster.
+
+01:51.000 --> 01:53.520
+And if you go here, the IAM role, right?
+
+01:53.520 --> 01:56.860
+So this is the IAM role and if you go inside that
+
+01:58.080 --> 02:01.470
+and if you see, there will be a inline policies added. Okay?
+
+02:01.470 --> 02:03.900
+So one is for ingress, one is for app mesh
+
+02:03.900 --> 02:06.030
+one is for auto scaling, right?
+
+02:06.030 --> 02:07.650
+So this is for external DNS.
+
+02:07.650 --> 02:08.580
+So if you see here
+
+02:08.580 --> 02:12.180
+this is the one whatever you are seeing policy auto scaling.
+
+02:12.180 --> 02:17.180
+So this is the one whatever we have given for our ASG access
+
+02:17.460 --> 02:20.010
+it auto associated here. Okay?
+
+02:20.010 --> 02:23.100
+So for this node, for this node IAM role
+
+02:23.100 --> 02:24.240
+node group, IAM role,
+
+02:24.240 --> 02:27.270
+this respect to policy auto scaling has been associated.
+
+02:27.270 --> 02:29.940
+So we are good with that step now. Okay?
+
+02:29.940 --> 02:32.010
+So now we are going to move on with the
+
+02:32.010 --> 02:36.270
+deploying our cluster autoscaler in step three.
+
+02:36.270 --> 02:39.960
+So there is a direct link available from Kubernetes.
+
+02:39.960 --> 02:42.780
+How to install the cluster autoscaler,
+
+02:42.780 --> 02:43.680
+which is nothing but
+
+02:43.680 --> 02:47.190
+this is the cluster autoscaler auto discover.yaml.
+
+02:47.190 --> 02:51.180
+So the same concept, whatever regular Kubernetes supplies,
+
+02:51.180 --> 02:53.100
+the same is also associated with the
+
+02:53.100 --> 02:55.530
+elastic Kubernetes service which is EKS.
+
+02:55.530 --> 02:57.960
+So the same component we can use here.
+
+02:57.960 --> 03:00.450
+So and we are using the master thing so that always
+
+03:00.450 --> 03:03.090
+we'll use the latest cluster autoscaler stuff.
+
+03:03.090 --> 03:05.370
+So let me copy this.
+
+03:05.370 --> 03:08.850
+So deploy the cluster autoscaler to your cluster.
+
+03:08.850 --> 03:13.170
+So let me come here and I'm going to come out
+
+03:13.170 --> 03:15.870
+and then go to 17 and then be ready there.
+
+03:15.870 --> 03:18.470
+And anyway, this is from the URL we are deploying.
+
+03:18.470 --> 03:20.190
+We really don't need to worry.
+
+03:20.190 --> 03:23.190
+So kubectl apply -f and then
+
+03:23.190 --> 03:27.543
+I'm installing the cluster autoscaler auto discover.yaml.
+
+03:28.470 --> 03:30.690
+So it is creating the equivalent service account
+
+03:30.690 --> 03:34.200
+roll bindings and then deployment and all the stuff.
+
+03:34.200 --> 03:35.850
+So let me clear this.
+
+03:35.850 --> 03:37.230
+And now,
+
+03:37.230 --> 03:40.890
+are the cluster autoscaler cf2 evict
+
+03:40.890 --> 03:42.990
+annotation to the deployment. Okay?
+
+03:42.990 --> 03:46.230
+So which is false, it will be there by default.
+
+03:46.230 --> 03:48.840
+So we need to add this annotation. Okay?
+
+03:48.840 --> 03:52.473
+So let me copy this and then paste it, right?
+
+03:55.350 --> 03:57.243
+So it's getting updated.
+
+03:58.140 --> 04:00.903
+So let's wait for it to get updated.
+
+04:01.830 --> 04:03.870
+So we have annotated it.
+
+04:03.870 --> 04:05.850
+So the next step is to edit the
+
+04:05.850 --> 04:08.160
+cluster autoscaler deployment
+
+04:08.160 --> 04:11.550
+to add cluster name and then two more parameters.
+
+04:11.550 --> 04:13.530
+So in our cluster name field
+
+04:13.530 --> 04:15.810
+means like before change it is going to look like this
+
+04:15.810 --> 04:16.643
+your cluster name.
+
+04:16.643 --> 04:20.490
+So there we are going to give our cluster name as EKS demo1.
+
+04:20.490 --> 04:22.740
+So whatever we have created.
+
+04:22.740 --> 04:27.240
+So you can even say eks ctl let get clusters
+
+04:27.240 --> 04:29.190
+to get our cluster name also,
+
+04:29.190 --> 04:32.610
+which is nothing but EKS demo1. Okay?
+
+04:32.610 --> 04:34.050
+So this is one change
+
+04:34.050 --> 04:37.920
+and we are also going to add two more parameters, okay?
+
+04:37.920 --> 04:40.350
+To our cluster autoscaler deployment.
+
+04:40.350 --> 04:43.020
+So we need to add those information
+
+04:43.020 --> 04:44.580
+at this respective location
+
+04:44.580 --> 04:47.250
+under spec containers under command,
+
+04:47.250 --> 04:49.928
+so we are going to add this whatever is there with
+
+04:49.928 --> 04:52.680
+node group auto discovery information there.
+
+04:52.680 --> 04:56.160
+For the cluster name value, we are going to put EKS demo1
+
+04:56.160 --> 04:59.880
+and these two additional parameters we are going to add.
+
+04:59.880 --> 05:01.650
+So how we are going to do that
+
+05:01.650 --> 05:03.990
+using kubectl edit deployment.
+
+05:03.990 --> 05:07.980
+So if you see here kubectl and namespace is kube system
+
+05:07.980 --> 05:11.130
+and the deployment name is cluster autoscaler.
+
+05:11.130 --> 05:15.660
+So let me copy this command and paste it here, okay?
+
+05:15.660 --> 05:19.260
+And once we go inside that, so we'll start from
+
+05:19.260 --> 05:22.470
+and so shift G will take,
+
+05:22.470 --> 05:25.380
+escape shift G will take me to the end of file
+
+05:25.380 --> 05:26.970
+and I'll go little up
+
+05:26.970 --> 05:30.060
+little up, little up, so you can see it here, right?
+
+05:30.060 --> 05:31.620
+So the cluster name,
+
+05:31.620 --> 05:34.380
+so here we need to provide the cluster name.
+
+05:34.380 --> 05:37.080
+So let me click on insert
+
+05:37.080 --> 05:41.109
+and I'll go back, back, back, back, back like this, right?
+
+05:41.109 --> 05:43.077
+(keys clanging)
+
+05:43.077 --> 05:47.760
+And I'll say EKS demo1 and enter.
+
+05:47.760 --> 05:50.310
+I will also copy two more things
+
+05:50.310 --> 05:52.830
+which is balance similar node groups
+
+05:52.830 --> 05:56.430
+and then skip nodes with system ports false, okay?
+
+05:56.430 --> 05:58.350
+So I'm going to also paste those things.
+
+05:58.350 --> 06:01.440
+Okay, so now I added two more parameters here,
+
+06:01.440 --> 06:05.490
+in addition to my cluster name change. Okay?
+
+06:05.490 --> 06:10.380
+So now let me save this and my deployment got edited
+
+06:10.380 --> 06:14.470
+which means kubectl get pods -n kube system
+
+06:15.330 --> 06:17.250
+if you see there, okay?
+
+06:17.250 --> 06:20.220
+So existing cluster autoscaler will get terminated
+
+06:20.220 --> 06:23.220
+and the new one will get creating from seven seconds.
+
+06:23.220 --> 06:24.570
+You can see this, right?
+
+06:24.570 --> 06:26.100
+So that's a good thing. Okay?
+
+06:26.100 --> 06:30.360
+So now next thing is to set the cluster autoscaler image
+
+06:30.360 --> 06:34.950
+related to our current EKS cluster version. Okay?
+
+06:34.950 --> 06:39.870
+So our EKS cluster we are using is 1.16. Okay?
+
+06:39.870 --> 06:41.310
+So if we go here
+
+06:41.310 --> 06:45.930
+and then go to elastic Kubernetes service, right?
+
+06:45.930 --> 06:50.930
+So if we go here, we can find our clusters
+
+06:51.690 --> 06:56.690
+and see, we can see 1.16 is our cluster version, okay?
+
+06:57.690 --> 07:02.130
+And the new Kubernetes version is available for this cluster
+
+07:02.130 --> 07:04.620
+and if you want we can even update it.
+
+07:04.620 --> 07:05.730
+So if we can click on this
+
+07:05.730 --> 07:09.060
+and then 1.7 is available now, 1.17.
+
+07:09.060 --> 07:13.410
+If you want we can upgrade this cluster to 1.7.
+
+07:13.410 --> 07:16.620
+I'm not going to do anything now, just I'll cancel this
+
+07:16.620 --> 07:20.700
+and then my version is 1.16 as part of 1.16.
+
+07:20.700 --> 07:23.311
+So I need to find the cluster autoscaler version also
+
+07:23.311 --> 07:27.300
+1.16.minor version, whatever latest available.
+
+07:27.300 --> 07:30.030
+That will be my image version here. Okay?
+
+07:30.030 --> 07:32.640
+So I'll go to this link here, right?
+
+07:32.640 --> 07:34.320
+And open it.
+
+07:34.320 --> 07:38.160
+And if you see here, so these are add on resizers.
+
+07:38.160 --> 07:39.390
+So let me go down.
+
+07:39.390 --> 07:42.810
+So this is vertical pod autoscaler pre-release stuff.
+
+07:42.810 --> 07:44.100
+So let me go down.
+
+07:44.100 --> 07:47.660
+So if you see here cluster autoscaler 1.18, this is okay,
+
+07:47.660 --> 07:51.780
+so let me go down, cluster autoscaler 1,17.2
+
+07:51.780 --> 07:54.370
+and now here is the cluster autoscaler
+
+07:54.370 --> 07:59.370
+1.16.5 is the latest in 16.x versions. Okay?
+
+07:59.760 --> 08:03.450
+So we can use 1.16.5 now. Okay?
+
+08:03.450 --> 08:06.180
+So that is what I also mentioned here.
+
+08:06.180 --> 08:09.360
+So we need to update that using this command.
+
+08:09.360 --> 08:11.190
+So at the end, whatever the version is there
+
+08:11.190 --> 08:12.510
+you can put it here.
+
+08:12.510 --> 08:14.610
+So xy.z you can see here, right?
+
+08:14.610 --> 08:16.290
+So mine is 1.16.5
+
+08:16.290 --> 08:19.080
+and then kubectl set image deployment
+
+08:19.080 --> 08:22.050
+which we have seen in our earlier demos also.
+
+08:22.050 --> 08:24.480
+So which is related to rollout changes demo
+
+08:24.480 --> 08:25.440
+we have seen this. Okay?
+
+08:25.440 --> 08:27.630
+So with set image how you can update your
+
+08:27.630 --> 08:31.350
+respective deployments image version. Okay?
+
+08:31.350 --> 08:34.020
+So we'll copy this and then run it
+
+08:34.020 --> 08:38.580
+so that it will update the version to v.1,16. Okay?
+
+08:38.580 --> 08:40.650
+So our deployment is updated.
+
+08:40.650 --> 08:43.470
+So verify if for image version got updated. Okay?
+
+08:43.470 --> 08:45.930
+So using kubectl get deployment
+
+08:45.930 --> 08:49.860
+and then export with yaml, so we can see that. Okay?
+
+08:49.860 --> 08:54.630
+So let me clear this and past it here. Okay?
+
+08:54.630 --> 08:57.363
+And if you see, go here.
+
+08:58.620 --> 09:02.640
+See, now our image is v1.16.5.
+
+09:02.640 --> 09:03.960
+It looks good. Okay?
+
+09:03.960 --> 09:05.010
+So that's good.
+
+09:05.010 --> 09:07.380
+So now this completes the step six
+
+09:07.380 --> 09:10.260
+and then now we are moving onto step seven
+
+09:10.260 --> 09:14.310
+which is verifying our cluster autoscaler logs. Okay?
+
+09:14.310 --> 09:18.660
+So let me copy this and then clear this out
+
+09:18.660 --> 09:22.290
+and then paste it. Okay?
+
+09:22.290 --> 09:24.000
+So now, if you see that
+
+09:24.000 --> 09:26.280
+start refreshing cloud provider instances
+
+09:26.280 --> 09:28.770
+and we really don't see any issues
+
+09:28.770 --> 09:30.570
+related to our this thing.
+
+09:30.570 --> 09:32.070
+Locks look good.
+
+09:32.070 --> 09:34.680
+So let's wait for a minute or less than that
+
+09:34.680 --> 09:37.080
+to see if any issues we have. Okay?
+
+09:37.080 --> 09:40.230
+Node group means reached and all these things
+
+09:40.230 --> 09:42.201
+these are standard logs, okay?
+
+09:42.201 --> 09:44.550
+So we really don't need to worry.
+
+09:44.550 --> 09:47.340
+So zero other pods unschedulables, you can see right?
+
+09:47.340 --> 09:48.960
+The sample logs you can see
+
+09:48.960 --> 09:51.320
+and then the same we can see it here.
+
+09:51.320 --> 09:52.650
+No schedulable,
+
+09:52.650 --> 09:55.890
+no schedulable pods are no unschedulable pods,
+
+09:55.890 --> 09:58.410
+calculating unneeded nodes, all these things,
+
+09:58.410 --> 09:59.820
+it is doing it. Okay?
+
+09:59.820 --> 10:01.230
+So in our next lecture
+
+10:01.230 --> 10:03.570
+we'll focus on deploying the sample app
+
+10:03.570 --> 10:06.240
+and then cluster scale up and then scale in,
+
+10:06.240 --> 10:07.980
+we are going to look into.
+
+10:07.980 --> 10:09.960
+So I'll see you in the next lecture.
+
+10:09.960 --> 10:11.943
+Until then, bye bye. Thank you.

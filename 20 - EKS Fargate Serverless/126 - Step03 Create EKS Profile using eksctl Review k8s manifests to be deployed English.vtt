@@ -1,0 +1,643 @@
+WEBVTT
+
+00:00.240 --> 00:01.110
+-: Welcome back.
+
+00:01.110 --> 00:04.530
+In this lecture we are going to create a Fargate profile
+
+00:04.530 --> 00:08.670
+on our EKS Cluster, EKS demo one, right?
+
+00:08.670 --> 00:10.620
+So before that we are going to verify
+
+00:10.620 --> 00:12.510
+any Fargate profiles exist.
+
+00:12.510 --> 00:17.510
+So EKSCTL get fargateprofile in cluster, EKS demo one.
+
+00:17.910 --> 00:22.500
+So let's go ahead and then verify that now, right?
+
+00:22.500 --> 00:24.120
+So I'll go back here
+
+00:24.120 --> 00:28.680
+and then I'll say clear and I'll paste it, right?
+
+00:28.680 --> 00:30.660
+So if any Fargate profiles are there,
+
+00:30.660 --> 00:33.750
+it is going to list for us, no Fargate profiles found.
+
+00:33.750 --> 00:35.940
+So we are going to create a Fargate profile.
+
+00:35.940 --> 00:38.490
+So the template is hyphen hyphen cluster
+
+00:38.490 --> 00:42.030
+EKSCTL create fargateprofile and the cluster name,
+
+00:42.030 --> 00:44.910
+and the Fargate profile name if we want to use,
+
+00:44.910 --> 00:48.300
+and the namespace, whatever we want to use, right?
+
+00:48.300 --> 00:51.570
+So namespace is the core thing here, which is nothing,
+
+00:51.570 --> 00:55.620
+but if our application is deployed with this namespace,
+
+00:55.620 --> 00:58.650
+automatically that respective applications pods
+
+00:58.650 --> 01:03.650
+are going to get scheduled under this Fargate profile.
+
+01:03.750 --> 01:05.130
+So what we are going to do is,
+
+01:05.130 --> 01:09.693
+we are going to copy this and then paste it, right?
+
+01:14.070 --> 01:17.970
+So the namespace tag, whatever we provide is the critical.
+
+01:17.970 --> 01:20.100
+So in, if our application deployments
+
+01:20.100 --> 01:22.980
+have a namespace reference to FP Dev, means
+
+01:22.980 --> 01:27.210
+like our deployment related manifest has FP Dev,
+
+01:27.210 --> 01:28.980
+then that respective pods
+
+01:28.980 --> 01:31.530
+inside that deployment are going to reference
+
+01:31.530 --> 01:34.830
+and then deploy on this respective Fargate profile.
+
+01:34.830 --> 01:38.340
+So as soon as Fargate profile is created,
+
+01:38.340 --> 01:40.920
+so there will not be any instances present there.
+
+01:40.920 --> 01:44.010
+Only when we deploy the workload,
+
+01:44.010 --> 01:45.480
+which means the deployments,
+
+01:45.480 --> 01:49.410
+then only the Fargate instances will get created.
+
+01:49.410 --> 01:53.250
+Okay? So let's wait for this profile to get created.
+
+01:53.250 --> 01:56.670
+So we can see that Fargate profile got created.
+
+01:56.670 --> 01:59.340
+So one important thing here is when you are going to
+
+01:59.340 --> 02:02.220
+create this Fargate profile first time, right,
+
+02:02.220 --> 02:05.460
+in your respective EKS cluster where you already
+
+02:05.460 --> 02:08.580
+have existing managed node groups running, right?
+
+02:08.580 --> 02:12.356
+So at that point, it is also going to create
+
+02:12.356 --> 02:14.760
+a Fargate pod execution role also.
+
+02:14.760 --> 02:18.210
+So at that time you're going to see this type of output.
+
+02:18.210 --> 02:20.370
+So already this is created when I'm testing
+
+02:20.370 --> 02:21.600
+for different things.
+
+02:21.600 --> 02:25.198
+So this output you didn't see now, okay, so you said,
+
+02:25.198 --> 02:28.050
+you have seen that it tried to create it
+
+02:28.050 --> 02:29.820
+and then finally created it. Okay?
+
+02:29.820 --> 02:31.890
+So that's all, but ideally it also
+
+02:31.890 --> 02:34.260
+will create a Fargate pod execution role
+
+02:34.260 --> 02:37.530
+as part of whenever you create your first Fargate profile
+
+02:37.530 --> 02:39.930
+inside your cluster, right?
+
+02:39.930 --> 02:43.470
+So now let's move on and then review the manifest
+
+02:43.470 --> 02:46.500
+as part of whatever we are going to deploy
+
+02:46.500 --> 02:48.810
+to our Fargate profile, right?
+
+02:48.810 --> 02:51.840
+So we are going to deploy a simple Nginx app one
+
+02:51.840 --> 02:53.910
+with ingress load balancer.
+
+02:53.910 --> 02:55.853
+So we cannot use worker node, nodeport
+
+02:55.853 --> 02:58.380
+for Fargate pods for two reasons, right?
+
+02:58.380 --> 03:00.990
+Fargate ports are created in private subnets,
+
+03:00.990 --> 03:04.230
+so no access to internet to access them.
+
+03:04.230 --> 03:06.960
+So Fargate ports are created on random worker nodes
+
+03:06.960 --> 03:08.640
+whose information is unknown to us
+
+03:08.640 --> 03:10.440
+to create a nodeport service.
+
+03:10.440 --> 03:13.050
+That is also another important thing, and,
+
+03:13.050 --> 03:16.110
+but in our case, when we are doing the mixed mode
+
+03:16.110 --> 03:18.810
+environment with node groups and then Fargate,
+
+03:18.810 --> 03:22.320
+if we created nodeport service with ingress load balancer
+
+03:22.320 --> 03:26.820
+and then there is no target type of IP related annotation,
+
+03:26.820 --> 03:30.930
+still things are going to work because the nodeport service
+
+03:30.930 --> 03:33.390
+whatever you have created is going to
+
+03:33.390 --> 03:37.590
+also present on managed node groups also.
+
+03:37.590 --> 03:41.670
+As part of that, you'll get the worker node ports
+
+03:41.670 --> 03:43.590
+from managed node groups.
+
+03:43.590 --> 03:45.300
+So that is not a good option
+
+03:45.300 --> 03:49.230
+and always it is recommended for Fargate loads to use.
+
+03:49.230 --> 03:51.870
+Target type is equal to IP as the annotation
+
+03:51.870 --> 03:55.830
+at the ingress manifest level or if we have a mixed mode
+
+03:55.830 --> 03:57.840
+multiple applications deploying,
+
+03:57.840 --> 03:59.490
+for that respective application
+
+03:59.490 --> 04:02.340
+who needs IP related target type
+
+04:02.340 --> 04:06.180
+on our application load balancer, you can use IP.
+
+04:06.180 --> 04:07.920
+So now the first thing is to create
+
+04:07.920 --> 04:10.170
+a namespace manifest for us. Okay?
+
+04:10.170 --> 04:14.400
+So we usually use 01 or 00 for our namespace manifest
+
+04:14.400 --> 04:16.890
+and namespace is the mandatory one.
+
+04:16.890 --> 04:20.430
+For our respective applications,
+
+04:20.430 --> 04:22.650
+we need to map to that respective name space,
+
+04:22.650 --> 04:24.630
+then only they can be deployed
+
+04:24.630 --> 04:27.990
+or scheduled to that Fargate profile.
+
+04:27.990 --> 04:30.570
+So now we are going to create a API version V1
+
+04:30.570 --> 04:33.780
+kind namespace and the name is FP Dev.
+
+04:33.780 --> 04:36.990
+So let's go back here and if you see that,
+
+04:36.990 --> 04:38.340
+namespace zero one,
+
+04:38.340 --> 04:41.370
+namespace in 0901 Fargate profile basics,
+
+04:41.370 --> 04:43.350
+you can see zero one namespace.
+
+04:43.350 --> 04:45.630
+So this is there, and the second one is,
+
+04:45.630 --> 04:48.360
+update all other manifest with the namespace
+
+04:48.360 --> 04:49.980
+whatever we are creating.
+
+04:49.980 --> 04:51.990
+So one is Nginx app one.
+
+04:51.990 --> 04:55.320
+So if you see it here in its deployment manifest
+
+04:55.320 --> 04:59.610
+under the metadata, you can see namespace FP Dev is added
+
+04:59.610 --> 05:02.940
+in the same way it's equal and nodeport service also
+
+05:02.940 --> 05:06.930
+under the metadata, namespace FP Dev is added.
+
+05:06.930 --> 05:08.550
+So rest all health check URL,
+
+05:08.550 --> 05:10.500
+all those things we are not changing which is coming
+
+05:10.500 --> 05:13.140
+from previous examples only. Okay?
+
+05:13.140 --> 05:16.710
+So only namespace added with FP Dev.
+
+05:16.710 --> 05:20.100
+One more is ALB ingress SSL redirect with the external DNS
+
+05:20.100 --> 05:22.470
+whatever we have implemented earlier, right?
+
+05:22.470 --> 05:24.510
+So in our previous section, the same thing.
+
+05:24.510 --> 05:28.020
+And here also, under metadata section for ingress service,
+
+05:28.020 --> 05:30.450
+we have added namespace FP Dev.
+
+05:30.450 --> 05:34.140
+In addition to that, we are also going to add
+
+05:34.140 --> 05:37.050
+for our deployment manifest, right?
+
+05:37.050 --> 05:39.570
+So we are going to add resources section.
+
+05:39.570 --> 05:41.610
+So why this resources section?
+
+05:41.610 --> 05:43.590
+So this is another important thing.
+
+05:43.590 --> 05:47.040
+So in Fargate, it is super highly recommended
+
+05:47.040 --> 05:49.320
+to provide the resources that requests
+
+05:49.320 --> 05:50.850
+and then resources that limits
+
+05:50.850 --> 05:55.020
+about our CPU and memory in our deployment manifests.
+
+05:55.020 --> 05:58.380
+So almost you can make it as mandatory. Okay?
+
+05:58.380 --> 06:00.330
+So hundred percent we need to use this.
+
+06:00.330 --> 06:02.520
+That is the good option. Okay?
+
+06:02.520 --> 06:04.380
+So this will help Fargate to schedule
+
+06:04.380 --> 06:07.260
+a Fargate host accordingly, means like the Fargate host
+
+06:07.260 --> 06:08.850
+whatever it is going to create
+
+06:08.850 --> 06:10.830
+for that pod to be hosted there.
+
+06:10.830 --> 06:14.520
+So how much resources that Fargate host need to have
+
+06:14.520 --> 06:16.920
+will be decided based on how much you provide
+
+06:16.920 --> 06:19.170
+inside this request section.
+
+06:19.170 --> 06:21.870
+So it's not going to use whatever you provide here,
+
+06:21.870 --> 06:23.880
+more than this only it is going to allocate,
+
+06:23.880 --> 06:26.430
+but there will be some calculation here, okay?
+
+06:26.430 --> 06:28.050
+So it'll take this much example,
+
+06:28.050 --> 06:30.540
+you take memory 128 MB you are giving
+
+06:30.540 --> 06:32.430
+and it is also going to allocate
+
+06:32.430 --> 06:35.610
+plus 256 MB for its kubelet,
+
+06:35.610 --> 06:38.040
+and then Kubernetes related core things to run
+
+06:38.040 --> 06:39.540
+on the worker nodes, right?
+
+06:39.540 --> 06:40.950
+So for kubelet and other things,
+
+06:40.950 --> 06:43.230
+and then accordingly it'll decide the value
+
+06:43.230 --> 06:46.320
+and then provide the memory for our Fargate host.
+
+06:46.320 --> 06:49.080
+So in addition to that, as Fargate follows
+
+06:49.080 --> 06:52.323
+1:1 ratio, host to pod, one pod per host concept,
+
+06:53.280 --> 06:56.070
+we defining resource section in pod template, right?
+
+06:56.070 --> 06:58.770
+So deployment pod template spec should be
+
+06:58.770 --> 07:01.230
+our mandatory option.
+
+07:01.230 --> 07:03.270
+Even if you forget to define resources
+
+07:03.270 --> 07:06.900
+in our deployment template, low memory using pods
+
+07:06.900 --> 07:09.630
+like Nginx will come up and then keep running. Okay?
+
+07:09.630 --> 07:12.480
+So those will not have any issues most of the time.
+
+07:12.480 --> 07:14.700
+But, high memory using apps
+
+07:14.700 --> 07:17.430
+like Spring Boot, REST APIs or anything, it will be
+
+07:17.430 --> 07:20.550
+in the continuous restart mode in your Fargate profile,
+
+07:20.550 --> 07:21.870
+so which is not good.
+
+07:21.870 --> 07:24.780
+So always recommended to use resources section.
+
+07:24.780 --> 07:28.350
+So let's go back to our Nginx app one deployment section
+
+07:28.350 --> 07:30.060
+and you can see we have added the,
+
+07:30.060 --> 07:32.100
+even it is Nginx I have added, right,
+
+07:32.100 --> 07:36.300
+in the pod template spec, so under containers.
+
+07:36.300 --> 07:38.640
+And then for this, you are adding the respective
+
+07:38.640 --> 07:40.140
+resources for this container.
+
+07:40.140 --> 07:42.600
+For this container, it need this much information
+
+07:42.600 --> 07:45.180
+of resources to be allocated
+
+07:45.180 --> 07:47.730
+or it requests for this much information
+
+07:47.730 --> 07:50.580
+and it can go for this limit whenever it needs.
+
+07:50.580 --> 07:51.870
+So that's about it.
+
+07:51.870 --> 07:55.020
+So in addition to that, update ingress manifest
+
+07:55.020 --> 07:58.590
+with ALB ingress Kubernetes target type is IP.
+
+07:58.590 --> 08:02.610
+So as we already discussed multiple times about this one,
+
+08:02.610 --> 08:05.250
+as we are running our pods on Fargate serverless,
+
+08:05.250 --> 08:06.870
+we need to change our target to,
+
+08:06.870 --> 08:09.870
+target type to IP because we really don't have
+
+08:09.870 --> 08:12.600
+any dedicated worker nodes here. Okay?
+
+08:12.600 --> 08:15.930
+So now in addition to that, we will also
+
+08:15.930 --> 08:19.890
+update our DNS name to FP Dev dot kuban cloud.com.
+
+08:19.890 --> 08:22.020
+So let's go to ingress manifest.
+
+08:22.020 --> 08:25.170
+And you can see it here, this is already added
+
+08:25.170 --> 08:27.937
+and external DNS name also I'm going to say,
+
+08:27.937 --> 08:31.680
+"FP Dev dot kuban cloud.com."
+
+08:31.680 --> 08:33.210
+So one thing important here,
+
+08:33.210 --> 08:36.360
+we need to note is like this can be defined even
+
+08:36.360 --> 08:38.520
+at the service level here, okay?
+
+08:38.520 --> 08:39.720
+So you can even define it
+
+08:39.720 --> 08:43.080
+at the service level based on our set of applications.
+
+08:43.080 --> 08:47.380
+So in this ingress, you have few applications with the
+
+08:48.720 --> 08:49.830
+EC2 worker nodes,
+
+08:49.830 --> 08:52.350
+and then you want to go with nodeport service for them
+
+08:52.350 --> 08:54.150
+and few applications with Fargate
+
+08:54.150 --> 08:56.730
+and the same ingress service you are planning to use.
+
+08:56.730 --> 09:00.360
+So few with the worker node, nodeport
+
+09:00.360 --> 09:01.830
+and then few with the instance IP
+
+09:01.830 --> 09:04.560
+if you want to use then you should not define this here.
+
+09:04.560 --> 09:06.180
+Okay?
+
+09:06.180 --> 09:08.940
+For all the Fargate deployment related things,
+
+09:08.940 --> 09:11.040
+we can take this IP and then put it
+
+09:11.040 --> 09:14.160
+in our respective nodeport service annotations,
+
+09:14.160 --> 09:18.270
+and we can leave the default, which is target type instance
+
+09:18.270 --> 09:20.850
+for other related worker node stuff, okay?
+
+09:20.850 --> 09:23.070
+So that for deployment related too
+
+09:23.070 --> 09:25.260
+which we are going to host on managed node groups,
+
+09:25.260 --> 09:27.960
+they directly get the nodeport,
+
+09:27.960 --> 09:30.420
+nodeport related stuff automatically.
+
+09:30.420 --> 09:31.253
+Okay?
+
+09:31.253 --> 09:34.690
+So this completes the review of our
+
+09:35.610 --> 09:37.740
+manifests and also
+
+09:37.740 --> 09:41.940
+about this creation of our all these Fargate profile.
+
+09:41.940 --> 09:44.040
+So in our next lecture, we'll focus
+
+09:44.040 --> 09:46.260
+on deploying these things and then testing.
+
+09:46.260 --> 09:47.700
+So I'll see you in the next lecture.
+
+09:47.700 --> 09:48.870
+Until then, bye bye.
+
+09:48.870 --> 09:49.703
+Thank you.

@@ -1,0 +1,814 @@
+WEBVTT
+
+00:00.000 --> 00:01.980
+-: Welcome back in this lecture we are going to
+
+00:01.980 --> 00:04.110
+create the Myas scale deployment manifest.
+
+00:04.110 --> 00:06.660
+As part of that we are going to create environmental
+
+00:06.660 --> 00:07.493
+variables related to or myas scale deployment related
+
+00:07.493 --> 00:11.103
+to route password and all those stuff.
+
+00:11.103 --> 00:13.623
+And we are going to create the volume mounts
+
+00:13.623 --> 00:17.760
+and then also create the volumes for our container, right?
+
+00:17.760 --> 00:19.470
+In addition to that, we are also going to
+
+00:19.470 --> 00:22.530
+create my skill flash IP service manifest.
+
+00:22.530 --> 00:25.038
+So let's go ahead and then do that now.
+
+00:25.038 --> 00:27.973
+So let's go to our visual studio cord
+
+00:27.973 --> 00:32.973
+and we will start with our myas skill deployment.
+
+00:33.000 --> 00:34.680
+So as we should we'll start
+
+00:34.680 --> 00:39.680
+with a version and then kind metadata and spec, right?
+
+00:45.390 --> 00:49.650
+And now our kind is nothing but we are going to
+
+00:49.650 --> 00:54.650
+use deployment and it's question is apps slash V one
+
+00:55.163 --> 00:57.780
+and we are going to say metadata.
+
+00:57.780 --> 00:58.830
+We are going to say the name
+
+00:58.830 --> 01:01.560
+as we are going to create a Myas skill deployment.
+
+01:01.560 --> 01:03.690
+So I'll just say Myas skill
+
+01:03.690 --> 01:08.070
+and under spec we'll have three top level objects.
+
+01:08.070 --> 01:11.604
+Okay? So ideally we'll have something called replicas
+
+01:11.604 --> 01:15.390
+and we'll have selector in general
+
+01:15.390 --> 01:19.050
+and then template which is nothing but our port template
+
+01:19.050 --> 01:20.357
+whatever we are going to write.
+
+01:20.357 --> 01:23.439
+But here we are also going to have one more extra
+
+01:23.439 --> 01:25.170
+which is nothing.
+
+01:25.170 --> 01:28.110
+But if you want we can define usually strategy.
+
+01:28.110 --> 01:32.068
+Okay? So our strategy type is going to be rolling
+
+01:32.068 --> 01:33.446
+up data recreate, okay?
+
+01:33.446 --> 01:36.330
+So we are going to say recreate, it's a database, right?
+
+01:36.330 --> 01:40.410
+So whenever this pod pyramids again recreate that pod, okay?
+
+01:40.410 --> 01:41.520
+So that's what we are saying.
+
+01:41.520 --> 01:44.147
+It'll always be only one replica, this database
+
+01:44.147 --> 01:47.340
+and we really don't need to have any rolling updates
+
+01:47.340 --> 01:48.173
+of those stuff.
+
+01:48.173 --> 01:49.380
+Okay? And the selector, we know
+
+01:49.380 --> 01:52.680
+that we'll have something called match labels under that.
+
+01:52.680 --> 01:55.301
+So let's define our match label is app
+
+01:55.301 --> 01:57.678
+is equal to Myas skill.
+
+01:57.678 --> 02:00.004
+Okay? So the same thing we need to define
+
+02:00.004 --> 02:03.480
+for our container related template.
+
+02:03.480 --> 02:04.950
+Metadata labels also.
+
+02:04.950 --> 02:05.787
+Okay, so now
+
+02:05.787 --> 02:09.111
+under template again we are going to have two things, right?
+
+02:09.111 --> 02:14.111
+So one is metadata of your part and second is spec.
+
+02:16.594 --> 02:17.951
+Okay? So now
+
+02:17.951 --> 02:22.650
+under metadata you are going to define if ideally it
+
+02:22.650 --> 02:25.230
+we really don't need to define the name of our part here
+
+02:25.230 --> 02:26.977
+because it is part of the deployment, right?
+
+02:26.977 --> 02:31.078
+So if we define labels, that will be sufficient, okay?
+
+02:31.078 --> 02:34.800
+And it should be same as our perspective match labels
+
+02:34.800 --> 02:37.740
+whatever we define here, app is equal to Myas skill.
+
+02:37.740 --> 02:40.661
+So now under the spec we'll have the child elements
+
+02:40.661 --> 02:44.920
+one is containers and the other is volumes.
+
+02:46.260 --> 02:49.320
+Okay? So two things earlier we used to have only containers
+
+02:49.320 --> 02:50.610
+in our previous whatever
+
+02:50.610 --> 02:53.460
+in our Kubernetes fundamentals are everywhere.
+
+02:53.460 --> 02:56.540
+So now we are introducing the concept of volumes.
+
+02:56.540 --> 02:59.730
+So we are going to also add volumes here.
+
+02:59.730 --> 03:04.730
+Okay? So now in the pod template spec we have created
+
+03:05.044 --> 03:08.097
+we are going to add containers and then volumes.
+
+03:08.097 --> 03:10.860
+So let's start with the containers now.
+
+03:10.860 --> 03:14.250
+So under containers we are going to have a name
+
+03:14.250 --> 03:16.740
+of my container, okay?
+
+03:16.740 --> 03:19.893
+And image name, right?
+
+03:20.730 --> 03:25.140
+And so name of my container is myas skill and I'm going to
+
+03:25.140 --> 03:30.140
+use the myki 5.6 container image, okay?
+
+03:30.810 --> 03:33.090
+And now container is done.
+
+03:33.090 --> 03:35.970
+So something I need to provide for con myas skill
+
+03:35.970 --> 03:38.100
+container is and environmental variables.
+
+03:38.100 --> 03:40.740
+Okay? So I'm going to define those things, okay?
+
+03:40.740 --> 03:43.620
+So that is going to be what are those things?
+
+03:43.620 --> 03:48.620
+Okay, my SQ underscore root underscore password
+
+03:48.769 --> 03:53.769
+and it's value is going to be DB password one month.
+
+03:56.460 --> 03:59.368
+So we are going to use DB password one one, right?
+
+03:59.368 --> 04:02.300
+So for the container, one more thing important is
+
+04:02.300 --> 04:04.923
+right ports.
+
+04:06.690 --> 04:10.350
+So let's define that ports
+
+04:10.350 --> 04:12.040
+right? So I'll say
+
+04:15.600 --> 04:20.600
+Container port is equal 3, 3 0 6 and name up this port.
+
+04:20.820 --> 04:22.620
+I can say Maya skill port, right?
+
+04:22.620 --> 04:24.270
+So that's the thing so far.
+
+04:24.270 --> 04:27.570
+Now we'll leave it here and then we'll under containers
+
+04:27.570 --> 04:30.240
+for this container we have the environmental variable
+
+04:30.240 --> 04:31.803
+and all those stuff defined.
+
+04:32.850 --> 04:36.900
+So, now if you see here you can find a little bit
+
+04:36.900 --> 04:39.540
+of mistake here you can see, right?
+
+04:39.540 --> 04:43.710
+So under containers you have a container named Myas skill
+
+04:43.710 --> 04:44.730
+and the image.
+
+04:44.730 --> 04:48.300
+So this and ENV and then ports also part of this container
+
+04:48.300 --> 04:49.950
+right name Myas skill.
+
+04:49.950 --> 04:52.290
+So we need to do this way.
+
+04:52.290 --> 04:56.398
+So now if you see name, image, ENV ports all are
+
+04:56.398 --> 04:58.997
+under single line, you can see that, right?
+
+04:58.997 --> 05:00.480
+So that's good.
+
+05:00.480 --> 05:02.250
+So now the next thing is volumes.
+
+05:02.250 --> 05:04.980
+Okay? So these are again one more top level, right
+
+05:04.980 --> 05:07.887
+under spec one is containers, another is volumes.
+
+05:07.887 --> 05:10.470
+So we are going to define two volumes here.
+
+05:10.470 --> 05:14.970
+Okay? So now let's start with the first volume.
+
+05:14.970 --> 05:18.630
+Okay? So, and the name of the volume is
+
+05:18.630 --> 05:22.527
+Myas skill Persistent Storage.
+
+05:28.560 --> 05:31.373
+And here we are going to mount persistent volume
+
+05:36.120 --> 05:40.230
+claim and claim name.
+
+05:40.230 --> 05:45.230
+I am going to provide this EBS Myas skill PV claim.
+
+05:45.990 --> 05:49.110
+So whatever we have created here, right?
+
+05:49.110 --> 05:52.500
+EBS myas skill, Levy claim the same thing,
+
+05:52.500 --> 05:53.333
+it should be here.
+
+05:53.333 --> 05:57.090
+Okay? So now what happened is we have mounted
+
+05:57.090 --> 05:59.580
+for our respective container one volume, which is
+
+05:59.580 --> 06:02.222
+Myas Skill persistent storage with name and we
+
+06:02.222 --> 06:04.860
+are mounting the persistent volume claim
+
+06:04.860 --> 06:06.986
+Namer EBS myas skill claim.
+
+06:06.986 --> 06:10.090
+So one more we need to map, which is nothing but our
+
+06:12.660 --> 06:15.270
+Config map user management DB creation script
+
+06:15.270 --> 06:16.500
+we are going to map it.
+
+06:16.500 --> 06:20.760
+Okay so user, so we can go here and then get that name.
+
+06:20.760 --> 06:21.780
+So it's a big name.
+
+06:21.780 --> 06:24.940
+So let's copy it here and then come back.
+
+06:24.940 --> 06:26.010
+Where is this?
+
+06:26.010 --> 06:30.030
+Here right and paste the name here.
+
+06:30.030 --> 06:33.829
+Okay. And now we are going to have something called, it is
+
+06:33.829 --> 06:35.625
+off type config map, right?
+
+06:35.625 --> 06:38.610
+And what is the name of the config map?
+
+06:38.610 --> 06:41.790
+It is going to be the same thing, whatever we have
+
+06:41.790 --> 06:42.690
+copied just now.
+
+06:42.690 --> 06:45.960
+Okay, and I'll say script.
+
+06:45.960 --> 06:50.130
+Good. So now we have mounted volumes also.
+
+06:50.130 --> 06:54.084
+So now these volumes we are going to use as volume mounts
+
+06:54.084 --> 06:55.942
+inside our container, right?
+
+06:55.942 --> 06:59.280
+So these are the volumes available for us which we need to
+
+06:59.280 --> 07:00.903
+mount in our respective container.
+
+07:00.903 --> 07:05.160
+Namer Myas skill, okay, so let's go ahead and then
+
+07:05.160 --> 07:07.590
+mount those volumes in our container.
+
+07:07.590 --> 07:10.950
+So for that purpose equal and like how name image E
+
+07:10.950 --> 07:14.250
+and reports at the same level you need to write something
+
+07:14.250 --> 07:18.870
+called volume mounts.
+
+07:18.870 --> 07:22.977
+Okay? So now you can define here name of the mount
+
+07:22.977 --> 07:26.045
+and the mount path.
+
+07:26.045 --> 07:29.010
+Okay so now name of the mount is
+
+07:29.010 --> 07:30.908
+Myas skill Persistent Storage.
+
+07:30.908 --> 07:32.470
+So I can give that
+
+07:33.780 --> 07:37.102
+Same name here, right?
+
+07:37.102 --> 07:42.102
+And Mount Path I'm going to use is where Live Myas skill
+
+07:44.160 --> 07:46.200
+okay? So which is nothing but the storage
+
+07:46.200 --> 07:49.560
+of Myas skill will be presenting via lab Myas skill.
+
+07:49.560 --> 07:51.330
+So we are mounting that folder
+
+07:51.330 --> 07:53.970
+to our container Myas skill container.
+
+07:53.970 --> 07:57.870
+So one more we will have, so again me
+
+07:57.870 --> 08:02.870
+and then mount but okay and we are going to
+
+08:03.172 --> 08:08.172
+mount the user management DB creation script.
+
+08:08.700 --> 08:10.805
+Okay? And when you want to mount it
+
+08:10.805 --> 08:15.060
+during the docker entry point initiation db dot D.
+
+08:15.060 --> 08:17.040
+Okay? So we'll see what it is shortly.
+
+08:17.040 --> 08:22.040
+Okay, so Docker entry point in DB dot D.
+
+08:26.550 --> 08:28.500
+So let's come back.
+
+08:28.500 --> 08:31.230
+What does Docker entry point in DB do?
+
+08:31.230 --> 08:32.730
+So when a container is started
+
+08:32.730 --> 08:34.680
+for the first time a new database
+
+08:34.680 --> 08:36.720
+with the specified name will be created
+
+08:36.720 --> 08:40.121
+and initialized with the provided configuration variables.
+
+08:40.121 --> 08:44.852
+So we are going to create user MGMT database there
+
+08:44.852 --> 08:49.080
+and using the data skill, my db script do skill, okay
+
+08:49.080 --> 08:51.720
+so whenever the container starts for the first time
+
+08:51.720 --> 08:53.670
+so it is going to create that.
+
+08:53.670 --> 08:56.434
+So that's what we have created it in our config map
+
+08:56.434 --> 08:59.220
+the drop if any database exists
+
+08:59.220 --> 09:01.480
+and then create that database, User mgmt
+
+09:01.480 --> 09:03.870
+and then mount it.
+
+09:03.870 --> 09:06.150
+Okay, so mount it here so that
+
+09:06.150 --> 09:08.310
+and then use that docker entry point.
+
+09:08.310 --> 09:09.300
+You need DB here.
+
+09:09.300 --> 09:11.400
+Whenever you mount then the mount part you are
+
+09:11.400 --> 09:13.380
+going to use docker entry point.
+
+09:13.380 --> 09:15.140
+You need db so that it is
+
+09:15.140 --> 09:17.460
+it is going to run this script whenever
+
+09:17.460 --> 09:19.890
+the first time the container is going to start.
+
+09:19.890 --> 09:22.230
+So it'll run this Myas skill user management
+
+09:22.230 --> 09:23.774
+dot skill script.
+
+09:23.774 --> 09:25.200
+So that's about it.
+
+09:25.200 --> 09:26.610
+So now we are going to go ahead
+
+09:26.610 --> 09:29.430
+and then create our plus tripe service Now.
+
+09:29.430 --> 09:31.530
+So we have completed that deployment part
+
+09:31.530 --> 09:33.390
+which is nothing but the Myas skill deployment.
+
+09:33.390 --> 09:35.910
+We have completed if you want we can see one more time.
+
+09:35.910 --> 09:39.540
+So we have created the base template here and then
+
+09:39.540 --> 09:42.030
+after that we under the spec we have something
+
+09:42.030 --> 09:45.309
+can the replica selector strategy and then template.
+
+09:45.309 --> 09:48.570
+So template is port template strategies
+
+09:48.570 --> 09:50.380
+as it is database it need to recreate.
+
+09:50.380 --> 09:51.840
+There is no rolling
+
+09:51.840 --> 09:54.543
+or another strategies upload, standard recreate type.
+
+09:55.560 --> 09:56.910
+We are going to apply
+
+09:56.910 --> 09:59.280
+and selector is going to be under match labels app.
+
+09:59.280 --> 10:02.220
+Myas skill and replica always it is going to be one part.
+
+10:02.220 --> 10:03.330
+So it is one.
+
+10:03.330 --> 10:04.920
+And now under the port template
+
+10:04.920 --> 10:07.110
+as usual metadata and spec will be available
+
+10:07.110 --> 10:10.710
+and the metadata we have defined our part label
+
+10:10.710 --> 10:12.343
+as app is equal to myas skill.
+
+10:12.343 --> 10:14.700
+And then a spec will have two things here
+
+10:14.700 --> 10:16.090
+containers and then volumes.
+
+10:16.090 --> 10:19.230
+So we have created two volumes.
+
+10:19.230 --> 10:22.413
+One is further persistent storage, mapping it with our ebs
+
+10:22.413 --> 10:25.056
+myas skill PV claim, whatever we have created.
+
+10:25.056 --> 10:29.520
+And the second is user management DB creation script.
+
+10:29.520 --> 10:30.990
+That is nothing but the config map.
+
+10:30.990 --> 10:32.448
+We have map those two volumes
+
+10:32.448 --> 10:35.038
+and then these two volumes will be map
+
+10:35.038 --> 10:37.320
+to our respect to part.
+
+10:37.320 --> 10:40.288
+And from part we are going to mount it to our container
+
+10:40.288 --> 10:42.748
+which is nothing but our volume mounts here.
+
+10:42.748 --> 10:46.710
+And in the volume mount we are going to create a mount
+
+10:46.710 --> 10:48.390
+for myas skill persistent storage
+
+10:48.390 --> 10:51.000
+under the mount point where live Myas skill
+
+10:51.000 --> 10:51.833
+which is nothing
+
+10:51.833 --> 10:55.050
+but the core Myas skill database storage data files part
+
+10:55.050 --> 10:57.960
+and the another is user management DB creation script
+
+10:57.960 --> 10:59.364
+under the mound path
+
+10:59.364 --> 11:01.780
+Docker entry point in it, db, which is nothing
+
+11:01.780 --> 11:04.470
+but whenever our container is going to start
+
+11:04.470 --> 11:06.240
+for the first time, so whatever is present
+
+11:06.240 --> 11:08.910
+in the config map, it is going to run.
+
+11:08.910 --> 11:11.010
+So that's about the myas skill deployment.
+
+11:11.010 --> 11:13.950
+In our next step we are going to
+
+11:13.950 --> 11:16.020
+create the cluster tripe service.
+
+11:16.020 --> 11:20.370
+So let's go ahead and then create the first time
+
+11:20.370 --> 11:23.590
+which is nothing, but we one and the kind is equal
+
+11:24.530 --> 11:27.720
+to service and I'm going to say metadata
+
+11:27.720 --> 11:31.770
+and I'm going to say name, which is going to be Myas skill.
+
+11:31.770 --> 11:36.770
+Okay? So and next is going to be spec and it is a service.
+
+11:37.230 --> 11:39.090
+So and it is a cluster P service
+
+11:39.090 --> 11:40.545
+whatever we are going to create.
+
+11:40.545 --> 11:45.090
+So we are going to have selector and then ports usually.
+
+11:45.090 --> 11:50.090
+Okay? So, and I'm going to give the ports 33 0 6, okay?
+
+11:50.460 --> 11:54.390
+And selector is going to be app is equal to myas skill
+
+11:54.390 --> 11:56.542
+which means whatever that traffic comes to this service
+
+11:56.542 --> 11:58.290
+it need to route to the pod.
+
+11:58.290 --> 11:59.919
+Who's the selector who label matches
+
+11:59.919 --> 12:02.880
+with app is called myas skill.
+
+12:02.880 --> 12:05.640
+Now another thing important here is we already
+
+12:05.640 --> 12:07.348
+know that Myas skill deployment is going to
+
+12:07.348 --> 12:09.630
+be always only one pod.
+
+12:09.630 --> 12:12.300
+So which is nothing, but this is the only one part.
+
+12:12.300 --> 12:13.650
+So we are not going to scale it
+
+12:13.650 --> 12:15.900
+or we are not going to have multiple replicas
+
+12:15.900 --> 12:17.449
+if we know that is going to happen.
+
+12:17.449 --> 12:20.100
+So we can do one more setting in our service
+
+12:20.100 --> 12:25.100
+which is nothing, but cluster IP is equal to none.
+
+12:25.220 --> 12:26.880
+What does this mean?
+
+12:26.880 --> 12:29.100
+This means, okay
+
+12:29.100 --> 12:34.100
+so we are going to use for IP directly, okay?
+
+12:34.560 --> 12:38.280
+So we really don't need to allocate a separate IP address
+
+12:38.280 --> 12:41.310
+in our network for this respect to cluster IP service.
+
+12:41.310 --> 12:44.910
+Myas skill, we can leverage directly using the port ip.
+
+12:44.910 --> 12:46.696
+Whenever you say cluster IP is none.
+
+12:46.696 --> 12:50.520
+So that's about the entire spec creation
+
+12:50.520 --> 12:52.354
+whatever we have created for myas skill deployment
+
+12:52.354 --> 12:55.620
+and then myas skill service.
+
+12:55.620 --> 12:58.560
+So this completes the step two
+
+12:58.560 --> 13:01.860
+which is nothing but creating off our entire manifest, okay?
+
+13:01.860 --> 13:04.590
+Storage class, persistent volume claim, user management
+
+13:04.590 --> 13:06.008
+config map, myas skill deployment
+
+13:06.008 --> 13:09.540
+and then myas skill cluster strip service.
+
+13:09.540 --> 13:11.730
+Okay? So in our next lecture we are going to
+
+13:11.730 --> 13:14.250
+create these things and then test these things, connect
+
+13:14.250 --> 13:18.000
+to that Myas skill database and then test it end to end.
+
+13:18.000 --> 13:20.070
+So I'll see you in the next lecture.
+
+13:20.070 --> 13:20.990
+Until then, bye bye.
+
+13:20.990 --> 13:21.823
+Thank you.

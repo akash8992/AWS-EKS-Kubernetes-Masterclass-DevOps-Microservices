@@ -1,0 +1,889 @@
+WEBVTT
+
+00:00.180 --> 00:01.140
+-: Welcome back.
+
+00:01.140 --> 00:02.940
+In this lecture we are going to go ahead
+
+00:02.940 --> 00:05.850
+and then deploy the manifest and test it.
+
+00:05.850 --> 00:08.430
+So before going there we are going to quickly look into
+
+00:08.430 --> 00:10.560
+I have changed the DN, DNS names
+
+00:10.560 --> 00:13.560
+for us to be services iPhone xray.cube1cloud.com
+
+00:13.560 --> 00:16.350
+and then xraydemo.cube1cloud.com.
+
+00:16.350 --> 00:18.060
+And I have also updated the same
+
+00:18.060 --> 00:20.790
+in our architecture diagrams and also
+
+00:20.790 --> 00:25.060
+in our respective Ingress manifest also.
+
+00:25.060 --> 00:26.970
+Okay, so why I change it is
+
+00:26.970 --> 00:31.390
+because there might be DNS cash issues once we execute our
+
+00:32.610 --> 00:34.170
+once we execute this section
+
+00:34.170 --> 00:37.200
+the previous section related to microservice too well
+
+00:37.200 --> 00:38.950
+and then immediately we execute 13.
+
+00:39.840 --> 00:42.390
+So there might be issues related to DNS caching
+
+00:42.390 --> 00:45.030
+and all those things we might encounter
+
+00:45.030 --> 00:46.590
+and example I can show you here.
+
+00:46.590 --> 00:49.200
+Okay, so there is no services.cube
+
+00:49.200 --> 00:52.500
+on cloud.com in my record sets here, okay?
+
+00:52.500 --> 00:55.380
+So, but if you see the DNS resolution here
+
+00:55.380 --> 00:57.570
+it keeps resolving to the older IPS.
+
+00:57.570 --> 01:00.330
+So like this, there might be some issues you might encounter
+
+01:00.330 --> 01:03.210
+and then face other issues and then your
+
+01:03.210 --> 01:04.980
+your demo might not work for a while
+
+01:04.980 --> 01:07.410
+and then later after one hour or two hours it might work.
+
+01:07.410 --> 01:10.350
+But wasting our time like that is not good.
+
+01:10.350 --> 01:14.430
+So that's the reason what I've done is like I have ensured
+
+01:14.430 --> 01:19.410
+that we have new domain names for this x-ray demo also.
+
+01:19.410 --> 01:20.910
+So like that only we continue
+
+01:20.910 --> 01:22.830
+in our previous sections also we are going to
+
+01:22.830 --> 01:25.140
+continue the same thing here.
+
+01:25.140 --> 01:28.192
+So now let's go back and then deploy the stuff.
+
+01:28.192 --> 01:31.950
+So cube CTL apply-F and then cube manifest
+
+01:31.950 --> 01:36.000
+and our content is present in 02 applications folder.
+
+01:36.000 --> 01:37.950
+So till there we are going to go ahead
+
+01:37.950 --> 01:39.630
+and then execute the stuff.
+
+01:39.630 --> 01:43.260
+Okay, so I will say copy paste, I am
+
+01:43.260 --> 01:47.970
+in 13 microservices section and I am deploying the manifest.
+
+01:47.970 --> 01:50.363
+So it is creating the user management microservice
+
+01:50.363 --> 01:51.899
+all the microservices.
+
+01:51.899 --> 01:56.488
+So cube CTL and get what should list the parts
+
+01:56.488 --> 01:59.580
+and I'll also verify that Ingress.
+
+01:59.580 --> 02:04.530
+Okay, so that Ingress also got created.
+
+02:04.530 --> 02:08.760
+So now if we go back to our route 53
+
+02:08.760 --> 02:12.150
+ideally our route 53 domain should be created.
+
+02:12.150 --> 02:14.070
+Now it should be getting created
+
+02:14.070 --> 02:15.780
+it'll take a while to create.
+
+02:15.780 --> 02:18.000
+So what we'll do is like we'll pause the video
+
+02:18.000 --> 02:22.560
+until entire whatever the EC2 related load
+
+02:22.560 --> 02:24.955
+balancer also got provisioned.
+
+02:24.955 --> 02:27.810
+So it should be in provisioning state.
+
+02:27.810 --> 02:30.570
+Once this is completed then we will resume
+
+02:30.570 --> 02:32.850
+and then test all other stuff.
+
+02:32.850 --> 02:35.070
+Our load balancer is active now.
+
+02:35.070 --> 02:38.640
+So let's copy the DNS, let's do the DNS checks first.
+
+02:38.640 --> 02:40.240
+So Ns look up
+
+02:42.451 --> 02:44.580
+and paste it
+
+02:44.580 --> 02:48.390
+and it has 2 1 3 and then 1 5 6 at the end.
+
+02:48.390 --> 02:49.470
+So keep
+
+02:49.470 --> 02:54.470
+I'll also say NS lookup xraydemo dot
+
+02:54.676 --> 02:56.821
+(typing sounds)
+
+02:56.821 --> 02:57.753
+cube1cloud.com.
+
+02:58.980 --> 03:01.170
+So 2 1 3 and then 1 5 6.
+
+03:01.170 --> 03:02.003
+This looks good.
+
+03:02.003 --> 03:04.530
+So we'll be able to access our service
+
+03:04.530 --> 03:06.900
+and then test it, right?
+
+03:06.900 --> 03:10.170
+So now the next thing is let's go back here
+
+03:10.170 --> 03:12.150
+and then you can access the service
+
+03:12.150 --> 03:14.572
+on our browser and then test it.
+
+03:14.572 --> 03:17.070
+So I can even take this directly
+
+03:17.070 --> 03:19.530
+and then access it on the browser.
+
+03:19.530 --> 03:20.710
+So if you see it here
+
+03:22.230 --> 03:25.680
+application is notification microservice app version is V1
+
+03:25.680 --> 03:29.070
+and then messages enable AWS xray.
+
+03:29.070 --> 03:30.360
+So we can even test this
+
+03:30.360 --> 03:34.500
+via postman by adding the environment.
+
+03:34.500 --> 03:37.180
+So I'll add the environment and then say
+
+03:39.630 --> 03:43.258
+X-ray microservices
+
+03:43.258 --> 03:45.706
+and allow the URL
+
+03:45.706 --> 03:50.706
+and URL is going to be this much right?
+
+03:51.024 --> 03:53.670
+(mouse clicks)
+
+03:53.670 --> 03:58.020
+Alright it and I'll change to x-ray microservices
+
+03:58.020 --> 04:00.870
+and this is the notification x-ray service.
+
+04:00.870 --> 04:02.880
+So I'm going to access it
+
+04:02.880 --> 04:05.790
+and notification microservice and then V1
+
+04:05.790 --> 04:10.290
+and then enable AWS x-ray for this respective service.
+
+04:10.290 --> 04:11.123
+We are getting that.
+
+04:11.123 --> 04:12.300
+So I'm going to access a couple
+
+04:12.300 --> 04:14.970
+of times here and then go ahead
+
+04:14.970 --> 04:17.400
+and then go to the x-ray and then see the stuff.
+
+04:17.400 --> 04:20.730
+Okay? So you can even verify your route 53
+
+04:20.730 --> 04:24.420
+domains already created, right?
+
+04:24.420 --> 04:28.470
+So I need to browser refresh to get these details usually.
+
+04:28.470 --> 04:31.410
+Okay, so we got everything related
+
+04:31.410 --> 04:33.798
+to services xray.cube1cloud.com
+
+04:33.798 --> 04:36.600
+or x-raydemo.cube1cloud.com.
+
+04:36.600 --> 04:40.350
+So now let's go back to our x-ray service, right?
+
+04:40.350 --> 04:41.230
+So X-ray
+
+04:43.020 --> 04:46.860
+Let me close this and now the service map is creating
+
+04:46.860 --> 04:49.050
+for our last five minutes.
+
+04:49.050 --> 04:50.640
+So let it get created.
+
+04:50.640 --> 04:53.670
+So now you can see here the service map from client
+
+04:53.670 --> 04:55.879
+it went to user management microservice
+
+04:55.879 --> 04:58.980
+and from user management microservice it went
+
+04:58.980 --> 05:02.500
+to notification microservice.
+
+05:02.500 --> 05:06.720
+Okay, so in service map we can see that very clearly.
+
+05:06.720 --> 05:09.900
+So now if you want to get the traces of this information
+
+05:09.900 --> 05:12.480
+so we can go and then click
+
+05:12.480 --> 05:17.480
+on traces and we can select the specific trace.
+
+05:17.642 --> 05:20.220
+So these are health check related URLs
+
+05:20.220 --> 05:22.620
+which is triggering from load balancer or
+
+05:22.620 --> 05:26.250
+from our node port service, whatever we have created, right?
+
+05:26.250 --> 05:29.760
+So those things, but this is specifically
+
+05:29.760 --> 05:32.520
+whatever we have accessed from browser, right?
+
+05:32.520 --> 05:37.520
+X-raydemo.cube1cloud.com/usermgmt/notificationX-ray
+
+05:38.850 --> 05:41.910
+So let's go inside that and you can say
+
+05:41.910 --> 05:44.340
+inside that you can find these are the traces
+
+05:44.340 --> 05:46.920
+these many times I have access it as of now.
+
+05:46.920 --> 05:49.830
+Okay, so if I want I can keep sending the request
+
+05:49.830 --> 05:53.400
+and then these traces keeps getting increased.
+
+05:53.400 --> 05:54.233
+Okay, so I'm
+
+05:54.233 --> 05:58.650
+I'm going to access five more times I have access it.
+
+05:58.650 --> 06:00.300
+So currently five is there.
+
+06:00.300 --> 06:02.100
+So when I refresh it
+
+06:02.100 --> 06:06.600
+so now you should see 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.
+
+06:06.600 --> 06:08.680
+So we have got 10 traces.
+
+06:08.680 --> 06:12.195
+Okay? So any trace you can open it like this, right?
+
+06:12.195 --> 06:16.260
+And if you see it here it's map will be displayed here
+
+06:16.260 --> 06:17.190
+in detail.
+
+06:17.190 --> 06:22.190
+So response is 200 and duration is 677 milliseconds.
+
+06:22.230 --> 06:26.280
+Age is like 2.9 minutes before I have access to this.
+
+06:26.280 --> 06:28.920
+Okay? And let me make this bigger.
+
+06:28.920 --> 06:30.510
+So it is the same thing, right?
+
+06:30.510 --> 06:31.915
+So user management microservice
+
+06:31.915 --> 06:34.500
+and then V1 notification microservice.
+
+06:34.500 --> 06:36.150
+So where are these hosted?
+
+06:36.150 --> 06:39.750
+So that you can see here AWS EKS container you can see
+
+06:39.750 --> 06:43.530
+in the down right EKS container and as usual if you see
+
+06:43.530 --> 06:46.710
+and then go inside traces how the request went in.
+
+06:46.710 --> 06:49.230
+So the request first hit the user management
+
+06:49.230 --> 06:51.420
+microservice container, right?
+
+06:51.420 --> 06:55.350
+So it's information is here, this is the start time
+
+06:55.350 --> 06:57.805
+and time how much it took and the request
+
+06:57.805 --> 07:01.920
+URL is this one and request user is from Mac OS browser.
+
+07:01.920 --> 07:02.820
+I have tried once.
+
+07:02.820 --> 07:04.080
+That is the first request, right?
+
+07:04.080 --> 07:06.930
+And the client IPs this one, okay, so
+
+07:06.930 --> 07:09.240
+if you go back and then take another trace, right?
+
+07:09.240 --> 07:10.817
+So like recent traces.
+
+07:10.817 --> 07:12.570
+So what what will happen
+
+07:12.570 --> 07:17.010
+with the recent traces is so let's make it bigger here.
+
+07:17.010 --> 07:20.130
+Yeah. And if you go down
+
+07:20.130 --> 07:22.800
+and then if you open the user management microservice
+
+07:22.800 --> 07:26.880
+if you see the request user agent now is postman run time.
+
+07:26.880 --> 07:29.908
+So because we access it via postman
+
+07:29.908 --> 07:34.170
+and then ask forward for true and then response status 200.
+
+07:34.170 --> 07:36.480
+So this is the overview section, but you will have
+
+07:36.480 --> 07:39.540
+the resources section which will provide the log group
+
+07:39.540 --> 07:41.370
+in which our logs are present.
+
+07:41.370 --> 07:42.203
+And in addition
+
+07:42.203 --> 07:44.820
+to that availability zone where this request is running
+
+07:44.820 --> 07:47.670
+and then instance ID use our worker node ID and
+
+07:47.670 --> 07:51.930
+then our worker node size and the AIM ID our worker
+
+07:51.930 --> 07:54.930
+node Kubernetes worker node and as SDK version
+
+07:54.930 --> 07:59.119
+it has used and SDK it used is x-ray for Java, right?
+
+07:59.119 --> 08:02.646
+And now this is the important fact, okay so which
+
+08:02.646 --> 08:06.930
+in Kubernetes to which part it went and inside that part
+
+08:06.930 --> 08:09.900
+to which container it went also we can identify
+
+08:09.900 --> 08:12.660
+using x-ray tracing which is nothing but it went
+
+08:12.660 --> 08:16.440
+to user management microservice part so and so part, okay
+
+08:16.440 --> 08:18.740
+so if you want KMG6G, okay
+
+08:18.740 --> 08:21.540
+so if you want we can say cube CTL get ports and
+
+08:21.540 --> 08:24.300
+then match our port name here, right?
+
+08:24.300 --> 08:26.970
+So see KMG6G
+
+08:26.970 --> 08:29.460
+that is the one and inside that, this is the
+
+08:29.460 --> 08:32.700
+container ID it went, where the request went in.
+
+08:32.700 --> 08:35.730
+So that's about the user management microservices
+
+08:35.730 --> 08:39.860
+tracing here it took 24 milliseconds and from there it went
+
+08:39.860 --> 08:43.710
+to the get notification app in four, right?
+
+08:43.710 --> 08:47.220
+So that is my method present
+
+08:47.220 --> 08:49.500
+in my user management microservice.
+
+08:49.500 --> 08:52.560
+So inside that method it went in and then
+
+08:52.560 --> 08:55.620
+from there it called the notification cluster IP service
+
+08:55.620 --> 08:56.490
+correct? Right?
+
+08:56.490 --> 08:57.720
+So if you take the architecture
+
+08:57.720 --> 08:59.910
+after UMS part from this, it comes then
+
+08:59.910 --> 09:03.450
+it'll call the notification cluster IP service.
+
+09:03.450 --> 09:06.990
+So it called the notification cluster IP service
+
+09:06.990 --> 09:09.720
+and notification cluster IP services notification
+
+09:09.720 --> 09:14.580
+cluster IP:8096/notification/x-ray.
+
+09:14.580 --> 09:16.830
+So that is the path it has called.
+
+09:16.830 --> 09:20.220
+And now from there it is going to go
+
+09:20.220 --> 09:21.690
+to the notification service.
+
+09:21.690 --> 09:24.090
+The next thing is from there it went to here
+
+09:24.090 --> 09:26.219
+it took eight milliseconds near this service
+
+09:26.219 --> 09:29.376
+and then it went to notification microservice, okay?
+
+09:29.376 --> 09:30.390
+Which is nothing
+
+09:30.390 --> 09:33.570
+but the notification microservice deployment inside
+
+09:33.570 --> 09:36.810
+that the respective container and then port, right?
+
+09:36.810 --> 09:37.980
+So if you go here
+
+09:37.980 --> 09:42.060
+notification microservice pod and it's equivalent container.
+
+09:42.060 --> 09:43.080
+So that's good.
+
+09:43.080 --> 09:46.590
+So now from there it went into the, again, the method
+
+09:46.590 --> 09:49.140
+inside that container there will be a code running, right?
+
+09:49.140 --> 09:50.130
+What is that method?
+
+09:50.130 --> 09:52.560
+Okay, so this is the method notification
+
+09:52.560 --> 09:54.360
+app version service method, it went
+
+09:54.360 --> 09:57.150
+in and then it server the request back.
+
+09:57.150 --> 09:59.070
+So to this level we can see
+
+09:59.070 --> 10:03.060
+that detailed tracing what happened for our application.
+
+10:03.060 --> 10:04.110
+And if you see here
+
+10:04.110 --> 10:06.690
+this is whatever you are seeing in the UM model, you can see
+
+10:06.690 --> 10:10.830
+in the GSN format data, raw data also you can see it.
+
+10:10.830 --> 10:13.530
+So this is about the entire tracing.
+
+10:13.530 --> 10:14.670
+Whatever we have done means
+
+10:14.670 --> 10:17.190
+like the request came from client to user management
+
+10:17.190 --> 10:20.890
+user management to notification service, as I told earlier
+
+10:20.890 --> 10:25.470
+only for specific service inside user controller.
+
+10:25.470 --> 10:27.300
+I have enabled this stuff
+
+10:27.300 --> 10:30.690
+which means whenever you call call only this respective
+
+10:30.690 --> 10:34.050
+notification, microservice related x-ray service
+
+10:34.050 --> 10:35.940
+then only this from user management
+
+10:35.940 --> 10:39.510
+to notification will go and then it'll be displayed here.
+
+10:39.510 --> 10:42.120
+So it's equal and module I have user here
+
+10:42.120 --> 10:43.920
+to develop this code
+
+10:43.920 --> 10:46.320
+but rest of the other stuff which is like nothing.
+
+10:46.320 --> 10:48.960
+But if I call other notification
+
+10:48.960 --> 10:51.780
+health status services example, you have something here
+
+10:51.780 --> 10:54.460
+right? Notification, service info
+
+10:54.460 --> 10:57.090
+and then notification health status.
+
+10:57.090 --> 11:00.270
+So for them the new note is going to get created
+
+11:00.270 --> 11:01.103
+and then it'll show
+
+11:01.103 --> 11:04.290
+as client only client to that notification services.
+
+11:04.290 --> 11:06.060
+I am going to show it to you now.
+
+11:06.060 --> 11:09.208
+So let's go back and then access them now.
+
+11:09.208 --> 11:11.910
+So there are additional core changes required
+
+11:11.910 --> 11:14.580
+for every service to do and then get this one
+
+11:14.580 --> 11:16.590
+microservice calling another microservice.
+
+11:16.590 --> 11:19.440
+How you want to do all these things are development
+
+11:19.440 --> 11:21.630
+related efforts when we are doing it, okay?
+
+11:21.630 --> 11:23.490
+But I just want to show you a few things here.
+
+11:23.490 --> 11:26.130
+Okay, so I'm calling notification health status
+
+11:26.130 --> 11:27.750
+service, right?
+
+11:27.750 --> 11:30.960
+And I'll call for some time, right?
+
+11:30.960 --> 11:33.180
+And I'll also call service in for service, okay?
+
+11:33.180 --> 11:36.270
+All we are calling via user management only.
+
+11:36.270 --> 11:37.560
+Okay, so what happens?
+
+11:37.560 --> 11:39.840
+We are going to see let's go here
+
+11:39.840 --> 11:43.290
+and then refresh it, right?
+
+11:43.290 --> 11:46.290
+So now the map updates in a different way.
+
+11:46.290 --> 11:48.900
+So let the map see now you can see
+
+11:48.900 --> 11:53.900
+so client to notification, right?
+
+11:53.910 --> 11:56.250
+So this client here is nothing but whenever you're
+
+11:56.250 --> 11:58.574
+calling it is user management microservice also call this
+
+11:58.574 --> 12:02.370
+and then you'll get some additional data here, okay?
+
+12:02.370 --> 12:04.170
+So another picture you'll get, okay
+
+12:04.170 --> 12:07.890
+so I'll say our last 15 minutes I'll say and then refresh.
+
+12:07.890 --> 12:10.380
+So you'll get a different picture here.
+
+12:10.380 --> 12:13.380
+So whatever you are calling this notification microservice
+
+12:13.380 --> 12:16.350
+it is going by a user management microservice
+
+12:16.350 --> 12:19.975
+but still that user management microservice
+
+12:19.975 --> 12:24.510
+system is feeling that it is going to be client only.
+
+12:24.510 --> 12:27.970
+The reason for that is I didn't enable the
+
+12:28.890 --> 12:30.270
+STTP client builder
+
+12:30.270 --> 12:32.280
+for this notification health service.
+
+12:32.280 --> 12:35.310
+I'm using standard spring boot related REST template
+
+12:35.310 --> 12:37.290
+for calling another microservice.
+
+12:37.290 --> 12:39.330
+So this is core development related
+
+12:39.330 --> 12:43.050
+but why I am trying to explain this here is when
+
+12:43.050 --> 12:46.500
+you are enabling x-ray in your applications
+
+12:46.500 --> 12:47.880
+there will be a good amount
+
+12:47.880 --> 12:50.610
+of development effort required for you.
+
+12:50.610 --> 12:54.210
+And then lot of thought process thinking is required here.
+
+12:54.210 --> 12:55.800
+So if you see here
+
+12:55.800 --> 12:59.730
+there will be lots of references which tells us
+
+12:59.730 --> 13:01.350
+in which section what we need to do
+
+13:01.350 --> 13:02.910
+and all these things, okay?
+
+13:02.910 --> 13:06.120
+So these are related to X-ray enablement on Kubernetes.
+
+13:06.120 --> 13:07.830
+But if you see here, right?
+
+13:07.830 --> 13:10.770
+So SDK Java configuration and
+
+13:10.770 --> 13:12.987
+SDK Java configuration plugins
+
+13:12.987 --> 13:16.470
+and STTP clients and filters and then SQL clients.
+
+13:16.470 --> 13:19.560
+So like this, there will be multiple other stuffs in x-rays
+
+13:19.560 --> 13:22.350
+SDK for Java or x-rays, SDK for node JS
+
+13:22.350 --> 13:24.810
+and then other Python or whatever, right?
+
+13:24.810 --> 13:27.690
+So good amount of development level of work is required
+
+13:27.690 --> 13:31.890
+in your application to enable this, but when you enable it
+
+13:31.890 --> 13:34.080
+these are the benefits you are going to get.
+
+13:34.080 --> 13:36.930
+Hand in hand means like you are able to see everything
+
+13:36.930 --> 13:39.870
+in a detailed way, step by step.
+
+13:39.870 --> 13:42.990
+So that's about the X-ray so far.
+
+13:42.990 --> 13:47.310
+So in our next lecture we are going to clean up the stuff.
+
+13:47.310 --> 13:48.810
+I'll see you in the next lecture.
+
+13:48.810 --> 13:49.890
+Until then, bye bye.
+
+13:49.890 --> 13:50.723
+Thank you.

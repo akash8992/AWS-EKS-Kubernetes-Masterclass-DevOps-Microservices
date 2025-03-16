@@ -1,0 +1,157 @@
+WEBVTT
+
+00:00.120 --> 00:00.953
+-: Welcome back.
+
+00:00.953 --> 00:02.970
+In this lecture we are going to understand
+
+00:02.970 --> 00:04.470
+about what we are going to learn
+
+00:04.470 --> 00:06.231
+as part of this entire thing, right?
+
+00:06.231 --> 00:09.420
+So we are going to create a easier repository
+
+00:09.420 --> 00:11.320
+for our Docker images to be stored there
+
+00:11.320 --> 00:15.030
+and we are going to create our code, comment get repository
+
+00:15.030 --> 00:16.832
+and then check in our docker
+
+00:16.832 --> 00:21.214
+and then Kubernetes manifest whatever we are going to use
+
+00:21.214 --> 00:25.290
+as part of this specific section.
+
+00:25.290 --> 00:28.150
+And we are going to write a build spec dot yml
+
+00:28.150 --> 00:30.600
+or review the build spec dot yml
+
+00:30.600 --> 00:32.790
+which will build the docker image
+
+00:32.790 --> 00:34.380
+and then push the Docker image
+
+00:34.380 --> 00:38.880
+to the ECR repository and deploy the updated KS
+
+00:38.880 --> 00:41.466
+deployment manifesto EKS cluster.
+
+00:41.466 --> 00:44.610
+So in addition to that, we also need to
+
+00:44.610 --> 00:48.265
+be aware a few important roles that need to be created
+
+00:48.265 --> 00:52.740
+and then associated with the code build role.
+
+00:52.740 --> 00:56.070
+So one important role is STS assumerole
+
+00:56.070 --> 00:59.386
+which is nothing but EKS code build kubectl role
+
+00:59.386 --> 01:02.628
+which will have that EKS describe function inside that.
+
+01:02.628 --> 01:07.628
+So with this role, we will be able to apply the changes
+
+01:08.040 --> 01:11.790
+to our Kubernetes using codebuild role from codebuild.
+
+01:11.790 --> 01:14.040
+So for that purpose, we'll create this role
+
+01:14.040 --> 01:16.605
+and then associate that to the codebuild role.
+
+01:16.605 --> 01:19.920
+So in addition to that codebuild role also
+
+01:19.920 --> 01:22.320
+should have the access to push the images
+
+01:22.320 --> 01:27.180
+to this ECR repository so it needs ECR full access.
+
+01:27.180 --> 01:29.820
+And this respective STS assumerole
+
+01:29.820 --> 01:32.426
+you need to associate in this respective codebuild role.
+
+01:32.426 --> 01:36.000
+You need to create a STS assumerole policy
+
+01:36.000 --> 01:40.018
+and then associate this role in a way it is required.
+
+01:40.018 --> 01:43.080
+So we are going to do all these things in different
+
+01:43.080 --> 01:45.570
+different steps and in a very step by step
+
+01:45.570 --> 01:47.520
+and then organize it manner so
+
+01:47.520 --> 01:50.370
+that you really don't miss any steps here.
+
+01:50.370 --> 01:54.300
+Okay? So all these steps are detailed, documented
+
+01:54.300 --> 01:55.956
+so that nothing will miss or
+
+01:55.956 --> 01:59.790
+nothing will misfire us to not to succeed
+
+01:59.790 --> 02:01.320
+about this section.
+
+02:01.320 --> 02:03.930
+Okay? So even for STS, assumerole
+
+02:03.930 --> 02:05.910
+also the detailed steps are provided
+
+02:05.910 --> 02:10.020
+and even for creating odd config map related information
+
+02:10.020 --> 02:11.217
+on our EKS cluster.
+
+02:11.217 --> 02:14.552
+Those also, we have very detailed information provided here
+
+02:14.552 --> 02:18.780
+and you can just go through this section and then execute it
+
+02:18.780 --> 02:22.763
+and then you will be successfully implementing the DevOps
+
+02:22.763 --> 02:24.908
+for our Kubernetes manifest.
+
+02:24.908 --> 02:27.227
+So I'll see you in the next lecture.
+
+02:27.227 --> 02:28.958
+Until then, bye bye.
+
+02:28.958 --> 02:30.123
+Thank you.

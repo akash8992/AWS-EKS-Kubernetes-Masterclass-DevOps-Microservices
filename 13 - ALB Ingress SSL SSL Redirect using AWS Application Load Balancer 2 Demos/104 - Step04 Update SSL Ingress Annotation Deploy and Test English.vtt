@@ -1,0 +1,697 @@
+WEBVTT
+
+00:00.360 --> 00:01.320
+-: Welcome back.
+
+00:01.320 --> 00:04.890
+As part of this step we are going to add annotations related
+
+00:04.890 --> 00:09.890
+to SSL in our zero four ALB ingress SSL dot yamal five.
+
+00:09.990 --> 00:12.490
+So let's go to our visual studio code
+
+00:13.380 --> 00:18.380
+and go into the section which is 0 8 0 4 ALB ingress SSL
+
+00:19.613 --> 00:23.520
+and 0 1 0 2 0 3 RCM as our previous section
+
+00:23.520 --> 00:28.417
+which is 0 8 0 3 ALB ingress context path based routing
+
+00:28.417 --> 00:31.737
+and in ALB ingress SSL also we will change
+
+00:31.737 --> 00:33.965
+the name of my ingress service
+
+00:33.965 --> 00:36.105
+which is ingress SSL demo.
+
+00:36.105 --> 00:38.257
+And we will also change the load balancer name
+
+00:38.257 --> 00:40.590
+which is SSL ingress
+
+00:40.590 --> 00:44.878
+and we will add additional three annotations.
+
+00:44.878 --> 00:47.862
+So the first annotation is we are going
+
+00:47.862 --> 00:49.182
+to add the listen ports.
+
+00:49.182 --> 00:54.182
+So we are going to add the listen ports 4 43 and then 80.
+
+00:54.381 --> 00:56.346
+So let's go back and see
+
+00:56.346 --> 01:00.960
+in cube manifest and in English context, part based routing
+
+01:00.960 --> 01:05.340
+do you see any of the listen ports related annotation?
+
+01:05.340 --> 01:08.490
+We didn't have any listen port related annotation.
+
+01:08.490 --> 01:10.410
+So which means by default,
+
+01:10.410 --> 01:13.380
+port 80 listen port will get created.
+
+01:13.380 --> 01:16.920
+So now whenever we are explicitly defining them, right?
+
+01:16.920 --> 01:20.580
+So we defined both history, TP ATN 443
+
+01:20.580 --> 01:23.310
+listeners here in listen ports
+
+01:23.310 --> 01:24.143
+Why?
+
+01:24.143 --> 01:27.090
+Because SSL listen on default 4 43.
+
+01:27.090 --> 01:30.870
+So now the next thing is certificate ARN.
+
+01:30.870 --> 01:33.060
+So update the certificate ARN here.
+
+01:33.060 --> 01:35.220
+So we need to tie the SSL certificate
+
+01:35.220 --> 01:37.860
+whatever we have created just now.
+
+01:37.860 --> 01:40.290
+So in your case the certificate is going to
+
+01:40.290 --> 01:44.520
+be the certificate you have created in your AWS account.
+
+01:44.520 --> 01:46.050
+So let's come back here
+
+01:46.050 --> 01:48.300
+and this is the certificate we have created
+
+01:48.300 --> 01:50.610
+star.stacksimplify.com
+
+01:50.610 --> 01:52.830
+and it's ARN is here.
+
+01:52.830 --> 01:56.940
+So let me copy that and provide that certificate ARN.
+
+01:56.940 --> 02:00.120
+And you can see this is SSL policy.
+
+02:00.120 --> 02:02.370
+We really don't need to specify this
+
+02:02.370 --> 02:04.320
+by default whatever is available
+
+02:04.320 --> 02:07.020
+in AWS as part of today's standards.
+
+02:07.020 --> 02:09.510
+So that will be taken automatically.
+
+02:09.510 --> 02:14.070
+But if you want to explicitly add any specific SSL policy
+
+02:14.070 --> 02:18.120
+so we can get that policy name and then add it here.
+
+02:18.120 --> 02:21.420
+And if you go to the annotation reference for this
+
+02:21.420 --> 02:25.020
+so you'll find something called SSL in the table of contents
+
+02:25.020 --> 02:29.520
+and there you'll find the SSL related additional
+
+02:29.520 --> 02:32.550
+annotations available here for your reference.
+
+02:32.550 --> 02:35.640
+So we already user the certificate ARN
+
+02:35.640 --> 02:40.020
+and we can also use the SSL policy if you want to use it.
+
+02:40.020 --> 02:43.830
+So these two are the core things related to SSL.
+
+02:43.830 --> 02:47.790
+But in addition to that we also use the listen ports
+
+02:47.790 --> 02:52.080
+under SSL just for our, what we call to ensure
+
+02:52.080 --> 02:54.450
+that all the things are at one place.
+
+02:54.450 --> 02:57.840
+So even though that is not a SSL related annotation
+
+02:57.840 --> 03:00.810
+but there you have have updated the SSL port.
+
+03:00.810 --> 03:02.430
+So that's the reason we have group
+
+03:02.430 --> 03:04.380
+of them and then put them together here
+
+03:04.380 --> 03:07.050
+in this respective ingress service file.
+
+03:07.050 --> 03:10.830
+So we can put it anywhere but for just to understand
+
+03:10.830 --> 03:14.220
+that as part of this ingress SSL demo only
+
+03:14.220 --> 03:17.910
+we added this annotation and we added this listen port.
+
+03:17.910 --> 03:19.920
+So that will be clear for us.
+
+03:19.920 --> 03:22.350
+So now let's go back here
+
+03:22.350 --> 03:25.920
+and we have reviewed the ingress annotation
+
+03:25.920 --> 03:28.560
+and we know that already is 0 1 0 2 0 3
+
+03:28.560 --> 03:31.650
+related Kubernetes manifestor from our previous demo,
+
+03:31.650 --> 03:34.260
+which is context part base routing.
+
+03:34.260 --> 03:35.910
+It's part of step zero five
+
+03:35.910 --> 03:38.880
+deploy all the manifest and them test them.
+
+03:38.880 --> 03:41.520
+So let's go back to our terminal here
+
+03:41.520 --> 03:44.070
+and we will enter into the section zero eight
+
+03:44.070 --> 03:47.541
+new ELB application load balances and
+
+03:47.541 --> 03:52.541
+inside that 0 8 0 4 which is ALB ingress SSL.
+
+03:52.800 --> 03:57.780
+And if we verify here LS hyphen LRT and cube manifests.
+
+03:57.780 --> 04:00.540
+So we should find the file 0 1 0 2 0 3
+
+04:00.540 --> 04:05.010
+and then zero four which is ALB ingress SSL.
+
+04:05.010 --> 04:09.810
+So I'll say cube CTL apply hyphen F cube benefits.
+
+04:09.810 --> 04:12.210
+So this should create the app one app two
+
+04:12.210 --> 04:16.740
+app three related deployments and note port services.
+
+04:16.740 --> 04:19.410
+In addition to that, it'll also create the
+
+04:19.410 --> 04:23.430
+ingress SSL demo related ingress service.
+
+04:23.430 --> 04:27.390
+So let's say cube CTL get ports should list
+
+04:27.390 --> 04:29.910
+the three ports created for us for app one
+
+04:29.910 --> 04:32.070
+app two and then app three.
+
+04:32.070 --> 04:35.880
+And we'll also see there note port services
+
+04:35.880 --> 04:37.950
+cube CTL get S three C
+
+04:37.950 --> 04:39.599
+we app one, app two
+
+04:39.599 --> 04:43.110
+and then app three related note port services also created.
+
+04:43.110 --> 04:47.014
+Finally, we'll also see the cube CTL get ingress.
+
+04:47.014 --> 04:51.570
+The ingress service related to SSL demo is created now.
+
+04:51.570 --> 04:52.950
+So let's go back here
+
+04:52.950 --> 04:57.600
+and verify the same thing in our AWS management console.
+
+04:57.600 --> 05:01.530
+So let's go here and go
+
+05:01.530 --> 05:06.530
+to EC two and go back to load balances.
+
+05:07.260 --> 05:12.260
+So let me close this and go to load balances.
+
+05:12.390 --> 05:15.960
+And in load balances we can see SSL ingress
+
+05:15.960 --> 05:20.100
+and some number and this DNS name we can see here same.
+
+05:20.100 --> 05:23.946
+You'll find the here whenever you run the command
+
+05:23.946 --> 05:26.520
+cube CTL get ingress and in the listeners
+
+05:26.520 --> 05:30.750
+you should see both 80 and 4 43 listeners created.
+
+05:30.750 --> 05:34.860
+So click on these rules for 80, right?
+
+05:34.860 --> 05:37.380
+And you'll find slash app from slash app two
+
+05:37.380 --> 05:41.070
+and we also use it here instead of root context.
+
+05:41.070 --> 05:43.530
+If you see here, another difference is we directly
+
+05:43.530 --> 05:46.912
+use the default back and forth app three.
+
+05:46.912 --> 05:50.292
+So in English context, path based routing.
+
+05:50.292 --> 05:52.298
+So we have given the option like
+
+05:52.298 --> 05:53.994
+either you can use a default back
+
+05:53.994 --> 05:56.994
+and or you can use this path, right?
+
+05:58.110 --> 06:00.690
+But now what we have done here is directly
+
+06:00.690 --> 06:02.760
+we didn't use the root context path
+
+06:02.760 --> 06:05.280
+we just used it as a default backend.
+
+06:05.280 --> 06:07.500
+So exploring or giving additional option
+
+06:07.500 --> 06:12.000
+for us to use either a root context or a default backend.
+
+06:12.000 --> 06:13.980
+So there you have used the root context.
+
+06:13.980 --> 06:17.010
+So here you have user default back in.
+
+06:17.010 --> 06:19.530
+So now let's you have seen the rules
+
+06:19.530 --> 06:22.890
+for your port 80 related listener.
+
+06:22.890 --> 06:25.890
+Also see the rules for port 4 43, right?
+
+06:25.890 --> 06:28.050
+So the same rules will be applicable for you
+
+06:28.050 --> 06:32.760
+for port 4 43 also slash app one slash app two
+
+06:32.760 --> 06:35.670
+and default backend is going to be app three
+
+06:35.670 --> 06:36.930
+and (indistinct).
+
+06:36.930 --> 06:40.230
+And if you want to review the target groups
+
+06:40.230 --> 06:42.810
+those are going to be same as how we have reviewed
+
+06:42.810 --> 06:46.980
+in our INGRES context path based routing demo.
+
+06:46.980 --> 06:49.800
+So you can see here, so all the health check pods
+
+06:49.800 --> 06:52.877
+and everything should be app one for app front
+
+06:52.877 --> 06:53.710
+app two for app two and
+
+06:53.710 --> 06:57.120
+for root context it is going to be slash index dot html.
+
+06:57.120 --> 06:59.700
+Another important thing which we need to verify here
+
+06:59.700 --> 07:04.700
+is the certificate associated with the 4 43 listener.
+
+07:05.310 --> 07:08.490
+So if you click on this view certificates here, right?
+
+07:08.490 --> 07:11.460
+So it has associated the certificate name
+
+07:11.460 --> 07:15.630
+star.stacksimplified.com and if you want to verify that
+
+07:15.630 --> 07:17.970
+you can click on this ACM here
+
+07:17.970 --> 07:20.910
+and it'll take us to the certificates list
+
+07:20.910 --> 07:25.910
+and you can come back here and only the star.tax
+
+07:26.070 --> 07:29.250
+simplified outcomes certificate is this one.
+
+07:29.250 --> 07:32.160
+Whatever we have just now created.
+
+07:32.160 --> 07:37.020
+So that said that for the 4 43 related listen port
+
+07:37.020 --> 07:40.680
+we have successfully associated the SSL certificate
+
+07:40.680 --> 07:44.970
+what we have created in our certificate manager service.
+
+07:44.970 --> 07:48.060
+So how we have associated it, we have associated
+
+07:48.060 --> 07:52.890
+using the let's go back here and see certificate
+
+07:52.890 --> 07:54.750
+air and related annotation
+
+07:54.750 --> 07:57.870
+and providing the AR and enough over certificate.
+
+07:57.870 --> 08:00.909
+So in your case whenever you are implementing
+
+08:00.909 --> 08:01.742
+in this ingress service
+
+08:01.742 --> 08:05.280
+your change is going to be adding your certificate here
+
+08:05.280 --> 08:07.980
+here rest all is going to be as is.
+
+08:07.980 --> 08:09.840
+So now let's come back here
+
+08:09.840 --> 08:12.510
+and we have successfully verified these things
+
+08:12.510 --> 08:15.180
+and now another thing we need to do is
+
+08:15.180 --> 08:17.763
+add the DNS in route 53.
+
+08:18.927 --> 08:20.790
+So we are in the route 53 and we are
+
+08:20.790 --> 08:24.810
+in the stack simplifi.com and create a record here
+
+08:24.810 --> 08:29.733
+and in the record we'll go back here, right?
+
+08:31.641 --> 08:34.920
+And we'll provide the name of our record set
+
+08:34.920 --> 08:37.643
+as SSL demo 1 0 1 stack simplifi.com
+
+08:37.643 --> 08:42.643
+and we'll select the LES and LES target A over ALB DNS name.
+
+08:43.320 --> 08:44.970
+So let's come back here
+
+08:44.970 --> 08:48.780
+and I will provide SSL demo sum number
+
+08:48.780 --> 08:51.130
+and then record type
+
+08:54.259 --> 08:56.010
+is a alias right?
+
+08:56.010 --> 08:59.760
+And alias two load balancer, we should find it here.
+
+08:59.760 --> 09:03.240
+Application R, classic load balancer and
+
+09:03.240 --> 09:07.680
+in which region we have this in US East one region
+
+09:07.680 --> 09:10.440
+and find the load balancer name dual stack dot
+
+09:10.440 --> 09:14.640
+SSL English sum eight five double 9 2 1 6 0 8.
+
+09:14.640 --> 09:17.160
+So you can find the same thing here.
+
+09:17.160 --> 09:19.230
+If you go to load balances,
+
+09:19.230 --> 09:24.230
+so go to EC two and go to load balancer
+
+09:25.170 --> 09:28.620
+and you should find the DNS name here.
+
+09:28.620 --> 09:33.620
+And in that you can see 8 5 9 2 1 6 0 8, the same thing.
+
+09:33.840 --> 09:38.370
+Autopopulated here, dual stack dot SSL list 8 5 9 2 1 6 0 8.
+
+09:38.370 --> 09:41.310
+So I'll click on create the record.
+
+09:41.310 --> 09:44.206
+So now we have created a record named
+
+09:44.206 --> 09:47.039
+SSL demo 1 0 1 stack simplify.com.
+
+09:48.123 --> 09:51.986
+So let's come back here and first do the MS lookup test.
+
+09:51.986 --> 09:54.353
+And after that access the URL.
+
+09:54.353 --> 09:59.186
+Let's say NS lookup SSL demo 1 0 1 dot stack simplify.com.
+
+10:02.211 --> 10:04.200
+So if our DNS is successful
+
+10:04.200 --> 10:07.920
+so it should resolve to the IP addresses here.
+
+10:07.920 --> 10:12.840
+So you can see the IP addresses some 18.233.56.149
+
+10:12.840 --> 10:14.160
+and something like this.
+
+10:14.160 --> 10:17.820
+Also if you want to do the endless lookup of your DNS name
+
+10:17.820 --> 10:20.790
+of your load balancer, autogenerated one.
+
+10:20.790 --> 10:23.940
+So you can also try that, right?
+
+10:23.940 --> 10:26.340
+And both the values will be same.
+
+10:26.340 --> 10:29.730
+Only thing is here you are using the custom domain
+
+10:29.730 --> 10:32.760
+name instead of this Autogenerated name.
+
+10:32.760 --> 10:35.310
+So are your personal domain name.
+
+10:35.310 --> 10:39.240
+You can say, so now let me clear this and go back
+
+10:39.240 --> 10:42.930
+to the browser and access app one, app two
+
+10:42.930 --> 10:45.690
+app three using HTTP URL.
+
+10:45.690 --> 10:50.433
+So let me close this, close this and close this.
+
+10:50.433 --> 10:55.433
+And here we are accessing SSL demo one with http URL.
+
+10:55.673 --> 10:58.890
+You can see it is not secure, right?
+
+10:58.890 --> 11:02.100
+And now the next thing is we'll also
+
+11:02.100 --> 11:04.770
+access the second one which is app two.
+
+11:04.770 --> 11:07.830
+And this also with not secure with http URL
+
+11:07.830 --> 11:09.390
+you have access it.
+
+11:09.390 --> 11:11.460
+And one more you are going to access,
+
+11:11.460 --> 11:15.360
+which is the app three which is the root context, right?
+
+11:15.360 --> 11:18.630
+So this also successfully, right?
+
+11:18.630 --> 11:20.700
+So now we'll close these things
+
+11:20.700 --> 11:24.213
+and we'll access the SSL URLs.
+
+11:26.430 --> 11:27.883
+So you can see here SSL
+
+11:29.168 --> 11:31.650
+with the SSL you can see the lock symbol here.
+
+11:31.650 --> 11:33.630
+And if you want you can go to connection
+
+11:33.630 --> 11:36.300
+is secure here and certificate is valid.
+
+11:36.300 --> 11:38.610
+And you can see the certificate it is using is
+
+11:38.610 --> 11:41.280
+star.stacksimplifi.com.
+
+11:41.280 --> 11:43.590
+It is called the wildcard certificate.
+
+11:43.590 --> 11:45.720
+Any sub mine is accepted here.
+
+11:45.720 --> 11:50.720
+SSL demo abc SSL demo 1 0 2 2 0 1, anything right?
+
+11:50.910 --> 11:51.960
+So this is good.
+
+11:51.960 --> 11:53.940
+So app one is accessible now.
+
+11:53.940 --> 11:57.870
+So we'll go back here and access the app two now
+
+11:57.870 --> 12:00.990
+and app two also should be successful.
+
+12:00.990 --> 12:04.830
+And finally we'll also test the app three here
+
+12:04.830 --> 12:05.663
+right?
+
+12:05.663 --> 12:10.290
+And app three also accessible via SSL URL.
+
+12:10.290 --> 12:14.490
+This completes the ingress SSL use case demo.
+
+12:14.490 --> 12:16.710
+In our next lectures we are going to
+
+12:16.710 --> 12:19.140
+focus on SSL redirect demo.
+
+12:19.140 --> 12:20.790
+So I'll see you in the next lecture.
+
+12:20.790 --> 12:22.020
+Until then, bye bye.
+
+12:22.020 --> 12:22.853
+Thank you.

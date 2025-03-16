@@ -1,0 +1,607 @@
+WEBVTT
+
+00:00.150 --> 00:01.020
+-: Welcome back.
+
+00:01.020 --> 00:03.900
+In this lecture we are going to understand
+
+00:03.900 --> 00:06.270
+about Kubernetes init containers
+
+00:06.270 --> 00:08.400
+and then implement them.
+
+00:08.400 --> 00:12.930
+So let's get into 0 5 0 2 init containers, right?
+
+00:12.930 --> 00:15.480
+So before going and then implementing them,
+
+00:15.480 --> 00:17.850
+let's understand what are these
+
+00:17.850 --> 00:19.800
+init containers on a very high level.
+
+00:19.800 --> 00:20.633
+Okay.
+
+00:20.633 --> 00:22.260
+So init containers usually run
+
+00:22.260 --> 00:25.380
+before the app containers, inside the pod.
+
+00:25.380 --> 00:27.930
+So init containers can contain utilities
+
+00:27.930 --> 00:31.110
+or setup scripts not present in the core app image,
+
+00:31.110 --> 00:34.440
+and then they can run before the app container runs.
+
+00:34.440 --> 00:38.340
+So we can have and then run multiple init containers
+
+00:38.340 --> 00:40.500
+before the app container starts.
+
+00:40.500 --> 00:41.333
+Okay.
+
+00:41.333 --> 00:44.760
+So init containers are exactly like regular containers,
+
+00:44.760 --> 00:49.170
+except init containers always run to the completion.
+
+00:49.170 --> 00:50.549
+In addition to that,
+
+00:50.549 --> 00:53.400
+each init container must complete successfully
+
+00:53.400 --> 00:56.258
+before the next one starts.
+
+00:56.258 --> 00:58.151
+So if you have multiple init containers
+
+00:58.151 --> 00:59.308
+one after the other,
+
+00:59.308 --> 01:02.808
+each need to execute the task assigned to that container,
+
+01:02.808 --> 01:03.988
+and then complete it,
+
+01:03.988 --> 01:06.240
+and the next one starts and then complete it.
+
+01:06.240 --> 01:08.790
+Finally, all the init containers have succeeded,
+
+01:08.790 --> 01:11.700
+then only the app container will start.
+
+01:11.700 --> 01:14.310
+So if a pod's init container fails,
+
+01:14.310 --> 01:16.860
+Kubernetes repeatedly restarts the pod
+
+01:16.860 --> 01:20.070
+until the init container succeeds.
+
+01:20.070 --> 01:24.180
+However, if the pod has a restart policy of never,
+
+01:24.180 --> 01:26.820
+Kubernetes does not restart the pod.
+
+01:26.820 --> 01:28.680
+So you can even consider this as one
+
+01:28.680 --> 01:31.710
+of the example of your multi-container pods.
+
+01:31.710 --> 01:33.900
+Okay, so earlier we have seen
+
+01:33.900 --> 01:35.880
+in our initial Kubernetes fundamentals,
+
+01:35.880 --> 01:37.560
+we discussed about running
+
+01:37.560 --> 01:41.130
+only one container per Kubernetes pod
+
+01:41.130 --> 01:43.350
+but if you want to run multi-container pods
+
+01:43.350 --> 01:45.000
+so these are some of the examples,
+
+01:45.000 --> 01:48.600
+like init containers, or N Y proxy, are few of the things.
+
+01:48.600 --> 01:50.025
+Okay?
+
+01:50.025 --> 01:50.858
+So, now let's go ahead
+
+01:50.858 --> 01:52.980
+and then implement the init containers.
+
+01:52.980 --> 01:54.720
+So, let's see what is this actually.
+
+01:54.720 --> 01:59.010
+Okay, so under the pod template spec,
+
+01:59.010 --> 02:00.960
+so which is nothing but empty init containers,
+
+02:00.960 --> 02:03.720
+will be one of the equivalent level two containers,
+
+02:03.720 --> 02:05.040
+whatever we see in our pods.
+
+02:05.040 --> 02:06.900
+So let's go here
+
+02:06.900 --> 02:10.770
+and go to user management microservices deployment.
+
+02:10.770 --> 02:12.780
+So you see here, containers, right?
+
+02:12.780 --> 02:15.606
+In the same level you can have the init containers.
+
+02:15.606 --> 02:16.860
+Okay.
+
+02:16.860 --> 02:19.230
+So init containers.
+
+02:19.230 --> 02:21.540
+So that's the thing I'm discussing here, okay?
+
+02:21.540 --> 02:24.687
+And so you can have the name of your init container,
+
+02:24.687 --> 02:27.630
+and we are using a simple BusyBox image here,
+
+02:27.630 --> 02:29.640
+and then what we are going to do is,
+
+02:29.640 --> 02:32.460
+so we are going to check from our use init container
+
+02:32.460 --> 02:34.650
+in user management pod that
+
+02:34.650 --> 02:37.500
+whether my MySQL service is up or not.
+
+02:37.500 --> 02:39.930
+So everyone, every time,
+
+02:39.930 --> 02:44.010
+in a whileloop we are going to say NetCat hyphen Z MySQL,
+
+02:44.010 --> 02:46.320
+which is nothing but the MySQL cluster AP service
+
+02:46.320 --> 02:48.150
+and then 3 3 0 6 port.
+
+02:48.150 --> 02:51.180
+So I'll keep checking regularly until and unless it is up.
+
+02:51.180 --> 02:54.570
+So once it is up I can say MySQL DB server has started
+
+02:54.570 --> 02:56.400
+and then this task will be completed.
+
+02:56.400 --> 02:59.280
+The init container task, whatever we have provided,
+
+02:59.280 --> 03:01.440
+it will be completed and then it will move
+
+03:01.440 --> 03:04.620
+on to the containers present in the container section,
+
+03:04.620 --> 03:07.140
+which is nothing but our user management REST step.
+
+03:07.140 --> 03:07.973
+Okay.
+
+03:07.973 --> 03:10.200
+So let's copy this stuff here
+
+03:10.200 --> 03:11.940
+from wherever we have, everything.
+
+03:11.940 --> 03:13.800
+So let me copy these things.
+
+03:13.800 --> 03:15.030
+All right.
+
+03:15.030 --> 03:18.570
+So, and paste it.
+
+03:18.570 --> 03:19.403
+Okay.
+
+03:19.403 --> 03:21.720
+So under init containers.
+
+03:21.720 --> 03:24.150
+So we have the name init DB,
+
+03:24.150 --> 03:27.060
+and the image is BusyBox image we are using,
+
+03:27.060 --> 03:28.650
+and the command we are going to use
+
+03:28.650 --> 03:31.290
+is a shell script with the NetCat, hyphen Z,
+
+03:31.290 --> 03:36.290
+under shell NetCat hyphen Z and then MySQL 3 3 0 6.
+
+03:36.870 --> 03:38.490
+So let me save this
+
+03:38.490 --> 03:41.520
+and we have used the all other templates
+
+03:41.520 --> 03:44.550
+as-is from our previous 0 5 0 1 section
+
+03:44.550 --> 03:47.760
+and we updated only user management microservice
+
+03:47.760 --> 03:50.760
+deployment section with the init container.
+
+03:50.760 --> 03:53.280
+So now let's go ahead and then test it now.
+
+03:53.280 --> 03:55.680
+So you should be in 0 5 0 2.
+
+03:55.680 --> 03:59.130
+So let me go for 0 5 section, important concepts
+
+03:59.130 --> 04:03.360
+and I should be in 0 5 0 2 Kubernetes init containers.
+
+04:03.360 --> 04:05.280
+Okay, so now let's see.
+
+04:05.280 --> 04:07.860
+The next step is to create the Kubernetes manifest,
+
+04:07.860 --> 04:10.140
+means like create all the Kubernetes objects.
+
+04:10.140 --> 04:10.973
+Okay.
+
+04:10.973 --> 04:14.970
+So, kubectl apply hyphen F kube manifest.
+
+04:14.970 --> 04:15.803
+Okay.
+
+04:15.803 --> 04:17.823
+So, now it needs to create the pods.
+
+04:21.690 --> 04:23.430
+So, let's see what happens.
+
+04:23.430 --> 04:25.380
+So, now we can watch the pods,
+
+04:25.380 --> 04:27.180
+kubectl get pods,
+
+04:27.180 --> 04:29.670
+and you can see that init container is running now.
+
+04:29.670 --> 04:31.650
+Okay, so we can even put in the watch mode,
+
+04:31.650 --> 04:34.530
+hyphen W means kubectl get pods,
+
+04:34.530 --> 04:37.110
+hyphen watchmode means whatever is happening.
+
+04:37.110 --> 04:38.940
+So, now MySQL got running.
+
+04:38.940 --> 04:41.490
+So, that now in init container should pick it,
+
+04:41.490 --> 04:43.200
+and then it should be successful,
+
+04:43.200 --> 04:45.810
+and then start the user management container next to that.
+
+04:45.810 --> 04:46.643
+Okay.
+
+04:46.643 --> 04:48.000
+So now see init container is successful
+
+04:48.000 --> 04:49.557
+and then it is initializing
+
+04:49.557 --> 04:52.830
+the user management container inside of that.
+
+04:52.830 --> 04:55.290
+So, pod is initializing inside that,
+
+04:55.290 --> 04:58.620
+and we'll wait for it to be in running status.
+
+04:58.620 --> 04:59.520
+So, it's running now.
+
+04:59.520 --> 05:00.353
+Okay.
+
+05:00.353 --> 05:01.800
+So, now let's see one more time,
+
+05:01.800 --> 05:03.780
+kubectl get pods,
+
+05:03.780 --> 05:07.350
+and our user management microservice should be running.
+
+05:07.350 --> 05:09.870
+So, now one thing we need to do here is,
+
+05:09.870 --> 05:14.250
+so, in the kubectl get pods output,
+
+05:14.250 --> 05:17.010
+you can see that there is no restart happen
+
+05:17.010 --> 05:18.870
+for our microservice, okay?
+
+05:18.870 --> 05:22.140
+Because it waited for the MySQL container to come up,
+
+05:22.140 --> 05:25.590
+and then only it started the user management
+
+05:25.590 --> 05:27.120
+REST app container inside
+
+05:27.120 --> 05:29.220
+this user management microservice pod.
+
+05:29.220 --> 05:30.053
+Okay.
+
+05:30.053 --> 05:31.320
+So, now one thing important here,
+
+05:31.320 --> 05:34.260
+we need to see is describe the pod.
+
+05:34.260 --> 05:35.093
+Okay.
+
+05:35.093 --> 05:39.270
+So I'll say kubectl describe pod
+
+05:39.270 --> 05:42.360
+and this complete pod information.
+
+05:42.360 --> 05:43.193
+Okay.
+
+05:43.193 --> 05:44.700
+So, copy and then paste.
+
+05:44.700 --> 05:46.080
+So, what we are going to see is,
+
+05:46.080 --> 05:49.230
+like we can see two types of containers present here.
+
+05:49.230 --> 05:50.460
+So let's come up, okay.
+
+05:50.460 --> 05:53.430
+So successfully assign the pod scheduling,
+
+05:53.430 --> 05:55.200
+and then to the default namespace
+
+05:55.200 --> 05:57.060
+and then it has the container image,
+
+05:57.060 --> 05:59.760
+and then it created the init DB container,
+
+05:59.760 --> 06:02.250
+and then once it started and then it completed,
+
+06:02.250 --> 06:05.100
+then it started running the next container
+
+06:05.100 --> 06:07.086
+which is user management microservice.
+
+06:07.086 --> 06:07.919
+Okay.
+
+06:07.919 --> 06:08.752
+So created that container
+
+06:08.752 --> 06:10.320
+and then started that container.
+
+06:10.320 --> 06:12.240
+So, now the one thing we need to see here
+
+06:12.240 --> 06:14.250
+is what all containers, right?
+
+06:14.250 --> 06:15.810
+So if these are the events,
+
+06:15.810 --> 06:17.280
+whatever we have seen, what happened.
+
+06:17.280 --> 06:18.990
+In addition to that, we can
+
+06:18.990 --> 06:21.600
+also see init container here, right?
+
+06:21.600 --> 06:24.090
+So, which is the init DB container.
+
+06:24.090 --> 06:26.730
+So, it executed the command whatever we
+
+06:26.730 --> 06:27.990
+have provided inside that
+
+06:27.990 --> 06:31.110
+and verified that MySQL DB server has started or not.
+
+06:31.110 --> 06:33.420
+So reason is completed, you can see, right?
+
+06:33.420 --> 06:34.253
+It completed.
+
+06:34.253 --> 06:36.150
+So as soon as it completes, then it immediately
+
+06:36.150 --> 06:37.380
+terminates that container.
+
+06:37.380 --> 06:39.420
+Exit code is going to be zero
+
+06:39.420 --> 06:40.920
+and then it'll move on to create
+
+06:40.920 --> 06:43.500
+the user management REST app container next to that.
+
+06:43.500 --> 06:44.333
+Okay.
+
+06:44.333 --> 06:45.210
+So it created this container
+
+06:45.210 --> 06:48.120
+and then started this respective container.
+
+06:48.120 --> 06:51.881
+So, this completes the init container concept,
+
+06:51.881 --> 06:55.260
+applied to our user management microservice.
+
+06:55.260 --> 06:58.680
+If you want even, we can access our health status page
+
+06:58.680 --> 07:00.420
+and see that it is up and running.
+
+07:00.420 --> 07:01.440
+It's up and running now.
+
+07:01.440 --> 07:02.273
+Okay.
+
+07:02.273 --> 07:04.140
+So now let's go back
+
+07:04.140 --> 07:06.960
+and we have created and then tested.
+
+07:06.960 --> 07:09.150
+Let's go ahead and then delete that stuff.
+
+07:09.150 --> 07:09.983
+Okay.
+
+07:09.983 --> 07:13.593
+So copy and then I'll say clear
+
+07:13.593 --> 07:15.810
+and I can say kubectl delete hyphen F
+
+07:15.810 --> 07:17.490
+and then kube manifest.
+
+07:17.490 --> 07:19.230
+So everything, whatever we have created,
+
+07:19.230 --> 07:21.330
+we are going to delete, okay?
+
+07:21.330 --> 07:23.910
+So in our next lecture we are going to see liveness
+
+07:23.910 --> 07:25.650
+and then readiness probes.
+
+07:25.650 --> 07:26.483
+Okay.
+
+07:26.483 --> 07:27.720
+So if you want more information
+
+07:27.720 --> 07:29.580
+about pod init containers,
+
+07:29.580 --> 07:31.890
+you can click on this and then read about those things.
+
+07:31.890 --> 07:34.710
+This is the direct Kubernetes documentation link,
+
+07:34.710 --> 07:37.140
+which will provide you more information
+
+07:37.140 --> 07:38.730
+about init containers.
+
+07:38.730 --> 07:40.440
+So, I'll see you in the next lecture.
+
+07:40.440 --> 07:41.910
+Until then, bye bye.
+
+07:41.910 --> 07:42.743
+Thank you.

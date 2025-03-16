@@ -1,0 +1,619 @@
+WEBVTT
+
+00:00.120 --> 00:01.170
+-: Welcome back.
+
+00:01.170 --> 00:03.600
+In this step we are going to create IAM
+
+00:03.600 --> 00:07.470
+permissions required for our AWS X-ray daemon,
+
+00:07.470 --> 00:11.040
+to run on EKS cluster
+
+00:11.040 --> 00:13.200
+and then send the x-ray traces
+
+00:13.200 --> 00:16.840
+from AWS EKS cluster X-ray daemon to the
+
+00:17.723 --> 00:19.740
+AWS X-ray surveys.
+
+00:19.740 --> 00:23.220
+So for that purpose you need to create a service account
+
+00:23.220 --> 00:24.480
+in Kubernetes.
+
+00:24.480 --> 00:28.410
+In addition to that, IAM role and then IAM policy
+
+00:28.410 --> 00:31.890
+which will have the AWS X-ray daemon right access.
+
+00:31.890 --> 00:32.940
+So all these things,
+
+00:32.940 --> 00:37.530
+Kubernetes service account and then AWS IAM role.
+
+00:37.530 --> 00:39.720
+And then, IAM policy already there
+
+00:39.720 --> 00:41.520
+which we are going to leverage it.
+
+00:41.520 --> 00:42.353
+So roll
+
+00:42.353 --> 00:45.810
+and service account we are going to create with
+
+00:45.810 --> 00:50.810
+a single command using EKS CTL create IAM service account.
+
+00:50.850 --> 00:53.160
+So let's go ahead and then create that now.
+
+00:53.160 --> 00:55.190
+So the name of the service account in Kubernetes,
+
+00:55.190 --> 00:57.300
+it is going to be X-ray daemon
+
+00:57.300 --> 01:00.540
+and it is going to get created in the default name space and
+
+01:00.540 --> 01:03.090
+inside the cluster EKS demo one
+
+01:03.090 --> 01:06.300
+and the IAM AWS IAM policy
+
+01:06.300 --> 01:08.670
+it is going to attach for the role it is going to
+
+01:08.670 --> 01:11.610
+create is AWS X-ray Daemon right access.
+
+01:11.610 --> 01:15.993
+Okay, so let's go ahead and then create the same thing now.
+
+01:17.070 --> 01:18.720
+So as soon as we create this
+
+01:18.720 --> 01:21.600
+it is also going to create a cloud formation template
+
+01:21.600 --> 01:25.950
+for us with the IAM role associated with it.
+
+01:25.950 --> 01:28.530
+So let's go ahead and then see that once it creates
+
+01:28.530 --> 01:32.040
+it should be creating the cloud formation account.
+
+01:32.040 --> 01:34.803
+So we'll also verify the same thing now.
+
+01:36.990 --> 01:40.620
+So it's deploying disrespect you, stack, which is nothing
+
+01:40.620 --> 01:44.010
+but deploying stackman, deploying cloud formation stack.
+
+01:44.010 --> 01:46.270
+So let me go back to
+
+01:48.139 --> 01:51.813
+AWS management console and go to cloud formation.
+
+01:52.980 --> 01:56.310
+And if you see here we already have a EKS cluster
+
+01:56.310 --> 01:59.940
+related cloud formation template and ALB ingress controller
+
+01:59.940 --> 02:04.940
+related IAM role and then external DNS related IAM role.
+
+02:06.840 --> 02:10.380
+And also now this is related to this cluster is related
+
+02:10.380 --> 02:13.590
+to our node group with two nodes, whatever we are running
+
+02:13.590 --> 02:14.940
+in private subnets.
+
+02:14.940 --> 02:17.790
+And now this is the one default X-ray daemon which is
+
+02:17.790 --> 02:19.380
+creating now.
+
+02:19.380 --> 02:23.700
+So like this it creates and then once it creates we can go
+
+02:23.700 --> 02:26.280
+and then verify our stuff.
+
+02:26.280 --> 02:30.180
+So it got created and if you go to resources section you
+
+02:30.180 --> 02:33.000
+can find the IAM account it has created means
+
+02:33.000 --> 02:34.860
+like IAM role it has created.
+
+02:34.860 --> 02:38.940
+So I can click on this role and then it should have
+
+02:38.940 --> 02:42.450
+the AWS X-ray daemon and right access policy.
+
+02:42.450 --> 02:45.030
+Okay, AWS X-ray daemon and right access policy.
+
+02:45.030 --> 02:45.880
+So this is the
+
+02:47.880 --> 02:51.090
+role it has created as part of this section.
+
+02:51.090 --> 02:52.680
+So in our next step
+
+02:52.680 --> 02:54.810
+we are going to verify what all it created.
+
+02:54.810 --> 02:59.730
+Okay, so let's go back to our terminal and I'll say clear
+
+02:59.730 --> 03:03.540
+and kubectl get SCA will give the service accounts
+
+03:03.540 --> 03:06.270
+in my Kubernetes cluster.
+
+03:06.270 --> 03:08.700
+Okay, so I should have x-ray daemon now.
+
+03:08.700 --> 03:13.170
+So it create, it created exactly 70 seconds before.
+
+03:13.170 --> 03:17.070
+And then if you want you can even review right
+
+03:17.070 --> 03:20.910
+the X-ray daemon kubectl describe
+
+03:20.910 --> 03:22.920
+service account X-ray daemon
+
+03:22.920 --> 03:25.380
+and it should have the role annotated here
+
+03:25.380 --> 03:28.110
+whatever is the role AR and present here.
+
+03:28.110 --> 03:31.290
+So this role, this role, whatever is there, right?
+
+03:31.290 --> 03:33.780
+We are two and ends with MMDV.
+
+03:33.780 --> 03:35.820
+So the same thing MMDV's
+
+03:35.820 --> 03:38.790
+the same thing should be annotated on our service account.
+
+03:38.790 --> 03:42.938
+So this is gluing or connecting between our service account
+
+03:42.938 --> 03:47.850
+in EKS cluster and then IAM role insides, IAM AWS, right?
+
+03:47.850 --> 03:50.140
+So now the next thing is
+
+03:51.540 --> 03:53.640
+verify the service accounts present
+
+03:53.640 --> 03:55.290
+in our EKS daemon cluster.
+
+03:55.290 --> 03:59.040
+So using EKS CTL get IAM service accounts
+
+03:59.040 --> 04:01.290
+in EKS daemon one cluster.
+
+04:01.290 --> 04:03.900
+So this command will give all these service accounts
+
+04:03.900 --> 04:08.400
+which were created using EKS CTL inside this cluster.
+
+04:08.400 --> 04:11.100
+So we have external DNS X-ray daemon
+
+04:11.100 --> 04:13.110
+and then ALB ingress controller.
+
+04:13.110 --> 04:16.080
+So three service accounts and then it's equivalent
+
+04:16.080 --> 04:20.940
+IAM roles we have created using EKS CTL, right?
+
+04:20.940 --> 04:25.940
+So now we are going to deploy the X-ray EKS daemon .AML.
+
+04:26.730 --> 04:28.980
+So before deploying it we'll go ahead
+
+04:28.980 --> 04:31.560
+and then verify what is that AML file.
+
+04:31.560 --> 04:34.410
+Okay, so if you go inside
+
+04:34.410 --> 04:37.200
+13 distributed tracing using AWS X-ray
+
+04:37.200 --> 04:40.350
+and then in cube manifests you'll have two folders.
+
+04:40.350 --> 04:43.320
+Okay? So one is 01 X-ray daemons set
+
+04:43.320 --> 04:45.930
+and another one is 02 applications.
+
+04:45.930 --> 04:48.840
+Okay? So in 01 X-ray daemon set you will have the
+
+04:48.840 --> 04:51.600
+X-ray daemon set .AML.
+
+04:51.600 --> 04:53.100
+So inside that one will be
+
+04:53.100 --> 04:55.290
+with the service account information.
+
+04:55.290 --> 04:57.960
+So inside that service account information, right
+
+04:57.960 --> 05:00.120
+which is X-ray daemon service account.
+
+05:00.120 --> 05:04.170
+So let's update the role, whatever we have created just now.
+
+05:04.170 --> 05:08.526
+Okay, so this is the role ARN, you can copy it from here
+
+05:08.526 --> 05:10.200
+or for this command output
+
+05:10.200 --> 05:13.290
+also it provides the same X-ray daemon AR and only.
+
+05:13.290 --> 05:15.600
+Okay, so I can take this one, right?
+
+05:15.600 --> 05:16.950
+Even this one I can copy
+
+05:16.950 --> 05:20.580
+and then paste it for my service account information.
+
+05:20.580 --> 05:23.220
+Okay, so I'll make it like this.
+
+05:23.220 --> 05:27.000
+So I have copied MMD with the entire update
+
+05:27.000 --> 05:29.190
+the IAM role created for x-ray access.
+
+05:29.190 --> 05:32.280
+So this IAM roll layer and I have updated here
+
+05:32.280 --> 05:36.570
+in my file and the next thing is daemon set.
+
+05:36.570 --> 05:40.560
+So for daemon set also it will be similar like
+
+05:40.560 --> 05:44.370
+whatever we have seen related to deployment only.
+
+05:44.370 --> 05:47.460
+So only thing is kind is deployment and update strategy.
+
+05:47.460 --> 05:49.710
+It is going to use me to select to update the notes.
+
+05:49.710 --> 05:52.110
+It is going to do in a rolling update fashion
+
+05:52.110 --> 05:54.810
+and it also has the standard selector template
+
+05:54.810 --> 05:57.680
+which is nothing but match labels with app X-ray daemon.
+
+05:57.680 --> 06:00.420
+So CMS deployment template only you can see only
+
+06:00.420 --> 06:02.610
+the kind is daemon set. Okay?
+
+06:02.610 --> 06:06.009
+And it also has the port template with metadata labels.
+
+06:06.009 --> 06:09.660
+App X-ray daemon CM is presenting, selector labels.
+
+06:09.660 --> 06:11.280
+Okay? So that's about it.
+
+06:11.280 --> 06:14.340
+And in pod spec the service account it is going
+
+06:14.340 --> 06:16.260
+to use is X-ray daemon
+
+06:16.260 --> 06:19.440
+and it has some volume information, x-ray config
+
+06:19.440 --> 06:22.290
+and then container information it is going to use
+
+06:22.290 --> 06:25.590
+and it's resources and then it supports X-ray
+
+06:25.590 --> 06:29.250
+in just ports both UDP and TCP with 2000
+
+06:29.250 --> 06:34.250
+and it is going to do a volume mount slash AWS slash X-ray.
+
+06:34.500 --> 06:36.270
+Okay? So that's about it.
+
+06:36.270 --> 06:39.660
+And another important thing here is conflict map.
+
+06:39.660 --> 06:41.550
+Whatever it is going to do is nothing
+
+06:41.550 --> 06:45.506
+but TCP and UDP addresses listening on
+
+06:45.506 --> 06:50.506
+0 0 0 0 off 2000 with all ips on 2000 on those notes.
+
+06:50.970 --> 06:52.500
+And in addition to that
+
+06:52.500 --> 06:54.780
+the service means like we already discussed
+
+06:54.780 --> 06:57.600
+about the whatever the part it is going to
+
+06:57.600 --> 07:00.060
+create it need to be exposed X-ray port
+
+07:00.060 --> 07:03.810
+it need to be exposed using a cluster IP service.
+
+07:03.810 --> 07:06.570
+So X-ray related cluster IP service with ports
+
+07:06.570 --> 07:09.000
+both X-ray ingest and then X-ray TCP
+
+07:09.000 --> 07:13.770
+with 2000 port PCP and UDP getting exposed here.
+
+07:13.770 --> 07:15.660
+So this is the X-ray daemon.
+
+07:15.660 --> 07:17.460
+So now let's go back here
+
+07:17.460 --> 07:19.170
+and then we updated the information.
+
+07:19.170 --> 07:20.340
+Whatever is required here.
+
+07:20.340 --> 07:23.940
+The role ARN with the MMDV is the last thing, right?
+
+07:23.940 --> 07:25.380
+So it should be MMDV.
+
+07:25.380 --> 07:27.240
+So let's cross verify MMDV.
+
+07:27.240 --> 07:28.073
+That's good.
+
+07:28.073 --> 07:33.050
+So now we'll go back here and then so update also completed.
+
+07:34.410 --> 07:36.930
+Next is deploy this demonstrate.
+
+07:36.930 --> 07:40.500
+So we are going to say kubectl apply-F cube manifest
+
+07:40.500 --> 07:43.980
+and then inside 01 X-ray daemon set, this file is there.
+
+07:43.980 --> 07:46.110
+So we are going to use the complete path to
+
+07:46.110 --> 07:47.670
+do the deployment.
+
+07:47.670 --> 07:52.050
+Okay, so I'll say clear and I will paste it, right?
+
+07:52.050 --> 07:54.750
+So once it is deployed
+
+07:54.750 --> 07:57.840
+so we need to go inside our 13th section
+
+07:57.840 --> 08:01.080
+which is microservices distributed tracing, right?
+
+08:01.080 --> 08:03.270
+And inside that we are going to deploy it.
+
+08:03.270 --> 08:05.820
+So I am inside the folder 13 microservices
+
+08:05.820 --> 08:09.270
+distributed tracing using AWS X-ray on EKS
+
+08:09.270 --> 08:12.750
+there I'm doing the X-ray daemon set deployment.
+
+08:12.750 --> 08:15.480
+So it should create the service account and then
+
+08:15.480 --> 08:19.200
+daemon set config map and then it's equivalent service.
+
+08:19.200 --> 08:21.334
+So now we are going to verify everything.
+
+08:21.334 --> 08:26.310
+Okay? So kubectl, get deploy, deployment, SVC service
+
+08:26.310 --> 08:28.590
+and then for all the three things.
+
+08:28.590 --> 08:31.110
+Okay, so now deployment got created
+
+08:31.110 --> 08:33.330
+and one of one deployment is ready.
+
+08:33.330 --> 08:36.120
+And then service got created which is X-ray service
+
+08:36.120 --> 08:38.880
+with both ports, which is a cluster IP service
+
+08:38.880 --> 08:41.880
+and it also created X-ray daemon in two nodes.
+
+08:41.880 --> 08:44.790
+Okay? So we can even say kubectl
+
+08:44.790 --> 08:48.990
+get ports-wide,
+
+08:48.990 --> 08:53.070
+okay, so it should be creating two, two ports in two nodes.
+
+08:53.070 --> 08:55.050
+Okay? So if you see 120 is one node
+
+08:55.050 --> 08:56.670
+and then 86 is one node.
+
+08:56.670 --> 09:00.840
+So per node it has created one X-ray daemon related pod
+
+09:00.840 --> 09:04.380
+using daemon set concept in Kubernetes.
+
+09:04.380 --> 09:05.400
+So that's good.
+
+09:05.400 --> 09:08.110
+So now the next thing is, so
+
+09:09.000 --> 09:12.390
+if you want we can get the daemon set information here.
+
+09:12.390 --> 09:16.230
+Kubectl get daemon set and kubectl
+
+09:16.230 --> 09:20.340
+describe daemon set and the name is
+
+09:20.340 --> 09:23.670
+X-ray-daemon.
+
+09:23.670 --> 09:26.490
+So to view what is present in this daemon set
+
+09:26.490 --> 09:28.500
+it has the image is X-ray daemon
+
+09:28.500 --> 09:31.710
+and then image is Amazon AWS X-ray daemon
+
+09:31.710 --> 09:33.510
+exports and then host ports.
+
+09:33.510 --> 09:36.810
+Everything information related to that is present here.
+
+09:36.810 --> 09:39.000
+Okay? So it has created two parts
+
+09:39.000 --> 09:42.750
+and then those information also available here.
+
+09:42.750 --> 09:46.530
+So now the next thing is review the deployment manifests
+
+09:46.530 --> 09:48.750
+and then application related stuff.
+
+09:48.750 --> 09:51.390
+So in our next lecture we are going to focus
+
+09:51.390 --> 09:52.800
+on application stuff.
+
+09:52.800 --> 09:54.810
+So in this lecture we have successfully
+
+09:54.810 --> 09:58.350
+completed creating that daemon set and then it's equal
+
+09:58.350 --> 10:01.350
+and IAM roles and then service roles.
+
+10:01.350 --> 10:02.880
+And in next lecture we'll focus
+
+10:02.880 --> 10:04.950
+on application related stuff.
+
+10:04.950 --> 10:06.690
+So I'll see you in the next lecture.
+
+10:06.690 --> 10:07.950
+Until then, bye bye.
+
+10:07.950 --> 10:08.783
+Thank you.

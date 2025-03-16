@@ -1,0 +1,367 @@
+WEBVTT
+
+00:00.270 --> 00:01.103
+-: Welcome back,
+
+00:01.103 --> 00:04.380
+in this lecture we are going to understand about the probes
+
+00:04.380 --> 00:06.810
+available in the Kubernetes.
+
+00:06.810 --> 00:10.080
+So we have three types of probes available.
+
+00:10.080 --> 00:12.570
+So one is liveness probe, readiness probe
+
+00:12.570 --> 00:14.520
+and then startup probe.
+
+00:14.520 --> 00:16.410
+So liveness probe.
+
+00:16.410 --> 00:19.740
+So Kubelet uses liveness probe to know
+
+00:19.740 --> 00:22.860
+when to restart a application container.
+
+00:22.860 --> 00:24.660
+So in general if our application
+
+00:24.660 --> 00:26.850
+has some deadlock appeared inside that
+
+00:26.850 --> 00:29.220
+and then it is not able to progress more
+
+00:29.220 --> 00:32.820
+and then if liveness probe is detected as failed,
+
+00:32.820 --> 00:36.180
+then automatically the container will get restarted.
+
+00:36.180 --> 00:39.360
+So whenever we have application failure situations
+
+00:39.360 --> 00:41.160
+and then if liveness probe fails,
+
+00:41.160 --> 00:43.800
+it will restart the container so that again,
+
+00:43.800 --> 00:46.110
+fresher instance of the container will start up
+
+00:46.110 --> 00:48.660
+and then start taking the traffic.
+
+00:48.660 --> 00:52.050
+So liveness probe will be used for that reason.
+
+00:52.050 --> 00:54.330
+So now the name here readiness probe
+
+00:54.330 --> 00:59.330
+states that Kubelet, Kubelet uses readiness probes to know
+
+01:00.090 --> 01:03.840
+when a container is ready to accept the traffic.
+
+01:03.840 --> 01:08.490
+So until and unless the readiness probe is succeeded,
+
+01:08.490 --> 01:12.210
+so we will not allow that container to get the traffic.
+
+01:12.210 --> 01:16.080
+In simple terms whenever we start or deploy our application.
+
+01:16.080 --> 01:19.440
+So we will wait for the settings provided in readiness probe
+
+01:19.440 --> 01:22.770
+to succeed and once it succeeded then only it will allow
+
+01:22.770 --> 01:25.650
+that traffic to that respective container.
+
+01:25.650 --> 01:27.420
+So when a part is not ready,
+
+01:27.420 --> 01:29.490
+it is removed from the service load balancer
+
+01:29.490 --> 01:31.920
+based on the readiness probe signal.
+
+01:31.920 --> 01:34.620
+So you, if the part is not ready,
+
+01:34.620 --> 01:36.180
+then ideally it cannot be go
+
+01:36.180 --> 01:39.180
+and then add to the service load balances right?
+
+01:39.180 --> 01:42.630
+So in that cases, readiness probes will be very much helpful
+
+01:42.630 --> 01:46.110
+in other terms, like you have a elastic load balancer
+
+01:46.110 --> 01:50.070
+with application load balancer or any other load balancer,
+
+01:50.070 --> 01:53.070
+classic load balancer or whatever the load balancer may be.
+
+01:53.070 --> 01:54.630
+So this respective part
+
+01:54.630 --> 01:57.960
+if it need to go and then register inside the pod
+
+01:57.960 --> 02:00.030
+then readiness probes should be successful.
+
+02:00.030 --> 02:03.600
+In understanding and then handling those type of signals
+
+02:03.600 --> 02:07.980
+readiness probes will be helpful as an example
+
+02:07.980 --> 02:10.350
+and next is the startup probe.
+
+02:10.350 --> 02:13.530
+So kubelet uses startup probes to know
+
+02:13.530 --> 02:16.260
+when a container application has started.
+
+02:16.260 --> 02:19.560
+So ideally when a container application has started
+
+02:19.560 --> 02:21.000
+why the startup probe should know means,
+
+02:21.000 --> 02:22.290
+it's like why the kubelets should know
+
+02:22.290 --> 02:24.540
+when the container application has started.
+
+02:24.540 --> 02:26.880
+So there will be several reasons for that, okay.
+
+02:26.880 --> 02:30.360
+So firstly, whenever we configure the start-up probe
+
+02:30.360 --> 02:33.270
+it automatically disables the liveness
+
+02:33.270 --> 02:34.470
+and then readiness probe
+
+02:34.470 --> 02:36.960
+until the startup probe is successful.
+
+02:36.960 --> 02:39.630
+That is one thing to avoid any interference
+
+02:39.630 --> 02:42.960
+with the app startup and second thing is
+
+02:42.960 --> 02:46.260
+this can be used to adopt liveness checks
+
+02:46.260 --> 02:50.640
+on slow starting containers, avoiding them getting killed
+
+02:50.640 --> 02:53.100
+by the kubelet before they are up and running.
+
+02:53.100 --> 02:55.890
+So if sufficient amount of time
+
+02:55.890 --> 02:58.020
+it already took to start the container,
+
+02:58.020 --> 03:00.690
+usually the default time-outs of pods
+
+03:00.690 --> 03:02.550
+and then Kubernetes will kick in
+
+03:02.550 --> 03:04.830
+and then it will go into an infinite loop
+
+03:04.830 --> 03:06.990
+of terminating and then restarting.
+
+03:06.990 --> 03:09.120
+So to avoid such situations
+
+03:09.120 --> 03:12.840
+for the slow starting containers, application containers,
+
+03:12.840 --> 03:15.240
+so we can use the start-up probe.
+
+03:15.240 --> 03:16.440
+An important thing here is
+
+03:16.440 --> 03:18.870
+whenever the start probe is in action
+
+03:18.870 --> 03:21.150
+until and unless it succeeds,
+
+03:21.150 --> 03:24.240
+it is going to disable the liveness and readiness probes,
+
+03:24.240 --> 03:29.240
+even they are defined in our manifest deployment, manifest.
+
+03:29.820 --> 03:34.260
+And next thing here is, options to define probes.
+
+03:34.260 --> 03:36.510
+So there are three options to define the probes.
+
+03:36.510 --> 03:38.970
+It's like in three ways we can define the probes.
+
+03:38.970 --> 03:41.130
+Either it is a liveness probe or readiness probe
+
+03:41.130 --> 03:42.930
+or start-up probe.
+
+03:42.930 --> 03:45.390
+So one is check using commands.
+
+03:45.390 --> 03:47.280
+So we'll have shell scripts, right?
+
+03:47.280 --> 03:50.940
+So we can create using shell that, net cat high fund Z
+
+03:50.940 --> 03:53.160
+localist 8, 0, 9, 5 to check
+
+03:53.160 --> 03:55.440
+whether that respective localist
+
+03:55.440 --> 03:59.100
+with that port is available or not, or any other cat command
+
+03:59.100 --> 04:01.110
+or whatever the command, whatever we want to use
+
+04:01.110 --> 04:03.150
+to ensure that our application is up.
+
+04:03.150 --> 04:06.420
+So we can use those shell commands, that is one way.
+
+04:06.420 --> 04:10.650
+And the second way is using the HTTP get request.
+
+04:10.650 --> 04:13.560
+So example like you have a health status space in,
+
+04:13.560 --> 04:16.740
+page in your application and when your application is up
+
+04:16.740 --> 04:20.010
+then you can provide that health status page link
+
+04:20.010 --> 04:23.160
+so that using HTTP get, it will go ahead
+
+04:23.160 --> 04:24.930
+and then check that respective page
+
+04:24.930 --> 04:26.250
+is available for us or not.
+
+04:26.250 --> 04:30.120
+Or using plain PCP socket connection, which is nothing,
+
+04:30.120 --> 04:32.460
+but whether the port 8, 0, 9, 5 is listening
+
+04:32.460 --> 04:34.260
+and then up and running or not.
+
+04:34.260 --> 04:37.410
+So in these three options we can define our probes.
+
+04:37.410 --> 04:39.960
+Whatever is applicable to whatever the probe
+
+04:39.960 --> 04:43.080
+in our respective application situation, okay.
+
+04:43.080 --> 04:44.580
+So example readiness probe,
+
+04:44.580 --> 04:46.950
+I want to define using hash (indistinct)
+
+04:46.950 --> 04:48.420
+I will be fine with that,
+
+04:48.420 --> 04:51.030
+or in my liveness probe,
+
+04:51.030 --> 04:53.310
+I want to identify like in such a way
+
+04:53.310 --> 04:54.990
+that using the NC hyphen Z
+
+04:54.990 --> 04:58.740
+and then localist 8, 0, 9, 5, so I'll assign for this.
+
+04:58.740 --> 05:00.150
+Anything anywhere you can use,
+
+05:00.150 --> 05:01.710
+but the way how you want to define it
+
+05:01.710 --> 05:03.930
+depends on the your application context
+
+05:03.930 --> 05:06.930
+and then how you have defined your core application, okay.
+
+05:06.930 --> 05:09.630
+So no restrictions on using which to which okay?
+
+05:09.630 --> 05:13.500
+So all three can be used for all three types of probes.
+
+05:13.500 --> 05:15.030
+So in our next lecture
+
+05:15.030 --> 05:17.220
+we will focus on creating the liveness
+
+05:17.220 --> 05:18.390
+and then readiness probes
+
+05:18.390 --> 05:23.390
+for our user management microservice and then test it now.
+
+05:23.460 --> 05:25.290
+Okay, I'll see you in the next lecture.
+
+05:25.290 --> 05:26.490
+Until then, bye bye.
+
+05:26.490 --> 05:27.323
+Thank you.

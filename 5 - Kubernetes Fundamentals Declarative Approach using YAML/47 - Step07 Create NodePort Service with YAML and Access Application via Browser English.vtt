@@ -1,0 +1,229 @@
+WEBVTT
+
+00:00.300 --> 00:01.133
+-: Welcome back.
+
+00:01.133 --> 00:02.910
+In this lecture we are going to
+
+00:02.910 --> 00:05.640
+create a NodePort service for our ReplicaSet
+
+00:05.640 --> 00:06.960
+and then test it, okay?
+
+00:06.960 --> 00:10.650
+So let's go back to our Visual Studio Core
+
+00:10.650 --> 00:13.830
+and go to our Kube-based definition
+
+00:13.830 --> 00:16.920
+and then copy it in our ReplicaSet NodePort service.
+
+00:16.920 --> 00:20.100
+As we know for our type of service we are going to create
+
+00:20.100 --> 00:22.680
+is Service and its version is V1
+
+00:22.680 --> 00:25.821
+and the name of this service is
+
+00:25.821 --> 00:26.654
+ReplicaSet
+
+00:27.896 --> 00:30.030
+NodePort service.
+
+00:30.030 --> 00:31.080
+And for any service,
+
+00:31.080 --> 00:33.150
+the following three are the high level things,
+
+00:33.150 --> 00:34.080
+which is nothing but
+
+00:34.080 --> 00:35.430
+Type,
+
+00:35.430 --> 00:36.780
+Selector,
+
+00:36.780 --> 00:37.800
+and
+
+00:37.800 --> 00:39.270
+Ports, right?
+
+00:39.270 --> 00:41.580
+So now let's start with the type.
+
+00:41.580 --> 00:43.590
+The NodePort service we are going to create,
+
+00:43.590 --> 00:45.540
+so let's mark it as NodePort.
+
+00:45.540 --> 00:48.870
+And let's complete Ports before going to Selector, okay?
+
+00:48.870 --> 00:53.670
+So now Ports. We are going to have a Ports now.
+
+00:53.670 --> 00:55.590
+So it is list of ports.
+
+00:55.590 --> 00:56.423
+So
+
+00:58.380 --> 01:00.240
+now it is going to be
+
+01:00.240 --> 01:01.950
+name is http.
+
+01:01.950 --> 01:06.480
+And my port name, so this is the port name,
+
+01:06.480 --> 01:09.690
+and it is going to be eight, 80.
+
+01:09.690 --> 01:12.270
+And we are going to define our targetPort,
+
+01:12.270 --> 01:14.580
+which is our ContainerPort is 80.
+
+01:14.580 --> 01:17.820
+And NodePort, which is nothing but on the worker node
+
+01:17.820 --> 01:19.200
+what port you want to use.
+
+01:19.200 --> 01:20.460
+You can define it.
+
+01:20.460 --> 01:22.800
+So I am going to say 31232.
+
+01:22.800 --> 01:26.340
+For our pod NodePort service we use 31231.
+
+01:26.340 --> 01:27.663
+Here we are using 31232.
+
+01:28.650 --> 01:30.720
+So now the selector, again, as usual,
+
+01:30.720 --> 01:32.820
+go to your ReplicaSet definition
+
+01:32.820 --> 01:35.700
+and then this is the label you have in your PodTemplate.
+
+01:35.700 --> 01:37.110
+So let's get that.
+
+01:37.110 --> 01:39.600
+And then to these pods, it need to load balance, right?
+
+01:39.600 --> 01:41.430
+You are respect to service,
+
+01:41.430 --> 01:43.830
+need to load balance or send the traffic
+
+01:43.830 --> 01:46.800
+to those respective pods, okay?
+
+01:46.800 --> 01:48.810
+So then you need to identify the pods
+
+01:48.810 --> 01:50.400
+based on a selector, okay?
+
+01:50.400 --> 01:52.410
+So that is nothing but label selector.
+
+01:52.410 --> 01:55.650
+So it is going to be myapp2, okay?
+
+01:55.650 --> 01:59.163
+So now your NodePort ReplicaSet service is created.
+
+02:00.000 --> 02:02.940
+So let's go ahead and then create that now.
+
+02:02.940 --> 02:04.560
+Kubectl
+
+02:04.560 --> 02:06.000
+Apply
+
+02:06.000 --> 02:07.500
+03, right?
+
+02:07.500 --> 02:09.783
+And if any error it is going to throw here,
+
+02:11.730 --> 02:13.855
+any definition error or something, but ideally no error.
+
+02:13.855 --> 02:14.688
+So get svc.
+
+02:14.688 --> 02:15.521
+It looks good.
+
+02:15.521 --> 02:18.059
+So three one, with 31232 our ReplicaSet NodePort set,
+
+02:18.059 --> 02:21.570
+NodePort service got created.
+
+02:21.570 --> 02:23.550
+So we can go ahead and then say
+
+02:23.550 --> 02:25.360
+get nodes -o wide
+
+02:26.277 --> 02:30.060
+and get the public IP and then access it with 31232.
+
+02:30.060 --> 02:33.288
+So if you remember here, so we are accessing 31231,
+
+02:33.288 --> 02:36.313
+with the V1 application with the plane port
+
+02:36.313 --> 02:41.313
+and with the ReplicaSet we are going to say 31232, okay?
+
+02:42.823 --> 02:46.200
+And we should have a V2 version of application.
+
+02:46.200 --> 02:48.690
+So with the plane pod we got V1
+
+02:48.690 --> 02:52.380
+and then with ReplicaSet we got V2, okay?
+
+02:52.380 --> 02:55.350
+So this completes the creation
+
+02:55.350 --> 02:59.190
+of ReplicaSet definition using YAML.
+
+02:59.190 --> 03:02.340
+So in our next lecture, we'll focus on deployment.
+
+03:02.340 --> 03:04.350
+So I'll see you in the next lecture.
+
+03:04.350 --> 03:05.303
+Until then, bye bye.
+
+03:05.303 --> 03:06.453
+Thank you.

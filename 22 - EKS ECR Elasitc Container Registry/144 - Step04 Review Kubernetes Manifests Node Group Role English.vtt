@@ -1,0 +1,487 @@
+WEBVTT
+
+00:00.210 --> 00:01.080
+-: Welcome back.
+
+00:01.080 --> 00:04.440
+In step seven, we are going to use this ECR image,
+
+00:04.440 --> 00:08.880
+whatever we pushed here in our EKS deployments, right?
+
+00:08.880 --> 00:11.010
+So we are going to understand that deployment
+
+00:11.010 --> 00:13.050
+and then service whatever we have created
+
+00:13.050 --> 00:14.700
+as part of this section, okay.
+
+00:14.700 --> 00:17.280
+So we are going to have a deployment NodePort service
+
+00:17.280 --> 00:19.740
+and then ALB Ingress service.
+
+00:19.740 --> 00:22.290
+So all these three files we are going to review
+
+00:22.290 --> 00:25.410
+and also, we are going to review the worker node related,
+
+00:25.410 --> 00:27.780
+ECR access related policy.
+
+00:27.780 --> 00:29.130
+And once we review these things,
+
+00:29.130 --> 00:31.590
+we'll go ahead and then deploy the stuff.
+
+00:31.590 --> 00:34.380
+So let's go back and then review the K8 manifest
+
+00:34.380 --> 00:37.530
+created as part of this section, right.
+
+00:37.530 --> 00:39.540
+So, we'll go to our visual studio code.
+
+00:39.540 --> 00:41.760
+Let me close this temporary thing,
+
+00:41.760 --> 00:43.050
+whatever we have created,
+
+00:43.050 --> 00:44.670
+close the docker file.
+
+00:44.670 --> 00:48.150
+And close this and let me maximize.
+
+00:48.150 --> 00:51.058
+And if you go here, 02-kube-manifests, okay.
+
+00:51.058 --> 00:54.120
+In 10 ECR, elastic container registry and EKS
+
+00:54.120 --> 00:56.280
+you can find 02-kube-manifests.
+
+00:56.280 --> 00:59.370
+So you'll have ECR NGINX deployment,
+
+00:59.370 --> 01:01.170
+ECR NGINX NodePort service
+
+01:01.170 --> 01:04.320
+and then ECR NGINX, ALB Ingress service.
+
+01:04.320 --> 01:07.890
+So let's start with ECR NGINX deployment, okay.
+
+01:07.890 --> 01:10.650
+So as usual, standard deployment,
+
+01:10.650 --> 01:12.750
+whatever we have created no change in it,
+
+01:12.750 --> 01:14.700
+how we have created deployments earlier
+
+01:14.700 --> 01:16.170
+it is the same thing.
+
+01:16.170 --> 01:18.490
+Only difference is, it will have the
+
+01:19.800 --> 01:22.020
+image, whatever we have created that URL.
+
+01:22.020 --> 01:23.430
+So, I can remove this.
+
+01:23.430 --> 01:25.230
+And even one more time,
+
+01:25.230 --> 01:27.570
+I can add it, okay.
+
+01:27.570 --> 01:29.280
+So what you need to do is,
+
+01:29.280 --> 01:30.960
+you need to go to this template
+
+01:30.960 --> 01:34.080
+and then update your image URL, here.
+
+01:34.080 --> 01:37.380
+Okay, so you need to update your image URL here
+
+01:37.380 --> 01:39.510
+to make your things work with the image
+
+01:39.510 --> 01:42.600
+whatever you push it to the ECR, right.
+
+01:42.600 --> 01:46.770
+So this is my image URL, right?
+
+01:46.770 --> 01:49.890
+So image URL, so you can see in repositories
+
+01:49.890 --> 01:51.690
+inside this repository.
+
+01:51.690 --> 01:54.300
+So this is the image URL, which I am planning to use.
+
+01:54.300 --> 01:56.640
+I copied it and then I pasted it.
+
+01:56.640 --> 02:00.150
+Okay, so resources also have given, that's fine, okay.
+
+02:00.150 --> 02:03.030
+So now you are going to run two replicas of that
+
+02:03.030 --> 02:04.770
+and this looks good, okay.
+
+02:04.770 --> 02:07.320
+So standard deployment definition.
+
+02:07.320 --> 02:08.700
+So that's the reason, one more time.
+
+02:08.700 --> 02:11.220
+I'm not going with the API version kind metadata
+
+02:11.220 --> 02:12.690
+all this stuff, okay.
+
+02:12.690 --> 02:14.550
+So, so far, we have done multiple times
+
+02:14.550 --> 02:16.230
+about the deployments.
+
+02:16.230 --> 02:18.750
+Same, we have created a NodePort service
+
+02:18.750 --> 02:20.760
+and only thing here is
+
+02:20.760 --> 02:23.820
+as we have created our image and then copied
+
+02:23.820 --> 02:27.210
+the index.html to the root context of html, right.
+
+02:27.210 --> 02:29.040
+Means like NGINX root context.
+
+02:29.040 --> 02:33.360
+So our run, healthcheck URL path/index.html.
+
+02:33.360 --> 02:37.890
+Earlier in our previous sections we have seen /app2 or /app1
+
+02:37.890 --> 02:38.910
+something like that, right.
+
+02:38.910 --> 02:41.580
+Here it is going to be index.html.
+
+02:41.580 --> 02:44.340
+Other than that, ports are going to be 80 and then 80,
+
+02:44.340 --> 02:46.860
+and they're standard NodePort service definition only.
+
+02:46.860 --> 02:49.890
+Okay, so we have done this from our fundamentals
+
+02:49.890 --> 02:51.270
+to now multiple times.
+
+02:51.270 --> 02:53.100
+Okay, so that's good.
+
+02:53.100 --> 02:54.720
+And next is ALB Ingress,
+
+02:54.720 --> 02:57.203
+in previous all sections we have done the same thing
+
+02:57.203 --> 02:58.470
+ALB Ingress.
+
+02:58.470 --> 03:01.392
+So, what we are going to do is like,
+
+03:01.392 --> 03:03.150
+so this is the one, right?
+
+03:03.150 --> 03:07.080
+So I'm also going to update the label here
+
+03:07.080 --> 03:08.850
+with the same label, okay.
+
+03:08.850 --> 03:11.730
+So just to have common labels conventions.
+
+03:11.730 --> 03:14.550
+So ECR Ingress service we are going to create.
+
+03:14.550 --> 03:17.100
+And then, so in its annotations
+
+03:17.100 --> 03:20.250
+so only the external DNS name you need to update
+
+03:20.250 --> 03:22.440
+if you want to with a different DNS name, right?
+
+03:22.440 --> 03:24.180
+Why? Because this is my DNS,
+
+03:24.180 --> 03:26.760
+so ecrdemo.kubeoncloud.com,
+
+03:26.760 --> 03:28.350
+we are going to create.
+
+03:28.350 --> 03:31.110
+And in the service name for /star here,
+
+03:31.110 --> 03:34.950
+you need to update your kube-ecr NodePort service
+
+03:34.950 --> 03:36.900
+related service name here, that's all.
+
+03:36.900 --> 03:38.970
+Okay, so this, you really don't need to change
+
+03:38.970 --> 03:40.620
+if you use the same templates,
+
+03:40.620 --> 03:44.340
+but the changes here include only the image URL,
+
+03:44.340 --> 03:46.050
+you need to change, right?
+
+03:46.050 --> 03:47.280
+So that is one.
+
+03:47.280 --> 03:51.780
+And the second is NodePort service, nothing changes.
+
+03:51.780 --> 03:54.300
+And in ALB Ingress, you need to change
+
+03:54.300 --> 03:57.450
+your ecrdemo.kubeoncloud.com.
+
+03:57.450 --> 03:58.650
+So in these templates,
+
+03:58.650 --> 04:01.470
+what you want to change is only primarily two things.
+
+04:01.470 --> 04:03.510
+One is image URL and deployment
+
+04:03.510 --> 04:06.720
+and ALB Ingress service related, host name,
+
+04:06.720 --> 04:09.450
+whatever you want to DNS register, that's all, okay.
+
+04:09.450 --> 04:10.650
+And that should be good.
+
+04:10.650 --> 04:13.410
+So this is about the manifest whatever we have created
+
+04:13.410 --> 04:15.060
+and then we are going to deploy.
+
+04:15.060 --> 04:16.980
+So let me close these things,
+
+04:16.980 --> 04:19.380
+and we have discussed all the manifests.
+
+04:19.380 --> 04:21.010
+So the next thing is to
+
+04:21.990 --> 04:22.823
+review the
+
+04:25.230 --> 04:26.070
+Access policy.
+
+04:26.070 --> 04:27.720
+IAM access policy, okay.
+
+04:27.720 --> 04:31.470
+So we need to go to EC2 here, right.
+
+04:31.470 --> 04:32.400
+So I'll go to EC2,
+
+04:32.400 --> 04:35.610
+how to find our role for our worker node group, right?
+
+04:35.610 --> 04:38.820
+So we'll go to running instances, right.
+
+04:38.820 --> 04:41.730
+And we'll check select any one of the instance
+
+04:41.730 --> 04:44.760
+and then which is related to our worker node group,
+
+04:44.760 --> 04:46.170
+you can cross verify that.
+
+04:46.170 --> 04:48.837
+So this is related to my EKS stuff only, okay.
+
+04:48.837 --> 04:51.450
+EKS demo one, NG private one, okay?
+
+04:51.450 --> 04:54.570
+And I'll go to description section
+
+04:54.570 --> 04:56.790
+and you can find the IAM role here, right.
+
+04:56.790 --> 04:59.073
+So I'll click on this role, right.
+
+05:00.300 --> 05:01.733
+And now if you see here,
+
+05:01.733 --> 05:04.530
+you should have something called Amazon EC2
+
+05:04.530 --> 05:06.720
+container registry read-only,
+
+05:06.720 --> 05:09.690
+and then Amazon EC2 container registry power user.
+
+05:09.690 --> 05:11.790
+Okay, so you'll have everything here, okay.
+
+05:11.790 --> 05:13.590
+Read-only, power user, okay?
+
+05:13.590 --> 05:16.530
+So I'll add this here in our documentation also.
+
+05:16.530 --> 05:19.290
+So these two policies should be associated.
+
+05:19.290 --> 05:21.060
+So these are already associated,
+
+05:21.060 --> 05:23.790
+how these are associated, also we can crosscheck here,
+
+05:23.790 --> 05:24.623
+right?
+
+05:24.623 --> 05:28.050
+So we can go here and then if we go to our EKS cluster
+
+05:28.050 --> 05:29.850
+using eksctl,
+
+05:29.850 --> 05:33.720
+and then if you see create EKS cluster in the node groups,
+
+05:33.720 --> 05:36.510
+so you'll find something called, you have created a cluster.
+
+05:36.510 --> 05:39.630
+And then whenever we are creating the node group, right?
+
+05:39.630 --> 05:43.380
+So you are saying here full ECR access, okay.
+
+05:43.380 --> 05:46.050
+So you are associating a policy for our node group,
+
+05:46.050 --> 05:47.670
+whatever we are creating.
+
+05:47.670 --> 05:51.060
+Saying that full elastic container registry access.
+
+05:51.060 --> 05:53.970
+Due to that we have got these policies associated
+
+05:53.970 --> 05:55.920
+for our worker node groups
+
+05:55.920 --> 05:59.460
+which means whatever the parts we are going to deploy,
+
+05:59.460 --> 06:01.140
+whatever the Kubernetes workloads
+
+06:01.140 --> 06:03.570
+we are going to deploy inside this node group
+
+06:03.570 --> 06:07.620
+are going to get that ECR full access automatically.
+
+06:07.620 --> 06:09.210
+Okay, so that's about it.
+
+06:09.210 --> 06:10.950
+So let me go back,
+
+06:10.950 --> 06:14.850
+and go to our 10 ECR, Elastic Container Registry.
+
+06:14.850 --> 06:17.760
+And if you see here, we have discussed here
+
+06:17.760 --> 06:19.720
+both the things related to
+
+06:21.660 --> 06:22.560
+K8 manifests,
+
+06:22.560 --> 06:25.200
+and then EKS worker modes, right?
+
+06:25.200 --> 06:27.390
+So in our next lecture we are going to deploy
+
+06:27.390 --> 06:29.100
+the Kubernetes manifest and then
+
+06:29.100 --> 06:30.450
+verify the stuff and then
+
+06:30.450 --> 06:33.780
+access that URL and then do the clean-up, right?
+
+06:33.780 --> 06:35.460
+So I'll see you in the next lecture.
+
+06:35.460 --> 06:36.293
+Until then, bye-bye.
+
+06:36.293 --> 06:37.143
+Thank you.

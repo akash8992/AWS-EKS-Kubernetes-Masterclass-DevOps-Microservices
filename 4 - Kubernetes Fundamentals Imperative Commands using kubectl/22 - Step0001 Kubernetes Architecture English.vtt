@@ -1,0 +1,379 @@
+WEBVTT
+
+00:00.000 --> 00:00.840
+Instructor: Welcome back.
+
+00:00.840 --> 00:03.900
+In this lecture we are going to understand a little bit
+
+00:03.900 --> 00:06.720
+about Kubernetes architecture.
+
+00:06.720 --> 00:08.850
+So why Kubernetes?
+
+00:08.850 --> 00:11.970
+So Kubernetes is a portable, extensible,
+
+00:11.970 --> 00:16.230
+open source platform for managing container workloads.
+
+00:16.230 --> 00:17.760
+So out of the box
+
+00:17.760 --> 00:21.060
+the following features are available in Kubernetes.
+
+00:21.060 --> 00:24.780
+Service discovery and load balancing, storage orchestration,
+
+00:24.780 --> 00:29.190
+automated rollouts and rollbacks, automatic bin packing
+
+00:29.190 --> 00:34.190
+self-healing, secrets, and then configuration management.
+
+00:34.290 --> 00:37.920
+So let's see what are the Kubernetes components
+
+00:37.920 --> 00:40.350
+in its architecture, right?
+
+00:40.350 --> 00:43.620
+So primarily, we see like we'll have both master
+
+00:43.620 --> 00:46.593
+and then worker nodes in the Kubernetes.
+
+00:47.460 --> 00:50.040
+And on all these nodes we'll have
+
+00:50.040 --> 00:52.950
+the container runtime installed.
+
+00:52.950 --> 00:55.230
+Whether it is master or worker nodes
+
+00:55.230 --> 00:59.280
+container runtime is mandatory and we can say it as docker
+
+00:59.280 --> 01:03.450
+or some other container runtime options available.
+
+01:03.450 --> 01:06.000
+And next thing is etcd.
+
+01:06.000 --> 01:08.576
+So etcd is the key-value store
+
+01:08.576 --> 01:11.940
+which stores the master and node information.
+
+01:11.940 --> 01:14.640
+So one more will be Kubescheduler.
+
+01:14.640 --> 01:17.640
+So all these things, what does these do?
+
+01:17.640 --> 01:20.700
+We'll see in our upcoming lectures.
+
+01:20.700 --> 01:24.810
+So, but we'll have Kube-scheduler here and Kube API server
+
+01:24.810 --> 01:28.710
+and Kube control manager and then cloud control manager.
+
+01:28.710 --> 01:31.170
+So that's the master components on a high level.
+
+01:31.170 --> 01:32.280
+And in worker nodes,
+
+01:32.280 --> 01:35.730
+we are going to have Kubelets and then Kube proxy.
+
+01:35.730 --> 01:37.830
+So let's see one after the other,
+
+01:37.830 --> 01:40.170
+what each of these components do
+
+01:40.170 --> 01:43.380
+and then their responsibilities, okay.
+
+01:43.380 --> 01:45.510
+So let's start with the master component
+
+01:45.510 --> 01:48.180
+and then master node and inside that container run time
+
+01:48.180 --> 01:49.380
+is a default thing.
+
+01:49.380 --> 01:52.530
+So which might be Docker or any other run times.
+
+01:52.530 --> 01:55.140
+And let's start with the Kube API server.
+
+01:55.140 --> 01:58.560
+So it acts as the front end for Kubernetes control plane,
+
+01:58.560 --> 02:01.410
+it exposes the Kubernetes API.
+
+02:01.410 --> 02:05.880
+So CLI tools like Kubectl or even the master components
+
+02:05.880 --> 02:09.300
+like scheduler, controller, manager, etcd
+
+02:09.300 --> 02:11.430
+and worker node components like kubelet,
+
+02:11.430 --> 02:15.840
+everything talk with this Kube API server.
+
+02:15.840 --> 02:17.433
+And next is etcd.
+
+02:18.300 --> 02:22.410
+It is a consistent and highly available key value store
+
+02:22.410 --> 02:27.090
+used as Kubernetes backing store for all cluster data.
+
+02:27.090 --> 02:31.680
+It stores all the master and worker node information.
+
+02:31.680 --> 02:34.830
+So next is the kube-scheduler.
+
+02:34.830 --> 02:38.640
+So scheduler is responsible for distributing containers
+
+02:38.640 --> 02:41.010
+across multiple nodes.
+
+02:41.010 --> 02:44.970
+So it watches for newly created pods with no assigned node
+
+02:44.970 --> 02:47.793
+and select a node for them to run on.
+
+02:49.200 --> 02:51.510
+And next is the kube-controller.
+
+02:51.510 --> 02:55.020
+So this kube-controller manager controllers are responsible
+
+02:55.020 --> 02:56.760
+for noticing and responding
+
+02:56.760 --> 03:00.630
+when nodes, containers or endpoints go down.
+
+03:00.630 --> 03:03.360
+So they make decisions to bring up new containers
+
+03:03.360 --> 03:04.650
+in such cases.
+
+03:04.650 --> 03:07.590
+And it is a combination of, kube controller manager
+
+03:07.590 --> 03:11.220
+is a combination of multiple controllers inside, okay.
+
+03:11.220 --> 03:12.780
+So let's see what are those.
+
+03:12.780 --> 03:15.480
+So we will have one node controller, which is responsible
+
+03:15.480 --> 03:18.600
+for noticing and responding when nodes go down.
+
+03:18.600 --> 03:21.720
+And we will have replication controller responsible
+
+03:21.720 --> 03:24.540
+for maintaining the correct number of pods
+
+03:24.540 --> 03:27.840
+for every replication controller object in the system.
+
+03:27.840 --> 03:31.950
+And endpoints controller populates the endpoints object,
+
+03:31.950 --> 03:35.850
+that is joins, services, and then pods.
+
+03:35.850 --> 03:38.430
+And one more, we'll have something called service account
+
+03:38.430 --> 03:42.150
+and then token controller creates default accounts
+
+03:42.150 --> 03:47.100
+and API access for new namespaces created in Kubernetes.
+
+03:47.100 --> 03:49.680
+And next one we'll have one more, which is nothing
+
+03:49.680 --> 03:54.600
+but Cloud control manager in the master nodes, okay.
+
+03:54.600 --> 03:57.690
+So this cloud controller manager is responsible for,
+
+03:57.690 --> 03:58.950
+means like this component
+
+03:58.950 --> 04:01.950
+embeds cloud specific control logic.
+
+04:01.950 --> 04:03.540
+So it is mainly for
+
+04:03.540 --> 04:08.310
+the cloud related architecture of Kubernetes.
+
+04:08.310 --> 04:10.890
+It only runs controllers that are specific
+
+04:10.890 --> 04:13.410
+to that respective cloud provider.
+
+04:13.410 --> 04:15.510
+So on-premise Kubernetes clusters
+
+04:15.510 --> 04:17.820
+will not have this component.
+
+04:17.820 --> 04:20.730
+And node controller for checking the cloud provider
+
+04:20.730 --> 04:23.400
+to determine if a node has been deleted
+
+04:23.400 --> 04:26.310
+in the cloud after it stops responding.
+
+04:26.310 --> 04:29.100
+And you'll also have route controller for setting up routes
+
+04:29.100 --> 04:31.800
+in the underlying cloud infrastructure.
+
+04:31.800 --> 04:35.010
+And also same as kube controller, you'll also
+
+04:35.010 --> 04:37.260
+have something called service controller,
+
+04:37.260 --> 04:40.140
+which is for creating, updating and deleting
+
+04:40.140 --> 04:42.540
+cloud provider load balancer.
+
+04:42.540 --> 04:46.410
+So these are all the master node components
+
+04:46.410 --> 04:49.470
+in the Kubernetes architecture, okay.
+
+04:49.470 --> 04:52.650
+So now let's see the worker node components, okay.
+
+04:52.650 --> 04:54.090
+So in a worker node
+
+04:54.090 --> 04:56.460
+container runtime is going to be as usual
+
+04:56.460 --> 04:57.780
+on every worker node.
+
+04:57.780 --> 05:00.360
+So the underlying software where we run our stuff
+
+05:00.360 --> 05:03.780
+is going to be the container runtime inside the work node
+
+05:03.780 --> 05:06.930
+or whatever the VM instance in them, okay.
+
+05:06.930 --> 05:08.700
+So we are going to use docker
+
+05:08.700 --> 05:11.220
+but we have other runtime options like RKTR,
+
+05:12.330 --> 05:14.280
+Containerd, et cetera.
+
+05:14.280 --> 05:16.950
+So now one thing here is the next one is kubelet
+
+05:16.950 --> 05:18.600
+which is the more important one.
+
+05:18.600 --> 05:20.250
+So let's see about it, okay.
+
+05:20.250 --> 05:23.460
+So kubelet is the agent that runs on every node
+
+05:23.460 --> 05:24.960
+in the cluster.
+
+05:24.960 --> 05:27.780
+So the more number of worker nodes, on every worker node
+
+05:27.780 --> 05:31.560
+we are going to see kubelet is present inside that.
+
+05:31.560 --> 05:33.720
+So this is the agent is responsible
+
+05:33.720 --> 05:36.930
+for making sure that containers are running
+
+05:36.930 --> 05:40.560
+in a pod on a specific worker node.
+
+05:40.560 --> 05:42.870
+So, and next is the kube proxy.
+
+05:42.870 --> 05:47.040
+So it is a network proxy that runs on each node
+
+05:47.040 --> 05:51.990
+in your cluster, it maintains network rules on nodes.
+
+05:51.990 --> 05:54.090
+So then what is the use of it, right?
+
+05:54.090 --> 05:58.260
+So in short, these network rules allow network communication
+
+05:58.260 --> 06:01.200
+to your pods from network sessions
+
+06:01.200 --> 06:05.100
+inside or outside of our respective cluster.
+
+06:05.100 --> 06:07.140
+So these are the core things
+
+06:07.140 --> 06:11.430
+about Kubernetes master and then worker node components.
+
+06:11.430 --> 06:13.230
+So I'll see you in the next lecture.
+
+06:13.230 --> 06:15.063
+Until then, bye bye, thank you.

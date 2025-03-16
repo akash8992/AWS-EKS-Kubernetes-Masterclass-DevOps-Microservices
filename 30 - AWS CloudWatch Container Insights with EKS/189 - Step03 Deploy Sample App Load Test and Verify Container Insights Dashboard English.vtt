@@ -1,0 +1,913 @@
+WEBVTT
+
+00:00.120 --> 00:01.110
+-: Welcome back.
+
+00:01.110 --> 00:04.650
+So we are going to deploy a simple NGINX application
+
+00:04.650 --> 00:08.670
+and then generate load on our sample NGINX application
+
+00:08.670 --> 00:13.020
+and then access the details on the CloudWatch dashboard.
+
+00:13.020 --> 00:15.543
+So I'm going to say kubectl apply-kubemanifest.
+
+00:16.530 --> 00:19.570
+So let me clear this and say kubectl.
+
+00:20.580 --> 00:24.726
+We are in 18 section 18 EKS monitoring using CloudWatch.
+
+00:24.726 --> 00:26.580
+So I'll say kube manifest.
+
+00:26.580 --> 00:27.780
+So what we are deploying,
+
+00:27.780 --> 00:30.990
+so let's go ahead and then verify the manifest also.
+
+00:30.990 --> 00:34.050
+So in 18 EKS monitoring with CloudWatch,
+
+00:34.050 --> 00:36.823
+you can see sample NGINX app.
+
+00:36.823 --> 00:39.540
+So this is simple sample NGINX app,
+
+00:39.540 --> 00:44.540
+which will have kube NGINX 1.0.0 version
+
+00:45.360 --> 00:49.200
+which will have a root index.html inside that.
+
+00:49.200 --> 00:51.390
+So now what we are going to have here
+
+00:51.390 --> 00:52.500
+is the request section
+
+00:52.500 --> 00:54.960
+which is important request and then resources.
+
+00:54.960 --> 00:59.160
+So I'm requesting CPU for IM and then memory for fi EMI.
+
+00:59.160 --> 01:01.590
+And then limit also I have put only very less.
+
+01:01.590 --> 01:04.230
+And then I'm going to put huge load on this
+
+01:04.230 --> 01:05.850
+and then see what happens.
+
+01:05.850 --> 01:07.800
+So we are going to access the pod
+
+01:07.800 --> 01:10.830
+using a simple cluster IP service,
+
+01:10.830 --> 01:13.020
+which is sample NGINX service.
+
+01:13.020 --> 01:16.890
+So if you come here and see when I'm generating the load,
+
+01:16.890 --> 01:19.860
+so I'm going to set kubectl run generate run pod v1
+
+01:19.860 --> 01:22.740
+and I'm using the Apache bench as my pod name
+
+01:22.740 --> 01:25.103
+and I'm going to use image as httpd.
+
+01:25.950 --> 01:27.960
+And then what I'm going to do here is,
+
+01:27.960 --> 01:30.000
+this is the service name.
+
+01:30.000 --> 01:32.520
+Sample NGINX service.default.
+
+01:32.520 --> 01:34.860
+It is deployed in default namespace
+
+01:34.860 --> 01:38.580
+and it is a service SVC and inside the cluster.local.
+
+01:38.580 --> 01:39.720
+That's all.
+
+01:39.720 --> 01:41.550
+And it means like every time
+
+01:41.550 --> 01:43.170
+I'm going to hit with 1000 requests
+
+01:43.170 --> 01:46.320
+and then I'm going to end up at file lack request.
+
+01:46.320 --> 01:48.510
+So let me generate the load on that
+
+01:48.510 --> 01:49.860
+and then see what happens.
+
+01:49.860 --> 01:52.410
+Before that we can even verify,
+
+01:52.410 --> 01:55.160
+get all will provide us the information.
+
+01:55.160 --> 02:00.000
+So we have only our simple sample NGINX service
+
+02:00.000 --> 02:02.520
+and then sample NGINX deployment.
+
+02:02.520 --> 02:05.193
+So now let me generate the load.
+
+02:06.322 --> 02:09.063
+So we are generating it.
+
+02:16.710 --> 02:20.160
+So total of only 3,447 requests completed
+
+02:20.160 --> 02:22.260
+and then connection reset by peer happens.
+
+02:22.260 --> 02:25.170
+So we are going to run one more time and let it run
+
+02:25.170 --> 02:30.170
+and then we'll go back to our Container Insights dashboard
+
+02:30.240 --> 02:32.130
+and then see what happens.
+
+02:32.130 --> 02:36.420
+So let me go back here and then go to management console
+
+02:36.420 --> 02:38.330
+and then go for our CloudWatch.
+
+02:39.300 --> 02:41.850
+So let me, no not cloud search.
+
+02:41.850 --> 02:44.030
+So we need to go for CloudWatch.
+
+02:45.195 --> 02:50.195
+So CloudWatch. So this is the one.
+
+02:59.760 --> 03:01.530
+So now you can see it here,
+
+03:01.530 --> 03:04.680
+we have something called Container Insights.
+
+03:04.680 --> 03:09.126
+So it is in beta stage as on today, but it is live also.
+
+03:09.126 --> 03:11.673
+So now I'll click on this.
+
+03:13.338 --> 03:16.770
+And we have three options here available.
+
+03:16.770 --> 03:18.810
+So this is one more brand new feature also,
+
+03:18.810 --> 03:21.480
+they have added to this Container Insights,
+
+03:21.480 --> 03:23.610
+which is Container Insights are recently announced.
+
+03:23.610 --> 03:26.670
+So the Brita, it is for Prometheus metrics monitoring
+
+03:26.670 --> 03:29.460
+for EKS and Kubernetes clusters.
+
+03:29.460 --> 03:30.840
+So this is a very good news.
+
+03:30.840 --> 03:32.970
+So Prometheus is a very famous tool
+
+03:32.970 --> 03:35.160
+for cloud native related stuff
+
+03:35.160 --> 03:37.260
+and they also integrated that also
+
+03:37.260 --> 03:39.420
+with the Container Insights.
+
+03:39.420 --> 03:41.640
+For now we are going to do direct
+
+03:41.640 --> 03:44.121
+in Container Insights what is available.
+
+03:44.121 --> 03:47.257
+So we can list all our container resources here
+
+03:47.257 --> 03:50.820
+and we can view everything in our map.
+
+03:50.820 --> 03:52.830
+So it can do application monitoring,
+
+03:52.830 --> 03:54.780
+infrastructure and performance monitoring
+
+03:54.780 --> 03:55.890
+and even troubleshooting
+
+03:55.890 --> 03:57.570
+and then right sizing all these things,
+
+03:57.570 --> 04:00.810
+it can take care using Container Insights.
+
+04:00.810 --> 04:05.310
+So first we'll go and then list our container resources.
+
+04:05.310 --> 04:06.507
+So let it load what all
+
+04:06.507 --> 04:09.303
+are our container resources available here.
+
+04:10.860 --> 04:12.445
+And let me close this.
+
+04:12.445 --> 04:15.240
+So these all are available for me.
+
+04:15.240 --> 04:17.910
+In a namespace, Amazon CloudWatch is there
+
+04:17.910 --> 04:21.527
+and app one NGINX deployment, AWS node,
+
+04:21.527 --> 04:22.770
+CloudWatch, code dns,
+
+04:22.770 --> 04:26.370
+all these other resources available for us.
+
+04:26.370 --> 04:31.370
+so now if we go to the map.
+
+04:32.070 --> 04:34.650
+So we can see the map view here
+
+04:34.650 --> 04:38.537
+and if you see here in the EKS namespace,
+
+04:38.537 --> 04:39.830
+means like in the default namespace.
+
+04:39.830 --> 04:42.690
+This is the EKS demo cluster
+
+04:42.690 --> 04:44.095
+and in the default namespace,
+
+04:44.095 --> 04:47.399
+you can find something called NLB app on NGINX
+
+04:47.399 --> 04:50.400
+and then app one NGINX deployment which I have deleted it.
+
+04:50.400 --> 04:51.900
+For now it is not there.
+
+04:51.900 --> 04:56.160
+So now I have something called sample NGINX service,
+
+04:56.160 --> 04:58.530
+which is nothing but whatever we have created.
+
+04:58.530 --> 05:00.780
+So sample NGINX service.
+
+05:00.780 --> 05:04.260
+And we also have sample NGINX deployment.
+
+05:04.260 --> 05:08.312
+So I'll say smaller. And so this is the one.
+
+05:08.312 --> 05:10.140
+So if you want we can see in a bigger view.
+
+05:10.140 --> 05:12.720
+And we also have in kube system namespace,
+
+05:12.720 --> 05:14.760
+we have kube-dns, AWS node
+
+05:14.760 --> 05:18.300
+and then kube proxy related stuff inside that.
+
+05:18.300 --> 05:20.969
+And also we have EKS pod also.
+
+05:20.969 --> 05:24.660
+So these are services and then these are pods.
+
+05:24.660 --> 05:27.960
+And in CloudWatch namespace which we have recently installed
+
+05:27.960 --> 05:30.167
+we have FluentD CloudWatch pod
+
+05:30.167 --> 05:32.902
+and then CloudWatch agent pod.
+
+05:32.902 --> 05:34.110
+So that's about it.
+
+05:34.110 --> 05:35.100
+On a very high level,
+
+05:35.100 --> 05:37.590
+it is also going to show what are the memory
+
+05:37.590 --> 05:41.220
+and then CPU usages also about this stuff.
+
+05:41.220 --> 05:43.276
+So you can see less than 1% CPU average,
+
+05:43.276 --> 05:45.300
+currently it is showing.
+
+05:45.300 --> 05:46.530
+So that's about it.
+
+05:46.530 --> 05:48.205
+In resource view, you can see
+
+05:48.205 --> 05:50.910
+or you can see in the list view or in the map view
+
+05:50.910 --> 05:55.480
+about entire our cluster, what we have in detail.
+
+05:55.480 --> 05:59.908
+Now if we go here we also have the performance dashboard.
+
+05:59.908 --> 06:02.460
+So for our EKS cluster,
+
+06:02.460 --> 06:05.820
+we can also see the performance monitoring information
+
+06:05.820 --> 06:09.060
+for last three hours if you want, we can see it.
+
+06:09.060 --> 06:12.324
+So for the cluster CPU utilization is at 7%
+
+06:12.324 --> 06:16.680
+and then memory utilization is at 16.6%.
+
+06:16.680 --> 06:19.560
+You can see for the EKS demo one cluster.
+
+06:19.560 --> 06:21.510
+EKS clusters and then I have selector,
+
+06:21.510 --> 06:23.370
+we have only one cluster here
+
+06:23.370 --> 06:26.040
+and it's network and then disc cluster failures,
+
+06:26.040 --> 06:29.040
+number of nodes, everything it is going to show us.
+
+06:29.040 --> 06:32.460
+So number of nodes at this point of time we have two nodes
+
+06:32.460 --> 06:36.930
+and disc utilization is 14% and no cluster failures so far.
+
+06:36.930 --> 06:38.730
+And network utilization is like this,
+
+06:38.730 --> 06:42.210
+and memory utilization is like this, 16%.
+
+06:42.210 --> 06:44.700
+And like this we can see every information.
+
+06:44.700 --> 06:48.090
+So now in addition to EKS clusters
+
+06:48.090 --> 06:51.600
+you can even see by EKS namespaces.
+
+06:51.600 --> 06:56.070
+So and what are the namespaces available for us?
+
+06:56.070 --> 06:59.370
+Default, we have some information there for the thing.
+
+06:59.370 --> 07:02.910
+So you can see default CPU utilization, how it is,
+
+07:02.910 --> 07:05.154
+and then you can see blue little high here.
+
+07:05.154 --> 07:06.570
+So like that.
+
+07:06.570 --> 07:09.090
+In the same way, Amazon CloudWatch, it has 2.1.
+
+07:09.090 --> 07:11.876
+It means like our system resources related to CloudWatch
+
+07:11.876 --> 07:14.310
+FluentD and then CloudWatch agent
+
+07:14.310 --> 07:16.944
+is using 2.1 CPU utilization.
+
+07:16.944 --> 07:18.450
+And never utilization.
+
+07:18.450 --> 07:22.170
+For all these things you have CPU memory and then network.
+
+07:22.170 --> 07:24.390
+And CPU utilization over limit,
+
+07:24.390 --> 07:27.793
+memory utilization over limit also you can see.
+
+07:27.793 --> 07:31.500
+So now you can see who is hitting the over limit.
+
+07:31.500 --> 07:33.510
+So CPU utilization for default,
+
+07:33.510 --> 07:35.910
+for which one it is hitting is?
+
+07:35.910 --> 07:38.280
+See you can see it here, CPU pod,
+
+07:38.280 --> 07:41.340
+over pod limit, Container Insights you can see here.
+
+07:41.340 --> 07:45.172
+So in the default namespace it is using 71.9%.
+
+07:45.172 --> 07:50.160
+So which clearly says that over limit related statistics,
+
+07:50.160 --> 07:53.100
+also it is going to provide us.
+
+07:53.100 --> 07:55.620
+So that's very important thing. So why it is going.
+
+07:55.620 --> 07:57.720
+So we'll go to the pod view to see that.
+
+07:57.720 --> 07:58.830
+So this is notes view.
+
+07:58.830 --> 08:00.270
+Once we go to the pod view,
+
+08:00.270 --> 08:03.300
+we'll see over limit in a clear manner.
+
+08:03.300 --> 08:05.190
+So you can see per nodes.
+
+08:05.190 --> 08:10.190
+Node CPU utilization and result CPU computation
+
+08:10.710 --> 08:12.480
+and memory utilization.
+
+08:12.480 --> 08:15.513
+All the information is available here, per nodes.
+
+08:16.500 --> 08:17.610
+And services.
+
+08:17.610 --> 08:20.160
+So how the services information is there,
+
+08:20.160 --> 08:21.810
+we can see it here.
+
+08:21.810 --> 08:26.810
+Most important is per pod we need. So EKS pods.
+
+08:29.010 --> 08:31.050
+So you can see that pods,
+
+08:31.050 --> 08:34.963
+you can see CCP utilization and then memory equalization.
+
+08:34.963 --> 08:37.800
+3.9% in orange, which is CloudWatch agent.
+
+08:37.800 --> 08:39.450
+And then for default, how it is
+
+08:39.450 --> 08:41.520
+and all those details you can see.
+
+08:41.520 --> 08:43.803
+And now CPU utilization is over pod.
+
+08:45.127 --> 08:49.200
+So if you see here, over pod limit is this one, blue one,
+
+08:49.200 --> 08:52.950
+which is nothing but sample NGINX deployment.
+
+08:52.950 --> 08:55.590
+So that is using the over the pod limit.
+
+08:55.590 --> 08:56.580
+So if you remember,
+
+08:56.580 --> 08:59.820
+so to show this over the pod limit informations,
+
+08:59.820 --> 09:03.360
+so I have defined the limit as 10 M CPU
+
+09:03.360 --> 09:05.520
+and then all what this it is utilizing
+
+09:05.520 --> 09:06.690
+and then it is telling us.
+
+09:06.690 --> 09:10.650
+So that's what is the over the pod limit it is using the CPU
+
+09:10.650 --> 09:12.375
+and this is a notification for us,
+
+09:12.375 --> 09:15.360
+telling that it is using over the pod limit.
+
+09:15.360 --> 09:16.830
+Now this is the time for you
+
+09:16.830 --> 09:20.160
+to increase your pod limit information.
+
+09:20.160 --> 09:22.358
+So if you made it 200 or whatever.
+
+09:22.358 --> 09:26.910
+So like this, you can know the statistics in a detailed way.
+
+09:26.910 --> 09:30.360
+So that's about the over the pod limit information.
+
+09:30.360 --> 09:32.910
+So now we have seen pods also,
+
+09:32.910 --> 09:34.770
+and this Prometheus we still didn't deploy.
+
+09:34.770 --> 09:37.140
+So we are not going to go into that.
+
+09:37.140 --> 09:39.535
+So we only deployed EKS related stuff.
+
+09:39.535 --> 09:41.340
+So we looked into them.
+
+09:41.340 --> 09:45.540
+So now another important thing is in resources section.
+
+09:45.540 --> 09:47.475
+So where is this?
+
+09:47.475 --> 09:52.470
+We need to see my deployment name.
+
+09:52.470 --> 09:56.613
+So sample NGINX deployment.
+
+09:57.569 --> 10:01.923
+So if I go inside that we have this information.
+
+10:02.820 --> 10:05.883
+So this is the sample NGINX pod.
+
+10:07.140 --> 10:10.320
+So let's see the pod name once whatever is there.
+
+10:10.320 --> 10:14.730
+So kubectl, get pods on which we have generated the load.
+
+10:14.730 --> 10:19.260
+So let's get the pod information. It is PMPPPS.
+
+10:19.260 --> 10:22.800
+So PMPPPS is the information. So I can select that.
+
+10:22.800 --> 10:25.725
+And you can see here there are few things available here.
+
+10:25.725 --> 10:29.760
+So for this respective pod you can click on application logs
+
+10:29.760 --> 10:31.312
+and then performance logs.
+
+10:31.312 --> 10:34.880
+So first I'll open the application logs for this.
+
+10:34.880 --> 10:39.513
+And this will take us to the CloudWatch Log Insights.
+
+10:42.540 --> 10:45.540
+So it'll take us to the CloudWatch Log Insights.
+
+10:45.540 --> 10:47.970
+Log insights is another important feature.
+
+10:47.970 --> 10:52.140
+So as part of FluentD, it is pushing the logs here.
+
+10:52.140 --> 10:54.060
+So now it is pushing the logs here.
+
+10:54.060 --> 10:56.010
+So now we are seeing the respective to step.
+
+10:56.010 --> 10:58.230
+We are continuing our section here.
+
+10:58.230 --> 11:00.630
+So we have seen the CloudWatch dashboard.
+
+11:00.630 --> 11:04.500
+So we are also going to see CloudWatch Log Insights now.
+
+11:04.500 --> 11:09.390
+So now we'll come here and if I run the query like this,
+
+11:09.390 --> 11:12.347
+so we are getting the entire logs for that.
+
+11:12.347 --> 11:15.720
+So for this one, if you see any of the log,
+
+11:15.720 --> 11:17.010
+if you want to see it.
+
+11:17.010 --> 11:18.300
+So what it is accessing
+
+11:18.300 --> 11:20.760
+and all the information is available for us.
+
+11:20.760 --> 11:21.690
+What is the log
+
+11:21.690 --> 11:25.200
+and then what is the log stream it is using and log message.
+
+11:25.200 --> 11:26.940
+You can see it is trying to get the slash
+
+11:26.940 --> 11:29.240
+and it is getting the 200 and who is the agent?
+
+11:29.240 --> 11:33.210
+It is Apache bench is the agent here and the timestamp.
+
+11:33.210 --> 11:35.640
+And then docker container ID, kuba container,
+
+11:35.640 --> 11:38.580
+Kubernetes container image, image ID,
+
+11:38.580 --> 11:40.770
+and then container name, by container name,
+
+11:40.770 --> 11:41.850
+all the information.
+
+11:41.850 --> 11:44.463
+So it means like we have tons of information
+
+11:44.463 --> 11:48.300
+about our application which we can mold
+
+11:48.300 --> 11:51.210
+and then get the information in any way.
+
+11:51.210 --> 11:53.730
+Write the filters and then get in such a way
+
+11:53.730 --> 11:57.300
+that by this container name I need the information.
+
+11:57.300 --> 11:59.255
+Or from this timestamp to this timestamp,
+
+11:59.255 --> 12:02.010
+I need the information of logs.
+
+12:02.010 --> 12:03.540
+So everything you can get.
+
+12:03.540 --> 12:05.430
+And even this information,
+
+12:05.430 --> 12:08.430
+whatever the filter you write, that respective filter.
+
+12:08.430 --> 12:13.430
+So try to get me something called, whatever becomes non 200,
+
+12:13.485 --> 12:18.060
+404 or 500 related stuff and then add it to the dashboard.
+
+12:18.060 --> 12:19.830
+So that those details,
+
+12:19.830 --> 12:22.560
+you will be able to see in the dashboard.
+
+12:22.560 --> 12:25.890
+So like that you can do lots of information using this data.
+
+12:25.890 --> 12:28.050
+So you can massage and then use the way,
+
+12:28.050 --> 12:31.170
+whatever the way you want with this information.
+
+12:31.170 --> 12:35.637
+So which means FluentD installed as part of our CloudWatch
+
+12:37.500 --> 12:40.140
+inside the EKS cluster is giving good amount
+
+12:40.140 --> 12:43.470
+of log information, which we will be able to manage
+
+12:43.470 --> 12:45.888
+in whatever the way we need it.
+
+12:45.888 --> 12:47.996
+So that's about logs.
+
+12:47.996 --> 12:51.780
+And one more thing we can see are performance logs.
+
+12:51.780 --> 12:53.520
+So this is about,
+
+12:53.520 --> 12:56.070
+again this is another dimension of getting the data.
+
+12:56.070 --> 12:58.309
+So here you are going to get only,
+
+12:58.309 --> 13:02.580
+however performance of our applications is available there.
+
+13:02.580 --> 13:04.440
+So if I click on this.
+
+13:04.440 --> 13:07.415
+So you can see here you'll get a different dimensional data.
+
+13:07.415 --> 13:09.960
+So container file system available,
+
+13:09.960 --> 13:14.010
+container file system capacity, container file system usage
+
+13:14.010 --> 13:16.800
+and then container file system utilization.
+
+13:16.800 --> 13:20.220
+So like this, you get the data in a performance view.
+
+13:20.220 --> 13:22.800
+Also with this also you can generate the dashboards
+
+13:22.800 --> 13:24.900
+and then use it.
+
+13:24.900 --> 13:28.680
+So you need to learn more about insights related filter,
+
+13:28.680 --> 13:30.047
+send then fields and in using that,
+
+13:30.047 --> 13:33.090
+you'll be able to write better.
+
+13:33.090 --> 13:35.850
+And then add them to the dashboards and then use it.
+
+13:35.850 --> 13:36.990
+But you have the data,
+
+13:36.990 --> 13:40.350
+you'll be able to do those things easily.
+
+13:40.350 --> 13:43.170
+So that's about this one.
+
+13:43.170 --> 13:46.050
+And another thing is we already seen as part of x-ray
+
+13:46.050 --> 13:49.740
+for deploying our sample services, application services,
+
+13:49.740 --> 13:51.794
+we have seen x-ray traces.
+
+13:51.794 --> 13:55.740
+So if you click on this, this is the NGINX application,
+
+13:55.740 --> 13:58.800
+I really didn't enable any extra trace here.
+
+13:58.800 --> 14:00.496
+So ideally will not see anything.
+
+14:00.496 --> 14:02.460
+But if you have deployed
+
+14:02.460 --> 14:05.608
+any of the x-ray related application.
+
+14:05.608 --> 14:08.040
+So you'll be able to see that.
+
+14:08.040 --> 14:09.840
+So from here itself, you can go
+
+14:09.840 --> 14:12.570
+and then see the extra traces from this screen itself.
+
+14:12.570 --> 14:14.250
+You can launch the x-ray trace
+
+14:14.250 --> 14:16.080
+for that respective container image
+
+14:16.080 --> 14:18.960
+and then see all those traces also.
+
+14:18.960 --> 14:20.490
+Even those things the service map,
+
+14:20.490 --> 14:21.900
+whatever you have seen in x-ray,
+
+14:21.900 --> 14:24.690
+those are also going to get displayed here.
+
+14:24.690 --> 14:27.960
+So this is about the Container Insights, Log Insights
+
+14:27.960 --> 14:30.930
+and then CloudWatch dashboard on a high level.
+
+14:30.930 --> 14:33.270
+In our next lecture, we'll also see on a very high level
+
+14:33.270 --> 14:36.900
+how the alarms looks like and then we'll wrap up.
+
+14:36.900 --> 14:38.490
+So I'll see you in the next lecture.
+
+14:38.490 --> 14:40.263
+Until then, bye bye. Thank you.

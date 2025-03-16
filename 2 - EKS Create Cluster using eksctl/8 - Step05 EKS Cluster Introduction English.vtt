@@ -1,0 +1,709 @@
+WEBVTT
+
+00:00.000 --> 00:00.840
+Instructor: Welcome back.
+
+00:00.840 --> 00:01.710
+In this lecture
+
+00:01.710 --> 00:05.730
+we are going to understand about AWS EKS cluster.
+
+00:05.730 --> 00:08.490
+So how EKS cluster is going to work,
+
+00:08.490 --> 00:11.880
+what are the core objects involved in the EKS cluster
+
+00:11.880 --> 00:14.760
+and more details about that core objects-
+
+00:14.760 --> 00:16.410
+what it can do and all those things.
+
+00:16.410 --> 00:17.280
+So we are going to see
+
+00:17.280 --> 00:21.960
+that in our introductory section of our EKS cluster.
+
+00:21.960 --> 00:26.820
+So EKS cluster primarily will have four core concepts-
+
+00:26.820 --> 00:30.360
+EKS control plane worker nodes and node groups
+
+00:30.360 --> 00:33.210
+Fargate profiles and VPC.
+
+00:33.210 --> 00:35.010
+So let's see one after the other
+
+00:35.010 --> 00:36.720
+in a very high level
+
+00:36.720 --> 00:38.400
+and then we'll go in detail
+
+00:38.400 --> 00:40.710
+about those things in upcoming slides.
+
+00:40.710 --> 00:44.580
+So EKS control plane is nothing but the master node
+
+00:44.580 --> 00:47.430
+in our regular Kubernetes architecture.
+
+00:47.430 --> 00:50.190
+So which means it'll host the outside
+
+00:50.190 --> 00:52.200
+and then cube API server, cube controller,
+
+00:52.200 --> 00:55.560
+all those stuff will be present in this control plane.
+
+00:55.560 --> 00:58.200
+So now in regular Kubernetes,
+
+00:58.200 --> 01:00.960
+we need to maintain our master nodes too.
+
+01:00.960 --> 01:02.910
+But when we come to the cloud here
+
+01:02.910 --> 01:06.573
+what happens is the entire control plane is managed by AWS.
+
+01:07.650 --> 01:09.570
+So we really don't need to worry about
+
+01:09.570 --> 01:11.670
+our high availability of our (mumbles)
+
+01:11.670 --> 01:13.230
+or our cube API servers,
+
+01:13.230 --> 01:15.683
+our controllers or whatever present in the master.
+
+01:15.683 --> 01:20.683
+All objects is managed by AWS EKS control plane.
+
+01:21.300 --> 01:23.100
+So we really don't need to worry.
+
+01:23.100 --> 01:26.250
+So that's a complete manager service by AWS.
+
+01:26.250 --> 01:29.051
+So our responsibility starts with provisioning the cluster
+
+01:29.051 --> 01:33.030
+and after that provisioning the worker nodes,
+
+01:33.030 --> 01:34.590
+nothing but node groups.
+
+01:34.590 --> 01:37.380
+So not groups are nothing but group of EC2 instances
+
+01:37.380 --> 01:40.650
+where we run our application workloads.
+
+01:40.650 --> 01:43.830
+So we will provision the EC2 instances here
+
+01:43.830 --> 01:45.960
+and then on those things we are going to
+
+01:45.960 --> 01:50.490
+deploy our Kubernetes applications, whatever we want to run.
+
+01:50.490 --> 01:54.210
+So the next comes the Fargate profiles.
+
+01:54.210 --> 01:56.700
+So again, the same concept comes here.
+
+01:56.700 --> 01:58.350
+So which means like we really don't need to
+
+01:58.350 --> 02:01.620
+provision the hard model of EC2 instances
+
+02:01.620 --> 02:03.750
+with CPU, RAM, all those things.
+
+02:03.750 --> 02:07.920
+So we can directly deploy our Kubernetes applications
+
+02:07.920 --> 02:10.020
+which means like our respective ports
+
+02:10.020 --> 02:13.170
+on the Fargate profiles
+
+02:13.170 --> 02:16.110
+and it is going to be like how much we need,
+
+02:16.110 --> 02:17.190
+that much we can allocate
+
+02:17.190 --> 02:19.860
+and then use in the serverless.
+
+02:19.860 --> 02:22.320
+In simple term there is no wastage of resources
+
+02:22.320 --> 02:26.700
+when we use the serverless concepts using Fargate profiles.
+
+02:26.700 --> 02:28.710
+So the next thing is VPC.
+
+02:28.710 --> 02:30.300
+So now Y VPC.
+
+02:30.300 --> 02:33.960
+Y VPC is also a core object in EKS cluster.
+
+02:33.960 --> 02:35.580
+So if you refer the documentation,
+
+02:35.580 --> 02:36.930
+the core things they say is
+
+02:36.930 --> 02:39.480
+control plane worker nodes and then Fargate profiles.
+
+02:39.480 --> 02:43.200
+But when you see in a deeper view of your EKS,
+
+02:43.200 --> 02:44.760
+you also need to understand one thing
+
+02:44.760 --> 02:46.860
+like whenever you're deploying your production loads
+
+02:46.860 --> 02:49.590
+your design and architecture plays the primary role.
+
+02:49.590 --> 02:51.870
+So when we are doing the design, then the core thing
+
+02:51.870 --> 02:54.240
+what we need to know is security.
+
+02:54.240 --> 02:55.650
+So security comes from
+
+02:55.650 --> 02:57.720
+how we design our virtual private cloud
+
+02:57.720 --> 03:00.120
+which is nothing but the VPC, right?
+
+03:00.120 --> 03:03.780
+So that's the reason I added the concept of VPC also here
+
+03:03.780 --> 03:07.200
+and stating that that also comes under the core objects.
+
+03:07.200 --> 03:09.570
+So now why this VPC?
+
+03:09.570 --> 03:12.780
+Why? Because you can deploy your application workloads
+
+03:12.780 --> 03:16.350
+directly on the public subnets in the EKS cluster
+
+03:16.350 --> 03:18.960
+or you can create a node group in the private subnet
+
+03:18.960 --> 03:23.100
+and deploy there or you can even deploy Fargate profiles.
+
+03:23.100 --> 03:26.130
+And another important thing here is Fargate profiles
+
+03:26.130 --> 03:27.630
+can be created only
+
+03:27.630 --> 03:31.710
+if your VPC is having minimum one private subnet
+
+03:31.710 --> 03:35.850
+which means Fargate profiles only run non-private subnets
+
+03:35.850 --> 03:39.840
+which means we should be aware of VPC concepts
+
+03:39.840 --> 03:41.400
+and also we should be aware
+
+03:41.400 --> 03:43.260
+of public and private subnets
+
+03:43.260 --> 03:45.210
+and equal and security groups
+
+03:45.210 --> 03:47.010
+and how we are going to handle it.
+
+03:47.010 --> 03:50.400
+And when you deploy the things in the private subnets
+
+03:50.400 --> 03:52.469
+what happens like if our cluster,
+
+03:52.469 --> 03:56.520
+if our application workloads or even the workloads
+
+03:56.520 --> 03:57.480
+whatever you have deployed
+
+03:57.480 --> 03:59.010
+means like our worker nodes
+
+03:59.010 --> 04:01.560
+present in the private subnet need to be communication
+
+04:01.560 --> 04:03.390
+with the EKS control plane.
+
+04:03.390 --> 04:04.350
+So for that purpose
+
+04:04.350 --> 04:06.930
+also it need to deploy the VPC NAD gateways.
+
+04:06.930 --> 04:08.910
+So there are multiple concepts involved
+
+04:08.910 --> 04:12.570
+with the VPC in addition to these three core objects.
+
+04:12.570 --> 04:14.040
+So that's the reason VPC
+
+04:14.040 --> 04:19.040
+also becomes one of the core feature for EKS cluster
+
+04:19.080 --> 04:20.700
+from design perspective.
+
+04:20.700 --> 04:23.580
+So now let's see, how does this EKS work?
+
+04:23.580 --> 04:24.990
+So this image
+
+04:24.990 --> 04:28.470
+I directly took it from the AWS documentation.
+
+04:28.470 --> 04:31.680
+So what we are going to do that is the core thing, right?
+
+04:31.680 --> 04:35.103
+So first we are going to provision our EKS cluster,
+
+04:36.240 --> 04:38.160
+which is nothing but our control plane.
+
+04:38.160 --> 04:40.530
+And once we provision our EKS cluster
+
+04:40.530 --> 04:43.290
+we are going to create the node groups
+
+04:43.290 --> 04:46.170
+nothing but deploying our worker nodes.
+
+04:46.170 --> 04:47.760
+So now our cluster, which is nothing,
+
+04:47.760 --> 04:50.490
+but master is ready and the worker nodes are ready.
+
+04:50.490 --> 04:52.320
+So what we are going to do is we are going to
+
+04:52.320 --> 04:53.790
+deploy our applications.
+
+04:53.790 --> 04:55.890
+So to deploy our application workloads
+
+04:55.890 --> 04:58.140
+we need to connect to our cluster.
+
+04:58.140 --> 05:03.140
+So we are going to do that using our Kubernetes Kubectl CLI.
+
+05:03.210 --> 05:04.920
+So kube, CTL CLI.
+
+05:04.920 --> 05:07.530
+So once we deploy, we can run our Kubernetes apps
+
+05:07.530 --> 05:10.980
+on the respective Kubernetes clusters.
+
+05:10.980 --> 05:12.580
+So that's about on a high level.
+
+05:13.620 --> 05:16.110
+Let's see, each of our components,
+
+05:16.110 --> 05:18.090
+means like whatever we set the core objects
+
+05:18.090 --> 05:20.100
+in detail step by step.
+
+05:20.100 --> 05:22.110
+So EKS control plane.
+
+05:22.110 --> 05:24.570
+It says single tenant Kubernetes control plane
+
+05:24.570 --> 05:25.680
+for each cluster
+
+05:25.680 --> 05:27.870
+and control plane infrastructure is not shared
+
+05:27.870 --> 05:30.570
+across clusters R AWS.
+
+05:30.570 --> 05:33.240
+So it is going to be independent for us.
+
+05:33.240 --> 05:35.730
+And another important thing is this control plane
+
+05:35.730 --> 05:38.088
+consists of at least two API servers
+
+05:38.088 --> 05:40.110
+and three outside nodes
+
+05:40.110 --> 05:43.260
+that run across three available zones within a region.
+
+05:43.260 --> 05:45.849
+And as AWS is going to manage it
+
+05:45.849 --> 05:48.450
+so EKS automatically detects
+
+05:48.450 --> 05:51.840
+and replaces unhealthy control plane instances
+
+05:51.840 --> 05:54.390
+restarting them across the availability zones
+
+05:54.390 --> 05:56.760
+within the region as needed.
+
+05:56.760 --> 06:00.000
+So that's about control plane on a high level.
+
+06:00.000 --> 06:03.390
+So the next thing is worker nodes and then node groups.
+
+06:03.390 --> 06:05.760
+So worker missions in Kubernetes are called nodes
+
+06:05.760 --> 06:09.180
+and these are nothing but our regular EC2 instances only
+
+06:09.180 --> 06:13.650
+but the AMI specifically designed for Kubernetes from AWS.
+
+06:13.650 --> 06:14.970
+So another important thing here
+
+06:14.970 --> 06:18.090
+is EKS worker nodes running our AWS account
+
+06:18.090 --> 06:20.160
+and connect to our clusters control plane
+
+06:20.160 --> 06:23.340
+where cluster API server endpoint.
+
+06:23.340 --> 06:25.470
+So now here what we need to understand
+
+06:25.470 --> 06:27.780
+is this cluster server API endpoint
+
+06:27.780 --> 06:29.790
+should be exposed to the internet.
+
+06:29.790 --> 06:33.870
+Our means like our worker node should be accessed internally
+
+06:33.870 --> 06:37.350
+to the VPC using this cluster API server endpoint
+
+06:37.350 --> 06:39.360
+or our worker nodes need to go
+
+06:39.360 --> 06:42.780
+via internet and then access this APIs server endpoint.
+
+06:42.780 --> 06:44.010
+These are design strategies
+
+06:44.010 --> 06:47.100
+how we are going to design our EKS cluster.
+
+06:47.100 --> 06:48.480
+So all those things we can look into
+
+06:48.480 --> 06:51.060
+in our production design section.
+
+06:51.060 --> 06:52.563
+So, and another important thing here
+
+06:52.563 --> 06:55.080
+is a node group is one or more EC2 instances
+
+06:55.080 --> 06:58.800
+that are deployed into a EC2 auto scaling group.
+
+06:58.800 --> 07:00.545
+So when we are doing the cluster autoscaler
+
+07:00.545 --> 07:03.750
+we'll understand the concepts of these auto scaling groups
+
+07:03.750 --> 07:06.120
+and then how we can automatically scale
+
+07:06.120 --> 07:06.953
+our worker nodes
+
+07:06.953 --> 07:09.480
+based on the CPU and memory resources available.
+
+07:09.480 --> 07:10.313
+So we'll see that
+
+07:10.313 --> 07:14.070
+in a dedicated manner in this separate specific section.
+
+07:14.070 --> 07:15.330
+One more important thing here
+
+07:15.330 --> 07:17.880
+is all instances in a node group
+
+07:17.880 --> 07:19.740
+must be of same instance style
+
+07:19.740 --> 07:21.600
+be running the same AMI
+
+07:21.600 --> 07:25.170
+and use the same EKS worker node IAM role.
+
+07:25.170 --> 07:26.910
+So all these are core things, okay
+
+07:26.910 --> 07:29.658
+But do we need to worry about all these things here?
+
+07:29.658 --> 07:34.350
+No. So when we use the EKS CTL command line
+
+07:34.350 --> 07:37.380
+most of the things are achieved directly out of the box.
+
+07:37.380 --> 07:40.050
+We don't need to worry about worker node IAM role
+
+07:40.050 --> 07:43.860
+or running the same AMI or running the same instance there.
+
+07:43.860 --> 07:48.630
+All these things are automatically taken care with EKS CTL.
+
+07:48.630 --> 07:51.540
+So the next thing is Fargate profiles.
+
+07:51.540 --> 07:53.490
+So AWS Fargate is a technology
+
+07:53.490 --> 07:55.141
+that provides on demand
+
+07:55.141 --> 07:58.530
+right sized compute capacity for containers.
+
+07:58.530 --> 07:59.430
+So with Fargate,
+
+07:59.430 --> 08:02.910
+we no longer have to provision, configure or scale
+
+08:02.910 --> 08:05.970
+groups of virtual missions to run with containers.
+
+08:05.970 --> 08:08.070
+So each pod running on Fargate
+
+08:08.070 --> 08:09.870
+has its own isolation boundary
+
+08:09.870 --> 08:10.770
+and does not share
+
+08:10.770 --> 08:15.510
+the underlying kernel CPU resources, memory resources
+
+08:15.510 --> 08:17.250
+or elastic network interface
+
+08:17.250 --> 08:18.930
+with another part.
+
+08:18.930 --> 08:22.680
+So AWS especially built Fargate controllers
+
+08:22.680 --> 08:24.600
+like how we have the cube controller
+
+08:24.600 --> 08:27.570
+and then cloud controller in Kubernetes master
+
+08:27.570 --> 08:30.360
+Same way, they have something called Fargate controller
+
+08:30.360 --> 08:33.570
+and that recognizes the ports belonging to Fargate
+
+08:33.570 --> 08:36.210
+and then schedules the many Fargate profiles
+
+08:36.210 --> 08:37.800
+based on this SELECT US concept,
+
+08:37.800 --> 08:38.633
+which we are going to
+
+08:38.633 --> 08:41.633
+see specifically in our Fargate section.
+
+08:41.633 --> 08:44.271
+So we'll see more in our Fargate learning section
+
+08:44.271 --> 08:45.930
+all these things.
+
+08:45.930 --> 08:47.610
+So another thing is VPC.
+
+08:47.610 --> 08:52.610
+So EKS uses AWS VPC network policies to restrict traffic
+
+08:52.740 --> 08:56.010
+between control plan components within a single cluster.
+
+08:56.010 --> 08:58.410
+We have discussed a little bit also about this.
+
+08:58.410 --> 08:59.940
+So how you are going to access
+
+08:59.940 --> 09:02.550
+the cluster API server endpoints
+
+09:02.550 --> 09:03.780
+from our worker nodes
+
+09:03.780 --> 09:05.160
+is a decision of ours,
+
+09:05.160 --> 09:06.480
+how we want to access it
+
+09:06.480 --> 09:08.978
+inside the VPC or via internet edge,
+
+09:08.978 --> 09:13.380
+which means like your cluster API server enter endpoint
+
+09:13.380 --> 09:14.999
+should be how you want to expose it.
+
+09:14.999 --> 09:16.800
+So, and another important thing here
+
+09:16.800 --> 09:19.470
+is control plan components for EKS cluster
+
+09:19.470 --> 09:23.250
+cannot view or receive communication from other EKS cluster
+
+09:23.250 --> 09:27.424
+present in same AWS account or in other AWS accounts
+
+09:27.424 --> 09:32.103
+Okay? Unless we authorize the Kubernetes RBAC policies.
+
+09:34.170 --> 09:38.010
+So this confirms that our EKS cluster is highly secure
+
+09:38.010 --> 09:40.110
+and highly available configuration
+
+09:40.110 --> 09:42.210
+makes us reliable and recommended
+
+09:42.210 --> 09:45.060
+for deploying our production workloads.
+
+09:45.060 --> 09:45.893
+So all in all
+
+09:45.893 --> 09:50.490
+EKS is ready for deploying our production workloads.
+
+09:50.490 --> 09:52.650
+But the core thing here is each concept
+
+09:52.650 --> 09:54.085
+need to be drilled down in detail
+
+09:54.085 --> 09:57.450
+and then understood in detail so how we are going to use it.
+
+09:57.450 --> 09:59.610
+So all these things we'll do in a step-by step.
+
+09:59.610 --> 10:00.600
+So what we are going to do
+
+10:00.600 --> 10:02.331
+is we'll see the Kubernetes concepts.
+
+10:02.331 --> 10:06.210
+and EKS related AWS services
+
+10:06.210 --> 10:10.050
+are EKS attached AWS services hand in hand.
+
+10:10.050 --> 10:12.840
+And then we'll understand everything in detail.
+
+10:12.840 --> 10:15.660
+So I'll see you in the next lecture and then bye bye.
+
+10:15.660 --> 10:16.493
+Thank you.

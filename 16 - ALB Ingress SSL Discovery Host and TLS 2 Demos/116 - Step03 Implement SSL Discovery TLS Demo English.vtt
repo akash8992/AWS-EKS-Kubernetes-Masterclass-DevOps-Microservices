@@ -1,0 +1,445 @@
+WEBVTT
+
+00:00.570 --> 00:01.403
+-: Welcome back.
+
+00:01.403 --> 00:04.200
+In this demo we are going to implement SSL
+
+00:04.200 --> 00:07.680
+discovery, TLs option in Ingress surveys.
+
+00:07.680 --> 00:11.160
+So now let's go back to our GitHub repository,
+
+00:11.160 --> 00:16.110
+and we are in zero eight new ERP application load balances,
+
+00:16.110 --> 00:20.160
+and we are entering into the section 0811
+
+00:20.160 --> 00:23.790
+Ingress SSL discovery TLS, right?
+
+00:23.790 --> 00:25.710
+So as part of introductory section,
+
+00:25.710 --> 00:27.780
+we already know what is host
+
+00:27.780 --> 00:32.780
+and TLS from SSL discovery concept perspective in Ingress.
+
+00:33.060 --> 00:34.590
+So now we are going to go ahead
+
+00:34.590 --> 00:38.070
+and then review this Ingress manifest.
+
+00:38.070 --> 00:41.070
+So let's go back to our visual studio core,
+
+00:41.070 --> 00:46.070
+and enter into the section 0811 Kube manifest
+
+00:46.380 --> 00:51.380
+and 010203 app one app two app three deployment node ports,
+
+00:51.930 --> 00:54.060
+and node port services are going to be
+
+00:54.060 --> 00:56.520
+as is from our previous section,
+
+00:56.520 --> 01:00.630
+and if you come back here right, zero four,
+
+01:00.630 --> 01:04.500
+the name of this respective Ingress service is going to
+
+01:04.500 --> 01:07.890
+be Ingress cert discovery TLS demo.
+
+01:07.890 --> 01:10.020
+And here also the load balancer name is
+
+01:10.020 --> 01:12.870
+cert discovery TLS Ingress,
+
+01:12.870 --> 01:16.050
+and here as usual as part of previous demo
+
+01:16.050 --> 01:19.740
+also we have commented the certificate error
+
+01:19.740 --> 01:23.610
+because we are testing the SSL discovery concept here.
+
+01:23.610 --> 01:26.896
+So we need to comment this and if you come back here
+
+01:26.896 --> 01:30.120
+the external DNS related host name is going
+
+01:30.120 --> 01:32.965
+to be the DNS name is going to be cert discovery
+
+01:32.965 --> 01:36.960
+TLS101.stacksimplify.com.
+
+01:36.960 --> 01:40.110
+And the rules we are using the context part
+
+01:40.110 --> 01:41.130
+based rules here.
+
+01:41.130 --> 01:43.800
+So when the request comes with slash app one go
+
+01:43.800 --> 01:47.490
+to app one nginx node port service, and when it comes
+
+01:47.490 --> 01:51.120
+to slash app to go to app two nginx node port service,
+
+01:51.120 --> 01:54.990
+and default backend is app three nginx node port service.
+
+01:54.990 --> 01:57.390
+So all these things we are going to access using
+
+01:57.390 --> 01:59.340
+that DNS host name cert discovery
+
+01:59.340 --> 02:02.820
+TLS101.stacksimplify.com.
+
+02:02.820 --> 02:06.180
+But as you have not specified the certificate
+
+02:06.180 --> 02:08.910
+here and here, so automatically how we need
+
+02:08.910 --> 02:12.780
+to associate the SSL certificate is using this option.
+
+02:12.780 --> 02:15.480
+So TLS and host sees a list item,
+
+02:15.480 --> 02:18.570
+and you can define multiple things here if you want, right?
+
+02:18.570 --> 02:22.440
+So, but here we have the star.stacksimplify.com
+
+02:22.440 --> 02:25.050
+is associated here now.
+
+02:25.050 --> 02:28.650
+So automatically our stacksimplify.com related
+
+02:28.650 --> 02:31.980
+SSL certificate which is wildcard certificate,
+
+02:31.980 --> 02:34.620
+we have created is going to be associated
+
+02:34.620 --> 02:36.360
+to this Ingress service.
+
+02:36.360 --> 02:37.740
+So let's go back here
+
+02:37.740 --> 02:40.533
+and deploy these manifest and then test it.
+
+02:41.520 --> 02:46.520
+So let's go to 0811 Ingress SSL discovery TLS,
+
+02:48.159 --> 02:53.159
+and say Kube CTL apply hyphen F Kube manifest.
+
+02:53.580 --> 02:57.480
+So this should create the app on app to app three node port
+
+02:57.480 --> 03:01.170
+and deployments for those applications, and also
+
+03:01.170 --> 03:05.640
+create a Ingress sub discovery TLS demo Ingress service.
+
+03:05.640 --> 03:07.770
+So I'll run the command Kube CTL,
+
+03:07.770 --> 03:12.240
+get ports and services just to check
+
+03:12.240 --> 03:17.240
+those were created or not and also SVC.
+
+03:17.310 --> 03:20.040
+And you can see app one app to app three nginx port are
+
+03:20.040 --> 03:23.430
+running and also equal and node port services created,
+
+03:23.430 --> 03:28.170
+and I'll say Kube CTL get Ingress to verify
+
+03:28.170 --> 03:30.690
+our Ingress service got created.
+
+03:30.690 --> 03:33.060
+And you can see cert discovery tier list.
+
+03:33.060 --> 03:37.470
+This is the address of our Ingress service,
+
+03:37.470 --> 03:41.160
+and it is also listing on ports 80 and then 443,
+
+03:41.160 --> 03:45.630
+and it belongs to the Ingress class, my AWS Ingress class.
+
+03:45.630 --> 03:49.320
+So now let's come back here and verify
+
+03:49.320 --> 03:51.180
+the same thing with certificate.
+
+03:51.180 --> 03:55.140
+So let's come back and cert discover TLS Ingress,
+
+03:55.140 --> 03:59.628
+and we need to go to our HTTPS 443 listener and verify
+
+03:59.628 --> 04:03.090
+if our certificate is associated successfully
+
+04:03.090 --> 04:07.410
+star.stacksimplify.com is associated successfully
+
+04:07.410 --> 04:09.750
+to our application load balancer.
+
+04:09.750 --> 04:13.170
+So which means the demo whatever we are implementing SSL
+
+04:13.170 --> 04:16.830
+discovery using TLS option in Ingress service should
+
+04:16.830 --> 04:21.210
+associate the SSL certificate from the certificate manager
+
+04:21.210 --> 04:22.559
+whatever we have created
+
+04:22.559 --> 04:25.230
+to the application load balancer, right?
+
+04:25.230 --> 04:27.990
+And it is successfully associated.
+
+04:27.990 --> 04:32.550
+So let me close these things, right and let's come back here
+
+04:32.550 --> 04:37.020
+and if you want we can also do a, and let's look up test
+
+04:37.020 --> 04:41.520
+for our third discovery TLS, 101 related DNS.
+
+04:41.520 --> 04:44.403
+And what is the DNS we have used here?
+
+04:45.510 --> 04:46.343
+101.
+
+04:46.343 --> 04:47.910
+So this is the one, right?
+
+04:47.910 --> 04:51.333
+So sometimes this is a problem with the thing.
+
+04:53.100 --> 04:55.980
+And let's look up, and you can see,
+
+04:55.980 --> 05:00.063
+can't find cert discovery TLS, no answer, why?
+
+05:01.230 --> 05:05.250
+Maybe let's verify that logs here,
+
+05:05.250 --> 05:08.190
+and also verify the Route 53 here, right?
+
+05:08.190 --> 05:13.083
+So let's go out and go to the hosted zone stacksimplify.com,
+
+05:14.040 --> 05:16.953
+and you can see third discovery is created.
+
+05:23.280 --> 05:28.280
+So this is the problem usually, sometimes we face this.
+
+05:28.740 --> 05:32.463
+So that's the reason I usually give different names.
+
+05:33.990 --> 05:38.990
+So I'll put 102 and Kube CTL, apply hyphen F Kube manifests,
+
+05:43.320 --> 05:45.303
+and let's see what happens.
+
+05:56.400 --> 05:58.140
+And we'll go here.
+
+05:58.140 --> 05:59.640
+We have changed the DNS name
+
+05:59.640 --> 06:04.320
+from 1012102, maybe some Route 53 caching issues.
+
+06:04.320 --> 06:06.240
+So I'll try to do DNS lookup now.
+
+06:06.240 --> 06:10.560
+So 101 is deleted and automatically 102 is created.
+
+06:10.560 --> 06:12.930
+So now let's copy this
+
+06:12.930 --> 06:16.203
+and do DNS lookup and then see what happens, right?
+
+06:17.250 --> 06:20.040
+And this is resolving, so this is what is the thing,
+
+06:20.040 --> 06:23.610
+usually I always put the different name whenever
+
+06:23.610 --> 06:26.760
+I am testing it for the demos, right?
+
+06:26.760 --> 06:31.410
+So now let's come back here and access it in the browser.
+
+06:31.410 --> 06:36.410
+Cert discovery TLS102.stacksimplify.com/app1.index.html.
+
+06:38.280 --> 06:42.090
+So it should automatically redirect to https, right?
+
+06:42.090 --> 06:44.730
+So the lock symbol you can see, right?
+
+06:44.730 --> 06:47.130
+And if you go here and see the certificate,
+
+06:47.130 --> 06:51.720
+so star.stacksimplify.com certificate is associated here.
+
+06:51.720 --> 06:55.290
+And we will also check the app two, right, app two
+
+06:55.290 --> 06:59.610
+slash index dot html, and we'll also verify
+
+06:59.610 --> 07:02.940
+the root contact, see, lock is present here,
+
+07:02.940 --> 07:04.540
+automatically redirected to SSL,
+
+07:05.850 --> 07:07.913
+and we'll also verify the root context.
+
+07:07.913 --> 07:10.080
+And app three is also successful.
+
+07:10.080 --> 07:13.380
+So app one, app two, and our app three,
+
+07:13.380 --> 07:15.780
+all three are successful,
+
+07:15.780 --> 07:19.440
+and we'll go ahead and then clean up these things.
+
+07:19.440 --> 07:24.000
+So Kube CTL, delete hyphen F, and Kube manifest.
+
+07:24.000 --> 07:26.400
+So this should clean up all the things
+
+07:26.400 --> 07:28.740
+whatever we have created.
+
+07:28.740 --> 07:31.980
+So now let's go back here and verify
+
+07:31.980 --> 07:35.790
+if our Ingress service is deleted, and it is deleted.
+
+07:35.790 --> 07:37.680
+Now let's go to route 53,
+
+07:37.680 --> 07:40.200
+and verify if our hosted zone related
+
+07:40.200 --> 07:45.090
+to cert discovery TLS 102 is deleted,
+
+07:45.090 --> 07:46.500
+and it's still waiting.
+
+07:46.500 --> 07:48.960
+So let's wait for it to delete,
+
+07:48.960 --> 07:52.950
+or we can also go back here and verify the logs.
+
+07:52.950 --> 07:56.970
+So let's come up here and go to terminal
+
+07:56.970 --> 08:00.840
+and verify the cert discovery related external DNS.
+
+08:00.840 --> 08:04.680
+We can see here cert discovery TLS 102 is deleted.
+
+08:04.680 --> 08:05.760
+So we can go here,
+
+08:05.760 --> 08:09.570
+and then crosscheck the same thing in route 53.
+
+08:09.570 --> 08:11.190
+So go to hosted zones,
+
+08:11.190 --> 08:14.400
+and go to stacksimplify.com and go down,
+
+08:14.400 --> 08:19.400
+and you'll not find any cert discovery TLS 102 related DNS.
+
+08:19.470 --> 08:24.470
+So this completes the SSL cert discovery related, both demos
+
+08:24.840 --> 08:27.390
+which is host and then TLS.
+
+08:27.390 --> 08:30.660
+So in our next section, we are going to understand
+
+08:30.660 --> 08:32.880
+about one more Ingress concept.
+
+08:32.880 --> 08:34.470
+So I'll see you in the next lecture.
+
+08:34.470 --> 08:35.730
+Until then, bye bye.
+
+08:35.730 --> 08:36.563
+Thank you.

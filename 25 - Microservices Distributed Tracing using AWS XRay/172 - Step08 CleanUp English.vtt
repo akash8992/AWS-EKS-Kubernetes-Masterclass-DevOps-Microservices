@@ -1,0 +1,82 @@
+WEBVTT
+
+00:00.150 --> 00:01.050
+-: Welcome back.
+
+00:01.050 --> 00:03.900
+In this lecture we are going to delete the applications
+
+00:03.900 --> 00:06.990
+created as part of this section, which is nothing
+
+00:06.990 --> 00:09.810
+but zero to applications, whatever we have done.
+
+00:09.810 --> 00:11.940
+So we are going to remove it.
+
+00:11.940 --> 00:14.250
+So rest all we are going to leave as is.
+
+00:14.250 --> 00:17.430
+Rest all in the sense whatever is extra demand running
+
+00:17.430 --> 00:21.780
+on these two nodes, so we are going to leave it as is.
+
+00:21.780 --> 00:25.320
+So why we are doing that. So there is a reason for that.
+
+00:25.320 --> 00:28.020
+So we are going to leave the accelerate set running
+
+00:28.020 --> 00:30.510
+which we will leverage in our next section
+
+00:30.510 --> 00:35.220
+related to canary deployments in Kubernetes on EKS.
+
+00:35.220 --> 00:37.650
+So whenever we do the canary deployment,
+
+00:37.650 --> 00:39.720
+so from user management service,
+
+00:39.720 --> 00:43.920
+it can distribute the traffic to V1 notification service 50%
+
+00:43.920 --> 00:47.250
+and for V2 notification service 50%.
+
+00:47.250 --> 00:49.590
+And when it is doing that, we need to see that
+
+00:49.590 --> 00:52.080
+in x-ray for our additional understanding.
+
+00:52.080 --> 00:54.570
+So for considering all those things,
+
+00:54.570 --> 00:57.600
+I want x-ray to be enabled.
+
+00:57.600 --> 01:01.170
+So that's the reason we are not deleting the
+
+01:01.170 --> 01:02.760
+accelerated functionality,
+
+01:02.760 --> 01:05.790
+which is nothing but accelerated functionality,
+
+01:05.790 --> 01:10.080
+which we have created in zero one section here.
+
+01:10.080 --> 01:12.750
+We are not removing that.
+
+01:12.750 --> 01:14.580
+So I'll see you in the next lecture.
+
+01:14.580 --> 01:16.713
+Until then, bye bye. Thank you.

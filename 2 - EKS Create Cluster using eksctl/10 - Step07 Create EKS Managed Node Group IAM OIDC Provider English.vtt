@@ -1,0 +1,577 @@
+WEBVTT
+
+00:00.360 --> 00:01.260
+-: Welcome back.
+
+00:01.260 --> 00:03.120
+In this step we are going to create
+
+00:03.120 --> 00:07.890
+and associate the IAM OIDC provider for our EKS cluster.
+
+00:07.890 --> 00:10.380
+So for basics, ideally this is not required,
+
+00:10.380 --> 00:13.980
+but we are going to create everything in an orderly manner.
+
+00:13.980 --> 00:15.240
+So which will be helpful,
+
+00:15.240 --> 00:18.900
+for when we are using the EKS related,
+
+00:18.900 --> 00:21.540
+application load balancers or external DNS,
+
+00:21.540 --> 00:23.100
+are many things we are going to execute,
+
+00:23.100 --> 00:24.480
+as part of this course.
+
+00:24.480 --> 00:27.750
+So if we want to use everything effectively,
+
+00:27.750 --> 00:30.420
+so following it in a orderly manner helps us.
+
+00:30.420 --> 00:31.320
+So that's the reason,
+
+00:31.320 --> 00:33.750
+we are going to also execute this step now.
+
+00:33.750 --> 00:37.290
+So to enable and use AWS IAM roles,
+
+00:37.290 --> 00:40.260
+in relation with Kubernetes service accounts.
+
+00:40.260 --> 00:43.110
+So on our EKS cluster we must create
+
+00:43.110 --> 00:46.830
+and associate OIDC identity provider.
+
+00:46.830 --> 00:51.450
+So we can do that using EKS CTL or AWS management console.
+
+00:51.450 --> 00:53.610
+So when you go via AWS management console,
+
+00:53.610 --> 00:56.700
+multiple steps and multiple things you need to do
+
+00:56.700 --> 00:59.970
+and most of the time we might mess up something there.
+
+00:59.970 --> 01:03.120
+So but with EKS CTL it is just one command,
+
+01:03.120 --> 01:08.120
+saying that EKS UTILS associate IAM OIDC provider,
+
+01:08.580 --> 01:12.540
+in that respective region for this respective cluster.
+
+01:12.540 --> 01:13.373
+That's all.
+
+01:13.373 --> 01:15.870
+So my cluster is in US east one
+
+01:15.870 --> 01:18.480
+and then my cluster name is EKS demo one.
+
+01:18.480 --> 01:19.920
+So if I exclude this command,
+
+01:19.920 --> 01:22.260
+immediately it'll be associated.
+
+01:22.260 --> 01:24.903
+So let me do that now.
+
+01:27.150 --> 01:32.010
+So it's going to do it in a second, it'll be quick.
+
+01:32.010 --> 01:34.560
+So we'll create, IAM am open ID connect provider,
+
+01:34.560 --> 01:37.020
+for cluster EKS demo one.
+
+01:37.020 --> 01:39.780
+So it has created and then associated.
+
+01:39.780 --> 01:43.560
+So the next step is to create the EC2 key pair.
+
+01:43.560 --> 01:46.830
+So why we need to create this EC2 key pair?
+
+01:46.830 --> 01:49.920
+So we need to create this key pair because,
+
+01:49.920 --> 01:51.990
+so whenever we create the node group,
+
+01:51.990 --> 01:53.610
+it creates the worker nodes,
+
+01:53.610 --> 01:55.950
+which is nothing but the EC2 instances.
+
+01:55.950 --> 01:57.780
+So if we want the login,
+
+01:57.780 --> 02:00.510
+like if you want the access to our worker nodes,
+
+02:00.510 --> 02:03.360
+so than definitely we need to create our key pair
+
+02:03.360 --> 02:04.620
+and then associate it.
+
+02:04.620 --> 02:09.420
+We can even do it manually in a with our custom key.
+
+02:09.420 --> 02:13.830
+But ideally it is always good to use AWS integrated services
+
+02:13.830 --> 02:16.320
+and I prefer that and I recommend that.
+
+02:16.320 --> 02:19.620
+So we are going to create a key pair with cube demo
+
+02:19.620 --> 02:22.320
+and then download it and then put it in your desktop,
+
+02:22.320 --> 02:25.770
+the respective pen file and then this name,
+
+02:25.770 --> 02:29.400
+whatever the cube demo key pair name you're going to use,
+
+02:29.400 --> 02:30.840
+you are going to use in that node group.
+
+02:30.840 --> 02:32.790
+You are going to see that now.
+
+02:32.790 --> 02:35.520
+So let's go to the management console,
+
+02:35.520 --> 02:40.520
+go to EC2 and go to security groups in network and security
+
+02:43.295 --> 02:47.100
+and go to key pairs, sorry.
+
+02:47.100 --> 02:50.160
+So in key pairs you can see I already have the cube demo.
+
+02:50.160 --> 02:53.340
+So if you want you can create a key pair
+
+02:53.340 --> 02:56.340
+and then provide the name as cube demo,
+
+02:56.340 --> 02:59.370
+so based on your OS you can use PEM or PPK,
+
+02:59.370 --> 03:00.480
+but if you have PEM,
+
+03:00.480 --> 03:03.330
+again you can convert into PPK for your Windows missions,
+
+03:03.330 --> 03:05.760
+if you want for when you're connecting via PuTTY.
+
+03:05.760 --> 03:06.780
+So whatever the option.
+
+03:06.780 --> 03:08.880
+So I always use PEM so that I'll be able to,
+
+03:08.880 --> 03:12.480
+even create the PPK using for PuTTY using PuTTYgen.
+
+03:12.480 --> 03:13.313
+So that's the reason.
+
+03:13.313 --> 03:16.500
+So you can use cube-demo and then create key pair.
+
+03:16.500 --> 03:19.170
+So automatically it'll download the file pen file for you
+
+03:19.170 --> 03:20.550
+and then you can leverage that,
+
+03:20.550 --> 03:22.890
+when connecting to the worker nodes.
+
+03:22.890 --> 03:24.600
+So with that said, I'm going to cancel it,
+
+03:24.600 --> 03:28.380
+I already have it so I'm not going to recreate it, one more.
+
+03:28.380 --> 03:31.680
+So this completes the creation of key pair
+
+03:31.680 --> 03:34.230
+and then associating the creating and associating,
+
+03:34.230 --> 03:36.120
+IAM OIDC provider.
+
+03:36.120 --> 03:38.730
+So the next thing is to create the node group,
+
+03:38.730 --> 03:40.920
+with additional in the public subnet.
+
+03:40.920 --> 03:43.290
+So let's see, what is this creation of node group?
+
+03:43.290 --> 03:45.990
+So everything, whatever you see here,
+
+03:45.990 --> 03:50.990
+EKSCTL, create cluster and hyphen hyphen help.
+
+03:51.390 --> 03:53.640
+And then you get all the options available for you.
+
+03:53.640 --> 03:55.170
+What all you want to use.
+
+03:55.170 --> 03:59.970
+In the same way, EKSCTL, create minus minus help,
+
+03:59.970 --> 04:01.936
+with create what you can create,
+
+04:01.936 --> 04:04.440
+you can create cluster, node group, IAM service account,
+
+04:04.440 --> 04:07.740
+IAM identity mapping and then far get profile.
+
+04:07.740 --> 04:09.810
+So in the same way when you're creating the node group,
+
+04:09.810 --> 04:12.510
+what all the options available for the node group,
+
+04:12.510 --> 04:14.280
+you can see here, okay?
+
+04:14.280 --> 04:16.770
+So there are a lot of options available here.
+
+04:16.770 --> 04:19.170
+So the primarily we need to look into these,
+
+04:19.170 --> 04:21.120
+add on flags for the first time.
+
+04:21.120 --> 04:24.450
+So ASG access is nothing but auto scaling group access.
+
+04:24.450 --> 04:27.000
+It'll enable the IAM policy for our,
+
+04:27.000 --> 04:29.880
+cluster autoscaler in the worker node IAM role,
+
+04:29.880 --> 04:31.230
+I'll show you that, okay?
+
+04:31.230 --> 04:33.930
+So and it'll also enable for external DNS access.
+
+04:33.930 --> 04:35.292
+This is nothing but,
+
+04:35.292 --> 04:38.040
+whenever you create your Ingres controller
+
+04:38.040 --> 04:39.300
+and a load balancer,
+
+04:39.300 --> 04:42.450
+automatically your Route 53 DNS also need to be registered.
+
+04:42.450 --> 04:45.150
+And then we'll see in our load balancer section.
+
+04:45.150 --> 04:47.820
+But that related IAM policy will get created.
+
+04:47.820 --> 04:49.950
+This is for elastic container register related,
+
+04:49.950 --> 04:51.150
+IAM policy will create,
+
+04:51.150 --> 04:52.740
+means like IAM policy will be created,
+
+04:52.740 --> 04:54.600
+with a worker node IAM role.
+
+04:54.600 --> 04:56.490
+So in the same way app mesh access,
+
+04:56.490 --> 04:58.890
+ALB ingress access, install new run plugin.
+
+04:58.890 --> 05:01.320
+So all these things comes into the picture from,
+
+05:01.320 --> 05:03.390
+add-on flags perspective, right?
+
+05:03.390 --> 05:06.540
+So we are using all these 1, 2, 3, 4, 5,
+
+05:06.540 --> 05:09.570
+these add-ons in our command.
+
+05:09.570 --> 05:10.860
+So excluding those things,
+
+05:10.860 --> 05:14.831
+which is nothing but ALB app mesh, full ECR access,
+
+05:14.831 --> 05:16.350
+which is nothing but elastic container register access,
+
+05:16.350 --> 05:19.260
+external DNS access and then auto scaling groups access.
+
+05:19.260 --> 05:21.540
+So remaining things, let's see, what are these, okay?
+
+05:21.540 --> 05:24.360
+So EKSCTL create node group
+
+05:24.360 --> 05:27.150
+and the cluster I'm going to create is in EKS demo one,
+
+05:27.150 --> 05:28.860
+I'm going to create this node group.
+
+05:28.860 --> 05:31.230
+And the region is US east one.
+
+05:31.230 --> 05:33.660
+And the name of my node group is,
+
+05:33.660 --> 05:36.780
+EKS demo one-node group NG-public one.
+
+05:36.780 --> 05:39.360
+It is our comfort whatever we want to give
+
+05:39.360 --> 05:41.790
+and node type I'm going to use this T3 medium,
+
+05:41.790 --> 05:44.010
+for costing purposes, I am using T3,
+
+05:44.010 --> 05:46.860
+which means like it should not burn lot of money for us.
+
+05:46.860 --> 05:48.810
+So I'm using T3 medium.
+
+05:48.810 --> 05:51.420
+And number of notes we are going to use is two nodes
+
+05:51.420 --> 05:54.030
+and minimum number of notes is two and maximum is four.
+
+05:54.030 --> 05:56.970
+This is design number of nodes always, okay?
+
+05:56.970 --> 06:01.170
+And the next is node volume size,
+
+06:01.170 --> 06:04.050
+which is nothing but on the EC2 instance as work nodes,
+
+06:04.050 --> 06:06.360
+how much is your underlying storage?
+
+06:06.360 --> 06:09.690
+So I said 20 means 20 GB of size, it is going to be.
+
+06:09.690 --> 06:12.480
+And now these two are nothing but,
+
+06:12.480 --> 06:15.426
+whenever you say SSH access, it is nothing but,
+
+06:15.426 --> 06:17.700
+the SSH access is equal to true.
+
+06:17.700 --> 06:19.470
+And when SSH access is equal to true,
+
+06:19.470 --> 06:21.360
+what is the key you want to use?
+
+06:21.360 --> 06:24.150
+So the cube demo is the key we have created here.
+
+06:24.150 --> 06:25.740
+So use the same key here,
+
+06:25.740 --> 06:28.800
+so that whatever is present in our key pair,
+
+06:28.800 --> 06:30.900
+will be associated to our worker nodes.
+
+06:30.900 --> 06:33.180
+And using this key, you'll be able to log into the,
+
+06:33.180 --> 06:35.220
+worker nodes for any troubleshooting.
+
+06:35.220 --> 06:37.650
+And one final thing is managed.
+
+06:37.650 --> 06:41.640
+So recently Kubernetes EKS added a managed worker nodes.
+
+06:41.640 --> 06:43.830
+So earlier it used to be unmanaged worker nodes,
+
+06:43.830 --> 06:45.660
+but now it is managed worker nodes,
+
+06:45.660 --> 06:49.230
+where AWS will take care of patching, auto upgrading
+
+06:49.230 --> 06:52.140
+and all those stuff from AWS perspective.
+
+06:52.140 --> 06:54.690
+So we will definitely want to use that
+
+06:54.690 --> 06:55.950
+and then leverage that feature.
+
+06:55.950 --> 06:57.570
+So that's the reason, managed.
+
+06:57.570 --> 07:00.030
+And in future it is going to be everything managed.
+
+07:00.030 --> 07:02.820
+So we are going to use this, managed.
+
+07:02.820 --> 07:06.401
+So now let's go ahead and then create this now.
+
+07:06.401 --> 07:09.330
+So let's go to our command line,
+
+07:09.330 --> 07:13.401
+clear this and paste it, right?
+
+07:13.401 --> 07:15.330
+Click on enter.
+
+07:15.330 --> 07:20.190
+So it is creating, it'll use the version 1.16 for,
+
+07:20.190 --> 07:23.640
+new node groups based on control plane version, okay?
+
+07:23.640 --> 07:24.840
+So it is getting created,
+
+07:24.840 --> 07:27.870
+it'll take three to five minutes to create the node groups.
+
+07:27.870 --> 07:29.193
+So let's wait for that.
+
+07:31.041 --> 07:33.600
+Now our notes got created and our node group got created,
+
+07:33.600 --> 07:36.120
+we can see it's a re-try able error we have got,
+
+07:36.120 --> 07:39.017
+so sometimes usually when it posts EKC at,
+
+07:39.017 --> 07:41.880
+EKSCTL post to the cloud formation API,
+
+07:41.880 --> 07:44.460
+so sometimes it'll fail and then again it'll retry
+
+07:44.460 --> 07:46.230
+and then go ahead and then create it.
+
+07:46.230 --> 07:49.080
+So it automatically again went and then recreated it.
+
+07:49.080 --> 07:50.730
+So what we can do here is like,
+
+07:50.730 --> 07:54.360
+we can say cube CTL, get nodes.
+
+07:54.360 --> 07:55.920
+So whenever we type this command,
+
+07:55.920 --> 07:57.690
+if we have the nodes ready,
+
+07:57.690 --> 08:00.030
+so it is going to say they are ready.
+
+08:00.030 --> 08:02.070
+So we have over two nodes ready.
+
+08:02.070 --> 08:04.860
+And that is the thing if you want to see in a wider way,
+
+08:04.860 --> 08:08.550
+which means like with public IPs of our EC2 instances,
+
+08:08.550 --> 08:12.720
+we can see this way with -O and then void.
+
+08:12.720 --> 08:16.830
+So that's about the creation of node groups.
+
+08:16.830 --> 08:20.280
+So in our next step we are going to focus on,
+
+08:20.280 --> 08:22.590
+verifying the clusters and then nodes,
+
+08:22.590 --> 08:24.390
+in a step-by-step manner.
+
+08:24.390 --> 08:25.950
+So I'll see you in the next lecture.
+
+08:25.950 --> 08:27.120
+Until then, bye bye.
+
+08:27.120 --> 08:27.953
+Thank you.

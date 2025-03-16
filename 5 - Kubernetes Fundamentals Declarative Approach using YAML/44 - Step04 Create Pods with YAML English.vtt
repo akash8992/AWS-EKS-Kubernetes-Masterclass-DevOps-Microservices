@@ -1,0 +1,637 @@
+WEBVTT
+
+00:00.330 --> 00:01.230
+-: Welcome back.
+
+00:01.230 --> 00:02.700
+In this lecture we are going
+
+00:02.700 --> 00:06.000
+to write port's definition using YAML.
+
+00:06.000 --> 00:09.240
+So we are going to go to zero seven ports with YAML.
+
+00:10.470 --> 00:12.930
+So we are going to do this in three steps.
+
+00:12.930 --> 00:14.580
+One is we are going to understand
+
+00:14.580 --> 00:17.480
+about the YAML top level definitions and then,
+
+00:17.480 --> 00:21.120
+we are going to create a simple port definition using YAML.
+
+00:21.120 --> 00:24.960
+And then to test whatever the port we have created,
+
+00:24.960 --> 00:28.980
+we are also going to create a node port service using YAML.
+
+00:28.980 --> 00:31.320
+So let's go ahead and then do that now.
+
+00:31.320 --> 00:34.290
+So if you go inside the Kube manifests,
+
+00:34.290 --> 00:36.240
+you'll have three files present here
+
+00:36.240 --> 00:38.700
+which is Kube based definition, port definition,
+
+00:38.700 --> 00:40.890
+and then port node port service.
+
+00:40.890 --> 00:42.240
+So the port definition
+
+00:42.240 --> 00:44.880
+and port node port service are going to be empty.
+
+00:44.880 --> 00:47.190
+So we are going to write them now.
+
+00:47.190 --> 00:50.520
+Okay, so let's go to Kube based definition.
+
+00:50.520 --> 00:54.390
+So I'll take you to my visual studio code,
+
+00:54.390 --> 00:59.310
+and if you go to the Kube manifests and inside that,
+
+00:59.310 --> 01:03.810
+you can find Kube based definition dot YAML, right?
+
+01:03.810 --> 01:08.810
+So if you see here in Kubernetes, the four top level
+
+01:08.890 --> 01:13.890
+YAML items are API version, kind, metadata, and then spec.
+
+01:15.780 --> 01:17.910
+So let's see one after the other.
+
+01:17.910 --> 01:21.780
+So in Kubernetes everything is nothing but objects.
+
+01:21.780 --> 01:24.630
+So the core objects what we are discussing now is
+
+01:24.630 --> 01:27.240
+ports, replica sets, deployment services,
+
+01:27.240 --> 01:29.250
+and many more we can add, right?
+
+01:29.250 --> 01:31.950
+So if you see, we'll start with the kind.
+
+01:31.950 --> 01:34.590
+So the kind is nothing but the K8S objects
+
+01:34.590 --> 01:36.750
+which is nothing but Kubernetes objects, which is nothing
+
+01:36.750 --> 01:38.790
+but we can define our port here
+
+01:38.790 --> 01:41.615
+or replica set or whatever is
+
+01:41.615 --> 01:43.800
+the respective object for that.
+
+01:43.800 --> 01:46.050
+Whatever the YAML definition we are writing,
+
+01:46.050 --> 01:50.070
+that respective Kubernetes object will be defined here,
+
+01:50.070 --> 01:53.160
+and its equivalent API version.
+
+01:53.160 --> 01:55.320
+We are going to define here, example,
+
+01:55.320 --> 01:58.200
+if it is V1 or whatever it is, right?
+
+01:58.200 --> 02:01.557
+So how we are going to know what is the API version
+
+02:01.557 --> 02:03.930
+for this respective Kubernetes version.
+
+02:03.930 --> 02:05.790
+Our maximum, it is not going to change
+
+02:05.790 --> 02:09.498
+for most of the time, but here and there new changes comes
+
+02:09.498 --> 02:13.530
+into these objects and then this API version keeps changing.
+
+02:13.530 --> 02:17.550
+Not very regularly, but here and there sometimes, okay?
+
+02:17.550 --> 02:18.990
+So for that purpose always
+
+02:18.990 --> 02:22.050
+if you want to go and then refer the latest documentation.
+
+02:22.050 --> 02:27.050
+So we can go here and if you go here, so you can find here.
+
+02:27.120 --> 02:29.790
+So this is the Port V1 core for V1.18.
+
+02:29.790 --> 02:31.230
+What is the definition?
+
+02:31.230 --> 02:32.763
+So let me open it here.
+
+02:34.110 --> 02:37.380
+And you can see here, Port V1 core,
+
+02:37.380 --> 02:39.180
+this is the API definition.
+
+02:39.180 --> 02:41.340
+So you can see the version is V1.
+
+02:41.340 --> 02:43.830
+So which means we can define our version as V1,
+
+02:43.830 --> 02:47.070
+and then kind is port, which is nothing but port, right?
+
+02:47.070 --> 02:49.590
+So now if you want an example of the port,
+
+02:49.590 --> 02:52.200
+you can even see here, right?
+
+02:52.200 --> 02:55.080
+So now the most important thing here is whatever we are
+
+02:55.080 --> 02:57.360
+going to try to do here is we are just going
+
+02:57.360 --> 03:00.960
+to create a simple port and then expose it as a service.
+
+03:00.960 --> 03:03.210
+But what Kubernetes recommends is,
+
+03:03.210 --> 03:06.510
+never ever go and then directly create a port.
+
+03:06.510 --> 03:10.500
+So always a port need to be created using a controller
+
+03:10.500 --> 03:14.040
+like deployment controller or job controller
+
+03:14.040 --> 03:16.710
+or state full set controller, okay?
+
+03:16.710 --> 03:19.680
+So this is just for our testing and then understanding
+
+03:19.680 --> 03:22.770
+about how to create a AML definition for port.
+
+03:22.770 --> 03:25.020
+So we are creating the definition,
+
+03:25.020 --> 03:26.370
+and then we are creating the port,
+
+03:26.370 --> 03:28.110
+but it is recommended always to create
+
+03:28.110 --> 03:30.960
+it using respective controllers.
+
+03:30.960 --> 03:32.643
+So let's come back here,
+
+03:33.600 --> 03:38.550
+and so let me remove this, whatever we have created here.
+
+03:38.550 --> 03:40.980
+And now let's copy this, right?
+
+03:40.980 --> 03:43.740
+So this we are saying these four are the top level objects.
+
+03:43.740 --> 03:47.550
+One is API version, kind, metadata, and then spec.
+
+03:47.550 --> 03:49.800
+So what does metadata mean, right?
+
+03:49.800 --> 03:51.960
+So you are creating a object
+
+03:51.960 --> 03:54.960
+of type port and its name, right?
+
+03:54.960 --> 03:57.420
+The port name you can define here, okay?
+
+03:57.420 --> 04:02.420
+So it can be my app port, something like that, right?
+
+04:03.390 --> 04:06.570
+And you can even define additional labels here, okay?
+
+04:06.570 --> 04:08.400
+So label can be app is equal
+
+04:08.400 --> 04:11.190
+to my app or something, whatever you want, okay?
+
+04:11.190 --> 04:13.470
+So, but the core thing primarily is two things
+
+04:13.470 --> 04:16.650
+which it will have primarily is name and then labels.
+
+04:16.650 --> 04:20.970
+And under labels you can again define your key value paths
+
+04:20.970 --> 04:22.500
+whatever you want, okay?
+
+04:22.500 --> 04:24.540
+So, but name is always required
+
+04:24.540 --> 04:27.570
+for any of the Kubernetes object, whatever we create, right?
+
+04:27.570 --> 04:29.970
+So in the metadata, the one thing important is
+
+04:29.970 --> 04:32.100
+name and the other is labels.
+
+04:32.100 --> 04:34.170
+So later when you are doing the advanced stuff,
+
+04:34.170 --> 04:35.880
+you'll even defining the name spaces
+
+04:35.880 --> 04:38.280
+and all those things but the core's name
+
+04:38.280 --> 04:41.340
+and then labels will be always a mandatory thing,
+
+04:41.340 --> 04:44.070
+which we need to fill when we are defining it, okay?
+
+04:44.070 --> 04:46.230
+So in such a way that which will be useful
+
+04:46.230 --> 04:48.450
+for us in the long term, or we can make it
+
+04:48.450 --> 04:50.910
+as a best practice to ensure that in metadata name.
+
+04:50.910 --> 04:54.570
+And then labels, we are going to definitely use it.
+
+04:54.570 --> 04:57.690
+And finally, specification, our spec.
+
+04:57.690 --> 05:00.924
+Spec is nothing but our respective Kubernetes
+
+05:00.924 --> 05:04.320
+objects specification, whatever we are going to define.
+
+05:04.320 --> 05:07.320
+So the core content, what we are going to define.
+
+05:07.320 --> 05:10.800
+So let's go and then remove this and then take this,
+
+05:10.800 --> 05:14.820
+and then go to our port definition here, right?
+
+05:14.820 --> 05:18.543
+And copy in the port definition.
+
+05:20.640 --> 05:23.580
+Okay, so now we have seen that for our port,
+
+05:23.580 --> 05:28.580
+the version is V1, so a version colon space V1,
+
+05:28.950 --> 05:32.940
+and the kind is going to be port and the metadata.
+
+05:32.940 --> 05:35.300
+Under metadata, we already know that name
+
+05:35.300 --> 05:37.590
+we are going to define and we are going
+
+05:37.590 --> 05:42.590
+to say my app port is my port name and labels, right?
+
+05:44.490 --> 05:46.770
+So when we have multiple number of ports
+
+05:46.770 --> 05:48.960
+and then multiple objects in Kubernetes is
+
+05:48.960 --> 05:49.980
+if you want to filter
+
+05:49.980 --> 05:53.520
+about for this respective application, what is my set
+
+05:53.520 --> 05:56.940
+of ports or set of services, all those things,
+
+05:56.940 --> 05:59.610
+labels will be very helpful in the long term.
+
+05:59.610 --> 06:02.130
+So always it is good to define at least one label
+
+06:02.130 --> 06:04.080
+for our application, right?
+
+06:04.080 --> 06:07.620
+So again, labels is going to be a dictionary object.
+
+06:07.620 --> 06:10.530
+So if you see here metadata is a dictionary object.
+
+06:10.530 --> 06:12.780
+And if you see here on that we have defined name
+
+06:12.780 --> 06:15.180
+and then labels and under labels,
+
+06:15.180 --> 06:17.550
+again we can define multiple key value pairs.
+
+06:17.550 --> 06:20.580
+Example app is equal to my app,
+
+06:20.580 --> 06:24.510
+and I can say tier is equal to front end.
+
+06:24.510 --> 06:26.400
+So like this, how many labels you want,
+
+06:26.400 --> 06:28.110
+whatever you feel like in future,
+
+06:28.110 --> 06:31.170
+you can use it for filtering or whatever the basis.
+
+06:31.170 --> 06:33.150
+So you can keep defining those things.
+
+06:33.150 --> 06:34.470
+But for now, I will leave it
+
+06:34.470 --> 06:37.080
+as very simple name is equal to my app port
+
+06:37.080 --> 06:41.580
+and labels physical to app colon, my app, okay?
+
+06:41.580 --> 06:46.260
+So now the spec, specification of our core port, right?
+
+06:46.260 --> 06:48.090
+So every port, what it does, okay,
+
+06:48.090 --> 06:50.340
+it usually runs a container.
+
+06:50.340 --> 06:51.960
+So if it need to run a container,
+
+06:51.960 --> 06:55.680
+it need a container image information, right?
+
+06:55.680 --> 07:00.000
+So it'll have a object named containers here,
+
+07:00.000 --> 07:02.070
+item named containers, okay?
+
+07:02.070 --> 07:06.300
+And this container sees the list, if you see here,
+
+07:06.300 --> 07:11.300
+I can save this as a, so I'm just dictionary, okay?
+
+07:16.380 --> 07:19.443
+And again, this is one more dictionary, right?
+
+07:20.310 --> 07:22.800
+So in the YAML times I am defining these things, okay?
+
+07:22.800 --> 07:24.653
+So if you see this is a string, right?
+
+07:26.610 --> 07:29.640
+And again this is a string, right?
+
+07:29.640 --> 07:33.540
+So containers is a list, which means I can define a list
+
+07:33.540 --> 07:35.370
+of objects here, right?
+
+07:35.370 --> 07:38.340
+So why, because in any port we can do,
+
+07:38.340 --> 07:39.990
+we can run multiple containers.
+
+07:39.990 --> 07:42.270
+We have already discussed about multiple
+
+07:42.270 --> 07:44.970
+multiport applications, right?
+
+07:44.970 --> 07:48.990
+So we can define multiple containers inside a single port.
+
+07:48.990 --> 07:51.120
+That's the reason under containers,
+
+07:51.120 --> 07:52.770
+you can define multiple containers.
+
+07:52.770 --> 07:56.160
+Due to that you'll get this list object
+
+07:56.160 --> 07:57.780
+as the containers, okay?
+
+07:57.780 --> 08:02.780
+So, and I'll save my container name as my app,
+
+08:03.180 --> 08:07.776
+and I will define its image now, okay?
+
+08:07.776 --> 08:11.963
+So I can say stack simplify slash 1.0.0.
+
+08:15.240 --> 08:17.460
+So this is a simple engine same as the image I have built
+
+08:17.460 --> 08:18.840
+and put it in my docker hub.
+
+08:18.840 --> 08:20.400
+So we are going to use it.
+
+08:20.400 --> 08:24.600
+So, and under this respective means like this is a list,
+
+08:24.600 --> 08:27.465
+and then if you want to define one more container,
+
+08:27.465 --> 08:30.720
+you can again define with name, right?
+
+08:30.720 --> 08:34.620
+So my app backend or something, right?
+
+08:34.620 --> 08:37.680
+And its image you can define here,
+
+08:37.680 --> 08:40.050
+and if you want you can define its container ports
+
+08:40.050 --> 08:40.920
+and all those things.
+
+08:40.920 --> 08:45.270
+So we'll define additionally ports for this container, okay?
+
+08:45.270 --> 08:50.270
+And the container port is going to be 80, right?
+
+08:50.520 --> 08:52.290
+So I'm going to remove the other container.
+
+08:52.290 --> 08:53.550
+We are just going to do it
+
+08:53.550 --> 08:56.610
+with simple one container in a port.
+
+08:56.610 --> 08:59.700
+So 99% cases we are going to have one
+
+08:59.700 --> 09:01.380
+to one relation with our ports.
+
+09:01.380 --> 09:03.570
+So that is port two container.
+
+09:03.570 --> 09:06.780
+So we'll also follow the same standard here, okay?
+
+09:06.780 --> 09:08.635
+So this is my port definition.
+
+09:08.635 --> 09:11.100
+So in our next lecture we'll focus
+
+09:11.100 --> 09:13.890
+on creating the node port service.
+
+09:13.890 --> 09:15.000
+But for now we'll go ahead
+
+09:15.000 --> 09:17.250
+and then create this port and then verify it.
+
+09:17.250 --> 09:18.840
+Okay, so let's go back
+
+09:18.840 --> 09:23.840
+to our browser and now we have created a port.
+
+09:24.617 --> 09:25.980
+And then let's go ahead
+
+09:25.980 --> 09:28.350
+and then create the port definition
+
+09:28.350 --> 09:30.663
+in our Kubernetes cluster, right?
+
+09:32.910 --> 09:37.910
+So we are in the Kubernetes fundamentals folder.
+
+09:38.190 --> 09:40.950
+So we'll go into zero seven ports
+
+09:40.950 --> 09:44.340
+with YAML and we'll go inside Kube manifests.
+
+09:44.340 --> 09:47.520
+And then you can find the zero to port definition,
+
+09:47.520 --> 09:48.960
+whatever we have created.
+
+09:48.960 --> 09:51.840
+So you can even see what we have created, right?
+
+09:51.840 --> 09:56.840
+So now we can go ahead and then run it, right?
+
+09:57.180 --> 10:00.363
+Kube CTL create hyphen zero two.
+
+10:00.363 --> 10:04.147
+Port definition dot YAML.
+
+10:04.147 --> 10:06.363
+Right, it is getting created.
+
+10:07.290 --> 10:10.110
+Okay, so now my port got created.
+
+10:10.110 --> 10:15.110
+So Kube CTL, get ports, and the port is running, right?
+
+10:16.560 --> 10:18.060
+So in our next lecture we'll go ahead,
+
+10:18.060 --> 10:19.950
+and then create the node ports that we send,
+
+10:19.950 --> 10:21.870
+then we will test it.
+
+10:21.870 --> 10:23.430
+So I'll see you in the next lecture.
+
+10:23.430 --> 10:24.540
+Until then, bye bye.
+
+10:24.540 --> 10:25.373
+Thank you.

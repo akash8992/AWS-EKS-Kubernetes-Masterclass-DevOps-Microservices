@@ -1,0 +1,397 @@
+WEBVTT
+
+00:00.300 --> 00:01.133
+-: Welcome back.
+
+00:01.133 --> 00:03.120
+In this lecture we are going to understand
+
+00:03.120 --> 00:06.630
+about limit range concept in Kubernetes
+
+00:06.630 --> 00:08.490
+in relation with the name spaces.
+
+00:08.490 --> 00:11.400
+So, we are going to deploy our applications
+
+00:11.400 --> 00:13.500
+in the name spaces.
+
+00:13.500 --> 00:14.820
+And at that point of time,
+
+00:14.820 --> 00:17.790
+what is the use of this limit range concept
+
+00:17.790 --> 00:20.460
+we are going to see practically?
+
+00:20.460 --> 00:23.610
+So let's go back to our request and limit section,
+
+00:23.610 --> 00:26.160
+whatever we have implemented earlier.
+
+00:26.160 --> 00:30.390
+So in 0504, we have implemented request and limit section
+
+00:30.390 --> 00:32.580
+wherein if you go to our user management
+
+00:32.580 --> 00:34.380
+microservice container, right?
+
+00:34.380 --> 00:36.570
+So in this deployment.
+
+00:36.570 --> 00:40.740
+So we have added the resources section here, right?
+
+00:40.740 --> 00:42.420
+And under resources you have said
+
+00:42.420 --> 00:44.430
+that these are the requests and then limits
+
+00:44.430 --> 00:48.660
+and then my container can request for this CPU
+
+00:48.660 --> 00:51.000
+and then this much memory as a initial state
+
+00:51.000 --> 00:53.580
+and then it can go up to this much limit.
+
+00:53.580 --> 00:56.490
+And then not above this limit it can use.
+
+00:56.490 --> 00:58.620
+So, my respective container
+
+00:58.620 --> 01:01.410
+whatever is going to be as part of this deployment.
+
+01:01.410 --> 01:04.260
+So this user management REST step container
+
+01:04.260 --> 01:06.630
+can have the request says this much
+
+01:06.630 --> 01:08.790
+and then limit says this much.
+
+01:08.790 --> 01:11.550
+So every time, if you want to add these things,
+
+01:11.550 --> 01:13.380
+you need to add these things in your means,
+
+01:13.380 --> 01:15.180
+like if you want to define your limits
+
+01:15.180 --> 01:18.660
+and then requests related to your resources
+
+01:18.660 --> 01:20.310
+in your container means like
+
+01:20.310 --> 01:22.140
+for your respect to application,
+
+01:22.140 --> 01:25.080
+then you need to update there respect to deployment
+
+01:25.080 --> 01:28.110
+of that application if it is MySQL,
+
+01:28.110 --> 01:29.400
+or it is whatever, right?
+
+01:29.400 --> 01:30.810
+So in requests and limits,
+
+01:30.810 --> 01:32.550
+we didn't implement anything for this.
+
+01:32.550 --> 01:34.950
+So this doesn't have any limits here.
+
+01:34.950 --> 01:36.690
+This doesn't have any requests.
+
+01:36.690 --> 01:39.780
+But user management microservice, you have it.
+
+01:39.780 --> 01:41.550
+So every time you need to take this,
+
+01:41.550 --> 01:44.430
+nip out and then update in your MySQL deployment here
+
+01:44.430 --> 01:47.100
+and then change whatever is our tuned parameters,
+
+01:47.100 --> 01:49.260
+whatever you want to use for MySQL,
+
+01:49.260 --> 01:50.460
+you need to define.
+
+01:50.460 --> 01:53.700
+But there are other options available as part of limiting
+
+01:53.700 --> 01:56.010
+which is nothing but the automatically applied
+
+01:56.010 --> 01:57.480
+to these things.
+
+01:57.480 --> 01:58.650
+So let's see, what is that?
+
+01:58.650 --> 02:00.330
+A default option is available here.
+
+02:00.330 --> 02:02.190
+Let's see that, okay?
+
+02:02.190 --> 02:04.500
+So you have a name space there
+
+02:04.500 --> 02:07.200
+and then you have both the backend
+
+02:07.200 --> 02:08.340
+and then front-end application.
+
+02:08.340 --> 02:11.700
+So front end, let's consider as whatever it is, Nginx,
+
+02:11.700 --> 02:13.200
+and then backend might be some other
+
+02:13.200 --> 02:14.880
+REST services application, okay?
+
+02:14.880 --> 02:16.290
+So whatever it may be.
+
+02:16.290 --> 02:18.090
+So you'll have a limit range
+
+02:18.090 --> 02:21.360
+and then with limit range you'll be able to control your CPU
+
+02:21.360 --> 02:22.770
+and then memory.
+
+02:22.770 --> 02:23.880
+So in two ways.
+
+02:23.880 --> 02:27.210
+So one is default and the other is mean and then max.
+
+02:27.210 --> 02:30.060
+So you can assign it default CPU
+
+02:30.060 --> 02:32.010
+and then default memory
+
+02:32.010 --> 02:35.190
+for the container present in this deployment.
+
+02:35.190 --> 02:37.500
+And container present in this deployment
+
+02:37.500 --> 02:42.000
+for all the containers present in this dev name space.
+
+02:42.000 --> 02:44.670
+So which means whenever you apply that default option
+
+02:44.670 --> 02:48.690
+of limit range, so you can have that default CPU
+
+02:48.690 --> 02:52.470
+and memory associated for those respective containers
+
+02:52.470 --> 02:55.080
+present in this name space.
+
+02:55.080 --> 02:56.730
+So whenever you say default,
+
+02:56.730 --> 02:58.260
+and then some CPU and some memory,
+
+02:58.260 --> 03:01.950
+you associate all the containers present in this name space
+
+03:01.950 --> 03:03.897
+are going to get that much things, okay?
+
+03:03.897 --> 03:06.300
+So, you really don't need to go ahead
+
+03:06.300 --> 03:09.210
+and then define this resources section
+
+03:09.210 --> 03:11.400
+in your respective deployment.
+
+03:11.400 --> 03:13.140
+So, we are going to see that now
+
+03:13.140 --> 03:15.510
+by applying this practically.
+
+03:15.510 --> 03:18.990
+Same way it is for QA and then staging environment.
+
+03:18.990 --> 03:21.510
+So once you define your limit range here
+
+03:21.510 --> 03:24.480
+with CPU and memory as default,
+
+03:24.480 --> 03:29.010
+so then automatically those default to CPU and memory values
+
+03:29.010 --> 03:31.950
+are going to get applied for the containers present
+
+03:31.950 --> 03:33.300
+inside this namespace.
+
+03:33.300 --> 03:35.130
+I'm repeating again and again
+
+03:35.130 --> 03:38.400
+to get the super clarity on what we are doing.
+
+03:38.400 --> 03:40.189
+So here it is, okay?
+
+03:40.189 --> 03:41.022
+So limit range, manifest.
+
+03:41.022 --> 03:45.600
+As usual, API version kind metadata are going to be same,
+
+03:45.600 --> 03:49.110
+but you can see here we are going to associate this limit
+
+03:49.110 --> 03:50.820
+range manifest means like we are going
+
+03:50.820 --> 03:53.100
+to create this limit range manifest
+
+03:53.100 --> 03:55.620
+in the name space dev3.
+
+03:55.620 --> 03:57.718
+And under spec you'll have limits
+
+03:57.718 --> 04:00.240
+and under limits you'll have default
+
+04:00.240 --> 04:01.770
+and then default request.
+
+04:01.770 --> 04:04.350
+So default is nothing but that default higher limit,
+
+04:04.350 --> 04:05.880
+how much it need to have,
+
+04:05.880 --> 04:07.860
+means like this respect to backend container,
+
+04:07.860 --> 04:09.810
+front-end container need to have.
+
+04:09.810 --> 04:11.970
+And then default request is nothing.
+
+04:11.970 --> 04:13.440
+But in our concept we have
+
+04:13.440 --> 04:15.540
+the how much it is going to request initially, okay?
+
+04:15.540 --> 04:16.770
+So this this one, okay?
+
+04:16.770 --> 04:20.040
+So this default refers to limits
+
+04:20.040 --> 04:24.960
+and the second default request refers to requests, okay?
+
+04:24.960 --> 04:26.670
+So now memory and then CPU.
+
+04:26.670 --> 04:29.250
+My limit I have given for our each container
+
+04:29.250 --> 04:30.870
+in this respect to name space,
+
+04:30.870 --> 04:32.970
+in this respect to dev3 name space,
+
+04:32.970 --> 04:34.050
+for each container,
+
+04:34.050 --> 04:36.483
+maximum limit of each container is 512MB.
+
+04:37.844 --> 04:41.010
+And then CPU is 500M, which is nothing but 0.5 off
+
+04:41.010 --> 04:42.630
+one core CPU.
+
+04:42.630 --> 04:44.760
+And default request,
+
+04:44.760 --> 04:47.310
+which is nothing but how much initially it can request
+
+04:47.310 --> 04:51.420
+is 256MB and CPU is around 300M.
+
+04:51.420 --> 04:54.660
+And to whom all these things need to be associated
+
+04:54.660 --> 04:57.720
+per container type is equal to container,
+
+04:57.720 --> 04:58.920
+you can see it here.
+
+04:58.920 --> 05:01.950
+So, that's about the limit and range
+
+05:01.950 --> 05:06.950
+on a pictographic way are explaining it in a concept model.
+
+05:07.170 --> 05:09.990
+So now we'll go ahead and then manually implement it,
+
+05:09.990 --> 05:12.420
+write this manifest and then test it
+
+05:12.420 --> 05:14.820
+and then understand it better.
+
+05:14.820 --> 05:16.560
+So, I'll see you in the next lecture.
+
+05:16.560 --> 05:17.790
+Until then, bye bye.
+
+05:17.790 --> 05:18.623
+Thank you.

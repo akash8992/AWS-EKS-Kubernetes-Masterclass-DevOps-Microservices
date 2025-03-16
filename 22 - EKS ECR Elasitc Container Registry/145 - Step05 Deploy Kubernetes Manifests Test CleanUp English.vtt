@@ -1,0 +1,256 @@
+WEBVTT
+
+00:00.120 --> 00:03.570
+-: Welcome back. In this lecture we are going to
+
+00:03.570 --> 00:07.410
+do the Kubernetes manifest deployments now.
+
+00:07.410 --> 00:09.630
+So let's go ahead and then deploy the stuff
+
+00:09.630 --> 00:13.950
+whatever is presenting zero two cube manifest folder, right?
+
+00:13.950 --> 00:15.820
+So please ensure that you are in
+
+00:17.640 --> 00:22.640
+10 ECL elastic container restrain EKS directory and clear.
+
+00:23.010 --> 00:26.010
+And I'm going to say Cube CTL apply hyphen F
+
+00:26.010 --> 00:29.700
+and then zero to cube manifest folder, right?
+
+00:29.700 --> 00:34.700
+So it's going to create our respect you deployment services
+
+00:35.340 --> 00:36.570
+and then ingress.
+
+00:36.570 --> 00:39.840
+So I'll say Cube CTL get paused, right?
+
+00:39.840 --> 00:42.090
+It is going to do in a default only.
+
+00:42.090 --> 00:46.920
+Okay, so my two cube ECR ports are running,
+
+00:46.920 --> 00:49.200
+right? So I'll say
+
+00:49.200 --> 00:53.730
+get SVC. So it should create a equivalent note port service.
+
+00:53.730 --> 00:54.840
+That's good.
+
+00:54.840 --> 00:58.920
+And then I'm also going to say get ingress, right?
+
+00:58.920 --> 01:01.110
+So ingress you are also keen.
+
+01:01.110 --> 01:04.020
+So we can go back to our browser
+
+01:04.020 --> 01:09.020
+and management console and we'll go to E two, right?
+
+01:09.420 --> 01:12.060
+So it should be getting provisioned right now.
+
+01:12.060 --> 01:14.643
+So let me go to load balances.
+
+01:15.900 --> 01:18.660
+And our load balancer is getting provision application
+
+01:18.660 --> 01:20.130
+and it can verify the tag,
+
+01:20.130 --> 01:22.980
+it should be easier ingress service.
+
+01:22.980 --> 01:26.520
+And in listeners we'll have 40, 80 with the redirect.
+
+01:26.520 --> 01:29.100
+And this one certificate associated
+
+01:29.100 --> 01:32.190
+and slash star should go to the respective target group.
+
+01:32.190 --> 01:34.320
+So let me open the target group
+
+01:34.320 --> 01:37.980
+and it has the path as index start SGML whatever we provided
+
+01:37.980 --> 01:41.970
+at the note port service level and in targets.
+
+01:41.970 --> 01:43.710
+So it's getting registered.
+
+01:43.710 --> 01:46.410
+Okay? So let's wait for a while to get the things
+
+01:46.410 --> 01:49.440
+registered. So I'll go to target groups
+
+01:49.440 --> 01:52.263
+and then refresh one more time and then see.
+
+01:53.220 --> 01:55.050
+So it'll take a two to three minutes.
+
+01:55.050 --> 01:56.340
+So let's wait for that.
+
+01:56.340 --> 01:59.850
+In meantime we can go to route 53
+
+01:59.850 --> 02:03.090
+and verify our DNS here, right?
+
+02:03.090 --> 02:06.690
+So we should be ECR demo dot q1 cloud.com.
+
+02:06.690 --> 02:11.220
+So if you go here, so q1 cloud.com and inside
+
+02:11.220 --> 02:16.220
+that you should find ECR demo dot q1 cloud.com.
+
+02:16.230 --> 02:17.940
+So this is also good.
+
+02:17.940 --> 02:22.940
+So let's go back, go back and go back to target groups.
+
+02:23.970 --> 02:27.393
+Refresh one more time and wait for it.
+
+02:29.040 --> 02:31.980
+So let's refresh and then check one more time.
+
+02:31.980 --> 02:33.600
+And these are healthy.
+
+02:33.600 --> 02:35.070
+That looks good.
+
+02:35.070 --> 02:35.970
+So one more check.
+
+02:35.970 --> 02:39.520
+What we need to do is N look up, right NS look up
+
+02:40.500 --> 02:45.330
+and easier demo dot Q1 cloud.com.
+
+02:45.330 --> 02:49.330
+So it's resolving and it same means like this
+
+02:50.958 --> 02:51.960
+ABDNS name
+
+02:51.960 --> 02:55.170
+and this DNS name should have that same IPS right?
+
+02:55.170 --> 02:58.290
+So which is nothing but ingress DNS name.
+
+02:58.290 --> 03:00.960
+So 65 1 31 65, 1 31.
+
+03:00.960 --> 03:02.250
+This looks good.
+
+03:02.250 --> 03:06.240
+So now let's take this domain name and then go
+
+03:06.240 --> 03:09.420
+to the browser and then say new tab and then
+
+03:09.420 --> 03:14.160
+say st tp colon slash slash ecr demo dot q1 cloud.com.
+
+03:14.160 --> 03:15.750
+So index start, TM alert is
+
+03:15.750 --> 03:17.610
+at the root context automatically.
+
+03:17.610 --> 03:20.010
+Ideally it should load, right?
+
+03:20.010 --> 03:21.120
+So now we can see that.
+
+03:21.120 --> 03:24.150
+Welcome to stack simplify AWS EKS Masterclass.
+
+03:24.150 --> 03:28.170
+Inside that integration with ecs, ECR registry is completed.
+
+03:28.170 --> 03:30.570
+And then we are able to access the
+
+03:30.570 --> 03:33.630
+URL in the browser directly.
+
+03:33.630 --> 03:37.957
+So this completes end to end demonstration of whatever EKSN
+
+03:38.814 --> 03:39.870
+ESR.
+
+03:39.870 --> 03:42.240
+So now what we are going to do is we are going to clean
+
+03:42.240 --> 03:44.190
+up the manifest whatever we have created
+
+03:44.190 --> 03:46.800
+because we really don't want to bond our cash
+
+03:46.800 --> 03:50.190
+for this respect to load balancer URL primarily.
+
+03:50.190 --> 03:54.360
+Okay, so I'm going to say Q ctl, delete hyphen F
+
+03:54.360 --> 03:56.850
+and then zero two Q manifest.
+
+03:56.850 --> 04:01.080
+So whatever we have created, everything will get deleted.
+
+04:01.080 --> 04:01.913
+That's all, okay?
+
+04:01.913 --> 04:05.130
+So let's crosscheck everything got deleted or not.
+
+04:05.130 --> 04:06.600
+So if you go here
+
+04:06.600 --> 04:10.200
+and then load balances and then refresh, it's gone.
+
+04:10.200 --> 04:12.060
+Okay? So that's about it.
+
+04:12.060 --> 04:13.890
+So I'll see you in the next lecture.
+
+04:13.890 --> 04:15.330
+Until then, bye bye.
+
+04:15.330 --> 04:16.163
+Thank you.

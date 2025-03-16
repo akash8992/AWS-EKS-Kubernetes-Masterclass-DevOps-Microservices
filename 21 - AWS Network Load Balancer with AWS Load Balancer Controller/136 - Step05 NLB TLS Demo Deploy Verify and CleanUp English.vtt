@@ -1,0 +1,421 @@
+WEBVTT
+
+00:00.480 --> 00:01.470
+-: Welcome back.
+
+00:01.470 --> 00:04.680
+Let's go to our GitHub repository
+
+00:04.680 --> 00:07.960
+and enter into the section 1902 LBC NLB TLS.
+
+00:10.950 --> 00:12.990
+And as part of introductory section,
+
+00:12.990 --> 00:17.070
+we already discussed about all the TLS annotations.
+
+00:17.070 --> 00:20.490
+And we also reviewed the TLS annotations.
+
+00:20.490 --> 00:24.600
+So now, let's come back here to Visual Studio code,
+
+00:24.600 --> 00:27.360
+and go to this SSL set ARN,
+
+00:27.360 --> 00:30.630
+and this one, copy with your certificate ARN
+
+00:30.630 --> 00:32.670
+whatever you have created.
+
+00:32.670 --> 00:36.570
+For me, I'm going to just crosscheck my ARN here.
+
+00:36.570 --> 00:41.570
+So if you see here, my ARN is ending with 6E0D.
+
+00:41.580 --> 00:44.397
+So, let me come back here to my
+
+00:44.397 --> 00:48.240
+AWS certificate manager and this looks good for me.
+
+00:48.240 --> 00:50.880
+Or you can copy and then, repaste it here.
+
+00:50.880 --> 00:52.680
+So, my certificate is good
+
+00:52.680 --> 00:55.110
+and restall should be good for me.
+
+00:55.110 --> 00:55.943
+So, in your case,
+
+00:55.943 --> 00:58.950
+just replace this with your certificate here, ARN.
+
+00:58.950 --> 01:02.310
+So now, let's go to that next step here,
+
+01:02.310 --> 01:05.490
+which is nothing but deploy all Kube manifests.
+
+01:05.490 --> 01:08.640
+So, let's go to our terminal here and we are
+
+01:08.640 --> 01:13.410
+in section 19 ELB network load balancers with LBC.
+
+01:13.410 --> 01:18.410
+So, CD 1902 LBC and LBT LS and run the command kube c.
+
+01:20.220 --> 01:24.660
+You can also say LS LRTA and cube manifest.
+
+01:24.660 --> 01:27.094
+And you can see, it is present here.
+
+01:27.094 --> 01:32.094
+I'll say KubeCTL apply hyphen F kube manifest.
+
+01:32.580 --> 01:34.830
+So, this should deploy and create
+
+01:34.830 --> 01:37.770
+a app three Nginx deployment,
+
+01:37.770 --> 01:41.790
+and also, it should create a network load balancer service
+
+01:41.790 --> 01:45.330
+for us, TLS LBC network LB.
+
+01:45.330 --> 01:46.680
+And if you want to go ahead
+
+01:46.680 --> 01:49.740
+and then verify the load balancer control locks,
+
+01:49.740 --> 01:50.573
+we can do it.
+
+01:50.573 --> 01:52.860
+We already done it in the NLB basic section.
+
+01:52.860 --> 01:54.720
+We really don't need to do.
+
+01:54.720 --> 01:58.680
+So as far as, we have this load balancer type as external,
+
+01:58.680 --> 02:00.930
+it is any way going to associate
+
+02:00.930 --> 02:04.050
+with our latest load balancer controller only.
+
+02:04.050 --> 02:08.163
+So now, let's come back here and run the commands.
+
+02:09.450 --> 02:14.450
+Clear KubeCTL get ports and our ports should be running,
+
+02:14.640 --> 02:16.920
+which is app three Nginx.
+
+02:16.920 --> 02:21.920
+And we'll also run the command KubeCTL get SVC services.
+
+02:22.920 --> 02:25.170
+Right? And you can see here,
+
+02:25.170 --> 02:28.710
+the load balancer related DNS name is this one
+
+02:28.710 --> 02:31.560
+and port 80 listener with the backend port,
+
+02:31.560 --> 02:34.200
+which is nothing but the worker node port.
+
+02:34.200 --> 02:38.573
+Our node port is 30214 and 443 with 31017,
+
+02:39.630 --> 02:42.840
+and port 81 with node port as 31917,
+
+02:42.840 --> 02:45.660
+and port 82 with 31793.
+
+02:45.660 --> 02:48.510
+So if you see here, these two are the core things for us.
+
+02:48.510 --> 02:52.320
+Port TLS and non TLS, non TLS and TLS.
+
+02:52.320 --> 02:55.770
+So, these are added for just additional understanding only.
+
+02:55.770 --> 02:57.420
+Optional things for us,
+
+02:57.420 --> 03:00.480
+just to demonstrate that every listener
+
+03:00.480 --> 03:03.030
+will have its own new target group created.
+
+03:03.030 --> 03:05.370
+For that purpose, we have added that.
+
+03:05.370 --> 03:08.610
+So now, let's come back here, right?
+
+03:08.610 --> 03:13.610
+And let's go to EC2 load balances.
+
+03:13.890 --> 03:14.910
+So, let's refresh.
+
+03:14.910 --> 03:17.190
+We are in the load balances section here,
+
+03:17.190 --> 03:21.090
+in the EC2 and load balancer is currently provisioning,
+
+03:21.090 --> 03:25.140
+but in the basic configuration tab, verify the DNS name.
+
+03:25.140 --> 03:28.110
+So it is ending with 08628,
+
+03:28.110 --> 03:32.760
+and which should match the same thing here, 08628, right?
+
+03:32.760 --> 03:35.940
+So now, let's come back here and in listeners,
+
+03:35.940 --> 03:39.480
+you can see 80, 81, 82 and also 443.
+
+03:39.480 --> 03:43.500
+So for 443, you can see the security policy associated.
+
+03:43.500 --> 03:46.530
+And also, you can see certificate also associated here,
+
+03:46.530 --> 03:48.660
+star.stacksimplify.com.
+
+03:48.660 --> 03:51.750
+In your case it is going to be your certificate.
+
+03:51.750 --> 03:54.120
+And finally, you can also see that
+
+03:54.120 --> 03:57.900
+all these things have a different target group.
+
+03:57.900 --> 03:58.890
+So, this is different.
+
+03:58.890 --> 04:01.920
+The ID at the end is different for all the four things.
+
+04:01.920 --> 04:05.250
+So if we want, we can also go to, we can also go to
+
+04:05.250 --> 04:08.070
+any of these things and verify these things, right?
+
+04:08.070 --> 04:10.320
+In port 80, this is F 7 something.
+
+04:10.320 --> 04:12.570
+And there are another four things available here
+
+04:12.570 --> 04:14.490
+from target groups perspective.
+
+04:14.490 --> 04:16.110
+So, let me cancel this,
+
+04:16.110 --> 04:18.210
+and come back here and go to target groups.
+
+04:18.210 --> 04:21.690
+So, directly you can see four target groups present for us.
+
+04:21.690 --> 04:24.330
+And let's wait for the load balancer.
+
+04:24.330 --> 04:25.830
+It is in active state.
+
+04:25.830 --> 04:27.840
+So now, let's come back to target groups.
+
+04:27.840 --> 04:30.270
+Open any target group, right?
+
+04:30.270 --> 04:35.250
+And you can see, total two targets and refresh here.
+
+04:35.250 --> 04:39.180
+And these are currently in the register, registration state,
+
+04:39.180 --> 04:40.680
+once they are registered.
+
+04:40.680 --> 04:43.410
+So, those should be shown as healthy here.
+
+04:43.410 --> 04:45.540
+So, let's wait for them to go ahead
+
+04:45.540 --> 04:48.123
+and then, register successfully.
+
+04:49.620 --> 04:52.530
+You can see here, these look healthy now.
+
+04:52.530 --> 04:54.840
+So also if you want, you can open one more,
+
+04:54.840 --> 04:57.180
+and verify the same, healthy.
+
+04:57.180 --> 05:01.650
+And, we'll also open the third one, healthy,
+
+05:01.650 --> 05:05.280
+and we'll also open the fourth one here,
+
+05:05.280 --> 05:07.560
+and those are also healthy.
+
+05:07.560 --> 05:11.220
+So now, let's come back here and access with HTTP.
+
+05:11.220 --> 05:16.220
+So, we'll access our HTTP URL and also HTTPS URL.
+
+05:17.220 --> 05:21.960
+So, let's go to our terminal, copy this URL, right?
+
+05:21.960 --> 05:23.940
+And come back to browser.
+
+05:23.940 --> 05:25.923
+Let me close certificate manager.
+
+05:27.123 --> 05:29.700
+And, HTTP and this one.
+
+05:29.700 --> 05:33.150
+So, this should provide a not secure plain HTTP
+
+05:33.150 --> 05:36.240
+related connection to our sample application,
+
+05:36.240 --> 05:39.390
+which is nothing but our port here.
+
+05:39.390 --> 05:43.980
+And now, we will also access it with HTTP, yes.
+
+05:43.980 --> 05:47.400
+So, this should throw a SSL certificate popup for us.
+
+05:47.400 --> 05:50.176
+Why? Because the domain name it allow is
+
+05:50.176 --> 05:51.930
+star.stacksimplify.com,
+
+05:51.930 --> 05:54.390
+any sub domain name.stacksimplify.com.
+
+05:54.390 --> 05:57.210
+But here, you are directly using the
+
+05:57.210 --> 05:59.160
+DNS name of your load balancer.
+
+05:59.160 --> 06:02.460
+So, this SSL pop-up will come, that is fine.
+
+06:02.460 --> 06:04.230
+Advancer, proceed to that,
+
+06:04.230 --> 06:07.050
+and your application should be accessible.
+
+06:07.050 --> 06:10.290
+And if you want, you can go here, and go to certificates,
+
+06:10.290 --> 06:12.720
+and verify your star.stacksimplify.com
+
+06:12.720 --> 06:16.473
+is visible for as the respect to certificate.
+
+06:17.820 --> 06:20.700
+We also created the 81 and 82 listeners.
+
+06:20.700 --> 06:22.020
+Let's also test them.
+
+06:22.020 --> 06:23.310
+What's wrong in it, right?
+
+06:23.310 --> 06:26.910
+So, we'll say with port 81, it should be accessible.
+
+06:26.910 --> 06:30.030
+And we'll also access with port 82,
+
+06:30.030 --> 06:32.730
+and it should be accessible for us.
+
+06:32.730 --> 06:36.810
+So, this completes the network load balancer
+
+06:36.810 --> 06:41.810
+TLS related demo, which is created using Kubernetes service.
+
+06:42.210 --> 06:45.210
+So now, let's go ahead and then, delete these things.
+
+06:45.210 --> 06:48.330
+So, we'll go here and say KubeCTL,
+
+06:48.330 --> 06:51.270
+delete hyphen F and then kube manifests.
+
+06:51.270 --> 06:54.690
+So, this should destroy our app three Nginx deployment,
+
+06:54.690 --> 06:57.390
+and TLS LBC network LB.
+
+06:57.390 --> 07:00.960
+So now, let's go here and cross verify our network,
+
+07:00.960 --> 07:02.400
+LB is deleted.
+
+07:02.400 --> 07:03.510
+This looks good.
+
+07:03.510 --> 07:06.690
+So, I'll see you in the next lecture with another NLB demo.
+
+07:06.690 --> 07:07.980
+Until then, bye bye.
+
+07:07.980 --> 07:08.813
+Thank you.

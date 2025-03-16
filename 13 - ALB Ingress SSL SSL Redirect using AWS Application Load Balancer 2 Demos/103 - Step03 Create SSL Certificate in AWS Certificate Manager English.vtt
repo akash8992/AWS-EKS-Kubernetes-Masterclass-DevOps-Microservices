@@ -1,0 +1,283 @@
+WEBVTT
+
+00:00.000 --> 00:01.470
+Instructor: Welcome back.
+
+00:01.470 --> 00:04.260
+Let's go back to our GitHub repository and
+
+00:04.260 --> 00:05.093
+we are entering
+
+00:05.093 --> 00:09.360
+into the section 0804 ALB Ingress, SSL.
+
+00:09.360 --> 00:10.830
+So as part of step two,
+
+00:10.830 --> 00:12.450
+we already registered it,
+
+00:12.450 --> 00:15.960
+new domain named q1cloud.com.
+
+00:15.960 --> 00:18.360
+But, for all our examples are demos,
+
+00:18.360 --> 00:20.970
+we are going to use our standard domain
+
+00:20.970 --> 00:22.590
+StackSimplified.com here.
+
+00:22.590 --> 00:24.030
+This is just to learn how
+
+00:24.030 --> 00:26.730
+to register a domain name in Route 53.
+
+00:26.730 --> 00:28.590
+So now we'll go to step three,
+
+00:28.590 --> 00:30.810
+which is creating a SSL certificate
+
+00:30.810 --> 00:33.030
+in certificate manager.
+
+00:33.030 --> 00:36.780
+So let's go to AWS Management Console
+
+00:36.780 --> 00:40.470
+and go to certificate manager service.
+
+00:40.470 --> 00:42.570
+And in certificate manager service,
+
+00:42.570 --> 00:46.290
+we are going to create a new certificate and
+
+00:46.290 --> 00:48.330
+we are also going to call this certificate
+
+00:48.330 --> 00:49.950
+as a wildcard certificate.
+
+00:49.950 --> 00:53.490
+Which means, with any domain, sub domain name,
+
+00:53.490 --> 00:55.860
+this respective certificate should work.
+
+00:55.860 --> 00:57.780
+Which means, we are going to give
+
+00:57.780 --> 00:59.640
+or generate a certificate named
+
+00:59.640 --> 01:02.220
+star.StackSimplified.com.
+
+01:02.220 --> 01:04.950
+Or star.yourdomain.com.
+
+01:04.950 --> 01:07.500
+So which is called a wildcard certificate.
+
+01:07.500 --> 01:09.510
+So we'll click on request.
+
+01:09.510 --> 01:11.820
+And request a public certificate.
+
+01:11.820 --> 01:13.650
+And we'll click on next
+
+01:13.650 --> 01:17.430
+and provide the fully qualified domain name here.
+
+01:17.430 --> 01:18.630
+So I'm going to provide it
+
+01:18.630 --> 01:23.490
+as star.StackSimplified.com, right.
+
+01:23.490 --> 01:26.610
+So this is called wildcard certificate, wherein,
+
+01:26.610 --> 01:28.890
+all the sub domains are supported here.
+
+01:28.890 --> 01:32.726
+Which means SSL demo 101StackSimplified.com,
+
+01:32.726 --> 01:34.680
+abc.StackSimplified.com
+
+01:34.680 --> 01:36.960
+so whatever may be my sub domain name.
+
+01:36.960 --> 01:39.570
+So everything will be supported here
+
+01:39.570 --> 01:42.210
+for the SSL certificate.
+
+01:42.210 --> 01:43.200
+Which means, we'll not,
+
+01:43.200 --> 01:45.840
+whenever you are using this SSL certificate
+
+01:45.840 --> 01:47.880
+and using any sub domain name,
+
+01:47.880 --> 01:48.713
+we are not going
+
+01:48.713 --> 01:51.780
+to get any SSL certificate popup error
+
+01:51.780 --> 01:53.550
+on the browser.
+
+01:53.550 --> 01:55.110
+So, and we have provided
+
+01:55.110 --> 01:57.270
+the qualified domain name here,
+
+01:57.270 --> 01:59.430
+star.StackSimplified.com
+
+01:59.430 --> 02:02.160
+and we need to select the validation method.
+
+02:02.160 --> 02:05.790
+So we are going to use the DNS validation method.
+
+02:05.790 --> 02:09.330
+And we'll click on request, right.
+
+02:09.330 --> 02:12.630
+And you can see here, let's wait for it.
+
+02:12.630 --> 02:16.350
+So you can see, this is the respective certificate
+
+02:16.350 --> 02:17.490
+it has created and
+
+02:17.490 --> 02:19.740
+it is saying pending validation.
+
+02:19.740 --> 02:23.460
+So let's go to that respective certificate here.
+
+02:23.460 --> 02:26.790
+And we can see, it, we need to create a records
+
+02:26.790 --> 02:30.450
+in Route 53 for the DNS validation to complete.
+
+02:30.450 --> 02:33.630
+So we need to complete the DNS validation step.
+
+02:33.630 --> 02:36.330
+So we'll click records in Route 53 here.
+
+02:36.330 --> 02:38.190
+So pending validation, so we'll click
+
+02:38.190 --> 02:39.180
+on create records
+
+02:39.180 --> 02:42.330
+in Route 53, and it is going to automatically
+
+02:42.330 --> 02:45.090
+add the records in Route 53.
+
+02:45.090 --> 02:47.073
+So create records.
+
+02:50.400 --> 02:53.610
+Records successfully added in Route 53.
+
+02:53.610 --> 02:55.680
+So let's click on the certificate ID and
+
+02:55.680 --> 02:56.730
+verify the same.
+
+02:56.730 --> 03:00.210
+So we can see here domains and it is success.
+
+03:00.210 --> 03:02.280
+And it has created a CNAME record
+
+03:02.280 --> 03:03.780
+with these names.
+
+03:03.780 --> 03:07.470
+So we can go to Route 53 surveys, right.
+
+03:07.470 --> 03:11.460
+And go to hostedzonesStackSimplified.com, right.
+
+03:11.460 --> 03:13.540
+So let's go to hosted zones here.
+
+03:13.540 --> 03:14.700
+Where is it?
+
+03:14.700 --> 03:18.090
+Here? And in hosted zones, We'll go
+
+03:18.090 --> 03:20.820
+to StackSimplified.com and
+
+03:20.820 --> 03:22.590
+in StackSimplified.com.
+
+03:22.590 --> 03:25.500
+So let's search further, CNAME record
+
+03:25.500 --> 03:28.140
+with this value.
+
+03:28.140 --> 03:30.490
+So copy and
+
+03:33.930 --> 03:36.150
+see if we can find that same thing here.
+
+03:36.150 --> 03:38.280
+It successfully create that,
+
+03:38.280 --> 03:40.413
+that CNAME record number hosted zone,
+
+03:41.334 --> 03:43.200
+which means our DNS validation is successful.
+
+03:43.200 --> 03:47.220
+And this respective certificate status is issued.
+
+03:47.220 --> 03:51.060
+So this completes the creation of SSL certificate.
+
+03:51.060 --> 03:52.740
+In our next lecture, we are going
+
+03:52.740 --> 03:56.370
+to work on Ingress SSL related annotations.
+
+03:56.370 --> 03:57.960
+So I'll see you in the next lecture.
+
+03:57.960 --> 03:59.160
+Until then, bye by.
+
+03:59.160 --> 03:59.993
+Thank you.

@@ -1,0 +1,526 @@
+WEBVTT
+
+00:00.120 --> 00:01.020
+Instructor: Welcome back.
+
+00:01.020 --> 00:05.577
+In this step we are going to create a STS Azure IAM role
+
+00:05.577 --> 00:09.420
+for code build to interact with AWS EKS.
+
+00:09.420 --> 00:11.400
+So code build will be a service
+
+00:11.400 --> 00:14.910
+which will be doing our build docker image build
+
+00:14.910 --> 00:17.640
+and then also doing the respective deployment
+
+00:17.640 --> 00:20.100
+to our EKS cluster.
+
+00:20.100 --> 00:23.580
+So to do that so it needs some additional information.
+
+00:23.580 --> 00:24.900
+So let's see, what are those?
+
+00:24.900 --> 00:26.850
+So in an AWS code pipeline
+
+00:26.850 --> 00:28.410
+we are going to use code build
+
+00:28.410 --> 00:32.190
+to deploy changes to our Kubernetes manifests.
+
+00:32.190 --> 00:35.400
+So this requires an AWS IAM role
+
+00:35.400 --> 00:39.690
+capable of interacting with EKS cluster.
+
+00:39.690 --> 00:43.050
+So in this step we are going to create an IAM role
+
+00:43.050 --> 00:44.610
+and an inline policy
+
+00:44.610 --> 00:47.610
+which will have the EKS described permission
+
+00:47.610 --> 00:49.950
+that we will use in code build stage
+
+00:49.950 --> 00:53.910
+to interact with the EKS cluster via kubectl.
+
+00:53.910 --> 00:58.320
+So to do so, we need to perform the following steps, okay?
+
+00:58.320 --> 01:00.630
+So we are going to export our account ID.
+
+01:00.630 --> 01:03.180
+So you need to replace your account ID here.
+
+01:03.180 --> 01:05.430
+You can find your account ID in different ways.
+
+01:05.430 --> 01:07.740
+Usually the easiest way for you,
+
+01:07.740 --> 01:10.344
+is like you can go here to billing and then also find it
+
+01:10.344 --> 01:13.350
+but you can open any one of the rules, okay?
+
+01:13.350 --> 01:14.610
+So whatever the rules,
+
+01:14.610 --> 01:17.760
+whatever you have created EKS, CTL right?
+
+01:17.760 --> 01:21.090
+So, and if we can open any one of our EKS CTL roles,
+
+01:21.090 --> 01:22.530
+example our node group role
+
+01:22.530 --> 01:25.660
+so you can find our account ID here.
+
+01:25.660 --> 01:27.330
+So your account id
+
+01:27.330 --> 01:29.850
+you can put it here whenever you are doing it.
+
+01:29.850 --> 01:32.940
+Okay? So export your account id, right?
+
+01:32.940 --> 01:37.013
+Copy and then let me clear this stuff
+
+01:37.013 --> 01:39.567
+and then paste it right?
+
+01:39.567 --> 01:42.480
+And next thing is to create trust policy.
+
+01:42.480 --> 01:43.650
+Okay? So I'm going to get
+
+01:43.650 --> 01:47.490
+entire this root principle trust values here.
+
+01:47.490 --> 01:51.723
+Okay? So let me copy this entire trust policy stuff here.
+
+01:53.370 --> 01:56.670
+So paste it and once you have done that
+
+01:56.670 --> 01:59.310
+so you need to replace with the account ID information.
+
+01:59.310 --> 02:01.170
+So that's the reason what you need to do is
+
+02:01.170 --> 02:03.660
+you can verify whether it has replaced it or not.
+
+02:03.660 --> 02:06.960
+Okay? So you can see that my account
+
+02:06.960 --> 02:08.910
+it is replaced inside that, good.
+
+02:08.910 --> 02:10.560
+So now we are going to create
+
+02:10.560 --> 02:14.550
+a IAM role EKS code build kubectl role.
+
+02:14.550 --> 02:18.004
+So which is nothing but EKS code build kubectl role.
+
+02:18.004 --> 02:21.093
+So let's go ahead and then create that now.
+
+02:24.810 --> 02:28.500
+So once it is created we can get the AR and app that, right?
+
+02:28.500 --> 02:30.750
+So you can make a note of this if you want to
+
+02:32.250 --> 02:34.810
+why, because we are going to leverage this AR later
+
+02:35.708 --> 02:36.870
+so you can use this later.
+
+02:36.870 --> 02:38.160
+So let's make a note of it.
+
+02:38.160 --> 02:41.070
+Okay? So I'll come back here
+
+02:41.070 --> 02:46.070
+and we will define a inline policy stating EKS describe
+
+02:47.640 --> 02:48.690
+and then we'll push that
+
+02:48.690 --> 02:53.040
+to a simple IAM EKS describe policy file here.
+
+02:53.040 --> 02:56.160
+Okay? So it'll go inside a file, right?
+
+02:56.160 --> 02:57.990
+Dot complete JSON
+
+02:57.990 --> 03:01.620
+and then I'm going to associate that inline policy
+
+03:01.620 --> 03:06.210
+to the newly created EKS code build kubectl role.
+
+03:06.210 --> 03:10.953
+So let me go there, copy and then associate that.
+
+03:12.240 --> 03:15.270
+Okay? So once the association is completed
+
+03:15.270 --> 03:19.050
+let's go back to our IAM management console
+
+03:19.050 --> 03:23.040
+go to roles and then type for EKS.
+
+03:23.040 --> 03:25.440
+And if you want,
+
+03:25.440 --> 03:28.470
+we can even search for our director role name here, right?
+
+03:28.470 --> 03:31.320
+So this is the role name, whatever we have created.
+
+03:31.320 --> 03:36.320
+Okay? So come here and refresh once, right?
+
+03:38.220 --> 03:40.080
+And such for this role here.
+
+03:40.080 --> 03:41.730
+Okay? So it got created
+
+03:41.730 --> 03:43.033
+and if you see that role
+
+03:43.033 --> 03:45.509
+it has the root path here, okay?
+
+03:45.509 --> 03:47.610
+And one important thing here is
+
+03:47.610 --> 03:50.820
+it has the EKS describe thing, okay?
+
+03:50.820 --> 03:54.210
+So permission's related to EKS describe thing.
+
+03:54.210 --> 03:57.693
+So now let's go back here, right?
+
+04:01.410 --> 04:03.000
+So we have successfully created
+
+04:03.000 --> 04:06.060
+the SDS Azure IAM role, right?
+
+04:06.060 --> 04:10.440
+So now update the EKS cluster AWS art config map
+
+04:10.440 --> 04:13.380
+with this new role created in the previous steps.
+
+04:13.380 --> 04:16.470
+So in in EKS cluster we'll have something
+
+04:16.470 --> 04:19.620
+called config map named AWS auth.
+
+04:19.620 --> 04:22.410
+So inside that, whatever the role we have created
+
+04:22.410 --> 04:25.860
+we need to update it inside the EKS cluster.
+
+04:25.860 --> 04:27.993
+So let's go ahead and then do that.
+
+04:29.370 --> 04:31.680
+So we are going to verify what is presenting
+
+04:31.680 --> 04:34.350
+AWS auth config map
+
+04:34.350 --> 04:37.830
+before the change whatever we are going to perform.
+
+04:37.830 --> 04:40.950
+So let's go ahead and then see this now.
+
+04:40.950 --> 04:43.530
+So it has something called a username
+
+04:43.530 --> 04:46.500
+with the system role, EC2 private DNS.
+
+04:46.500 --> 04:49.805
+And the role ARN is going to be our node group role
+
+04:49.805 --> 04:52.530
+which is our EC2 instances, private instances,
+
+04:52.530 --> 04:53.820
+whatever we have created
+
+04:53.820 --> 04:57.030
+right inside the IAM, inside the EC2.
+
+04:57.030 --> 04:58.470
+If you see this is the node group,
+
+04:58.470 --> 05:01.200
+private node group for our EKS cluster, right?
+
+05:01.200 --> 05:02.160
+So with two nodes,
+
+05:02.160 --> 05:05.460
+it's equivalent role currently we are seeing
+
+05:05.460 --> 05:08.310
+inside the AWS auth config map.
+
+05:08.310 --> 05:10.770
+So these are the instances, right?
+
+05:10.770 --> 05:13.113
+For them whatever the role you see here.
+
+05:13.980 --> 05:17.400
+So it starts, which ends with nine F zero y.
+
+05:17.400 --> 05:20.190
+Okay? So the same thing, you will find it here.
+
+05:20.190 --> 05:22.620
+Okay? So it means like the username
+
+05:22.620 --> 05:24.720
+is system notes related stuff
+
+05:24.720 --> 05:27.390
+and then it it belongs to system notes group
+
+05:27.390 --> 05:30.300
+and then system bootstrappers group.
+
+05:30.300 --> 05:33.030
+So now whatever we are planning to create, right?
+
+05:33.030 --> 05:35.430
+So it is going to be for system masters, okay?
+
+05:35.430 --> 05:37.770
+So the role ARN is so and so whatever
+
+05:37.770 --> 05:40.560
+EKS code build kubectl role
+
+05:40.560 --> 05:41.820
+and the username is build
+
+05:41.820 --> 05:44.490
+and then groups it will belong to system master.
+
+05:44.490 --> 05:46.380
+So this is the complete thing, okay?
+
+05:46.380 --> 05:49.500
+So if you have already in the same terminal,
+
+05:49.500 --> 05:50.370
+then not an issue.
+
+05:50.370 --> 05:54.780
+If not, then one more time export your account ID
+
+05:54.780 --> 05:56.820
+and then set the role value here.
+
+05:56.820 --> 05:58.680
+So append whatever is there.
+
+05:58.680 --> 06:02.190
+So you need to have the spaces, all these things as is.
+
+06:02.190 --> 06:05.580
+So paste it, enter right?
+
+06:05.580 --> 06:09.900
+And now get the current AWS config map data
+
+06:09.900 --> 06:13.080
+and attach a new role info to it
+
+06:13.080 --> 06:17.070
+and then place it in AWS art patch dot yaml.
+
+06:17.070 --> 06:19.890
+Here the role data will be replaced.
+
+06:19.890 --> 06:24.480
+So let's go here and then run this command directly, right?
+
+06:24.480 --> 06:28.200
+AWS art patch dot.
+
+06:28.200 --> 06:30.330
+Yeah, right?
+
+06:30.330 --> 06:31.163
+So done.
+
+06:31.163 --> 06:31.996
+That's good.
+
+06:31.996 --> 06:35.198
+So now let's cube C with cube CTL patch
+
+06:35.198 --> 06:38.280
+patch the config map AWS art.
+
+06:38.280 --> 06:40.560
+So with the file, whatever we have created
+
+06:40.560 --> 06:43.290
+if you want you can go ahead and then see what is present
+
+06:43.290 --> 06:46.440
+inside that file before applying the patch.
+
+06:46.440 --> 06:47.460
+So earlier you have seen
+
+06:47.460 --> 06:50.430
+only here this level of information, right?
+
+06:50.430 --> 06:52.590
+So now you have additional information here
+
+06:52.590 --> 06:53.790
+with username is build
+
+06:53.790 --> 06:56.160
+and the group, he belongs to his system masters
+
+06:56.160 --> 06:56.993
+and the role here
+
+06:56.993 --> 07:00.840
+and he's going to use his EKS code built kubectl role.
+
+07:00.840 --> 07:02.940
+That's what we are going to apply now.
+
+07:02.940 --> 07:05.730
+Okay, so let me copy this
+
+07:05.730 --> 07:09.510
+and then paste it so that it'll be applied.
+
+07:09.510 --> 07:11.550
+So once applied, captured,
+
+07:11.550 --> 07:14.070
+so I'm going to say clear and then verify the same.
+
+07:14.070 --> 07:18.540
+It is present in our EKS cluster, now right?
+
+07:18.540 --> 07:20.280
+So that's good.
+
+07:20.280 --> 07:21.480
+It's applied for us.
+
+07:21.480 --> 07:24.300
+So now one thing important here is these two things.
+
+07:24.300 --> 07:26.820
+These two steps looks little confusing
+
+07:26.820 --> 07:29.220
+but if you need more information about it
+
+07:29.220 --> 07:33.600
+you need to read a lot about your STS Azure role
+
+07:33.600 --> 07:37.020
+and then SDS related troubleshooting guide also with IAM.
+
+07:37.020 --> 07:39.120
+Okay? So in detail,
+
+07:39.120 --> 07:40.950
+if you want to understand lots of stuff here,
+
+07:40.950 --> 07:42.510
+you need to learn lots of stuff
+
+07:42.510 --> 07:44.880
+but the concept goes very big.
+
+07:44.880 --> 07:47.580
+And then in stuff focusing on DevOps
+
+07:47.580 --> 07:50.310
+we'll go and then focus on IAM related stuff here.
+
+07:50.310 --> 07:54.000
+So that's the reason I'm not going into too much deep
+
+07:54.000 --> 07:56.280
+but I have ensure that the steps,
+
+07:56.280 --> 07:58.127
+whatever created out of the box
+
+07:58.127 --> 08:02.940
+with just copy, paste will work for you.
+
+08:02.940 --> 08:04.680
+So I'll see you in the next lecture.
+
+08:04.680 --> 08:05.550
+In the next lecture,
+
+08:05.550 --> 08:08.310
+we'll focus on reviewing the bill spec dot yaml
+
+08:08.310 --> 08:09.900
+and then other stuff.
+
+08:09.900 --> 08:11.250
+Until then, bye bye.
+
+08:11.250 --> 08:12.083
+Thank you.

@@ -1,0 +1,430 @@
+WEBVTT
+
+00:00.240 --> 00:01.140
+-: Welcome back.
+
+00:01.140 --> 00:04.860
+In this section we are going to learn about ingress groups
+
+00:04.860 --> 00:08.640
+and also implement a practical demo for ingress groups.
+
+00:08.640 --> 00:10.920
+So, without ingress groups
+
+00:10.920 --> 00:13.260
+we used to define our configurations
+
+00:13.260 --> 00:15.510
+in a single ingress resource.
+
+00:15.510 --> 00:19.320
+So let's understand what is the drawbacks of
+
+00:19.320 --> 00:23.190
+not using ingress groups in a larger configurations.
+
+00:23.190 --> 00:26.520
+So example, like in our current use cases
+
+00:26.520 --> 00:30.870
+we have app one, app two, and then app three applications
+
+00:30.870 --> 00:33.420
+and we have their own deployment and then note
+
+00:33.420 --> 00:35.970
+port service Kubernetes manifest.
+
+00:35.970 --> 00:38.490
+And for all these three apps,
+
+00:38.490 --> 00:41.880
+we used to have a single ingress resource.
+
+00:41.880 --> 00:44.820
+Maybe, my apps is the ingress resource name.
+
+00:44.820 --> 00:46.290
+And for these three apps
+
+00:46.290 --> 00:50.070
+the routing rules we have defined in a single file.
+
+00:50.070 --> 00:52.170
+So single ingress resource
+
+00:52.170 --> 00:55.710
+for all three apps we have created so far.
+
+00:55.710 --> 00:59.310
+And, any changes to any of these apps
+
+00:59.310 --> 01:02.790
+you need to go into that respective ingress resource.
+
+01:02.790 --> 01:06.180
+For all the three apps you have only one ingress resource
+
+01:06.180 --> 01:08.550
+and you need to go inside that ingress resource
+
+01:08.550 --> 01:12.180
+update that and then deploy those changes.
+
+01:12.180 --> 01:14.613
+And the important thing here is,
+
+01:15.600 --> 01:17.190
+if you have three apps
+
+01:17.190 --> 01:21.840
+it is fine, but if we have 50 apps or hundred apps
+
+01:21.840 --> 01:25.710
+and all these hundred apps needs different rules embedded
+
+01:25.710 --> 01:28.050
+in your application load balancer
+
+01:28.050 --> 01:31.260
+and those rules need to be managed
+
+01:31.260 --> 01:35.610
+in a single ingress Kubernetes manifest.
+
+01:35.610 --> 01:39.660
+So if that is the case then, maintaining that single
+
+01:39.660 --> 01:43.860
+file becomes tedious and also confusing.
+
+01:43.860 --> 01:47.280
+So the ingress groups concepts helps us
+
+01:47.280 --> 01:49.000
+in segregating the
+
+01:50.217 --> 01:52.470
+config in different files
+
+01:52.470 --> 01:55.020
+with the different ingress resource names.
+
+01:55.020 --> 01:57.090
+But you can merge them together to
+
+01:57.090 --> 02:00.450
+create a single application load balancer.
+
+02:00.450 --> 02:03.180
+So with ingress groups, we can simplify our
+
+02:03.180 --> 02:05.880
+Kubernetes ingress manifest when dealing with
+
+02:05.880 --> 02:10.290
+multiple apps requiring a single application load balancer.
+
+02:10.290 --> 02:12.960
+So with ingress groups what happens is,
+
+02:12.960 --> 02:14.910
+so you can see you have app one, app
+
+02:14.910 --> 02:16.920
+two, and app three related deployment
+
+02:16.920 --> 02:19.860
+and note port service related Kubernetes manifest.
+
+02:19.860 --> 02:24.120
+So for app one you'll create the app one ingress resource
+
+02:24.120 --> 02:28.230
+and you'll define the app one related rules only
+
+02:28.230 --> 02:29.370
+inside that.
+
+02:29.370 --> 02:30.660
+And for app two,
+
+02:30.660 --> 02:33.240
+you will define the app two ingress resource
+
+02:33.240 --> 02:36.780
+and you'll define the app two related rules inside that.
+
+02:36.780 --> 02:40.350
+And for app three also, you'll do the same thing.
+
+02:40.350 --> 02:44.610
+So these three are three different Kubernetes manifests
+
+02:44.610 --> 02:46.267
+and now
+
+02:46.267 --> 02:47.850
+all together, right?
+
+02:47.850 --> 02:50.970
+Using the ingress groups concept
+
+02:50.970 --> 02:53.700
+and using the ingress group annotation.
+
+02:53.700 --> 02:55.320
+So you will group them together
+
+02:55.320 --> 02:58.410
+with my apps dot whatever the name you want.
+
+02:58.410 --> 03:00.180
+So these ingress resources
+
+03:00.180 --> 03:01.800
+from web are whatever it is, right?
+
+03:01.800 --> 03:05.100
+So I just gave the name as my apps dot web for my group.
+
+03:05.100 --> 03:09.060
+So which means I'm going to have a ingress group annotation
+
+03:09.060 --> 03:11.760
+in ingress service app one ingress, app two ingress, and
+
+03:11.760 --> 03:12.750
+app three ingress.
+
+03:12.750 --> 03:15.520
+And I'm going to say all these three ingress belong
+
+03:16.358 --> 03:19.020
+to my apps dot web ingress group.
+
+03:19.020 --> 03:22.230
+And in addition to that, I am also going to
+
+03:22.230 --> 03:26.070
+define the priority for these ingress rules.
+
+03:26.070 --> 03:28.380
+So I'm going to say app one ingress is going to
+
+03:28.380 --> 03:31.770
+have priority 10 app to English is going to have priority 20
+
+03:31.770 --> 03:35.280
+and app three is going to have priority 30.
+
+03:35.280 --> 03:38.640
+So at this point what happens is, in the
+
+03:38.640 --> 03:41.140
+application load balancer, it is going to
+
+03:42.046 --> 03:44.670
+put the rules in that same order.
+
+03:44.670 --> 03:46.950
+And in addition to that, so you are calling
+
+03:46.950 --> 03:50.070
+from application load balancer perspective this
+
+03:50.070 --> 03:54.150
+as a priority, but from ingress perspective you call it
+
+03:54.150 --> 03:57.150
+as ingress group order, right?
+
+03:57.150 --> 03:59.220
+So you need to define the ingress group order
+
+03:59.220 --> 04:02.500
+as 10 ingress group order as 20 and ingress group order
+
+04:02.500 --> 04:06.420
+as 30 and there will be times you call it as a
+
+04:06.420 --> 04:08.850
+rule priority number.
+
+04:08.850 --> 04:11.790
+And if you see here, so, the
+
+04:11.790 --> 04:14.340
+ingress load balancer name
+
+04:14.340 --> 04:16.200
+for all these three things is going to
+
+04:16.200 --> 04:18.750
+be same ingress groups demo.
+
+04:18.750 --> 04:21.360
+So which means this load balancer named related
+
+04:21.360 --> 04:23.790
+annotation will be there in all three files
+
+04:23.790 --> 04:26.550
+and you'll have the name as ingress groups demo.
+
+04:26.550 --> 04:28.860
+But the name of your ingress service, right
+
+04:28.860 --> 04:31.080
+in the metadata you provide the name, right?
+
+04:31.080 --> 04:33.510
+So that can be app one ingress or app two ingress
+
+04:33.510 --> 04:34.830
+or app three ingress whatever,
+
+04:34.830 --> 04:37.380
+based on your ingress service name.
+
+04:37.380 --> 04:40.050
+But all these things will be connected
+
+04:40.050 --> 04:43.260
+to a single load balancer, which is ingress groups demo.
+
+04:43.260 --> 04:46.200
+And all these three things will have a same ingress group
+
+04:46.200 --> 04:48.720
+which is my apps dot web.
+
+04:48.720 --> 04:52.080
+So now let's move on to next thing.
+
+04:52.080 --> 04:54.300
+So let's understand a little bit here.
+
+04:54.300 --> 04:56.550
+Ingress Group feature enables you to
+
+04:56.550 --> 04:59.550
+group multiple ingress resources together.
+
+04:59.550 --> 05:03.180
+So the controller will automatically merge ingress rules
+
+05:03.180 --> 05:06.300
+for all ingresses within ingress group
+
+05:06.300 --> 05:10.260
+and support them with the single application load balancer.
+
+05:10.260 --> 05:13.710
+And very, very important note here is in addition
+
+05:13.710 --> 05:17.430
+most annotations defined on an ingress only applies
+
+05:17.430 --> 05:20.910
+to the paths defined by that ingress.
+
+05:20.910 --> 05:24.000
+And finally, so this is the sample.
+
+05:24.000 --> 05:26.070
+So for the ingress groups, you are going to
+
+05:26.070 --> 05:29.310
+use the group dot name and also group dot order.
+
+05:29.310 --> 05:33.000
+In every ingress resource you are going to add these two
+
+05:33.000 --> 05:37.320
+annotations and provide that ingress resource belongs to
+
+05:37.320 --> 05:40.080
+which group and also what is the priority
+
+05:40.080 --> 05:42.240
+of that ingress resource.
+
+05:42.240 --> 05:46.650
+So in our case, in 0 8 2 ingress group section, we are
+
+05:46.650 --> 05:48.060
+in Kube manifest.
+
+05:48.060 --> 05:51.090
+We are going to have app one folder, app two folder
+
+05:51.090 --> 05:52.410
+and app three folder.
+
+05:52.410 --> 05:54.240
+And in app one folder you will have
+
+05:54.240 --> 05:57.900
+the 0 1 SNCs app, one deployment and note port service.
+
+05:57.900 --> 06:01.440
+And it's 0 2 app one ingress dot yaml.
+
+06:01.440 --> 06:05.190
+Same for app two, 0 1 SNCs app two deployment
+
+06:05.190 --> 06:08.430
+and note port service and 0 2 app two ingress.
+
+06:08.430 --> 06:10.200
+So in app one ingress
+
+06:10.200 --> 06:12.510
+you'll have only app fund related rules.
+
+06:12.510 --> 06:14.490
+And in app two ingress you'll have only
+
+06:14.490 --> 06:15.750
+app two related rules.
+
+06:15.750 --> 06:19.260
+And in app three you'll have only app three related rules.
+
+06:19.260 --> 06:22.530
+So three ingress Kubernetes manifest creates three
+
+06:22.530 --> 06:25.500
+ingress resources in Kubernetes and
+
+06:25.500 --> 06:28.240
+all three will be merged to create a single
+
+06:28.240 --> 06:30.660
+AWS application load balancer.
+
+06:30.660 --> 06:33.090
+That's what is the core concept here.
+
+06:33.090 --> 06:36.480
+This completes the introductory part of ingress groups.
+
+06:36.480 --> 06:38.520
+In our next lecture, we are going to go ahead
+
+06:38.520 --> 06:40.560
+and then review this cube manifest
+
+06:40.560 --> 06:43.380
+and then practically implement the use case.
+
+06:43.380 --> 06:44.970
+So I'll see you in the next lecture.
+
+06:44.970 --> 06:46.170
+Until then, bye bye.
+
+06:46.170 --> 06:47.003
+Thank you.

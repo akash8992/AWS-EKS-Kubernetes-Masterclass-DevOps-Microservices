@@ -1,0 +1,613 @@
+WEBVTT
+
+00:00.150 --> 00:00.990
+-: Welcome back.
+
+00:00.990 --> 00:03.360
+In this lecture we are going to understand about
+
+00:03.360 --> 00:06.180
+AWS EKS storage.
+
+00:06.180 --> 00:08.940
+So in EKS storage we have different type
+
+00:08.940 --> 00:10.864
+of drivers and then provisioners.
+
+00:10.864 --> 00:15.117
+So if you see here we have entry, EBS, provisioner, EBS
+
+00:15.117 --> 00:20.117
+CSI driver, EFS CSI driver, and then FSX 4 cluster CSI.
+
+00:20.310 --> 00:23.629
+So entry EBS provisioner is a legacy one
+
+00:23.629 --> 00:26.580
+and will be soon deprecated.
+
+00:26.580 --> 00:28.490
+So we are not going to look into that.
+
+00:28.490 --> 00:32.940
+In the future it is going to be with the CSI drivers only.
+
+00:32.940 --> 00:34.650
+So what does that CSI mean is
+
+00:34.650 --> 00:36.900
+like container storage interface.
+
+00:36.900 --> 00:39.937
+So with EBS, which is nothing but elastic block storage
+
+00:39.937 --> 00:42.300
+which is for persistent volumes.
+
+00:42.300 --> 00:43.617
+So we can use EBS
+
+00:43.617 --> 00:46.980
+CSI driver and we also have Elastic file system
+
+00:46.980 --> 00:49.937
+which is a fully manager file system by AWS.
+
+00:49.937 --> 00:52.255
+So if you want to use it, we can use EFS
+
+00:52.255 --> 00:56.695
+CSI driver in addition to that regular FSX four cluster.
+
+00:56.695 --> 00:58.410
+CSI will be available
+
+00:58.410 --> 01:01.500
+for Windows file systems in other stuff.
+
+01:01.500 --> 01:04.800
+But the core thing here is we are going to primarily discuss
+
+01:04.800 --> 01:09.514
+on EBS CSI driver in our upcoming continuous lectures.
+
+01:09.514 --> 01:13.500
+And then we are going to use this EBS CSI driver
+
+01:13.500 --> 01:14.767
+leverage this driver
+
+01:14.767 --> 01:17.576
+and then use the EBS service in AWS to have
+
+01:17.576 --> 01:22.576
+the persistent volume mounts forever Myer scale database.
+
+01:22.917 --> 01:27.027
+But let's see this a little bit about these drivers.
+
+01:27.027 --> 01:28.710
+So these are the latest
+
+01:28.710 --> 01:32.190
+and greatest available today and they are in beta releases
+
+01:32.190 --> 01:35.320
+but they're also ready for production use
+
+01:36.900 --> 01:37.733
+and
+
+01:37.733 --> 01:38.790
+as on today.
+
+01:38.790 --> 01:43.500
+So these drivers are not supported on AWS EKS Fargate
+
+01:43.500 --> 01:45.850
+which is nothing but serverless infrastructure.
+
+01:47.070 --> 01:50.970
+And it allows EKS clusters to manage lifecycle
+
+01:50.970 --> 01:53.490
+of EBS volumes for persistent storage
+
+01:53.490 --> 01:57.579
+or EFS file systems and FXS for luster file systems.
+
+01:57.579 --> 02:02.310
+So entire lifecycle of these respective services
+
+02:02.310 --> 02:04.310
+which is EBS or EFS or FXS
+
+02:04.310 --> 02:08.446
+can also be managed using these drivers from EKS.
+
+02:08.446 --> 02:13.440
+So now EBS and then EFS are supported for
+
+02:13.440 --> 02:14.280
+Kubernetes 1
+
+02:14.280 --> 02:18.510
+point 14 and then later options and FSX for cluster
+
+02:18.510 --> 02:23.070
+CSA supported from 1 point 16 and then latest options.
+
+02:23.070 --> 02:24.210
+So now moving on.
+
+02:24.210 --> 02:28.050
+So let's see a little bit more about the EBS CSA driver
+
+02:28.050 --> 02:31.200
+right? So before going in, so let's understand what
+
+02:31.200 --> 02:33.330
+is this elastic block store before moving on?
+
+02:33.330 --> 02:37.410
+Okay, so EBS provides block level storage volumes for used
+
+02:37.410 --> 02:40.260
+with easy to and then container instances.
+
+02:40.260 --> 02:44.100
+So we can mount these volumes as devices on our EC2R
+
+02:44.100 --> 02:45.480
+container instances.
+
+02:45.480 --> 02:49.016
+So EBS volumes that are attach it to an instance are exposed
+
+02:49.016 --> 02:53.160
+as storage volumes that persist independently from the life
+
+02:53.160 --> 02:55.170
+of the EC 2 R container instance.
+
+02:55.170 --> 02:58.530
+In simple terms, even if we terminate our EC2
+
+02:58.530 --> 03:00.460
+instance, instance are if even if we terminate
+
+03:00.460 --> 03:03.600
+or if our container instance got terminated
+
+03:03.600 --> 03:06.787
+or our respect to Kubernetes port got terminated
+
+03:06.787 --> 03:09.930
+still volume is persisted independently.
+
+03:09.930 --> 03:12.540
+So we really don't need to worry about the data stored
+
+03:12.540 --> 03:14.176
+in those volumes, right?
+
+03:14.176 --> 03:16.560
+So we can dynamically change the configuration
+
+03:16.560 --> 03:18.630
+of a volume attached to an instance.
+
+03:18.630 --> 03:20.647
+We can increase the size of the instance
+
+03:20.647 --> 03:22.620
+means like we can increase the size
+
+03:22.620 --> 03:24.900
+of the volume or decrease the size of the volume.
+
+03:24.900 --> 03:26.130
+We can do all those things.
+
+03:26.130 --> 03:28.890
+Okay? So AWS recommends EBS
+
+03:28.890 --> 03:30.969
+for data that must be quickly accessible
+
+03:30.969 --> 03:34.380
+and requests long term persistence.
+
+03:34.380 --> 03:36.030
+So EBS is well suited for
+
+03:36.030 --> 03:39.210
+both database style applications that rely on random reads
+
+03:39.210 --> 03:42.120
+and rights and to throw put intensive applications
+
+03:42.120 --> 03:44.590
+that perform long continuous reads and then right?
+
+03:44.590 --> 03:47.672
+So for in both ways it is useful.
+
+03:47.672 --> 03:52.470
+So now let's see what we are going to build on a high level.
+
+03:52.470 --> 03:53.309
+So in a EKS cluster
+
+03:53.309 --> 03:57.000
+so we are going to create a deployment which is nothing
+
+03:57.000 --> 03:59.250
+but the Myer scale deployment.
+
+03:59.250 --> 04:02.250
+So for this respective Myer scale deployment
+
+04:02.250 --> 04:05.100
+we are going to leverage the elastic block store
+
+04:05.100 --> 04:08.605
+as the volume mounts inside this deployment, which means
+
+04:08.605 --> 04:11.340
+for this Myer scale database, we are going to
+
+04:11.340 --> 04:16.140
+use data volume mounts as from elastic block store.
+
+04:16.140 --> 04:17.211
+So in addition to that
+
+04:17.211 --> 04:20.191
+as part of this deployment, whenever we are creating, right
+
+04:20.191 --> 04:23.553
+so we need to learn few other Kubernetes concepts here.
+
+04:23.553 --> 04:25.103
+One is storage classes
+
+04:25.103 --> 04:28.890
+persistent volume claims, config maps, and we are
+
+04:28.890 --> 04:32.640
+on mental variables, volumes and then volume modes.
+
+04:32.640 --> 04:34.380
+So all these things we are going to learn
+
+04:34.380 --> 04:37.320
+as part of this entire use case.
+
+04:37.320 --> 04:38.700
+In addition to that
+
+04:38.700 --> 04:41.790
+so unlike earlier, which means like earlier
+
+04:41.790 --> 04:45.713
+we used to use it persistent volumes first means
+
+04:45.713 --> 04:48.503
+like as a Kubernetes administrator
+
+04:48.503 --> 04:50.670
+I used to create a storage class
+
+04:50.670 --> 04:53.713
+and a persistent volume and then I need to go
+
+04:53.713 --> 04:57.392
+and then claim that volume using persistent volume claiming.
+
+04:57.392 --> 05:00.330
+So, but now we are going to use the another
+
+05:00.330 --> 05:03.180
+later feature dynamic volume provisioning here.
+
+05:03.180 --> 05:04.890
+Okay? So that is going to come in
+
+05:04.890 --> 05:06.360
+and then we'll discuss whenever it comes
+
+05:06.360 --> 05:08.040
+we'll discuss in detail about that.
+
+05:08.040 --> 05:10.500
+But for now, let's move on with what we have
+
+05:10.500 --> 05:13.290
+as part of that, as usual, again, we are going to understand
+
+05:13.290 --> 05:17.490
+about note port service and then deployment of my SQL.
+
+05:17.490 --> 05:19.980
+So I also change these two cluster trip service
+
+05:19.980 --> 05:22.920
+because this deployment is going to use my scale
+
+05:22.920 --> 05:26.142
+deployment is going to use the cluster IP service.
+
+05:26.142 --> 05:27.270
+So moving on.
+
+05:27.270 --> 05:28.950
+So once we complete this means
+
+05:28.950 --> 05:32.040
+like creating the storage class related Kubernetes
+
+05:32.040 --> 05:34.365
+manifest persistent volume related manifest
+
+05:34.365 --> 05:36.971
+and then config map related manifest
+
+05:36.971 --> 05:40.004
+and deployment with environmental variables, volumes
+
+05:40.004 --> 05:43.020
+and then volume mounts and then cluster IP manifest.
+
+05:43.020 --> 05:47.460
+So once we complete 1, 2, 3, 4, file,
+
+05:47.460 --> 05:48.450
+file manifest
+
+05:48.450 --> 05:49.307
+then we'll move on.
+
+05:49.307 --> 05:51.750
+Oh, the next thing which is nothing
+
+05:51.750 --> 05:54.180
+but our user management service.
+
+05:54.180 --> 05:56.280
+So we have created a persistent database
+
+05:56.280 --> 06:00.480
+but how we are are going to know that by, by integrating it
+
+06:00.480 --> 06:02.640
+with an application, we will know better, right?
+
+06:02.640 --> 06:06.180
+So that's the reason I have created a simple springboard
+
+06:06.180 --> 06:09.210
+user management microservice.
+
+06:09.210 --> 06:11.730
+So wherein you'll be able to create the users
+
+06:11.730 --> 06:13.650
+whenever a user is created, it'll come
+
+06:13.650 --> 06:15.930
+and then store it in the Myer scale database.
+
+06:15.930 --> 06:17.460
+And whenever you delete the user
+
+06:17.460 --> 06:19.650
+it'll be deleted from the Myer skill database.
+
+06:19.650 --> 06:22.170
+Whenever you list to the users, it'll fetch the users
+
+06:22.170 --> 06:24.326
+from the Myer skill database and then show it to you
+
+06:24.326 --> 06:28.299
+from your postman client or from browser or whatever, right?
+
+06:28.299 --> 06:30.480
+So whatever the client we are using.
+
+06:30.480 --> 06:32.310
+So all those things we can do.
+
+06:32.310 --> 06:35.400
+So that type of application we are going to deploy here
+
+06:35.400 --> 06:37.590
+and then create a deployment for that.
+
+06:37.590 --> 06:40.290
+So which means we'll create a deployment with the respect
+
+06:40.290 --> 06:42.780
+to environmental variables here, which is nothing
+
+06:42.780 --> 06:45.450
+but why do we need to have environmental variables
+
+06:45.450 --> 06:46.770
+in this deployment is nothing
+
+06:46.770 --> 06:49.530
+but these environmental variables will have that
+
+06:49.530 --> 06:52.659
+database information to connect to this respect to database.
+
+06:52.659 --> 06:54.360
+So what is the DB host
+
+06:54.360 --> 06:56.988
+and then what is the DB username DB password
+
+06:56.988 --> 06:59.610
+and what is the schema we are going to use?
+
+06:59.610 --> 07:00.630
+So all those things.
+
+07:00.630 --> 07:03.560
+So the schema, whatever we are going to create inside this
+
+07:03.560 --> 07:05.930
+my skill databases, user management schema
+
+07:05.930 --> 07:08.009
+which we will define in this config map.
+
+07:08.009 --> 07:10.440
+And then that will get created.
+
+07:10.440 --> 07:12.090
+So we'll create a deployment
+
+07:12.090 --> 07:13.920
+with environmental variables to connect
+
+07:13.920 --> 07:15.889
+to this respect to Myer skill here.
+
+07:15.889 --> 07:17.400
+And in addition to that
+
+07:17.400 --> 07:19.890
+we are also going to create a note port service tool.
+
+07:19.890 --> 07:23.040
+Access the users means like for a, for access to users
+
+07:23.040 --> 07:24.540
+we are going to create a note port service
+
+07:24.540 --> 07:27.180
+so we can access it via internet.
+
+07:27.180 --> 07:29.070
+So all these things we are going to do.
+
+07:29.070 --> 07:32.540
+So let's go back one more time to our GitHub repo
+
+07:32.540 --> 07:34.170
+and
+
+07:34.170 --> 07:36.540
+go to our EKS storage
+
+07:36.540 --> 07:39.330
+with EBS elastic block store.
+
+07:39.330 --> 07:43.920
+Okay, so if you see here we are going to use EBS CSI driver
+
+07:43.920 --> 07:45.120
+and use EBS volumes
+
+07:45.120 --> 07:47.910
+for persistent storage to my scale database.
+
+07:47.910 --> 07:50.010
+So the core topics involved here are first
+
+07:50.010 --> 07:53.354
+installing the EBS CSI driver on our Kubernetes cluster
+
+07:53.354 --> 07:56.610
+and then create the Myers scale database deployment
+
+07:56.610 --> 07:58.860
+and then cluster IP service and finally
+
+07:58.860 --> 08:01.170
+create the user management microservice deployment
+
+08:01.170 --> 08:03.420
+and then note port service.
+
+08:03.420 --> 08:05.490
+So as part of that, the following Kubernetes
+
+08:05.490 --> 08:08.700
+concepts are covered storage classes, persistent volumes
+
+08:08.700 --> 08:11.094
+conflict maps, environmental variables, and then
+
+08:11.094 --> 08:14.610
+note port services, environment, wells, all these things.
+
+08:14.610 --> 08:15.720
+And in addition to that
+
+08:15.720 --> 08:17.844
+after this entire section is completed
+
+08:17.844 --> 08:20.400
+the entire EBS section is completed.
+
+08:20.400 --> 08:21.233
+All these things.
+
+08:21.233 --> 08:22.500
+And then if you still have doubts
+
+08:22.500 --> 08:24.450
+or if you want to implement few things
+
+08:24.450 --> 08:26.940
+whatever is not referred in this section, again
+
+08:26.940 --> 08:27.773
+you can definitely go
+
+08:27.773 --> 08:30.750
+to these references and then look into.
+
+08:30.750 --> 08:32.790
+So why, because we are using here only
+
+08:32.790 --> 08:34.582
+that dynamic volume provisioning here
+
+08:34.582 --> 08:36.870
+but you can even do the static provisioning
+
+08:36.870 --> 08:37.966
+or even resize your disc.
+
+08:37.966 --> 08:39.714
+There will be different options available here.
+
+08:39.714 --> 08:42.935
+And then you can use these thing reference links to
+
+08:42.935 --> 08:47.074
+understand better and then change whatever you want or
+
+08:47.074 --> 08:51.180
+in your real world environments based on your requirements.
+
+08:51.180 --> 08:53.670
+Whatever you want to do, you can use these things.
+
+08:53.670 --> 08:55.566
+Okay? So I'll see you in the next lecture
+
+08:55.566 --> 08:59.442
+by moving on with the installing EBS CSA driver.
+
+08:59.442 --> 09:01.530
+Until then, bye bye.
+
+09:01.530 --> 09:02.363
+Thank you.

@@ -1,0 +1,532 @@
+WEBVTT
+
+00:00.300 --> 00:01.410
+-: Welcome back.
+
+00:01.410 --> 00:03.330
+In this section, we are going to learn
+
+00:03.330 --> 00:05.520
+about Network Load Balancer,
+
+00:05.520 --> 00:09.780
+TLS or SSL using Kubernetes Service.
+
+00:09.780 --> 00:12.900
+And if you see here, earlier we have seen
+
+00:12.900 --> 00:17.670
+the Kubernetes service with the annotations related
+
+00:17.670 --> 00:20.580
+to NLB with listener, port 80
+
+00:20.580 --> 00:23.400
+and all standard annotations,
+
+00:23.400 --> 00:27.150
+which is required for creating the Network Load Balancer
+
+00:27.150 --> 00:29.460
+using the Kubernetes service.
+
+00:29.460 --> 00:32.370
+So now we are going to add additional things here,
+
+00:32.370 --> 00:35.174
+which is nothing but the listeners required
+
+00:35.174 --> 00:37.990
+and SSL annotations required for us.
+
+00:37.990 --> 00:42.150
+So listener is nothing but your service relater port,
+
+00:42.150 --> 00:45.300
+which is port 80, is your target port,
+
+00:45.300 --> 00:48.539
+and your service port is going to be 443.
+
+00:48.539 --> 00:51.063
+In addition, you're also going to define
+
+00:51.063 --> 00:55.830
+SSL ports annotation, and SSL certificate annotation,
+
+00:55.830 --> 00:57.030
+which is where you are going
+
+00:57.030 --> 01:00.300
+to update your SSL certificate YARN
+
+01:00.300 --> 01:03.330
+from your AWS certificate manager.
+
+01:03.330 --> 01:05.520
+So, if you remember, when we are implementing
+
+01:05.520 --> 01:07.020
+that NLB demos,
+
+01:07.020 --> 01:10.350
+so we have created a wildcard certificate,
+
+01:10.350 --> 01:12.030
+and if you go to that certificate,
+
+01:12.030 --> 01:15.450
+you'll find the YARN, so that YARN you can update
+
+01:15.450 --> 01:18.510
+for this SSL cert YARN, right?
+
+01:18.510 --> 01:21.990
+And you're also define that SSL negotiation policy,
+
+01:21.990 --> 01:25.380
+and this SSL negotiation policy you can get it
+
+01:25.380 --> 01:30.380
+from your, so, 19 NLB Network Balancer LBC,
+
+01:30.420 --> 01:35.420
+and we are in section 1902 LBC NLB DLS.
+
+01:36.510 --> 01:38.340
+And if you go to step two here,
+
+01:38.340 --> 01:40.980
+so you'll find the security policy slip,
+
+01:40.980 --> 01:44.010
+and you'll open it, it will take you here.
+
+01:44.010 --> 01:46.290
+So there are the security policies
+
+01:46.290 --> 01:49.950
+and you can use the security policies accordingly.
+
+01:49.950 --> 01:54.950
+So these will help us in defining the cipher standards,
+
+01:55.050 --> 01:56.700
+and all those things for us.
+
+01:56.700 --> 02:00.810
+So if you'll go here and go to our Visual Studio code,
+
+02:00.810 --> 02:05.660
+and go to 1902 NLB DLS, and go to 02 LBC NLB,
+
+02:06.720 --> 02:08.133
+load balancer service,
+
+02:08.133 --> 02:12.030
+and go to that respective annotation, right?
+
+02:12.030 --> 02:13.784
+So you'll find something called
+
+02:13.784 --> 02:15.900
+'specifies the security policy
+
+02:15.900 --> 02:18.570
+for NLB front-end connections'.
+
+02:18.570 --> 02:23.010
+So allowing us to control the protocol and ciphers.
+
+02:23.010 --> 02:25.860
+So this is the one currently it is present.
+
+02:25.860 --> 02:28.110
+So whatever is the latest our level,
+
+02:28.110 --> 02:30.510
+that is what is updated here.
+
+02:30.510 --> 02:34.287
+And next annotation we are going to discuss here is
+
+02:34.287 --> 02:36.660
+back-end protocol.
+
+02:36.660 --> 02:40.977
+So this back-end protocol annotation supports PCP
+
+02:40.977 --> 02:43.410
+and then TLS fielding cipher.
+
+02:43.410 --> 02:46.920
+So the communication from this network load balancer tool,
+
+02:46.920 --> 02:50.070
+this back-end application engine it's R/3,
+
+02:50.070 --> 02:54.510
+should be 3CPRPLS, so that need to be decided.
+
+02:54.510 --> 02:58.020
+So if your back-end application is listening on SSL
+
+02:58.020 --> 02:59.430
+and you want the communication
+
+02:59.430 --> 03:00.900
+from this network load balancer
+
+03:00.900 --> 03:05.160
+to your back end port with SSL only or TLS only,
+
+03:05.160 --> 03:07.200
+at that point you can use TLS.
+
+03:07.200 --> 03:10.230
+In our case, our back-end port is listening on,
+
+03:10.230 --> 03:13.800
+the container inside the port is listening on port 80.
+
+03:13.800 --> 03:16.950
+So ours is going to be PCP.
+
+03:16.950 --> 03:19.320
+And one important annotation still
+
+03:19.320 --> 03:22.860
+we didn't discuss is SSL ports 443.
+
+03:22.860 --> 03:24.900
+So what does this annotation does is,
+
+03:24.900 --> 03:27.570
+specify this annotation if you need
+
+03:27.570 --> 03:31.950
+both TLS and non-TLS listeners on the same load balancer.
+
+03:31.950 --> 03:34.830
+So if you don't specify this annotation,
+
+03:34.830 --> 03:37.950
+you don't get the non-TLS annotations, right?
+
+03:37.950 --> 03:40.470
+Only TLS annotations are supported.
+
+03:40.470 --> 03:43.470
+So if you want non-TLS annotations also should be present
+
+03:43.470 --> 03:45.225
+on your network load balancer,
+
+03:45.225 --> 03:48.390
+specify this annotation, right?
+
+03:48.390 --> 03:50.130
+So that's about the thing.
+
+03:50.130 --> 03:53.640
+And now if you see here this is the network we signed.
+
+03:53.640 --> 03:55.560
+So already we have discussed
+
+03:55.560 --> 03:57.420
+about these things multiple times.
+
+03:57.420 --> 03:59.730
+So in a AWS cloud, whenever we are creating
+
+03:59.730 --> 04:01.530
+an EKS cluster control thing,
+
+04:01.530 --> 04:03.840
+it has created it, the PC for us,
+
+04:03.840 --> 04:05.700
+and public and private subnets,
+
+04:05.700 --> 04:08.370
+and we created an EKS private node group,
+
+04:08.370 --> 04:11.820
+and deployed the R/3 application here,
+
+04:11.820 --> 04:14.640
+and also deployed the Kubernetes service
+
+04:14.640 --> 04:16.170
+with NLB annotation
+
+04:16.170 --> 04:19.320
+so that it created a network load balancer.
+
+04:19.320 --> 04:22.680
+In addition, we created a certificate manager relater,
+
+04:22.680 --> 04:25.650
+SSL certificate inside that, wildcard certificate,
+
+04:25.650 --> 04:27.780
+Stardock Stack Simplified.com.
+
+04:27.780 --> 04:31.740
+And associated that respect to certificate YARN
+
+04:31.740 --> 04:34.350
+in our TLS related annotations
+
+04:34.350 --> 04:36.000
+in our network load balancer.
+
+04:36.000 --> 04:39.840
+So that this network load balancer can determinate the SSL
+
+04:39.840 --> 04:41.640
+on this network load balancer.
+
+04:41.640 --> 04:43.920
+So now if you'll see here, you can access
+
+04:43.920 --> 04:47.670
+with both HTTP, with port 80 your application,
+
+04:47.670 --> 04:51.570
+and also with HTTPS NLB, DNS YARN,
+
+04:51.570 --> 04:53.010
+with SSL certificate,
+
+04:53.010 --> 04:54.930
+so that SSL determination happens
+
+04:54.930 --> 04:56.550
+on the network load balancer
+
+04:56.550 --> 04:58.080
+and the request will go to your back-end port
+
+04:58.080 --> 05:01.680
+and port 80 PCP connections.
+
+05:01.680 --> 05:03.960
+Now, if you come back here,
+
+05:03.960 --> 05:05.920
+so these are the annotations we have discussed
+
+05:05.920 --> 05:08.070
+and if you see in the service ports
+
+05:08.070 --> 05:09.810
+you'll find all these things.
+
+05:09.810 --> 05:13.470
+So these are nothing but, let's discuss in detail
+
+05:13.470 --> 05:17.880
+or we can even go back to our Visual Studio code here,
+
+05:17.880 --> 05:18.930
+and you will find here.
+
+05:18.930 --> 05:22.530
+So this is the port 80 relater HTTP port.
+
+05:22.530 --> 05:24.720
+So this is the front-end port, right,
+
+05:24.720 --> 05:27.270
+which is your service port, is 80.
+
+05:27.270 --> 05:30.180
+And this is your back-end container port.
+
+05:30.180 --> 05:33.660
+So now when you specify the front-end port here,
+
+05:33.660 --> 05:37.410
+it creates a port 80 listener on NLB.
+
+05:37.410 --> 05:40.080
+And whenever you provide a target port,
+
+05:40.080 --> 05:42.937
+this one will create a target group for us.
+
+05:42.937 --> 05:47.730
+The same way for 443 also, it creates a 443 listener
+
+05:47.730 --> 05:51.180
+and 80 related target group.
+
+05:51.180 --> 05:56.180
+Here also 81, 82, also will create 81 listener, 82 listener,
+
+05:56.310 --> 05:57.690
+and target group also port 80.
+
+05:57.690 --> 06:02.490
+So if you see here, target port 80 is common
+
+06:02.490 --> 06:04.890
+in all these things, your back-end port,
+
+06:04.890 --> 06:06.780
+your back-end container port.
+
+06:06.780 --> 06:09.930
+And if you see here, this is target group 1 you are seeing,
+
+06:09.930 --> 06:11.490
+this is target group 2 you are seeing,
+
+06:11.490 --> 06:13.770
+this is target group 3 you are seeing.
+
+06:13.770 --> 06:15.870
+So, what is happening here is,
+
+06:15.870 --> 06:19.800
+whenever you map a port like this in your service, right,
+
+06:19.800 --> 06:23.010
+so when it is time to create a network load balancer,
+
+06:23.010 --> 06:26.340
+it is not going to use the single target group,
+
+06:26.340 --> 06:28.520
+whatever it has created for this port,
+
+06:28.520 --> 06:31.290
+for all these things, even though it is 80,
+
+06:31.290 --> 06:33.630
+it is going to create a separate target group
+
+06:33.630 --> 06:36.750
+for each front-end listener.
+
+06:36.750 --> 06:38.580
+So that is what it is going to do.
+
+06:38.580 --> 06:41.490
+So listener to target group is a 1 to 1 mapping
+
+06:41.490 --> 06:45.169
+and it is going to create equivalent target group
+
+06:45.169 --> 06:48.660
+in our respective network load balancer.
+
+06:48.660 --> 06:51.690
+So every listener will have its own new target group created
+
+06:51.690 --> 06:54.660
+with the port mentioned in the target port field.
+
+06:54.660 --> 06:56.490
+So this might not be effective behavior,
+
+06:56.490 --> 06:58.789
+but unfortunately when you create a Kubernetes service
+
+06:58.789 --> 07:01.380
+that's the behavior.
+
+07:01.380 --> 07:03.510
+So now let's come back here
+
+07:03.510 --> 07:05.640
+and if you see this is the screenshots
+
+07:05.640 --> 07:08.070
+whenever the network load balancer is created.
+
+07:08.070 --> 07:10.580
+So if you take only these two things, right?
+
+07:10.580 --> 07:13.722
+So let's consider only port 80 and 443.
+
+07:13.722 --> 07:15.420
+TLS and non-TLS.
+
+07:15.420 --> 07:18.120
+So it creates port 80 and 443 listeners
+
+07:18.120 --> 07:20.100
+and this is the security policy,
+
+07:20.100 --> 07:23.040
+it is also saved with our network load balancer,
+
+07:23.040 --> 07:24.930
+and this is the SSL certificate also.
+
+07:24.930 --> 07:27.120
+See there we have the 443 listener,
+
+07:27.120 --> 07:28.650
+and these are the target groups,
+
+07:28.650 --> 07:30.450
+see, these two are two different ones.
+
+07:30.450 --> 07:33.300
+This ID is different in both the things, right?
+
+07:33.300 --> 07:35.645
+So because you have created two ports here
+
+07:35.645 --> 07:37.490
+and even though the target port is the same
+
+07:37.490 --> 07:42.490
+for both of ports, still it creates two target groups.
+
+07:42.930 --> 07:44.505
+So you can see here the two target groups
+
+07:44.505 --> 07:48.960
+and the node ports, and it's a protocol PCP,
+
+07:48.960 --> 07:52.050
+and they are of target type instance node.
+
+07:52.050 --> 07:53.880
+And if you go to any target group,
+
+07:53.880 --> 07:57.390
+so you can find the wildcard nodes registered here
+
+07:57.390 --> 07:59.220
+and then they are held here,
+
+07:59.220 --> 08:02.173
+and here is the health check part also,
+
+08:02.173 --> 08:05.580
+which is of protocol HTTP.
+
+08:05.580 --> 08:08.310
+So this completes the introductory part
+
+08:08.310 --> 08:11.850
+of EKS NLB TLS demo.
+
+08:11.850 --> 08:13.710
+Now next lecture we are going
+
+08:13.710 --> 08:16.914
+to deploy the Kubernetes manifest and then test it.
+
+08:16.914 --> 08:18.750
+So I'll see you in the next lecture,
+
+08:18.750 --> 08:20.583
+until then bye-bye, thank you.

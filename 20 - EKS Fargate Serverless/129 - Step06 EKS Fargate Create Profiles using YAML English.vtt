@@ -1,0 +1,811 @@
+WEBVTT
+
+00:00.120 --> 00:00.953
+-: Welcome back.
+
+00:00.953 --> 00:04.110
+In this lecture, we are going to create Fargate profiles
+
+00:04.110 --> 00:06.810
+in advanced mode using YAML files.
+
+00:06.810 --> 00:08.820
+So in YAML, we'll be able
+
+00:08.820 --> 00:11.490
+to create multiple Fargate profiles at a time
+
+00:11.490 --> 00:14.160
+if we are in need of creating them.
+
+00:14.160 --> 00:16.680
+So let's go back to our Visual Studio Code,
+
+00:16.680 --> 00:20.250
+and in 0902 Fargate profiles advanced YAML,
+
+00:20.250 --> 00:21.690
+you can see kube manifest,
+
+00:21.690 --> 00:24.900
+and then you'll find under kube manifest two folders,
+
+00:24.900 --> 00:28.530
+Fargate Advanced Profiles, and then 02 applications.
+
+00:28.530 --> 00:32.820
+So right, so I'm going to use Fargate Advanced Profiles,
+
+00:32.820 --> 00:35.527
+and inside that you can find Fargateprofiles.yml.
+
+00:37.020 --> 00:38.627
+And if you see it here,
+
+00:38.627 --> 00:42.540
+API version, kind, and metadata, standard stuff.
+
+00:42.540 --> 00:45.690
+And this API version is nothing but it is EKS CTL,
+
+00:45.690 --> 00:50.690
+which is EKS CTL command line CLS related configuration,
+
+00:52.140 --> 00:53.640
+which we are performing now.
+
+00:53.640 --> 00:56.400
+So which is V-1 alpha five version as of today.
+
+00:56.400 --> 00:58.770
+So if you want this template to be as is,
+
+00:58.770 --> 00:59.820
+if you want to find it,
+
+00:59.820 --> 01:04.620
+so then you can go to eksctl.io,
+
+01:04.620 --> 01:07.230
+and any latest changes you can find here, right?
+
+01:07.230 --> 01:08.880
+So you can go to usage,
+
+01:08.880 --> 01:11.670
+and you can go to EKS Fargate support,
+
+01:11.670 --> 01:14.490
+and any latest changes, whatever happens here,
+
+01:14.490 --> 01:17.910
+we want alpha-5, we want alpha-4, or whatever comes in.
+
+01:17.910 --> 01:20.130
+You'll be able to find those information here
+
+01:20.130 --> 01:22.406
+because the documentation keeps updating
+
+01:22.406 --> 01:25.350
+every time, whenever the new release comes
+
+01:25.350 --> 01:28.140
+into the picture, right?
+
+01:28.140 --> 01:31.650
+So now, so API version is this one,
+
+01:31.650 --> 01:33.360
+and then kind is cluster config,
+
+01:33.360 --> 01:35.730
+and the metadata, this is another important thing.
+
+01:35.730 --> 01:39.450
+So it is not just like normal metadata,
+
+01:39.450 --> 01:42.000
+but this metadata will have something called name,
+
+01:42.000 --> 01:44.550
+name in the sense the name of the cluster,
+
+01:44.550 --> 01:47.760
+where we want to create these Fargate profiles.
+
+01:47.760 --> 01:50.370
+So our cluster name is EKS Demo-1,
+
+01:50.370 --> 01:54.120
+and where our cluster is located is US East one.
+
+01:54.120 --> 01:56.280
+And now, under Fargate profile stack,
+
+01:56.280 --> 02:00.750
+you can have a list of Fargate profiles you can create.
+
+02:00.750 --> 02:03.820
+So name of my profile is FP app2.
+
+02:04.983 --> 02:07.890
+which is nothing but Fargate profile app two,
+
+02:07.890 --> 02:10.770
+and selectors are nothing but under selectors,
+
+02:10.770 --> 02:14.310
+you can define namespaces and also labels.
+
+02:14.310 --> 02:19.310
+So all workloads in the NS app two namespace
+
+02:19.770 --> 02:21.540
+in Kubernetes will be scheduled
+
+02:21.540 --> 02:24.630
+onto this respective Fargate profile.
+
+02:24.630 --> 02:26.970
+So whenever you deploy the workload,
+
+02:26.970 --> 02:31.080
+all the workloads which has the namespace
+
+02:31.080 --> 02:34.980
+NS hyphen app2 will be scheduled to this Fargate profile.
+
+02:34.980 --> 02:36.870
+So that's what is the selector mean here.
+
+02:36.870 --> 02:39.000
+Okay, so it's going to check for
+
+02:39.000 --> 02:40.920
+if I have the namespace NS app two
+
+02:40.920 --> 02:43.707
+for any of the deployed pods,
+
+02:43.707 --> 02:45.720
+and then it is going to schedule accordingly.
+
+02:45.720 --> 02:48.420
+In the same way, for FP UMS also.
+
+02:48.420 --> 02:51.393
+So the Fargate profile name is FP UMS,
+
+02:52.230 --> 02:54.885
+and under select is in addition to namespaces,
+
+02:54.885 --> 02:57.030
+we also have labels.
+
+02:57.030 --> 03:00.840
+So I'm saying labels run on Fargate,
+
+03:00.840 --> 03:05.247
+so in NS UMS, in addition to NS UMS namespace,
+
+03:07.140 --> 03:09.750
+so the workload also should have a label name
+
+03:09.750 --> 03:10.650
+run on Fargate.
+
+03:10.650 --> 03:12.450
+So if only these two matches,
+
+03:12.450 --> 03:17.450
+only those workloads will be run on FP UMS Fargate profile.
+
+03:18.750 --> 03:23.250
+So let's go back over to our GitHub repo,
+
+03:23.250 --> 03:27.270
+and then go ahead and then create this Fargate profile.
+
+03:27.270 --> 03:28.860
+So we will go here,
+
+03:28.860 --> 03:32.520
+and then we'll go to zero nine EKS workloads on Fargate,
+
+03:32.520 --> 03:36.270
+and we'll go to 0902, and then we'll go ahead
+
+03:36.270 --> 03:39.840
+and then create the Fargate profile, right?
+
+03:39.840 --> 03:42.570
+Create Fargate profile from YAML file,
+
+03:42.570 --> 03:45.420
+which is hyphen F kube manifest slash zero one Fargate
+
+03:45.420 --> 03:48.060
+advanced profile slash zero one Fargate profiles.
+
+03:48.060 --> 03:48.893
+Okay?
+
+03:48.893 --> 03:51.240
+So the entire path we have provided.
+
+03:51.240 --> 03:53.490
+So it will take a while to create it.
+
+03:53.490 --> 03:56.580
+So in the meantime, we can go ahead and then move on
+
+03:56.580 --> 04:00.060
+with the discussing about the manifests, okay?
+
+04:00.060 --> 04:01.710
+So once it is created, we'll come back
+
+04:01.710 --> 04:04.290
+and then list the profiles, but for now we'll move on
+
+04:04.290 --> 04:08.460
+and then discuss app one, app two, and then UMS manifests.
+
+04:08.460 --> 04:11.220
+So let's go back to our Visual Studio Code,
+
+04:11.220 --> 04:16.220
+and come here, and I'll close this one in kube manifest.
+
+04:16.380 --> 04:18.060
+I'll close zero one Fargate.
+
+04:18.060 --> 04:20.790
+You can see you will have zero two applications,
+
+04:20.790 --> 04:22.557
+where you will have three namespaces,
+
+04:22.557 --> 04:26.010
+zero one NS app one, means like app one application,
+
+04:26.010 --> 04:27.090
+app two application,
+
+04:27.090 --> 04:30.270
+and then user management microservice application, right?
+
+04:30.270 --> 04:31.800
+Zero one, zero two, zero three.
+
+04:31.800 --> 04:35.340
+So each related manifest will be available inside them.
+
+04:35.340 --> 04:36.990
+So let's talk about app one.
+
+04:36.990 --> 04:40.527
+So first thing is we need to create NS app one namespace.
+
+04:41.610 --> 04:44.850
+So API version, kind, and metadata, standard namespace,
+
+04:44.850 --> 04:47.280
+which we have seen in our namespace section also.
+
+04:47.280 --> 04:50.190
+So apps deployed in this namespace will run on EC2,
+
+04:50.190 --> 04:51.690
+manage it, not group.
+
+04:51.690 --> 04:52.523
+Why?
+
+04:52.523 --> 04:55.011
+Because we didn't create any Fargate profile
+
+04:55.011 --> 04:57.540
+for NS app one related namespace,
+
+04:57.540 --> 04:58.830
+only for NS app two.
+
+04:58.830 --> 05:02.040
+And then NS UMS, we are creating the Fargate profiles.
+
+05:02.040 --> 05:05.400
+So for NS app one, as we didn't create anything
+
+05:05.400 --> 05:06.810
+related to Fargate profiles,
+
+05:06.810 --> 05:10.590
+it is going to by default run on easy to manage
+
+05:10.590 --> 05:12.900
+in node groups provided if we have node groups.
+
+05:12.900 --> 05:16.980
+If not, the pods are going to be in the pending state.
+
+05:16.980 --> 05:19.230
+Next thing is NGINX app one deployment
+
+05:19.230 --> 05:20.880
+and then NodePort service.
+
+05:20.880 --> 05:23.100
+So these deployment and NodePort services
+
+05:23.100 --> 05:25.440
+which we have written on our own earlier,
+
+05:25.440 --> 05:27.030
+so those are standard ones,
+
+05:27.030 --> 05:29.190
+nothing changed inside them, deployment,
+
+05:29.190 --> 05:31.260
+and then NodePort service.
+
+05:31.260 --> 05:33.840
+Only one thing changes here is we are going
+
+05:33.840 --> 05:36.480
+to add a namespace in the metadata.
+
+05:36.480 --> 05:39.270
+In the metadata, just child item is namespace,
+
+05:39.270 --> 05:42.630
+and this deployment belongs to NS app one.
+
+05:42.630 --> 05:46.980
+In the same way, I'm going to say here this service,
+
+05:46.980 --> 05:48.990
+app one NGINX, NodePort service belongs
+
+05:48.990 --> 05:52.020
+to namespace NS app one, that's all.
+
+05:52.020 --> 05:56.040
+And now I'm also going to have a separate Ingress
+
+05:56.040 --> 05:59.310
+for this NS app one because of it is going to be
+
+05:59.310 --> 06:01.290
+in separate namespace.
+
+06:01.290 --> 06:04.560
+So this NS app one is going to be in separate namespace.
+
+06:04.560 --> 06:06.840
+So already we have seen there is a limitation.
+
+06:06.840 --> 06:10.290
+It should have a separate Ingress service, right?
+
+06:10.290 --> 06:12.300
+So what we are going to achieve is we are trying
+
+06:12.300 --> 06:14.940
+to see that mixture more with multiple deployments.
+
+06:14.940 --> 06:17.671
+Everything is working as expected, right?
+
+06:17.671 --> 06:19.740
+So let me come back here.
+
+06:19.740 --> 06:23.700
+And in LB Ingress, also the standard thing is,
+
+06:23.700 --> 06:27.480
+under metadata, you have the namespace and then NS app one.
+
+06:27.480 --> 06:29.040
+So this Ingress will get created
+
+06:29.040 --> 06:32.340
+under NS app one namespace.
+
+06:32.340 --> 06:35.880
+And here there is no Fargate related target type IP.
+
+06:35.880 --> 06:39.690
+But even if you want this one also to be with the target IP,
+
+06:39.690 --> 06:42.270
+IP only, which means you should have NodePort service
+
+06:42.270 --> 06:45.480
+if you want to route it directly to your port IP.
+
+06:45.480 --> 06:47.340
+You can even, these also supports that.
+
+06:47.340 --> 06:49.140
+And if you want you can put it.
+
+06:49.140 --> 06:53.259
+And DNS name I'm giving here is app one kube one cloud.com
+
+06:53.259 --> 06:55.950
+and path slash star will go
+
+06:55.950 --> 06:59.730
+to app one NGNIX NodePort service, that's all.
+
+06:59.730 --> 07:01.170
+So this is app one,
+
+07:01.170 --> 07:04.680
+and app two is also going to be same way, NS app two.
+
+07:04.680 --> 07:07.560
+And the changes here will be only the namespace
+
+07:07.560 --> 07:12.560
+for deployment and another namespace for service, okay?
+
+07:12.570 --> 07:14.430
+It's like namespace information,
+
+07:14.430 --> 07:17.520
+and LB Ingress also will have app two Ingress service
+
+07:17.520 --> 07:19.240
+will be the name, and namespace,
+
+07:19.240 --> 07:21.600
+it'll be tied to NS app two.
+
+07:21.600 --> 07:24.660
+And here, you will have the, for Fargate,
+
+07:24.660 --> 07:26.883
+you'll say that because this NS app two
+
+07:26.883 --> 07:29.400
+will be part of our Fargate profile, right?
+
+07:29.400 --> 07:30.690
+NS app two.
+
+07:30.690 --> 07:33.840
+So that's the reason you are going to have the target type
+
+07:33.840 --> 07:37.590
+as IP, and as usual, slash star goes
+
+07:37.590 --> 07:40.200
+to app two NGNIX NodePort service.
+
+07:40.200 --> 07:43.200
+Okay, so let me close this and one more.
+
+07:43.200 --> 07:45.317
+You're going to have NS UMS.
+
+07:45.317 --> 07:49.290
+UMS is nothing but user management microservice, right?
+
+07:49.290 --> 07:51.930
+So namespace is going to be NS UMS,
+
+07:51.930 --> 07:53.220
+and you'll have something
+
+07:53.220 --> 07:55.590
+called MySQL external name service.
+
+07:55.590 --> 07:59.310
+So we need to ensure that our RDS database,
+
+07:59.310 --> 08:02.310
+whatever we have created as part of this section, right?
+
+08:02.310 --> 08:04.290
+EKS storage with RDS database.
+
+08:04.290 --> 08:06.090
+We are continuing that example here
+
+08:06.090 --> 08:07.650
+because in our next sections,
+
+08:07.650 --> 08:09.360
+we are going to have microservices
+
+08:09.360 --> 08:11.550
+with user management microservice
+
+08:11.550 --> 08:13.110
+and notification microservice.
+
+08:13.110 --> 08:15.540
+And we are going to do many examples there.
+
+08:15.540 --> 08:16.770
+So as part of that,
+
+08:16.770 --> 08:19.110
+so this database should be continued with us, okay?
+
+08:19.110 --> 08:22.472
+So if it is not in use, you can even stop it, right?
+
+08:22.472 --> 08:27.472
+So RDS, and so I'll say RDS and go there.
+
+08:28.710 --> 08:30.150
+No, it went somewhere else.
+
+08:30.150 --> 08:30.983
+Okay.
+
+08:32.370 --> 08:33.203
+Come on.
+
+08:34.530 --> 08:36.150
+So this is the RDS,
+
+08:36.150 --> 08:38.820
+and let's crosscheck our database is up and running.
+
+08:38.820 --> 08:40.950
+And the endpoint is same.
+
+08:40.950 --> 08:44.163
+So I went to database, and it is running available,
+
+08:45.030 --> 08:48.810
+and it starts with the CXOJY is my endpoint here.
+
+08:48.810 --> 08:49.643
+Information, right?
+
+08:49.643 --> 08:53.400
+CXOJY user mgmt DB dot CXOJY.
+
+08:53.400 --> 08:55.290
+So user mgmt dot CXOJY.
+
+08:55.290 --> 08:56.460
+This looks good for me.
+
+08:56.460 --> 08:58.515
+So I'll move on with the user management,
+
+08:58.515 --> 09:00.780
+The microservice deployment service,
+
+09:00.780 --> 09:03.810
+which is nothing but namespace is going
+
+09:03.810 --> 09:06.540
+to be NS UMS here, this is deployment.
+
+09:06.540 --> 09:08.550
+And as usual, for all the deployments,
+
+09:08.550 --> 09:10.890
+you need to ensure that you have the resources section
+
+09:10.890 --> 09:12.360
+for the Fargate things, okay?
+
+09:12.360 --> 09:13.350
+Wherever you are deploying.
+
+09:13.350 --> 09:14.850
+So earlier in our previous section,
+
+09:14.850 --> 09:17.760
+we already discussed it here in our 0901,
+
+09:17.760 --> 09:19.290
+but just crosscheck, okay?
+
+09:19.290 --> 09:20.460
+And this is Secrets.
+
+09:20.460 --> 09:23.040
+And then here also you'll see the labels, right?
+
+09:23.040 --> 09:25.520
+So now one important thing here is an external label.
+
+09:25.520 --> 09:27.930
+So you have seen that labels run on Fargate.
+
+09:27.930 --> 09:30.000
+And then here also, we are putting everything,
+
+09:30.000 --> 09:32.010
+so to follow the standard, okay?
+
+09:32.010 --> 09:34.410
+So which means why to go into confusion
+
+09:34.410 --> 09:36.930
+that I didn't put here, I didn't put here, right?
+
+09:36.930 --> 09:38.685
+So user management microservices.
+
+09:38.685 --> 09:42.270
+So for deployment object also you have run on Fargate,
+
+09:42.270 --> 09:44.550
+and then it's a template metadata also,
+
+09:44.550 --> 09:45.383
+you have run on Fargate.
+
+09:45.383 --> 09:47.670
+Primarily it is required here.
+
+09:47.670 --> 09:48.503
+Why?
+
+09:48.503 --> 09:49.650
+Because this port template means
+
+09:49.650 --> 09:51.060
+like this is the port template, right?
+
+09:51.060 --> 09:53.460
+In a deployment here, run on Fargate is required
+
+09:53.460 --> 09:54.600
+under labels.
+
+09:54.600 --> 09:56.640
+But we have followed the standard
+
+09:56.640 --> 10:00.300
+where like for deployment, also run on Fargate.
+
+10:00.300 --> 10:02.274
+Here we have given, here we have given,
+
+10:02.274 --> 10:04.080
+and in Kubernetes Secrets,
+
+10:04.080 --> 10:06.480
+also labels we have given run on Fargate.
+
+10:06.480 --> 10:09.333
+And also namespace, also we have given NS hyphen UMS.
+
+10:10.170 --> 10:11.003
+Right?
+
+10:11.003 --> 10:12.060
+And in addition to that,
+
+10:12.060 --> 10:13.740
+user management NodePort service also,
+
+10:13.740 --> 10:16.770
+you'll have namespace NS UMS, and under labels,
+
+10:16.770 --> 10:18.417
+you'll have run on Fargate.
+
+10:18.417 --> 10:19.290
+Okay?
+
+10:19.290 --> 10:21.600
+And in addition to that, in LB Ingress also,
+
+10:21.600 --> 10:24.478
+you will have labels and then run on Fargate,
+
+10:24.478 --> 10:26.370
+and then namespace NS UMS.
+
+10:26.370 --> 10:28.320
+And again, this is going to run on Fargate.
+
+10:28.320 --> 10:31.380
+You are going to have target type as IP,
+
+10:31.380 --> 10:33.930
+and path is slash star, and the service name
+
+10:33.930 --> 10:37.110
+is user management rest app NodePort service, right?
+
+10:37.110 --> 10:38.340
+So that is the name here,
+
+10:38.340 --> 10:42.480
+user management rest app NodePort service and 809.
+
+10:42.480 --> 10:43.380
+And my name here,
+
+10:43.380 --> 10:46.380
+it is going to be ums dot kube on cloud.com.
+
+10:46.380 --> 10:48.000
+And for app two, also name is going
+
+10:48.000 --> 10:50.430
+to be app two dot kube on cloud.com.
+
+10:50.430 --> 10:55.020
+So this is about the review of our entire thing,
+
+10:55.020 --> 10:56.490
+whatever we discussed.
+
+10:56.490 --> 11:00.330
+This is app one, app two, and UMS manifests.
+
+11:00.330 --> 11:02.850
+So now let's go back and then see what happened
+
+11:02.850 --> 11:04.050
+with our profiles.
+
+11:04.050 --> 11:06.090
+So our profiles got created.
+
+11:06.090 --> 11:09.090
+So let's list those profiles once, right?
+
+11:09.090 --> 11:12.930
+Get Fargate profile cluster equals demo one, right?
+
+11:12.930 --> 11:15.000
+And once listed,
+
+11:15.000 --> 11:18.390
+so if you want to see our respective Fargate profiles
+
+11:18.390 --> 11:20.910
+in YAML format also, we can see.
+
+11:20.910 --> 11:22.350
+But that is fine.
+
+11:22.350 --> 11:25.500
+So here are the lists.
+
+11:25.500 --> 11:29.970
+So we have something called FP app two,
+
+11:29.970 --> 11:32.910
+Fargate profile, and FP UMS Fargate profile.
+
+11:32.910 --> 11:36.540
+And selector namespace for FP app two is NS app two.
+
+11:36.540 --> 11:40.420
+And selector namespace for FP UMS is NS UMS.
+
+11:40.420 --> 11:42.660
+Okay, so now in our next lecture,
+
+11:42.660 --> 11:44.520
+we'll go ahead and then deploy these things
+
+11:44.520 --> 11:45.810
+and then test it.
+
+11:45.810 --> 11:47.520
+So I'll see you in the next lecture.
+
+11:47.520 --> 11:48.780
+Until then, bye bye.
+
+11:48.780 --> 11:49.613
+Thank you.

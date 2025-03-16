@@ -1,0 +1,1156 @@
+WEBVTT
+
+00:00.360 --> 00:01.260
+-: Welcome back.
+
+00:01.260 --> 00:03.850
+In this section we are going to implement
+
+00:03.850 --> 00:08.310
+AWS Network Load Balancer using Kubernetes service
+
+00:08.310 --> 00:12.630
+and AWS EKS Load Balancer Controller.
+
+00:12.630 --> 00:16.800
+So so far whenever we have implemented it in section seven,
+
+00:16.800 --> 00:21.150
+it is with the AWS cloud provider Load Balancer Controller
+
+00:21.150 --> 00:22.980
+which is a legacy one.
+
+00:22.980 --> 00:25.290
+So now, AWS has provided
+
+00:25.290 --> 00:28.530
+a dedicated load balancer controller
+
+00:28.530 --> 00:31.140
+wherein with that you'll be able to
+
+00:31.140 --> 00:33.390
+create Application Load Balancer
+
+00:33.390 --> 00:35.310
+and Network Load Balancer.
+
+00:35.310 --> 00:37.170
+So let's see how to create
+
+00:37.170 --> 00:38.640
+this Network Load Balancer
+
+00:38.640 --> 00:42.480
+and a little background about all these things in detail
+
+00:42.480 --> 00:46.080
+before going into practical implementation.
+
+00:46.080 --> 00:49.020
+So what is a Network Load Balancer?
+
+00:49.020 --> 00:52.860
+So network traffic is load balanced at layer four
+
+00:52.860 --> 00:54.600
+of the OSI model.
+
+00:54.600 --> 00:57.033
+And this Network Load Balancer supports
+
+00:57.033 --> 01:00.930
+PCP. UDP, and then TLS protocols.
+
+01:00.930 --> 01:03.158
+So if you want to understand more
+
+01:03.158 --> 01:05.610
+about this Network Load Balancer
+
+01:05.610 --> 01:07.140
+or Application Load Balancer
+
+01:07.140 --> 01:10.260
+and understand the differences about them,
+
+01:10.260 --> 01:12.900
+are the types of services they provide,
+
+01:12.900 --> 01:15.060
+are types of features they provide.
+
+01:15.060 --> 01:18.630
+So this is the ELB features comparison link
+
+01:18.630 --> 01:22.080
+and we can go there and then review them in detail.
+
+01:22.080 --> 01:24.060
+So if you see here, in AWS
+
+01:24.060 --> 01:26.550
+we have Application Load Balancer,
+
+01:26.550 --> 01:29.460
+Network Load Balancer, Gateway Load Balancer
+
+01:29.460 --> 01:31.920
+and Classic Load Balancer.
+
+01:31.920 --> 01:36.030
+So out of which, the load balancer type is layer seven
+
+01:36.030 --> 01:37.830
+for Application Load Balancer.
+
+01:37.830 --> 01:40.440
+And now the item which we are discussing here
+
+01:40.440 --> 01:44.760
+is Network Load Balancer and that is of type layer four.
+
+01:44.760 --> 01:47.580
+And Gateway Load Balancer can do layer three gateway
+
+01:47.580 --> 01:49.668
+plus layer four load balancer
+
+01:49.668 --> 01:52.680
+and Classic Load Balancer is of type layer four
+
+01:52.680 --> 01:55.530
+and then layer seven which is the legacy one.
+
+01:55.530 --> 01:58.860
+And in future it might get deprecated too.
+
+01:58.860 --> 02:00.960
+So the important thing here is
+
+02:00.960 --> 02:03.270
+if you review all these features,
+
+02:03.270 --> 02:06.780
+so in the Network Load Balancer, you can see there
+
+02:06.780 --> 02:09.120
+is no layer seven related features
+
+02:09.120 --> 02:13.620
+because it operates at the OSI model layer four
+
+02:13.620 --> 02:16.140
+and there will be some common configurations.
+
+02:16.140 --> 02:18.960
+Those are supported in this Network Load Balancer
+
+02:18.960 --> 02:21.960
+and also from Kubernetes perspective, right?
+
+02:21.960 --> 02:23.820
+So it also supports SSL offloading
+
+02:23.820 --> 02:27.780
+which means it also supports the TLS termination
+
+02:27.780 --> 02:30.360
+on the Network Load Balancer itself.
+
+02:30.360 --> 02:32.940
+From Kubernetes perspective you can see
+
+02:32.940 --> 02:35.220
+it also supports the Fargate parts
+
+02:35.220 --> 02:39.810
+and also it supports the fully private EKS clusters
+
+02:39.810 --> 02:41.970
+and it doesn't support the load balancing
+
+02:41.970 --> 02:45.090
+to multiple name spaces.
+
+02:45.090 --> 02:47.460
+Here Application Load Balancer supports
+
+02:47.460 --> 02:49.890
+that which means ingress supports that.
+
+02:49.890 --> 02:51.570
+But Network Load Balancer
+
+02:51.570 --> 02:52.710
+which we are going to create
+
+02:52.710 --> 02:55.440
+using Kubernetes service resource
+
+02:55.440 --> 02:57.720
+is not going to support that.
+
+02:57.720 --> 02:59.730
+So now let's go back here
+
+02:59.730 --> 03:02.430
+and understand more about these things.
+
+03:02.430 --> 03:05.400
+So options for creating Network Load Balancer
+
+03:05.400 --> 03:08.190
+using Kubernetes on EKS cluster.
+
+03:08.190 --> 03:09.810
+So what are the options?
+
+03:09.810 --> 03:11.520
+So we have two options.
+
+03:11.520 --> 03:14.992
+So one is AWS cloud provider load balancer controller
+
+03:14.992 --> 03:19.800
+and another controller is AWS Load Balancer Controller.
+
+03:19.800 --> 03:21.201
+And if you see this
+
+03:21.201 --> 03:24.750
+AWS cloud provider load balancer controller
+
+03:24.750 --> 03:26.760
+it is a legacy controller which can
+
+03:26.760 --> 03:30.630
+create AWS classic LB and network LB
+
+03:30.630 --> 03:31.917
+but the latest one, right?
+
+03:31.917 --> 03:34.830
+So this AWS Load Balancer Controller can
+
+03:34.830 --> 03:36.360
+create latest and greatest,
+
+03:36.360 --> 03:40.470
+which can create AWS ELB and NLB.
+
+03:40.470 --> 03:43.950
+And this cloud provider load balancer controller is
+
+03:43.950 --> 03:47.070
+a very basic Network Load Balancer
+
+03:47.070 --> 03:51.900
+and this controller will receive only critical bug fixes
+
+03:51.900 --> 03:55.740
+and in long run it will be deprecated and
+
+03:55.740 --> 04:00.420
+this controller will not have any new features added to it.
+
+04:00.420 --> 04:01.590
+So that said
+
+04:01.590 --> 04:05.160
+so this AWS cloud provider related load balancer
+
+04:05.160 --> 04:08.490
+controller is going to be of no use for us.
+
+04:08.490 --> 04:11.220
+So we need to learn the Network Load Balancer
+
+04:11.220 --> 04:16.200
+creation using the AWS latest Load Balancer Controller
+
+04:16.200 --> 04:19.110
+so that it will be very helpful for us
+
+04:19.110 --> 04:21.840
+In that line I have ensured that
+
+04:21.840 --> 04:26.340
+six demos were created using this Load Balancer Controller
+
+04:26.340 --> 04:30.360
+and Network Load Balancer with Kubernetes service.
+
+04:30.360 --> 04:34.020
+So now if you see here in section seven of this course
+
+04:34.020 --> 04:37.470
+you'll find something called 07-02-Classic-LoadBalancer
+
+04:37.470 --> 04:39.990
+and 07-03-Network-LoadBalancer.
+
+04:39.990 --> 04:42.600
+So these two things were created using
+
+04:42.600 --> 04:46.148
+this AWS cloud provider Load Balancer Controller
+
+04:46.148 --> 04:49.770
+and this controller you don't need to specifically go ahead
+
+04:49.770 --> 04:50.670
+and then install it.
+
+04:50.670 --> 04:51.930
+So by default
+
+04:51.930 --> 04:56.100
+so whenever the EKS cluster control plan is getting created
+
+04:56.100 --> 04:58.380
+so that will be installed automatically
+
+04:58.380 --> 05:01.960
+but when coming to this latest AWS Load Balancer Controller.
+
+05:01.960 --> 05:05.460
+So you need to specifically go ahead and then install it.
+
+05:05.460 --> 05:07.920
+So we have done that when we have implemented
+
+05:07.920 --> 05:11.250
+the Application Load Balancer ingress concepts.
+
+05:11.250 --> 05:14.310
+So now in our cluster we already have the AWS load
+
+05:14.310 --> 05:18.570
+balancer controller and also the external DNS related ports
+
+05:18.570 --> 05:20.130
+and all those things.
+
+05:20.130 --> 05:23.029
+So that said, these demos we are going to do
+
+05:23.029 --> 05:27.600
+after the ingress related demos, whatever we have done
+
+05:27.600 --> 05:30.300
+as part of section eight new
+
+05:30.300 --> 05:32.880
+and also section nine which is Fargate.
+
+05:32.880 --> 05:36.810
+And after that we'll do this section 19.
+
+05:36.810 --> 05:40.290
+And if you see here this Load Balancer Controller right
+
+05:40.290 --> 05:43.110
+with the Network Load Balancer, which means
+
+05:43.110 --> 05:44.670
+like whenever you are-
+
+05:44.670 --> 05:46.260
+This Load Balancer Controller
+
+05:46.260 --> 05:50.347
+whatever we are talking is like we are talking here
+
+05:50.347 --> 05:53.160
+about the Network Load Balancer features.
+
+05:53.160 --> 05:58.160
+So this Network Load Balancer supports PCP, UDP, and TLS
+
+05:58.410 --> 06:01.620
+and for health check also it supports TCP history.
+
+06:01.620 --> 06:05.430
+TPN has GTPS related protocols
+
+06:05.430 --> 06:08.310
+and this Network Load Balancer in combination
+
+06:08.310 --> 06:11.640
+with this Load Balancer Controller also supports
+
+06:11.640 --> 06:14.040
+instance and IP mode.
+
+06:14.040 --> 06:16.230
+And for IP mode is primarily for Fargate
+
+06:16.230 --> 06:17.460
+but you can also use it
+
+06:17.460 --> 06:20.430
+when you're using the worker nodes also, right?
+
+06:20.430 --> 06:23.220
+So that the requests will go directly
+
+06:23.220 --> 06:26.730
+from your load balancer to your respective port.
+
+06:26.730 --> 06:30.150
+And this Network Load Balancer also supports
+
+06:30.150 --> 06:33.720
+internal load balancer and also external load balancer.
+
+06:33.720 --> 06:36.270
+In addition to that it also supports
+
+06:36.270 --> 06:38.100
+custom subnet discovery.
+
+06:38.100 --> 06:41.730
+So which means you can define custom subnets
+
+06:41.730 --> 06:46.470
+by annotation itself and this Network Load Balancer
+
+06:46.470 --> 06:49.740
+in combination with this Load Balancer Controller also
+
+06:49.740 --> 06:54.740
+supports static elastic IP and also access controls.
+
+06:54.960 --> 06:57.810
+All in all with this new approach,
+
+06:57.810 --> 07:01.590
+we have 25 plus new annotations available for us
+
+07:01.590 --> 07:03.750
+and we can use all those annotations
+
+07:03.750 --> 07:06.660
+to effectively configure our Network Load Balancer
+
+07:06.660 --> 07:10.620
+and use all the latest features of our Network Load Balancer
+
+07:10.620 --> 07:14.070
+from Kubernetes service manifest itself.
+
+07:14.070 --> 07:18.510
+So if you go to that link here, whatever is provided, right?
+
+07:18.510 --> 07:19.740
+So earlier we have seen
+
+07:19.740 --> 07:21.967
+the ingress annotation specifications
+
+07:21.967 --> 07:25.920
+and these are ingress related things in the guide, right?
+
+07:25.920 --> 07:27.720
+So you can see here in the service
+
+07:27.720 --> 07:31.680
+you'll find NLB related information
+
+07:31.680 --> 07:34.470
+and also NLB related annotations.
+
+07:34.470 --> 07:37.110
+So all these are the NLB related annotations
+
+07:37.110 --> 07:40.890
+which we can use to configure our Network Load Balancer
+
+07:40.890 --> 07:42.990
+with the features inside those things.
+
+07:42.990 --> 07:47.430
+So there are close to 25 plus annotations available for us.
+
+07:47.430 --> 07:49.440
+So now let's come back here.
+
+07:49.440 --> 07:53.340
+And another question we have here is how
+
+07:53.340 --> 07:56.160
+to ensure our network will be created
+
+07:56.160 --> 07:59.940
+using Kubernetes service will be associated
+
+07:59.940 --> 08:03.870
+with only latest AWS Load Balancer Controller.
+
+08:03.870 --> 08:05.820
+So the question here is you have created
+
+08:05.820 --> 08:08.940
+a Kubernetes service of type LoadBalancer
+
+08:08.940 --> 08:12.180
+with an annotation related to Network Load Balancer.
+
+08:12.180 --> 08:13.280
+So how will we know that
+
+08:13.280 --> 08:16.710
+or how will we ensure that the load balancer
+
+08:16.710 --> 08:18.960
+whatever it is going to create the network load
+
+08:18.960 --> 08:22.380
+balancer is associated or is reconciled
+
+08:22.380 --> 08:25.860
+with the AWS Load Balancer Controller, the latest one.
+
+08:25.860 --> 08:28.020
+So here comes the important thing.
+
+08:28.020 --> 08:31.380
+So you have return your Kubernetes service manifest
+
+08:31.380 --> 08:34.080
+and you also have your AWS cloud provider load
+
+08:34.080 --> 08:36.330
+balancer controller, which is a legacy one by
+
+08:36.330 --> 08:39.810
+default whenever you create a EKS cluster control plane.
+
+08:39.810 --> 08:41.250
+So that gets installed
+
+08:41.250 --> 08:45.030
+and now you also install your AWS Load Balancer Controller
+
+08:45.030 --> 08:46.530
+which is the latest one.
+
+08:46.530 --> 08:49.230
+So now here comes the important thing
+
+08:49.230 --> 08:51.330
+in the Kubernetes service manifest.
+
+08:51.330 --> 08:53.730
+So whenever you define your annotation
+
+08:53.730 --> 08:58.730
+as annotation for AWS load balancer type as NLB
+
+08:59.880 --> 09:03.120
+Right? So whenever you define that as NLB so
+
+09:03.120 --> 09:05.760
+that Kubernetes service will be associated
+
+09:05.760 --> 09:10.350
+with this legacy cloud provider Load Balancer Controller.
+
+09:10.350 --> 09:12.780
+And whenever you define, right,
+
+09:12.780 --> 09:16.860
+AWS Load Balancer type as "nlb-ip"
+
+09:16.860 --> 09:20.280
+or external, when you define these two things
+
+09:20.280 --> 09:24.450
+it'll be associated with the AWS Load Balancer Controller.
+
+09:24.450 --> 09:27.150
+So if the values of AWS load balancer
+
+09:27.150 --> 09:32.150
+type annotation is nlb-ip or external,
+
+09:33.300 --> 09:34.683
+at that point of time-
+
+09:36.803 --> 09:40.920
+This legacy controller ignores that Kubernetes manifest.
+
+09:40.920 --> 09:45.300
+So that AWS Load Balancer Controller can take over that.
+
+09:45.300 --> 09:47.490
+So that's the thing happens in the background.
+
+09:47.490 --> 09:50.820
+And so this nlb-ip is far-
+
+09:50.820 --> 09:53.340
+This Fargate related ports and
+
+09:53.340 --> 09:57.060
+this is a deprecated one and just still in action
+
+09:57.060 --> 09:59.070
+for backward compatibility.
+
+09:59.070 --> 10:01.500
+But the standard one which always we need
+
+10:01.500 --> 10:04.170
+to use the AWS Load Balancer Controller,
+
+10:04.170 --> 10:05.003
+the latest one,
+
+10:05.003 --> 10:08.610
+is use the load balancer type as external.
+
+10:08.610 --> 10:11.550
+So all of our demos, all the six demos related
+
+10:11.550 --> 10:13.710
+to this Network Load Balancer, we are going to
+
+10:13.710 --> 10:17.220
+have this external as the load balancer type.
+
+10:17.220 --> 10:20.340
+And don't confuse that whenever you put the type
+
+10:20.340 --> 10:23.160
+as external, it is going to create any internet
+
+10:23.160 --> 10:24.450
+facing load balancer.
+
+10:24.450 --> 10:27.000
+So that decision will be taken with it different
+
+10:27.000 --> 10:29.340
+annotation call scheme.
+
+10:29.340 --> 10:31.650
+But here this type is nothing but
+
+10:31.650 --> 10:35.550
+it is not using the internal by default install
+
+10:35.550 --> 10:37.410
+cloud provider load balancer.
+
+10:37.410 --> 10:40.470
+It is using an external load balancer controller,
+
+10:40.470 --> 10:43.830
+which is nothing but whatever you have manually installed,
+
+10:43.830 --> 10:46.770
+the latest AWS Load Balancer Controller.
+
+10:46.770 --> 10:50.370
+An additional note too is EKS cluster versions
+
+10:50.370 --> 10:51.510
+so and so, right?
+
+10:51.510 --> 10:55.830
+V1.18.18 plus RV.19.10 plus
+
+10:55.830 --> 10:58.620
+and V1.20 or 21 or 22.
+
+10:58.620 --> 11:00.180
+Any, anything higher
+
+11:00.180 --> 11:02.760
+are supported with this entire features.
+
+11:02.760 --> 11:05.310
+So which means from these versions onwards,
+
+11:05.310 --> 11:08.730
+whenever you use the type as external or nlb-ip,
+
+11:08.730 --> 11:12.720
+then your Load Balancer Controller latest will be picked.
+
+11:12.720 --> 11:14.160
+So now let- why?
+
+11:14.160 --> 11:17.340
+Because they will have a patch applied to this cloud
+
+11:17.340 --> 11:20.730
+provider load balancer so that whenever the request
+
+11:20.730 --> 11:23.190
+with this Kubernetes manifest whenever deployed, right?
+
+11:23.190 --> 11:26.940
+First this cloud provider Load Balancer Controller
+
+11:26.940 --> 11:29.811
+legacy will check for the load balancer type.
+
+11:29.811 --> 11:33.240
+And due to that patch it'll verify
+
+11:33.240 --> 11:36.330
+whether it has nlb or nlb-ip or external.
+
+11:36.330 --> 11:40.080
+And if it finds that anything from this nlb-ip or external,
+
+11:40.080 --> 11:42.180
+it will ignore and not create the-
+
+11:42.180 --> 11:44.970
+Not associate or reconcile with this one.
+
+11:44.970 --> 11:47.910
+And at that point of time automatically the new load
+
+11:47.910 --> 11:51.870
+balancer controller will take the action and then use it.
+
+11:51.870 --> 11:53.700
+So now let's come back here.
+
+11:53.700 --> 11:56.940
+So from Kubernetes service manifest perspective
+
+11:56.940 --> 11:58.842
+the important items for creating
+
+11:58.842 --> 12:01.800
+a network load balancer which will be associated
+
+12:01.800 --> 12:06.480
+with this AWS Load Balancer Controller latest is
+
+12:06.480 --> 12:10.950
+Kubernetes services are Kubernetes object of type service.
+
+12:10.950 --> 12:12.480
+So this is one setting
+
+12:12.480 --> 12:16.447
+and another setting is load balancer type is external,
+
+12:16.447 --> 12:17.580
+right?
+
+12:17.580 --> 12:20.700
+And your type means like your load balancer type
+
+12:20.700 --> 12:22.890
+is LoadBalancer in your spec.
+
+12:22.890 --> 12:25.740
+And also you can have the load balancer scheme.
+
+12:25.740 --> 12:27.480
+You can see the scheme here, right?
+
+12:27.480 --> 12:31.170
+So it can be internal internet facing or internal.
+
+12:31.170 --> 12:33.570
+So if it is internal it'll create the internal
+
+12:33.570 --> 12:34.950
+Network Load Balancer.
+
+12:34.950 --> 12:36.540
+If it is internet facing
+
+12:36.540 --> 12:39.900
+it is going to create a internet facing load balancer.
+
+12:39.900 --> 12:44.130
+But key important things are your Kubernetes object of type
+
+12:44.130 --> 12:46.740
+or object of kind service
+
+12:46.740 --> 12:49.110
+and your load balancer type is external
+
+12:49.110 --> 12:52.950
+and your service type is LoadBalancer.
+
+12:52.950 --> 12:55.140
+In these cases, it is going to create
+
+12:55.140 --> 12:57.600
+a network load balancer which will be associated
+
+12:57.600 --> 13:02.010
+to your AWS load balancer console or a controller
+
+13:02.010 --> 13:06.270
+or it is going to reconcile with AWS load balancer control.
+
+13:06.270 --> 13:11.270
+Now let's see the high level architectural object view
+
+13:12.030 --> 13:15.210
+of what is this from Kubernetes perspective.
+
+13:15.210 --> 13:19.530
+So we have- in AWS cloud we have created a EKS cluster
+
+13:19.530 --> 13:24.060
+and we already installed the AWS Load Balancer Controller
+
+13:24.060 --> 13:26.670
+which means its related service accounts
+
+13:26.670 --> 13:28.530
+and IM roles all are created
+
+13:28.530 --> 13:31.740
+as part of our ingress first section, right?
+
+13:31.740 --> 13:32.760
+So that's good.
+
+13:32.760 --> 13:34.890
+So now let's come back here
+
+13:34.890 --> 13:36.660
+and if you see whenever you deploy
+
+13:36.660 --> 13:39.690
+your Kubernetes manifest of type service
+
+13:39.690 --> 13:42.390
+so automatically initially it'll check means
+
+13:42.390 --> 13:45.722
+like it'll go and then check next yours cloud provider
+
+13:45.722 --> 13:47.660
+load balancer, legacy controller.
+
+13:47.660 --> 13:52.050
+And there it finds that the load balancer type is external
+
+13:52.050 --> 13:55.110
+and at that point of time this Load Balancer Controller
+
+13:55.110 --> 13:58.920
+will pick it and this Kubernetes service will be created
+
+13:58.920 --> 14:00.480
+and reconciled or associated
+
+14:00.480 --> 14:02.610
+with this Load Balancer Controller
+
+14:02.610 --> 14:04.680
+and the settings inside this Kubernetes
+
+14:04.680 --> 14:06.960
+load balancer services.
+
+14:06.960 --> 14:09.120
+Before going there we'll also go here
+
+14:09.120 --> 14:12.990
+as part of deploying the Kubernetes service manifest,
+
+14:12.990 --> 14:17.400
+we'll also deploy our NGINX app related deployment manifest.
+
+14:17.400 --> 14:20.730
+So it'll create a NGINX app related deployment
+
+14:20.730 --> 14:23.970
+engine port objects in our EKS cluster.
+
+14:23.970 --> 14:26.250
+So no from settings perspective
+
+14:26.250 --> 14:28.410
+in Kubernetes service, right?
+
+14:28.410 --> 14:32.670
+So listener port 80 is going to be by default
+
+14:32.670 --> 14:35.070
+we don't need to define any annotation for that.
+
+14:35.070 --> 14:36.990
+So it's a default one
+
+14:36.990 --> 14:41.910
+and LB type external our load balancer type external.
+
+14:41.910 --> 14:44.280
+So this is the one which is deciding that
+
+14:44.280 --> 14:47.370
+this Kubernetes load balancer service should be reconciled
+
+14:47.370 --> 14:52.140
+or associated with this AWS Load Balancer Controller
+
+14:52.140 --> 14:54.060
+instead of a legacy one.
+
+14:54.060 --> 14:57.060
+And the next annotation you're going to define is
+
+14:57.060 --> 14:59.790
+target type is instance.
+
+14:59.790 --> 15:03.360
+So either you can use instance RIP mode
+
+15:03.360 --> 15:05.010
+and we will do with instance mode
+
+15:05.010 --> 15:07.140
+and for a Fargate demo we'll do with IP.
+
+15:07.140 --> 15:08.760
+But you can use any of those things.
+
+15:08.760 --> 15:10.710
+Instance or IP mode.
+
+15:10.710 --> 15:14.580
+So with instance mode it'll use the worker nodes will be
+
+15:14.580 --> 15:16.830
+with worker nodes with the node port services
+
+15:16.830 --> 15:20.400
+which means worker nodes related node port will be added
+
+15:20.400 --> 15:24.810
+as a targets in your target group of your load balancer.
+
+15:24.810 --> 15:28.170
+So which we already discussed multiple times these things.
+
+15:28.170 --> 15:30.690
+And you can also define health check settings
+
+15:30.690 --> 15:33.990
+for your respective Network Load Balancer
+
+15:33.990 --> 15:36.717
+from the Kubernetes service itself.
+
+15:36.717 --> 15:39.720
+And the important option we have is it supports
+
+15:39.720 --> 15:41.850
+both TCP history, TP and history
+
+15:41.850 --> 15:45.150
+TPS load balancer related health check settings.
+
+15:45.150 --> 15:50.150
+Even though this is a layer four load balancer,
+
+15:50.250 --> 15:51.360
+Network Load Balancer,
+
+15:51.360 --> 15:55.560
+and it operates at the layer four of the OSI model.
+
+15:55.560 --> 15:58.680
+The health check parts supports layer four
+
+15:58.680 --> 16:01.860
+which is TCP protocol and also HTTP protocol,
+
+16:01.860 --> 16:05.040
+which is layer seven, and also HTTPS protocol.
+
+16:05.040 --> 16:08.100
+So that's one important thing we should know here.
+
+16:08.100 --> 16:08.933
+And scheme-
+
+16:08.933 --> 16:11.478
+this load balancer is going to be internet facing
+
+16:11.478 --> 16:14.970
+and also source range also you can define
+
+16:14.970 --> 16:17.760
+which means this network load balancer
+
+16:17.760 --> 16:20.700
+can be accessed from which places.
+
+16:20.700 --> 16:22.890
+And you can define that, you can restrict
+
+16:22.890 --> 16:24.763
+so I have put it to the full internet,
+
+16:24.763 --> 16:28.950
+but you can restrict and tell that we can allow
+
+16:28.950 --> 16:32.130
+this network load balancer even if it is internet facing.
+
+16:32.130 --> 16:36.150
+So it can be allowed only from so and so IP segment.
+
+16:36.150 --> 16:38.280
+So that also you can do
+
+16:38.280 --> 16:41.250
+and whenever this Kubernetes service is deployed
+
+16:41.250 --> 16:43.560
+it creates the Network Load Balancer
+
+16:43.560 --> 16:45.750
+for us from AWS cloud perspective.
+
+16:45.750 --> 16:49.380
+But this is a single object for us to understand
+
+16:49.380 --> 16:51.960
+from logical perspective.
+
+16:51.960 --> 16:55.740
+And whenever user accesses the NLB DNS URL
+
+16:55.740 --> 16:57.480
+which is a HTTP URL
+
+16:57.480 --> 17:01.230
+so the request comes to your app Network Load Balancer
+
+17:01.230 --> 17:04.200
+and from there it'll go to your app three.
+
+17:04.200 --> 17:08.010
+And that happens with this services there like these
+
+17:08.010 --> 17:12.030
+the targets are registered as a node port services, right
+
+17:12.030 --> 17:16.080
+in your respective target groups of your load balancer.
+
+17:16.080 --> 17:18.270
+So now the same thing we have seen
+
+17:18.270 --> 17:20.610
+in a Kubernetes object model.
+
+17:20.610 --> 17:21.660
+So let's also see
+
+17:21.660 --> 17:25.357
+from AWS network design perspective in AWS cloud.
+
+17:25.357 --> 17:28.879
+So whenever we have created EKS cluster control plan
+
+17:28.879 --> 17:31.620
+so it has created public subnets,
+
+17:31.620 --> 17:34.800
+private subnets, and also a VPC for us
+
+17:34.800 --> 17:36.660
+in two availability zones.
+
+17:36.660 --> 17:38.160
+Later it we have also
+
+17:38.160 --> 17:40.320
+created a EKS private node group
+
+17:40.320 --> 17:42.670
+as part of our section 07-01
+
+17:44.160 --> 17:48.930
+and we also have a NAD gateway automatically created
+
+17:48.930 --> 17:52.260
+for outbound communication for our worker nodes
+
+17:52.260 --> 17:54.750
+which are present in the private subnets
+
+17:54.750 --> 17:57.120
+with EKS cluster control plan.
+
+17:57.120 --> 18:00.270
+And we also deployed our NGINX app three.
+
+18:00.270 --> 18:01.440
+So this should be changing
+
+18:01.440 --> 18:03.420
+to app three here, but that's fine.
+
+18:03.420 --> 18:05.400
+So it which will create a deployment
+
+18:05.400 --> 18:09.630
+which creates a replica set and their ports inside them.
+
+18:09.630 --> 18:12.900
+And we'll create a Network Load Balancer
+
+18:12.900 --> 18:17.010
+which means you have deployed a Kubernetes service manifest
+
+18:17.010 --> 18:19.650
+and it created a Network Load Balancer
+
+18:19.650 --> 18:22.740
+for us and as users, right?
+
+18:22.740 --> 18:26.250
+So whenever you access your HTTP and LB DNS URL
+
+18:26.250 --> 18:30.420
+so it'll come to your Network Load Balancer and why right?
+
+18:30.420 --> 18:35.010
+Worker node related node ports, it'll reach your pod, right?
+
+18:35.010 --> 18:37.680
+So that's what it is going to happen.
+
+18:37.680 --> 18:41.910
+And finally, so these are the annotations which we are de-
+
+18:41.910 --> 18:46.230
+which we are going to define as part of the NLB basics demo.
+
+18:46.230 --> 18:48.870
+So these things one more time we are going to review
+
+18:48.870 --> 18:52.860
+in detail in our next step in our visual studio code.
+
+18:52.860 --> 18:54.510
+So I'll see you in the next lecture.
+
+18:54.510 --> 18:55.710
+Until then, bye bye.
+
+18:55.710 --> 18:56.543
+Thank you.

@@ -1,0 +1,793 @@
+WEBVTT
+
+00:00.450 --> 00:01.410
+-: Welcome back.
+
+00:01.410 --> 00:03.630
+In this demo we are going to create the,
+
+00:03.630 --> 00:08.220
+internal network load balancer using Kubernetes service.
+
+00:08.220 --> 00:10.890
+And for this purpose we will change the,
+
+00:10.890 --> 00:12.270
+load balancer scheme,
+
+00:12.270 --> 00:15.750
+in our Kubernetes load balancer service manifest,
+
+00:15.750 --> 00:18.300
+from internet facing to internal.
+
+00:18.300 --> 00:21.660
+And we will also ensure that we will remove all other,
+
+00:21.660 --> 00:24.570
+annotations which are unrelated for this use case.
+
+00:24.570 --> 00:27.840
+And we will ensure that we'll have only LB type external,
+
+00:27.840 --> 00:30.690
+which will help us in reconciling,
+
+00:30.690 --> 00:32.520
+this respective load balancer service,
+
+00:32.520 --> 00:34.980
+with latest load balancer controller
+
+00:34.980 --> 00:37.710
+and we'll use the target type instance
+
+00:37.710 --> 00:38.970
+and we'll use the standard,
+
+00:38.970 --> 00:41.580
+health check settings here, right?
+
+00:41.580 --> 00:43.530
+And now once we deploy this,
+
+00:43.530 --> 00:45.450
+Kubernetes load balancer service,
+
+00:45.450 --> 00:48.150
+it is going to create the network load balancer,
+
+00:48.150 --> 00:49.740
+internal load balancer.
+
+00:49.740 --> 00:51.810
+So how are we going to test this?
+
+00:51.810 --> 00:55.260
+So we are going to test this using a curl pod.
+
+00:55.260 --> 00:58.620
+So we will deploy a curl pod in the EKS cluster
+
+00:58.620 --> 01:02.220
+and as a Kubernetes admin using the kube CTL client,
+
+01:02.220 --> 01:04.530
+I will connect to this curl pod.
+
+01:04.530 --> 01:08.760
+And from curl pod I will run the curl commands to,
+
+01:08.760 --> 01:11.010
+access this network load balancer,
+
+01:11.010 --> 01:15.330
+which is internally created and test the sample application,
+
+01:15.330 --> 01:18.240
+which is nginx app three related page.
+
+01:18.240 --> 01:22.410
+So let's also see the network design for same thing.
+
+01:22.410 --> 01:24.720
+So in AWS cloud when we create,
+
+01:24.720 --> 01:26.790
+the EKS cluster control plane,
+
+01:26.790 --> 01:30.510
+it creates the VPC, public subnets, private subnets
+
+01:30.510 --> 01:34.770
+and we also create a EKS private node group,
+
+01:34.770 --> 01:38.430
+with the worker nodes created in the private subnets.
+
+01:38.430 --> 01:41.700
+And these communicate to the EKS cluster control plane,
+
+01:41.700 --> 01:43.860
+outbound via a NAT gateway.
+
+01:43.860 --> 01:48.570
+And we'll also deploy our app three deployment,
+
+01:48.570 --> 01:51.330
+in our EKS private node group
+
+01:51.330 --> 01:53.790
+and we create the network load balancer,
+
+01:53.790 --> 01:55.920
+in the private subnets itself.
+
+01:55.920 --> 01:58.320
+So as we changed the load balancer scheme,
+
+01:58.320 --> 02:01.440
+from internet facing to internal.
+
+02:01.440 --> 02:03.630
+So this network load balancer is created,
+
+02:03.630 --> 02:06.780
+in the private subnet for us.
+
+02:06.780 --> 02:10.980
+And to access the sample application app three,
+
+02:10.980 --> 02:13.200
+inside this sub private subnets,
+
+02:13.200 --> 02:17.610
+we just deploy a curl pod in this same EKS cluster
+
+02:17.610 --> 02:20.460
+and we connect using K ats admin,
+
+02:20.460 --> 02:22.680
+using kubectl client to this pod.
+
+02:22.680 --> 02:24.810
+And this will go to the network load balancer
+
+02:24.810 --> 02:27.810
+and from there, from this part you'll run the curl command
+
+02:27.810 --> 02:29.670
+and it goes to this network load balancer,
+
+02:29.670 --> 02:31.650
+via this it goes to app three
+
+02:31.650 --> 02:35.640
+and access the sample index.html from that, right?
+
+02:35.640 --> 02:40.380
+And this is the AWS load balancer scheme related annotation,
+
+02:40.380 --> 02:42.330
+which we are going to change from,
+
+02:42.330 --> 02:44.760
+internet facing to internal.
+
+02:44.760 --> 02:47.880
+And from curl pod perspective we are going to define a,
+
+02:47.880 --> 02:49.763
+simple pod, API version V1,
+
+02:49.763 --> 02:53.250
+kindisk pod and metadata name is curl pod
+
+02:53.250 --> 02:56.340
+and we are using the curl container to do that
+
+02:56.340 --> 02:59.670
+and we cannot connect to internal LB directly,
+
+02:59.670 --> 03:01.290
+from the internet to test it.
+
+03:01.290 --> 03:03.690
+So we are going to use this curl pod,
+
+03:03.690 --> 03:06.690
+to connect to that internal LB endpoint.
+
+03:06.690 --> 03:09.150
+And these are some of the commands,
+
+03:09.150 --> 03:12.960
+we are going to use to deploy the curl pod
+
+03:12.960 --> 03:14.760
+and connect to that curl pod
+
+03:14.760 --> 03:16.890
+and from the curl pod we are going to run the,
+
+03:16.890 --> 03:20.280
+curl internal network LB DNS,
+
+03:20.280 --> 03:24.150
+so that we'll be able to get the sample page,
+
+03:24.150 --> 03:26.790
+from the app three nginx pod.
+
+03:26.790 --> 03:31.753
+So this completes the introduction to our internal LB.
+
+03:33.030 --> 03:37.260
+So now let's go back to our GitHub repository, right?
+
+03:37.260 --> 03:41.623
+So we are in 1905 LBC NLB internal
+
+03:41.623 --> 03:45.071
+and let's go ahead and then review the,
+
+03:45.071 --> 03:48.510
+load balancer scheme annotation.
+
+03:48.510 --> 03:50.820
+So let's go to the visual studio code
+
+03:50.820 --> 03:55.200
+and we are in 1905 LBC NLB internal
+
+03:55.200 --> 03:59.640
+and inside that we are in 02 LBC NLB load balancer service
+
+03:59.640 --> 04:03.930
+and 01 nginx app three deployment is going to be same as is.
+
+04:03.930 --> 04:06.600
+So let's come back here and if you see here,
+
+04:06.600 --> 04:11.130
+service beta kubernetes iver load balance scheme is internal
+
+04:11.130 --> 04:14.340
+and you can see the name of the service is going to be,
+
+04:14.340 --> 04:15.743
+internal LBC network LB
+
+04:15.743 --> 04:18.960
+and the load balancer name also going to be same
+
+04:18.960 --> 04:21.210
+and the load balancer type is external
+
+04:21.210 --> 04:23.940
+and NLB target type is instance.
+
+04:23.940 --> 04:26.160
+So these are standard health check settings
+
+04:26.160 --> 04:27.960
+and these are resource tags.
+
+04:27.960 --> 04:31.020
+In addition to that, we also commented the,
+
+04:31.020 --> 04:35.190
+load balancer source ranges which is 0 0 0 0/0 0.
+
+04:35.190 --> 04:38.460
+Why because, the VPC CIDR will be used,
+
+04:38.460 --> 04:42.450
+if we are going to use the load balancer scheme as internal.
+
+04:42.450 --> 04:44.940
+so whatever the VPC CIDR is there,
+
+04:44.940 --> 04:48.266
+so by default it will take it automatically.
+
+04:48.266 --> 04:51.060
+So now let's go back here
+
+04:51.060 --> 04:54.540
+and deploy all the kube manifests and then verify.
+
+04:54.540 --> 04:59.190
+So let's go to terminal and we are in 19 ELB,
+
+04:59.190 --> 05:01.830
+network load balancer with LBC.
+
+05:01.830 --> 05:05.010
+So we'll go inside, this is the fifth demo in NLB,
+
+05:05.010 --> 05:09.120
+which is CD 1905 LBC NLB internal.
+
+05:09.120 --> 05:12.570
+And you can also verify that kube manifests here
+
+05:12.570 --> 05:15.630
+and we will run the command kube CTL,
+
+05:15.630 --> 05:18.180
+apply hyphen kube manifest.
+
+05:18.180 --> 05:21.510
+So this should create the internal load balancer for us,
+
+05:21.510 --> 05:24.376
+which is internal network load balancer.
+
+05:24.376 --> 05:27.660
+So we can see here app three engineers deployment,
+
+05:27.660 --> 05:29.790
+is completed and LBC network,
+
+05:29.790 --> 05:32.520
+internal LBC network LB also created.
+
+05:32.520 --> 05:35.160
+So I'll say kube CTL get pods,
+
+05:35.160 --> 05:37.350
+first to check the sample application,
+
+05:37.350 --> 05:39.270
+app three nginx is running.
+
+05:39.270 --> 05:41.610
+We will also verify that get SVC,
+
+05:41.610 --> 05:43.800
+the service got created or not.
+
+05:43.800 --> 05:47.100
+So it is in the pending state.
+
+05:47.100 --> 05:48.735
+So let's wait for it.
+
+05:48.735 --> 05:52.320
+So we can see here internal LBC network LB,
+
+05:52.320 --> 05:53.970
+is in the pending state.
+
+05:53.970 --> 05:55.950
+Why it is in the pending state?
+
+05:55.950 --> 05:57.780
+We are going to see now, right?
+
+05:57.780 --> 06:02.780
+Kube CTL describe and SVC which is service
+
+06:03.990 --> 06:05.340
+and this is the service.
+
+06:05.340 --> 06:07.440
+This is another important thing to know.
+
+06:07.440 --> 06:09.900
+So that's the reason we have added this
+
+06:09.900 --> 06:12.630
+and then testing it in this manner, right?
+
+06:12.630 --> 06:15.943
+So kube CTL describe SVC internal,
+
+06:15.943 --> 06:17.520
+whenever we describe it,
+
+06:17.520 --> 06:19.710
+it is saying that fail to deploy the model,
+
+06:19.710 --> 06:21.600
+due to validation error.
+
+06:21.600 --> 06:24.120
+So the load balancer name internal so and so,
+
+06:24.120 --> 06:26.850
+cannot begin with internal hyphen.
+
+06:26.850 --> 06:29.760
+Why because it is anywhere going to append,
+
+06:29.760 --> 06:30.750
+internal for this,
+
+06:30.750 --> 06:32.730
+so that's the reason we should not start with,
+
+06:32.730 --> 06:34.440
+internal hyphen.
+
+06:34.440 --> 06:38.250
+So now let's come back here and what I'll do is,
+
+06:38.250 --> 06:43.250
+so kube CTL get SVC and I will delete this,
+
+06:45.693 --> 06:50.220
+kube CTL delete SVC and this is the SVC,
+
+06:50.220 --> 06:53.340
+we are going to delete service, right?
+
+06:53.340 --> 06:54.450
+Paste it, right?
+
+06:54.450 --> 06:56.160
+And after that we'll change the name
+
+06:56.160 --> 06:57.719
+and then redeploy it.
+
+06:57.719 --> 07:02.040
+I'll say get SVC and there is no nothing like that.
+
+07:02.040 --> 07:05.820
+So now let's come back here and we will say LBC,
+
+07:05.820 --> 07:10.820
+network LB internal will add internal at the end, right?
+
+07:11.341 --> 07:16.341
+And hyphen internal, the error is related to,
+
+07:18.960 --> 07:21.780
+load balancer name usually validation error.
+
+07:21.780 --> 07:23.580
+So load balancer name which means,
+
+07:23.580 --> 07:26.940
+if you change only this one, that should ideally sufficient,
+
+07:26.940 --> 07:29.130
+but we'll change and put it as a standard one,
+
+07:29.130 --> 07:31.920
+LBC network LB internal internal
+
+07:31.920 --> 07:33.570
+and we will run the command,
+
+07:33.570 --> 07:38.570
+clear kube CTL apply hyphen F kube manifests, right?
+
+07:38.850 --> 07:40.890
+So we changed both the metadata name
+
+07:40.890 --> 07:43.050
+and also the load balancer name
+
+07:43.050 --> 07:47.090
+and we will run the command kube CTL get SVC it got created,
+
+07:47.090 --> 07:50.280
+so we'll run the command, get SVC
+
+07:50.280 --> 07:54.390
+and you can see the external IP is allocated now, right?
+
+07:54.390 --> 07:56.479
+So let's come back here
+
+07:56.479 --> 08:01.000
+and we can see if you want you can verify the,
+
+08:01.000 --> 08:05.010
+load balancer controller pod locks which is nothing but,
+
+08:05.010 --> 08:06.780
+AWS load balancer controller pod locks,
+
+08:06.780 --> 08:09.060
+to see that whether this service is,
+
+08:09.060 --> 08:10.890
+reconciled with this respective,
+
+08:10.890 --> 08:12.750
+load balancer controller or not.
+
+08:12.750 --> 08:15.090
+So those are fine, we will leave as is,
+
+08:15.090 --> 08:17.100
+but we'll come back here
+
+08:17.100 --> 08:19.680
+and do a NS look up for this, right?
+
+08:19.680 --> 08:21.480
+So NS look up for this
+
+08:21.480 --> 08:23.520
+and it should not have any external IPs,
+
+08:23.520 --> 08:25.710
+so it should have a internal IPs for us.
+
+08:25.710 --> 08:27.300
+So maybe it might take,
+
+08:27.300 --> 08:30.630
+see it is taking time for provisioning the load balancer.
+
+08:30.630 --> 08:33.930
+So let's wait for it to change to active state,
+
+08:33.930 --> 08:36.750
+so that we'll go ahead and do the NS look up
+
+08:36.750 --> 08:40.590
+and you should have some internal IPs associated with it,
+
+08:40.590 --> 08:43.710
+not the external internet facing IPs.
+
+08:43.710 --> 08:45.450
+So let's wait for it.
+
+08:45.450 --> 08:49.410
+We can see here now the load balancer is in active state.
+
+08:49.410 --> 08:53.190
+So let's copy this DNS name and let's come back here
+
+08:53.190 --> 08:56.790
+and say NS look up and DNS
+
+08:56.790 --> 08:58.410
+and we can see it is resolving to,
+
+08:58.410 --> 09:02.970
+some internal IPs 192, 168 some 64.61
+
+09:02.970 --> 09:04.383
+and then 116.38.
+
+09:05.730 --> 09:08.610
+So now in addition to that we thought that,
+
+09:08.610 --> 09:10.920
+whenever we have seen the validation error,
+
+09:10.920 --> 09:12.360
+when the load balancer name is,
+
+09:12.360 --> 09:14.340
+starting with internal hyphen,
+
+09:14.340 --> 09:16.740
+so we moved it to the end of it
+
+09:16.740 --> 09:19.400
+and thought that it is going to upend some
+
+09:19.400 --> 09:23.040
+or prepend some internal here but it didn't do that.
+
+09:23.040 --> 09:24.102
+So that is fine.
+
+09:24.102 --> 09:26.310
+So now let's come back here
+
+09:26.310 --> 09:29.070
+and move to the next step which is deploy curl pod
+
+09:29.070 --> 09:30.967
+and then test internal NLB.
+
+09:31.855 --> 09:36.855
+So we'll go here and in 1905 LBC NLB, so let me close this,
+
+09:37.860 --> 09:40.440
+you can find the Kubernetes manifest curl.
+
+09:40.440 --> 09:43.500
+So where in, in 01 curl pod you can see the,
+
+09:43.500 --> 09:46.260
+curl pod related Kubernetes manifest,
+
+09:46.260 --> 09:47.880
+for this respective pod.
+
+09:47.880 --> 09:50.820
+So we will come back to our terminal here
+
+09:50.820 --> 09:55.200
+and say kube CTL apply hyphen F,
+
+09:55.200 --> 09:58.170
+kube manifests hyphen curl, right?
+
+09:58.170 --> 10:01.290
+So this should deploy the curl pod for us
+
+10:01.290 --> 10:03.330
+and once the curl pod is deployed,
+
+10:03.330 --> 10:05.430
+so we will connect to that curl pod,
+
+10:05.430 --> 10:10.290
+using kube CTL exec hyphen IT curl pod which is pod name
+
+10:10.290 --> 10:11.910
+and hyphen hyphen SH,
+
+10:11.910 --> 10:14.850
+which means with SH command we are going to,
+
+10:14.850 --> 10:16.290
+connect to that, right?
+
+10:16.290 --> 10:18.400
+So let me connect to that curl pod
+
+10:19.530 --> 10:21.390
+and if you want you can run kube ctl,
+
+10:21.390 --> 10:24.753
+get pods and also verify that before connecting, right?
+
+10:24.753 --> 10:27.360
+So we'll say kube CTL get pods
+
+10:27.360 --> 10:29.400
+and you will find that right?
+
+10:29.400 --> 10:31.710
+So this is the curl pod running
+
+10:31.710 --> 10:34.830
+and you can also say kube CTL get SVC,
+
+10:34.830 --> 10:39.090
+so that you will get that this respective load balancer,
+
+10:39.090 --> 10:41.580
+network load balancer, internal LB.
+
+10:41.580 --> 10:44.280
+So first I'll say clear will come from the top.
+
+10:44.280 --> 10:46.740
+So I'll say kube CTL, SVC
+
+10:46.740 --> 10:50.160
+and I'll copy this DNS name, right?
+
+10:50.160 --> 10:53.550
+And I will connect to the curl pod with kube ctl exec,
+
+10:53.550 --> 10:57.960
+hyphen IT pod name and hyphen hyphen SH, right?
+
+10:57.960 --> 11:00.900
+So from this pod I will say curl
+
+11:00.900 --> 11:02.190
+and I'll run the command,
+
+11:02.190 --> 11:06.300
+which is related to my internal load balancer DNS name.
+
+11:06.300 --> 11:09.600
+And you can see we are able to get the,
+
+11:09.600 --> 11:12.570
+welcome to stack simplify Kubernetes fundamentals demo
+
+11:12.570 --> 11:14.940
+and application version V1.
+
+11:14.940 --> 11:17.460
+So this DNS, if you access in the browser,
+
+11:17.460 --> 11:19.470
+you don't have the internet edge,
+
+11:19.470 --> 11:21.660
+we will not able to access it,
+
+11:21.660 --> 11:25.290
+but with curl pod we are able to do that right?
+
+11:25.290 --> 11:26.280
+So from curl pod,
+
+11:26.280 --> 11:30.330
+from inside EKS cluster itself, we are accessing it.
+
+11:30.330 --> 11:34.560
+So now let's come back here and delete the kube manifest
+
+11:34.560 --> 11:39.560
+and also delete the kube manifest curl exit clear
+
+11:41.130 --> 11:44.670
+and we'll say kube CTL delete hyphen F kube manifest.
+
+11:44.670 --> 11:46.590
+So we have successfully tested our,
+
+11:46.590 --> 11:49.380
+created the internal network load balancer
+
+11:49.380 --> 11:51.630
+and tested it with curl pod now.
+
+11:51.630 --> 11:53.310
+So we'll clean up these things
+
+11:53.310 --> 11:57.210
+and verify if the load balancer is deleted successfully
+
+11:57.210 --> 12:01.260
+and we'll also delete the kube manifest curl pod
+
+12:01.260 --> 12:03.780
+and come back here and refresh.
+
+12:03.780 --> 12:05.640
+We can see here network load balancer,
+
+12:05.640 --> 12:09.930
+is successfully deleted after deleting the kube manifests.
+
+12:09.930 --> 12:13.320
+So this completes the this respective demo.
+
+12:13.320 --> 12:15.870
+In the next demo we are going to focus on,
+
+12:15.870 --> 12:18.090
+using the target type as IP
+
+12:18.090 --> 12:21.540
+and also ensure that we deploy our app three nginx,
+
+12:21.540 --> 12:23.400
+on the fargate pod
+
+12:23.400 --> 12:25.800
+and ensure that this network load balancer,
+
+12:25.800 --> 12:28.650
+is able to connect to the fargate pod.
+
+12:28.650 --> 12:30.799
+So this is another important feature,
+
+12:30.799 --> 12:34.740
+which is working in this respective,
+
+12:34.740 --> 12:37.410
+latest AWS load balancer controller,
+
+12:37.410 --> 12:40.350
+for the network load balancer use case.
+
+12:40.350 --> 12:41.910
+So I'll see you in the next lecture.
+
+12:41.910 --> 12:43.140
+Until then, bye bye.
+
+12:43.140 --> 12:43.973
+Thank you.

@@ -1,0 +1,280 @@
+WEBVTT
+
+00:00.000 --> 00:00.930
+-: Welcome back.
+
+00:00.930 --> 00:03.300
+In this lecture we are going to understand
+
+00:03.300 --> 00:07.620
+about Code Pipeline on a very high level, right?
+
+00:07.620 --> 00:11.370
+So Code Pipeline is a continuous delivery service to model,
+
+00:11.370 --> 00:13.890
+visualize and automate rhe steps required
+
+00:13.890 --> 00:16.380
+to release our software.
+
+00:16.380 --> 00:19.410
+So its benefits include we can automate
+
+00:19.410 --> 00:20.610
+our release processes,
+
+00:20.610 --> 00:23.760
+we can establish a consistent release process
+
+00:23.760 --> 00:28.320
+for our applications so we can even speed up delivery
+
+00:28.320 --> 00:31.020
+while improving the quality.
+
+00:31.020 --> 00:34.200
+So it also supports external tools integration
+
+00:34.200 --> 00:37.470
+for source build and then deploy phases.
+
+00:37.470 --> 00:41.580
+So, and it also provides a view progress database
+
+00:41.580 --> 00:42.413
+and glances.
+
+00:42.413 --> 00:44.460
+In addition to that we can even have
+
+00:44.460 --> 00:48.570
+the pipeline history details for our reference.
+
+00:48.570 --> 00:50.820
+So code pipeline architecture.
+
+00:50.820 --> 00:53.430
+So we already know that source build and deploy
+
+00:53.430 --> 00:57.120
+are the major stages inside the code pipeline.
+
+00:57.120 --> 01:00.060
+So from source perspective, it primarily depends
+
+01:00.060 --> 01:03.000
+or it primarily integrated with code commit
+
+01:03.000 --> 01:07.020
+easy to contain a registry, and then simple storage service
+
+01:07.020 --> 01:11.040
+and also GitHub in addition to that.
+
+01:11.040 --> 01:12.330
+So from build perspective,
+
+01:12.330 --> 01:15.330
+it uses code build and then Jenkins.
+
+01:15.330 --> 01:17.070
+And from Deploy perspective,
+
+01:17.070 --> 01:19.800
+it uses Cloud formation, CodeDeploy,
+
+01:19.800 --> 01:22.110
+Elastic Beanstalk, Service Catalog,
+
+01:22.110 --> 01:25.410
+Simple Storage Service, Elastic Container Service
+
+01:25.410 --> 01:30.270
+and also Elastic Container Service Bluegreen deployments.
+
+01:30.270 --> 01:33.660
+And to monitor the source it is going to use
+
+01:33.660 --> 01:36.510
+either the CloudWatch when we are using the code commit
+
+01:36.510 --> 01:37.530
+or other services.
+
+01:37.530 --> 01:39.450
+And when we are using GitHub,
+
+01:39.450 --> 01:42.930
+it is going to use the GitHub web hooks.
+
+01:42.930 --> 01:46.680
+And so what is this continuous delivery, right?
+
+01:46.680 --> 01:50.790
+So as developers, I check in the code to the source
+
+01:50.790 --> 01:52.500
+and what happens at that time?
+
+01:52.500 --> 01:56.100
+So whenever the change happened on our source
+
+01:56.100 --> 01:59.250
+a CloudWatch event is triggered and then entire pipeline,
+
+01:59.250 --> 02:01.770
+this entire pipeline gets triggered
+
+02:01.770 --> 02:05.220
+and the build process starts and then changes are built
+
+02:05.220 --> 02:08.700
+and then push you to the S3 bucket for our artifacts.
+
+02:08.700 --> 02:10.050
+And then the same is pulled
+
+02:10.050 --> 02:13.140
+and then deployed to our respective staging environment
+
+02:13.140 --> 02:15.450
+or whatever the environment configure.
+
+02:15.450 --> 02:18.660
+And then an email approval flow is sent
+
+02:18.660 --> 02:20.100
+and then respect to approval,
+
+02:20.100 --> 02:22.320
+if he approves, then only it'll be deployed
+
+02:22.320 --> 02:23.970
+to our production.
+
+02:23.970 --> 02:25.470
+And then once again,
+
+02:25.470 --> 02:27.150
+customers start giving the requirements,
+
+02:27.150 --> 02:29.490
+it comes back and then developers makes the changes.
+
+02:29.490 --> 02:31.530
+And then again, checks in the code
+
+02:31.530 --> 02:34.533
+and entire pipeline story follows.
+
+02:35.460 --> 02:39.870
+This is on a high level, the continuous delivery flow.
+
+02:39.870 --> 02:43.290
+So in our case, how we are going to implement it, right?
+
+02:43.290 --> 02:45.600
+So there are different ways to implement these stuff
+
+02:45.600 --> 02:48.540
+but we are going to do in a minimal way
+
+02:48.540 --> 02:51.270
+whatever is possible for us, right?
+
+02:51.270 --> 02:54.930
+So as a developer, I will do my docker related docker files
+
+02:54.930 --> 02:56.190
+and also cube manifest.
+
+02:56.190 --> 02:59.640
+I'll check into the local Git report
+
+02:59.640 --> 03:04.440
+and I'll push the same to the code commit repository.
+
+03:04.440 --> 03:05.820
+What happens immediately,
+
+03:05.820 --> 03:07.440
+a CloudWatch event will be triggered
+
+03:07.440 --> 03:09.090
+if I configure the pipeline
+
+03:09.090 --> 03:12.324
+and then pipeline is available for this respective source,
+
+03:12.324 --> 03:15.030
+automatically a cloud watch event will be triggered
+
+03:15.030 --> 03:17.790
+and then pipeline will be triggered.
+
+03:17.790 --> 03:20.550
+So immediately a code build process will start
+
+03:20.550 --> 03:24.840
+and then whatever we defined in our code build process
+
+03:24.840 --> 03:27.000
+which is nothing but these things, right?
+
+03:27.000 --> 03:29.490
+So the entire things are going to get executed,
+
+03:29.490 --> 03:33.780
+the pre-build steps and then build steps will execute
+
+03:33.780 --> 03:37.320
+and then it'll create a new DACA image and then
+
+03:37.320 --> 03:41.007
+it will push the docker image to the docker repository
+
+03:42.450 --> 03:45.390
+which is nothing but our elastic container repository.
+
+03:45.390 --> 03:49.170
+And it also pushes the artifacts to the S3 bucket.
+
+03:49.170 --> 03:50.730
+So whatever the artifacts generated,
+
+03:50.730 --> 03:53.550
+these will be available in the S3 bucket.
+
+03:53.550 --> 03:57.540
+And then it also applies, means like the next thing
+
+03:57.540 --> 03:58.950
+after post-build we also said
+
+03:58.950 --> 04:02.190
+that cube CTL apply hyphen F cube manifests, right?
+
+04:02.190 --> 04:04.650
+So it will take into consideration
+
+04:04.650 --> 04:06.960
+whenever this command is executed automatically
+
+04:06.960 --> 04:09.480
+that changes the change, the docker image
+
+04:09.480 --> 04:11.850
+will be applied to our respective deployment
+
+04:11.850 --> 04:14.490
+and then old parts will get terminated
+
+04:14.490 --> 04:17.340
+and then new ports will get create.
+
+04:17.340 --> 04:20.010
+I'll see you in the next lecture, until then bye bye.
+
+04:20.010 --> 04:20.843
+Thank you.

@@ -1,0 +1,283 @@
+WEBVTT
+
+00:00.180 --> 00:01.440
+-: Welcome back.
+
+00:01.440 --> 00:06.150
+In this section, we are going to look into AWS X-ray
+
+00:06.150 --> 00:11.150
+as one of the tool for microservices distributed tracing.
+
+00:11.280 --> 00:15.390
+So we are going to deploy our applications on EKS
+
+00:15.390 --> 00:19.260
+and then, so for those microservices applications,
+
+00:19.260 --> 00:23.453
+we are going to enable distributed tracing using AWS X-ray.
+
+00:24.960 --> 00:25.980
+So with that said,
+
+00:25.980 --> 00:29.250
+we are going to add one more AWS service
+
+00:29.250 --> 00:31.950
+to our entire deployment
+
+00:31.950 --> 00:33.600
+on EKS.
+
+00:33.600 --> 00:34.710
+So moving on,
+
+00:34.710 --> 00:36.600
+we will see on a very high level,
+
+00:36.600 --> 00:38.970
+what is AWS X-ray.
+
+00:38.970 --> 00:41.070
+And then how we are going to deploy it,
+
+00:41.070 --> 00:43.500
+what is its network architecture.
+
+00:43.500 --> 00:45.030
+And during the process,
+
+00:45.030 --> 00:49.620
+we are also going to look into daemonsets in Kubernetes.
+
+00:49.620 --> 00:52.170
+Why? Because we are going to deploy
+
+00:52.170 --> 00:57.170
+X-ray related application on Kubernetes using daemonsets.
+
+00:57.930 --> 01:01.230
+So let's see all those things now.
+
+01:01.230 --> 01:02.730
+So what is X-ray?
+
+01:02.730 --> 01:06.270
+So let's see how this is going to help us.
+
+01:06.270 --> 01:10.020
+So AWS X-ray helps us analyze and debug
+
+01:10.020 --> 01:12.300
+distributed applications between
+
+01:12.300 --> 01:15.633
+build using microservices architecture.
+
+01:16.830 --> 01:20.190
+With X-ray, we can understand how our application
+
+01:20.190 --> 01:22.890
+and its underlying services are performing
+
+01:22.890 --> 01:24.360
+to identify and troubleshoot
+
+01:24.360 --> 01:27.930
+the root cause of performance issues and then errors.
+
+01:27.930 --> 01:31.320
+So X-ray provides an end-to-end view of our request
+
+01:31.320 --> 01:33.780
+as they travel through our application,
+
+01:33.780 --> 01:38.780
+and shows a map of our application underlying components.
+
+01:38.970 --> 01:41.070
+So that is a very good feature, right?
+
+01:41.070 --> 01:42.480
+So if we enable the X-ray,
+
+01:42.480 --> 01:43.440
+then we are going to get
+
+01:43.440 --> 01:45.780
+the end-to-end view of our application,
+
+01:45.780 --> 01:49.230
+including the components involved inside that.
+
+01:49.230 --> 01:53.460
+So we can also use X-ray to analyze applications
+
+01:53.460 --> 01:54.990
+in development environments
+
+01:54.990 --> 01:57.210
+and also in production environments.
+
+01:57.210 --> 02:00.390
+So we can even do this for a simple three-tier applications
+
+02:00.390 --> 02:03.450
+to complex microservices applications
+
+02:03.450 --> 02:06.180
+consisting of thousands of services.
+
+02:06.180 --> 02:10.230
+So everywhere we can leverage this X-ray feature.
+
+02:10.230 --> 02:13.020
+So now the benefits we are going to get is
+
+02:13.020 --> 02:14.820
+it provides us the,
+
+02:14.820 --> 02:18.330
+to review the requested behavior came for our application.
+
+02:18.330 --> 02:20.850
+It also discovers us to allow us
+
+02:20.850 --> 02:23.250
+to discover the application issues.
+
+02:23.250 --> 02:25.710
+And it improves our application performances
+
+02:25.710 --> 02:28.290
+because we are going to discover the issues
+
+02:28.290 --> 02:30.990
+early in advance using the X-ray traces.
+
+02:30.990 --> 02:34.320
+So it is ready to use with AWS,
+
+02:34.320 --> 02:36.390
+any of the other services, okay?
+
+02:36.390 --> 02:40.140
+So design for a variety of applications.
+
+02:40.140 --> 02:43.890
+So now how X-ray is going to work, okay?
+
+02:43.890 --> 02:47.160
+So this image, I took it directly from AWS.
+
+02:47.160 --> 02:50.610
+So I have said it also as a copyright from Amazon.
+
+02:50.610 --> 02:52.380
+So if you see here,
+
+02:52.380 --> 02:54.180
+so whatever the X-ray traces
+
+02:54.180 --> 02:56.760
+will be collected by the X-ray service.
+
+02:56.760 --> 03:00.480
+So it will collect the traces and then record those traces
+
+03:00.480 --> 03:01.440
+and then group them.
+
+03:01.440 --> 03:03.630
+Means like traces nothing but grouping
+
+03:03.630 --> 03:06.780
+our entire application request from starting to ending.
+
+03:06.780 --> 03:09.120
+If it is a three-tier application,
+
+03:09.120 --> 03:10.523
+or if it is multiple microservice,
+
+03:10.523 --> 03:14.160
+one microservice calling other microservice.
+
+03:14.160 --> 03:15.900
+So will collect the traces
+
+03:15.900 --> 03:18.540
+and combine the data generated from each service
+
+03:18.540 --> 03:21.240
+into a single unit called trace.
+
+03:21.240 --> 03:23.640
+So it will take and then create it as a trace
+
+03:23.640 --> 03:27.510
+and then it will show it on our X-ray service map.
+
+03:27.510 --> 03:28.740
+In addition to that,
+
+03:28.740 --> 03:30.960
+there will be also a analyze issues feature
+
+03:30.960 --> 03:33.120
+so that we can go inside each trace
+
+03:33.120 --> 03:34.920
+and then see the entire flow
+
+03:34.920 --> 03:36.090
+and then what is happening
+
+03:36.090 --> 03:37.410
+and then understand in detail
+
+03:37.410 --> 03:39.330
+where the performance bottlenecks are there,
+
+03:39.330 --> 03:41.760
+or where, what issue happened exactly.
+
+03:41.760 --> 03:45.840
+So like that, we can do all the stuff using X-ray.
+
+03:45.840 --> 03:47.040
+So moving on.
+
+03:47.040 --> 03:49.440
+So from X-ray perspective,
+
+03:49.440 --> 03:52.877
+we are going to deploy X-ray related object,
+
+03:52.877 --> 03:56.880
+means like X-ray related agent on Kubernetes
+
+03:56.880 --> 03:58.620
+using daemonsets.
+
+03:58.620 --> 04:03.330
+So due to that, we need to understand what are daemonsets.
+
+04:03.330 --> 04:04.740
+So in our next lecture,
+
+04:04.740 --> 04:07.410
+we are going to understand about daemonsets
+
+04:07.410 --> 04:10.830
+and also how we are going to use it in EKS cluster
+
+04:10.830 --> 04:14.190
+from network design perspective and all those things.
+
+04:14.190 --> 04:15.810
+So I'll see you in the next lecture.
+
+04:15.810 --> 04:17.613
+Until then, bye bye. Thank you.

@@ -1,0 +1,184 @@
+WEBVTT
+
+00:00.150 --> 00:01.560
+-: Welcome back.
+
+00:01.560 --> 00:04.860
+Now we are at the step three of our DevOps use case
+
+00:04.860 --> 00:08.100
+and we are going to perform a prerequisite check
+
+00:08.100 --> 00:10.350
+before moving onto the next steps.
+
+00:10.350 --> 00:11.940
+So the prerequisite check here
+
+00:11.940 --> 00:15.150
+is like the applications we are going to implement
+
+00:15.150 --> 00:16.800
+as part of this DevOps use case
+
+00:16.800 --> 00:18.720
+is a simple engines application
+
+00:18.720 --> 00:22.020
+which is fronted with it ALB Ingress Controller
+
+00:22.020 --> 00:25.590
+which is nothing but our application load balancer in AWS.
+
+00:25.590 --> 00:28.170
+So to have this ALB Ingress Service to run,
+
+00:28.170 --> 00:31.860
+it needs the ALB Ingress Controller port to be running.
+
+00:31.860 --> 00:34.620
+So if you see here in our course, we have implemented
+
+00:34.620 --> 00:39.240
+and continuously using them from section eight onwards.
+
+00:39.240 --> 00:41.160
+So from eight we have implemented
+
+00:41.160 --> 00:44.730
+the Application Load Balancers and also the external DNS.
+
+00:44.730 --> 00:47.640
+So those two things we are going to use everywhere
+
+00:47.640 --> 00:50.640
+so that the application, whatever we are going to deploy
+
+00:50.640 --> 00:53.310
+looks like a full blown implementation.
+
+00:53.310 --> 00:55.800
+So the same cluster, whatever we have implemented,
+
+00:55.800 --> 00:58.110
+those things, those things are running here or not.
+
+00:58.110 --> 01:00.540
+We just need to crosscheck ourself.
+
+01:00.540 --> 01:02.940
+So if not then ALB Ingress Service is not
+
+01:02.940 --> 01:06.900
+going to get created and then we are going to have issues.
+
+01:06.900 --> 01:09.180
+So that's the reason we have our
+
+01:09.180 --> 01:11.883
+prerequisite step here for this one.
+
+01:12.840 --> 01:16.170
+So we are going to go to our terminal
+
+01:16.170 --> 01:21.170
+and then say UCTL get ports iPhone kube system.
+
+01:21.840 --> 01:25.800
+In kube system, you should have ALB Ingress Controller
+
+01:25.800 --> 01:28.260
+port happen running, so that's good.
+
+01:28.260 --> 01:31.050
+So I can create a Ingress Service now.
+
+01:31.050 --> 01:34.230
+In the same way I'll say get ports, kubectl get ports,
+
+01:34.230 --> 01:36.930
+will take us to my default name space
+
+01:36.930 --> 01:38.250
+external DNS is running.
+
+01:38.250 --> 01:41.970
+So which means whenever I create a Ingress Service
+
+01:41.970 --> 01:44.220
+and then if I try to register the DNS name
+
+01:44.220 --> 01:46.650
+DevOps dot whatever the domain.com.
+
+01:46.650 --> 01:50.070
+So it should get registered using Route 53 DNS server.
+
+01:50.070 --> 01:51.810
+So all those things are going to happen
+
+01:51.810 --> 01:55.890
+as part of our entire implementation.
+
+01:55.890 --> 01:59.250
+So now as our things are working good on our cluster,
+
+01:59.250 --> 02:01.260
+so we'll go back to our next step,
+
+02:01.260 --> 02:03.960
+which is create the ECR repository
+
+02:03.960 --> 02:06.660
+for our application Docker images.
+
+02:06.660 --> 02:08.910
+So we'll go to Elastic Container Registry
+
+02:08.910 --> 02:13.910
+and then create a registry named EKS DevOps engine X.
+
+02:15.030 --> 02:17.280
+Okay, so let's go here
+
+02:17.280 --> 02:22.050
+and then type for elastic container registry.
+
+02:22.050 --> 02:25.440
+Or we can even say ECR and then it'll find us.
+
+02:25.440 --> 02:27.423
+Elastic Container Registry.
+
+02:28.800 --> 02:31.890
+And once we go there, so in our previous lecture only
+
+02:31.890 --> 02:36.240
+we have created this repository, AWS ECR kube engine.
+
+02:36.240 --> 02:38.430
+So now also create one more here
+
+02:38.430 --> 02:41.520
+which is EKS DevOps engine X.
+
+02:41.520 --> 02:43.317
+And I'm going to enable tag and table
+
+02:43.317 --> 02:46.200
+and then scan and push both the things.
+
+02:46.200 --> 02:51.200
+So this completes the creation of our ECR repository.
+
+02:51.570 --> 02:53.190
+So in our next lecture we'll focus
+
+02:53.190 --> 02:55.320
+on the code commit repository.
+
+02:55.320 --> 02:56.970
+So I'll see you in the next lecture.
+
+02:56.970 --> 02:58.593
+Until then, bye bye. Thank you.

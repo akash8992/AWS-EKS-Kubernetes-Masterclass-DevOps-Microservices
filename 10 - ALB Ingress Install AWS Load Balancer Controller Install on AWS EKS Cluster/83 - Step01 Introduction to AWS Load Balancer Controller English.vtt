@@ -1,0 +1,511 @@
+WEBVTT
+
+00:00.021 --> 00:01.440
+-: Welcome back.
+
+00:01.440 --> 00:02.880
+As part of this section
+
+00:02.880 --> 00:06.930
+we are going to install the AWS load balancer controller
+
+00:06.930 --> 00:10.023
+on AWS EKS cluster.
+
+00:11.114 --> 00:12.664
+And this is the core controller
+
+00:14.016 --> 00:15.720
+which helps us in creating the ingress services
+
+00:15.720 --> 00:17.730
+in Kubernetes cluster.
+
+00:17.730 --> 00:21.180
+So let's understand more about this in detail.
+
+00:21.180 --> 00:24.030
+So from Kubernetes ingress perspective,
+
+00:24.030 --> 00:29.030
+earlier AWS used to have AWS ALB ingress controller
+
+00:29.610 --> 00:32.135
+and that is renamed
+
+00:32.135 --> 00:36.180
+and redesigned now as AWS load balancer controller.
+
+00:36.180 --> 00:37.950
+And earlier it used to
+
+00:37.950 --> 00:42.600
+create only AWS application load balancer related resources
+
+00:42.600 --> 00:45.420
+on AWS from EKS cluster.
+
+00:45.420 --> 00:47.730
+So when you deploy ingress manifest
+
+00:47.730 --> 00:48.823
+then it used to create
+
+00:48.823 --> 00:50.733
+a application load balancer on AWS.
+
+00:51.960 --> 00:55.890
+But now as part of this AWS load balancer controller
+
+00:55.890 --> 00:59.130
+it can create AWS application load balances
+
+00:59.130 --> 01:01.260
+and network load balances.
+
+01:01.260 --> 01:04.260
+So for creating the application load balancers
+
+01:04.260 --> 01:07.050
+we are going to use the Kubernetes object
+
+01:07.050 --> 01:09.000
+named ingress resource.
+
+01:09.000 --> 01:11.730
+And for creating the network load balancer
+
+01:11.730 --> 01:15.300
+we are going to use the Kubernetes object of type service.
+
+01:15.300 --> 01:17.100
+And also we are going to ensure
+
+01:17.100 --> 01:19.147
+that it is annotated for NLB.
+
+01:20.190 --> 01:22.500
+So we are going to add an annotation
+
+01:22.500 --> 01:24.540
+stating the network load balancer
+
+01:24.540 --> 01:28.800
+so that it can create the network load balancer for us.
+
+01:28.800 --> 01:31.170
+And when coming to the earlier version
+
+01:31.170 --> 01:34.080
+which is AWS ALB ingress controller,
+
+01:34.080 --> 01:37.950
+so it doesn't support latest ingress API version
+
+01:37.950 --> 01:42.420
+which is networking.k8s.ivo/v1.
+
+01:42.420 --> 01:45.075
+So from Kubernetes version 1.22 onwards.
+
+01:45.075 --> 01:46.920
+So in addition to that,
+
+01:46.920 --> 01:48.870
+this ALB ingress controller
+
+01:48.870 --> 01:52.170
+will not have any developmental releases planned
+
+01:52.170 --> 01:55.290
+and soon it will also get deprecated.
+
+01:55.290 --> 01:57.480
+So with that said, we need to use
+
+01:57.480 --> 02:01.350
+the latest and greatest available from ingress perspective
+
+02:01.350 --> 02:06.350
+on AWS EKS cluster, which is AWS load balancer controller.
+
+02:06.690 --> 02:08.910
+And this supports latest and greatest
+
+02:08.910 --> 02:11.130
+from ingress perspective.
+
+02:11.130 --> 02:13.260
+So this is the ingress API
+
+02:13.260 --> 02:17.160
+which the latest load balancer controller supports.
+
+02:17.160 --> 02:19.173
+Now the next thing here is
+
+02:19.173 --> 02:21.660
+how this load balancer controller,
+
+02:21.660 --> 02:23.850
+what are the objects involved
+
+02:23.850 --> 02:25.890
+from Kubernetes respect to
+
+02:25.890 --> 02:28.050
+for this load balancer controller.
+
+02:28.050 --> 02:31.290
+So let's see that in a visual manner.
+
+02:31.290 --> 02:33.840
+So if you see here in the EKS cluster,
+
+02:33.840 --> 02:37.500
+we have something called kube system namespace.
+
+02:37.500 --> 02:40.170
+And you can see in AWS cloud,
+
+02:40.170 --> 02:43.740
+other AWS services will be created here
+
+02:43.740 --> 02:46.890
+and the core EKS cluster related resources.
+
+02:46.890 --> 02:47.790
+And inside that,
+
+02:47.790 --> 02:50.610
+whatever it is going to get created as part
+
+02:50.610 --> 02:52.500
+of this load balancer controller
+
+02:52.500 --> 02:54.750
+are which is involved with that,
+
+02:54.750 --> 02:56.250
+we are going to depict them
+
+02:56.250 --> 02:58.200
+inside this kube system namespace
+
+02:58.200 --> 03:01.650
+because they are going to get created in this namespace.
+
+03:01.650 --> 03:04.650
+So to start with, the very important point here
+
+03:04.650 --> 03:07.980
+is AWS load balancer controller related
+
+03:07.980 --> 03:10.470
+service account in Kubernetes,
+
+03:10.470 --> 03:12.840
+and we'll create this service account
+
+03:12.840 --> 03:15.240
+and also we'll create a IAM policy
+
+03:15.240 --> 03:16.800
+and then IAM role
+
+03:16.800 --> 03:20.280
+and this IAM role will be annotated
+
+03:20.280 --> 03:22.380
+inside this service account.
+
+03:22.380 --> 03:25.350
+So this IAM role ARN will be annotated
+
+03:25.350 --> 03:29.070
+inside this load balancer controller service account.
+
+03:29.070 --> 03:30.870
+And why we are doing that,
+
+03:30.870 --> 03:33.180
+what it is going to provide us in detail
+
+03:33.180 --> 03:35.160
+when we are implementing practically,
+
+03:35.160 --> 03:38.340
+we'll know more in detail how we are going to do that.
+
+03:38.340 --> 03:41.370
+So on a visual manner, so these are the objects involved.
+
+03:41.370 --> 03:44.820
+You'll have a IAM policy, you'll have a IAM role
+
+03:44.820 --> 03:47.970
+and that IAM role is annotated
+
+03:47.970 --> 03:50.160
+with the Kubernetes service account
+
+03:50.160 --> 03:52.470
+of type load balancer controller.
+
+03:52.470 --> 03:55.140
+So a load balancer controller service account
+
+03:55.140 --> 03:59.310
+will have a annotation off IAM role associated with it.
+
+03:59.310 --> 04:00.900
+And next thing here is,
+
+04:00.900 --> 04:03.660
+so whenever you deploy your load balancer controller,
+
+04:03.660 --> 04:05.340
+so it'll create a deployment
+
+04:05.340 --> 04:07.530
+which eventually creates the parts
+
+04:07.530 --> 04:10.170
+related to this load balancer controller.
+
+04:10.170 --> 04:11.110
+And in addition to that
+
+04:11.110 --> 04:13.677
+it'll also create a load balancer controller
+
+04:13.677 --> 04:16.170
+web hook cluster IP service
+
+04:16.170 --> 04:17.250
+and it'll also create
+
+04:17.250 --> 04:20.973
+a AWS load balancer TLS related secret.
+
+04:20.973 --> 04:24.510
+So these are the things which are involved
+
+04:24.510 --> 04:27.376
+from Kubernetes perspective in kube system namespace.
+
+04:27.376 --> 04:29.670
+So it will create a service account,
+
+04:29.670 --> 04:32.430
+it will create a load balancer controller deployment.
+
+04:32.430 --> 04:34.290
+It'll create a load balancer controller
+
+04:34.290 --> 04:36.030
+web hook cluster IP service
+
+04:36.030 --> 04:39.990
+and it'll also create a AWS load balancer TLS service.
+
+04:39.990 --> 04:42.360
+So now this service account,
+
+04:42.360 --> 04:44.160
+whatever we have created
+
+04:44.160 --> 04:46.470
+is associated with this deployment,
+
+04:46.470 --> 04:48.715
+which means it is also associated with the pods
+
+04:48.715 --> 04:52.750
+so that, so whenever this load balancer controller
+
+04:53.670 --> 04:57.510
+we get the ability means like this load balancer controller
+
+04:57.510 --> 05:01.590
+gets the ability to create the application load balancers
+
+05:01.590 --> 05:06.450
+of network load balancers from EKS cluster in AWS cloud.
+
+05:06.450 --> 05:07.710
+So let's see that.
+
+05:07.710 --> 05:08.970
+So if you see here
+
+05:08.970 --> 05:12.150
+in every EKS cluster or any Kubernetes cluster,
+
+05:12.150 --> 05:15.420
+we know that we'll have the Kubernetes APA server.
+
+05:15.420 --> 05:19.170
+So as a Kubernetes administrator,
+
+05:19.170 --> 05:22.260
+so what I am going to do is I'm going to
+
+05:22.260 --> 05:24.150
+using the kubectl CLI,
+
+05:24.150 --> 05:28.260
+I'm going to deploy the ingress k8s manifest.
+
+05:28.260 --> 05:30.570
+And this load balancer controller
+
+05:30.570 --> 05:32.610
+will watch for the ingress events
+
+05:32.610 --> 05:35.160
+on this Kubernetes APA server,
+
+05:35.160 --> 05:39.690
+and whenever it finds this ingress k8s manifest is deployed.
+
+05:39.690 --> 05:41.430
+So this load balancer controller
+
+05:41.430 --> 05:42.960
+will take that manifest
+
+05:42.960 --> 05:44.310
+and go ahead and then
+
+05:44.310 --> 05:47.490
+create the application load balancer for us.
+
+05:47.490 --> 05:50.910
+So from AWS services perspective
+
+05:50.910 --> 05:54.150
+you can see that as a application load balancer.
+
+05:54.150 --> 05:59.150
+And in Kubernetes you can see that as a ingress resource.
+
+05:59.190 --> 06:01.140
+So this is what is going to happen
+
+06:01.140 --> 06:04.373
+whenever we deploy a simple ingress service manifest.
+
+06:04.373 --> 06:08.413
+Another important thing which we need to know
+
+06:08.413 --> 06:12.150
+here is this AWS load balancer controller deployment.
+
+06:12.150 --> 06:13.920
+So which means inside this deployment
+
+06:13.920 --> 06:16.440
+we have the load balancer controller pods
+
+06:16.440 --> 06:18.600
+so those are nothing but workloads
+
+06:18.600 --> 06:22.140
+in our EKS cluster and those workloads
+
+06:22.140 --> 06:25.290
+are able to create a AWS service
+
+06:25.290 --> 06:28.590
+named AWS application load balancer
+
+06:28.590 --> 06:31.560
+from EKS cluster itself, right?
+
+06:31.560 --> 06:33.360
+So how it happened is
+
+06:33.360 --> 06:34.830
+based on the permissions
+
+06:34.830 --> 06:36.735
+whatever we have given
+
+06:36.735 --> 06:38.070
+for this load balancer controller,
+
+06:38.070 --> 06:40.620
+so we have created a IAM policy
+
+06:40.620 --> 06:42.120
+which has the permissions to
+
+06:42.120 --> 06:45.120
+create application load balancer related resources
+
+06:45.120 --> 06:46.680
+or update the resources
+
+06:46.680 --> 06:47.910
+or delete the resources
+
+06:47.910 --> 06:50.700
+related to application load balancer.
+
+06:50.700 --> 06:54.900
+And that IAM policy is associated with this IAM role.
+
+06:54.900 --> 06:57.933
+And this IAM role is annotated.
+
+06:59.114 --> 07:00.450
+This IAM role ARN is annotated
+
+07:00.450 --> 07:04.500
+with the AWS load balancer controller service account.
+
+07:04.500 --> 07:05.790
+And this service account
+
+07:05.790 --> 07:08.790
+is used by this load balancer controller
+
+07:08.790 --> 07:11.250
+deployment related pods.
+
+07:11.250 --> 07:14.910
+So due to that from EKS cluster itself
+
+07:14.910 --> 07:16.020
+we are able to create
+
+07:16.020 --> 07:18.870
+the AWS application load balancer
+
+07:18.870 --> 07:23.490
+whenever we have deployed the ingress k8s manifest.
+
+07:23.490 --> 07:25.740
+So this completes the introductory part
+
+07:25.740 --> 07:28.290
+of AWS load balancer controller
+
+07:28.290 --> 07:30.450
+and in our next lecture we are going to
+
+07:30.450 --> 07:31.860
+practically install it
+
+07:31.860 --> 07:35.100
+and then understand it in a better way.
+
+07:35.100 --> 07:36.780
+So I'll see you in the next lecture.
+
+07:36.780 --> 07:38.100
+Until then, bye bye.
+
+07:38.100 --> 07:38.933
+Thank you.

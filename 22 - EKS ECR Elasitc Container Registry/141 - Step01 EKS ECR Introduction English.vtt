@@ -1,0 +1,457 @@
+WEBVTT
+
+00:00.120 --> 00:01.080
+-: Welcome back.
+
+00:01.080 --> 00:03.960
+In this section, we are going to understand
+
+00:03.960 --> 00:08.340
+about Elastic Container Registry in combination with EKS .
+
+00:08.340 --> 00:10.740
+So far, whatever the Docker images
+
+00:10.740 --> 00:13.350
+we are pulling and then testing in this course
+
+00:13.350 --> 00:16.140
+are from our Docker Hub repository.
+
+00:16.140 --> 00:20.670
+So now, how we are going to use Elastic Container Registry
+
+00:20.670 --> 00:24.780
+which is AWS' registry for our Docker images?
+
+00:24.780 --> 00:27.900
+So we are going to build a Docker image locally
+
+00:27.900 --> 00:29.940
+and then push it to container registry
+
+00:29.940 --> 00:34.530
+and pull that from this ECR to EKS deployments,
+
+00:34.530 --> 00:36.510
+whatever we are going to deploy.
+
+00:36.510 --> 00:39.000
+So the entire use case we are going to test
+
+00:39.000 --> 00:41.610
+in this respective section.
+
+00:41.610 --> 00:42.450
+So moving on.
+
+00:42.450 --> 00:44.820
+So let's get little bit background about
+
+00:44.820 --> 00:47.940
+what is this Elastic Container Registry.
+
+00:47.940 --> 00:52.470
+So ECR is a fully managed Docker container registry
+
+00:52.470 --> 00:55.320
+that makes it easy for developers to store,
+
+00:55.320 --> 00:59.190
+manage and deploy Docker container images.
+
+00:59.190 --> 01:02.610
+ECR is integrated with elastic Kubernetes service,
+
+01:02.610 --> 01:06.690
+simplifying our development to production workflow.
+
+01:06.690 --> 01:08.790
+So, ECR eliminates the need
+
+01:08.790 --> 01:11.640
+to operate our own container repositories
+
+01:11.640 --> 01:16.050
+or worry about scaling the underlying infrastructure.
+
+01:16.050 --> 01:20.310
+So, ECR hosts our images in a highly available
+
+01:20.310 --> 01:22.170
+and then scalable architecture
+
+01:22.170 --> 01:24.900
+allowing us to reliably deploy containers
+
+01:24.900 --> 01:27.000
+for our applications.
+
+01:27.000 --> 01:30.810
+Integration with AWS identity and access management
+
+01:30.810 --> 01:34.470
+provides resource level control of each repository
+
+01:34.470 --> 01:37.710
+for us accordingly how we need it.
+
+01:37.710 --> 01:41.760
+With Amazon ECR, there are no upfront fees or commitments.
+
+01:41.760 --> 01:44.640
+We pay only for the amount of data
+
+01:44.640 --> 01:46.800
+we store in our repositories
+
+01:46.800 --> 01:49.530
+and data transfer to the internet.
+
+01:49.530 --> 01:53.520
+So moving on, Elastic Container Registry benefits, right?
+
+01:53.520 --> 01:54.660
+So, on a very high level,
+
+01:54.660 --> 01:59.610
+you can say it as fully managed, secure, highly available
+
+01:59.610 --> 02:02.490
+and then simplified workflow.
+
+02:02.490 --> 02:05.640
+So, how easier is going to work?
+
+02:05.640 --> 02:08.490
+So let's say, I am a Docker developer
+
+02:08.490 --> 02:11.340
+or whatever maybe the developer I am trying to,
+
+02:11.340 --> 02:13.200
+I created a Docker image.
+
+02:13.200 --> 02:15.270
+And then, I am going to push you
+
+02:15.270 --> 02:19.830
+to the Docker image related Elastic Container Registry.
+
+02:19.830 --> 02:23.430
+So usually, in regular days,
+
+02:23.430 --> 02:25.740
+we usually push it to our Docker Hub repository,
+
+02:25.740 --> 02:26.850
+which is open.
+
+02:26.850 --> 02:28.710
+But if you are dealing with AWS
+
+02:28.710 --> 02:30.240
+and then if you want our things
+
+02:30.240 --> 02:33.000
+to be from AWS perspective only,
+
+02:33.000 --> 02:36.570
+and then we don't want our things to go outside the AWS,
+
+02:36.570 --> 02:39.150
+so then, we can push our Docker images
+
+02:39.150 --> 02:43.230
+to Elastic Container Registry in AWS.
+
+02:43.230 --> 02:47.460
+Then this ECR images, whatever we push here,
+
+02:47.460 --> 02:49.860
+can be used in different places.
+
+02:49.860 --> 02:53.400
+One is Elastic Container Service, which is ECS
+
+02:53.400 --> 02:55.440
+and Elastic Kubernetes Service,
+
+02:55.440 --> 02:57.180
+which is this course about.
+
+02:57.180 --> 03:01.830
+And also, On-premise environments if you want to.
+
+03:01.830 --> 03:04.110
+So how it is going to happen, right?
+
+03:04.110 --> 03:06.360
+So, these respective services...
+
+03:06.360 --> 03:08.190
+Whatever the deployments you perform
+
+03:08.190 --> 03:10.260
+in these respective services,
+
+03:10.260 --> 03:12.330
+so those are going to pull the images
+
+03:12.330 --> 03:14.220
+from this Elastic Container Registry
+
+03:14.220 --> 03:18.210
+using a repository URL, whatever it provides.
+
+03:18.210 --> 03:21.120
+So, that's about how the easier works.
+
+03:21.120 --> 03:23.250
+But how we are going to do it
+
+03:23.250 --> 03:26.070
+on Elastic Kubernetes Service in a visual manner?
+
+03:26.070 --> 03:26.903
+We are going to see.
+
+03:26.903 --> 03:30.330
+Before that, we'll go back to our GitHub repository.
+
+03:30.330 --> 03:34.830
+And now if you see here, in AWS EKS Kubernetes master class,
+
+03:34.830 --> 03:37.170
+so we are in our 10th section,
+
+03:37.170 --> 03:40.740
+which is ECR, Elastic Container Registry Section
+
+03:40.740 --> 03:42.180
+and EKS, right?
+
+03:42.180 --> 03:44.580
+So in step one, we are going to understand
+
+03:44.580 --> 03:46.980
+about what are we going to learn.
+
+03:46.980 --> 03:49.500
+So, we are going to build a Docker image
+
+03:49.500 --> 03:54.500
+locally on our desktop and push it to ECR repository.
+
+03:54.810 --> 03:57.510
+So update the ECR image repository,
+
+03:57.510 --> 04:00.780
+URL in our Kubernetes deployment manifest.
+
+04:00.780 --> 04:04.170
+And then, we are going to deploy to EKS, okay?
+
+04:04.170 --> 04:06.390
+So, when we deploy it, right?
+
+04:06.390 --> 04:08.580
+So it is going to create a Kubernetes deployment,
+
+04:08.580 --> 04:10.440
+node port service, ingress service,
+
+04:10.440 --> 04:13.950
+and then external DNS service will be used.
+
+04:13.950 --> 04:15.810
+So full on deployment we are going to do
+
+04:15.810 --> 04:18.750
+because the current node, whatever current node group,
+
+04:18.750 --> 04:21.120
+whatever we are going to use is a private node group,
+
+04:21.120 --> 04:23.550
+which means you cannot just deploy a node port service
+
+04:23.550 --> 04:27.630
+with the node port service and then access it via internet.
+
+04:27.630 --> 04:28.560
+So that's the reason.
+
+04:28.560 --> 04:30.840
+We'll also use the ingress service to be deployed
+
+04:30.840 --> 04:32.070
+and then we'll test it.
+
+04:32.070 --> 04:34.500
+So, we are also going to use a dedicated host name,
+
+04:34.500 --> 04:37.440
+ecrdemo.couponcloud.com.
+
+04:37.440 --> 04:39.600
+And then, we'll access and then test it.
+
+04:39.600 --> 04:42.240
+So let's go back and then see whatever we are going to do
+
+04:42.240 --> 04:45.390
+all these things in a visual manner.
+
+04:45.390 --> 04:48.360
+So, let's go here.
+
+04:48.360 --> 04:51.060
+And in AWS cloud,
+
+04:51.060 --> 04:53.790
+as a developer, I create a Docker image
+
+04:53.790 --> 04:56.460
+and then push it to Elastic Container Registry.
+
+04:56.460 --> 04:59.220
+And from EKS cluster perspective,
+
+04:59.220 --> 05:01.050
+whenever we create a EKS cluster,
+
+05:01.050 --> 05:03.450
+it creates its own VPC's public subnets
+
+05:03.450 --> 05:04.830
+and then, NAT gateways in,
+
+05:04.830 --> 05:07.650
+respective availability zones, even the private subnets.
+
+05:07.650 --> 05:10.380
+So the manager node group, which we are going to use
+
+05:10.380 --> 05:11.940
+is a private management node group.
+
+05:11.940 --> 05:15.630
+Means like we are going to create in a private subnets.
+
+05:15.630 --> 05:17.550
+So as soon as we create that node group,
+
+05:17.550 --> 05:20.400
+it enables the communication with the EKS cluster
+
+05:20.400 --> 05:24.540
+using the NAT gateways deployed in public subnets.
+
+05:24.540 --> 05:27.180
+So now, these EC2 worker nodes
+
+05:27.180 --> 05:29.550
+are the nodes where you are going to deploy
+
+05:29.550 --> 05:32.220
+your workload on Kubernetes, right?
+
+05:32.220 --> 05:35.310
+So these goes outbound connection to EKS cluster
+
+05:35.310 --> 05:36.143
+by a NAT gateway.
+
+05:36.143 --> 05:40.290
+In the same way, if it need to pull the Docker image.
+
+05:40.290 --> 05:41.970
+So, you have done a deployment now.
+
+05:41.970 --> 05:44.340
+and then to pull that Docker image, right?
+
+05:44.340 --> 05:47.790
+For that deployment, it need to go via NAT gateways
+
+05:47.790 --> 05:51.300
+and then go and then pull that docker image from ECR.
+
+05:51.300 --> 05:54.360
+So, and then create the respective ports for us.
+
+05:54.360 --> 05:55.800
+In addition to that,
+
+05:55.800 --> 05:58.710
+equivalent ECR demo related node port service
+
+05:58.710 --> 06:02.070
+and LB ingress service will get created.
+
+06:02.070 --> 06:03.810
+So as part of LB ingress service,
+
+06:03.810 --> 06:05.700
+it also need to reference the certificate
+
+06:05.700 --> 06:07.350
+from certificate manager
+
+06:07.350 --> 06:11.610
+and also it need to register the ecrdemo.q1cloud.com
+
+06:11.610 --> 06:15.330
+inside the route 53 service, right?
+
+06:15.330 --> 06:16.200
+So, that's about it.
+
+06:16.200 --> 06:20.490
+Finally, as users, whenever you are planning to access,
+
+06:20.490 --> 06:24.780
+you provide your URL, ecr.demo.kubeoncloud.com
+
+06:24.780 --> 06:27.360
+and it comes to via route 53.
+
+06:27.360 --> 06:29.040
+Means, like it'll resolve to route 53
+
+06:29.040 --> 06:32.340
+and then come back to our LB ingress service.
+
+06:32.340 --> 06:33.173
+And then from there,
+
+06:33.173 --> 06:35.910
+we already provided the slash star as the thing
+
+06:35.910 --> 06:38.070
+so path for our routing.
+
+06:38.070 --> 06:40.770
+So automatically, it will come to this node port service
+
+06:40.770 --> 06:43.980
+and go to this respective ECR demo port,
+
+06:43.980 --> 06:45.750
+and then saru the static page,
+
+06:45.750 --> 06:49.020
+whatever we have deployed.
+
+06:49.020 --> 06:53.280
+So that's about the overall introductory section.
+
+06:53.280 --> 06:55.410
+So, I'll see you in the next lecture.
+
+06:55.410 --> 06:56.730
+Until then, bye bye.
+
+06:56.730 --> 06:57.563
+Thank you.

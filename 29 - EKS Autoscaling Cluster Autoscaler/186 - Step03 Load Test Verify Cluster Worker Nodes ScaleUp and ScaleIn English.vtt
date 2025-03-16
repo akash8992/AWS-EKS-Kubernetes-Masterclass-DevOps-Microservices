@@ -1,0 +1,439 @@
+WEBVTT
+
+00:00.150 --> 00:01.170
+-: Welcome back.
+
+00:01.170 --> 00:04.650
+In this lecture, we are going to deploy a simple application
+
+00:04.650 --> 00:06.210
+and then verify scaling up
+
+00:06.210 --> 00:08.250
+and then scaling down of our cluster
+
+00:08.250 --> 00:10.770
+and then clean up the stuff, okay?
+
+00:10.770 --> 00:13.740
+So, let's go ahead and then verify our stuff here, okay.
+
+00:13.740 --> 00:17.700
+So, this is a simple nginx application kube nginx, okay.
+
+00:17.700 --> 00:19.950
+With one replica we are deploying
+
+00:19.950 --> 00:24.360
+and we are ensuring that it, it requests further CPU 200m
+
+00:24.360 --> 00:28.230
+and then memory 200Mi in the initial stage.
+
+00:28.230 --> 00:32.100
+So whenever we increase this replicas to 30 or 40,
+
+00:32.100 --> 00:34.380
+so then we will run out of system resources
+
+00:34.380 --> 00:36.810
+in our respective cluster node group,
+
+00:36.810 --> 00:39.390
+and then it'll try to add two more nodes,
+
+00:39.390 --> 00:41.790
+whatever it is required, okay.
+
+00:41.790 --> 00:43.410
+So let me go here
+
+00:43.410 --> 00:48.000
+and then paste it and copy and then paste it, okay.
+
+00:48.000 --> 00:53.000
+so clear, and I'll say kubectl apply -f,
+
+00:53.070 --> 00:56.760
+I am in 17 EKS auto scaling cluster autoscaler.
+
+00:56.760 --> 01:01.230
+And then I am deploying my sample application, okay.
+
+01:01.230 --> 01:03.120
+And now my application is deployed.
+
+01:03.120 --> 01:06.120
+My next step is to cluster scale up
+
+01:06.120 --> 01:08.550
+scale our application to 30 pods.
+
+01:08.550 --> 01:10.740
+So in two to three minutes, one after the other,
+
+01:10.740 --> 01:12.120
+new nodes will be added
+
+01:12.120 --> 01:14.100
+and pods will be scheduled on them.
+
+01:14.100 --> 01:16.200
+Our max number of nodes will be four
+
+01:16.200 --> 01:19.110
+which we provided during node group creation.
+
+01:19.110 --> 01:21.870
+So if you see here during the note group creation,
+
+01:21.870 --> 01:24.480
+so we said that minimum number of nodes is two,
+
+01:24.480 --> 01:27.360
+and then maximum number of nodes is four,
+
+01:27.360 --> 01:28.890
+that's what we have given.
+
+01:28.890 --> 01:33.510
+So if I go here and for our private thing, right?
+
+01:33.510 --> 01:36.390
+So which will be in classic and then network load balances.
+
+01:36.390 --> 01:39.720
+Okay, so this is the value I am talking about.
+
+01:39.720 --> 01:41.100
+So minimum nodes are two,
+
+01:41.100 --> 01:43.834
+and then maximum nodes it can scale up to four we said.
+
+01:43.834 --> 01:46.560
+Okay, so now whenever we increase the load
+
+01:46.560 --> 01:48.410
+and then in the two resources
+
+01:48.410 --> 01:50.790
+in the two servers, if the resources are not
+
+01:50.790 --> 01:53.910
+sufficient then it is going to launch two more nodes
+
+01:53.910 --> 01:56.040
+and then schedule those stuff.
+
+01:56.040 --> 01:58.500
+Okay, So let me close this,
+
+01:58.500 --> 02:03.300
+and then close this and come back and come down.
+
+02:03.300 --> 02:05.490
+And now first thing is,
+
+02:05.490 --> 02:09.060
+in one terminal we are going to watch the logs
+
+02:09.060 --> 02:10.890
+whatever is happening, okay?
+
+02:10.890 --> 02:13.110
+So in this terminal, okay, and
+
+02:13.110 --> 02:16.200
+in another terminal we are going to verify how
+
+02:16.200 --> 02:19.200
+many pods we have first thing, right?
+
+02:19.200 --> 02:21.780
+So we have one pod for CA demo,
+
+02:21.780 --> 02:23.837
+CA means cluster autoscaler.
+
+02:23.837 --> 02:25.560
+And we are also going to see,
+
+02:25.560 --> 02:28.890
+get nodes to see how many nodes we have currently.
+
+02:28.890 --> 02:30.870
+So we have two nodes running which are
+
+02:30.870 --> 02:33.420
+in private subnet, no external IP.
+
+02:33.420 --> 02:35.430
+And then now we are going to scale
+
+02:35.430 --> 02:39.900
+with the replica's 30 further deployment CA demo deployment.
+
+02:39.900 --> 02:41.880
+Okay, so for this we are going
+
+02:41.880 --> 02:45.030
+to scale up to 30 replicas, okay.
+
+02:45.030 --> 02:47.130
+So now let's see what happens, okay.
+
+02:47.130 --> 02:48.960
+So if you see the pods,
+
+02:48.960 --> 02:52.410
+so few pods will be in the pending state,
+
+02:52.410 --> 02:54.270
+because it really don't have
+
+02:54.270 --> 02:56.940
+the resources to schedule, okay?
+
+02:56.940 --> 03:00.150
+So now the containers whatever it is getting created,
+
+03:00.150 --> 03:01.410
+it'll create but rest of
+
+03:01.410 --> 03:03.840
+the things will be in the pending mode.
+
+03:03.840 --> 03:06.900
+So because it doesn't have the resources to schedule.
+
+03:06.900 --> 03:08.670
+So now if you see here,
+
+03:08.670 --> 03:11.730
+here the logs will be running quickly because,
+
+03:11.730 --> 03:16.730
+so it doesn't have the resources and then it need to scale,
+
+03:16.980 --> 03:19.770
+scale up to provide more nodes, okay?
+
+03:19.770 --> 03:22.530
+So let's wait for it to happen, Okay.
+
+03:22.530 --> 03:25.200
+So now let's come back here
+
+03:25.200 --> 03:29.580
+and we can even watch our nodes here, okay.
+
+03:29.580 --> 03:34.470
+So nodes and then -w right?
+
+03:34.470 --> 03:36.270
+So and then we can come back
+
+03:36.270 --> 03:38.220
+and then keep watching these logs also.
+
+03:38.220 --> 03:42.993
+Okay, so let it schedule the new nodes and then we will see.
+
+03:44.130 --> 03:48.150
+So out of 30 pods it is saying that six other pods marked
+
+03:48.150 --> 03:50.760
+as unschedulable can be scheduled.
+
+03:50.760 --> 03:53.220
+So it has issues with scheduling few
+
+03:53.220 --> 03:56.373
+of the pods and let's see what happens, okay.
+
+03:56.373 --> 04:00.570
+So kubectl get nodes if how many notes we have got, okay.
+
+04:00.570 --> 04:03.600
+See two more nodes already created
+
+04:03.600 --> 04:06.750
+and then they're getting ready and as soon as they're ready.
+
+04:06.750 --> 04:10.050
+So now our pods also will be in the running stage.
+
+04:10.050 --> 04:12.600
+So now all the nodes are available
+
+04:12.600 --> 04:14.760
+the two more nodes are in action
+
+04:14.760 --> 04:18.060
+and then you can see all the pods are in running state.
+
+04:18.060 --> 04:19.410
+So that's the good thing, right?
+
+04:19.410 --> 04:22.140
+So if you see here kubectl get pods.
+
+04:22.140 --> 04:26.190
+So all 30 are running and if you see kubectl get nodes
+
+04:26.190 --> 04:29.610
+we have four maximum, it can scale up to only four nodes
+
+04:29.610 --> 04:32.970
+and on four nodes all these 30 pods are sufficient, okay?
+
+04:32.970 --> 04:35.190
+But if you increase it to 50 pods
+
+04:35.190 --> 04:37.170
+then remaining will be in pending state,
+
+04:37.170 --> 04:41.460
+and it already reaches the max of four nodes.
+
+04:41.460 --> 04:43.890
+So it is going to put all those pods
+
+04:43.890 --> 04:45.600
+in the pending state only.
+
+04:45.600 --> 04:47.970
+So the Kubernetes scheduler will put it
+
+04:47.970 --> 04:49.740
+in pending state only.
+
+04:49.740 --> 04:50.850
+So that's about it.
+
+04:50.850 --> 04:53.280
+So now if you want to scale down, right,
+
+04:53.280 --> 04:56.640
+so what you can do is like you can again bring back
+
+04:56.640 --> 04:59.610
+to one node and one pod
+
+04:59.610 --> 05:02.250
+and then verify the nodes, okay?
+
+05:02.250 --> 05:06.630
+So scale replicas to one and then wait
+
+05:06.630 --> 05:08.613
+for the pods to watch, okay?
+
+05:09.540 --> 05:12.060
+And all the pods will go over terminating and then
+
+05:12.060 --> 05:14.733
+we'll have only one pod at the end, okay.
+
+05:15.630 --> 05:18.630
+So only one pod we have now and slowly
+
+05:18.630 --> 05:20.190
+this will also come down.
+
+05:20.190 --> 05:23.460
+So unneeded nodes will be removed immediately,
+
+05:23.460 --> 05:24.630
+within 5 to 10 minutes.
+
+05:24.630 --> 05:28.230
+It might take close to 5 to 10 minutes to cool down,
+
+05:28.230 --> 05:32.040
+and then bring back to from four nodes to two nodes, okay.
+
+05:32.040 --> 05:34.470
+So let's wait for that to happen.
+
+05:34.470 --> 05:35.610
+So we can see it here.
+
+05:35.610 --> 05:38.070
+Few of the nodes are unneeded and then it is saying
+
+05:38.070 --> 05:39.660
+that we can remove them, okay?
+
+05:39.660 --> 05:42.240
+So it will, it will slowly remove it and then
+
+05:42.240 --> 05:46.563
+finally we'll end up with only two nodes.
+
+05:48.030 --> 05:50.310
+So let's wait for it to happen.
+
+05:50.310 --> 05:51.420
+So we can see it now
+
+05:51.420 --> 05:55.620
+after 10 minutes for the two nodes, scheduling is disabled.
+
+05:55.620 --> 05:57.690
+So once the scheduling is disabled,
+
+05:57.690 --> 05:59.040
+the next step is to go,
+
+05:59.040 --> 05:59.873
+It will go ahead
+
+05:59.873 --> 06:03.480
+and then automatically terminate those nodes, okay.
+
+06:03.480 --> 06:07.543
+So let's wait for it to also get it, terminate it.
+
+06:10.100 --> 06:15.100
+We can see now our number of nodes became two from four.
+
+06:15.540 --> 06:16.740
+So that's about it.
+
+06:16.740 --> 06:19.410
+So let's go back and then clean up our application
+
+06:19.410 --> 06:24.410
+whatever we have created and we will clean that up.
+
+06:26.100 --> 06:29.790
+We'll go to 17 EKS clear
+
+06:29.790 --> 06:33.720
+and the clean up the application, whatever we have created.
+
+06:33.720 --> 06:36.060
+And that's all, okay.
+
+06:36.060 --> 06:38.580
+So we have completed the end to end section related
+
+06:38.580 --> 06:40.800
+to cluster autoscaler.
+
+06:40.800 --> 06:42.750
+In our next section we are going
+
+06:42.750 --> 06:44.910
+to discuss about another topic.
+
+06:44.910 --> 06:46.560
+So I'll see you in the next section.
+
+06:46.560 --> 06:47.760
+Until then, bye-bye.
+
+06:47.760 --> 06:48.593
+Thank you.

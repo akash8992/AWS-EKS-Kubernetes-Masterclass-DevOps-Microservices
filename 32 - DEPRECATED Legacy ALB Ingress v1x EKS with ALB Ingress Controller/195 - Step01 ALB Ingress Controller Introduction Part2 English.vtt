@@ -1,0 +1,376 @@
+WEBVTT
+
+00:00.180 --> 00:01.380
+-: Welcome back.
+
+00:01.380 --> 00:03.510
+In this lecture we are going to understand
+
+00:03.510 --> 00:05.250
+about what we are going to build
+
+00:05.250 --> 00:09.180
+as part of entire ALB section. Okay?
+
+00:09.180 --> 00:11.370
+So we are going to do lots of stuff here
+
+00:11.370 --> 00:12.780
+in step-by-step manner.
+
+00:12.780 --> 00:16.050
+In six major sections, we are going to implement
+
+00:16.050 --> 00:18.060
+different, different stuff here.
+
+00:18.060 --> 00:18.960
+So let's go ahead
+
+00:18.960 --> 00:23.880
+and then see that in a architectural representation, right?
+
+00:23.880 --> 00:27.840
+So whenever we create a, in AWS cloud
+
+00:27.840 --> 00:31.380
+whenever we create a EKS cluster control plane,
+
+00:31.380 --> 00:36.150
+so what happens is, it automatically creates the VPC
+
+00:36.150 --> 00:38.670
+and it's equivalent public and then private subnets
+
+00:38.670 --> 00:43.020
+in respective availability zones with the NAT gateways
+
+00:43.020 --> 00:46.260
+for outbound communication provided if your workloads
+
+00:46.260 --> 00:50.340
+and the node groups you are creating in the private subnet.
+
+00:50.340 --> 00:51.570
+Okay?
+
+00:51.570 --> 00:55.050
+So now we, once we create the cluster control plane,
+
+00:55.050 --> 00:58.890
+we'll go ahead and then create the EKS private node group.
+
+00:58.890 --> 01:01.590
+Okay? So whenever we create that private node group,
+
+01:01.590 --> 01:05.790
+it creates the EC2 worker nodes, one and then two.
+
+01:05.790 --> 01:09.060
+And then these worker nodes will inside have
+
+01:09.060 --> 01:12.360
+the automatically installed Kubernetes components related
+
+01:12.360 --> 01:16.020
+to kubelet and then stuff, so which will communicate
+
+01:16.020 --> 01:20.340
+with the EKS cluster control plane using NAT gateway.
+
+01:20.340 --> 01:22.560
+So still here, we are good, right?
+
+01:22.560 --> 01:25.410
+So now we'll move on to the workloads. Okay?
+
+01:25.410 --> 01:28.740
+So now whenever we install the applications
+
+01:28.740 --> 01:31.680
+or when we deploy the applications, so what happens?
+
+01:31.680 --> 01:34.500
+So we are going to deploy three types of applications.
+
+01:34.500 --> 01:36.810
+One is simple app one Nginx
+
+01:36.810 --> 01:38.520
+and then app two Nginx
+
+01:38.520 --> 01:41.910
+and one user management microservice. Okay?
+
+01:41.910 --> 01:44.190
+So now we are going to do three deployments
+
+01:44.190 --> 01:46.260
+with three deployment manifests
+
+01:46.260 --> 01:49.710
+and we are going to deploy three nodeport services
+
+01:49.710 --> 01:50.610
+for each of them.
+
+01:50.610 --> 01:53.400
+One, one nodeport service related manifest.
+
+01:53.400 --> 01:56.550
+So, and for user management nodeport service,
+
+01:56.550 --> 01:59.580
+you also have something called external name service
+
+01:59.580 --> 02:02.460
+to connect to the RDS databases.
+
+02:02.460 --> 02:04.800
+So now once your worker node related
+
+02:04.800 --> 02:07.350
+everything is completed, workloads are completed,
+
+02:07.350 --> 02:11.280
+so you are going to also provision your ingress manifest
+
+02:11.280 --> 02:14.340
+okay, so which is from Kubernetes itself, you are going to
+
+02:14.340 --> 02:18.660
+write that ingress manifest and then kubectl apply
+
+02:18.660 --> 02:21.600
+and then provision that ingress manifest
+
+02:21.600 --> 02:23.430
+and what are the features available
+
+02:23.430 --> 02:24.960
+in this ingress manifest?
+
+02:24.960 --> 02:29.160
+It'll create a application load balancer and then,
+
+02:29.160 --> 02:32.670
+we will also enable SSL for our application.
+
+02:32.670 --> 02:35.310
+First we'll create a SSL certificate
+
+02:35.310 --> 02:38.370
+in our certificate manager and then automatically
+
+02:38.370 --> 02:40.620
+we will provide this certificate ARN
+
+02:40.620 --> 02:44.910
+in our ingress manifest so that SSL is automatically
+
+02:44.910 --> 02:47.790
+applied for the application load balancer,
+
+02:47.790 --> 02:49.950
+whatever we have created.
+
+02:49.950 --> 02:53.910
+And next thing is, so we want all our HTTP requests to
+
+02:53.910 --> 02:57.300
+be automatically routed to HTTPS URL.
+
+02:57.300 --> 03:01.800
+So we will implement those related changes, SSL redirect,
+
+03:01.800 --> 03:05.910
+and also we will enable external DNS service
+
+03:05.910 --> 03:08.400
+which is nothing but for the applications
+
+03:08.400 --> 03:10.860
+whatever we are deploying, app one, app two
+
+03:10.860 --> 03:13.560
+and then user management nodeport service.
+
+03:13.560 --> 03:15.240
+I want them to be registered
+
+03:15.240 --> 03:19.110
+with the DNS name as apps.kubeoncloud.com.
+
+03:19.110 --> 03:22.680
+So automatically whenever I provision the ingress manifest,
+
+03:22.680 --> 03:25.320
+it also creates a application load balancer
+
+03:25.320 --> 03:29.370
+and also DNS registers that respective DNS name
+
+03:29.370 --> 03:34.370
+in the route 53 automatically using the external DNS pod
+
+03:34.740 --> 03:38.310
+running on our respective worker nodes. Okay?
+
+03:38.310 --> 03:40.320
+So external DNS is something like
+
+03:40.320 --> 03:42.240
+how we have ingress controller pod,
+
+03:42.240 --> 03:45.270
+we also going to have external DNS pod.
+
+03:45.270 --> 03:49.830
+So now to route to these respective work deployments,
+
+03:49.830 --> 03:51.720
+it's like these respective applications,
+
+03:51.720 --> 03:53.523
+app one, app two and then UMS.
+
+03:54.570 --> 03:58.170
+So we are going to enable the context part based routing
+
+03:58.170 --> 04:00.120
+inside our ingress manifest,
+
+04:00.120 --> 04:02.730
+which is slash app one should go to app one,
+
+04:02.730 --> 04:04.860
+slash app two should go to app two,
+
+04:04.860 --> 04:08.010
+and slash star anything other than app one and app two
+
+04:08.010 --> 04:11.223
+should go to user management microservice.
+
+04:12.120 --> 04:16.410
+So we are going to implement this in our ingress manifest
+
+04:16.410 --> 04:21.060
+and whenever users, users access HTTP URL,
+
+04:21.060 --> 04:23.880
+it'll automatically redirect to HTTPS
+
+04:23.880 --> 04:27.180
+because we enabled this SSL redirect option
+
+04:27.180 --> 04:29.070
+in our application load balancer
+
+04:29.070 --> 04:31.410
+which is our ingress service.
+
+04:31.410 --> 04:32.910
+So now via,
+
+04:32.910 --> 04:35.790
+it'll resolve DNS, it'll resolve to route 53
+
+04:35.790 --> 04:38.760
+and then it'll come to application load balancer.
+
+04:38.760 --> 04:40.740
+And if we access slash app one,
+
+04:40.740 --> 04:42.750
+it'll go to app one application
+
+04:42.750 --> 04:46.080
+and Saruda app one index.HTML page.
+
+04:46.080 --> 04:49.530
+In the same way whenever we access app two,
+
+04:49.530 --> 04:52.200
+it comes via app two context
+
+04:52.200 --> 04:55.140
+you will verify here and then send it to nodeport service,
+
+04:55.140 --> 04:56.250
+which is app two.
+
+04:56.250 --> 04:59.760
+And from there, it'll end Saruda app two page
+
+04:59.760 --> 05:01.920
+from its respective pod.
+
+05:01.920 --> 05:03.240
+And in the same way,
+
+05:03.240 --> 05:05.520
+if you search for anything with slash star,
+
+05:05.520 --> 05:06.660
+nothing but we access
+
+05:06.660 --> 05:09.210
+user management slash health status page,
+
+05:09.210 --> 05:11.460
+so it'll come here and then access the stuff.
+
+05:11.460 --> 05:14.280
+And if you want to list users or some database information
+
+05:14.280 --> 05:16.560
+like create user or something, you are calling it.
+
+05:16.560 --> 05:20.460
+So it'll come to MySQL external name service
+
+05:20.460 --> 05:22.800
+and then it'll verify the details
+
+05:22.800 --> 05:26.310
+from RDS database and then send it back to the user.
+
+05:26.310 --> 05:29.160
+So this is what is the entire architecture
+
+05:29.160 --> 05:32.620
+we are going to build as part of this entire ALB section.
+
+05:34.260 --> 05:36.600
+Okay? So we have everything documented
+
+05:36.600 --> 05:39.690
+in a step-by-step manner, how to install your ingress pod
+
+05:39.690 --> 05:42.540
+and then what you need to do after ingress pod.
+
+05:42.540 --> 05:44.610
+And then ingress manifest also.
+
+05:44.610 --> 05:47.310
+You'll see all the things are documented
+
+05:47.310 --> 05:49.350
+in it very step-by-step manner
+
+05:49.350 --> 05:52.650
+and everything is implemented in a step by step manner.
+
+05:52.650 --> 05:56.160
+Okay? So let's rock this section now.
+
+05:56.160 --> 05:58.200
+So I'll see you in the next lecture.
+
+05:58.200 --> 05:59.760
+Until then, bye bye.
+
+05:59.760 --> 06:00.593
+Thank you.

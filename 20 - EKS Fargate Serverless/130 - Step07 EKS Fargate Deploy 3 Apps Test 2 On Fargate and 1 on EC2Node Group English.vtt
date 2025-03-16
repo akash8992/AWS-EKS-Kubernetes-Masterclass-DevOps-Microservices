@@ -1,0 +1,883 @@
+WEBVTT
+
+00:00.150 --> 00:01.110
+-: Welcome back.
+
+00:01.110 --> 00:04.350
+In this lecture we are going to deploy all the three apps
+
+00:04.350 --> 00:08.280
+whatever is present here, 0 1, 0 2, and then 0 3.
+
+00:08.280 --> 00:10.920
+At that time using cube CTL, apply hyphen R
+
+00:10.920 --> 00:14.430
+hyphen F cube manifests 0 2 applications, right?
+
+00:14.430 --> 00:16.470
+And then verify those things.
+
+00:16.470 --> 00:18.510
+So before that, we already verified
+
+00:18.510 --> 00:20.100
+if RDLDB is up and running.
+
+00:20.100 --> 00:22.530
+So for UMS service to be functional.
+
+00:22.530 --> 00:25.530
+Okay, so now let me copy this.
+
+00:25.530 --> 00:27.900
+Cubist cube CTL apply hyphen.
+
+00:27.900 --> 00:29.130
+All right,
+
+00:29.130 --> 00:32.250
+so let me go here and then clear the stuff.
+
+00:32.250 --> 00:35.748
+And I am in 0 9 0 to far get profiles Advancer Yamel.
+
+00:35.748 --> 00:40.050
+So Cube CTL, apply, hyphen R, hyphen F so
+
+00:40.050 --> 00:42.870
+that all recursively all whatever the folders
+
+00:42.870 --> 00:44.790
+inside that Yammel files are there
+
+00:44.790 --> 00:46.800
+those things going to get created.
+
+00:46.800 --> 00:48.870
+So namespace NS app one created
+
+00:48.870 --> 00:52.020
+and inside that deployment service English created
+
+00:52.020 --> 00:54.120
+and namespace NS app to creator
+
+00:54.120 --> 00:57.180
+and inside that deployment service and English creator
+
+00:57.180 --> 00:59.220
+same for NS UMS also.
+
+00:59.220 --> 01:02.970
+Okay, so now once it is created we need to go ahead
+
+01:02.970 --> 01:05.805
+and then verify the stuff, right?
+
+01:05.805 --> 01:08.722
+So I'll say clear, you see it here.
+
+01:10.620 --> 01:14.910
+Get ingress and hyphen iPhone, all hyphen name spaces.
+
+01:14.910 --> 01:15.810
+So we'll see that
+
+01:15.810 --> 01:19.260
+in all name spaces Ingres got created or not.
+
+01:19.260 --> 01:21.660
+So app one, Ingress service got created
+
+01:21.660 --> 01:23.280
+and this is the address for it.
+
+01:23.280 --> 01:24.540
+App two got created
+
+01:24.540 --> 01:25.850
+this is the address.
+
+01:25.850 --> 01:27.870
+UMS English service got created
+
+01:27.870 --> 01:29.610
+and this is the address.
+
+01:29.610 --> 01:31.080
+Okay, so that's good thing.
+
+01:31.080 --> 01:32.580
+So on the next thing is
+
+01:32.580 --> 01:35.220
+so we need to verify how the parts are coming up.
+
+01:35.220 --> 01:37.170
+Okay, so let me clear
+
+01:38.194 --> 01:39.510
+and then I'll secure it here
+
+01:39.510 --> 01:40.563
+get parts,
+
+01:41.640 --> 01:43.410
+and then if you want to see
+
+01:43.410 --> 01:46.710
+from specific namespace you can say hyphen N
+
+01:46.710 --> 01:49.020
+and then I'll say NS app one.
+
+01:49.020 --> 01:50.910
+And then if I want I can even say
+
+01:50.910 --> 01:53.520
+hyphen one four, seeing the far get notes
+
+01:53.520 --> 01:55.830
+whatever it is going to schedule, right?
+
+01:55.830 --> 02:00.830
+But NS app one belongs to our specific easy to worker notes.
+
+02:03.120 --> 02:05.610
+So that's the reason if I say NS, Apple and Hyphen,
+
+02:05.610 --> 02:06.443
+it is pres-
+
+02:06.443 --> 02:07.860
+it is running unmanaged note groups.
+
+02:07.860 --> 02:11.160
+So this doesn't have any Target profile, but if I go here
+
+02:11.160 --> 02:14.490
+and then verify for app two, so it should be running
+
+02:14.490 --> 02:17.073
+on a Target node in the same way for NSUMS, right?
+
+02:18.423 --> 02:20.473
+Get parts for NSUMS.
+
+02:20.473 --> 02:24.300
+Again, it should be showing for far get notes so
+
+02:24.300 --> 02:26.460
+So if you want we can even see all at a time
+
+02:26.460 --> 02:31.410
+using cube CTL get ports, hyphen, hyphen, all
+
+02:31.410 --> 02:34.560
+name spaces and hyphen O wide.
+
+02:34.560 --> 02:36.210
+So even we'll get the cube system
+
+02:36.210 --> 02:39.360
+and then default name spaces, but that's fine.
+
+02:39.360 --> 02:42.573
+Okay, so you can find four Target notes.
+
+02:42.573 --> 02:43.830
+So SOS app two related app two
+
+02:43.830 --> 02:45.660
+and then user management microservice.
+
+02:45.660 --> 02:47.730
+These are running with Target.
+
+02:47.730 --> 02:49.390
+So another important thing is
+
+02:50.503 --> 02:52.710
+so we already know that one is to one ratio.
+
+02:52.710 --> 02:54.480
+How many Target notes use
+
+02:54.480 --> 02:56.190
+how many parts you're going to schedule
+
+02:56.190 --> 02:58.470
+that many Target notes gets created.
+
+02:58.470 --> 03:01.290
+So if you go here and then verify Ingenics app two
+
+03:01.290 --> 03:03.300
+is going to be scheduled on Target.
+
+03:03.300 --> 03:04.740
+So it's replica R two
+
+03:04.740 --> 03:07.890
+in the same way User management microservice deployment
+
+03:07.890 --> 03:09.510
+also replicates R two.
+
+03:09.510 --> 03:12.690
+So which means, get notes high for no wire.
+
+03:12.690 --> 03:15.330
+So you should have six notes here, right?
+
+03:15.330 --> 03:18.930
+So four for Target, 1, 2, 3, 4 for Target
+
+03:18.930 --> 03:21.900
+and two for our regular EKS manager node groups.
+
+03:21.900 --> 03:23.310
+So that's good thing.
+
+03:23.310 --> 03:25.680
+So we verified all these things.
+
+03:25.680 --> 03:26.910
+Now, let's go ahead
+
+03:26.910 --> 03:29.310
+and then verify ALB and then target groups.
+
+03:29.310 --> 03:32.430
+So verify ALB, ISS, and then rules.
+
+03:32.430 --> 03:37.170
+So let's go to EC2 and go to load balances,
+
+03:37.170 --> 03:38.190
+right?
+
+03:38.190 --> 03:40.800
+So we went to load balances
+
+03:40.800 --> 03:42.600
+and we have three Ingres services
+
+03:42.600 --> 03:45.570
+which are three load balances getting created now.
+
+03:45.570 --> 03:47.550
+And if you see here it's equal
+
+03:47.550 --> 03:50.220
+and rules are also getting created.
+
+03:50.220 --> 03:54.000
+Okay? So and now we'll go to target groups
+
+03:54.000 --> 03:57.090
+three target groups created out of which you can see.
+
+03:57.090 --> 03:58.740
+One is with instance
+
+03:58.740 --> 04:02.880
+because we can figured it to be created with instance, okay?
+
+04:02.880 --> 04:05.400
+And if you see it here, so it's coming
+
+04:05.400 --> 04:09.420
+up and then it's already showing healthy, okay?
+
+04:09.420 --> 04:12.840
+And because that is app one nix will come faster, right?
+
+04:12.840 --> 04:14.381
+So that's the thing.
+
+04:14.381 --> 04:15.330
+And this is going to be app too.
+
+04:15.330 --> 04:17.430
+And this is also healthy
+
+04:17.430 --> 04:21.030
+and mostly this shows also he not we'll crosscheck, okay?
+
+04:21.030 --> 04:24.990
+It'll take time for our UMS because we have the liveliness
+
+04:24.990 --> 04:27.030
+and readiness probes inside that, right?
+
+04:27.030 --> 04:27.873
+So, but anyway,
+
+04:29.121 --> 04:30.240
+we'll crosscheck how that board is coming up.
+
+04:30.240 --> 04:33.960
+Okay? So hyphen N, NS hyphen UMS, right?
+
+04:33.960 --> 04:35.250
+And see what's going on there.
+
+04:35.250 --> 04:36.540
+So it's up, it's up.
+
+04:36.540 --> 04:39.480
+Okay, so no issues, no restarts, everything is good.
+
+04:39.480 --> 04:42.900
+So if you want we can even see logs hyphen F cube
+
+04:42.900 --> 04:47.070
+city logs, hyphen F and the port name is this one,
+
+04:47.070 --> 04:48.240
+right?
+
+04:48.240 --> 04:52.500
+And I am going to say hyphen N, NS, UMS. Okay?
+
+04:52.500 --> 04:54.810
+So to see that logs also good, right?
+
+04:54.810 --> 04:57.360
+So started user management application.
+
+04:57.360 --> 04:58.710
+JM is running
+
+04:58.710 --> 05:00.300
+okay from 51
+
+05:00.300 --> 05:02.640
+within 51 seconds it took to create it.
+
+05:02.640 --> 05:04.860
+Okay? So initializing the spring dispatcher
+
+05:04.860 --> 05:06.120
+everything looks good
+
+05:06.120 --> 05:09.840
+for our UMS application also it might take a while for us.
+
+05:09.840 --> 05:11.520
+So let me do a refresh here.
+
+05:11.520 --> 05:13.500
+All target groups refresh
+
+05:13.500 --> 05:17.520
+and go back here and then these are also healthy.
+
+05:17.520 --> 05:18.930
+Good. So that's good.
+
+05:18.930 --> 05:23.100
+So now the next thing here is target groups verified
+
+05:23.100 --> 05:24.630
+and then load balancers verified.
+
+05:24.630 --> 05:27.660
+So now we are going to verify that route 53, right?
+
+05:27.660 --> 05:30.390
+So we'll go and then verify route 53
+
+05:30.390 --> 05:32.580
+all the new domains got created.
+
+05:32.580 --> 05:35.250
+So go to hosted zones, right?
+
+05:35.250 --> 05:39.810
+And then we will go inside Q1cloud.com, right?
+
+05:39.810 --> 05:42.240
+Q1 cloud, okay.
+
+05:42.240 --> 05:43.620
+And if you see here
+
+05:43.620 --> 05:47.880
+we should have something called app one
+
+05:47.880 --> 05:50.970
+app two and then UMS those looks good.
+
+05:50.970 --> 05:53.880
+So one thing we can even crosscheck is
+
+05:53.880 --> 05:55.410
+NS look for ensuring
+
+05:55.410 --> 05:58.574
+Why? Because sometimes it takes, DNS changes takes,
+
+05:58.574 --> 05:59.575
+takes time
+
+05:59.575 --> 06:00.408
+or when we are rewriting the stuff
+
+06:00.408 --> 06:03.420
+we are doing it for the first time nothing will happen.
+
+06:03.420 --> 06:06.480
+But same manifest if you delete and then recreate
+
+06:06.480 --> 06:09.690
+sometimes you are going to have route 53 issues.
+
+06:09.690 --> 06:13.470
+Okay? So that's the reason always good to verify, right?
+
+06:13.470 --> 06:16.830
+So app one and we'll also verify
+
+06:16.830 --> 06:20.750
+for app two and then we'll also verify for UMS.
+
+06:20.750 --> 06:21.583
+Okay?
+
+06:21.583 --> 06:23.730
+So in addition to this you also need to crosscheck this
+
+06:23.730 --> 06:25.380
+with the DNS names here.
+
+06:25.380 --> 06:27.480
+Ideally if, if you feel like there are issues
+
+06:27.480 --> 06:30.990
+with your application access, so you need to go here
+
+06:30.990 --> 06:34.320
+and go to EC2, and go to load balancer.
+
+06:34.320 --> 06:36.180
+So what you're going to do is NS look
+
+06:36.180 --> 06:39.486
+up your MS coupon cloud.com got two IP's here, right?
+
+06:39.486 --> 06:41.700
+3.3 and then 18.95.
+
+06:41.700 --> 06:45.030
+So now I'll go to the load balancer here, I-
+
+06:45.030 --> 06:46.590
+the way I check it, crosscheck it.
+
+06:46.590 --> 06:49.950
+Any route 53 caching issues is happening or not is this way.
+
+06:49.950 --> 06:50.783
+Okay?
+
+06:50.783 --> 06:53.730
+So go to tax and this is app funding
+
+06:53.730 --> 06:55.710
+rest service and the next one is app two.
+
+06:55.710 --> 06:58.380
+And this is you are missing this service from tags.
+
+06:58.380 --> 06:59.978
+I found that.
+
+06:59.978 --> 07:01.848
+Okay, so I'll go to description
+
+07:01.848 --> 07:03.300
+and I'll copy this DNS name and then I'll say
+
+07:03.300 --> 07:07.440
+and let's look up right and then I'll paste it here.
+
+07:07.440 --> 07:10.680
+Okay? And now if you see it here, 3.3
+
+07:10.680 --> 07:15.480
+from my load balancer DNS name, I'm getting 3.3
+
+07:15.480 --> 07:17.970
+and then this 3.3, whatever it matches for me.
+
+07:17.970 --> 07:19.260
+So which clearly
+
+07:19.260 --> 07:20.550
+and even 95
+
+07:20.550 --> 07:23.730
+and 95 which clearly confirms that I am good in
+
+07:23.730 --> 07:26.490
+now I can go ahead and then access my applications.
+
+07:26.490 --> 07:28.980
+Okay, so sometimes when you're rewriting the stuff
+
+07:28.980 --> 07:31.470
+and then redeploying, redeploying, redeploying
+
+07:31.470 --> 07:34.800
+ideally there will be route 53 cache related issues.
+
+07:34.800 --> 07:37.560
+So that's the reason cross-checking like this are waiting
+
+07:37.560 --> 07:39.750
+for half an hour, 30 minutes and then again coming back
+
+07:39.750 --> 07:42.090
+and redeploying usually fixes the stuff.
+
+07:42.090 --> 07:43.480
+Okay,
+
+07:43.480 --> 07:48.215
+now let's go back and then access the applications.
+
+07:48.215 --> 07:50.520
+Okay, so we have three applications to access.
+
+07:50.520 --> 07:54.990
+So this is app one application, open link in new tab, right?
+
+07:54.990 --> 07:56.220
+So it's working right?
+
+07:56.220 --> 07:59.460
+App one dot Q1 cloud.com is up and running.
+
+07:59.460 --> 08:03.030
+So this should be app two, I need to correct it.
+
+08:03.030 --> 08:05.310
+Okay? So I will correct it.
+
+08:05.310 --> 08:07.200
+Okay, so I have fixed it app
+
+08:07.200 --> 08:10.953
+2 Q1 cloud slash app two dot index start html.
+
+08:12.131 --> 08:14.910
+Okay, so now app two also with different colors available.
+
+08:14.910 --> 08:17.790
+Now user management microservice health status, I
+
+08:17.790 --> 08:21.480
+I'm cross-checking, okay, it's up and running.
+
+08:21.480 --> 08:24.210
+So if you want to list users directly on browser
+
+08:24.210 --> 08:25.260
+you'll get them right.
+
+08:25.260 --> 08:28.260
+So these are the users we have in this application.
+
+08:28.260 --> 08:31.380
+We can see it here or you can go ahead and then add
+
+08:31.380 --> 08:34.350
+in our Postman project, the end on test it
+
+08:34.350 --> 08:36.780
+which you we have done already multiple times.
+
+08:36.780 --> 08:37.613
+Okay?
+
+08:37.613 --> 08:41.310
+So one we can go ahead and then now delete these things
+
+08:41.310 --> 08:43.140
+and then clear the stuff.
+
+08:43.140 --> 08:46.950
+Okay, so I'll go here and then delete this.
+
+08:46.950 --> 08:49.470
+Okay, so now we have completed all the work
+
+08:49.470 --> 08:50.370
+and then testings.
+
+08:50.370 --> 08:54.030
+So we are going to delete all of our zero two applications
+
+08:54.030 --> 08:59.030
+okay? So I'll say Cube, CTL, delete hyphen R, hyphen F
+
+09:02.254 --> 09:03.284
+cube manifest.
+
+09:03.284 --> 09:04.950
+And then zero two applications.
+
+09:04.950 --> 09:07.440
+So whatever we have created, everything should get
+
+09:07.440 --> 09:08.973
+deleted now.
+
+09:10.050 --> 09:12.720
+So once deleted we should not see anything here.
+
+09:12.720 --> 09:15.130
+So let me close these things, right
+
+09:17.460 --> 09:19.410
+And these things, okay
+
+09:19.410 --> 09:22.650
+And here in Ingres services, nothing should be there.
+
+09:22.650 --> 09:24.360
+All should go away, right?
+
+09:24.360 --> 09:26.160
+It's going away, it'll take a while.
+
+09:27.480 --> 09:31.263
+So target groups, it's going down.
+
+09:33.000 --> 09:37.050
+So let's wait for a while to get these things deleted.
+
+09:37.050 --> 09:40.230
+One thing we need to know about Target profiles
+
+09:40.230 --> 09:43.680
+is whenever you deploy the pod inside
+
+09:43.680 --> 09:46.260
+whenever you schedule our workloads on Target
+
+09:46.260 --> 09:48.330
+what happens is it'll take a little bit
+
+09:48.330 --> 09:51.030
+of time to create a Target node
+
+09:51.030 --> 09:53.250
+and then schedule the pod inside that.
+
+09:53.250 --> 09:55.230
+So why, because we really don't have a node.
+
+09:55.230 --> 09:56.550
+It need to create a node
+
+09:56.550 --> 09:58.710
+and then it need to install the cube let inside that.
+
+09:58.710 --> 10:00.750
+And then using that cube let it needs to register
+
+10:00.750 --> 10:05.340
+to our EKS cluster control plan and then check
+
+10:05.340 --> 10:08.190
+for our respective scheduler and then get the data
+
+10:08.190 --> 10:10.470
+and then schedule means like get that respective part
+
+10:10.470 --> 10:12.360
+and then schedule on that Target node.
+
+10:12.360 --> 10:13.980
+So it'll take a little bit of time.
+
+10:13.980 --> 10:16.860
+Example, it takes only 10 less than two seconds
+
+10:16.860 --> 10:18.750
+or three seconds to complete a scheduling
+
+10:18.750 --> 10:22.200
+of a pod on easy to manage notes.
+
+10:22.200 --> 10:24.630
+Then it might take 10 seconds to get scheduled
+
+10:24.630 --> 10:26.070
+on Target. Something like that. Okay?
+
+10:26.070 --> 10:28.860
+So there will be a delay even for delay also means
+
+10:28.860 --> 10:31.710
+like deletion also you can see it'll, it'll be a delay.
+
+10:31.710 --> 10:34.110
+So on manager note group it has deleted immediately
+
+10:34.110 --> 10:36.660
+but on Target it took a little bit of time, right?
+
+10:36.660 --> 10:39.840
+So that's about what I'm trying to clarify here
+
+10:39.840 --> 10:40.920
+difference between that, okay?
+
+10:40.920 --> 10:43.170
+This is only the difference from scheduling perspective
+
+10:43.170 --> 10:44.910
+not on performance perspective.
+
+10:44.910 --> 10:47.370
+Okay, so now we have deleted that.
+
+10:47.370 --> 10:49.060
+So let's go back here
+
+10:50.535 --> 10:55.080
+to our GI and then delete the profiles, right?
+
+10:55.080 --> 10:57.930
+So we are going to delete the profiles.
+
+10:57.930 --> 11:00.180
+The names app two on UMS only.
+
+11:00.180 --> 11:01.530
+Hyphen profile is not there.
+
+11:01.530 --> 11:03.120
+I am going to fix that.
+
+11:03.120 --> 11:04.350
+This looks good now.
+
+11:04.350 --> 11:08.370
+EKS, CTL, delete target profile from cluster EKS demo one
+
+11:08.370 --> 11:10.017
+name is FP app two.
+
+11:10.017 --> 11:11.562
+And then wait.
+
+11:11.562 --> 11:12.395
+Okay, so wait
+
+11:12.395 --> 11:15.150
+what it does is it'll EKS CTL will wait today
+
+11:15.150 --> 11:16.500
+this profile is deleted
+
+11:16.500 --> 11:19.890
+and one thing you need to remember here is like only one
+
+11:19.890 --> 11:23.190
+after the one Target profile only we can delete it.
+
+11:23.190 --> 11:24.420
+So you can remove weight
+
+11:24.420 --> 11:26.280
+and then if you want to execute two commands
+
+11:26.280 --> 11:27.420
+it is not going to delete.
+
+11:27.420 --> 11:30.870
+So only one, one Target profile will be deleted first
+
+11:30.870 --> 11:33.870
+and then next you can delete that second one.
+
+11:33.870 --> 11:37.710
+Okay, so in orderly manner we need to delete these things.
+
+11:37.710 --> 11:38.543
+We'll take close
+
+11:38.543 --> 11:40.980
+to three to five minutes to delete these profiles.
+
+11:40.980 --> 11:44.070
+So once deleted, everything will be clear
+
+11:44.070 --> 11:45.840
+from Target profiles perspective
+
+11:45.840 --> 11:48.870
+for us when we go back to her GitHub repo.
+
+11:48.870 --> 11:52.170
+So if you see here, so there is a reference GitHub issue
+
+11:52.170 --> 11:54.900
+for EL being rest with cross name spaces.
+
+11:54.900 --> 11:57.510
+So the issue and then those related information
+
+11:57.510 --> 12:00.570
+and then discussions about from 2015 onwards
+
+12:00.570 --> 12:03.810
+about these cross name spaces you can find here
+
+12:03.810 --> 12:05.940
+about workarounds and then all those things.
+
+12:05.940 --> 12:08.430
+So whatever we have discussed here, right?
+
+12:08.430 --> 12:10.260
+So whatever is not possible here
+
+12:10.260 --> 12:13.470
+it's related current ongoing in GitHub issue
+
+12:13.470 --> 12:15.960
+you can find the information here.
+
+12:15.960 --> 12:20.310
+So this completes the Target related
+
+12:22.170 --> 12:23.730
+two important sections.
+
+12:23.730 --> 12:25.500
+One is Target profile basic
+
+12:25.500 --> 12:27.633
+and then Target profile advanced.
+
+12:28.534 --> 12:31.200
+Okay? So in our next lectures we'll focus on another topic
+
+12:31.200 --> 12:33.810
+maybe like microservices are DevOps.
+
+12:33.810 --> 12:35.610
+So I'll see you in the next lecture.
+
+12:35.610 --> 12:36.810
+Until then, bye bye.
+
+12:36.810 --> 12:37.643
+Thank you.

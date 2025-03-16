@@ -1,0 +1,724 @@
+WEBVTT
+
+00:00.330 --> 00:01.200
+-: Welcome back.
+
+00:01.200 --> 00:03.300
+In this lecture we are going to understand
+
+00:03.300 --> 00:05.610
+about using RDS database
+
+00:05.610 --> 00:08.280
+as our underlying MySQL database
+
+00:08.280 --> 00:10.890
+for the applications which need to be deployed
+
+00:10.890 --> 00:13.170
+on elastic Kubernetes service.
+
+00:13.170 --> 00:14.580
+And how we are going to use it,
+
+00:14.580 --> 00:16.500
+we are going to look into.
+
+00:16.500 --> 00:18.600
+So before going in
+
+00:18.600 --> 00:20.250
+like means like before going
+
+00:20.250 --> 00:24.060
+into implementing the RDS database for our applications,
+
+00:24.060 --> 00:25.770
+let's see what we have implemented
+
+00:25.770 --> 00:27.600
+in our previous sections, right?
+
+00:27.600 --> 00:29.610
+So in our previous section we have used
+
+00:29.610 --> 00:33.210
+the MySQL pod means like we used the MySQL
+
+00:33.210 --> 00:36.330
+container to create a pod and it's equal and deployment.
+
+00:36.330 --> 00:38.730
+And then we used the MySQL cluster API service
+
+00:38.730 --> 00:42.990
+to expose it for our user management application so that
+
+00:42.990 --> 00:46.230
+this user management rest API application has the MySQL
+
+00:46.230 --> 00:50.070
+as a database inside the Kubernetes cluster itself.
+
+00:50.070 --> 00:52.680
+And for persistent storage, what we used
+
+00:52.680 --> 00:55.080
+we use the elastic block store
+
+00:55.080 --> 00:57.480
+with storage classes, persistent volume claims
+
+00:57.480 --> 00:59.310
+all these concepts we have applied.
+
+00:59.310 --> 01:03.300
+So now for learning all this is good, but when thinking
+
+01:03.300 --> 01:07.440
+in production grade deploying applications, this is no good.
+
+01:07.440 --> 01:11.130
+Okay? So why it is not good, we are going to see here, okay.
+
+01:11.130 --> 01:14.280
+So even we can even use StatefulSet concepts to
+
+01:14.280 --> 01:18.450
+create a high availability related setups of MySQL.
+
+01:18.450 --> 01:22.650
+But there is going to be a huge amount of manual work
+
+01:22.650 --> 01:25.440
+which we need to do to implement all these things.
+
+01:25.440 --> 01:28.380
+We should also be a MySQL side
+
+01:28.380 --> 01:29.213
+expert
+
+01:29.213 --> 01:31.800
+or MySQL admin to implement all these things.
+
+01:31.800 --> 01:32.633
+Okay?
+
+01:32.633 --> 01:36.330
+So drawbacks of EBS, CSI and also MySQL DB
+
+01:36.330 --> 01:38.940
+as a pod inside a Kubernetes cluster, okay?
+
+01:38.940 --> 01:41.040
+This is on a very high level, right?
+
+01:41.040 --> 01:43.770
+So complex setup to achieve high availability.
+
+01:43.770 --> 01:46.710
+So even stateful services provided and the example
+
+01:46.710 --> 01:49.140
+whatever is provided is one MySQL master
+
+01:49.140 --> 01:51.810
+and then multiple read replicas is the thing
+
+01:51.810 --> 01:55.260
+Kubernetes documentation provides. Right?
+
+01:55.260 --> 01:57.660
+So with that said, so if you want to implement
+
+01:57.660 --> 01:59.130
+that also there are a lot of scripts
+
+01:59.130 --> 02:01.410
+and then very basic level of information provided
+
+02:01.410 --> 02:04.860
+in documentation and if you implement it and
+
+02:04.860 --> 02:06.270
+how we are going to handle it
+
+02:06.270 --> 02:08.520
+also becomes other issues for us.
+
+02:08.520 --> 02:10.590
+Okay? So another important thing means like
+
+02:10.590 --> 02:13.630
+from MySQL side setups are going to be
+
+02:14.910 --> 02:15.870
+hard and then
+
+02:15.870 --> 02:18.840
+if we are already a MySQL expert, maybe it'll be easy.
+
+02:18.840 --> 02:21.660
+But as a AWS solution architect
+
+02:21.660 --> 02:24.690
+or system admin or Devops admin
+
+02:24.690 --> 02:27.420
+I really don't need to be a MySQL admin here, right?
+
+02:27.420 --> 02:29.580
+So if someone is very good at MySQL
+
+02:29.580 --> 02:31.140
+and then if they design and provide that
+
+02:31.140 --> 02:32.700
+we can use those manifests, okay?
+
+02:32.700 --> 02:35.760
+But as we need to go and then implement them
+
+02:35.760 --> 02:37.980
+it is going to become so tough for us.
+
+02:37.980 --> 02:40.410
+So now in addition to that MySQL,
+
+02:40.410 --> 02:42.870
+there is one more other thing is EBS, right?
+
+02:42.870 --> 02:44.310
+So from EBS perspective
+
+02:44.310 --> 02:47.640
+Elastic Block Store is a availability zone level resource
+
+02:47.640 --> 02:49.140
+which means the volumes
+
+02:49.140 --> 02:51.900
+whatever you provide is zone restricted.
+
+02:51.900 --> 02:54.360
+So it cannot be across that entire region.
+
+02:54.360 --> 02:56.850
+So what happens is if your MySQL part has
+
+02:56.850 --> 02:58.920
+been created in US East one year,
+
+02:58.920 --> 03:01.620
+so then you'd need to map to its
+
+03:01.620 --> 03:04.230
+EBS volume present in US East one year.
+
+03:04.230 --> 03:06.360
+So here the problem comes when you want to
+
+03:06.360 --> 03:10.410
+implement Master Master MySQL setup, okay?
+
+03:10.410 --> 03:13.980
+And most of the times, okay, master and read replicas
+
+03:13.980 --> 03:15.990
+will be available for few applications,
+
+03:15.990 --> 03:19.200
+but at the same time, master and master also required.
+
+03:19.200 --> 03:21.930
+And all these setups becomes complex for us
+
+03:21.930 --> 03:23.820
+and then implementing it.
+
+03:23.820 --> 03:27.660
+So we are creating a lot of, instead of creating a very
+
+03:27.660 --> 03:30.960
+high available and then very resilient solution,
+
+03:30.960 --> 03:33.690
+we are going to mess up and then create lot of issues there.
+
+03:33.690 --> 03:36.480
+Okay. So considering all those things, even master
+
+03:36.480 --> 03:39.330
+master layer setup, also whatever is provided as part
+
+03:39.330 --> 03:42.510
+of straight full sets documentation is only a very minimal.
+
+03:42.510 --> 03:45.180
+So it'll not have any automatic backup and recovery
+
+03:45.180 --> 03:48.600
+scripts available or even auto upgrade to MySQL.
+
+03:48.600 --> 03:50.070
+How we are going to do it.
+
+03:50.070 --> 03:52.530
+So how we are going to change it and then do it
+
+03:52.530 --> 03:55.560
+and what all implications we are going to get, right?
+
+03:55.560 --> 03:57.900
+So all these things are not available as part
+
+03:57.900 --> 04:01.800
+of whatever the MySQL thing which we are going to create.
+
+04:01.800 --> 04:03.370
+And already we are a
+
+04:04.440 --> 04:06.990
+user management or our application related things.
+
+04:06.990 --> 04:07.823
+We need to worry.
+
+04:07.823 --> 04:11.790
+That's the reason EK has provided a control plan where
+
+04:11.790 --> 04:14.130
+we really don't need to worry about cumulative stuff.
+
+04:14.130 --> 04:16.470
+Only, we need to worry about the workloads here.
+
+04:16.470 --> 04:18.720
+At the same time, again, if you bring this MySQL
+
+04:18.720 --> 04:21.240
+now you need to worry about MySQL also here.
+
+04:21.240 --> 04:24.390
+But instead of that, if we start using the power
+
+04:24.390 --> 04:26.460
+of cloud means like as we are on cloud,
+
+04:26.460 --> 04:27.293
+we should be
+
+04:28.440 --> 04:29.340
+good to
+
+04:29.340 --> 04:31.710
+use the cloud level services.
+
+04:31.710 --> 04:34.710
+At the same time running our workloads on Kubernetes will be
+
+04:34.710 --> 04:35.610
+a good option.
+
+04:35.610 --> 04:39.840
+So with that said, we can use the RDS database as our store.
+
+04:39.840 --> 04:43.560
+So let's see what are the advantages of using it, right?
+
+04:43.560 --> 04:47.280
+So now we remove the MySQL part here and then
+
+04:47.280 --> 04:51.510
+we are going to use the Amazon RDS database.
+
+04:51.510 --> 04:54.270
+So when we are using RDS database here, so how
+
+04:54.270 --> 04:56.430
+we are going to connect to RDS database.
+
+04:56.430 --> 04:57.840
+So that's the thing, right?
+
+04:57.840 --> 05:00.420
+So in Kubernetes for services,
+
+05:00.420 --> 05:03.960
+there is one concept called External Name Service.
+
+05:03.960 --> 05:06.870
+So using external name service,
+
+05:06.870 --> 05:10.770
+we are going to connect to the RDS database.
+
+05:10.770 --> 05:11.603
+So now
+
+05:12.480 --> 05:14.940
+and as usual we'll have the user management note
+
+05:14.940 --> 05:15.773
+port service
+
+05:15.773 --> 05:17.700
+and then we are also going to have
+
+05:17.700 --> 05:20.190
+going to access it using work note public.
+
+05:20.190 --> 05:22.470
+I call note port slash user management slash
+
+05:22.470 --> 05:23.460
+health status APA
+
+05:23.460 --> 05:26.490
+for once we deploy it when it is running.
+
+05:26.490 --> 05:30.180
+So now what are the advantages when using Amazon RDS is
+
+05:30.180 --> 05:32.460
+automatically it means like by default
+
+05:32.460 --> 05:34.410
+you'll get the high availability.
+
+05:34.410 --> 05:36.750
+Automatic backup and recovery scripts available
+
+05:36.750 --> 05:39.270
+which are just to configurable directly
+
+05:39.270 --> 05:41.550
+from the management console
+
+05:41.550 --> 05:45.300
+and you can even create any number of read request, okay?
+
+05:45.300 --> 05:48.300
+And metrics and then monitoring is available
+
+05:48.300 --> 05:50.610
+out of the box and automatic upgrades.
+
+05:50.610 --> 05:52.890
+So there will be minor and then major version upgrades.
+
+05:52.890 --> 05:54.300
+So you can schedule them.
+
+05:54.300 --> 05:57.720
+So if you minor upgrades need to be updated on so and so
+
+05:57.720 --> 06:01.110
+date means likes every weekend on so and so night
+
+06:01.110 --> 06:04.350
+at from 12 to 2:00 AM, it need to be applied.
+
+06:04.350 --> 06:06.540
+Then automatically those will be applied.
+
+06:06.540 --> 06:07.650
+So in addition to that
+
+06:07.650 --> 06:10.530
+it is a multi support and we really don't need to worry.
+
+06:10.530 --> 06:14.280
+So we only get a endpoint URL, DNS named URL.
+
+06:14.280 --> 06:19.280
+And we just need to worry only about that DNS named URL.
+
+06:19.350 --> 06:21.720
+So we really don't need to worry about anything.
+
+06:21.720 --> 06:24.570
+So that DNS URL, whatever Amazon RDS provides
+
+06:24.570 --> 06:27.960
+we are going to configure in this external name service
+
+06:27.960 --> 06:29.560
+and then leverage that
+
+06:30.660 --> 06:31.890
+benefit of RDS
+
+06:31.890 --> 06:35.610
+for the workloads we are running on EKS cluster.
+
+06:35.610 --> 06:40.150
+So now, so we have seen all these things in the line of
+
+06:42.210 --> 06:46.260
+blog diagrams and then features and then all these things.
+
+06:46.260 --> 06:48.450
+But we also need to look into
+
+06:48.450 --> 06:53.220
+inside AWS how the architecture is going to
+
+06:53.220 --> 06:54.090
+look like.
+
+06:54.090 --> 06:57.600
+So that's another important thing which we need to know.
+
+06:57.600 --> 06:58.890
+So if you go here,
+
+06:58.890 --> 07:02.610
+so we are going to see AWS EKS network design
+
+07:02.610 --> 07:07.590
+with EKS workloads running inside and also RDS database.
+
+07:07.590 --> 07:10.020
+So how it is going to look like in a VPC.
+
+07:10.020 --> 07:11.070
+Let's see that.
+
+07:11.070 --> 07:12.000
+Now.
+
+07:12.000 --> 07:15.630
+So if you go here in AWS cloud, we have a VPC.
+
+07:15.630 --> 07:18.480
+So this VPC is automatically created
+
+07:18.480 --> 07:21.510
+as part of creating the EKS cluster.
+
+07:21.510 --> 07:25.080
+So we have ensured that based on our command
+
+07:25.080 --> 07:28.080
+we said that our EKS cluster should be available
+
+07:28.080 --> 07:32.670
+in US east one year and then one B availability zones.
+
+07:32.670 --> 07:34.230
+And we also said that,
+
+07:34.230 --> 07:36.507
+so it automatically creates the private subnets
+
+07:36.507 --> 07:38.190
+and then public subnets.
+
+07:38.190 --> 07:42.150
+So always our databases should be in private subnet.
+
+07:42.150 --> 07:45.270
+So I have create means like we can create our RDS database
+
+07:45.270 --> 07:47.370
+in our private subnet.
+
+07:47.370 --> 07:50.550
+So in addition to that, we also will have the public subnets
+
+07:50.550 --> 07:52.350
+and first we'll go ahead
+
+07:52.350 --> 07:55.530
+and then create the EKS cluster control plan.
+
+07:55.530 --> 07:57.660
+As part of that, all these things got created
+
+07:57.660 --> 07:59.940
+which is nothing but VPC availability zones.
+
+07:59.940 --> 08:02.070
+Inside this availability zones you have the public
+
+08:02.070 --> 08:03.630
+and then private subnets.
+
+08:03.630 --> 08:06.270
+So when this EKS control plan is created
+
+08:06.270 --> 08:09.060
+it also creates the worker nodes, right?
+
+08:09.060 --> 08:09.893
+So which is nothing
+
+08:09.893 --> 08:13.260
+but the easy to instances in each public subnet.
+
+08:13.260 --> 08:15.900
+So by default we created currently the cluster
+
+08:15.900 --> 08:19.410
+whatever we have created is in public subnet.
+
+08:19.410 --> 08:21.480
+The moment we go into our next sections
+
+08:21.480 --> 08:22.770
+with load balances.
+
+08:22.770 --> 08:25.710
+We will ensure that this respect to worker nodes
+
+08:25.710 --> 08:27.690
+which is nothing, but these worker nodes are nothing
+
+08:27.690 --> 08:30.960
+but part of it, node group concepting EKS.
+
+08:30.960 --> 08:33.300
+And then those will be moved under private subnets
+
+08:33.300 --> 08:35.970
+and only load balancers will be in the public subnets
+
+08:35.970 --> 08:38.820
+which we are going to see in our upcoming lectures.
+
+08:38.820 --> 08:41.010
+But for now, let's assume that.
+
+08:41.010 --> 08:42.510
+So we have a VPC
+
+08:42.510 --> 08:45.420
+which is created as part of creating the cluster
+
+08:45.420 --> 08:47.370
+and then that cluster is part
+
+08:47.370 --> 08:50.100
+of you assist one year and then one B zones.
+
+08:50.100 --> 08:52.350
+And then it also created public
+
+08:52.350 --> 08:55.080
+and private subnets leveraging the clusters.
+
+08:55.080 --> 08:56.090
+Private subnets,
+
+08:56.090 --> 08:59.250
+we have created the RDS database inside them.
+
+08:59.250 --> 09:02.220
+And then now we'll start with the MySQL
+
+09:02.220 --> 09:03.510
+external limb service.
+
+09:03.510 --> 09:05.460
+So in our Kubernetes cluster
+
+09:05.460 --> 09:08.640
+so we have created a MySQL, external limb service.
+
+09:08.640 --> 09:11.820
+So which will connect to the RDS database
+
+09:11.820 --> 09:14.670
+whatever is available in to available zoom zones.
+
+09:14.670 --> 09:16.260
+Anywhere in our real lecture
+
+09:16.260 --> 09:18.630
+we are going to create only a free tier one
+
+09:18.630 --> 09:20.700
+which means only one database will be available.
+
+09:20.700 --> 09:24.480
+But for depiction, I have showing here two RDS databases
+
+09:24.480 --> 09:26.400
+which means like underlying, it'll be spanned
+
+09:26.400 --> 09:29.280
+across how many availability zones we have created
+
+09:29.280 --> 09:30.690
+that many replicas.
+
+09:30.690 --> 09:33.000
+But now we are going to do
+
+09:33.000 --> 09:36.510
+in our practical only one RDS database, but depiction
+
+09:36.510 --> 09:38.940
+I'm showing how the availability is going to be there.
+
+09:38.940 --> 09:42.690
+Okay, So now we are also going to deploy our user
+
+09:42.690 --> 09:44.430
+management application here
+
+09:44.430 --> 09:47.070
+which will have a replica set and the respective parts.
+
+09:47.070 --> 09:49.410
+Okay. You means user management application here.
+
+09:49.410 --> 09:50.243
+Okay
+
+09:50.243 --> 09:53.130
+So inside a part you have the user management container.
+
+09:53.130 --> 09:56.310
+Okay. So now what happens is like you'll also
+
+09:56.310 --> 09:59.190
+create a user management node port service to
+
+09:59.190 --> 10:01.890
+expose this deployment to access where users
+
+10:01.890 --> 10:03.420
+where internet.
+
+10:03.420 --> 10:06.120
+So this is the high level architecture
+
+10:06.120 --> 10:08.790
+from AWS EKS perspective means
+
+10:08.790 --> 10:13.410
+like EKS in combination with the RDS database, right?
+
+10:13.410 --> 10:15.210
+So in our next lecture we'll go ahead
+
+10:15.210 --> 10:17.490
+and then start creating the RDS database
+
+10:17.490 --> 10:19.320
+and then prerequisite security groups
+
+10:19.320 --> 10:22.020
+and all those things required for RDS database.
+
+10:22.020 --> 10:25.770
+And deploy all these things and then test it.
+
+10:25.770 --> 10:27.840
+So I'll see you in the next lecture.
+
+10:27.840 --> 10:29.343
+Until then, bye bye.

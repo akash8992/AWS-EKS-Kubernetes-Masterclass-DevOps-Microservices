@@ -1,0 +1,400 @@
+WEBVTT
+
+00:00.180 --> 00:01.290
+-: Welcome back.
+
+00:01.290 --> 00:03.750
+In this step, we are going to understand
+
+00:03.750 --> 00:07.350
+about ALB Ingress install introduction.
+
+00:07.350 --> 00:08.940
+In step one, we are going to discuss
+
+00:08.940 --> 00:13.500
+about introductory part of our Ingress Controller.
+
+00:13.500 --> 00:17.370
+So now, we are going to create multiple service accounts,
+
+00:17.370 --> 00:19.650
+IAM policies and then IAM roles.
+
+00:19.650 --> 00:22.200
+So let's understand that on a very high level
+
+00:22.200 --> 00:26.550
+before going ahead and then implementing the step two.
+
+00:26.550 --> 00:30.153
+so let's go back to our Microsoft PowerPoint.
+
+00:31.140 --> 00:33.150
+And then we are going to discuss
+
+00:33.150 --> 00:37.470
+about Ingress Controller access control.
+
+00:37.470 --> 00:39.406
+So we want to understand this
+
+00:39.406 --> 00:42.390
+on a very high level so that for external DNS,
+
+00:42.390 --> 00:45.660
+same concepts comes in. X-ray, same concepts comes in.
+
+00:45.660 --> 00:47.610
+So a lot of whenever we are dealing
+
+00:47.610 --> 00:49.980
+with the Kubernetes service accounts
+
+00:49.980 --> 00:54.780
+and then IAM roles of AWS, same concepts comes in.
+
+00:54.780 --> 00:56.940
+So we need to understand on a high level
+
+00:56.940 --> 01:00.240
+what is happening before moving on to all these IAM role
+
+01:00.240 --> 01:03.133
+and then service account concepts.
+
+01:03.133 --> 01:04.530
+So my question here is,
+
+01:04.530 --> 01:08.640
+how can Ingress Controller Pod in Kubernetes
+
+01:08.640 --> 01:13.410
+create AWS resources like ALB, application load balancer,
+
+01:13.410 --> 01:16.640
+target groups and register EKS Pods
+
+01:16.640 --> 01:19.590
+or NodePort services to ALB targets?
+
+01:19.590 --> 01:21.210
+So how it is going to do?
+
+01:21.210 --> 01:23.670
+This is the core question.
+
+01:23.670 --> 01:26.790
+So now, from access control perspective,
+
+01:26.790 --> 01:29.910
+we need to understand two things primarily.
+
+01:29.910 --> 01:32.100
+One is Kubernetes service account,
+
+01:32.100 --> 01:35.820
+and another is AWS IAM role.
+
+01:35.820 --> 01:39.720
+So, Kubernetes service account.
+
+01:39.720 --> 01:43.200
+Usually we create service accounts to provide access
+
+01:43.200 --> 01:45.090
+to what it need to do
+
+01:45.090 --> 01:47.730
+for our respective pods inside Kubernetes,
+
+01:47.730 --> 01:51.780
+what it can do inside Kubernetes cluster itself.
+
+01:51.780 --> 01:56.580
+But now, whenever you integrate with AWS IAM role,
+
+01:56.580 --> 01:58.860
+and then create IAM role,
+
+01:58.860 --> 02:01.050
+and that IAM role is annotated
+
+02:01.050 --> 02:02.850
+on this respective service account,
+
+02:02.850 --> 02:05.400
+which means you are linking this respective IAM role
+
+02:05.400 --> 02:08.100
+with this respective service account.
+
+02:08.100 --> 02:10.200
+So you are telling Kubernetes that
+
+02:10.200 --> 02:13.063
+you can go out of AWS cluster
+
+02:13.063 --> 02:17.310
+and perform whatever you want in AWS also.
+
+02:17.310 --> 02:19.680
+So you are giving the Kubernetes service account
+
+02:19.680 --> 02:22.200
+whoever is using, which means that respective pod
+
+02:22.200 --> 02:24.810
+whatever it is using, telling that.
+
+02:24.810 --> 02:26.910
+In addition to whatever you can perform
+
+02:26.910 --> 02:28.470
+inside Kubernetes cluster,
+
+02:28.470 --> 02:30.630
+you can also do some jobs outside
+
+02:30.630 --> 02:34.290
+of Kubernetes cluster in other AWS services.
+
+02:34.290 --> 02:38.700
+So that's the reason I am annotating you with IAM role,
+
+02:38.700 --> 02:40.890
+whatever it has access to.
+
+02:40.890 --> 02:44.070
+And now, this respective Kubernetes service account
+
+02:44.070 --> 02:45.720
+will have its own ClusterRole
+
+02:45.720 --> 02:48.780
+and then ClusterRoleBinding informations
+
+02:48.780 --> 02:52.170
+which it can do inside the cluster.
+
+02:52.170 --> 02:55.260
+And IAM role will have IAM policy
+
+02:55.260 --> 02:57.960
+which will tell us what this role can perform
+
+02:57.960 --> 03:01.680
+with the AWS services presenting AWS.
+
+03:01.680 --> 03:04.380
+So now, with these two things, it'll be able
+
+03:04.380 --> 03:07.680
+to perform whatever is required inside Kubernetes cluster.
+
+03:07.680 --> 03:12.680
+And this IAM policy via IAM role link to service account.
+
+03:13.380 --> 03:14.850
+So whoever this service account,
+
+03:14.850 --> 03:17.610
+means like the respective Ingress Controller Pod
+
+03:17.610 --> 03:19.800
+who is going to use this service account,
+
+03:19.800 --> 03:22.170
+he will be able to perform activities
+
+03:22.170 --> 03:25.620
+outside of Kubernetes cluster and in AWS.
+
+03:25.620 --> 03:29.670
+Something like creating the application load balancer.
+
+03:29.670 --> 03:31.590
+So these things we are going to do
+
+03:31.590 --> 03:36.330
+as part of the Ingress install controller.
+
+03:36.330 --> 03:38.160
+So step by step, we have documented
+
+03:38.160 --> 03:39.480
+what we are going to do
+
+03:39.480 --> 03:42.510
+and then we'll implement accordingly.
+
+03:42.510 --> 03:45.240
+Now, what is ClusterRole?
+
+03:45.240 --> 03:47.040
+Information is provided here,
+
+03:47.040 --> 03:51.480
+just information about what it can do inside the cluster.
+
+03:51.480 --> 03:54.403
+So that is about ClusterRole. And ClusterRole.
+
+03:56.100 --> 03:57.930
+And then service account is how you are going
+
+03:57.930 --> 03:58.950
+to create a service account.
+
+03:58.950 --> 04:01.350
+The sample manifest, I have provided here.
+
+04:01.350 --> 04:04.530
+And ClusterRoleBinding, it is nothing,
+
+04:04.530 --> 04:06.780
+but you are going to bind this ClusterRole
+
+04:06.780 --> 04:07.800
+and the service account,
+
+04:07.800 --> 04:11.700
+whatever you have created using the ClusterRoleBinding.
+
+04:11.700 --> 04:14.905
+And this is the IAM policy, which is in discussion now.
+
+04:14.905 --> 04:17.880
+So we can copy it now, and then go here,
+
+04:17.880 --> 04:22.410
+and then verify the IAM policy.
+
+04:22.410 --> 04:24.350
+So this IAM policy gives...
+
+04:27.435 --> 04:28.530
+It means like it'll have the permissions
+
+04:28.530 --> 04:31.950
+to describe certificate, list certificate, get certificate,
+
+04:31.950 --> 04:35.425
+which is required for our application load balancer.
+
+04:35.425 --> 04:38.300
+Which means if you see here...
+
+04:41.752 --> 04:44.343
+No. Let me go out here, one second.
+
+04:46.980 --> 04:51.420
+This service account will be able to perform,
+
+04:51.420 --> 04:53.340
+describe certificate or list certificate,
+
+04:53.340 --> 04:55.740
+or get certificate from this location itself
+
+04:55.740 --> 04:58.560
+because it is annotated with IAM role.
+
+04:58.560 --> 05:00.510
+So whatever the pod we have deployed
+
+05:00.510 --> 05:03.450
+and then associated with this respective service account,
+
+05:03.450 --> 05:06.360
+it can perform all these IAM policies
+
+05:06.360 --> 05:09.660
+because this IAM policies somehow integrated
+
+05:09.660 --> 05:13.530
+with this service account by annotating this IAM role.
+
+05:13.530 --> 05:16.380
+So now here comes a bigger question for us.
+
+05:16.380 --> 05:18.870
+How I am going to do all these things?
+
+05:18.870 --> 05:21.180
+IAM policy, IAM role, service account,
+
+05:21.180 --> 05:23.940
+how am I going to annotate all these things?
+
+05:23.940 --> 05:26.160
+So with eksctl,
+
+05:26.160 --> 05:30.990
+So with eksctl CLI, things become pretty easy now.
+
+05:30.990 --> 05:35.990
+So you just create eksctl, create IAM service account.
+
+05:36.399 --> 05:38.670
+It means like the name of the service account
+
+05:38.670 --> 05:41.850
+is Ingress Controller and inside kube system.
+
+05:41.850 --> 05:44.010
+And cluster is EKS Demo One.
+
+05:44.010 --> 05:45.300
+And attach the policy,
+
+05:45.300 --> 05:48.030
+whatever we have discussed just now, this one.
+
+05:48.030 --> 05:50.160
+And automatically things will create.
+
+05:50.160 --> 05:51.660
+And then linker this linking
+
+05:51.660 --> 05:53.520
+and then this IAM role creation,
+
+05:53.520 --> 05:55.980
+this service account creation.
+
+05:55.980 --> 05:59.910
+And then linking these two will automatically happen.
+
+05:59.910 --> 06:03.090
+So all those things can happen automatically.
+
+06:03.090 --> 06:05.040
+So that's about on a very high level
+
+06:05.040 --> 06:06.600
+about the introductory part
+
+06:06.600 --> 06:11.600
+of our ALB install Ingress Controller introduction.
+
+06:12.000 --> 06:15.450
+So in our next lecture, we'll move on with step two
+
+06:15.450 --> 06:17.700
+of creating a Kubernetes service account
+
+06:17.700 --> 06:19.620
+named Ingress Controller.
+
+06:19.620 --> 06:22.290
+And then go ahead with other steps.
+
+06:22.290 --> 06:24.120
+So I'll see you in the next lecture.
+
+06:24.120 --> 06:25.350
+Until then, bye-bye.
+
+06:25.350 --> 06:26.183
+Thank you.

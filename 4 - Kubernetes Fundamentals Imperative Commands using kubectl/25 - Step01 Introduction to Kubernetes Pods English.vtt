@@ -1,0 +1,286 @@
+WEBVTT
+
+00:00.330 --> 00:01.350
+-: Welcome back.
+
+00:01.350 --> 00:03.870
+In this lecture, we are going to understand about
+
+00:03.870 --> 00:07.560
+the core Kubernetes concept named Pod.
+
+00:07.560 --> 00:11.010
+So, with Kubernetes, our core goal will be to deploy
+
+00:11.010 --> 00:14.130
+our applications which are in the form of containers
+
+00:14.130 --> 00:18.364
+on the Kubernetes worker nodes in Kubernetes cluster.
+
+00:18.364 --> 00:22.230
+Kubernetes does not deploy these containers directly
+
+00:22.230 --> 00:24.240
+on the worker nodes.
+
+00:24.240 --> 00:25.890
+Container is encapsulated
+
+00:25.890 --> 00:29.070
+into a Kubernetes object named Pod.
+
+00:29.070 --> 00:33.990
+So a Pod is a single instance, often application.
+
+00:33.990 --> 00:36.000
+So a Pod is the smallest object
+
+00:36.000 --> 00:38.681
+that we can create in Kubernetes.
+
+00:38.681 --> 00:42.000
+Pods generally have one-to-one relationship
+
+00:42.000 --> 00:43.950
+with containers.
+
+00:43.950 --> 00:48.950
+So, if you see here, we have one Pod in worker node one
+
+00:49.050 --> 00:50.970
+And then we are having some amount
+
+00:50.970 --> 00:52.440
+of traffic coming to that.
+
+00:52.440 --> 00:54.710
+If our traffic keeps growing,
+
+00:54.710 --> 00:57.900
+we are going to add new Pods
+
+00:57.900 --> 01:00.723
+for scaling our application, like this.
+
+01:01.568 --> 01:04.530
+So that it means is to scale up,
+
+01:04.530 --> 01:05.730
+we create new Pods
+
+01:05.730 --> 01:08.850
+and then to scale down, we delete the Pods.
+
+01:08.850 --> 01:12.360
+So for our application, if the traffic keeps growing,
+
+01:12.360 --> 01:16.920
+we need to scale our application in the form of Pod.
+
+01:16.920 --> 01:20.430
+So now, we cannot have multiple containers
+
+01:20.430 --> 01:22.440
+of same kind in a single Pods.
+
+01:22.440 --> 01:24.060
+So this is one more important thing
+
+01:24.060 --> 01:25.710
+which we need to understand.
+
+01:25.710 --> 01:28.200
+So if you have a worker node one,
+
+01:28.200 --> 01:30.750
+and then you have a Pod with Nginx
+
+01:30.750 --> 01:32.760
+serving the purpose of static content
+
+01:32.760 --> 01:34.530
+or it is acting as a proxy.
+
+01:34.530 --> 01:37.683
+So now if your traffic keeps growing here,
+
+01:38.580 --> 01:43.440
+you cannot scale your container image inside the Pod.
+
+01:43.440 --> 01:46.260
+Always, whenever your traffic is growing,
+
+01:46.260 --> 01:48.990
+you need to scale the Pods
+
+01:48.990 --> 01:52.028
+instead of scaling the containers inside the Pods.
+
+01:52.028 --> 01:55.023
+This is the wrong way, and this is the right way.
+
+01:56.310 --> 01:59.580
+So two Nginx containers in a single Pods
+
+01:59.580 --> 02:03.600
+serving same purposes, not recommended all in all.
+
+02:03.600 --> 02:05.940
+So now, if you see,
+
+02:05.940 --> 02:08.700
+we can also discuss about multi-container Pods.
+
+02:08.700 --> 02:11.280
+So can we have multi-container Pods?
+
+02:11.280 --> 02:14.070
+Can we have multiple containers in a single Pods?
+
+02:14.070 --> 02:17.070
+Yes, but in exceptional cases.
+
+02:17.070 --> 02:22.070
+Out of 100, 99% always one Pod will have one container.
+
+02:23.460 --> 02:25.890
+And the one person cases are,
+
+02:25.890 --> 02:28.680
+we can see now in our next slide.
+
+02:28.680 --> 02:30.570
+So we can have multiple containers
+
+02:30.570 --> 02:34.830
+in a single Pod provided they are not of same kind.
+
+02:34.830 --> 02:37.020
+Example. In this Kubernetes cluster,
+
+02:37.020 --> 02:39.000
+in this worker node, you have a Pod
+
+02:39.000 --> 02:42.840
+and you have Nginx container serving the static content
+
+02:42.840 --> 02:44.550
+or acting as a proxy.
+
+02:44.550 --> 02:46.470
+And you have one more Nginx container
+
+02:46.470 --> 02:47.670
+or whatever the container
+
+02:47.670 --> 02:49.533
+which is called the helper container.
+
+02:50.430 --> 02:53.130
+So they do the helper jobs here.
+
+02:53.130 --> 02:55.290
+So what are these helper containers?
+
+02:55.290 --> 02:59.130
+In Kubernetes stumps, we call that as sidecar containers.
+
+02:59.130 --> 03:01.140
+So we can call them as data pullers,
+
+03:01.140 --> 03:03.090
+data pushers or proxies.
+
+03:03.090 --> 03:05.760
+So as data pullers, they pull data required
+
+03:05.760 --> 03:08.490
+by the main container from some other service
+
+03:08.490 --> 03:10.320
+in the network.
+
+03:10.320 --> 03:13.230
+Or they push the data by collecting the information
+
+03:13.230 --> 03:15.570
+from this Nginx main container.
+
+03:15.570 --> 03:18.270
+Or they can even act as proxies.
+
+03:18.270 --> 03:20.760
+Means like right static data to HTML files
+
+03:20.760 --> 03:24.600
+using helper container and reusing main containers.
+
+03:24.600 --> 03:27.240
+Or moreover, if you go into more
+
+03:27.240 --> 03:30.300
+like our cloud technologies, usually,
+
+03:30.300 --> 03:32.091
+the latest is like now you know the Istio,
+
+03:32.091 --> 03:33.960
+and all these things came in.
+
+03:33.960 --> 03:36.270
+So we will always have a sidecar container
+
+03:36.270 --> 03:39.210
+which is nothing but the envoy proxy.
+
+03:39.210 --> 03:43.650
+So in such cases, we use the sidecar container.
+
+03:43.650 --> 03:46.950
+But all in all, 99% cases,
+
+03:46.950 --> 03:51.950
+always Pod to container is a one-to-one relationship.
+
+03:54.240 --> 03:57.950
+So now, when we are using these multi-container Pods,
+
+03:57.950 --> 04:00.030
+we have the following advantage,
+
+04:00.030 --> 04:02.790
+the two containers can easily communicate
+
+04:02.790 --> 04:06.270
+with each other as they share the same network.
+
+04:06.270 --> 04:10.500
+And they can also share the same storage space.
+
+04:10.500 --> 04:13.740
+So multi-container Pods is a rare use case
+
+04:13.740 --> 04:16.890
+and we will try to focus on core fundamentals,
+
+04:16.890 --> 04:20.430
+which is nothing but one Pod to one container,
+
+04:20.430 --> 04:22.050
+one-to-one relationship.
+
+04:22.050 --> 04:24.690
+Now, in the next lecture, we are going to focus
+
+04:24.690 --> 04:27.180
+on the Kubernetes Pods demo.
+
+04:27.180 --> 04:28.890
+So I'll see you in the next lecture.
+
+04:28.890 --> 04:30.150
+Until then, bye-bye.
+
+04:30.150 --> 04:30.983
+Thank you.

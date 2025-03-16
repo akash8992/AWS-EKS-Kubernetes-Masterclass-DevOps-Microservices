@@ -1,0 +1,346 @@
+WEBVTT
+
+00:00.150 --> 00:00.990
+-: Welcome back.
+
+00:00.990 --> 00:03.090
+In this lecture, we are going to install
+
+00:03.090 --> 00:07.680
+the EBS CSI driver on our Kubernetes cluster.
+
+00:07.680 --> 00:11.370
+So we are going to create an IAM policy for EBS
+
+00:11.370 --> 00:15.840
+and associate that IAM policy to our worker node, IAM role.
+
+00:15.840 --> 00:19.140
+And then install the EBS CSI driver.
+
+00:19.140 --> 00:20.790
+So once we create this role
+
+00:20.790 --> 00:25.320
+and then associate it to our EBS EC2 instances,
+
+00:25.320 --> 00:29.640
+things like EKS EC2 instances worker node IAM role,
+
+00:29.640 --> 00:31.740
+which means like the pods inside
+
+00:31.740 --> 00:34.560
+the Kubernetes will be able to access
+
+00:34.560 --> 00:39.560
+that respective EBS services from the Kubernetes cluster.
+
+00:39.750 --> 00:41.910
+So let's go ahead and then do that now.
+
+00:41.910 --> 00:45.540
+So go to Services IAM and then create a policy
+
+00:45.540 --> 00:47.613
+with following details.
+
+00:50.490 --> 00:52.060
+So let's copy this
+
+00:53.414 --> 00:56.793
+and then go to IAM Service.
+
+01:03.090 --> 01:05.010
+And then go to Policies,
+
+01:05.010 --> 01:08.373
+and then Create a Policy.
+
+01:10.620 --> 01:13.620
+And go to JSON and remove existing
+
+01:13.620 --> 01:15.060
+and then add this.
+
+01:15.060 --> 01:17.010
+And go to Visual Editor
+
+01:17.010 --> 01:20.010
+and it'll validate the entire policy here.
+
+01:20.010 --> 01:21.810
+And the following EC2 actions,
+
+01:21.810 --> 01:23.730
+it is going to pick as part of this,
+
+01:23.730 --> 01:25.470
+whatever the JSON we have copied,
+
+01:25.470 --> 01:28.623
+it has picked close to two well actions from EC2.
+
+01:29.460 --> 01:33.660
+And review policy and provide the name of the policy.
+
+01:33.660 --> 01:35.670
+So the name of the policy we are going to say
+
+01:35.670 --> 01:38.883
+is Amazon EBS CSI Driver.
+
+01:40.080 --> 01:43.380
+And even we can say that for EKS
+
+01:43.380 --> 01:45.753
+so that it looks good if you want.
+
+01:48.035 --> 01:49.985
+So you see the instance access for EKS.
+
+01:51.690 --> 01:53.733
+And then create a policy.
+
+01:55.380 --> 01:57.240
+So once the policy got created,
+
+01:57.240 --> 01:59.550
+get the IAM role worker node using
+
+01:59.550 --> 02:02.160
+an associate this policy to that role.
+
+02:02.160 --> 02:06.240
+So you can get your IAM roles on our EKS cluster
+
+02:06.240 --> 02:07.080
+using this command, kubectl.
+
+02:07.080 --> 02:12.080
+In the kube system namespace, describe configmap aws-auth
+
+02:13.440 --> 02:15.510
+so we can get this way.
+
+02:15.510 --> 02:17.310
+The one way of getting it is this way.
+
+02:17.310 --> 02:19.620
+So let me go to terminals.
+
+02:19.620 --> 02:22.503
+So I didn't have my terminal open.
+
+02:23.494 --> 02:24.340
+So let's go here
+
+02:25.350 --> 02:27.723
+and open the terminal.
+
+02:32.160 --> 02:33.603
+Make it bigger.
+
+02:35.760 --> 02:40.080
+And then let's space this kubectl-n kube system,
+
+02:40.080 --> 02:42.270
+which is in kube system namespace.
+
+02:42.270 --> 02:44.890
+Describe the configmap aws-auth
+
+02:46.230 --> 02:48.660
+and it should provide the role ARN
+
+02:48.660 --> 02:50.520
+So this is the role ARN.
+
+02:50.520 --> 02:53.850
+So which means need to search for this in the IAM.
+
+02:53.850 --> 02:57.660
+And then under this, we need to associate the policy,
+
+02:57.660 --> 02:59.730
+whatever we have created.
+
+02:59.730 --> 03:01.530
+So we are here now.
+
+03:01.530 --> 03:05.580
+And we can go to Roles and then search for that policy.
+
+03:05.580 --> 03:07.710
+So I have copied this
+
+03:07.710 --> 03:11.400
+and I have copied from eksctl here.
+
+03:11.400 --> 03:13.260
+So from here I have copied this.
+
+03:13.260 --> 03:14.520
+And then searching here,
+
+03:14.520 --> 03:17.370
+and then I got the policy role here.
+
+03:17.370 --> 03:21.330
+So inside this role, we can attach the policy.
+
+03:21.330 --> 03:24.060
+Attach. And I can say,
+
+03:24.060 --> 03:26.730
+Amazon EBS CSI driver.
+
+03:26.730 --> 03:28.440
+So this one we are going to attach
+
+03:28.440 --> 03:31.830
+to our worker node IAM role.
+
+03:31.830 --> 03:34.080
+So the other way of finding the rollies.
+
+03:34.080 --> 03:36.063
+So we can go to EC2.
+
+03:38.400 --> 03:40.650
+And in EC2, if you see here,
+
+03:40.650 --> 03:42.690
+we'll have the running instances.
+
+03:42.690 --> 03:44.280
+And in that we'll have our T3
+
+03:44.280 --> 03:47.520
+medium related EKS cluster related instances.
+
+03:47.520 --> 03:50.760
+If you see these are related to EKS demo cluster.
+
+03:50.760 --> 03:52.710
+So now, I can go here
+
+03:52.710 --> 03:55.200
+and then I'll find the IAM role here,
+
+03:55.200 --> 03:57.360
+So you can see, IAM role.
+
+03:57.360 --> 03:59.340
+So I can click on this directly
+
+03:59.340 --> 04:01.383
+and then associate if I want to.
+
+04:06.330 --> 04:08.580
+So if you see, already it is associated.
+
+04:08.580 --> 04:10.020
+Just now, we have associated.
+
+04:10.020 --> 04:13.323
+So this value and this value should be absolutely the same.
+
+04:14.280 --> 04:18.360
+So one K8 and one K8,
+
+04:18.360 --> 04:20.130
+So in both ways, we can go ahead
+
+04:20.130 --> 04:23.010
+and then identify our IAM role.
+
+04:23.010 --> 04:26.280
+So now, we have provided the equivalent permissions
+
+04:26.280 --> 04:30.120
+for our EC2 instances present in the EKS cluster.
+
+04:30.120 --> 04:34.290
+Now we can go ahead and then deploy the EBS CSI driver.
+
+04:34.290 --> 04:36.450
+So we should be 1.14 or later.
+
+04:36.450 --> 04:38.913
+So let's verify our version.
+
+04:41.843 --> 04:44.070
+So we are at 1.16.6 beta.
+
+04:44.070 --> 04:45.090
+So good.
+
+04:45.090 --> 04:50.090
+so now we are going to deploy the Amazon EBS CSI driver.
+
+04:50.280 --> 04:53.940
+So I'll copy this entire thing and then paste it.
+
+04:53.940 --> 04:55.590
+So it'll reference to the Kubernetes
+
+04:55.590 --> 05:00.590
+special interest groups AWS, EBS CSI driver GitHub repo.
+
+05:01.170 --> 05:02.520
+So I'm deploying it.
+
+05:02.520 --> 05:04.830
+So whatever is the latest as on today,
+
+05:04.830 --> 05:07.683
+it is going to deploy that version.
+
+05:09.990 --> 05:11.433
+So it'll take a while.
+
+05:13.650 --> 05:15.330
+So it is creating the cluster roles
+
+05:15.330 --> 05:19.110
+demonstrates all whatever is required, it has created.
+
+05:19.110 --> 05:20.703
+So what we can do is,
+
+05:21.664 --> 05:23.313
+I can say,
+
+05:24.750 --> 05:29.743
+get pods-n kube system.
+
+05:31.740 --> 05:33.780
+So this should be created in kube system.
+
+05:33.780 --> 05:36.060
+So let's crosscheck.
+
+05:36.060 --> 05:40.020
+So you can see it has created the EBS CSI controller
+
+05:40.020 --> 05:42.750
+and then EBS CSI nodes here.
+
+05:42.750 --> 05:47.750
+So I'll also add this there in our document.
+
+05:48.480 --> 05:51.513
+So it has created and then it is up and running.
+
+05:53.028 --> 05:55.800
+So in our next lecture, we'll focus on the next concept.
+
+05:55.800 --> 05:57.180
+So I'll see you in the next lecture.
+
+05:57.180 --> 05:58.200
+Until then, bye-bye.
+
+05:58.200 --> 05:59.033
+Thank you.

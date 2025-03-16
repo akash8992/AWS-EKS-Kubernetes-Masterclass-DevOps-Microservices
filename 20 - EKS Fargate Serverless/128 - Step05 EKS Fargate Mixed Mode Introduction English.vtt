@@ -1,0 +1,589 @@
+WEBVTT
+
+00:00.150 --> 00:01.200
+-: Welcome back.
+
+00:01.200 --> 00:04.110
+In this lecture we are going to understand
+
+00:04.110 --> 00:07.890
+about Fargate profiles creation with YAML.
+
+00:08.730 --> 00:10.547
+So let's see what we are going to learn.
+
+00:10.547 --> 00:12.570
+All in all, so we are going
+
+00:12.570 --> 00:17.570
+into inside 0 9 0 2 Fargate profiles, advanced YAML.
+
+00:17.819 --> 00:20.651
+So as part of this, what are we going to learn is
+
+00:20.651 --> 00:24.270
+so we are going to deploy three apps
+
+00:24.270 --> 00:26.310
+in a mixer mode deployment.
+
+00:26.310 --> 00:30.900
+So which means one app to our EKS manager node group
+
+00:30.900 --> 00:33.330
+which is with EC2 and two apps
+
+00:33.330 --> 00:37.650
+we are going to deploy to two different Fargate profiles.
+
+00:37.650 --> 00:41.097
+So as part of that, to create those two Fargate profiles
+
+00:41.097 --> 00:42.696
+we need to write the YAML
+
+00:42.696 --> 00:46.410
+and then create those two Fargate profiles at a time.
+
+00:46.410 --> 00:49.950
+Earlier we have user the command to create it
+
+00:49.950 --> 00:52.350
+in our 0 9 0 1.
+
+00:52.350 --> 00:54.240
+So to create a Fargate profile.
+
+00:54.240 --> 00:56.370
+So we have user the command.
+
+00:56.370 --> 00:58.710
+So like this if you want to create 10 profiles
+
+00:58.710 --> 01:01.590
+so you need to run 10 times the command.
+
+01:01.590 --> 01:06.590
+Instead of that, we are going to do that using a YAML file.
+
+01:06.810 --> 01:08.730
+So like this, so we'll discuss
+
+01:08.730 --> 01:11.880
+about this later but for now we'll go back
+
+01:11.880 --> 01:14.880
+and then understand what are the three apps and
+
+01:14.880 --> 01:18.671
+then how we are going to deploy the detailed architecture.
+
+01:18.671 --> 01:21.780
+Let's see what are those three apps and then
+
+01:21.780 --> 01:25.106
+how we are going to deploy in a visual manner, right?
+
+01:25.106 --> 01:28.950
+So in AWS cloud we have a VPC
+
+01:28.950 --> 01:31.320
+and inside VPC we are going to have
+
+01:31.320 --> 01:33.480
+both the EKS manager node groups
+
+01:33.480 --> 01:36.450
+and then EKS Fargate profiles.
+
+01:36.450 --> 01:40.890
+So in a EKS cluster we are going to have both Fargate
+
+01:40.890 --> 01:43.440
+profiles and then manage the node groups together.
+
+01:43.440 --> 01:46.756
+So that is nothing but we call it as mix it more, right?
+
+01:46.756 --> 01:50.356
+So what happens here is like as usual we'll have
+
+01:50.356 --> 01:53.358
+our availability zones and then subnets, right?
+
+01:53.358 --> 01:54.360
+So
+
+01:54.360 --> 01:58.020
+from Fargate perspective it only supports private subnets.
+
+01:58.020 --> 02:01.350
+So if you see here, here we have only private subnets
+
+02:01.350 --> 02:03.420
+and managing node groups can be created
+
+02:03.420 --> 02:05.484
+in both private and public subnets.
+
+02:05.484 --> 02:06.787
+But as part
+
+02:06.787 --> 02:09.330
+of this section we are only, we have already
+
+02:09.330 --> 02:14.190
+an existing private subnet related EKS manage node group.
+
+02:14.190 --> 02:17.760
+So that's the reason I have rounded it to only this part
+
+02:17.760 --> 02:20.250
+and the in this public subnets we are going to
+
+02:20.250 --> 02:24.480
+deploy our ingress related services.
+
+02:24.480 --> 02:28.480
+So now what happens is as part of
+
+02:29.550 --> 02:30.383
+Fargate
+
+02:30.383 --> 02:32.310
+whenever we bring the Fargate into the picture
+
+02:32.310 --> 02:35.160
+so the organization
+
+02:35.160 --> 02:38.220
+of apps is going to be with the name spaces, right?
+
+02:38.220 --> 02:41.400
+So how we are going to organize this with name spaces.
+
+02:41.400 --> 02:44.250
+So for this EKS manager node group
+
+02:44.250 --> 02:46.710
+whatever the application NS app one means
+
+02:46.710 --> 02:48.660
+like app one whatever we are going to deploy
+
+02:48.660 --> 02:51.937
+for that we have created a name space NS app one
+
+02:51.937 --> 02:54.780
+in the same way for app two we are going to
+
+02:54.780 --> 02:59.490
+create a namespace app two and then for application UMS
+
+02:59.490 --> 03:01.800
+which is user management microservice.
+
+03:01.800 --> 03:05.640
+So we are going to have the name space as NS UMS.
+
+03:05.640 --> 03:09.540
+So now NS app two will be part of one Fargate profile
+
+03:09.540 --> 03:12.392
+NS UMS will be part of another Fargate profile
+
+03:12.392 --> 03:17.392
+and NS app one is going to be for manage node groups means
+
+03:17.430 --> 03:21.862
+like these namespaces are not tied to anything specifically.
+
+03:21.862 --> 03:23.301
+So, but high level
+
+03:23.301 --> 03:27.029
+if we have that name space tied to Fargate profile
+
+03:27.029 --> 03:29.790
+so those apps will be scheduled
+
+03:29.790 --> 03:31.590
+to that respect to Fargate profile.
+
+03:31.590 --> 03:34.830
+So it's the other way around, but whatever may be the case.
+
+03:34.830 --> 03:37.455
+So now if you take my app one, right
+
+03:37.455 --> 03:40.230
+so app one related ports I have deployed
+
+03:40.230 --> 03:42.810
+on the easy to worker notes here.
+
+03:42.810 --> 03:46.130
+So, and it'll have its own note port service
+
+03:46.130 --> 03:50.713
+and its own app one ingress service, okay?
+
+03:50.713 --> 03:52.183
+And in the same way
+
+03:52.183 --> 03:56.486
+for app two we'll have a Fargate profile with app two
+
+03:56.486 --> 04:00.480
+and then inside that we'll deploy our app to application
+
+04:00.480 --> 04:03.320
+and it also will have the its own separate app
+
+04:03.320 --> 04:06.480
+to ingress service.
+
+04:06.480 --> 04:09.480
+So why we are having separate set of services
+
+04:09.480 --> 04:12.030
+we'll see the next slide means like why we are
+
+04:12.030 --> 04:14.580
+going to have separate ingress services here.
+
+04:14.580 --> 04:17.460
+Okay? So we have seen the concepts of context
+
+04:17.460 --> 04:20.725
+part based routing in ALB, but why we are not
+
+04:20.725 --> 04:24.210
+using here when we are using this mixed mode deployments.
+
+04:24.210 --> 04:26.040
+Okay? So there is a reason for that.
+
+04:26.040 --> 04:29.010
+So we'll see in the next slide.
+
+04:29.010 --> 04:32.490
+Okay, so now another thing is UMS is nothing
+
+04:32.490 --> 04:34.432
+but user management microservice
+
+04:34.432 --> 04:38.302
+it's ingress service need to be deployed and UMS part
+
+04:38.302 --> 04:42.000
+which is nothing but EMS deployment will be deployed
+
+04:42.000 --> 04:44.970
+and it's not port service and it's external limb service.
+
+04:44.970 --> 04:47.760
+And this external limb service is going to connect
+
+04:47.760 --> 04:50.490
+to the RDS database, right?
+
+04:50.490 --> 04:52.350
+So whatever we have created, so
+
+04:52.350 --> 04:55.560
+if this RDS database is not and up, up and running
+
+04:55.560 --> 04:58.050
+from previous sections, whatever we have created, right?
+
+04:58.050 --> 05:00.390
+So if it is down and then if you want to start it
+
+05:00.390 --> 05:01.650
+you can start it up.
+
+05:01.650 --> 05:02.483
+Okay? Why?
+
+05:02.483 --> 05:05.370
+Because whenever you deploy UMS, if this is not
+
+05:05.370 --> 05:07.316
+up then this port keeps failing.
+
+05:07.316 --> 05:12.240
+So now the next thing is as soon as these things
+
+05:12.240 --> 05:13.860
+are created, one more thing will be there
+
+05:13.860 --> 05:16.514
+which is external DNS to digital the DNS names
+
+05:16.514 --> 05:20.250
+and also also say for SSL certificate certificate manager
+
+05:20.250 --> 05:22.080
+related certificate will be associated
+
+05:22.080 --> 05:23.250
+in our ingress survey.
+
+05:23.250 --> 05:27.105
+Okay? So now it'll resist three DNS names app one dot cub
+
+05:27.105 --> 05:28.890
+one cloud.com app two dot cube coupon cloud.com
+
+05:30.750 --> 05:34.170
+and then UMS dot cube coupon cloud.com.
+
+05:34.170 --> 05:38.207
+So now as a user, so if I'm using means like
+
+05:38.207 --> 05:41.310
+if I'm using app one cube coupon cloud.com and then
+
+05:41.310 --> 05:45.110
+if I access the application I come to, I come to app
+
+05:45.110 --> 05:48.000
+on ingress and then from there I'll go to app
+
+05:48.000 --> 05:51.150
+on note port service and then from there it'll be
+
+05:51.150 --> 05:54.240
+load balancer two app, one ports, okay?
+
+05:54.240 --> 05:55.890
+Using note port service stuff.
+
+05:55.890 --> 05:56.787
+Okay? So now
+
+05:56.787 --> 06:00.130
+now if you go to app to cuban cloud.com, it'll
+
+06:00.130 --> 06:03.516
+go to app to ingress here and then
+
+06:03.516 --> 06:05.700
+we directly go to the port
+
+06:05.700 --> 06:08.100
+because we are going to use for target parts
+
+06:08.100 --> 06:12.660
+we are going to use target type IP our manifest
+
+06:12.660 --> 06:17.660
+in the same way for UMS UMS cuban cloud.com.
+
+06:17.670 --> 06:19.920
+So we are going to access it and the request comes
+
+06:19.920 --> 06:23.160
+to UMS part and if the request is health status
+
+06:23.160 --> 06:24.917
+then directly from here it'll be solve.
+
+06:24.917 --> 06:26.946
+But if the request is going to be something
+
+06:26.946 --> 06:29.665
+like list users or something which is slash users
+
+06:29.665 --> 06:31.530
+so then the request will go
+
+06:31.530 --> 06:33.840
+to external name service and then it'll go back
+
+06:33.840 --> 06:38.400
+to RDS database and then serve it back to the user.
+
+06:38.400 --> 06:40.410
+So this is the mixer mode with three apps
+
+06:40.410 --> 06:42.540
+whatever we are going to deploy mixer mode.
+
+06:42.540 --> 06:44.280
+Again, I am going to reiterate nothing
+
+06:44.280 --> 06:47.850
+but in a same EKS cluster we are going to have
+
+06:47.850 --> 06:49.200
+both fargate profiles
+
+06:49.200 --> 06:52.710
+and then EKS manager easy to notes also in the same cluster.
+
+06:52.710 --> 06:55.120
+Okay? So that is nothing but the mixer mode.
+
+06:55.120 --> 06:55.968
+So moving on.
+
+06:55.968 --> 06:58.020
+So we have discussed
+
+06:58.020 --> 07:02.370
+about why can't we use the app only one ingress
+
+07:02.370 --> 07:03.900
+for all these things, right?
+
+07:03.900 --> 07:08.010
+So it means like one ingress for app, one UMS, and also
+
+07:08.010 --> 07:11.820
+for app two and then route it if it comes to app one ingress
+
+07:11.820 --> 07:14.328
+and then if it is slash app one go here and then
+
+07:14.328 --> 07:18.120
+if it is UMS go this way and then have to go this way.
+
+07:18.120 --> 07:19.710
+So why can't we do that?
+
+07:19.710 --> 07:21.870
+Okay, so which is nothing but ingress with
+
+07:21.870 --> 07:23.340
+cross name spaces.
+
+07:23.340 --> 07:25.942
+You call it as why because you created a ingress
+
+07:25.942 --> 07:29.887
+and then this ingress whatever you are going to create
+
+07:29.887 --> 07:33.630
+right? So if you go back to the previous picture, right?
+
+07:33.630 --> 07:36.750
+So this ingress whatever the app one ingress
+
+07:36.750 --> 07:38.790
+even though we are not specifying here
+
+07:38.790 --> 07:42.090
+in the picture app, one ingress will be part
+
+07:42.090 --> 07:44.558
+of NS app one namespace, okay?
+
+07:44.558 --> 07:49.558
+And UMS ingress will be part of NS UMS, namespace
+
+07:49.590 --> 07:54.590
+and app two ingress will be part of NS app two namespace.
+
+07:54.750 --> 07:57.738
+Now if you see here this
+
+07:57.738 --> 07:59.278
+one app one,
+
+07:59.278 --> 08:00.270
+this respect
+
+08:00.270 --> 08:03.900
+to ingress, if it is not part of any name spaces are
+
+08:03.900 --> 08:07.060
+if it need to go across name spaces to send that traffic.
+
+08:07.060 --> 08:12.060
+So that's not possible as on today, which means like ingress
+
+08:12.090 --> 08:14.269
+with cross name spaces is not supported
+
+08:14.269 --> 08:17.196
+as on today even there is a GitHub open
+
+08:17.196 --> 08:20.452
+back from 2015 onwards.
+
+08:20.452 --> 08:24.720
+But till date that is not resolved as on today.
+
+08:24.720 --> 08:27.480
+So not only in LB ingress,
+
+08:27.480 --> 08:29.490
+this is not supported as on today.
+
+08:29.490 --> 08:33.300
+So now which means this concept is not applicable here.
+
+08:33.300 --> 08:36.990
+So always if you are dealing with multiple name spaces
+
+08:36.990 --> 08:38.100
+then always it is
+
+08:38.100 --> 08:40.950
+like each name space one ingress should be there
+
+08:40.950 --> 08:43.530
+and inside this name space you have 10 apps
+
+08:43.530 --> 08:45.220
+then 10 contact path based routing
+
+08:45.220 --> 08:47.010
+or host editor base at routing.
+
+08:47.010 --> 08:49.500
+Whatever the routing you want to implement
+
+08:49.500 --> 08:52.140
+you can implement inside that name space.
+
+08:52.140 --> 08:54.060
+But outside of name space
+
+08:54.060 --> 08:57.360
+which means across cross name spaces with single ingress
+
+08:57.360 --> 09:00.930
+we will not be able to do the context path based routing
+
+09:00.930 --> 09:02.430
+or any host head based routing
+
+09:02.430 --> 09:04.399
+or any ingress related concepts
+
+09:04.399 --> 09:07.700
+with single ingress to multiple name spaces.
+
+09:07.700 --> 09:09.120
+So with that said
+
+09:09.120 --> 09:12.450
+we have completed our introductory section
+
+09:12.450 --> 09:14.820
+and then we'll move on to advance
+
+09:14.820 --> 09:17.591
+at Fargate profile with YAML in our next lecture.
+
+09:17.591 --> 09:19.472
+So I'll see you in the next lecture.
+
+09:19.472 --> 09:20.752
+Until then, bye bye.
+
+09:20.752 --> 09:21.723
+Thank you.

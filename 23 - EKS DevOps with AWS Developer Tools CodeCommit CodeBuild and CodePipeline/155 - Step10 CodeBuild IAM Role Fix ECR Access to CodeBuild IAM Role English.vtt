@@ -1,0 +1,373 @@
+WEBVTT
+
+00:00.210 --> 00:03.540
+-: Welcome back, in the previous step, we have stopped here
+
+00:03.540 --> 00:07.440
+at the access denied exception area, right?
+
+00:07.440 --> 00:09.780
+So whenever we are trying to log
+
+00:09.780 --> 00:14.250
+into easier with get login access denied, we are getting it.
+
+00:14.250 --> 00:15.330
+So why?
+
+00:15.330 --> 00:19.020
+Why? Because the code build role, whatever we have created
+
+00:19.020 --> 00:21.840
+as part of this section doesn't have access
+
+00:21.840 --> 00:25.560
+to elastic container registry, right?
+
+00:25.560 --> 00:27.210
+So let's go back here.
+
+00:27.210 --> 00:28.350
+So update code
+
+00:28.350 --> 00:31.740
+build role to have access to ECR, which is full access.
+
+00:31.740 --> 00:34.980
+Okay? So our code build role mostly should be this way.
+
+00:34.980 --> 00:36.690
+Why? Because whatever the name
+
+00:36.690 --> 00:39.000
+we have user to create the stuff, right?
+
+00:39.000 --> 00:40.800
+So in those lines it should be like this
+
+00:40.800 --> 00:42.840
+but we really don't need to worry about that.
+
+00:42.840 --> 00:45.930
+So what we'll do is we'll go here and we'll go
+
+00:45.930 --> 00:49.560
+to phase details and in pre-build phase it failed.
+
+00:49.560 --> 00:52.860
+So be at this section it is telling us very clearly.
+
+00:52.860 --> 00:56.460
+So now we'll go to environmental variables
+
+00:56.460 --> 00:59.400
+you can see whatever it is set and build details, okay?
+
+00:59.400 --> 01:03.570
+And if you see here, here is the role you can find, right?
+
+01:03.570 --> 01:07.710
+So code build EKS, DevOps, CB four pipe service role, right?
+
+01:07.710 --> 01:08.940
+So I'll click on that role
+
+01:08.940 --> 01:12.060
+it'll open in a new window with IAM, right?
+
+01:12.060 --> 01:15.780
+So this is my code build EKS DevOps CB role, right?
+
+01:15.780 --> 01:17.596
+I'm going to attach a policy.
+
+01:17.596 --> 01:19.440
+So whatever I said here
+
+01:19.440 --> 01:24.030
+which is Amazon EC two container registry full access, okay?
+
+01:24.030 --> 01:26.100
+And I will say that
+
+01:26.100 --> 01:30.930
+and it should be there and attach the policy, right?
+
+01:30.930 --> 01:34.830
+So now this related error, whatever we are seeing, right?
+
+01:34.830 --> 01:37.200
+So this should go and then we need to move
+
+01:37.200 --> 01:40.110
+to the next step in our build.
+
+01:40.110 --> 01:42.630
+So let's go ahead and then do that.
+
+01:42.630 --> 01:45.300
+Now. So to do that we need to make a change
+
+01:45.300 --> 01:47.850
+and then trigger the pipeline again, right?
+
+01:47.850 --> 01:49.380
+So there are two ways to do it, okay?
+
+01:49.380 --> 01:52.140
+So one is you can trigger the pipeline from there
+
+01:52.140 --> 01:54.870
+or you can go here and then select the pipeline
+
+01:54.870 --> 01:56.160
+and then say release change.
+
+01:56.160 --> 01:58.860
+Okay? Release change will detect the most recent changes
+
+01:58.860 --> 02:01.590
+in your location and then release your change.
+
+02:01.590 --> 02:06.590
+Okay? So I'll say release and we run the pipeline
+
+02:07.350 --> 02:10.380
+immediately. So there are no changes, but what
+
+02:10.380 --> 02:14.966
+is going to happen, we are going to see, right?
+
+02:14.966 --> 02:18.420
+If you see here the pipeline source completed
+
+02:18.420 --> 02:20.460
+and then immediately build started.
+
+02:20.460 --> 02:22.380
+Okay? So we said release change only.
+
+02:22.380 --> 02:24.701
+Okay? So we'll go here and then
+
+02:24.701 --> 02:26.520
+one more time we are going to
+
+02:26.520 --> 02:29.310
+see what's going to happen at which step it is
+
+02:29.310 --> 02:30.630
+going to fail.
+
+02:30.630 --> 02:32.940
+And one more time also it is going to fail
+
+02:32.940 --> 02:35.550
+because one more change we are supposed to do
+
+02:35.550 --> 02:37.740
+from roles perspective.
+
+02:37.740 --> 02:38.940
+So we'll see what is that?
+
+02:38.940 --> 02:41.970
+We have created this core build role, but for this core
+
+02:41.970 --> 02:45.180
+build role automatically created as part of core pipeline.
+
+02:45.180 --> 02:48.870
+So it doesn't have this Amazon EC two resist full access.
+
+02:48.870 --> 02:51.210
+So we have given that, but still it'll fail
+
+02:51.210 --> 02:54.030
+because there is one more thing happen here, right?
+
+02:54.030 --> 02:56.460
+So as part of our build spector yaml
+
+02:56.460 --> 03:00.090
+so we are also going to assume a role here, right?
+
+03:00.090 --> 03:05.090
+So which is role EKSSCTL role ARN, right?
+
+03:05.400 --> 03:07.830
+So here we are going to assume this role, right?
+
+03:07.830 --> 03:09.960
+For if our code builder have this role
+
+03:09.960 --> 03:12.180
+then only code builder has this role
+
+03:12.180 --> 03:14.445
+then only it can assume this respective role
+
+03:14.445 --> 03:18.300
+and perform these operations but currently doesn't have.
+
+03:18.300 --> 03:19.830
+So it's going to fail.
+
+03:19.830 --> 03:21.930
+So let's see, once it is failed
+
+03:21.930 --> 03:24.630
+we are going to see what happened, right?
+
+03:24.630 --> 03:27.693
+So submitted queue and then promoting is happening.
+
+03:28.994 --> 03:31.084
+So let's wait for it to get to the next level.
+
+03:31.084 --> 03:33.012
+So it's running, running.
+
+03:33.012 --> 03:37.470
+So if you see here AWS version is completed
+
+03:37.470 --> 03:39.633
+and let's wait for the next steps now.
+
+03:40.830 --> 03:44.127
+So running login to Amazon ECR
+
+03:44.127 --> 03:46.800
+ECR get login got succeeded, right?
+
+03:46.800 --> 03:50.160
+So some warning what login got succeeded
+
+03:50.160 --> 03:52.530
+and then we are moving to the next steps, right?
+
+03:52.530 --> 03:54.720
+So it is going to do the DACA build.
+
+03:54.720 --> 03:57.090
+So it is doing the DACA build now
+
+03:57.090 --> 03:58.230
+right in the build phase
+
+03:58.230 --> 04:01.590
+it is doing the DACA build and build a completed
+
+04:01.590 --> 04:04.462
+and it is running the post build a command
+
+04:04.462 --> 04:06.180
+which is nothing but is trying to push the image
+
+04:06.180 --> 04:10.830
+to the ECR repository and then it successfully pushed it.
+
+04:10.830 --> 04:13.830
+So image push to ECR got completed.
+
+04:13.830 --> 04:18.540
+So you can see EKS DevOps NIKS 2027101122.
+
+04:18.540 --> 04:22.650
+So it means like all the means like date and then time
+
+04:22.650 --> 04:26.160
+and then also the code builder revision version.
+
+04:26.160 --> 04:27.960
+All these details it has provided
+
+04:27.960 --> 04:30.540
+for its tag for this respective image
+
+04:30.540 --> 04:33.750
+and then it push it successfully and now comes here.
+
+04:33.750 --> 04:37.598
+The failure and error access denied for this section
+
+04:37.598 --> 04:41.070
+AWS STS assumed role.
+
+04:41.070 --> 04:43.630
+So it is failing with access denied when
+
+04:44.792 --> 04:46.320
+calling the assumed role operation from code bill.
+
+04:46.320 --> 04:49.710
+So code bill doesn't have the assumed role for this.
+
+04:49.710 --> 04:51.060
+So it is failing.
+
+04:51.060 --> 04:54.450
+So let it fail before that, before fixing this
+
+04:54.450 --> 04:56.880
+we'll move and then see our version
+
+04:56.880 --> 05:01.560
+what our ECR elastic container registry about the
+
+05:01.560 --> 05:04.710
+this respective image, whatever starts
+
+05:04.710 --> 05:09.300
+with FC 93 push you to our ECR container right?
+
+05:09.300 --> 05:12.210
+So ECR registry, so elastic container registry
+
+05:12.210 --> 05:17.210
+open it and go to our DevOps engines page means like EKS
+
+05:19.197 --> 05:24.197
+DevOps engine related repository, open it and our FC 93
+
+05:25.050 --> 05:27.570
+this got pusher just now, right?
+
+05:27.570 --> 05:28.620
+So that's good.
+
+05:28.620 --> 05:30.960
+So which means the first part of thing is working.
+
+05:30.960 --> 05:34.110
+So the push has been worker successfully.
+
+05:34.110 --> 05:38.190
+So which is nothing, but, so this part is succeeded.
+
+05:38.190 --> 05:41.460
+So code build has built it and then pushed it to the ECR
+
+05:41.460 --> 05:42.840
+So this part is completed.
+
+05:42.840 --> 05:46.230
+Now code will need to go here and then push the same thing
+
+05:46.230 --> 05:48.750
+means like push the manifest to the EKS cluster.
+
+05:48.750 --> 05:49.740
+So it need to do that.
+
+05:49.740 --> 05:53.940
+So let's go ahead and then fix that in our next step.
+
+05:53.940 --> 05:55.980
+So I'll see you in the next lecture.
+
+05:55.980 --> 05:58.230
+Until then, bye bye.
+
+05:58.230 --> 05:59.063
+Thank you.

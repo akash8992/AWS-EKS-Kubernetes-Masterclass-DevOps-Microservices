@@ -1,0 +1,556 @@
+WEBVTT
+
+00:00.360 --> 00:01.290
+-: Welcome back.
+
+00:01.290 --> 00:04.355
+As part of step 0403, we are going to verify
+
+00:04.355 --> 00:07.560
+that our load balancer controller is installed
+
+00:07.560 --> 00:11.971
+and also it's equal and webhook services also got created.
+
+00:11.971 --> 00:13.290
+So let's start with
+
+00:13.290 --> 00:16.050
+whether the controller is installed or not.
+
+00:16.050 --> 00:19.680
+So we'll set kubectl-n kube system
+
+00:19.680 --> 00:23.460
+and get the deployments in our EKS cluster, right?
+
+00:23.460 --> 00:25.890
+So in kube system namespace,
+
+00:25.890 --> 00:30.890
+so we'll say kubectl-n kube system and get,
+
+00:33.270 --> 00:34.950
+and we can say deploy.
+
+00:34.950 --> 00:38.460
+So what all deployments available in kube system namespace
+
+00:38.460 --> 00:40.200
+it is going to list for us.
+
+00:40.200 --> 00:43.260
+So you can see AWS load balancer controller
+
+00:43.260 --> 00:47.070
+which was created two minutes before, right?
+
+00:47.070 --> 00:51.120
+So now if you want to also see in detail, right?
+
+00:51.120 --> 00:54.750
+If you want to describe that deployment and review it
+
+00:54.750 --> 00:56.790
+so we can describe it, right?
+
+00:56.790 --> 01:00.000
+So this is the name of the deployment, right?
+
+01:00.000 --> 01:03.060
+So, copy and paste
+
+01:03.060 --> 01:04.650
+and instead of get command
+
+01:04.650 --> 01:08.130
+we'll use the describe command here, right?
+
+01:08.130 --> 01:11.373
+So I'll say describe.
+
+01:13.230 --> 01:16.890
+And you should see that the entire information about this
+
+01:16.890 --> 01:20.193
+is going to be provided in detail.
+
+01:22.049 --> 01:24.570
+See name of the deployment
+
+01:24.570 --> 01:28.140
+is AWS load balancer controller in namespace kube system.
+
+01:28.140 --> 01:32.580
+It was created and these are some of the labels of it.
+
+01:32.580 --> 01:34.200
+And the version it has installed
+
+01:34.200 --> 01:37.050
+as on to the latest is V2.3.1.
+
+01:37.050 --> 01:39.600
+So it has installed the 2.3.1
+
+01:39.600 --> 01:40.890
+and it has done using.
+
+01:40.890 --> 01:42.930
+So labels are the very important thing.
+
+01:42.930 --> 01:45.300
+So how it has installed, also you will know.
+
+01:45.300 --> 01:48.300
+So it is manager by Helm here, right?
+
+01:48.300 --> 01:50.911
+So instance name is AWS load balancer controller
+
+01:50.911 --> 01:54.360
+and name also you can AWS load balancer controller
+
+01:54.360 --> 01:56.190
+and it is manager by Helm.
+
+01:56.190 --> 01:59.700
+And version, also you are going to see 2.3.1
+
+01:59.700 --> 02:02.700
+and Helm chart version you can see 1.3.3.
+
+02:02.700 --> 02:04.500
+This is the Helm chart version
+
+02:04.500 --> 02:07.800
+and this is the EKS load balancer controller version
+
+02:07.800 --> 02:09.750
+is V2.3.1.
+
+02:09.750 --> 02:11.550
+So both are different.
+
+02:11.550 --> 02:13.020
+And now annotations,
+
+02:13.020 --> 02:15.180
+you can see deployment and meta health,
+
+02:15.180 --> 02:16.140
+some additional things
+
+02:16.140 --> 02:18.630
+whatever they have defined here, right?
+
+02:18.630 --> 02:21.120
+And another important thing you can see here
+
+02:21.120 --> 02:22.380
+is in the selector labels
+
+02:22.380 --> 02:25.170
+you can see app Kubernetes io instance
+
+02:25.170 --> 02:27.360
+and also app Kubernetes io name.
+
+02:27.360 --> 02:31.440
+And both have the AWS load balancer controller.
+
+02:31.440 --> 02:33.630
+So, and in addition to that replicas,
+
+02:33.630 --> 02:35.970
+it has created two desired replicas
+
+02:35.970 --> 02:37.590
+and strategy type deployment.
+
+02:37.590 --> 02:40.320
+Strategy type it is using is rolling updates
+
+02:40.320 --> 02:41.760
+and rolling update strategy
+
+02:41.760 --> 02:46.760
+also it is saying 25% max unavailable and 25% max search.
+
+02:46.950 --> 02:48.990
+So, and this is the port template.
+
+02:48.990 --> 02:49.920
+And if you see here,
+
+02:49.920 --> 02:51.510
+this is the very important point
+
+02:51.510 --> 02:53.340
+where you can see service account
+
+02:53.340 --> 02:55.588
+it is going to be associated
+
+02:55.588 --> 02:57.960
+with this AWS load balancer controller.
+
+02:57.960 --> 03:00.930
+And containers it has downloaded from the image repository
+
+03:00.930 --> 03:03.450
+whatever you have set, right?
+
+03:03.450 --> 03:08.450
+And ports it is using is 9443 and then 8080, right?
+
+03:10.170 --> 03:12.180
+And the cluster name is EKS demo one,
+
+03:12.180 --> 03:14.400
+whatever the arguments you have provided.
+
+03:14.400 --> 03:17.991
+Ingress class ALB AWS region code is this one,
+
+03:17.991 --> 03:20.880
+AWS VPC IDs, whatever you have provided.
+
+03:20.880 --> 03:23.250
+It also internally have the liveness probe
+
+03:23.250 --> 03:26.160
+whatever they have defined inside the package
+
+03:26.160 --> 03:27.720
+and it has the volumes
+
+03:27.720 --> 03:31.441
+and it has some certificate mounted to it
+
+03:31.441 --> 03:34.920
+whose name is AWS load balancer TLS.
+
+03:34.920 --> 03:37.680
+So this one just remember it.
+
+03:37.680 --> 03:38.985
+Why?
+
+03:38.985 --> 03:42.120
+Because if you see here AWS load balancer TLS.
+
+03:42.120 --> 03:44.220
+So that is what is mounted here.
+
+03:44.220 --> 03:47.850
+So this is the secret which is mounted as volumes here.
+
+03:47.850 --> 03:48.870
+Why?
+
+03:48.870 --> 03:51.660
+Because this respective load balancer controller
+
+03:51.660 --> 03:54.150
+listens on port 9443.
+
+03:54.150 --> 03:57.150
+So the communication to this load balancer controller
+
+03:57.150 --> 04:01.230
+is going to be on SSL and it needs a TLS certificate
+
+04:01.230 --> 04:02.550
+associated with that.
+
+04:02.550 --> 04:05.160
+And that TLS certificate is associated here
+
+04:05.160 --> 04:07.860
+as volumes inside that using a secret,
+
+04:07.860 --> 04:10.680
+which means when you go and then verify that secret,
+
+04:10.680 --> 04:12.540
+we'll find that one also.
+
+04:12.540 --> 04:17.250
+And you can see the events normal scaling replicas
+
+04:17.250 --> 04:18.180
+that everything looks good.
+
+04:18.180 --> 04:21.090
+There is no errors or anything from events perspective.
+
+04:21.090 --> 04:24.210
+So this is about the deployment, right?
+
+04:24.210 --> 04:27.330
+And now we'll also verify the service here,
+
+04:27.330 --> 04:28.860
+which is webhook service.
+
+04:28.860 --> 04:30.960
+So kubectl- and kube system.
+
+04:30.960 --> 04:32.910
+And then instead of deployment,
+
+04:32.910 --> 04:36.390
+so I'll say clear and instead of deploy, right?
+
+04:36.390 --> 04:38.730
+So we are going to say SVC.
+
+04:38.730 --> 04:42.210
+So we'll get the services in the kube system namespace
+
+04:42.210 --> 04:45.000
+and you'll see kube DNS is one service
+
+04:45.000 --> 04:47.760
+and AWS load balancer webhook service
+
+04:47.760 --> 04:50.730
+is one more service and which is listening
+
+04:50.730 --> 04:53.100
+on port 443, right?
+
+04:53.100 --> 04:56.130
+And here you have seen the port 9443.
+
+04:56.130 --> 04:59.310
+So, now we'll see the important things here.
+
+04:59.310 --> 05:01.320
+So this is 9443
+
+05:01.320 --> 05:03.990
+and the selector labels inside this right?
+
+05:03.990 --> 05:06.240
+The selector labels inside this
+
+05:06.240 --> 05:08.340
+is also you have seen here, right?
+
+05:08.340 --> 05:12.777
+The selector labels is instance AWS load balancer controller
+
+05:12.777 --> 05:16.080
+and name and AWS load balancer controller.
+
+05:16.080 --> 05:18.540
+So these are the selector match labels
+
+05:18.540 --> 05:22.200
+should be available inside the service labels, right?
+
+05:22.200 --> 05:23.160
+Service selector.
+
+05:23.160 --> 05:26.490
+So that traffic coming to this 443 port
+
+05:26.490 --> 05:28.800
+need to be sent to that 9443 port.
+
+05:28.800 --> 05:30.840
+Those also we need to verify
+
+05:30.840 --> 05:33.180
+for our additional understanding only.
+
+05:33.180 --> 05:34.830
+So whatever we are discussing
+
+05:34.830 --> 05:36.600
+is for our additional understanding
+
+05:36.600 --> 05:39.210
+and dissecting each of the objects
+
+05:39.210 --> 05:42.055
+and then seeing the internals of it.
+
+05:42.055 --> 05:45.072
+So let's come back here and see.
+
+05:45.072 --> 05:47.827
+Verify labels in service
+
+05:47.827 --> 05:49.880
+and select the labels in deployment, right?
+
+05:49.880 --> 05:52.107
+So this is the webhook service
+
+05:52.107 --> 05:55.489
+which you are going to output using YAML, right?
+
+05:55.489 --> 05:56.437
+So what is this?
+
+05:56.437 --> 06:00.827
+So, get SVC and load balancer webhook service with YAML.
+
+06:00.827 --> 06:03.584
+And inside this you go to selector,
+
+06:03.584 --> 06:05.255
+and you see these two are the values
+
+06:05.255 --> 06:07.307
+inside the service selector, right?
+
+06:07.307 --> 06:10.858
+App Kubernetes io instance and app Kubernetes io name.
+
+06:10.858 --> 06:13.351
+And now verify the selector labels
+
+06:13.351 --> 06:16.920
+in our AWS load balancer controller deployment, right?
+
+06:16.920 --> 06:18.739
+And you'll find here also,
+
+06:18.739 --> 06:23.739
+come back here and you'll find the selector match labels
+
+06:25.230 --> 06:27.090
+and you can see the same thing.
+
+06:27.090 --> 06:29.340
+Whatever you are seeing in selector match labels
+
+06:29.340 --> 06:33.270
+of the deployment, same you are seeing in the service here.
+
+06:33.270 --> 06:35.580
+So that very clearly tells us
+
+06:35.580 --> 06:38.293
+that whatever the traffic coming to the webhook service
+
+06:38.293 --> 06:41.270
+on 443 it is sending to our deployment,
+
+06:43.230 --> 06:45.540
+AWS load balancer controller deployment.
+
+06:45.540 --> 06:48.960
+But, let's also verify this one more time
+
+06:48.960 --> 06:50.880
+on which ports it is sending, right?
+
+06:50.880 --> 06:52.920
+So that's also very important, see?
+
+06:52.920 --> 06:55.200
+So the port it is using is 443
+
+06:55.200 --> 06:57.120
+which is the front end port for this
+
+06:57.120 --> 06:59.730
+respect to cluster IP service is 443.
+
+06:59.730 --> 07:03.660
+And the target port it is sending is webhook server port.
+
+07:03.660 --> 07:07.410
+So this webhook server port is nothing but 9443 port.
+
+07:07.410 --> 07:09.870
+So let's come back here, right,
+
+07:09.870 --> 07:11.790
+and verify that, right?
+
+07:11.790 --> 07:13.440
+So these are the container ports.
+
+07:13.440 --> 07:15.030
+And in container ports,
+
+07:15.030 --> 07:17.310
+you can see container port 9443
+
+07:17.310 --> 07:20.670
+whose name is webhook server, right?
+
+07:20.670 --> 07:22.260
+And the other 8080 port
+
+07:22.260 --> 07:25.380
+for this load balancer controller is in metric server port.
+
+07:25.380 --> 07:26.970
+So this is very important.
+
+07:26.970 --> 07:28.740
+So, for the webhook services listening
+
+07:28.740 --> 07:31.500
+the cluster IP service is listening on 443
+
+07:31.500 --> 07:34.410
+and whatever the traffic comes to that webhook service,
+
+07:34.410 --> 07:38.052
+it is going to send to AWS load balancer
+
+07:38.052 --> 07:40.192
+controller ports,
+
+07:40.192 --> 07:42.840
+for the deployment whatever the ports created
+
+07:42.840 --> 07:45.478
+for those ports on port 9443, right?
+
+07:45.478 --> 07:49.410
+Means like this container AWS load balancer controller
+
+07:49.410 --> 07:52.770
+container is listening on 9443.
+
+07:52.770 --> 07:53.603
+So, good.
+
+07:53.603 --> 07:56.100
+So this clears out one important thing
+
+07:56.100 --> 07:58.290
+which is webhook service
+
+07:58.290 --> 08:01.350
+and also the AWS load balancer controller,
+
+08:01.350 --> 08:04.050
+how the communication is happening in between them also.
+
+08:04.050 --> 08:06.150
+We got a complete picture.
+
+08:06.150 --> 08:07.440
+So in our next lecture,
+
+08:07.440 --> 08:10.740
+we are going to verify additional logs and additional stuff.
+
+08:10.740 --> 08:12.360
+So, I'll see you in the next lecture.
+
+08:12.360 --> 08:13.620
+Until then, bye bye.
+
+08:13.620 --> 08:14.453
+Thank you.

@@ -1,0 +1,511 @@
+WEBVTT
+
+00:00.000 --> 00:00.833
+-: Welcome back.
+
+00:00.833 --> 00:02.070
+In the previous lecture,
+
+00:02.070 --> 00:05.370
+we have understood about context path based routing
+
+00:05.370 --> 00:08.430
+in ingress in a architectural manner.
+
+00:08.430 --> 00:11.490
+So now we are going to create two more applications for us,
+
+00:11.490 --> 00:15.360
+which we are going to deploy as part of this demo, right?
+
+00:15.360 --> 00:18.030
+So we are going to create Nginx App1
+
+00:18.030 --> 00:19.800
+and then App2 Deployment,
+
+00:19.800 --> 00:21.180
+and then Service.
+
+00:21.180 --> 00:24.300
+So both deployment and then its equal in NodePort service,
+
+00:24.300 --> 00:26.710
+we are going to create in a single YAML file
+
+00:27.600 --> 00:28.433
+per application.
+
+00:28.433 --> 00:29.773
+So for App1 Nginx,
+
+00:29.773 --> 00:33.630
+05-Nginx-App1-Deployment-and-NodePortService.
+
+00:33.630 --> 00:36.720
+And for App2 Nginx, it is going to be 06.
+
+00:36.720 --> 00:40.350
+So these are regular deployment in NodePort services,
+
+00:40.350 --> 00:42.870
+whatever we have implemented so far, right?
+
+00:42.870 --> 00:44.940
+So we really don't need to write one more time
+
+00:44.940 --> 00:47.070
+a live template for these things, okay?
+
+00:47.070 --> 00:49.200
+So that's the reason I have written them
+
+00:49.200 --> 00:50.910
+and then put it right here.
+
+00:50.910 --> 00:55.470
+So this is the 08-03-ALB-Ingress-ContextPath-Based-Routing
+
+00:55.470 --> 00:57.870
+inside the kube-manifests folder.
+
+00:57.870 --> 01:01.238
+And inside that, you can see MySQL-externalName,
+
+01:01.238 --> 01:03.598
+UserManagementMicroservice, Kubernetes-Secrets,
+
+01:03.598 --> 01:05.100
+UserManagement-NodePort-Service.
+
+01:05.100 --> 01:08.580
+After that, you get 05-Nginx-App1, right?
+
+01:08.580 --> 01:10.680
+So its deployment is here.
+
+01:10.680 --> 01:13.650
+So standard apps/v1 will be the apiVersion.
+
+01:13.650 --> 01:14.610
+And the name...
+
+01:14.610 --> 01:16.410
+So all those things are as usual, okay?
+
+01:16.410 --> 01:18.480
+Spec will have, in general, for deployments,
+
+01:18.480 --> 01:21.570
+replicas, selectors, and then pod template, right?
+
+01:21.570 --> 01:22.980
+So 1 replica.
+
+01:22.980 --> 01:25.110
+And then in matchLabels,
+
+01:25.110 --> 01:26.520
+as usual, we know that we are going
+
+01:26.520 --> 01:28.800
+to have the same value in matchLabels.
+
+01:28.800 --> 01:29.850
+So whatever is there,
+
+01:29.850 --> 01:32.310
+the same value will be there in pod template,
+
+01:32.310 --> 01:34.500
+metadata labels also.
+
+01:34.500 --> 01:37.710
+Finally, the pod spec will have the containers,
+
+01:37.710 --> 01:38.820
+and inside that container,
+
+01:38.820 --> 01:41.010
+my first container is app1-nginx.
+
+01:41.010 --> 01:42.360
+And then I'm bringing that
+
+01:42.360 --> 01:47.360
+from my stacksimplify/kube-nginxapp1 and 1.0.0 version.
+
+01:48.840 --> 01:50.460
+And now, for this deployment,
+
+01:50.460 --> 01:52.500
+you want to expose it as a NodePort service,
+
+01:52.500 --> 01:54.750
+which we have done for multiple times.
+
+01:54.750 --> 01:56.700
+So as usual, it is NodePort.
+
+01:56.700 --> 01:57.990
+And then port is 80.
+
+01:57.990 --> 01:59.790
+And then targetPort is 80. That's all.
+
+01:59.790 --> 02:01.650
+We really don't need to mention any NodePort
+
+02:01.650 --> 02:04.980
+because it is going to dynamically take that value.
+
+02:04.980 --> 02:07.410
+So now one important thing here is annotations
+
+02:07.410 --> 02:10.500
+I have written here, right, in this level.
+
+02:10.500 --> 02:13.110
+So we'll come back to this in our next step.
+
+02:13.110 --> 02:15.900
+Whatever we have written for our app1,
+
+02:15.900 --> 02:17.040
+we have copy-pasted,
+
+02:17.040 --> 02:20.850
+and then just changed it to app2 here, okay?
+
+02:20.850 --> 02:22.890
+So we'll discuss about this health check path
+
+02:22.890 --> 02:24.003
+annotation later.
+
+02:25.320 --> 02:26.550
+So now let's move on
+
+02:26.550 --> 02:30.000
+to 07-ALB-Ingress-ContextPath-Based-Routing.
+
+02:30.000 --> 02:31.560
+So here comes our real work,
+
+02:31.560 --> 02:33.750
+which we need to do from YAML perspective
+
+02:33.750 --> 02:35.430
+to our manifest perspective.
+
+02:35.430 --> 02:38.940
+So whatever we have implemented 'til Ingress Basic,
+
+02:38.940 --> 02:40.830
+the same thing I have copied here.
+
+02:40.830 --> 02:42.360
+We still didn't implement
+
+02:42.360 --> 02:44.970
+any of the path based routing here.
+
+02:44.970 --> 02:48.990
+So let's go ahead and then implement the path based routing.
+
+02:48.990 --> 02:52.050
+So our path based routing is we have two more paths now.
+
+02:52.050 --> 02:54.480
+So let's go ahead and then implement.
+
+02:54.480 --> 02:56.880
+So this path, I'll copy-paste,
+
+02:56.880 --> 03:00.150
+and then go to the Home, and then path, right?
+
+03:00.150 --> 03:01.440
+And one more also I have,
+
+03:01.440 --> 03:03.570
+which is nothing but one more, right?
+
+03:03.570 --> 03:04.870
+So I will say
+
+03:07.006 --> 03:10.290
+app1/*, right? Is the path.
+
+03:10.290 --> 03:11.550
+If it comes here,
+
+03:11.550 --> 03:14.160
+then it need to go to app1 NodePort service.
+
+03:14.160 --> 03:16.830
+So I'll go to 05, nginx-nodeport-service,
+
+03:16.830 --> 03:18.630
+and then I'll find this information, right?
+
+03:18.630 --> 03:21.540
+app1-nginx-nodeport-service.
+
+03:21.540 --> 03:24.540
+And I'll come and then update it.
+
+03:24.540 --> 03:27.510
+And what is the port we are supposed to use?
+
+03:27.510 --> 03:31.170
+The port, it is going to be port 80, right?
+
+03:31.170 --> 03:32.823
+So this is the one.
+
+03:32.823 --> 03:37.740
+Now, I have something called app2/*, right?
+
+03:37.740 --> 03:39.930
+So now for app2/*,
+
+03:39.930 --> 03:43.470
+we should have our app2 NodePort service, right?
+
+03:43.470 --> 03:46.410
+So which is nothing but this one.
+
+03:46.410 --> 03:48.480
+So let me copy this,
+
+03:48.480 --> 03:51.150
+come back, and then update it.
+
+03:51.150 --> 03:54.570
+And the port is going to be 80.
+
+03:54.570 --> 03:56.940
+And finally, anything after app1 and app2,
+
+03:56.940 --> 03:58.800
+anything other than app1 and app2,
+
+03:58.800 --> 04:00.390
+if it comes with /*,
+
+04:00.390 --> 04:05.390
+go to my usermgmt-restapp-nodeport-service with 8095.
+
+04:05.580 --> 04:07.680
+So now one thing important here is,
+
+04:07.680 --> 04:10.170
+an important note is...
+
+04:10.170 --> 04:13.241
+Okay, important note which we need to know is
+
+04:13.241 --> 04:17.970
+always, right, /* should be at the end.
+
+04:20.008 --> 04:23.502
+So the pods will be validated like this, okay?
+
+04:23.502 --> 04:26.160
+So first, if it is /app1, it will find it and then do it.
+
+04:26.160 --> 04:29.400
+If this /*, if you put it at the starting...
+
+04:29.400 --> 04:31.110
+So the order is very important.
+
+04:31.110 --> 04:32.700
+If you put /* at the starting,
+
+04:32.700 --> 04:34.170
+even if you send app1, app2,
+
+04:34.170 --> 04:35.547
+he will send the,
+
+04:35.547 --> 04:36.930
+the application load balancer
+
+04:36.930 --> 04:40.500
+will send it to usermgmt-restapp-nodeport-service only.
+
+04:40.500 --> 04:43.470
+So always, in this context path-related stuff,
+
+04:43.470 --> 04:47.070
+always we need to put /* as our last path
+
+04:47.070 --> 04:50.100
+for our entire manifest, okay?
+
+04:50.100 --> 04:52.080
+So like that, we need to implement.
+
+04:52.080 --> 04:54.330
+So now here is one more problem we have,
+
+04:54.330 --> 04:56.820
+so which I also mentioned in the step here,
+
+04:56.820 --> 04:59.250
+which is update health check path annotation
+
+04:59.250 --> 05:02.130
+in your usermgmt-restapp-nodeport-service, okay?
+
+05:02.130 --> 05:04.650
+So now if I deploy this, what happens?
+
+05:04.650 --> 05:08.430
+Okay, what happens is, for all my three applications,
+
+05:08.430 --> 05:12.600
+ideally, if I really didn't define these things here, okay,
+
+05:12.600 --> 05:14.460
+if I didn't define these things here,
+
+05:14.460 --> 05:16.800
+annotation and then health check part there,
+
+05:16.800 --> 05:18.210
+for all the applications,
+
+05:18.210 --> 05:21.270
+it is going to give user management health status,
+
+05:21.270 --> 05:22.800
+and then it is going to throw an error
+
+05:22.800 --> 05:23.950
+for app1 and then app2.
+
+05:25.170 --> 05:27.870
+Due to avoid such type of situations,
+
+05:27.870 --> 05:31.950
+like whatever is applicable at the NodePort service level,
+
+05:31.950 --> 05:34.260
+we need to move them to the NodePort service level.
+
+05:34.260 --> 05:35.820
+What all are generic,
+
+05:35.820 --> 05:38.280
+then you can have them in the ingress template.
+
+05:38.280 --> 05:40.230
+So again, I'm going to repeat this:
+
+05:40.230 --> 05:43.140
+What all are generic for all the applications
+
+05:43.140 --> 05:46.980
+which you are having load balancing as part of ingress,
+
+05:46.980 --> 05:50.640
+so generic, you can have it in this ingress template.
+
+05:50.640 --> 05:53.430
+And whatever you feel like these are specific
+
+05:53.430 --> 05:56.100
+to those respective application,
+
+05:56.100 --> 05:58.320
+move them under that application.
+
+05:58.320 --> 06:00.570
+For me, these things are generic.
+
+06:00.570 --> 06:01.830
+I really don't want to change...
+
+06:01.830 --> 06:04.740
+Every application have these settings, as usual.
+
+06:04.740 --> 06:06.210
+And for NodePort service,
+
+06:06.210 --> 06:08.130
+I want to move this from here,
+
+06:08.130 --> 06:11.820
+and then move under my user management NodePort service
+
+06:11.820 --> 06:12.780
+example here, okay?
+
+06:12.780 --> 06:14.340
+I already put it here,
+
+06:14.340 --> 06:16.560
+but if you want it, you can move there.
+
+06:16.560 --> 06:17.970
+So you need to add annotations,
+
+06:17.970 --> 06:19.530
+and then move that from here.
+
+06:19.530 --> 06:22.650
+So which means I need to just comment this here,
+
+06:22.650 --> 06:24.840
+so that I really don't (speaks faintly).
+
+06:24.840 --> 06:27.360
+So these are the changes we are supposed to do
+
+06:27.360 --> 06:29.760
+as part of context path based routing.
+
+06:29.760 --> 06:31.650
+So one is add the pods.
+
+06:31.650 --> 06:34.560
+And then move /* at the end.
+
+06:34.560 --> 06:36.960
+And then ensure that your health check path
+
+06:36.960 --> 06:41.193
+is moved to a respective NodePort service,
+
+06:42.143 --> 06:43.530
+where it should be configured.
+
+06:43.530 --> 06:44.363
+That's all.
+
+06:44.363 --> 06:45.870
+And in these things also,
+
+06:45.870 --> 06:47.850
+you have configured your health checkers,
+
+06:47.850 --> 06:49.290
+app1 in the start HTML.
+
+06:49.290 --> 06:51.360
+and then app2 in the start HTML.
+
+06:51.360 --> 06:52.950
+So in our next lecture,
+
+06:52.950 --> 06:56.940
+we'll focus on implementing them and then testing them.
+
+06:56.940 --> 06:58.680
+So I'll see you in the next lecture.
+
+06:58.680 --> 07:00.393
+Until then, bye bye. Thank you.

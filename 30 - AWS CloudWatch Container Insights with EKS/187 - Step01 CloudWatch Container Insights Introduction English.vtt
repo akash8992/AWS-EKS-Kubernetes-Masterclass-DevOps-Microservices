@@ -1,0 +1,691 @@
+WEBVTT
+
+00:00.000 --> 00:01.110
+-: Welcome back.
+
+00:01.110 --> 00:05.130
+We are going to look into CloudWatch Container Insights
+
+00:05.130 --> 00:07.650
+feature as part of this section.
+
+00:07.650 --> 00:10.470
+So we are going to look into many CloudWatch features
+
+00:10.470 --> 00:13.980
+and also a simple notification service as part of this.
+
+00:13.980 --> 00:16.500
+So what is this Container Insight
+
+00:16.500 --> 00:18.630
+and then what it is going to do.
+
+00:18.630 --> 00:21.210
+So let's go ahead and then see that now.
+
+00:21.210 --> 00:25.590
+So Container Insights is a fully managed observability
+
+00:25.590 --> 00:27.990
+service for monitoring, troubleshooting
+
+00:27.990 --> 00:32.730
+and alarming on our containerized applications.
+
+00:32.730 --> 00:36.360
+Container Insights also allows us to collect
+
+00:36.360 --> 00:39.300
+aggregate and summarize metrics
+
+00:39.300 --> 00:42.600
+and logs from our containerized applications
+
+00:42.600 --> 00:45.300
+and also for microservices.
+
+00:45.300 --> 00:47.730
+So the metrics include utilization
+
+00:47.730 --> 00:52.730
+for resources such as CPU, memory, disc and then network.
+
+00:54.690 --> 00:58.500
+It also provides diagnostic information
+
+00:58.500 --> 01:01.290
+such as container restart failures
+
+01:01.290 --> 01:04.470
+so that you can consider us one metric to help us
+
+01:04.470 --> 01:07.500
+isolate issues and resolve them quickly.
+
+01:07.500 --> 01:11.280
+So we can also set CloudWatch alarms
+
+01:11.280 --> 01:14.673
+on metrics that container inserts collapse.
+
+01:15.510 --> 01:19.320
+And the metrics that container inside collects are available
+
+01:19.320 --> 01:23.370
+in CloudWatch automatic dashboards too,
+
+01:23.370 --> 01:27.510
+and we can analyze and troubleshoot container performance
+
+01:27.510 --> 01:31.110
+and logs data with CloudWatch log insights.
+
+01:31.110 --> 01:33.900
+So if you see from CloudWatch perspective,
+
+01:33.900 --> 01:37.800
+so on a very high level it has covered the maximum ground,
+
+01:37.800 --> 01:41.610
+even the newest and latest Container Insights feature.
+
+01:41.610 --> 01:44.100
+So you can configure CloudWatch alarms
+
+01:44.100 --> 01:47.610
+inside Container Insights and you can also have
+
+01:47.610 --> 01:51.240
+CloudWatch automatic dashboards for the metrics information.
+
+01:51.240 --> 01:54.000
+And you can also means like Container Insights
+
+01:54.000 --> 01:55.530
+is collecting the logs.
+
+01:55.530 --> 01:57.780
+So you can also have log insights feature
+
+01:57.780 --> 02:00.420
+and using log insights based on the queries.
+
+02:00.420 --> 02:02.640
+Whatever we have written, again we can create
+
+02:02.640 --> 02:06.360
+the custom dashboards for us and then based on that,
+
+02:06.360 --> 02:09.960
+whatever the patterns we select, right, so the type
+
+02:09.960 --> 02:13.680
+of errors our application is facing and then create a log
+
+02:13.680 --> 02:16.800
+and then further log create query and then using
+
+02:16.800 --> 02:21.120
+that query create a graph and then try to add it
+
+02:21.120 --> 02:23.550
+to the dashboard so that what happens.
+
+02:23.550 --> 02:26.070
+We can continuously monitor that type of error
+
+02:26.070 --> 02:29.460
+in our application using log insights queries
+
+02:29.460 --> 02:32.580
+and then adding it to the dashboard.
+
+02:32.580 --> 02:35.190
+So like this, we can have lots and lots
+
+02:35.190 --> 02:38.400
+of benefits using Container Insights.
+
+02:38.400 --> 02:40.290
+So let's see what we are going to deploy
+
+02:40.290 --> 02:45.060
+as part of Container Insights to our EKS cluster, right?
+
+02:45.060 --> 02:47.250
+So in a Kubernetes cluster let's consider
+
+02:47.250 --> 02:49.410
+you have two worker nodes, worker node one
+
+02:49.410 --> 02:51.240
+and then worker node two.
+
+02:51.240 --> 02:54.900
+So let's consider this as our EKS cluster in AWS
+
+02:54.900 --> 02:58.800
+So you are going to fast deploy fluent entity, DaemonSet.
+
+02:58.800 --> 03:01.410
+So we already discussed about what is DaemonSet
+
+03:01.410 --> 03:03.420
+and then what are the features it provides
+
+03:03.420 --> 03:05.193
+during our x-ray section.
+
+03:06.510 --> 03:09.480
+DaemonSet in very simple terms is whenever you configure
+
+03:09.480 --> 03:11.550
+your application as a DaemonSet
+
+03:11.550 --> 03:15.510
+it is going to deploy one part per worker note.
+
+03:15.510 --> 03:19.050
+So on every worker note, one of our part will keep running.
+
+03:19.050 --> 03:22.200
+So now we have the fluentd port up and running
+
+03:22.200 --> 03:25.650
+as a DaemonSet in worker node one and then worker node two.
+
+03:25.650 --> 03:28.650
+The next thing is, what is this fluentd empty port
+
+03:28.650 --> 03:29.670
+going to do?
+
+03:29.670 --> 03:32.310
+So it is going to collect the application logs
+
+03:32.310 --> 03:34.260
+which is nothing but the container logs
+
+03:34.260 --> 03:37.110
+and also the Kubernetes cluster logs and whatever means
+
+03:37.110 --> 03:39.330
+like the data plan logs, application logs
+
+03:39.330 --> 03:41.550
+performance logs and all these things.
+
+03:41.550 --> 03:42.827
+And then it is going to push
+
+03:42.827 --> 03:45.840
+to the CloudWatch where in using CloudWatch log
+
+03:45.840 --> 03:47.880
+insights we are going to analyze them
+
+03:47.880 --> 03:51.423
+and then create our custom dashboard screens for it.
+
+03:52.410 --> 03:56.130
+And next thing is CloudWatch agent DaemonSet.
+
+03:56.130 --> 03:57.870
+So what is this going to do?
+
+03:57.870 --> 04:00.510
+So this is one more set we are going to deploy.
+
+04:00.510 --> 04:03.840
+So this one will collect the metrics information
+
+04:03.840 --> 04:06.720
+of our applications, cluster worker nodes easy
+
+04:06.720 --> 04:08.910
+two instances inside that everything okay?
+
+04:08.910 --> 04:13.050
+So it is going to provide the CPU, memory port, everything
+
+04:13.050 --> 04:15.450
+all the information, service information all.
+
+04:15.450 --> 04:17.910
+So we have a dimension of 134 types
+
+04:17.910 --> 04:20.490
+of CloudWatch Container Insights metrics
+
+04:20.490 --> 04:23.070
+that is going to get collected as part
+
+04:23.070 --> 04:25.380
+of this CloudWatch agent.
+
+04:25.380 --> 04:29.430
+And next is if we deploy our application
+
+04:29.430 --> 04:32.220
+on this cluster and when these things are running
+
+04:32.220 --> 04:35.340
+they are going to collect the necessary information
+
+04:35.340 --> 04:39.090
+and then push it to the CloudWatch surveys.
+
+04:39.090 --> 04:42.060
+And now the information is there in CloudWatch service.
+
+04:42.060 --> 04:44.970
+So who need to use it, either a developer
+
+04:44.970 --> 04:48.720
+or a operations user can go to CloudWatch management console
+
+04:48.720 --> 04:52.470
+and then start looking and then analyzing the data.
+
+04:52.470 --> 04:55.440
+So first in first Container Insights
+
+04:55.440 --> 04:59.910
+the core feature is it provides say container map.
+
+04:59.910 --> 05:03.540
+So it is going to be a very nice feature.
+
+05:03.540 --> 05:07.050
+And then it is going to give complete picture
+
+05:07.050 --> 05:09.660
+of all the objects present in our Kubernetes
+
+05:09.660 --> 05:14.460
+cluster pods, services, nodes everything.
+
+05:14.460 --> 05:16.170
+So you are going to see all those things
+
+05:16.170 --> 05:18.600
+in our next slide about the container map.
+
+05:18.600 --> 05:19.920
+So let's wait for that.
+
+05:19.920 --> 05:22.590
+And another thing is it is also going to provide the list
+
+05:22.590 --> 05:24.570
+of all container resources.
+
+05:24.570 --> 05:27.570
+So container map and resource view is same
+
+05:27.570 --> 05:30.480
+but only thing is you can see in map view
+
+05:30.480 --> 05:34.980
+or you can see in list view in the container resources.
+
+05:34.980 --> 05:37.350
+Next is performance dashboard.
+
+05:37.350 --> 05:40.290
+So from the fluentd DaemonSet it is going
+
+05:40.290 --> 05:43.050
+to collect performance logs and CloudWatch agent
+
+05:43.050 --> 05:46.710
+also will collect the performance related metrics.
+
+05:46.710 --> 05:49.860
+And all the information related to metrics you can see
+
+05:49.860 --> 05:53.880
+in performance dashboard with automatic dashboards created
+
+05:53.880 --> 05:56.490
+by CloudWatch for Container Insights.
+
+05:56.490 --> 05:59.880
+So Container Insights creates few automatic dashboards
+
+05:59.880 --> 06:02.700
+and using that you'll see the performance dashboards.
+
+06:02.700 --> 06:05.460
+So we'll see that also in our upcoming slides,
+
+06:05.460 --> 06:08.610
+and log groups and then log insights.
+
+06:08.610 --> 06:10.890
+So we are going to have four to five types
+
+06:10.890 --> 06:13.110
+of log groups available out of the box
+
+06:13.110 --> 06:15.630
+whenever we enable Container Insights.
+
+06:15.630 --> 06:18.120
+So for application logs, which is nothing
+
+06:18.120 --> 06:20.880
+but whatever we deployed related to ports
+
+06:20.880 --> 06:23.670
+and then services those things and data plan logs
+
+06:23.670 --> 06:26.010
+which is nothing but cluster control plan.
+
+06:26.010 --> 06:28.890
+And also we will have host related logs.
+
+06:28.890 --> 06:30.960
+So all these types of logs will be available
+
+06:30.960 --> 06:34.920
+inside the log groups and those things you can select
+
+06:34.920 --> 06:37.680
+inside the login insights and then provide
+
+06:37.680 --> 06:40.020
+the necessary queries to query that data,
+
+06:40.020 --> 06:44.010
+and then add them as dashboard to our custom dashboards.
+
+06:44.010 --> 06:47.340
+And now the next thing is alarms.
+
+06:47.340 --> 06:50.430
+So now you have lot of CloudWatch metrics means
+
+06:50.430 --> 06:53.220
+like this agent is collecting lot of memory CPU metrics
+
+06:53.220 --> 06:56.790
+of your parts and then your worker notes everything.
+
+06:56.790 --> 06:59.880
+Now example, like if your worker node is running
+
+06:59.880 --> 07:04.880
+at 80% CPU and if you want to trigger an alarm
+
+07:05.070 --> 07:08.730
+to an email or if you want to take a automatic action
+
+07:08.730 --> 07:10.290
+that if this worker node is running
+
+07:10.290 --> 07:13.710
+at 90%, just go ahead and then using the auto scaling
+
+07:13.710 --> 07:15.480
+groups create two more nodes,
+
+07:15.480 --> 07:17.610
+so like that also we can do.
+
+07:17.610 --> 07:20.760
+So all those things are possible with alarms.
+
+07:20.760 --> 07:22.560
+So now the next step is let's go ahead
+
+07:22.560 --> 07:25.560
+and then see the Container Insights map.
+
+07:25.560 --> 07:27.480
+So this is a sample map.
+
+07:27.480 --> 07:30.210
+So if you see here EKS demo one
+
+07:30.210 --> 07:32.520
+which is nothing but a cluster, right?
+
+07:32.520 --> 07:35.370
+So the next level in the map is name spaces.
+
+07:35.370 --> 07:38.310
+If you go inside Kubernetes on a very high level
+
+07:38.310 --> 07:40.020
+it is distributed in such a way
+
+07:40.020 --> 07:42.990
+that everything is under name spaces from cluster.
+
+07:42.990 --> 07:45.570
+And then next comes the name spaces.
+
+07:45.570 --> 07:47.550
+You will have a default name space
+
+07:47.550 --> 07:50.520
+and cube system name space by default.
+
+07:50.520 --> 07:53.730
+And as part of our CloudWatch Container Insights
+
+07:53.730 --> 07:57.360
+we have created a Amazon CloudWatch EK namespace
+
+07:57.360 --> 08:00.600
+and then we have deployed our fluentd CloudWatch part
+
+08:00.600 --> 08:03.870
+and then EKS CloudWatch agent part.
+
+08:03.870 --> 08:07.020
+Okay, so now in our whatever related
+
+08:07.020 --> 08:08.850
+to Container Insights is this part
+
+08:08.850 --> 08:12.390
+of our map and cube system.
+
+08:12.390 --> 08:15.810
+This is the core EKS cluster related map where
+
+08:15.810 --> 08:20.810
+you have cube proxy part AWS note part and then Q DNS port.
+
+08:21.720 --> 08:24.175
+And in Q DNS you'll have a service,
+
+08:24.175 --> 08:27.090
+and under that service you'll have the part.
+
+08:27.090 --> 08:30.960
+So now you also see the default name space, right?
+
+08:30.960 --> 08:32.850
+So you can see EKS name space
+
+08:32.850 --> 08:34.950
+which is nothing but the default name space
+
+08:34.950 --> 08:37.203
+in that I have two applications running.
+
+08:38.070 --> 08:41.700
+One is app one Nginx deployment, which is the pod
+
+08:41.700 --> 08:44.340
+and it has a service network load balance
+
+08:44.340 --> 08:45.690
+of service exposed.
+
+08:45.690 --> 08:48.390
+So like that in the same way I have a simple cluster
+
+08:48.390 --> 08:50.670
+IP service sample Nginx service.
+
+08:50.670 --> 08:54.000
+Under that I have a sample Nginx pod running.
+
+08:54.000 --> 08:55.650
+So that's about the Container Insight.
+
+08:55.650 --> 08:58.650
+So how much the content you have all can be displayed
+
+08:58.650 --> 08:59.483
+in a map.
+
+08:59.483 --> 09:02.460
+And also you can go to sub means like you have a huge amount
+
+09:02.460 --> 09:05.580
+of containers and then ports and then services deployed.
+
+09:05.580 --> 09:08.820
+You can even go to a minor part of your map
+
+09:08.820 --> 09:11.790
+and then see those things also in a visual manner.
+
+09:11.790 --> 09:15.270
+So it's a very advanced model has been provided
+
+09:15.270 --> 09:18.540
+by CloudWatch here and then you are going to enjoy that.
+
+09:18.540 --> 09:23.070
+And next thing is automatic performance dashboard, right?
+
+09:23.070 --> 09:25.950
+So as we said whenever the metrics are collected
+
+09:25.950 --> 09:28.530
+using CloudWatch agent in our cluster
+
+09:28.530 --> 09:31.590
+and then push you to CloudWatch Container Insights
+
+09:31.590 --> 09:34.590
+it is going to generate automatic dashboards.
+
+09:34.590 --> 09:36.570
+So these are automatic dashboards.
+
+09:36.570 --> 09:40.650
+So this is one sample, I have taken it from EK Sports.
+
+09:40.650 --> 09:42.570
+So you can see CPU utilization
+
+09:42.570 --> 09:45.120
+for each part I have cube system part
+
+09:45.120 --> 09:47.790
+and then I have Amazon CloudWatch related two parts
+
+09:47.790 --> 09:49.650
+and then cube system, other parts and it's like
+
+09:49.650 --> 09:51.930
+in cube system, namespace, whatever the parts are there
+
+09:51.930 --> 09:53.430
+those are displayed here.
+
+09:53.430 --> 09:57.360
+In default namespace I have app one and then sample pod.
+
+09:57.360 --> 09:59.970
+So those information, whatever is present
+
+09:59.970 --> 10:04.970
+in namespace/pod all those CPU utilization is shown here.
+
+10:05.130 --> 10:08.280
+And memory utilization and network utilization.
+
+10:08.280 --> 10:11.520
+And also it also provides the pod limit means
+
+10:11.520 --> 10:15.480
+like over a pod limit if the CPU is used.
+
+10:15.480 --> 10:19.320
+Those related information also provided here.
+
+10:19.320 --> 10:21.600
+In addition to that, if you see here
+
+10:21.600 --> 10:24.900
+you have seen only EKS ports but in the dropdown
+
+10:24.900 --> 10:28.200
+you can have lot of automatic dashboards generated,
+
+10:28.200 --> 10:32.340
+which is EKS name spaces, EKS clusters,
+
+10:32.340 --> 10:34.530
+EKS nodes, EKS services.
+
+10:34.530 --> 10:37.380
+And recently, very recently they have released
+
+10:37.380 --> 10:40.800
+their Prometheus related integration with CloudWatch
+
+10:40.800 --> 10:42.870
+which means CloudWatch Container Insights
+
+10:42.870 --> 10:45.540
+which means you need to deploy your Prometheus
+
+10:45.540 --> 10:50.490
+inside the EKS cluster and you can get Prometheus tile
+
+10:50.490 --> 10:55.383
+off metrics to our CloudWatch Container Insights.
+
+10:56.970 --> 10:59.610
+So that's a very good option recently released
+
+10:59.610 --> 11:01.590
+and then it is in beta option today.
+
+11:01.590 --> 11:03.000
+Okay, so that's about it.
+
+11:03.000 --> 11:05.368
+So you can have EKS port services notes
+
+11:05.368 --> 11:09.330
+or have automatic dashboard generator for all these things.
+
+11:09.330 --> 11:12.360
+So this completes the introductory part
+
+11:12.360 --> 11:15.510
+of our CloudWatch Container Insights.
+
+11:15.510 --> 11:18.360
+So let's go ahead and then do some hands on there.
+
+11:18.360 --> 11:20.040
+So I'll see you in the next lecture.
+
+11:20.040 --> 11:21.000
+Until then, bye bye.
+
+11:21.000 --> 11:21.833
+Thank you.

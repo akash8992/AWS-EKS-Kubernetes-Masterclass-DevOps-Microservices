@@ -1,0 +1,526 @@
+WEBVTT
+
+00:00.330 --> 00:01.163
+Instructor: Welcome back.
+
+00:01.163 --> 00:04.200
+In this lecture, we are going to deploy our manifest
+
+00:04.200 --> 00:08.160
+and then test, verify whether they are scheduled on Fargate,
+
+00:08.160 --> 00:12.150
+and we are also going to test it using the URL.
+
+00:12.150 --> 00:16.080
+So let's go back to our command line
+
+00:16.080 --> 00:21.080
+and then go to 09 and 0901 section, alright.
+
+00:22.192 --> 00:23.400
+(keyboard keys clicking)
+
+00:23.400 --> 00:26.370
+And we have the Kube manifests here, okay.
+
+00:26.370 --> 00:30.780
+So I am going to say Kube CTL apply -F
+
+00:30.780 --> 00:32.313
+and then Kube manifest.
+
+00:33.180 --> 00:35.820
+Alright, and all the manifest present
+
+00:35.820 --> 00:38.790
+in that should be created.
+
+00:38.790 --> 00:41.010
+So we have the FP dev created,
+
+00:41.010 --> 00:43.620
+app for Nginx deployment got created,
+
+00:43.620 --> 00:46.380
+NodePort and then ingress got created.
+
+00:46.380 --> 00:50.310
+So right, so first we'll verify our git namespaces,
+
+00:50.310 --> 00:55.310
+which is NS, and our FP dev namespace got created.
+
+00:55.350 --> 00:59.310
+So we are also going to verify, git ports, right?
+
+00:59.310 --> 01:01.740
+And then -N, which is nothing
+
+01:01.740 --> 01:05.790
+but in FP Dell namespace and -O wide.
+
+01:07.110 --> 01:10.290
+So that it'll also provide the node information.
+
+01:10.290 --> 01:13.260
+So it is trying to get the two parts related to it
+
+01:13.260 --> 01:14.730
+and the nominated node still
+
+01:14.730 --> 01:17.310
+we didn't get the name of the node, but that's fine.
+
+01:17.310 --> 01:19.710
+It'll take a while to get the name.
+
+01:19.710 --> 01:21.990
+So it's currently in the pending status.
+
+01:21.990 --> 01:23.400
+So once the node is ready
+
+01:23.400 --> 01:26.400
+then it'll go ahead and then schedule immediately, right?
+
+01:26.400 --> 01:29.070
+So we can go back here
+
+01:29.070 --> 01:32.700
+and then get nodes -O wide.
+
+01:32.700 --> 01:35.550
+So let's see how many nodes are there in our cluster now?
+
+01:35.550 --> 01:37.470
+So earlier you have seen only two nodes
+
+01:37.470 --> 01:40.320
+which are starting with IP, right?
+
+01:40.320 --> 01:42.508
+With internal, this one, these two nodes, okay?
+
+01:42.508 --> 01:45.960
+110, 1114 and then 85.8.
+
+01:45.960 --> 01:49.200
+So they start with IP-.
+
+01:49.200 --> 01:52.920
+But Fargate nodes start with Fargate -IP.
+
+01:52.920 --> 01:55.230
+So we have that two replicas
+
+01:55.230 --> 01:57.120
+created as part of this deployment,
+
+01:57.120 --> 01:59.910
+which means we said that two replicas,
+
+01:59.910 --> 02:02.460
+so two Fargate nodes got created.
+
+02:02.460 --> 02:05.160
+So let me clear this,
+
+02:05.160 --> 02:08.010
+and I'm going to verify the ports one more time.
+
+02:08.010 --> 02:13.010
+QCTL git ports -N FP Dell -O wide, right?
+
+02:13.410 --> 02:17.400
+So these are scheduled inside this and then running, right?
+
+02:17.400 --> 02:21.900
+So I'm going to say QCTL get ingress
+
+02:21.900 --> 02:25.530
+from namespace FP Dell, right?
+
+02:25.530 --> 02:28.500
+So it got created means like if this name,
+
+02:28.500 --> 02:30.510
+this address field is having the value,
+
+02:30.510 --> 02:31.890
+which means it got created,
+
+02:31.890 --> 02:34.470
+means it's like there is no issues related to it.
+
+02:34.470 --> 02:36.812
+So let's go back to work.
+
+02:36.812 --> 02:41.812
+AWS management console, and go to EC2 service, right?
+
+02:42.090 --> 02:46.260
+And let's go to load balances, right?
+
+02:46.260 --> 02:48.420
+And in load balances.
+
+02:48.420 --> 02:51.270
+So we have that application type load balance that is
+
+02:51.270 --> 02:56.160
+getting created and if you go to listeners in 40 80,
+
+02:56.160 --> 02:59.100
+we can see that the redirecting will be there,
+
+02:59.100 --> 03:01.980
+which standard which we have seen earlier also.
+
+03:01.980 --> 03:05.260
+HTTP to HTTPS, and in port 443
+
+03:06.180 --> 03:09.120
+for slash star you should have a slash star.
+
+03:09.120 --> 03:12.780
+Why? Because in ingress we have defined slash star only.
+
+03:12.780 --> 03:15.240
+Right? So why? Because this is app on only one app.
+
+03:15.240 --> 03:17.310
+Right? So I said slash star here.
+
+03:17.310 --> 03:19.130
+So it is going to one target group.
+
+03:19.130 --> 03:22.020
+So I can directly click here to go to the target group
+
+03:22.020 --> 03:25.380
+or I can go back and go to target groups here
+
+03:25.380 --> 03:27.660
+and then I can open that target group here.
+
+03:27.660 --> 03:28.920
+So before opening it
+
+03:28.920 --> 03:33.330
+you can see target type is not instance here it is IP
+
+03:33.330 --> 03:36.540
+because we have user that target type as IP.
+
+03:36.540 --> 03:39.660
+Which means it is directly going to that port IP.
+
+03:39.660 --> 03:41.010
+So I'll open this
+
+03:41.010 --> 03:45.990
+and this is the HTTP related health check path
+
+03:45.990 --> 03:48.600
+and this is the target and they are healthy
+
+03:48.600 --> 03:49.770
+from the both nodes.
+
+03:49.770 --> 03:54.330
+You can see 158 and then 107, right?
+
+03:54.330 --> 03:58.463
+So I'll say QCTL git ports -N FP Dell, right?
+
+04:03.150 --> 04:06.960
+-: O wide right?
+
+04:06.960 --> 04:10.380
+So you can see that our port IP
+
+04:10.380 --> 04:13.710
+and our node IP in the Fargate is going to be same.
+
+04:13.710 --> 04:17.820
+You can see 107 and then 158 related IPs.
+
+04:17.820 --> 04:18.870
+You can see here them.
+
+04:18.870 --> 04:21.360
+Okay? So that's about creating it.
+
+04:21.360 --> 04:25.830
+So now if our, let's verify also that route 53 stuff, right?
+
+04:25.830 --> 04:26.871
+So FP Dell got successfully registered or not,
+
+04:26.871 --> 04:31.871
+code on cloud.com.
+
+04:32.190 --> 04:36.570
+So let me close this, go to hosted zones
+
+04:36.570 --> 04:41.570
+and you can go to code on cloud and if you see it
+
+04:42.240 --> 04:46.650
+we have the FPdell.Kubecouponcloud.com got created.
+
+04:46.650 --> 04:49.050
+Okay? So I'll also do, and let's look up to
+
+04:49.050 --> 04:52.213
+verify FPDell.Kubeoncloud.com, right?
+
+04:57.000 --> 04:57.833
+So it's working.
+
+04:57.833 --> 05:02.833
+So let's go back and then access the URL
+
+05:03.150 --> 05:05.520
+and then test it, right?
+
+05:05.520 --> 05:09.610
+So I'll go to browser and I'll say this
+
+05:12.420 --> 05:16.080
+and it's working as expected, right?
+
+05:16.080 --> 05:18.330
+So everything is working.
+
+05:18.330 --> 05:23.330
+So now let's go ahead and then delete our Fargate cluster.
+
+05:24.929 --> 05:27.600
+So I am not doing anything related to application
+
+05:27.600 --> 05:29.820
+is running here and then I went
+
+05:29.820 --> 05:32.370
+and then deleted the Fargate cluster.
+
+05:32.370 --> 05:33.840
+So let's see what happens.
+
+05:33.840 --> 05:38.840
+So first list the Fargate cluster, right?
+
+05:39.300 --> 05:41.640
+And then get the name and then delete it.
+
+05:41.640 --> 05:45.990
+So already we know that our Fargate profile name is FP demo.
+
+05:45.990 --> 05:49.770
+I can directly say EKS delete Fargate profile
+
+05:49.770 --> 05:51.540
+from cluster EKS demo one
+
+05:51.540 --> 05:54.780
+and the Fargate profile name is FP demo.
+
+05:54.780 --> 05:57.060
+And then also provide wait statement.
+
+05:57.060 --> 06:00.210
+Okay, so wait statement will allow us our command
+
+06:00.210 --> 06:04.680
+line to wait here until the deletion is completed.
+
+06:04.680 --> 06:06.210
+So it is nothing but FP demo
+
+06:06.210 --> 06:07.980
+we can see the name here, right?
+
+06:07.980 --> 06:09.960
+So and inside that the selector namespace
+
+06:09.960 --> 06:12.750
+is going to be FP dev.
+
+06:12.750 --> 06:16.770
+So I'm saying EKS CTL delete Fargate profile.
+
+06:16.770 --> 06:18.840
+Cluster EKS demo one and the name
+
+06:18.840 --> 06:21.180
+of the Fargate profile is FP demo.
+
+06:21.180 --> 06:23.790
+And then wait, right?
+
+06:23.790 --> 06:26.850
+So it'll take two to three minutes to delete it
+
+06:26.850 --> 06:30.030
+until then I'm going to pause the video.
+
+06:30.030 --> 06:31.620
+So it took close to four minutes
+
+06:31.620 --> 06:35.220
+to delete the Fargate profile.
+
+06:35.220 --> 06:38.160
+So let's verify minutes like earlier
+
+06:38.160 --> 06:43.020
+our app Nginx related deployment ports
+
+06:43.020 --> 06:45.450
+are present on Fargate nodes, right?
+
+06:45.450 --> 06:50.450
+So now QCTL git ports -N FP Dell,
+
+06:51.510 --> 06:53.850
+which is nothing but in namespace FP Dell
+
+06:53.850 --> 06:57.180
+and then -O wide, right?
+
+06:57.180 --> 06:59.640
+So let's see what happened to them, right?
+
+06:59.640 --> 07:02.520
+So now if you see those are still present
+
+07:02.520 --> 07:07.140
+and then scheduled on your regular worker nodes
+
+07:07.140 --> 07:11.010
+which is nothing but your easy to private node groups.
+
+07:11.010 --> 07:15.000
+So they got scheduled on our, if you go back here
+
+07:15.000 --> 07:18.540
+so it got scheduled on these things, right?
+
+07:18.540 --> 07:20.640
+So it got scheduled to this private subnet.
+
+07:20.640 --> 07:23.850
+So when you deleted this Fargate profile automatically
+
+07:23.850 --> 07:26.730
+those got scheduled here.
+
+07:26.730 --> 07:27.660
+So that's about it.
+
+07:27.660 --> 07:29.010
+So which means like it didn't
+
+07:29.010 --> 07:30.660
+delete the application or anything,
+
+07:30.660 --> 07:32.520
+only the Fargate profile got deleted
+
+07:32.520 --> 07:33.840
+and the application came back
+
+07:33.840 --> 07:37.110
+to our original EC2 worker nodes.
+
+07:37.110 --> 07:39.990
+So now if you want we can even access the application
+
+07:39.990 --> 07:42.840
+and then it should be running no issues.
+
+07:42.840 --> 07:45.870
+I'm saying enter one more time, no issues.
+
+07:45.870 --> 07:48.600
+So I'll take it and then put it on file
+
+07:48.600 --> 07:52.170
+new private window and then access one more time, right?
+
+07:52.170 --> 07:53.640
+Just for safe site.
+
+07:53.640 --> 07:55.860
+So everything is working fine.
+
+07:55.860 --> 08:00.860
+So this completes this respective section, which is basics.
+
+08:01.500 --> 08:02.850
+And in addition to that,
+
+08:02.850 --> 08:05.610
+if you want the additional information
+
+08:05.610 --> 08:07.440
+there is a references section here.
+
+08:07.440 --> 08:11.730
+Okay? So EKS CTL .IVO usage Fargate support.
+
+08:11.730 --> 08:15.300
+So here also you'll have good information to follow.
+
+08:15.300 --> 08:20.300
+In addition to that you'll also have Amazon documentation
+
+08:20.430 --> 08:23.730
+and for ALB ingress controller related
+
+08:23.730 --> 08:26.100
+annotations related to target type, right?
+
+08:26.100 --> 08:27.390
+So you can find here, okay
+
+08:27.390 --> 08:29.820
+so this is, from last third one here.
+
+08:29.820 --> 08:31.770
+Okay? So you can even have it
+
+08:31.770 --> 08:35.070
+with instance our IP and instance is the default
+
+08:35.070 --> 08:37.803
+and you can have them on ingress or service.
+
+08:38.850 --> 08:41.400
+So let's go ahead and then clean up the stuff
+
+08:41.400 --> 08:44.520
+whatever we have created so far, right?
+
+08:44.520 --> 08:47.640
+So Kube CTL delete -F kube manifest.
+
+08:47.640 --> 08:49.420
+Okay, so I can copy this
+
+08:50.280 --> 08:54.670
+and let's go here in 0901 Fargate profile basic
+
+08:55.560 --> 08:58.110
+delete whatever we have created
+
+08:58.110 --> 09:01.080
+so that all the ingress manifest, load balancers
+
+09:01.080 --> 09:02.580
+everything will go away
+
+09:02.580 --> 09:06.123
+and then it'll not cost us any money for us.

@@ -1,0 +1,238 @@
+WEBVTT
+
+00:00.120 --> 00:01.020
+-: Welcome back.
+
+00:01.020 --> 00:02.070
+In this lecture,
+
+00:02.070 --> 00:04.020
+we are going to understand about
+
+00:04.020 --> 00:07.050
+three types of CLIs required for
+
+00:07.050 --> 00:09.330
+our AWS EKS clusters.
+
+00:09.330 --> 00:10.380
+In simple terms,
+
+00:10.380 --> 00:13.920
+to manage our application workloads on EKS cluster,
+
+00:13.920 --> 00:14.850
+we need to
+
+00:14.850 --> 00:16.530
+install three types of
+
+00:16.530 --> 00:19.230
+CLIs. Command-line Interfaces.
+
+00:19.230 --> 00:20.370
+So,
+
+00:20.370 --> 00:22.680
+the three types are AWS CLA,
+
+00:22.680 --> 00:26.070
+Cube CTL, and then, EKS CTL.
+
+00:26.070 --> 00:30.480
+So AWS CLA, we can control multiple AWS services
+
+00:30.480 --> 00:31.560
+from the command line
+
+00:31.560 --> 00:33.570
+and automate them through the scripts.
+
+00:33.570 --> 00:36.540
+So, this is a generic definition about AWS CLA.
+
+00:36.540 --> 00:38.160
+But why we need it
+
+00:38.160 --> 00:39.930
+for EKS cluster?
+
+00:39.930 --> 00:41.190
+So, why we need it is
+
+00:41.190 --> 00:43.560
+like once we configure the AWS CLA
+
+00:43.560 --> 00:44.940
+and then provide the
+
+00:44.940 --> 00:47.190
+security credentials on our local desktop
+
+00:47.190 --> 00:50.280
+with AWS CLA using Cube CTL
+
+00:50.280 --> 00:51.863
+and using EKS CTL,
+
+00:51.863 --> 00:54.750
+we will be able to manage our cluster
+
+00:54.750 --> 00:56.220
+and our cluster objects,
+
+00:56.220 --> 00:59.460
+and also our applications on Kubernetes clusters.
+
+00:59.460 --> 01:00.600
+So, all those things
+
+01:00.600 --> 01:02.460
+are required for that purpose.
+
+01:02.460 --> 01:04.260
+We need to primarily install the
+
+01:04.260 --> 01:08.010
+AWS CLA as the underlying base.
+
+01:08.010 --> 01:10.020
+Next is the Cube CTL.
+
+01:10.020 --> 01:11.190
+So Cube CTL,
+
+01:11.190 --> 01:14.160
+we can control Kubernetes clusters and objects using
+
+01:14.160 --> 01:15.060
+Cube CTL.
+
+01:15.060 --> 01:17.430
+So, most of the time in our entire course
+
+01:17.430 --> 01:18.360
+we are going to
+
+01:18.360 --> 01:20.610
+do everything with Cube CTL only.
+
+01:20.610 --> 01:24.180
+So, we can see step-by-step in our upcoming lectures.
+
+01:24.180 --> 01:25.440
+So EKS CTL.
+
+01:25.440 --> 01:27.610
+So, this is a very, very important
+
+01:28.590 --> 01:31.170
+and powerful tool for managing the
+
+01:31.170 --> 01:33.720
+Elastic Kubernetes Service Clusters.
+
+01:33.720 --> 01:35.357
+So, we even have the
+
+01:35.357 --> 01:37.560
+AWS Management Console
+
+01:37.560 --> 01:39.660
+wherein we will be able to create the cluster
+
+01:39.660 --> 01:40.860
+and then create the node groups.
+
+01:40.860 --> 01:42.390
+You'll understand about these objects
+
+01:42.390 --> 01:43.417
+in our upcoming lectures.
+
+01:43.417 --> 01:44.550
+"What is this cluster?"
+
+01:44.550 --> 01:45.750
+And then "What is control play?"
+
+01:45.750 --> 01:46.830
+and all these things.
+
+01:46.830 --> 01:49.107
+But for now, need to understand here is like
+
+01:49.107 --> 01:50.633
+EKS CTL is the
+
+01:50.633 --> 01:52.170
+better tool
+
+01:52.170 --> 01:56.040
+than the AWS Management Console as of today.
+
+01:56.040 --> 02:00.120
+So if using EKS CTL, we'll be able to
+
+02:00.120 --> 02:04.110
+create and then delete the clusters on AWS EKS.
+
+02:04.110 --> 02:07.080
+In addition to that, we'll be able to create autoscale
+
+02:07.080 --> 02:09.240
+and then delete the node groups.
+
+02:09.240 --> 02:11.503
+And we'll also be able to create the
+
+02:11.503 --> 02:15.330
+Fargate profiles using EKS CTL.
+
+02:15.330 --> 02:16.260
+In short,
+
+02:16.260 --> 02:18.180
+it is a very, very, very
+
+02:18.180 --> 02:20.160
+powerful tool for managing
+
+02:20.160 --> 02:22.350
+EKS clusters on AWS.
+
+02:22.350 --> 02:25.200
+So, let's go to our GitHub repo and then
+
+02:25.200 --> 02:26.460
+look into
+
+02:26.460 --> 02:28.830
+our steps, what we are going to perf.
+
+02:28.830 --> 02:31.560
+And in zero one EKS create clusters using
+
+02:31.560 --> 02:33.600
+EKS CTL.
+
+02:33.600 --> 02:36.450
+So as a first step, we are going to do the
+
+02:36.450 --> 02:38.970
+install CLIs now.
+
+02:38.970 --> 02:43.324
+So, in our next lecture we'll focus on installing the
+
+02:43.324 --> 02:44.640
+AWS CLI.
+
+02:44.640 --> 02:45.900
+I'll see you in the next lecture.
+
+02:45.900 --> 02:47.040
+Until then, bye, bye.
+
+02:47.040 --> 02:47.873
+Thank you.

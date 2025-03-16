@@ -1,0 +1,118 @@
+WEBVTT
+
+00:00.150 --> 00:01.679
+-: Welcome back.
+
+00:01.679 --> 00:02.880
+In this lecture we are looking into
+
+00:02.880 --> 00:05.820
+Cluster Autoscaler from EKS.
+
+00:05.820 --> 00:07.710
+So how we are going to do that,
+
+00:07.710 --> 00:11.110
+cluster node groups autoscaling means like inside the groups
+
+00:11.948 --> 00:16.020
+how we are going to autoscale the EC2 worker nodes.
+
+00:16.020 --> 00:20.070
+So on a very high level Cluster Autoscaler is a tool
+
+00:20.070 --> 00:24.630
+that automatically adjust the size of a Kubernetes cluster
+
+00:24.630 --> 00:27.720
+when one of the following conditions is true.
+
+00:27.720 --> 00:31.110
+So there are parts that fail to run in the cluster
+
+00:31.110 --> 00:33.720
+due to insufficient resources.
+
+00:33.720 --> 00:36.420
+During that time so Cluster Autoscaler
+
+00:36.420 --> 00:40.269
+will increase the number of nodes so that these parts
+
+00:40.269 --> 00:45.269
+gets the sufficient resources to schedule on the new nodes.
+
+00:46.620 --> 00:49.410
+And there are nodes in the Cluster
+
+00:49.410 --> 00:53.520
+that have been underutilized for an extended period of time
+
+00:53.520 --> 00:57.660
+and there parts can be placed on other existing nodes
+
+00:57.660 --> 01:01.440
+and then these underutilized nodes can be removed
+
+01:01.440 --> 01:04.380
+from the Cluster and then get terminated.
+
+01:04.380 --> 01:07.620
+So from cost point of view, Cluster Autoscaler
+
+01:07.620 --> 01:11.700
+helps a lot for us in increasing or decreasing.
+
+01:11.700 --> 01:13.890
+So from performance point of view,
+
+01:13.890 --> 01:15.660
+for increasing the number of nodes,
+
+01:15.660 --> 01:18.540
+for scaling up the number of nodes, it helps us.
+
+01:18.540 --> 01:20.880
+And from cost perspective,
+
+01:20.880 --> 01:25.020
+it saves us when we are not using the resources
+
+01:25.020 --> 01:28.890
+it can scale down and then help us from cost perspective.
+
+01:28.890 --> 01:33.060
+And the Cluster Autoscaler modifies our worker node groups
+
+01:33.060 --> 01:36.750
+so that they scale out when we need more resources
+
+01:36.750 --> 01:40.860
+and then scale in when we have underutilized resources.
+
+01:40.860 --> 01:44.070
+All in all, it is going to benefit us a lot.
+
+01:44.070 --> 01:48.450
+So let's go to our GitHub repo and, if you see here,
+
+01:48.450 --> 01:52.440
+17 EKS Autoscaling Cluster Autoscaler
+
+01:52.440 --> 01:54.690
+will be our current section.
+
+01:54.690 --> 01:57.930
+As part of that, we completed the introductory section
+
+01:57.930 --> 02:01.560
+and then in our next lecture we'll focus on our step two.
+
+02:01.560 --> 02:03.540
+So I'll see you in the next lecture.
+
+02:03.540 --> 02:04.830
+Until then, bye bye.
+
+02:04.830 --> 02:05.663
+Thank you.

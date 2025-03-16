@@ -1,0 +1,766 @@
+WEBVTT
+
+00:00.630 --> 00:01.560
+-: Welcome back.
+
+00:01.560 --> 00:02.790
+As part of step four,
+
+00:02.790 --> 00:06.120
+we are going to review or do a live template writing
+
+00:06.120 --> 00:10.830
+for our Ingress Kube manifest with default backend option.
+
+00:10.830 --> 00:11.700
+So we need to go
+
+00:11.700 --> 00:15.570
+into the file 01 Kube manifest default backend folder.
+
+00:15.570 --> 00:19.113
+And inside that 02 ALB Ingress basic.yaml.
+
+00:19.980 --> 00:24.540
+So let's go back here to our visual studio code,
+
+00:24.540 --> 00:28.320
+and we are in 802ALB Ingress basics,
+
+00:28.320 --> 00:30.596
+and inside that the folder
+
+00:30.596 --> 00:33.630
+is 01 Kube manifest default backend.
+
+00:33.630 --> 00:36.750
+And 01 nginx app1 deployment
+
+00:36.750 --> 00:40.500
+and note port service related Kubernetes manifest code,
+
+00:40.500 --> 00:43.230
+we already reviewed in the previous lecture.
+
+00:43.230 --> 00:48.000
+So now we will enter into 02 ALB Ingress basic.yaml.
+
+00:48.000 --> 00:49.590
+So the standard template here,
+
+00:49.590 --> 00:53.160
+API version, kind, metadata, and then spec.
+
+00:53.160 --> 00:56.070
+So for latest Ingress, right?
+
+00:56.070 --> 00:58.560
+So for the latest Ingress resources,
+
+00:58.560 --> 01:03.493
+so we need to use the API version as networking.k8s.io/v1.
+
+01:04.980 --> 01:08.580
+And whatever the kind Kubernetes object we are going
+
+01:08.580 --> 01:11.550
+to create here is Ingress.
+
+01:11.550 --> 01:13.260
+And in the metadata we are going
+
+01:13.260 --> 01:17.010
+to provide the name of my Ingress service
+
+01:17.010 --> 01:21.573
+and my Ingress service name is ingress-nginxapp1.
+
+01:22.470 --> 01:26.100
+And I'm also going to define labels here
+
+01:26.100 --> 01:30.380
+and I'm going to say it as app equal to app1 nginx.
+
+01:31.380 --> 01:33.000
+So this is purely optional.
+
+01:33.000 --> 01:35.490
+We really don't need to even define the label
+
+01:35.490 --> 01:37.770
+for my service here.
+
+01:37.770 --> 01:39.660
+So now let's come back here
+
+01:39.660 --> 01:41.280
+and in the metadata itself,
+
+01:41.280 --> 01:43.680
+we will have something called annotations.
+
+01:43.680 --> 01:46.080
+If we go back to our presentation here,
+
+01:46.080 --> 01:47.550
+so in the Ingress manifest,
+
+01:47.550 --> 01:50.430
+the key items are Ingress annotations
+
+01:50.430 --> 01:53.760
+and in Ingress spec, Ingress class name definition
+
+01:53.760 --> 01:57.120
+and in Ingress spec, defining either Ingress routing rules
+
+01:57.120 --> 01:58.950
+or default backend.
+
+01:58.950 --> 02:00.690
+So now we are at this point
+
+02:00.690 --> 02:03.240
+where we are defining the load balancer settings
+
+02:03.240 --> 02:07.770
+which is nothing but defining the Ingress annotations.
+
+02:07.770 --> 02:11.010
+So I will say annotations
+
+02:11.010 --> 02:14.040
+and we'll start with the first annotation.
+
+02:14.040 --> 02:15.930
+So let's go back here
+
+02:15.930 --> 02:18.990
+and go to the annotations documentation
+
+02:18.990 --> 02:20.907
+and you'll find something called
+
+02:20.907 --> 02:23.370
+ALB Ingress load balancer name.
+
+02:23.370 --> 02:26.430
+So we'll provide the load balancer name here.
+
+02:26.430 --> 02:28.860
+And if you want to understand more about it,
+
+02:28.860 --> 02:31.710
+so open it in the new tab and you'll go there exactly.
+
+02:31.710 --> 02:35.580
+Specify the custom name to use for the load balancer name.
+
+02:35.580 --> 02:38.880
+So name longer than 32 characters will be treated
+
+02:38.880 --> 02:40.320
+as an error.
+
+02:40.320 --> 02:42.600
+So once defined on a single Ingress,
+
+02:42.600 --> 02:46.140
+it impacts every Ingress within the Ingress group.
+
+02:46.140 --> 02:48.660
+So the Ingress group is a different concept
+
+02:48.660 --> 02:51.750
+which we will see in upcoming sections,
+
+02:51.750 --> 02:53.310
+but for now we are going
+
+02:53.310 --> 02:57.720
+to just define a simple name forever load balancer, right?
+
+02:57.720 --> 02:59.460
+So let's come back here
+
+02:59.460 --> 03:03.420
+and define it as app1 Ingress, right?
+
+03:03.420 --> 03:06.750
+So this is the first setting of my annotations related
+
+03:06.750 --> 03:08.130
+to my load balancer.
+
+03:08.130 --> 03:13.130
+And another important thing is Ingress core setting.
+
+03:13.170 --> 03:16.050
+We call this as the Ingress core setting because,
+
+03:16.050 --> 03:19.890
+so this Ingress service should be a internal Ingress service
+
+03:19.890 --> 03:22.590
+or external Ingress service,
+
+03:22.590 --> 03:25.860
+which means this should be private load balancer
+
+03:25.860 --> 03:27.660
+or public load balancer.
+
+03:27.660 --> 03:32.010
+So that setting can be defined using something called
+
+03:32.010 --> 03:35.370
+in annotation, you'll find the scheme here, right?
+
+03:35.370 --> 03:38.550
+So go to the scheme here and specifies
+
+03:38.550 --> 03:41.280
+whether your load balancer will be internet facing
+
+03:41.280 --> 03:43.050
+or internal, right?
+
+03:43.050 --> 03:45.520
+So let me copy this
+
+03:47.370 --> 03:50.043
+and define the scheme here.
+
+03:51.570 --> 03:54.750
+And it is going to be internet facing.
+
+03:54.750 --> 03:58.500
+So I'll say internet facing.
+
+03:58.500 --> 04:03.500
+You can also search for internet facing,
+
+04:03.600 --> 04:06.930
+see ALB Ingress Kubernetes cyber scheme internal
+
+04:06.930 --> 04:08.370
+or internet facing.
+
+04:08.370 --> 04:10.800
+So I N T E R N E T, internet facing.
+
+04:10.800 --> 04:11.910
+So this is good.
+
+04:11.910 --> 04:14.760
+And there will be one more annotation
+
+04:14.760 --> 04:17.370
+which we need to discuss in detail.
+
+04:17.370 --> 04:20.400
+But first we'll define the health check settings.
+
+04:20.400 --> 04:23.370
+So we have defined the load balancer name, scheme
+
+04:23.370 --> 04:26.010
+and we can also define the health check settings
+
+04:26.010 --> 04:29.820
+for our application load balancer here.
+
+04:29.820 --> 04:33.960
+So let's go here and go to the health check here
+
+04:33.960 --> 04:36.090
+and you'll find the health check setting related
+
+04:36.090 --> 04:37.410
+all annotations here.
+
+04:37.410 --> 04:39.300
+The first one is protocol,
+
+04:39.300 --> 04:41.520
+health check protocol you want to use,
+
+04:41.520 --> 04:44.520
+and I'll put it as HTTP protocol I'm using.
+
+04:44.520 --> 04:47.820
+I can say this as health check setting.
+
+04:47.820 --> 04:52.710
+And this I can say as Ingress core setting.
+
+04:52.710 --> 04:57.710
+And this one I can say as load balancer name, right?
+
+04:59.610 --> 05:02.580
+And the first setting for health check is completed.
+
+05:02.580 --> 05:06.813
+And next one we are going to define is traffic port, right?
+
+05:08.783 --> 05:10.890
+On which port it need to do the health check?
+
+05:10.890 --> 05:13.140
+It is going to be traffic port.
+
+05:13.140 --> 05:16.470
+And another setting is health check path, right?
+
+05:16.470 --> 05:19.170
+And my health check path is going to be,
+
+05:19.170 --> 05:21.030
+so let me put this here,
+
+05:21.030 --> 05:25.860
+and is going to be app1/index.html
+
+05:25.860 --> 05:29.490
+Where my application related files are present, right?
+
+05:29.490 --> 05:32.370
+index.html of my nginx is present
+
+05:32.370 --> 05:35.460
+in the app1 folder so I'll use that.
+
+05:35.460 --> 05:38.220
+And next one, right?
+
+05:38.220 --> 05:42.180
+So let me enter and let me come back here.
+
+05:42.180 --> 05:46.500
+And next one is going to be health check interval seconds.
+
+05:46.500 --> 05:51.500
+And I can give that as 15 seconds and let me put that.
+
+05:53.730 --> 05:57.660
+And I'll also provide the health check timeout, right?
+
+05:57.660 --> 06:00.670
+I can provide that as something around five
+
+06:01.830 --> 06:03.210
+and in seconds.
+
+06:03.210 --> 06:05.880
+And we can also provide the success quotes
+
+06:05.880 --> 06:09.210
+and then healthy thresholds and all those things.
+
+06:09.210 --> 06:11.250
+So we can provide a single value
+
+06:11.250 --> 06:13.906
+or we can provide multi value, right?
+
+06:13.906 --> 06:16.980
+200. 201 to 300, like this,
+
+06:16.980 --> 06:18.630
+we can provide those things.
+
+06:18.630 --> 06:20.860
+And I'll also provide the threshold count
+
+06:22.080 --> 06:25.830
+and also I'll provide the unhealthy threshold count.
+
+06:25.830 --> 06:29.580
+So this completes the health check setting definitions
+
+06:29.580 --> 06:32.670
+for my respective to Ingress resource.
+
+06:32.670 --> 06:34.860
+I have defined the load balancer name
+
+06:34.860 --> 06:37.950
+and where this load balancer should be placed internal
+
+06:37.950 --> 06:41.910
+or internet facing and also health check settings here.
+
+06:41.910 --> 06:43.800
+So now let's come back here
+
+06:43.800 --> 06:46.380
+and review one more thing here, right?
+
+06:46.380 --> 06:49.290
+So this is the app1index.html.
+
+06:49.290 --> 06:52.230
+So this Ingress is nothing but a combination
+
+06:52.230 --> 06:54.960
+of multiple applications you can send that traffic to.
+
+06:54.960 --> 06:56.850
+That's the core definition, right?
+
+06:56.850 --> 07:00.240
+So which means an application load balancer created
+
+07:00.240 --> 07:05.240
+for using a single load balancer you can send traffic
+
+07:05.520 --> 07:07.980
+to multiple applications with different schemes
+
+07:07.980 --> 07:11.190
+like using context path based or host header based
+
+07:11.190 --> 07:12.570
+and all those things.
+
+07:12.570 --> 07:16.590
+In cases like now, you have only one application here.
+
+07:16.590 --> 07:18.510
+So that's the reason you can define this
+
+07:18.510 --> 07:21.510
+as a global app1index.html,
+
+07:21.510 --> 07:22.800
+but in this Ingress,
+
+07:22.800 --> 07:24.870
+you are using the context part based routing,
+
+07:24.870 --> 07:27.540
+how we have discussed about accounts, products,
+
+07:27.540 --> 07:28.740
+and root context.
+
+07:28.740 --> 07:31.560
+And at that point of time in each application,
+
+07:31.560 --> 07:33.630
+there might not be a /app1
+
+07:33.630 --> 07:36.960
+and then index.html related things available
+
+07:36.960 --> 07:38.010
+for health check.
+
+07:38.010 --> 07:39.360
+So at that point of time,
+
+07:39.360 --> 07:41.040
+we need to move these things,
+
+07:41.040 --> 07:43.800
+this respect you thing, right,
+
+07:43.800 --> 07:46.350
+directly to your node port service so that,
+
+07:46.350 --> 07:48.660
+that becomes a service level one see.
+
+07:48.660 --> 07:50.100
+So now if you see here,
+
+07:50.100 --> 07:53.700
+need to add health check path annotation in service level.
+
+07:53.700 --> 07:56.040
+If you're planning to use multiple targets
+
+07:56.040 --> 07:57.570
+in a load balancer.
+
+07:57.570 --> 07:59.010
+Multiple targets are nothing
+
+07:59.010 --> 08:02.160
+but you are using multiple rules to define
+
+08:02.160 --> 08:04.200
+and then add multiple things here,
+
+08:04.200 --> 08:05.670
+means like you're sending the traffic
+
+08:05.670 --> 08:09.180
+from a single Ingress service to multiple applications.
+
+08:09.180 --> 08:12.300
+At that point of time you move your health check path,
+
+08:12.300 --> 08:14.910
+off your respective thing from global,
+
+08:14.910 --> 08:18.330
+from global Ingress setting to you are service level,
+
+08:18.330 --> 08:21.150
+node port service level thing, you need to move there.
+
+08:21.150 --> 08:24.750
+So now let's come back here and then come back to the spec.
+
+08:24.750 --> 08:28.470
+So we have completed the annotations part here
+
+08:28.470 --> 08:31.560
+and now we need to define the Ingress class name.
+
+08:31.560 --> 08:34.810
+So let's define the Ingress class name here
+
+08:39.900 --> 08:43.220
+And I'll say Ingress class name.
+
+08:45.180 --> 08:47.070
+And in Ingress class name,
+
+08:47.070 --> 08:49.260
+we are going to get the Ingress class name
+
+08:49.260 --> 08:52.470
+from our 0 8 0 1 Kube manifest
+
+08:52.470 --> 08:56.070
+and get this value from here.
+
+08:56.070 --> 08:58.830
+Let's come back and provide this.
+
+08:58.830 --> 09:00.210
+And the next thing is,
+
+09:00.210 --> 09:03.871
+we also need to provide the default backend here.
+
+09:03.871 --> 09:05.490
+And in default backend,
+
+09:05.490 --> 09:08.220
+we need to provide the service information
+
+09:08.220 --> 09:10.440
+and in service the name of the service,
+
+09:10.440 --> 09:12.060
+we need to provide
+
+09:12.060 --> 09:13.590
+and name of the service,
+
+09:13.590 --> 09:16.890
+we can get from our 01 nginx.
+
+09:16.890 --> 09:18.030
+And here is the name
+
+09:18.030 --> 09:22.200
+of the node port service we need to define here, right?
+
+09:22.200 --> 09:25.590
+And we also need to define the port
+
+09:25.590 --> 09:30.590
+and we'll say the number as 80.
+
+09:30.870 --> 09:35.520
+So this completes the definition of your Ingress service.
+
+09:35.520 --> 09:38.700
+And another important thing to discuss here is,
+
+09:38.700 --> 09:40.470
+so let's come back here
+
+09:40.470 --> 09:44.430
+and go to the Ingress class documentation
+
+09:44.430 --> 09:47.520
+and you'll discuss about it deprecated annotation.
+
+09:47.520 --> 09:49.350
+One important annotation.
+
+09:49.350 --> 09:52.230
+So you can say ALB
+
+09:52.230 --> 09:57.230
+or I can say kubernetes.io/ingress.class.
+
+10:08.070 --> 10:12.180
+So this is the earlier annotation which we used to use
+
+10:12.180 --> 10:14.340
+and it is widely implemented
+
+10:14.340 --> 10:18.270
+across all the Ingress resources or Ingress controllers.
+
+10:18.270 --> 10:20.610
+So let's come back here,
+
+10:20.610 --> 10:24.540
+see deprecated kubernetes.io/ingress.class annotation.
+
+10:24.540 --> 10:26.640
+So before the Ingress class resource
+
+10:26.640 --> 10:30.390
+and Ingress class name field were added in Kubernetes 1.18.
+
+10:30.390 --> 10:34.350
+So Ingress classes were specified with this name, right?
+
+10:34.350 --> 10:37.260
+So the newer is Ingress class name field
+
+10:37.260 --> 10:39.390
+whatever we have added here, right?
+
+10:39.390 --> 10:40.590
+So let's come back here.
+
+10:40.590 --> 10:41.760
+And this is the one.
+
+10:41.760 --> 10:46.760
+So already you have defined it as a default controller,
+
+10:46.830 --> 10:49.980
+means like you are Ingress AWS ALB controller.
+
+10:49.980 --> 10:52.260
+You have defined it as a default controller
+
+10:52.260 --> 10:54.180
+with this respective setting.
+
+10:54.180 --> 10:56.340
+So which means you really don't need
+
+10:56.340 --> 10:58.530
+to even define this also.
+
+10:58.530 --> 11:01.380
+Why, because you already have a default controller
+
+11:01.380 --> 11:05.310
+which is Ingress controller in your Kubernetes cluster.
+
+11:05.310 --> 11:06.330
+And then you don't need
+
+11:06.330 --> 11:08.790
+to specify the Ingress class name here.
+
+11:08.790 --> 11:11.700
+But just for notation and to understand for us,
+
+11:11.700 --> 11:14.700
+I have defined it here and let's come back here.
+
+11:14.700 --> 11:16.410
+So the newer Ingress class name field
+
+11:16.410 --> 11:19.530
+and Ingress is replacement for that respect to annotation
+
+11:19.530 --> 11:22.560
+which is kubernetes.io/ingress.class,
+
+11:22.560 --> 11:25.110
+but is not a direct equivalent.
+
+11:25.110 --> 11:27.270
+While the annotation was generally used to
+
+11:27.270 --> 11:29.850
+reference the name of Ingress controllers
+
+11:29.850 --> 11:31.620
+that should implement the Ingress.
+
+11:31.620 --> 11:34.110
+The field is a reference to an Ingress class resource
+
+11:34.110 --> 11:36.360
+that contains additional Ingress configurations
+
+11:36.360 --> 11:39.000
+including the name of the Ingress controller.
+
+11:39.000 --> 11:41.910
+In simple terms, in very, very simple terms.
+
+11:41.910 --> 11:43.920
+So this is now a optional thing
+
+11:43.920 --> 11:45.480
+whether we want to use it or not.
+
+11:45.480 --> 11:48.150
+So if you use it or if you don't use it,
+
+11:48.150 --> 11:50.790
+there is no harm for us as on today.
+
+11:50.790 --> 11:54.660
+But why do we need to use a deprecated annotation
+
+11:54.660 --> 11:57.870
+in our latest Ingress manifest?
+
+11:57.870 --> 11:59.130
+So that's the reason,
+
+11:59.130 --> 12:02.130
+I didn't define any Ingress class right?
+
+12:02.130 --> 12:06.900
+Kubernetes.io/ingress.class here, right?
+
+12:06.900 --> 12:09.510
+We are directly using the Ingress class name
+
+12:09.510 --> 12:11.340
+and referencing to the Ingress class,
+
+12:11.340 --> 12:13.050
+whatever we have created
+
+12:13.050 --> 12:17.400
+in our load balancer install related section.
+
+12:17.400 --> 12:21.870
+So this completes the review and our live template writing
+
+12:21.870 --> 12:25.440
+of our Ingress resource with that default back end.
+
+12:25.440 --> 12:26.490
+So in our next lecture,
+
+12:26.490 --> 12:28.830
+we are going to deploy this send then test it.
+
+12:28.830 --> 12:30.240
+So I'll see you in the next lecture.
+
+12:30.240 --> 12:31.350
+Until then, bye bye.
+
+12:31.350 --> 12:32.183
+Thank you.

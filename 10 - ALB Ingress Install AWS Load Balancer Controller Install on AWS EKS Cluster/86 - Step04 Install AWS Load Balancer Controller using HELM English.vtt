@@ -1,0 +1,610 @@
+WEBVTT
+
+00:00.330 --> 00:01.470
+-: Welcome back.
+
+00:01.470 --> 00:04.020
+As part of step four, we are going to install
+
+00:04.020 --> 00:07.770
+the AWS load balancer controller using Helm.
+
+00:07.770 --> 00:11.010
+So let's come back to our PowerPoint presentation.
+
+00:11.010 --> 00:14.520
+And if you see here already we have completed the part
+
+00:14.520 --> 00:17.310
+where we have created IAM policy, IAM role
+
+00:17.310 --> 00:18.810
+and then service account
+
+00:18.810 --> 00:22.380
+and then annotating that service account with IAM role.
+
+00:22.380 --> 00:25.650
+So now whatever we are seeing in this box,
+
+00:25.650 --> 00:27.900
+which is load balancer controller deployment,
+
+00:27.900 --> 00:32.460
+its SQL in secret and also it's a cluster IP service,
+
+00:32.460 --> 00:33.870
+web hook cluster IP service.
+
+00:33.870 --> 00:36.600
+So these things we are going to deploy now
+
+00:36.600 --> 00:39.480
+and using Helm we are going to do that.
+
+00:39.480 --> 00:41.520
+So let's come back here.
+
+00:41.520 --> 00:45.300
+And if you don't have Helm installed on your local desktop
+
+00:45.300 --> 00:49.080
+so you can install the Helm using these commands, right?
+
+00:49.080 --> 00:52.500
+So brew install Helm, if it is macOS.
+
+00:52.500 --> 00:56.010
+And if you want to use different operating system.
+
+00:56.010 --> 00:59.610
+So you can see here using Helm with Amazon EKS.
+
+00:59.610 --> 01:02.160
+And you can see here if it is macOS
+
+01:02.160 --> 01:05.850
+use this command and brew install Helm.
+
+01:05.850 --> 01:07.590
+And if you're using Windows,
+
+01:07.590 --> 01:10.650
+so you can say choco install Kubernetes
+
+01:10.650 --> 01:12.420
+Helm using Chocolatey.
+
+01:12.420 --> 01:13.890
+Or if you're using Linux.
+
+01:13.890 --> 01:18.240
+So you can directly download the respect to binary
+
+01:18.240 --> 01:22.440
+and then using gethelm.sh script, you can install it.
+
+01:22.440 --> 01:26.100
+So now let's come back here and install it
+
+01:26.100 --> 01:30.360
+using brew install Helm because we are using the mac OS
+
+01:30.360 --> 01:31.770
+here, right?
+
+01:31.770 --> 01:34.410
+So I'll say brew install
+
+01:34.410 --> 01:37.680
+and then I will say Helm.
+
+01:37.680 --> 01:40.890
+And it will download the Helm and then install for us.
+
+01:40.890 --> 01:43.383
+So let's wait for it to install.
+
+01:45.330 --> 01:48.360
+So we can see here Helm was successfully installed.
+
+01:48.360 --> 01:49.863
+So maybe it is 3.8.0 version.
+
+01:51.270 --> 01:53.190
+So let's see what exactly it is.
+
+01:53.190 --> 01:56.730
+So I'll say Helm and then I'll say version.
+
+01:56.730 --> 01:57.990
+And
+
+01:57.990 --> 02:02.400
+we see that V 3.8.0 is installed for us, right?
+
+02:02.400 --> 02:05.490
+So now as part of step 0402
+
+02:05.490 --> 02:06.960
+install AWS
+
+02:06.960 --> 02:08.670
+load balancer controller.
+
+02:08.670 --> 02:11.640
+So before installing that using Helm,
+
+02:11.640 --> 02:15.450
+we need to understand about two important notes here.
+
+02:15.450 --> 02:17.670
+So the one important note here is,
+
+02:17.670 --> 02:20.250
+if you're deploying the load balancer controller
+
+02:20.250 --> 02:24.360
+to Amazon EC2 notes that have restricted access
+
+02:24.360 --> 02:28.538
+to Amazon Instance Metadata Service, which is IMDS service.
+
+02:28.538 --> 02:33.497
+Or if you are deploying these load balancer controller
+
+02:33.497 --> 02:37.245
+to Fargate, then add the following flags.
+
+02:37.245 --> 02:40.175
+So using the Helm tell the package
+
+02:40.175 --> 02:42.536
+that you are using the region code so and so
+
+02:42.536 --> 02:45.714
+and then VPC ID where you are going to deploy it.
+
+02:45.714 --> 02:48.472
+So these two things it is
+
+02:48.472 --> 02:52.034
+asking us to set in our Helm command here.
+
+02:52.034 --> 02:56.326
+So if you are going to use with the unrestricted EC2 notes
+
+02:56.326 --> 02:58.964
+where you don't have access to IMDS service
+
+02:58.964 --> 03:00.570
+or if you're using Fargate.
+
+03:00.570 --> 03:02.940
+So instead of worrying about this note,
+
+03:02.940 --> 03:05.520
+so I made a standardization that in our command
+
+03:05.520 --> 03:08.640
+we are anyway going to use this, right?
+
+03:08.640 --> 03:10.710
+And next thing is if you're deploying
+
+03:10.710 --> 03:13.260
+to any region other than U.S. West two
+
+03:13.260 --> 03:16.800
+then add the following flag to the command that you run,
+
+03:16.800 --> 03:18.870
+which is image repository
+
+03:18.870 --> 03:21.030
+replacing account and region code
+
+03:21.030 --> 03:24.720
+with the values for your region listed in Amazon EKS
+
+03:24.720 --> 03:27.150
+add on container image addresses.
+
+03:27.150 --> 03:28.290
+So this is nothing,
+
+03:28.290 --> 03:31.260
+but if you are using in different regions
+
+03:31.260 --> 03:32.820
+other than U.S. West two.
+
+03:32.820 --> 03:36.000
+So you need to provide your ECR endpoint
+
+03:36.000 --> 03:39.330
+which is nothing, but Elastic Container Registry endpoint
+
+03:39.330 --> 03:42.390
+from that respective region so that it can download
+
+03:42.390 --> 03:44.580
+AWS load balancer controller
+
+03:44.580 --> 03:46.890
+from that respective region only.
+
+03:46.890 --> 03:47.723
+So example,
+
+03:47.723 --> 03:52.350
+if currently our EKS cluster is in U.S. East one.
+
+03:52.350 --> 03:54.300
+So if you see this get region code
+
+03:54.300 --> 03:56.760
+and then account info from here.
+
+03:56.760 --> 03:57.990
+So let me
+
+03:57.990 --> 03:59.310
+open this.
+
+03:59.310 --> 04:01.950
+Let me close this and you can see here,
+
+04:01.950 --> 04:03.570
+so these are the information.
+
+04:03.570 --> 04:05.187
+So for U.S.
+
+04:05.187 --> 04:08.160
+East one, this is the endpoint,
+
+04:08.160 --> 04:08.993
+right?
+
+04:08.993 --> 04:10.590
+So that is what we need to provide.
+
+04:10.590 --> 04:13.620
+So this is the account information you need to provide here
+
+04:13.620 --> 04:16.110
+and region code you need to provide here.
+
+04:16.110 --> 04:18.330
+So this is the value you need to get.
+
+04:18.330 --> 04:22.230
+So this is the account and U.S. East one is the region
+
+04:22.230 --> 04:24.240
+code for U.S. East one location.
+
+04:24.240 --> 04:27.030
+So I have provided the link here for getting the region code
+
+04:27.030 --> 04:28.440
+and account info.
+
+04:28.440 --> 04:31.500
+So get those information and provide the account ID.
+
+04:31.500 --> 04:34.650
+And then region code here and rest all is going to be same
+
+04:34.650 --> 04:38.640
+which is Amazon AWS load balancer controller amazonaws.com.
+
+04:38.640 --> 04:41.520
+So from here everything is going to be same for you also.
+
+04:41.520 --> 04:44.010
+So based on the region, whatever you're using
+
+04:44.010 --> 04:46.410
+provide that region here, which is U.S. East one
+
+04:46.410 --> 04:48.240
+or U.S. East two or anything.
+
+04:48.240 --> 04:51.060
+And also account ID you can get from this respective link
+
+04:51.060 --> 04:53.100
+whatever is provided here.
+
+04:53.100 --> 04:54.180
+So U.S. East one.
+
+04:54.180 --> 04:55.530
+So this is the value.
+
+04:55.530 --> 04:57.780
+So we'll see that when we replace down there.
+
+04:57.780 --> 04:58.613
+Okay.
+
+04:58.613 --> 05:02.640
+So now the first thing is add the EKS charts repository.
+
+05:02.640 --> 05:05.940
+So Helm repo add this EKS charts repository.
+
+05:05.940 --> 05:07.650
+So let me copy this,
+
+05:07.650 --> 05:11.430
+and come back here and clear and add the command.
+
+05:11.430 --> 05:14.430
+So EKS already exists with the same configuration
+
+05:14.430 --> 05:17.310
+because I might have run earlier also, right?
+
+05:17.310 --> 05:18.540
+So it has added
+
+05:18.540 --> 05:22.710
+and I'll run the command helm repo update.
+
+05:22.710 --> 05:25.290
+So it is trying to get the updates
+
+05:25.290 --> 05:28.560
+for Ingress, NGINX, EKS, Jetstack, stable, Bitnami,
+
+05:28.560 --> 05:30.480
+whatever is available in my
+
+05:30.480 --> 05:33.450
+existing local repo, it is trying to update
+
+05:33.450 --> 05:34.800
+all those things.
+
+05:34.800 --> 05:38.340
+So now let's come back here, and as part of this command
+
+05:38.340 --> 05:42.360
+we are going to install the AWS load balancer controller.
+
+05:42.360 --> 05:44.190
+So let's see this command breakdown
+
+05:44.190 --> 05:46.680
+and then understand in detail.
+
+05:46.680 --> 05:48.000
+So Helm
+
+05:48.000 --> 05:48.960
+install
+
+05:48.960 --> 05:52.020
+and AWS load balancer controller.
+
+05:52.020 --> 05:57.020
+So from repo EKS/AWS load balancer controller
+
+05:57.060 --> 05:59.490
+And this need to be installed on hyphen
+
+05:59.490 --> 06:02.220
+in kube-system namespace,
+
+06:02.220 --> 06:04.410
+and provide your set.
+
+06:04.410 --> 06:06.060
+These are the set commands
+
+06:06.060 --> 06:09.730
+where you'll provide the values for your respective
+
+06:10.950 --> 06:13.530
+package, whatever you're going to deploy.
+
+06:13.530 --> 06:15.540
+So now set cluster name.
+
+06:15.540 --> 06:18.630
+So our cluster name is going to be EKS demo one,
+
+06:18.630 --> 06:20.580
+and service account create.
+
+06:20.580 --> 06:23.400
+So during the Helm install itself you want to create
+
+06:23.400 --> 06:26.490
+the service account AWS load balancer controller.
+
+06:26.490 --> 06:27.330
+No.
+
+06:27.330 --> 06:28.163
+Why?
+
+06:28.163 --> 06:30.990
+Because it was already created earlier
+
+06:30.990 --> 06:33.600
+and then now we don't need to create it
+
+06:33.600 --> 06:36.510
+as part of previous steps we have already done that.
+
+06:36.510 --> 06:39.060
+So which means service account create is false.
+
+06:39.060 --> 06:40.770
+And what is the service account name
+
+06:40.770 --> 06:44.010
+we have created which is AWS load balancer controller,
+
+06:44.010 --> 06:46.860
+which we have done as part of previous steps.
+
+06:46.860 --> 06:48.420
+So that is good.
+
+06:48.420 --> 06:50.970
+And region and VPC ID we need to set.
+
+06:50.970 --> 06:52.980
+So region code is U.S East one.
+
+06:52.980 --> 06:54.690
+So you can see here, right?
+
+06:54.690 --> 06:55.800
+And VPC ID.
+
+06:55.800 --> 06:59.400
+So we are going to get now where our AWS EKS
+
+06:59.400 --> 07:01.830
+related VPC created for this cluster.
+
+07:01.830 --> 07:03.450
+And image repository.
+
+07:03.450 --> 07:06.750
+As we said, we need to get that from the region code
+
+07:06.750 --> 07:09.930
+and account ID in which your EKS cluster is created
+
+07:09.930 --> 07:13.470
+which is 60240143452.
+
+07:13.470 --> 07:17.430
+So this is the account ID and U.S. East one is the region.
+
+07:17.430 --> 07:20.010
+So the same thing, you can find it here.
+
+07:20.010 --> 07:24.660
+So now let me take this complete command
+
+07:24.660 --> 07:28.650
+and copy this command, and come back here.
+
+07:28.650 --> 07:31.650
+And here let's space this command
+
+07:31.650 --> 07:34.770
+and ensure that all the things are same for us,
+
+07:34.770 --> 07:38.730
+EKS demo one is the cluster name and service second name
+
+07:38.730 --> 07:41.171
+is AWS-load-balancer
+
+07:41.171 --> 07:44.070
+-: controller and region where our EKS
+
+07:44.070 --> 07:46.680
+cluster is there is U.S. East one.
+
+07:46.680 --> 07:49.800
+So we only need to change the VPC ID.
+
+07:49.800 --> 07:52.110
+So this one also we have verified U.S. East one
+
+07:52.110 --> 07:55.080
+is the region and account ID also match it.
+
+07:55.080 --> 07:59.580
+So now let's come back here and go to VPC.
+
+07:59.580 --> 08:01.260
+And in VPC
+
+08:01.260 --> 08:05.733
+go to all that respective to EKS demo one related VPC.
+
+08:06.570 --> 08:09.180
+So VPCs and I should have default.
+
+08:09.180 --> 08:13.860
+And another one is EKS CTL EKS demo one cluster VPC.
+
+08:13.860 --> 08:15.750
+And this is the
+
+08:15.750 --> 08:17.400
+VPC ID.
+
+08:17.400 --> 08:19.050
+So let me copy this
+
+08:19.050 --> 08:24.050
+or let me go here and copy from here and provide a VPC ID.
+
+08:24.630 --> 08:27.460
+So now let's copy this command
+
+08:29.070 --> 08:30.840
+and run it, right.
+
+08:30.840 --> 08:32.970
+So let's come back here
+
+08:32.970 --> 08:35.850
+and clear and run the
+
+08:35.850 --> 08:37.230
+command now.
+
+08:37.230 --> 08:40.320
+And once the command successfully completes
+
+08:40.320 --> 08:42.990
+so we are going to see the output as like this,
+
+08:42.990 --> 08:46.710
+name AWS load balancer controller and last deployed.
+
+08:46.710 --> 08:49.740
+And in which namespace it is deployed, status is deployed,
+
+08:49.740 --> 08:52.560
+revision is one and test suit none.
+
+08:52.560 --> 08:56.550
+And what it has installed is AWS load balancer controller
+
+08:56.550 --> 08:57.510
+installed.
+
+08:57.510 --> 09:00.030
+So let's wait for it to complete.
+
+09:00.030 --> 09:03.540
+So we can see here our AWS load balancer controller
+
+09:03.540 --> 09:05.970
+is successfully installed.
+
+09:05.970 --> 09:09.510
+So in our next lecture we are going to go ahead and verify
+
+09:09.510 --> 09:12.990
+what it has installed in a step-by-step manner.
+
+09:12.990 --> 09:14.640
+So I'll see you in the next lecture.
+
+09:14.640 --> 09:16.653
+Until then, bye-bye. Thank you.

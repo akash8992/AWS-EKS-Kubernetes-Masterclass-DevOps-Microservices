@@ -1,0 +1,193 @@
+WEBVTT
+
+00:00.150 --> 00:01.440
+-: Welcome back.
+
+00:01.440 --> 00:04.336
+In this section, we are going to understand about
+
+00:04.336 --> 00:09.150
+Vertical Pod Autoscaler related auto scaling concept.
+
+00:09.150 --> 00:13.920
+So Vertical Pod Autoscaler automatically adjust the
+
+00:13.920 --> 00:16.830
+CPU and memory reservations for our Pods
+
+00:16.830 --> 00:20.460
+to help right size our application deployed.
+
+00:20.460 --> 00:24.960
+So, this adjustment can improve cluster resource utilization
+
+00:24.960 --> 00:28.680
+and free up CPU and memory for other Pods.
+
+00:28.680 --> 00:31.620
+So the main benefits include cluster nodes are
+
+00:31.620 --> 00:36.120
+used efficiently because Pods use exactly what they need.
+
+00:36.120 --> 00:38.250
+So Pods are scheduled onto nodes
+
+00:38.250 --> 00:42.390
+that have the appropriate resources available.
+
+00:42.390 --> 00:46.110
+And we don't have to run time consuming benchmarking
+
+00:46.110 --> 00:49.050
+tasks to determine the correct values for CPU
+
+00:49.050 --> 00:51.090
+and then memory requests.
+
+00:51.090 --> 00:53.010
+So maintenance time is reduced
+
+00:53.010 --> 00:56.640
+because the autoscaler can adjust CPU and then
+
+00:56.640 --> 01:01.530
+memory requests over time without any action on our part.
+
+01:01.530 --> 01:03.540
+So these are the very high level things
+
+01:03.540 --> 01:05.940
+about Vertical Pod Autoscaler.
+
+01:05.940 --> 01:06.990
+So moving on,
+
+01:06.990 --> 01:09.990
+so we have three types of VPA components available,
+
+01:09.990 --> 01:14.280
+which means VPA is not out of the box available
+
+01:14.280 --> 01:19.230
+unlike HPA in the Kubernetes man, Kubernetes resources okay.
+
+01:19.230 --> 01:21.840
+So VPA is an additional resource unit to
+
+01:21.840 --> 01:25.020
+install that in your Kubernetes.
+
+01:25.020 --> 01:27.930
+So as part of that installation, so we are going to
+
+01:27.930 --> 01:30.540
+get three components from VPA site.
+
+01:30.540 --> 01:33.690
+So VPA admission hook, VPA recommender,
+
+01:33.690 --> 01:36.000
+and then VPA updater.
+
+01:36.000 --> 01:38.100
+So VPA admission hook.
+
+01:38.100 --> 01:39.270
+So what it is,
+
+01:39.270 --> 01:43.230
+so every Pod submitted to the Kubernetes cluster goes
+
+01:43.230 --> 01:45.780
+through this web hook automatically,
+
+01:45.780 --> 01:49.755
+which checks whether a Vertical Pod Autoscaler object is
+
+01:49.755 --> 01:53.190
+referencing this pod are one of its parents
+
+01:53.190 --> 01:57.750
+like ReplicaSet deployment is referencing this information.
+
+01:57.750 --> 02:01.980
+So if it is referencing then it moves onto the next step.
+
+02:01.980 --> 02:05.610
+Okay, so what is VPA Recommender, right?
+
+02:05.610 --> 02:08.430
+So VPA Recommender is nothing but it connects
+
+02:08.430 --> 02:13.430
+to the metric server in the cluster and then fetches
+
+02:13.470 --> 02:18.390
+historical and then current usage data, like CPU and memory,
+
+02:18.390 --> 02:23.250
+for each VPA enabled Pod and generates recommendations
+
+02:23.250 --> 02:26.490
+for scaling up or down the requests and limits
+
+02:26.490 --> 02:28.650
+of those respective Pods.
+
+02:28.650 --> 02:31.080
+So what does VPA updater do?
+
+02:31.080 --> 02:33.210
+So it runs every one minute,
+
+02:33.210 --> 02:37.020
+if a Pod is not running in the calculated recommendation
+
+02:37.020 --> 02:41.070
+range, it evicts the it evicts the current currently
+
+02:41.070 --> 02:44.310
+running version of that Pod so it can restart
+
+02:44.310 --> 02:47.190
+and go through the VPA admission web hook
+
+02:47.190 --> 02:51.210
+for that respective Pod, which will change the CPU
+
+02:51.210 --> 02:54.810
+and memory settings for it before it can start.
+
+02:54.810 --> 02:56.970
+So we are going to execute it now,
+
+02:56.970 --> 03:00.480
+and then with HandsOn demo and then then see how it happens.
+
+03:00.480 --> 03:03.120
+So we are going to put some load on our application
+
+03:03.120 --> 03:06.240
+once we deploy and also write the VPA manifest
+
+03:06.240 --> 03:09.000
+and then deploy it and then understand more
+
+03:09.000 --> 03:13.380
+about when we put the load, how our CPU and memory resources
+
+03:13.380 --> 03:17.670
+of our respective Pod increases automatically based on VPA
+
+03:17.670 --> 03:21.060
+whatever we have configured we are going to look into.
+
+03:21.060 --> 03:22.950
+So I'll see you in the next lecture.
+
+03:22.950 --> 03:24.300
+Until then, bye bye.
+
+03:24.300 --> 03:25.133
+Thank you.

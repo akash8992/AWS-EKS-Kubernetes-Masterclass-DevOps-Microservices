@@ -1,0 +1,232 @@
+WEBVTT
+
+00:00.450 --> 00:01.470
+-: Welcome back.
+
+00:01.470 --> 00:04.260
+Let's go back to our GitHub repository
+
+00:04.260 --> 00:08.790
+and we are in 0802 ALB Ingress basics.
+
+00:08.790 --> 00:10.860
+And as part of step one,
+
+00:10.860 --> 00:14.340
+we already understood about what we are going to implement
+
+00:14.340 --> 00:16.440
+as part of this section.
+
+00:16.440 --> 00:18.780
+So now we are in step two where we are going
+
+00:18.780 --> 00:23.220
+to review the app one deployment Kubernetes manifest.
+
+00:23.220 --> 00:24.450
+So we need to go
+
+00:24.450 --> 00:28.290
+to zero one kube manifest default backend folder.
+
+00:28.290 --> 00:31.260
+So if you go back to our Visual Studio code here,
+
+00:31.260 --> 00:35.670
+in 0802 and in ALB Ingress basics.
+
+00:35.670 --> 00:37.110
+So you'll have the demo one
+
+00:37.110 --> 00:40.260
+which is zero one kube manifest default backend,
+
+00:40.260 --> 00:41.763
+and you'll have the demo two,
+
+00:42.948 --> 00:44.700
+which is zero two kube manifest rules.
+
+00:44.700 --> 00:46.320
+So if you go inside this,
+
+00:46.320 --> 00:49.680
+we'll find something called zero one Nginx app
+
+00:49.680 --> 00:52.650
+one deployment and then node port service.
+
+00:52.650 --> 00:56.280
+So this is our standard deployment and node port service.
+
+00:56.280 --> 00:58.110
+So we will review on a high level
+
+00:58.110 --> 01:00.420
+and then move on to the next step.
+
+01:00.420 --> 01:03.510
+So, if you see here APA version is apps V1
+
+01:03.510 --> 01:06.090
+and kind is deployment and metadata
+
+01:06.090 --> 01:09.630
+is app one Nginx deployment, right?
+
+01:09.630 --> 01:12.030
+And in the spec you have replicas.
+
+01:12.030 --> 01:13.890
+We are going to create one port
+
+01:13.890 --> 01:15.660
+and in selector match labels
+
+01:15.660 --> 01:20.660
+you have provided the label as app equal to app one Nginx.
+
+01:21.240 --> 01:25.950
+The same we are going to use in our node port service.
+
+01:25.950 --> 01:27.750
+We'll see that later.
+
+01:27.750 --> 01:30.930
+And in template you have the metadata label
+
+01:30.930 --> 01:32.700
+app app one Nginx.
+
+01:32.700 --> 01:37.367
+And in deployment spec and inside that template
+
+01:37.367 --> 01:40.290
+and in template you'll have the pod specification
+
+01:40.290 --> 01:41.670
+and you have the containers.
+
+01:41.670 --> 01:43.080
+And inside the containers,
+
+01:43.080 --> 01:45.870
+the first container you have defined inside this port
+
+01:45.870 --> 01:47.753
+is app one Nginx
+
+01:47.753 --> 01:50.070
+and you are bringing the container
+
+01:50.070 --> 01:55.070
+from stacksimplify/kube Nginx app one 1.0.0
+
+01:55.134 --> 01:58.740
+and ports we are going to use the container port S80.
+
+01:58.740 --> 02:02.130
+So this is the deployment manifest
+
+02:02.130 --> 02:04.440
+and here is the node port service.
+
+02:04.440 --> 02:09.030
+And in node port service you can see API version is V1
+
+02:09.030 --> 02:11.610
+and kind is service.
+
+02:11.610 --> 02:15.360
+And in metadata you'll find app one Nginx node port service
+
+02:15.360 --> 02:18.960
+is the name of this service and inspect, right?
+
+02:18.960 --> 02:21.930
+So let's ignore these labels and annotations for now.
+
+02:21.930 --> 02:24.240
+So let's come back to the service spec.
+
+02:24.240 --> 02:27.330
+And you are saying that service type has node port
+
+02:27.330 --> 02:31.110
+and selector label you can see app app one Nginx,
+
+02:31.110 --> 02:32.550
+the same whatever you have seen
+
+02:32.550 --> 02:36.300
+in the selector match labels of your deployment.
+
+02:36.300 --> 02:38.130
+So which means any traffic coming
+
+02:38.130 --> 02:41.010
+to this app one Nginx node port service
+
+02:41.010 --> 02:42.810
+will be sent to the ports
+
+02:42.810 --> 02:45.720
+with this app app one Nginx
+
+02:45.720 --> 02:49.350
+match labels related ports, right?
+
+02:49.350 --> 02:51.840
+So which means it'll send to this ports
+
+02:51.840 --> 02:55.020
+created by this respective deployment.
+
+02:55.020 --> 02:58.470
+So, now let's come back here and see the ports.
+
+02:58.470 --> 03:00.762
+The service port is port 80
+
+03:00.762 --> 03:02.160
+and the target port,
+
+03:02.160 --> 03:06.150
+which is nothing but your port of your port
+
+03:06.150 --> 03:08.190
+is also port 80,
+
+03:08.190 --> 03:11.370
+or you can say that container port is 80.
+
+03:11.370 --> 03:13.170
+So now let's come back
+
+03:13.170 --> 03:15.030
+and we have successfully reviewed
+
+03:15.030 --> 03:18.300
+our Nginx app one deployment and node port service.
+
+03:18.300 --> 03:19.440
+In our our next lecture,
+
+03:19.440 --> 03:22.740
+we are going to go ahead and then do a live template writing
+
+03:22.740 --> 03:26.580
+for our ALB Ingress, right, manifest,
+
+03:26.580 --> 03:29.880
+which is zero two ALB Ingress basic.yaml.
+
+03:29.880 --> 03:31.560
+So, I'll see you in the next lecture.
+
+03:31.560 --> 03:32.790
+Until then, bye bye.
+
+03:32.790 --> 03:33.623
+Thank you.

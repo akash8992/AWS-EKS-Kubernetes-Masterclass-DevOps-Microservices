@@ -1,0 +1,391 @@
+WEBVTT
+
+00:00.240 --> 00:01.110
+-: Welcome back.
+
+00:01.110 --> 00:03.334
+We are in the section 15,
+
+00:03.334 --> 00:06.930
+EKS HPA Horizontal Pod Autoscaling.
+
+00:06.930 --> 00:08.610
+So just now, we have looked into
+
+00:08.610 --> 00:09.690
+the introductory part,
+
+00:09.690 --> 00:12.219
+what is Horizontal Pod Autoscaling,
+
+00:12.219 --> 00:13.052
+how it works,
+
+00:13.052 --> 00:14.850
+and then how it is configured.
+
+00:14.850 --> 00:15.683
+So, the first thing
+
+00:15.683 --> 00:17.790
+we need to install in our cluster
+
+00:17.790 --> 00:20.430
+is install the Metrics Server.
+
+00:20.430 --> 00:21.263
+Okay?
+
+00:21.263 --> 00:22.380
+So the current version,
+
+00:22.380 --> 00:25.200
+which is live is v0.3.6.
+
+00:25.200 --> 00:26.310
+But if you want to go
+
+00:26.310 --> 00:27.240
+to the latest version
+
+00:27.240 --> 00:28.860
+and use the latest version,
+
+00:28.860 --> 00:30.990
+so here is the releases in the references
+
+00:30.990 --> 00:33.570
+you have the metric server releases section,
+
+00:33.570 --> 00:35.040
+so you can go there.
+
+00:35.040 --> 00:39.720
+And so, if you see the latest releases 0.3.6, okay?
+
+00:39.720 --> 00:42.060
+And, at 17th April they have 3.7,
+
+00:42.060 --> 00:44.340
+but they still didn't make it as
+
+00:44.340 --> 00:46.080
+live release for us, okay?
+
+00:46.080 --> 00:47.670
+So, now we are using that one,
+
+00:47.670 --> 00:49.740
+but whenever you are doing this course
+
+00:49.740 --> 00:51.990
+and then if you want to crosscheck this command
+
+00:51.990 --> 00:53.850
+to be a different value here,
+
+00:53.850 --> 00:55.380
+so go to this releases section
+
+00:55.380 --> 00:58.530
+and then crosscheck what is the latest release.
+
+00:58.530 --> 01:01.140
+So, verify whatever this means,
+
+01:01.140 --> 01:03.360
+like verify if metric server is installed
+
+01:03.360 --> 01:06.090
+on our respective Kube System, okay?
+
+01:06.090 --> 01:07.710
+So let's go here,
+
+01:07.710 --> 01:10.890
+and verify it first, okay?
+
+01:10.890 --> 01:12.900
+So there should not be any metric server
+
+01:12.900 --> 01:14.490
+in our existing cluster.
+
+01:14.490 --> 01:15.480
+So we can go ahead
+
+01:15.480 --> 01:19.470
+and then install the Metrics Server.
+
+01:19.470 --> 01:21.300
+So let me paste it,
+
+01:21.300 --> 01:25.680
+and it should install the 0.3.6 Metrics Server, okay?
+
+01:25.680 --> 01:26.880
+So it'll create equal
+
+01:26.880 --> 01:28.170
+and cluster roll bindings
+
+01:28.170 --> 01:30.330
+and then all the related stuff.
+
+01:30.330 --> 01:31.163
+And then,
+
+01:31.163 --> 01:33.330
+so now it is installed.
+
+01:33.330 --> 01:35.968
+So if I say 'kubectl', right?
+
+01:35.968 --> 01:38.760
+'get pods-n
+
+01:38.760 --> 01:41.940
+Kube-system' right?
+
+01:41.940 --> 01:44.760
+So we can verify the same thing.
+
+01:44.760 --> 01:46.920
+See, we can see that Metrics Server
+
+01:46.920 --> 01:48.180
+is up and running
+
+01:48.180 --> 01:52.200
+in our Kube System name space, right?
+
+01:52.200 --> 01:53.033
+So if you want,
+
+01:53.033 --> 01:55.740
+you can even verify that deployment is available
+
+01:55.740 --> 01:59.220
+for us, not using deployment command, okay?
+
+01:59.220 --> 02:01.890
+So Metrics Server deployment is successful.
+
+02:01.890 --> 02:02.790
+So the next thing is,
+
+02:02.790 --> 02:04.800
+deploy our application, okay?
+
+02:04.800 --> 02:07.800
+So let me refresh here once, okay,
+
+02:07.800 --> 02:09.210
+so yeah.
+
+02:09.210 --> 02:11.430
+So deploy our application.
+
+02:11.430 --> 02:12.630
+So before deploying it
+
+02:12.630 --> 02:15.150
+we are going to review our template, right?
+
+02:15.150 --> 02:17.160
+So let me go here,
+
+02:17.160 --> 02:19.260
+and if you see here
+
+02:19.260 --> 02:23.430
+so this is my EKS HPA Horizontal Pod Autoscaler,
+
+02:23.430 --> 02:25.587
+so this is the 'HPAdemo.yml'.
+
+02:26.490 --> 02:27.840
+So if you see it here,
+
+02:27.840 --> 02:29.580
+this is a standard deployment
+
+02:29.580 --> 02:30.810
+whatever we have created
+
+02:30.810 --> 02:32.640
+and it's SQL NodePort service
+
+02:32.640 --> 02:34.560
+with 31231, also,
+
+02:34.560 --> 02:36.570
+we have created.
+
+02:36.570 --> 02:39.930
+So the image here is simple Kube NGINX image,
+
+02:39.930 --> 02:42.510
+so which we have used in our initial sections
+
+02:42.510 --> 02:44.190
+of the course, the same thing.
+
+02:44.190 --> 02:45.210
+Only thing here,
+
+02:45.210 --> 02:48.030
+we have also provided the resources section
+
+02:48.030 --> 02:50.610
+with the, how much memory it need to use,
+
+02:50.610 --> 02:52.950
+and then how much it is limited for it, okay?
+
+02:52.950 --> 02:55.290
+So it can go max till 200M,
+
+02:55.290 --> 02:57.720
+and then after that it cannot move on.
+
+02:57.720 --> 03:00.090
+So like this, we have also defined the resources
+
+03:00.090 --> 03:02.430
+for this respective deployment,
+
+03:02.430 --> 03:06.330
+nothing but for this respective HPA NGINX application.
+
+03:06.330 --> 03:08.010
+So this means,
+
+03:08.010 --> 03:10.860
+like metrics should have something right here,
+
+03:10.860 --> 03:12.870
+so in consideration with metrics
+
+03:12.870 --> 03:14.250
+we are going to enable.
+
+03:14.250 --> 03:16.650
+So as we already deployed the metrics
+
+03:16.650 --> 03:17.880
+so in equivalent with that
+
+03:17.880 --> 03:21.300
+the resources also we have defined our deployment.
+
+03:21.300 --> 03:22.440
+So let's move on,
+
+03:22.440 --> 03:25.520
+and then deploy the manifest, okay?
+
+03:25.520 --> 03:27.000
+So we are here,
+
+03:27.000 --> 03:28.740
+and then we'll go to 15
+
+03:28.740 --> 03:32.280
+which is EKA HPA Horizontal Pod Autoscaler
+
+03:32.280 --> 03:34.230
+and I'm going to say 'kubectl
+
+03:34.230 --> 03:37.203
+apply-F Kube manifest', right?
+
+03:39.150 --> 03:42.177
+So 'kubectl get pods',
+
+03:43.260 --> 03:44.220
+should give the pod
+
+03:44.220 --> 03:48.120
+and HPA demo deployment is up and running for us.
+
+03:48.120 --> 03:52.200
+So, if you say 'kubectl get SVC'
+
+03:52.200 --> 03:53.820
+should give the services
+
+03:53.820 --> 03:55.470
+where it will say that it is running
+
+03:55.470 --> 03:59.100
+on 31231, this HPA demo service.
+
+03:59.100 --> 04:04.100
+And 'kubectl get nodes-no wide', right?
+
+04:05.580 --> 04:08.490
+So our deployment is present
+
+04:08.490 --> 04:10.830
+in our private subnet,
+
+04:10.830 --> 04:12.660
+so we are not able to access
+
+04:12.660 --> 04:14.940
+this application externally,
+
+04:14.940 --> 04:18.330
+but you can generate the load internally.
+
+04:18.330 --> 04:20.610
+But even though we deployed our application,
+
+04:20.610 --> 04:23.010
+so we know that if it is only
+
+04:23.010 --> 04:24.690
+our cluster is in public subnets
+
+04:24.690 --> 04:28.050
+we will be able to access via NodePorts, right?
+
+04:28.050 --> 04:29.160
+So that's fine, okay,
+
+04:29.160 --> 04:30.750
+we can even deploy a load balancer
+
+04:30.750 --> 04:33.570
+type of service, and then even access it.
+
+04:33.570 --> 04:35.220
+But our core focus here
+
+04:35.220 --> 04:37.350
+is on Horizontal Pod Autoscaler
+
+04:37.350 --> 04:40.290
+and not anything related to other stuff.
+
+04:40.290 --> 04:41.460
+So what we are going to do
+
+04:41.460 --> 04:43.230
+is like, in our next lecture,
+
+04:43.230 --> 04:46.080
+we'll focus on enabling the Pod Autoscaler
+
+04:46.080 --> 04:48.960
+and then generating the load and then test it.
+
+04:48.960 --> 04:50.760
+So, I'll see you in the next lecture.
+
+04:50.760 --> 04:52.140
+Until then, bye bye.
+
+04:52.140 --> 04:52.973
+Thank you.

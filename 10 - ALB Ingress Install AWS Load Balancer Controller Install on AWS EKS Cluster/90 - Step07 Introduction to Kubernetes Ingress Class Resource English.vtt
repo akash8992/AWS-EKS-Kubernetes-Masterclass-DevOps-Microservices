@@ -1,0 +1,454 @@
+WEBVTT
+
+00:00.420 --> 00:01.530
+-: Welcome back.
+
+00:01.530 --> 00:04.530
+As part of step 05, we are going to understand
+
+00:04.530 --> 00:09.450
+about the ingress class concept in ingress controllers.
+
+00:09.450 --> 00:12.900
+So if we go back to our PowerPoint presentation here,
+
+00:12.900 --> 00:15.720
+and let's understand the problem scenario here
+
+00:15.720 --> 00:19.140
+and where the ingress class comes into the picture.
+
+00:19.140 --> 00:21.960
+So if we have multiple ingress controllers running
+
+00:21.960 --> 00:23.820
+in our Kubernetes cluster,
+
+00:23.820 --> 00:26.820
+how to identify to which ingress controller
+
+00:26.820 --> 00:31.820
+our ingress resources service should be associated to.
+
+00:31.890 --> 00:34.470
+So if you take your Kubernetes cluster,
+
+00:34.470 --> 00:39.180
+you have E case ALB-related load balancer ingress controller
+
+00:39.180 --> 00:41.490
+installed on your Kubernetes cluster.
+
+00:41.490 --> 00:44.730
+And also you are running the NGINX ingress controller
+
+00:44.730 --> 00:45.840
+and you are also running
+
+00:45.840 --> 00:48.750
+the AKS application gateway ingress controller.
+
+00:48.750 --> 00:51.450
+So assume like this multiple English controllers
+
+00:51.450 --> 00:53.670
+are running in our Kubernetes cluster,
+
+00:53.670 --> 00:58.050
+and you have deployed your ingress resource using kubectl,
+
+00:58.050 --> 00:59.400
+our ingress service.
+
+00:59.400 --> 01:02.010
+And that ingress survey should be associated
+
+01:02.010 --> 01:04.770
+to which ingress controller?
+
+01:04.770 --> 01:09.770
+So there comes the concept called Kubernetes object type
+
+01:10.470 --> 01:14.010
+or Kubernetes object of kind ingress class.
+
+01:14.010 --> 01:16.950
+And not only these three English controllers.
+
+01:16.950 --> 01:18.390
+So if you see here,
+
+01:18.390 --> 01:22.140
+there are many ingress controllers available in the market
+
+01:22.140 --> 01:24.660
+as on today from Kubernetes perspective.
+
+01:24.660 --> 01:26.880
+So to identify and associate
+
+01:26.880 --> 01:30.150
+your respective Kubernetes ingress service
+
+01:30.150 --> 01:31.740
+to a ingress controller,
+
+01:31.740 --> 01:35.520
+we use the concept called ingress class.
+
+01:35.520 --> 01:39.930
+So this is the high-level definition of the ingress class
+
+01:39.930 --> 01:41.400
+we are going to define
+
+01:41.400 --> 01:43.680
+so that it is going to associate it
+
+01:43.680 --> 01:46.620
+to our ALB ingress controller.
+
+01:46.620 --> 01:47.790
+So if you see here,
+
+01:47.790 --> 01:51.570
+standard Kubernetes YAML manifest format,
+
+01:51.570 --> 01:55.590
+API version, kind, metadata, and then spec.
+
+01:55.590 --> 01:57.480
+And API version for ingresses,
+
+01:57.480 --> 02:01.920
+we are going to use networking.k8s.ivo/v1.
+
+02:01.920 --> 02:04.650
+So earlier in the ALB 1.1 version,
+
+02:04.650 --> 02:06.060
+we are using a different version
+
+02:06.060 --> 02:10.440
+which is not supported in the latest Kubernetes versions.
+
+02:10.440 --> 02:14.190
+And now the supported version is going to be this one,
+
+02:14.190 --> 02:18.900
+the API version, networking.k8s.ivo/v1.
+
+02:18.900 --> 02:20.340
+In fact, this is the reason
+
+02:20.340 --> 02:24.090
+why we are redoing this entire use case here
+
+02:24.090 --> 02:27.270
+in addition to also the new version of AWS load
+
+02:27.270 --> 02:29.730
+balancer controller also introduced.
+
+02:29.730 --> 02:33.410
+And you can see here the kind is ingress class.
+
+02:33.410 --> 02:36.750
+In metadata, we have the name and annotations,
+
+02:36.750 --> 02:38.490
+and in name, we have provided the name
+
+02:38.490 --> 02:41.190
+as my AWS ingress class.
+
+02:41.190 --> 02:43.980
+And annotations, we'll come back to it later.
+
+02:43.980 --> 02:46.530
+And in the spec, this is the important part.
+
+02:46.530 --> 02:48.000
+You have the controller
+
+02:48.000 --> 02:53.000
+and you are defining the controller as ingress.k8s.aws/alb.
+
+02:54.120 --> 02:57.450
+So here, use this ingress class, right?
+
+02:57.450 --> 02:59.850
+So whatever the ingress class you are deploying,
+
+02:59.850 --> 03:02.400
+so this is tied to your controller,
+
+03:02.400 --> 03:06.210
+which is nothing but your AWS ALB ingress controller.
+
+03:06.210 --> 03:08.700
+And whenever in the ingress service
+
+03:08.700 --> 03:11.190
+you use this name ingress class name,
+
+03:11.190 --> 03:13.890
+whatever it is, my AWS ingress class,
+
+03:13.890 --> 03:15.750
+so which means that ingress service
+
+03:15.750 --> 03:18.900
+will be associated to this respective controller
+
+03:18.900 --> 03:22.530
+which is AWS ALB ingress controller.
+
+03:22.530 --> 03:24.600
+So now let's come back to this annotation,
+
+03:24.600 --> 03:29.600
+ingressclass.kubernetes.ivo/ is default class and then true.
+
+03:31.230 --> 03:33.390
+So what exactly this does?
+
+03:33.390 --> 03:36.120
+So let's see in the next slide about that.
+
+03:36.120 --> 03:38.820
+So you have a ingress class, right?
+
+03:38.820 --> 03:40.830
+And you have a ingress resource.
+
+03:40.830 --> 03:44.040
+So we are going to do a ingress resource
+
+03:44.040 --> 03:47.160
+by live template writing in upcoming sections.
+
+03:47.160 --> 03:50.220
+But this is just to understand ingress resource is nothing
+
+03:50.220 --> 03:52.500
+but it's like you are going to create
+
+03:52.500 --> 03:56.760
+the application load balancer using the Kubernetes manifest.
+
+03:56.760 --> 03:59.370
+So on a high level, I will explain it here,
+
+03:59.370 --> 04:02.250
+and in upcoming sections in the next section,
+
+04:02.250 --> 04:04.020
+which is ingress basics,
+
+04:04.020 --> 04:05.940
+we are going to do the live template writing
+
+04:05.940 --> 04:07.980
+for this respective resource.
+
+04:07.980 --> 04:10.290
+Here, the point we are trying to understand
+
+04:10.290 --> 04:14.280
+is about the is default class equal to true or not?
+
+04:14.280 --> 04:18.210
+So this is APA version networking k8s.ivo/v1,
+
+04:18.210 --> 04:19.440
+and kind is ingress.
+
+04:19.440 --> 04:21.900
+So you can see here this is the ingress class
+
+04:21.900 --> 04:23.610
+and this is the ingress.
+
+04:23.610 --> 04:28.260
+And metadata and name, you can see ingress NGINX app fun.
+
+04:28.260 --> 04:32.340
+So this is the ingress service you are going to create.
+
+04:32.340 --> 04:34.170
+And we'll leave the labels.
+
+04:34.170 --> 04:35.490
+It's a standard one.
+
+04:35.490 --> 04:37.200
+So we'll go to annotations,
+
+04:37.200 --> 04:40.440
+and you can see here ALB ingress kubernetes.ivo
+
+04:40.440 --> 04:43.440
+and load balancer name you are giving app one ingress,
+
+04:43.440 --> 04:46.320
+and also scheme, you are saying that this ingress service
+
+04:46.320 --> 04:48.900
+should be created at the internet facing.
+
+04:48.900 --> 04:51.990
+So which means this creates the application load balancer
+
+04:51.990 --> 04:55.530
+in AWS as a internet-facing load balancer.
+
+04:55.530 --> 04:58.230
+So here comes the API version, kind, metadata,
+
+04:58.230 --> 04:59.310
+and then spec.
+
+04:59.310 --> 05:02.190
+In spec, before going to this ingress class name,
+
+05:02.190 --> 05:04.530
+also review this default backend.
+
+05:04.530 --> 05:07.050
+So this default backend has a service
+
+05:07.050 --> 05:10.290
+and whose name is app one NGINX note port service
+
+05:10.290 --> 05:15.290
+and this note port service will be listening on port 80.
+
+05:15.960 --> 05:18.990
+So which means this application load balancer
+
+05:18.990 --> 05:22.020
+will have a default backend, which will send the traffic
+
+05:22.020 --> 05:25.560
+to the Kubernetes service off type note port.
+
+05:25.560 --> 05:28.470
+And inside this note port, you'll have a selector labels
+
+05:28.470 --> 05:31.290
+which will be pointing to your deployment,
+
+05:31.290 --> 05:33.180
+Kubernetes deployment, where you'll have
+
+05:33.180 --> 05:35.940
+the upward NGINX engineers deployment.
+
+05:35.940 --> 05:38.640
+The functioning of ingress service or resources,
+
+05:38.640 --> 05:40.680
+not the core concept here.
+
+05:40.680 --> 05:44.040
+Important thing here is, so let's understand this.
+
+05:44.040 --> 05:46.320
+So you see the name of your ingress classes,
+
+05:46.320 --> 05:48.720
+my AWS ingress class.
+
+05:48.720 --> 05:51.330
+And inside this ingress resource,
+
+05:51.330 --> 05:53.040
+you are saying the ingress class name
+
+05:53.040 --> 05:55.890
+is my AWS ingress class.
+
+05:55.890 --> 05:58.680
+So if ingress class is not defined
+
+05:58.680 --> 06:02.400
+as is default class equal to true,
+
+06:02.400 --> 06:05.280
+then ingress resource, right?
+
+06:05.280 --> 06:08.460
+We need to define the spec.ingres class name,
+
+06:08.460 --> 06:10.620
+whatever you want to specify
+
+06:10.620 --> 06:14.460
+so that this resource will be directly associated
+
+06:14.460 --> 06:15.780
+with the English controller,
+
+06:15.780 --> 06:19.260
+which is nothing but AWS ALB ingress controller.
+
+06:19.260 --> 06:21.000
+So now here comes the point.
+
+06:21.000 --> 06:22.830
+So if we enable these two lines,
+
+06:22.830 --> 06:24.210
+annotations and then say,
+
+06:24.210 --> 06:26.730
+this has the default ingress, right?
+
+06:26.730 --> 06:30.030
+So which means you're saying AWS ALB controller
+
+06:30.030 --> 06:33.480
+as the default ingress in your Kubernetes cluster.
+
+06:33.480 --> 06:34.860
+So at that point of time,
+
+06:34.860 --> 06:37.440
+this value which is ingress class name,
+
+06:37.440 --> 06:39.240
+whatever you are defining here,
+
+06:39.240 --> 06:41.760
+you really don't need to define, you can comment it.
+
+06:41.760 --> 06:44.070
+So how many number of ingress resources
+
+06:44.070 --> 06:45.990
+or services you are going to deploy
+
+06:45.990 --> 06:49.290
+all will be associated with the ingress controller,
+
+06:49.290 --> 06:53.910
+which is defined as the default in your Kubernetes cluster.
+
+06:53.910 --> 06:56.640
+So this completes the high-level introduction
+
+06:56.640 --> 06:59.850
+about ingress class, and in our next lecture,
+
+06:59.850 --> 07:02.460
+we are going to practically implement this.
+
+07:02.460 --> 07:04.110
+So I'll see you in the next lecture.
+
+07:04.110 --> 07:05.400
+Until then, bye-bye.
+
+07:05.400 --> 07:06.233
+Thank you.

@@ -1,0 +1,895 @@
+WEBVTT
+
+00:00.270 --> 00:01.110
+-: Welcome back.
+
+00:01.110 --> 00:04.380
+In this lecture we are going to create the
+
+00:04.380 --> 00:06.870
+Maya Scale related Kubernetes manifest
+
+00:06.870 --> 00:08.970
+which are required for us and then we are
+
+00:08.970 --> 00:11.850
+going to build them using live template writing.
+
+00:11.850 --> 00:13.170
+And then we are going to deploy
+
+00:13.170 --> 00:14.940
+and then see that how we are going to
+
+00:14.940 --> 00:16.590
+how the Maya scale is going to come
+
+00:16.590 --> 00:20.220
+up with the persistent storage using elastic block store
+
+00:20.220 --> 00:22.143
+which is EBS service in AWS.
+
+00:23.130 --> 00:25.190
+So let's go to 0402 SCPVC,
+
+00:26.501 --> 00:28.050
+which is nothing but storage class,
+
+00:28.050 --> 00:30.090
+persistent volume claim, ConfigMaps
+
+00:30.090 --> 00:32.970
+and then Maya scale deployment and then service.
+
+00:32.970 --> 00:35.820
+So we are going to create file manifests here.
+
+00:35.820 --> 00:37.890
+So we'll start with our step one.
+
+00:37.890 --> 00:40.230
+So if you see here we are going to create the
+
+00:40.230 --> 00:43.380
+storage class manifest persistent volume claim
+
+00:43.380 --> 00:46.920
+user management ConfigMap, Maya scale deployment engine,
+
+00:46.920 --> 00:48.990
+Maya scale cluster IP service.
+
+00:48.990 --> 00:50.400
+So let's start with the first one
+
+00:50.400 --> 00:53.640
+which is our create storage class manifest.
+
+00:53.640 --> 00:58.053
+Okay, so let's go back to our visual studio core here.
+
+00:58.950 --> 01:01.530
+And I have created the empty files here and then
+
+01:01.530 --> 01:05.820
+put them ready for our development of live template writing,
+
+01:05.820 --> 01:06.653
+okay.
+
+01:06.653 --> 01:09.360
+So we are in the zero one storage class.
+
+01:09.360 --> 01:13.080
+So as usual we are going to create our basic template first
+
+01:13.080 --> 01:17.553
+which is nothing but APA version kind metadata.
+
+01:18.660 --> 01:21.450
+And next is spec,
+
+01:21.450 --> 01:22.283
+right?
+
+01:22.283 --> 01:25.080
+So now let's start with the APA kind.
+
+01:25.080 --> 01:27.223
+Kind is nothing but we are going to create
+
+01:27.223 --> 01:29.058
+a storage class, okay?
+
+01:29.058 --> 01:31.277
+And next is API version.
+
+01:31.277 --> 01:34.140
+So for storage class the API version is going to look
+
+01:34.140 --> 01:35.430
+like this, okay?
+
+01:35.430 --> 01:39.600
+Storage.k8s.//v1
+
+01:39.600 --> 01:43.179
+So let's see in our API specification document.
+
+01:43.179 --> 01:48.179
+We can see it here now storage.k8s.//v1
+
+01:48.570 --> 01:53.100
+So that's what we have implemented it for our storage class.
+
+01:53.100 --> 01:56.730
+And now the metadata we are going to queue as tab
+
+01:56.730 --> 01:58.350
+and then name
+
+01:58.350 --> 02:01.230
+and then I'm going to say EBS storage class.
+
+02:01.230 --> 02:02.063
+Okay?
+
+02:02.063 --> 02:03.930
+And now when coming to this storage class
+
+02:03.930 --> 02:06.030
+it is not going to be spec here.
+
+02:06.030 --> 02:08.670
+So it is going to be the provisioner.
+
+02:08.670 --> 02:09.503
+Okay?
+
+02:09.503 --> 02:10.440
+So who is going to be the parishioner?
+
+02:10.440 --> 02:11.273
+My provisioner.
+
+02:11.273 --> 02:14.610
+My provisioner is going to be if it is agile disc car
+
+02:14.610 --> 02:16.320
+If it is GC persistent disc
+
+02:16.320 --> 02:18.210
+then the provisioner is going to differ
+
+02:18.210 --> 02:20.940
+and now we are going to use it in AWS.
+
+02:20.940 --> 02:25.650
+So it is going to be ebs.csi.aws.com,
+
+02:25.650 --> 02:26.483
+Right?
+
+02:26.483 --> 02:30.000
+So and now one more important thing here we need to work on
+
+02:30.000 --> 02:31.196
+is
+
+02:31.196 --> 02:32.850
+volume
+
+02:32.850 --> 02:34.440
+binding mode.
+
+02:34.440 --> 02:39.440
+So this can be immediate or wait for first consumer,
+
+02:39.960 --> 02:40.793
+right?
+
+02:40.793 --> 02:41.820
+So let me save this
+
+02:41.820 --> 02:44.550
+and then see what is this wait for first consumer?
+
+02:44.550 --> 02:48.751
+So let's come back here and if you see here this wait
+
+02:48.751 --> 02:52.620
+for first consumer mode will delay the volume binding
+
+02:52.620 --> 02:54.780
+and provisioning of the persistent volume
+
+02:54.780 --> 02:59.160
+until a pod using the persistent volume claim is created.
+
+02:59.160 --> 03:02.490
+So what happens is like whenever the storage class
+
+03:02.490 --> 03:03.420
+you create it
+
+03:03.420 --> 03:06.720
+and then whenever you create your persistent volume claim.
+
+03:06.720 --> 03:10.080
+So if you don't add this volume binding mode to wait
+
+03:10.080 --> 03:11.520
+for first customer
+
+03:11.520 --> 03:14.610
+then it is going to immediately dynamically provision
+
+03:14.610 --> 03:16.500
+and then mount your volume.
+
+03:16.500 --> 03:19.260
+So means like it is going to provision your volume there.
+
+03:19.260 --> 03:21.930
+So in which availability zone we really don't know,
+
+03:21.930 --> 03:22.863
+it is dynamic, right?
+
+03:22.863 --> 03:25.170
+So it can be in available zone one
+
+03:25.170 --> 03:27.000
+or means like US-East-1 here
+
+03:27.000 --> 03:29.430
+or US-East-1 we really don't know.
+
+03:29.430 --> 03:31.140
+And whenever you go ahead
+
+03:31.140 --> 03:33.570
+and then later you go and then create the pod
+
+03:33.570 --> 03:36.600
+what happens is like if your volume is mounted
+
+03:36.600 --> 03:39.930
+in US-East-1 here and your pod got scheduled
+
+03:39.930 --> 03:43.980
+or created in US-East-1 B, then you have the issue, right?
+
+03:43.980 --> 03:45.600
+So considering all those things
+
+03:45.600 --> 03:47.220
+there is a new option provided here
+
+03:47.220 --> 03:49.230
+wait for first consumer.
+
+03:49.230 --> 03:51.963
+So what happens in this case is like whenever,
+
+03:52.800 --> 03:55.530
+whenever you create the pod at that time only
+
+03:55.530 --> 03:57.690
+it'll provision the equivalent volume for you.
+
+03:57.690 --> 03:58.523
+So what happens
+
+03:58.523 --> 04:01.350
+at that time is both will get created in the same topology
+
+04:01.350 --> 04:03.810
+which is nothing but in the same a availability zone.
+
+04:03.810 --> 04:05.820
+So that is one key important thing.
+
+04:05.820 --> 04:08.970
+So that's the reason whenever we are using in our AWS here
+
+04:08.970 --> 04:11.400
+we can use wait for first consumer.
+
+04:11.400 --> 04:15.780
+Anyway even though using ABS with Maya scale databases here
+
+04:15.780 --> 04:17.736
+on Kubernetes it'll have equivalent
+
+04:17.736 --> 04:19.770
+setbacks and then drawbacks,
+
+04:19.770 --> 04:21.600
+we'll see in our later lecture those things.
+
+04:21.600 --> 04:24.030
+And then already a next lecture is planned
+
+04:24.030 --> 04:28.650
+in detail for this like to avoid these EBS related issues.
+
+04:28.650 --> 04:30.990
+So then how we are going to use the RDS database
+
+04:30.990 --> 04:33.960
+in Kubernetes cluster, all those things already planned.
+
+04:33.960 --> 04:35.310
+But for now let's go ahead
+
+04:35.310 --> 04:38.910
+and then start writing our template related
+
+04:38.910 --> 04:43.350
+to ConfigMap and then persistent volume claim.
+
+04:43.350 --> 04:48.350
+So we just now completed the storage class related manifest.
+
+04:48.900 --> 04:49.733
+Okay?
+
+04:49.733 --> 04:52.110
+So in our next step we are going to
+
+04:52.110 --> 04:56.910
+create the persistent volume claim related manifest.
+
+04:56.910 --> 05:01.503
+So I'm not going to go for everything to pay version.
+
+05:02.760 --> 05:05.610
+We are not going to go to refer the APA reference
+
+05:05.610 --> 05:06.443
+doc every time.
+
+05:06.443 --> 05:09.450
+So you can refer whenever you have time there.
+
+05:09.450 --> 05:12.210
+But for now we'll go with the standard stuff here.
+
+05:12.210 --> 05:13.043
+Okay?
+
+05:13.043 --> 05:14.940
+So this is the standard APA version kind
+
+05:14.940 --> 05:16.740
+and then metadata and then spec.
+
+05:16.740 --> 05:20.020
+And now what we are creating is persistent
+
+05:21.240 --> 05:22.410
+volume
+
+05:22.410 --> 05:23.243
+claim
+
+05:23.243 --> 05:24.076
+right?
+
+05:24.076 --> 05:26.430
+And it's version is going to be V1.
+
+05:26.430 --> 05:28.440
+And then in metadata our standard thing
+
+05:28.440 --> 05:30.540
+is to create a name, right?
+
+05:30.540 --> 05:34.300
+So I'm going to say EBS Maya scale
+
+05:34.300 --> 05:35.610
+EV claim,
+
+05:35.610 --> 05:36.660
+right?
+
+05:36.660 --> 05:39.090
+And in spec we will have three things
+
+05:39.090 --> 05:42.960
+on a very high level that is access modes
+
+05:42.960 --> 05:47.670
+and next is storage class name this respective
+
+05:47.670 --> 05:51.180
+persistent volume claim need to refer, right?
+
+05:51.180 --> 05:53.250
+And next is resources.
+
+05:53.250 --> 05:56.070
+How much you want to reserve the space.
+
+05:56.070 --> 05:57.870
+Means like how much you want to take the space
+
+05:57.870 --> 06:00.060
+for your respective mount point
+
+06:00.060 --> 06:02.850
+of your Maya scale database example, right?
+
+06:02.850 --> 06:05.820
+So your volume mount, how much you want to take.
+
+06:05.820 --> 06:07.920
+So let's start with access modes.
+
+06:07.920 --> 06:09.360
+So we want
+
+06:09.360 --> 06:10.740
+read,
+
+06:10.740 --> 06:11.573
+write,
+
+06:12.720 --> 06:13.557
+once, okay?
+
+06:13.557 --> 06:15.930
+And the storage class name whatever we created here
+
+06:15.930 --> 06:17.850
+is EBS SC, right?
+
+06:17.850 --> 06:18.960
+EBS storage class.
+
+06:18.960 --> 06:21.030
+So I'm going to give that,
+
+06:21.030 --> 06:22.890
+and resources in that
+
+06:22.890 --> 06:25.170
+we are going to request how much, okay?
+
+06:25.170 --> 06:28.590
+So we are going to request the storage,
+
+06:28.590 --> 06:32.125
+and storage is going to be four gigabytes, okay?
+
+06:32.125 --> 06:33.440
+4Gi
+
+06:33.440 --> 06:34.290
+Okay,
+
+06:34.290 --> 06:35.123
+So that's all.
+
+06:35.123 --> 06:38.070
+Now we have completed the persistent volume
+
+06:38.070 --> 06:40.110
+claim related
+
+06:40.110 --> 06:41.592
+Kubernetes manifest.
+
+06:41.592 --> 06:42.425
+Okay?
+
+06:42.425 --> 06:44.250
+So we'll also complete user management
+
+06:44.250 --> 06:47.940
+ConfigMap manifest and then we'll go to the next one.
+
+06:47.940 --> 06:50.340
+So we are going to create a ConfigMap
+
+06:50.340 --> 06:52.440
+manifest which will be mounted
+
+06:52.440 --> 06:54.570
+in our Maya scale deployment.
+
+06:54.570 --> 06:56.601
+So that whenever this,
+
+06:56.601 --> 06:59.580
+whenever the Maya scale port is got created
+
+06:59.580 --> 07:03.030
+automatically, it also need to create one small Schema named
+
+07:03.030 --> 07:05.070
+User MGMT Schema.
+
+07:05.070 --> 07:06.180
+So that we'll use
+
+07:06.180 --> 07:10.200
+for our user management microservice deployment.
+
+07:10.200 --> 07:12.870
+So whenever the user management microservices is deployed,
+
+07:12.870 --> 07:16.620
+it expects that there is a User MGMT Schema present
+
+07:16.620 --> 07:18.390
+in your respective database.
+
+07:18.390 --> 07:20.790
+So for that purpose we introduce
+
+07:20.790 --> 07:23.280
+to the ConfigMap concept here means like
+
+07:23.280 --> 07:25.290
+why ConfigMap is like whatever you want to do,
+
+07:25.290 --> 07:27.450
+whatever the configuration you want to send
+
+07:27.450 --> 07:29.040
+to your ports, right?
+
+07:29.040 --> 07:30.750
+In whatever the way you can define it
+
+07:30.750 --> 07:34.200
+as a ConfigMap and then mount it in your container.
+
+07:34.200 --> 07:36.990
+So we are going to container a definition which is nothing
+
+07:36.990 --> 07:37.950
+whatever deployment.
+
+07:37.950 --> 07:40.050
+So we are going to do that so that we know the user
+
+07:40.050 --> 07:42.990
+of ConfigMap, how we are going to use it.
+
+07:42.990 --> 07:45.456
+So our standard API version
+
+07:45.456 --> 07:46.360
+Kind
+
+07:47.550 --> 07:48.600
+Metadata.
+
+07:48.600 --> 07:52.140
+And here it is not spec, it is going to be data.
+
+07:52.140 --> 07:52.973
+Okay?
+
+07:52.973 --> 07:55.620
+So then what we are going to create ConfigMap
+
+07:55.620 --> 07:59.430
+and the version is going to be V1 in the metadata.
+
+07:59.430 --> 08:01.800
+And here I'm going to write the name.
+
+08:01.800 --> 08:03.120
+It is going to be
+
+08:03.120 --> 08:03.953
+User
+
+08:04.950 --> 08:06.154
+management
+
+08:06.154 --> 08:07.430
+hyphen
+
+08:07.430 --> 08:09.480
+DV creation script.
+
+08:09.480 --> 08:10.313
+Okay?
+
+08:10.313 --> 08:12.526
+So in data I'm going to create a
+
+08:12.526 --> 08:13.359
+Mayascale
+
+08:14.230 --> 08:15.568
+_
+
+08:15.568 --> 08:18.570
+usermgmt.skl script okay?
+
+08:18.570 --> 08:21.840
+So, and I'm going to write the content of my skl script
+
+08:21.840 --> 08:22.673
+okay?
+
+08:22.673 --> 08:24.450
+So I'm going to say
+
+08:24.450 --> 08:25.283
+drop
+
+08:26.310 --> 08:28.200
+database
+
+08:28.200 --> 08:29.670
+if
+
+08:29.670 --> 08:30.503
+exists.
+
+08:30.503 --> 08:31.336
+Okay?
+
+08:31.336 --> 08:34.650
+And database name is User MGMT, okay?
+
+08:34.650 --> 08:36.370
+And then create
+
+08:37.230 --> 08:38.880
+database
+
+08:38.880 --> 08:40.080
+User
+
+08:40.080 --> 08:40.913
+MGMT,
+
+08:40.913 --> 08:43.260
+so we can use more or big,
+
+08:43.260 --> 08:44.093
+whatever it is.
+
+08:44.093 --> 08:44.926
+Okay?
+
+08:44.926 --> 08:46.710
+So create database User MGMT.
+
+08:46.710 --> 08:49.080
+So this is about creation of our ConfigMap
+
+08:49.080 --> 08:51.210
+how we are going to mount it in our Maya scale
+
+08:51.210 --> 08:52.043
+deployment file.
+
+08:52.043 --> 08:53.970
+We are going to see in our next steps
+
+08:53.970 --> 08:54.803
+okay?
+
+08:54.803 --> 08:55.636
+But for now,
+
+08:55.636 --> 08:56.820
+one thing we need to understand here is
+
+08:56.820 --> 08:59.190
+let's save it and go back here.
+
+08:59.190 --> 09:01.410
+So these are few steps to execute here
+
+09:01.410 --> 09:03.540
+in persistent volume claims manifest.
+
+09:03.540 --> 09:04.373
+That is nothing,
+
+09:04.373 --> 09:06.540
+but let's create storage class in PVC
+
+09:06.540 --> 09:09.180
+and then list them and then see how it is going to look
+
+09:09.180 --> 09:10.013
+like.
+
+09:10.013 --> 09:11.820
+We discuss about wait for first consumer, right?
+
+09:11.820 --> 09:14.640
+So what happens, we are going to see here now.
+
+09:14.640 --> 09:16.390
+So let's go here
+
+09:17.310 --> 09:18.143
+and
+
+09:19.410 --> 09:20.250
+go to,
+
+09:20.250 --> 09:22.020
+what is this section?
+
+09:22.020 --> 09:24.240
+Section is zero four, right?
+
+09:24.240 --> 09:25.570
+So let's go to
+
+09:27.060 --> 09:28.230
+zero four.
+
+09:28.230 --> 09:29.310
+And in zero four
+
+09:29.310 --> 09:32.280
+we'll have something called kube manifest.
+
+09:32.280 --> 09:33.876
+We need to go to
+
+09:33.876 --> 09:34.709
+zero four,
+
+09:36.210 --> 09:37.230
+zero two.
+
+09:37.230 --> 09:38.063
+Right?
+
+09:38.063 --> 09:40.083
+Inside that you'll find kube manifest,
+
+09:40.990 --> 09:43.577
+right?
+
+09:43.577 --> 09:44.730
+Right, we have that.
+
+09:44.730 --> 09:49.050
+Okay, so I'm going to say kubctl-f kube manifest.
+
+09:49.050 --> 09:51.510
+So it need to create three things for us, okay?
+
+09:51.510 --> 09:53.790
+So storage class,
+
+09:53.790 --> 09:54.960
+persistent volume claim,
+
+09:54.960 --> 09:57.210
+and it's equivalent the DB creations script
+
+09:57.210 --> 09:58.710
+related ConfigMap.
+
+09:58.710 --> 10:01.440
+So I'll say Qctl get SC,
+
+10:01.440 --> 10:04.080
+which is nothing but the storage class, okay?
+
+10:04.080 --> 10:07.357
+And I have got my EBS CSI AWS.com
+
+10:07.357 --> 10:09.840
+which is the EBSS. created.
+
+10:09.840 --> 10:11.830
+So now I'll say get PVC
+
+10:11.830 --> 10:14.580
+which is nothing but persistent volume claim.
+
+10:14.580 --> 10:15.413
+Now you can see, right?
+
+10:15.413 --> 10:16.350
+It is waiting.
+
+10:16.350 --> 10:18.390
+It is waiting for the first consumer.
+
+10:18.390 --> 10:20.520
+You can see the status is waiting.
+
+10:20.520 --> 10:24.240
+So it is not already allocated our volume
+
+10:24.240 --> 10:25.073
+already binded.
+
+10:25.073 --> 10:25.906
+Okay?
+
+10:25.906 --> 10:28.230
+So if you want get PV, nothing.
+
+10:28.230 --> 10:31.860
+So persistent volume still not yet created,
+
+10:31.860 --> 10:35.310
+volume claim is waiting to create the volume until
+
+10:35.310 --> 10:37.620
+and unless the part got created,
+
+10:37.620 --> 10:39.000
+it is not going to,
+
+10:39.000 --> 10:40.710
+it is not going to create it, okay?
+
+10:40.710 --> 10:42.510
+It is not going to bind the volume
+
+10:42.510 --> 10:44.910
+and then create the persistent volume.
+
+10:44.910 --> 10:46.680
+So let's wait for it.
+
+10:46.680 --> 10:48.990
+Okay, So now we have completed these things,
+
+10:48.990 --> 10:51.150
+so let's if you want we can even delete it
+
+10:51.150 --> 10:52.350
+or we can leave it as is.
+
+10:52.350 --> 10:53.183
+Okay?
+
+10:53.183 --> 10:54.016
+That's not a big deal.
+
+10:54.016 --> 10:55.035
+Okay?
+
+10:55.035 --> 10:56.880
+So in our next lecture we are going to focus
+
+10:56.880 --> 10:58.830
+on creating the Maya scale deployment
+
+10:58.830 --> 11:01.080
+and then Maya scale cluster IP service.
+
+11:01.080 --> 11:02.880
+And then we'll move on
+
+11:02.880 --> 11:05.310
+with the creating those deployment service
+
+11:05.310 --> 11:07.500
+all these manifests and then testing it.
+
+11:07.500 --> 11:08.333
+Okay?
+
+11:08.333 --> 11:09.510
+So I'll see you in the next lecture.
+
+11:09.510 --> 11:10.770
+Until then, bye bye.
+
+11:10.770 --> 11:11.603
+Thank you.

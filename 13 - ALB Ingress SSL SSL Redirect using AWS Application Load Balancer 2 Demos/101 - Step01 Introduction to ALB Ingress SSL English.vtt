@@ -1,0 +1,196 @@
+WEBVTT
+
+00:00.750 --> 00:01.830
+-: Welcome back.
+
+00:01.830 --> 00:04.260
+In this section we are going to implement the
+
+00:04.260 --> 00:07.590
+Kubernetes Ingress SSL use case.
+
+00:07.590 --> 00:10.050
+So let's understand the tasks involved
+
+00:10.050 --> 00:14.010
+as part of this ALB Ingress SSL use case.
+
+00:14.010 --> 00:15.600
+And before going to tasks,
+
+00:15.600 --> 00:17.520
+we also need to know that we are also going
+
+00:17.520 --> 00:21.330
+to introduce two more services as part of this use case.
+
+00:21.330 --> 00:26.100
+Which is AWS Route 53 and AWS Certificate Manager.
+
+00:26.100 --> 00:27.690
+So as part of task one,
+
+00:27.690 --> 00:32.340
+we are going to register a new domain in AWS Route 53.
+
+00:32.340 --> 00:34.980
+So this is just to learn how to register a domain
+
+00:34.980 --> 00:36.577
+in our AWS Route 53.
+
+00:37.620 --> 00:39.540
+And as part of task two,
+
+00:39.540 --> 00:42.270
+we are going to create a SSL certificate
+
+00:42.270 --> 00:44.790
+in AWS Certificate Manager.
+
+00:44.790 --> 00:47.160
+And as part of task three,
+
+00:47.160 --> 00:50.010
+we are going to update the SSL annotations
+
+00:50.010 --> 00:52.110
+in the Ingress service,
+
+00:52.110 --> 00:54.690
+and deploy those Kubernetes manifests
+
+00:54.690 --> 00:57.450
+and then test it using task four.
+
+00:57.450 --> 01:01.020
+So let's also understand the network design for this.
+
+01:01.020 --> 01:02.760
+So whatever we are seeing currently,
+
+01:02.760 --> 01:05.250
+is a network design we have used and seen
+
+01:05.250 --> 01:08.190
+already in the Context Path Based Route Routing
+
+01:08.190 --> 01:10.290
+use case or demo.
+
+01:10.290 --> 01:14.513
+So now we are also going to add AWS Route 53
+
+01:14.513 --> 01:18.030
+related service here and also ensure that we register
+
+01:18.030 --> 01:22.110
+a new domain inside this Route 53 service.
+
+01:22.110 --> 01:24.990
+And we are also going to create a SSL certificate
+
+01:24.990 --> 01:27.540
+in the Certificate Manager Service.
+
+01:27.540 --> 01:31.170
+And we are also going to update our Ingress Service
+
+01:31.170 --> 01:34.440
+with SSL related annotations.
+
+01:34.440 --> 01:38.430
+And finally, we are also going to DNS register
+
+01:38.430 --> 01:41.310
+our application load balancer DNS name,
+
+01:41.310 --> 01:45.450
+with a custom DNS name with the, with something like
+
+01:45.450 --> 01:47.760
+SSL Demo Docs, taxsimplified.com
+
+01:47.760 --> 01:50.970
+in the Route 53 Azure record.
+
+01:50.970 --> 01:54.090
+And whenever we access HTTP URLs,
+
+01:54.090 --> 01:56.820
+all three applications, app one, app two and then app three,
+
+01:56.820 --> 01:58.860
+should be accessible for us.
+
+01:58.860 --> 02:01.980
+And we, we will be also able to access using
+
+02:01.980 --> 02:05.787
+HTTPS, SSL Demo Docs taxsimplified.com
+
+02:05.787 --> 02:07.530
+for all the three applications
+
+02:07.530 --> 02:09.960
+with their respective context path.
+
+02:09.960 --> 02:12.420
+And in next demo, in addition to this,
+
+02:12.420 --> 02:15.990
+we are also going to implement a SSL redirect.
+
+02:15.990 --> 02:19.363
+So whenever you access the HTTP URLs also,
+
+02:19.363 --> 02:22.320
+it will directly redirect to HTTP URLs.
+
+02:22.320 --> 02:24.360
+But that is in the next demo.
+
+02:24.360 --> 02:28.110
+In this demo, we will see the URLs in a independent model
+
+02:28.110 --> 02:30.180
+where you can access the application
+
+02:30.180 --> 02:34.890
+with both HTTP and also HTTPS URLs.
+
+02:34.890 --> 02:39.000
+Now, to register a domain in AWS Route 53,
+
+02:39.000 --> 02:42.210
+already taxsimplified.com is a registered domain
+
+02:42.210 --> 02:45.000
+which we are using for all of our websites.
+
+02:45.000 --> 02:49.740
+So that said, to implement or demonstrate this use case,
+
+02:49.740 --> 02:54.000
+we are going to use a new domain named, cubancloud.com.
+
+02:54.000 --> 02:55.950
+So this completes the introductory
+
+02:55.950 --> 02:58.890
+part of Ingress SSL use case.
+
+02:58.890 --> 03:00.390
+In our next lecture we'll go ahead
+
+03:00.390 --> 03:02.820
+and then practically implement this.
+
+03:02.820 --> 03:04.470
+So I'll see you in the next lecture.
+
+03:04.470 --> 03:05.640
+Until then, bye bye.
+
+03:05.640 --> 03:06.473
+Thank you.

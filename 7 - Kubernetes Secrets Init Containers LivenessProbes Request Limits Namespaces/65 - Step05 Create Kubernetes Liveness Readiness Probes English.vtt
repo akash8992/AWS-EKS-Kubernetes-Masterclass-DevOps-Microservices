@@ -1,0 +1,613 @@
+WEBVTT
+
+00:00.120 --> 00:01.170
+-: Welcome back.
+
+00:01.170 --> 00:04.020
+So we have just now completed step 0.1,
+
+00:04.020 --> 00:06.630
+Introduction for Liveness and then Readiness Probes.
+
+00:06.630 --> 00:08.468
+So now let's see what these are,
+
+00:08.468 --> 00:10.530
+and then how we are going to define them
+
+00:10.530 --> 00:14.130
+in our user management deployment manifest.
+
+00:14.130 --> 00:15.510
+Okay, so we are going to create
+
+00:15.510 --> 00:17.618
+both liveness and then readiness probes.
+
+00:17.618 --> 00:20.881
+And the Liveness probe we are going to define using command
+
+00:20.881 --> 00:24.349
+which is nothing but liveness probe with the command SH-C
+
+00:24.349 --> 00:28.649
+and then necat-Z localhost 8095.
+
+00:28.649 --> 00:31.680
+And for Readiness probe we are going to do it
+
+00:31.680 --> 00:33.330
+with HTTP Git and then path
+
+00:33.330 --> 00:36.000
+with our same user management health status URL,
+
+00:36.000 --> 00:38.250
+whatever we used to test earlier, right?
+
+00:38.250 --> 00:41.309
+So the same thing with port S 8095.
+
+00:41.309 --> 00:44.379
+And we are going to also provide initial dealer seconds
+
+00:44.379 --> 00:46.350
+and then period seconds.
+
+00:46.350 --> 00:47.580
+So we'll see what are those things.
+
+00:47.580 --> 00:49.290
+Usually initial delay seconds
+
+00:49.290 --> 00:51.480
+are nothing but number of seconds
+
+00:51.480 --> 00:53.412
+after the container has started
+
+00:53.412 --> 00:57.258
+and before Liveness or Readiness probes are initiated.
+
+00:57.258 --> 01:00.870
+So the amount of time after container started
+
+01:00.870 --> 01:03.652
+and then Readiness or Liveness probes to be triggered.
+
+01:03.652 --> 01:06.270
+So the difference time
+
+01:06.270 --> 01:09.091
+how much it need to wait before triggering these probes.
+
+01:09.091 --> 01:12.450
+So the reason for that is once we start the container
+
+01:12.450 --> 01:15.510
+just for the application to settle down,
+
+01:15.510 --> 01:16.770
+start and then settle down,
+
+01:16.770 --> 01:18.786
+we can give some amount of delay, right?
+
+01:18.786 --> 01:21.217
+So usually 10 seconds or 30 seconds
+
+01:21.217 --> 01:23.540
+or 50 seconds or 60 seconds, okay?
+
+01:23.540 --> 01:26.100
+So default is usually zero seconds
+
+01:26.100 --> 01:27.660
+means that default is zero seconds.
+
+01:27.660 --> 01:30.947
+And then minimum value allowed here is also zero seconds.
+
+01:30.947 --> 01:33.810
+But the core thing here is
+
+01:33.810 --> 01:37.050
+we really don't want that edge to be given
+
+01:37.050 --> 01:38.070
+and then it got failed
+
+01:38.070 --> 01:40.590
+Liveness probe, Readiness probe to be failed.
+
+01:40.590 --> 01:42.990
+So usually we'll give 10 seconds to 30 seconds
+
+01:42.990 --> 01:44.400
+based on our application.
+
+01:44.400 --> 01:47.276
+But for our demo I have given 60 seconds
+
+01:47.276 --> 01:51.420
+so that until and unless these 60 seconds are completed,
+
+01:51.420 --> 01:54.300
+you are not going to see that the parties running.
+
+01:54.300 --> 01:56.970
+It'll not come into the state ready state.
+
+01:56.970 --> 01:59.670
+Okay? So always it'll be showing zero by one
+
+01:59.670 --> 02:01.590
+not one by one in the ready state.
+
+02:01.590 --> 02:03.685
+We are going to identify that now,
+
+02:03.685 --> 02:06.935
+to differentiate that or to show that,
+
+02:06.935 --> 02:09.270
+I have put 60 seconds here.
+
+02:09.270 --> 02:10.950
+But in general, based on your application,
+
+02:10.950 --> 02:13.260
+you can put 10 20 or 30 seconds.
+
+02:13.260 --> 02:16.560
+Okay? So let's go ahead and then define Liveness probe
+
+02:16.560 --> 02:18.990
+and then Readiness probe in our application.
+
+02:18.990 --> 02:20.363
+Okay, so here is the thing.
+
+02:20.363 --> 02:24.750
+So now if you see here, so it is a image level,
+
+02:24.750 --> 02:26.490
+means like container level definition
+
+02:26.490 --> 02:28.410
+this Liveness and then Readiness probes.
+
+02:28.410 --> 02:29.850
+Okay? So here name,
+
+02:29.850 --> 02:31.800
+you see right name image ports
+
+02:31.800 --> 02:32.880
+and then raw method
+
+02:32.880 --> 02:35.470
+the same level we need to write our Liveness probe.
+
+02:35.470 --> 02:38.974
+Okay? So I can say Liveness probe, okay?
+
+02:38.974 --> 02:42.177
+I can minimize this and then now go up
+
+02:42.177 --> 02:44.100
+and then start writing for the Liveness probe.
+
+02:44.100 --> 02:46.615
+Okay, so it can be now
+
+02:46.615 --> 02:49.830
+for the Liveness probe it is going to be right.
+
+02:49.830 --> 02:51.240
+Execute the command.
+
+02:51.240 --> 02:53.700
+Okay? So
+
+02:53.700 --> 02:54.780
+execute
+
+02:54.780 --> 02:56.760
+and we are going to have a command.
+
+02:56.760 --> 02:58.244
+Always I'm typing tab
+
+02:58.244 --> 03:00.690
+and we are going to have three commands.
+
+03:00.690 --> 03:03.176
+Okay? So one is Ben as
+
+03:03.176 --> 03:08.176
+and which is going to be hyphen C, right hyphen C
+
+03:11.315 --> 03:13.960
+and next is nnc hyphen Z
+
+03:15.542 --> 03:16.375
+and local host
+
+03:17.520 --> 03:19.500
+8 0 95, right?
+
+03:19.500 --> 03:20.490
+And another thing
+
+03:20.490 --> 03:24.780
+which we need to implement under Liveness probes, okay?
+
+03:24.780 --> 03:27.600
+So there will be accept, it'll exclude this command
+
+03:27.600 --> 03:32.490
+and also it'll add the initial delay seconds.
+
+03:32.490 --> 03:35.081
+Okay, so which is going to be 60 seconds, okay?
+
+03:35.081 --> 03:38.820
+And there will be one more call period seconds, okay
+
+03:38.820 --> 03:41.700
+so which is nothing but how often in seconds
+
+03:41.700 --> 03:44.940
+to perform the probe default to 10 seconds.
+
+03:44.940 --> 03:48.090
+So every 10 seconds we will do the Liveness probe check
+
+03:48.090 --> 03:51.150
+and then also the Readiness probe check.
+
+03:51.150 --> 03:54.121
+Okay, so we can say period seconds
+
+03:54.121 --> 03:57.682
+and then then in addition to these two things
+
+03:57.682 --> 04:00.510
+we will also have some other timeouts here.
+
+04:00.510 --> 04:03.480
+Okay? So there will be a documentation link here
+
+04:03.480 --> 04:04.532
+exactly to the site.
+
+04:04.532 --> 04:08.850
+So if you see here at the end, you'll find other stuff too
+
+04:08.850 --> 04:11.400
+which is nothing but time out seconds,
+
+04:11.400 --> 04:14.070
+number of seconds after which the probe times out.
+
+04:14.070 --> 04:15.360
+Default is one second.
+
+04:15.360 --> 04:17.070
+Minimum value is also one unit
+
+04:17.070 --> 04:19.110
+to provide successful thresholds,
+
+04:19.110 --> 04:20.640
+minimum consecutive to success
+
+04:20.640 --> 04:22.830
+for the probe to be considered successful
+
+04:22.830 --> 04:25.270
+after having failed or failure threshold.
+
+04:25.270 --> 04:27.360
+So like this, if you want to still
+
+04:27.360 --> 04:29.130
+exclusively define other stuff
+
+04:29.130 --> 04:31.140
+like timeout and then success thresholds,
+
+04:31.140 --> 04:31.973
+failure thresholds,
+
+04:31.973 --> 04:33.240
+you can go ahead
+
+04:33.240 --> 04:35.220
+and then view this documentation link
+
+04:35.220 --> 04:36.330
+and then add those.
+
+04:36.330 --> 04:38.550
+So for now we are giving initial delay seconds
+
+04:38.550 --> 04:39.952
+and then period seconds.
+
+04:39.952 --> 04:42.090
+So in the same way we are also going to
+
+04:42.090 --> 04:44.250
+define the one more thing which is Readiness probe.
+
+04:44.250 --> 04:47.160
+Okay? So I am going to copy paste it,
+
+04:47.160 --> 04:49.170
+one we already have live written it, right?
+
+04:49.170 --> 04:51.503
+So another one we will try to copy paste it.
+
+04:51.503 --> 04:53.070
+So it is the same one-
+
+04:53.070 --> 04:55.530
+one is Liveness probe and next is Readiness probe.
+
+04:55.530 --> 04:57.840
+And here instead of execute command
+
+04:57.840 --> 05:00.450
+we are going to use hast t p get in hast tpi get.
+
+05:00.450 --> 05:02.790
+The core thing is to which path it
+
+05:02.790 --> 05:05.340
+need to find it and port which one?
+
+05:05.340 --> 05:06.443
+8 0 9 5.
+
+05:06.443 --> 05:08.381
+So we have the user management health stage,
+
+05:08.381 --> 05:10.860
+health status page available in our application.
+
+05:10.860 --> 05:12.152
+So we provided that and port,
+
+05:12.152 --> 05:15.210
+and if you want you can define your host here.
+
+05:15.210 --> 05:18.510
+But default host is going going to the part IP only.
+
+05:18.510 --> 05:20.372
+So we really don't need to define that.
+
+05:20.372 --> 05:22.440
+As usual we'll have in she delay
+
+05:22.440 --> 05:24.210
+second sender period seconds.
+
+05:24.210 --> 05:27.000
+Okay? So anyway, Liveness probe we have defined here
+
+05:27.000 --> 05:28.020
+but we can't test that.
+
+05:28.020 --> 05:29.760
+The reason is like our application,
+
+05:29.760 --> 05:30.690
+we are not crashing
+
+05:30.690 --> 05:33.600
+or we are not taking into any deadlock situation, okay?
+
+05:33.600 --> 05:36.962
+So we cannot replicate that in this respect to demo.
+
+05:36.962 --> 05:38.670
+But for Readiness probe
+
+05:38.670 --> 05:40.020
+yes we are going to see that
+
+05:40.020 --> 05:42.442
+whether after the container got started,
+
+05:42.442 --> 05:44.821
+it is going to wait 60 seconds
+
+05:44.821 --> 05:47.610
+to make the ready state of the container part
+
+05:47.610 --> 05:48.443
+to be one by one.
+
+05:48.443 --> 05:51.060
+We are going to see this descendant understand that.
+
+05:51.060 --> 05:53.821
+Okay, so let me save this.
+
+05:53.821 --> 05:54.924
+So I have saved it.
+
+05:54.924 --> 05:56.760
+So now we are good.
+
+05:56.760 --> 06:01.560
+So let's go back to our terminal and we should be in 0 5
+
+06:01.560 --> 06:05.205
+0 3 Cuban net is Liveness and then Readiness props section.
+
+06:05.205 --> 06:08.400
+Okay? And we are going to say cube CTL apply
+
+06:08.400 --> 06:10.409
+hyphen F and then cube manifest.
+
+06:10.409 --> 06:14.160
+And then it should start creating all the stuff for us
+
+06:14.160 --> 06:16.110
+all the objects, whatever related to it.
+
+06:16.110 --> 06:18.900
+Storage cluster, persistent volumes, config maps
+
+06:18.900 --> 06:20.141
+all the deployments.
+
+06:20.141 --> 06:23.400
+So we are going to say get ports hyphen w we
+
+06:23.400 --> 06:24.360
+are going to watch it.
+
+06:24.360 --> 06:26.700
+Okay? So first thing is it is going to
+
+06:26.700 --> 06:28.230
+create the Myer skill container
+
+06:28.230 --> 06:29.972
+till the Myer skill container is created.
+
+06:29.972 --> 06:32.490
+Microservice port is going to wait
+
+06:32.490 --> 06:34.320
+because in IT container will be there, right?
+
+06:34.320 --> 06:36.150
+So until an, unless this is running
+
+06:36.150 --> 06:37.599
+it'll be in the init container state.
+
+06:37.599 --> 06:40.410
+And once the innate container is successful, then
+
+06:40.410 --> 06:42.970
+only user management microservices application
+
+06:42.970 --> 06:44.240
+container will start, right?
+
+06:44.240 --> 06:45.962
+So init container is successful
+
+06:45.962 --> 06:48.821
+and then application container pour initialized
+
+06:48.821 --> 06:51.690
+and then it started and then you are seeing zero
+
+06:51.690 --> 06:55.560
+by one and it is 28 seconds now and it is zero by one.
+
+06:55.560 --> 06:57.330
+Ideally by this time it should
+
+06:57.330 --> 07:00.050
+if there is no Readiness probe automatically it'll be one
+
+07:00.050 --> 07:01.461
+by one here, okay?
+
+07:01.461 --> 07:05.031
+But we have the Readiness probe for 60 seconds
+
+07:05.031 --> 07:08.940
+for the initial delay after the container got started
+
+07:08.940 --> 07:11.040
+which is nothing but the application container
+
+07:11.040 --> 07:13.352
+user management rest app container.
+
+07:13.352 --> 07:17.010
+So it is going to wait for 60 seconds.
+
+07:17.010 --> 07:19.698
+Okay? So let's say now this is 28 seconds
+
+07:19.698 --> 07:23.610
+and after 60 seconds it is going to come
+
+07:23.610 --> 07:26.665
+as one by one or after 60 to 68 seconds.
+
+07:26.665 --> 07:28.770
+Why? Because after that, again, you need to
+
+07:28.770 --> 07:31.454
+run the Readiness probe in 10 seconds intervals, right?
+
+07:31.454 --> 07:33.990
+So hardly within 70 seconds
+
+07:33.990 --> 07:37.500
+which means 70 plus 28, 88 or 98 seconds.
+
+07:37.500 --> 07:41.244
+By that time, usually our application should be up.
+
+07:41.244 --> 07:44.760
+So let's wait for that and then see what happens.
+
+07:44.760 --> 07:48.122
+So now you can see after 95 seconds our application is up.
+
+07:48.122 --> 07:52.260
+Okay, so now if I go here and then verify this.
+
+07:52.260 --> 07:55.341
+So our application should be up and running.
+
+07:55.341 --> 07:59.520
+So our Readiness probe start started working here.
+
+07:59.520 --> 08:02.461
+Okay, so now I can say control C
+
+08:02.461 --> 08:04.582
+go ahead and then clean up the stuff.
+
+08:04.582 --> 08:08.482
+In our next lecture we are going to focus
+
+08:08.482 --> 08:11.415
+on requests and then limits.
+
+08:11.415 --> 08:14.490
+So those also very important concepts required
+
+08:14.490 --> 08:15.927
+for our applications to define.
+
+08:15.927 --> 08:18.701
+So we are going to look into that request and limits
+
+08:18.701 --> 08:23.350
+and then we'll move on to other concepts of name spaces.
+
+08:23.350 --> 08:26.520
+So I'll see you in the next lecture.
+
+08:26.520 --> 08:27.930
+Until then, bye bye.
+
+08:27.930 --> 08:28.763
+Thank you.

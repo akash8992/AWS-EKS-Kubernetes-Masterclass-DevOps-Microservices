@@ -1,0 +1,490 @@
+WEBVTT
+
+00:00.000 --> 00:01.020
+-: Welcome back.
+
+00:01.020 --> 00:06.020
+So let's see what are DaemonSets in Kubernetes?
+
+00:06.210 --> 00:11.210
+So a DaemonSet ensures that all of some nodes running a copy
+
+00:11.790 --> 00:15.330
+of the DaemonSet port in our EKS cluster.
+
+00:15.330 --> 00:17.220
+So as new nodes means like
+
+00:17.220 --> 00:19.980
+as new worker nodes are added to the cluster,
+
+00:19.980 --> 00:22.410
+DaemonSet pods are added to them.
+
+00:22.410 --> 00:26.520
+So which means pod, which is configured as DaemonSet,
+
+00:26.520 --> 00:30.180
+those pods will be added per node
+
+00:30.180 --> 00:33.330
+with default configuration.
+
+00:33.330 --> 00:35.250
+And as we remove our nodes,
+
+00:35.250 --> 00:37.140
+means like in the auto scaling mode,
+
+00:37.140 --> 00:41.160
+when we put our cluster autoscaler enabled for our cluster,
+
+00:41.160 --> 00:44.430
+so we keep adding nodes automatically,
+
+00:44.430 --> 00:47.100
+and then we keep removing nodes automatically
+
+00:47.100 --> 00:50.160
+based on the workload we are getting, right?
+
+00:50.160 --> 00:51.990
+So whenever a new node is added,
+
+00:51.990 --> 00:53.880
+it is going to add a pod,
+
+00:53.880 --> 00:55.350
+which is configured as DaemonSet,
+
+00:55.350 --> 00:56.970
+is going to be added on that node.
+
+00:56.970 --> 00:59.130
+And also when the new node is removed,
+
+00:59.130 --> 01:00.750
+it is going to remove it.
+
+01:00.750 --> 01:03.510
+At the same time, deleting a DaemonSet
+
+01:03.510 --> 01:05.340
+will clean up all the pods created
+
+01:05.340 --> 01:09.540
+on all the nodes, which is configured as DaemonSet.
+
+01:09.540 --> 01:12.210
+So here the pod in the sense, a DaemonSet pod,
+
+01:12.210 --> 01:14.970
+so which is nothing but X-Ray can be set
+
+01:14.970 --> 01:16.710
+as it means like X-Ray related agent,
+
+01:16.710 --> 01:18.930
+whatever we are going to install on EKS,
+
+01:18.930 --> 01:22.500
+we can call it as a DaemonSet pod, right?
+
+01:22.500 --> 01:24.960
+So that respective pod will get added
+
+01:24.960 --> 01:26.940
+when new nodes are added, new worker nodes,
+
+01:26.940 --> 01:28.110
+and then it will be removed
+
+01:28.110 --> 01:31.470
+when new worker nodes are removed like that.
+
+01:31.470 --> 01:33.510
+And then when DaemonSet is deleted,
+
+01:33.510 --> 01:36.360
+all those extra pods will get deleted.
+
+01:36.360 --> 01:39.638
+So some typical uses of a DaemonSet
+
+01:39.638 --> 01:43.890
+are running a logs collection daemon on every node,
+
+01:43.890 --> 01:45.720
+example fluidity.
+
+01:45.720 --> 01:46.553
+Okay?
+
+01:46.553 --> 01:48.510
+So we are going to do this in our monitoring
+
+01:48.510 --> 01:52.200
+and then logging sections in the later part of the course.
+
+01:52.200 --> 01:55.530
+In the same way, running a node monitoring daemon
+
+01:55.530 --> 01:56.580
+on every node.
+
+01:56.580 --> 02:00.420
+So something like CloudWatch agent for container insights,
+
+02:00.420 --> 02:01.560
+which we are going to do
+
+02:01.560 --> 02:04.050
+as part of our later parts of our section,
+
+02:04.050 --> 02:05.910
+but that is one of the examples.
+
+02:05.910 --> 02:09.600
+And running an application trace collection daemon
+
+02:09.600 --> 02:12.900
+on every node, which is nothing but AWS X-Ray.
+
+02:12.900 --> 02:16.620
+And then that we are going to do it now
+
+02:16.620 --> 02:19.200
+as part of this section, right?
+
+02:19.200 --> 02:22.230
+So in a simple case, one DaemonSet
+
+02:22.230 --> 02:25.830
+covering all nodes would be user for each type of daemon,
+
+02:25.830 --> 02:28.080
+and most of the time we are going
+
+02:28.080 --> 02:30.120
+to use a simple case everywhere.
+
+02:30.120 --> 02:30.953
+Okay?
+
+02:30.953 --> 02:32.700
+So but there will be some complex cases
+
+02:32.700 --> 02:35.850
+where like multiple DaemonSets
+
+02:35.850 --> 02:39.420
+for a single type of daemon, but with different flags
+
+02:39.420 --> 02:41.250
+or different memory, and then CPU
+
+02:41.250 --> 02:44.760
+for different hardware types also we can use,
+
+02:44.760 --> 02:48.330
+but 99% of the cases we are going to use
+
+02:48.330 --> 02:50.940
+means like most of the time we use simple case,
+
+02:50.940 --> 02:53.820
+one DaemonSet covering all nodes would be user
+
+02:53.820 --> 02:56.070
+for each type of that respective daemon.
+
+02:56.070 --> 02:59.070
+In simple terms, it is like if you create a DaemonSet
+
+02:59.070 --> 03:00.120
+on every worker node,
+
+03:00.120 --> 03:02.310
+we are going to create that pod accordingly.
+
+03:02.310 --> 03:06.750
+So that's about the DaemonSets on a very high level, right?
+
+03:06.750 --> 03:08.760
+So now let's see what we are going to do
+
+03:08.760 --> 03:12.660
+from X-Ray perspective in a Kubernetes cluster.
+
+03:12.660 --> 03:15.660
+So you can consider Kubernetes cluster is a EKS cluster,
+
+03:15.660 --> 03:17.970
+and then you have two worker nodes,
+
+03:17.970 --> 03:20.670
+worker node one and then worker node two.
+
+03:20.670 --> 03:22.410
+So you create a DaemonnSet.
+
+03:22.410 --> 03:25.290
+What it does is that respective DaemonSet
+
+03:25.290 --> 03:29.370
+is going to create a pod in each worker node,
+
+03:29.370 --> 03:31.200
+which is nothing but in our case,
+
+03:31.200 --> 03:33.870
+it is going to be X-Ray pod.
+
+03:33.870 --> 03:38.370
+And then, so when applications want to send the traces
+
+03:38.370 --> 03:40.860
+to this X-Ray pod, right?
+
+03:40.860 --> 03:43.470
+So we need to expose that X-Ray DaemonSet
+
+03:43.470 --> 03:46.680
+with any of the service to load balance that request.
+
+03:46.680 --> 03:48.180
+That's all, okay?
+
+03:48.180 --> 03:52.920
+So it is going to be X-ray cluster IP service.
+
+03:52.920 --> 03:53.753
+Okay?
+
+03:53.753 --> 03:56.670
+So which means applications now will deploy
+
+03:56.670 --> 03:59.520
+our UMS deployment application or anything, right?
+
+03:59.520 --> 04:00.660
+So any application, okay,
+
+04:00.660 --> 04:02.910
+so let's consider you you have done the deployment
+
+04:02.910 --> 04:05.610
+of that application, so it created a replica set
+
+04:05.610 --> 04:08.280
+and then created equivalent ports.
+
+04:08.280 --> 04:09.113
+Right?
+
+04:09.113 --> 04:12.030
+So now this you have exposed it with the load balancer
+
+04:12.030 --> 04:13.680
+to the external network.
+
+04:13.680 --> 04:14.790
+Now let's see the flow.
+
+04:14.790 --> 04:19.440
+What happens to the X-Ray to the external AWS X-Ray service?
+
+04:19.440 --> 04:20.910
+So as users, I tried
+
+04:20.910 --> 04:24.120
+to access my user management microservice application,
+
+04:24.120 --> 04:28.530
+and inside this UMS pod, in each UMS pod,
+
+04:28.530 --> 04:32.640
+we have configured the X-Ray SDK related configuration,
+
+04:32.640 --> 04:35.970
+which means these applications are enabled
+
+04:35.970 --> 04:38.640
+with X-Ray related SDK features.
+
+04:38.640 --> 04:41.370
+So which means whatever the traffic coming
+
+04:41.370 --> 04:43.950
+to these applications, trace it and then send it
+
+04:43.950 --> 04:45.060
+to the X-Ray port.
+
+04:45.060 --> 04:47.820
+Those related application related development
+
+04:47.820 --> 04:50.970
+we have done in our user management microservice.
+
+04:50.970 --> 04:51.803
+Okay?
+
+04:51.803 --> 04:54.660
+So now the request comes to this UMS pod,
+
+04:54.660 --> 04:57.210
+and then if it is a create user, it'll create the user,
+
+04:57.210 --> 04:59.870
+and then update it in our respect
+
+05:00.784 --> 05:03.390
+to whatever the database, whatever is configured.
+
+05:03.390 --> 05:05.430
+I didn't depict that database here
+
+05:05.430 --> 05:07.260
+because our core focus should be here
+
+05:07.260 --> 05:10.650
+on our X-Ray related stuff.
+
+05:10.650 --> 05:11.483
+Okay?
+
+05:11.483 --> 05:12.840
+So now what happens?
+
+05:12.840 --> 05:14.610
+So now whatever it has done,
+
+05:14.610 --> 05:17.130
+whatever the application-related job it has done,
+
+05:17.130 --> 05:19.890
+it will try to update the same thing
+
+05:19.890 --> 05:22.920
+to the X-Ray pod, which means it is going to trace
+
+05:22.920 --> 05:24.780
+that information and then send it.
+
+05:24.780 --> 05:28.290
+So that request might come to any of the X-ray pods,
+
+05:28.290 --> 05:32.430
+and then these X-Ray pods will have the information
+
+05:32.430 --> 05:34.530
+about that respect to accounts,
+
+05:34.530 --> 05:38.970
+means like that respect to AWS accounts X-Ray service.
+
+05:38.970 --> 05:43.170
+And then it is going to send that information to X-Ray.
+
+05:43.170 --> 05:47.670
+Now, so this X-Ray pod, so the UMS pod in worker node two
+
+05:47.670 --> 05:51.480
+can also send that traffic to worker node one X-Ray pod.
+
+05:51.480 --> 05:52.313
+So why?
+
+05:52.313 --> 05:54.120
+Because it is a standard X-Ray cluster
+
+05:54.120 --> 05:56.580
+IP service load balancer, okay?
+
+05:56.580 --> 05:59.100
+So it can send to any of the pods.
+
+05:59.100 --> 06:01.950
+So this is not the generic thing like UMS pods
+
+06:01.950 --> 06:03.210
+in worker node one will send
+
+06:03.210 --> 06:05.850
+to only X-Ray pod in worker node one,
+
+06:05.850 --> 06:08.940
+or UMS pod in worker node two will send
+
+06:08.940 --> 06:10.470
+to only worker node two.
+
+06:10.470 --> 06:12.720
+It can send to any of the X-Ray pods,
+
+06:12.720 --> 06:15.060
+and then they will send it to the X-Ray traces.
+
+06:15.060 --> 06:17.190
+And then, as we've seen how X-Ray works,
+
+06:17.190 --> 06:19.020
+it is going to collect all the results
+
+06:19.020 --> 06:20.850
+and then create a trace for it,
+
+06:20.850 --> 06:24.660
+and also create the service map for it automatically.
+
+06:24.660 --> 06:27.360
+But one important thing here is you need
+
+06:27.360 --> 06:30.119
+to work on your development efforts here
+
+06:30.119 --> 06:32.640
+from your application perspective
+
+06:32.640 --> 06:36.780
+with AWS X-Ray SDK in your application.
+
+06:36.780 --> 06:39.930
+Moving on, so microservices distributed tracing
+
+06:39.930 --> 06:44.010
+with AWS X-Ray from a network design perspective,
+
+06:44.010 --> 06:46.050
+how it is going to look like.
+
+06:46.050 --> 06:48.780
+So in our next lecture, we are going to look into
+
+06:48.780 --> 06:50.280
+from network design perspective,
+
+06:50.280 --> 06:51.870
+how it is going to look like,
+
+06:51.870 --> 06:54.690
+and also other X-Ray service map and then traces,
+
+06:54.690 --> 06:56.580
+how it is going to look like also.
+
+06:56.580 --> 06:57.870
+We'll see on a high level
+
+06:57.870 --> 07:00.750
+and then move on with the hands-on activities.
+
+07:00.750 --> 07:02.370
+So I'll see you in the next lecture.
+
+07:02.370 --> 07:03.600
+Until then, bye bye.
+
+07:03.600 --> 07:04.433
+Thank you.

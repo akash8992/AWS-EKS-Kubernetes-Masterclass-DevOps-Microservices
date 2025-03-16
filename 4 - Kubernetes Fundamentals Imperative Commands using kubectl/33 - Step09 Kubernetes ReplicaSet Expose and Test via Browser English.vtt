@@ -1,0 +1,478 @@
+WEBVTT
+
+00:00.150 --> 00:00.990
+-: Welcome back.
+
+00:00.990 --> 00:04.170
+In this lecture we are going to expose Replica set
+
+00:04.170 --> 00:08.032
+as a service so that we'll be able to access the application
+
+00:08.032 --> 00:12.240
+present in Replica set parts via browser.
+
+00:12.240 --> 00:15.000
+So let's go ahead and then do that now.
+
+00:15.000 --> 00:19.980
+So we are going to say Q CTL expose Replica set,
+
+00:19.980 --> 00:20.813
+which is nothing
+
+00:20.813 --> 00:25.590
+but RS and the RS name Replica set name and the type
+
+00:25.590 --> 00:28.890
+is going to be node port and rest All is going to be same.
+
+00:28.890 --> 00:30.390
+Port is the service port,
+
+00:30.390 --> 00:33.510
+which is cluster IP port and the target port is nothing
+
+00:33.510 --> 00:37.860
+but the 80 80 which is nothing but my application port
+
+00:37.860 --> 00:39.570
+whatever it is, running my container.
+
+00:39.570 --> 00:43.380
+Port Cube Hollow World container Port is 80 80.
+
+00:43.380 --> 00:46.020
+And the name of the service is going to be my Hollow
+
+00:46.020 --> 00:47.940
+World RS service.
+
+00:47.940 --> 00:51.363
+So let's go ahead and then do this now.
+
+01:00.270 --> 01:03.270
+Right? So it's completed.
+
+01:03.270 --> 01:08.270
+So now let's go ahead and then get the the service,
+
+01:08.850 --> 01:13.237
+right? and you have it as 3 0 5 0 5.
+
+01:14.588 --> 01:19.320
+And get notes hyphen OY to get the public IP.
+
+01:19.320 --> 01:23.490
+And the public IP is this one external IP
+
+01:23.490 --> 01:26.163
+and the port is 3 0 5 0 5.
+
+01:28.993 --> 01:30.343
+Right? So let's go here and
+
+01:32.160 --> 01:35.733
+3 0 5 0 5 slash hello.
+
+01:37.410 --> 01:38.400
+and we got this.
+
+01:38.400 --> 01:41.310
+Okay, so let me make it bigger.
+
+01:41.310 --> 01:46.310
+And now if you want to refresh and you can take the same URL
+
+01:47.850 --> 01:51.120
+and in new tab one more time access it.
+
+01:51.120 --> 01:53.220
+You see one more value here, okay?
+
+01:53.220 --> 01:55.103
+And in one more time and you can do one more time.
+
+01:58.350 --> 01:59.760
+So like this you can access
+
+01:59.760 --> 02:01.860
+and then it will keep load balancing.
+
+02:01.860 --> 02:04.650
+So if you see here it is D seven H B K
+
+02:04.650 --> 02:06.873
+here it is Z N B G W.
+
+02:07.736 --> 02:09.450
+So to which container it is going that respective
+
+02:09.450 --> 02:10.650
+to container's id
+
+02:10.650 --> 02:13.410
+it is going to throw it here on the browser.
+
+02:13.410 --> 02:15.690
+So let's see what does that mean?
+
+02:15.690 --> 02:20.100
+Okay, I said cube CTL get ports. So you see it, right?
+
+02:20.100 --> 02:24.332
+The request went to Z N B G W container, okay
+
+02:24.332 --> 02:26.370
+so that's what it is showing here.
+
+02:26.370 --> 02:29.730
+And another request went to D seven H V K.
+
+02:29.730 --> 02:31.530
+So and then you have this here.
+
+02:31.530 --> 02:35.250
+So like that I have written a springboard code means like
+
+02:35.250 --> 02:38.790
+java code in my container and then packaged it
+
+02:38.790 --> 02:42.090
+so that now whatever to which container it goes.
+
+02:42.090 --> 02:43.800
+That respect to container already you are going to
+
+02:43.800 --> 02:46.590
+see it here just for fun, okay?
+
+02:46.590 --> 02:48.420
+So nothing much inside that
+
+02:48.420 --> 02:51.690
+but you need to access your application in this manner.
+
+02:51.690 --> 02:54.510
+Okay? So node one, public IP colon node
+
+02:54.510 --> 02:57.750
+port whatever we have got and then slash hello the context
+
+02:57.750 --> 02:59.400
+of this application is slash hello
+
+02:59.400 --> 03:02.850
+because it is a hello world application.
+
+03:02.850 --> 03:05.550
+In our next step what we are going to do is we
+
+03:05.550 --> 03:08.610
+are going to test the replica set reliability
+
+03:08.610 --> 03:11.880
+or high availability. So what does this mean?
+
+03:11.880 --> 03:15.120
+So whenever a port is accidentally terminated due to
+
+03:15.120 --> 03:16.506
+some application issue
+
+03:16.506 --> 03:19.470
+replica set should auto create that port to
+
+03:19.470 --> 03:22.470
+maintain the designed number of replicas.
+
+03:22.470 --> 03:25.440
+So that's what is replica sets reliability are
+
+03:25.440 --> 03:27.120
+high availability concept.
+
+03:27.120 --> 03:30.690
+So you have here three ports running, right?
+
+03:30.690 --> 03:34.920
+So and if you go ahead and then delete one pod cube CTL,
+
+03:34.920 --> 03:38.520
+delete pod and then delete one port.
+
+03:38.520 --> 03:41.220
+So you are trying to simulate the accidental deletion.
+
+03:41.220 --> 03:45.600
+Okay? So automatically it should start creating one
+
+03:45.600 --> 03:50.600
+more pod replica said will create the pod immediately.
+
+03:53.070 --> 03:55.770
+So there is some connectivity issue but we'll
+
+03:55.770 --> 03:57.540
+try one more time.
+
+03:57.540 --> 04:00.450
+Okay, so now the port got delete.
+
+04:00.450 --> 04:03.630
+So let's test this with QCTL get ports.
+
+04:03.630 --> 04:06.840
+So once we have deleted the port and now you see
+
+04:06.840 --> 04:11.560
+that the all the two parts whatever are there is age
+
+04:12.628 --> 04:14.700
+of 27 minutes, but whatever you have deleted and then
+
+04:14.700 --> 04:18.330
+replica has automatically created a new port which is of
+
+04:18.330 --> 04:19.500
+95 seconds.
+
+04:19.500 --> 04:21.780
+If you want we can delete one more couple
+
+04:21.780 --> 04:24.610
+of parts one more time, okay Q CTL delete port
+
+04:24.610 --> 04:28.020
+and then we'll also delete our D seven H V K pod.
+
+04:28.020 --> 04:29.250
+Okay? So and then
+
+04:29.250 --> 04:33.090
+in that place replica set should create one more pod.
+
+04:33.090 --> 04:35.403
+So let's see that now.
+
+04:45.210 --> 04:48.510
+Q CTL get ports.
+
+04:48.510 --> 04:52.290
+Now you can see that, so D seven HVK is gone and then
+
+04:52.290 --> 04:57.290
+you have got in that place 27 4 mg new port 16 seconds.
+
+04:58.710 --> 04:59.543
+It's H.
+
+04:59.543 --> 05:02.510
+So you can see the first one port is from 28 minutes
+
+05:02.510 --> 05:05.910
+it is running, the other is from two minutes and this is
+
+05:05.910 --> 05:07.620
+from 16 seconds.
+
+05:07.620 --> 05:12.150
+So what here Replica set is doing is, it is automatically
+
+05:12.150 --> 05:15.510
+creating the ports to ensure that the number of replicas
+
+05:15.510 --> 05:18.300
+whatever we have configured here, right?
+
+05:18.300 --> 05:20.160
+So it is trying to ensure that the number
+
+05:20.160 --> 05:23.550
+of replicas are going to be three always.
+
+05:23.550 --> 05:28.550
+So that's about the replica set reliability are
+
+05:28.620 --> 05:30.150
+high availability concept.
+
+05:30.150 --> 05:34.080
+So the next concept is replica sets scalability feature.
+
+05:34.080 --> 05:38.520
+So we can simply scale our replica set just
+
+05:38.520 --> 05:41.971
+by updating our spec here, right?
+
+05:41.971 --> 05:43.740
+So we can go into our spec.
+
+05:43.740 --> 05:48.740
+So let me go here and this is my replica set right?
+
+05:49.320 --> 05:51.790
+So, and then I will say here
+
+05:55.500 --> 06:00.030
+Six replicas and then save it and then apply
+
+06:00.030 --> 06:03.000
+that change which is nothing but cube CTL replace
+
+06:03.000 --> 06:06.135
+and the same file. Okay, let me see.
+
+06:06.135 --> 06:10.290
+Clear and past cube CTL replace hyphen F
+
+06:10.290 --> 06:13.023
+and the replica set demo dot YML.
+
+06:14.040 --> 06:16.443
+And let's see what happens.
+
+06:17.310 --> 06:20.313
+So now our replica set got replaced.
+
+06:20.313 --> 06:23.880
+Cube CTL get RS the replica set we are going to
+
+06:23.880 --> 06:27.360
+see now you see that desired replicas are going to be six
+
+06:27.360 --> 06:29.340
+current is six and then ready is six.
+
+06:29.340 --> 06:33.330
+So I'll say get ports and then you should see six
+
+06:33.330 --> 06:36.900
+ports up and running here now, right?
+
+06:36.900 --> 06:37.770
+So that's about it.
+
+06:37.770 --> 06:40.500
+So from last 22 seconds we have three parts came
+
+06:40.500 --> 06:42.030
+up online automatically.
+
+06:42.030 --> 06:46.032
+So in this way you'll be able to scale your replica set
+
+06:46.032 --> 06:48.990
+quickly by updating the number of replicas
+
+06:48.990 --> 06:52.680
+in your replica set demo dot YML.
+
+06:52.680 --> 06:53.970
+So that's about it.
+
+06:53.970 --> 06:56.490
+And now the next thing is to delete the replica set
+
+06:56.490 --> 06:57.323
+in the service.
+
+06:57.323 --> 07:00.030
+So we are trying to clean up the stuff.
+
+07:00.030 --> 07:02.680
+Okay, so let's go ahead and then
+
+07:03.960 --> 07:08.910
+get RS. So we'll get the Replica name, cube CTL
+
+07:08.910 --> 07:13.910
+delete RS, and we are going to say my hello word RS
+
+07:16.710 --> 07:17.790
+The same way.
+
+07:17.790 --> 07:20.910
+Get SVC, which is nothing but Q CTL.
+
+07:20.910 --> 07:25.910
+Get services and Q CTL delayed SVC,
+
+07:26.280 --> 07:28.683
+my hello world service.
+
+07:30.780 --> 07:33.630
+Once this is completed you can say QCTL
+
+07:33.630 --> 07:36.090
+get all to see that whatever is present
+
+07:36.090 --> 07:39.120
+in your default name space where you help worked other
+
+07:39.120 --> 07:42.540
+than Kubernetes default cluster IP stuff
+
+07:42.540 --> 07:44.460
+no other thing is available.
+
+07:44.460 --> 07:48.600
+So this completes the replica set end to end.
+
+07:48.600 --> 07:50.880
+Whatever we have learned using imperative way
+
+07:50.880 --> 07:55.170
+just we have used only the AML file for us.
+
+07:55.170 --> 07:56.340
+Because Imperatively
+
+07:56.340 --> 07:58.650
+you cannot create a replica set object.
+
+07:58.650 --> 08:01.560
+Now one thing important here is like one pending
+
+08:01.560 --> 08:03.720
+concept is present in Replica set,
+
+08:03.720 --> 08:05.910
+which is label send selectors.
+
+08:05.910 --> 08:08.310
+So this is going to be a common concept for
+
+08:08.310 --> 08:12.900
+multiple Kubernetes concepts, okay?
+
+08:12.900 --> 08:16.020
+Like ports, replica sets, deployments
+
+08:16.020 --> 08:17.700
+and then services everywhere.
+
+08:17.700 --> 08:20.160
+You are going to use labels and selectors.
+
+08:20.160 --> 08:23.370
+So we are going to cover it when we are writing equivalent
+
+08:23.370 --> 08:26.077
+YAML files there so that we'll understand in detail.
+
+08:26.077 --> 08:28.500
+With that said, in our next lecture
+
+08:28.500 --> 08:32.340
+we'll start working on the deployment concept of Kubernetes.
+
+08:32.340 --> 08:34.050
+So I'll see you in the next lecture.
+
+08:34.050 --> 08:35.310
+Until then, bye bye.
+
+08:35.310 --> 08:36.143
+Thank you.

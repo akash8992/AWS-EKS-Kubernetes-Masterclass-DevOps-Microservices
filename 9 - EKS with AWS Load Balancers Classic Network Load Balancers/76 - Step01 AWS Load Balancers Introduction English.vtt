@@ -1,0 +1,661 @@
+WEBVTT
+
+00:00.270 --> 00:01.260
+-: Welcome back.
+
+00:01.260 --> 00:03.750
+In this lecture, we are going to primarily look
+
+00:03.750 --> 00:07.410
+into classic load balancer implementation on Kubernetes.
+
+00:07.410 --> 00:09.600
+But, before going to understand
+
+00:09.600 --> 00:13.590
+about classic load balancer implementation using Kubernetes,
+
+00:13.590 --> 00:15.720
+so, let's see on a very high level,
+
+00:15.720 --> 00:19.110
+what is elastic load balancing in AWS.
+
+00:19.110 --> 00:23.010
+So, in AWS, we have three types of load balancers available
+
+00:23.010 --> 00:26.730
+for providing the high availability for our applications.
+
+00:26.730 --> 00:28.620
+So, those are classic load balancers,
+
+00:28.620 --> 00:32.340
+network load balancers, and then application load balancers.
+
+00:32.340 --> 00:36.120
+So, to see in detail about all these three things,
+
+00:36.120 --> 00:39.300
+in a feature by feature comparison manner,
+
+00:39.300 --> 00:41.250
+we have this link available for us.
+
+00:41.250 --> 00:45.082
+And then instead of a slide with all these features,
+
+00:45.082 --> 00:47.730
+AWS has documented it super,
+
+00:47.730 --> 00:51.780
+so we can directly see on the AWS documentation page.
+
+00:51.780 --> 00:54.300
+So we can see here, application load balancer,
+
+00:54.300 --> 00:57.510
+network load balancer, and then classic load balancer.
+
+00:57.510 --> 00:59.970
+So the protocols, each one supports is,
+
+00:59.970 --> 01:04.920
+application load balancer is a HTTP and HTTPS level only.
+
+01:04.920 --> 01:08.100
+And network load balancer is a TCP, UDP,
+
+01:08.100 --> 01:10.560
+and then TLS protocols, it supports.
+
+01:10.560 --> 01:12.480
+And classic load balancer supports
+
+01:12.480 --> 01:16.260
+both TCP, HTTP, HTTPS, and SSL.
+
+01:16.260 --> 01:18.240
+One important thing we need to understand
+
+01:18.240 --> 01:19.650
+about classic load balancers
+
+01:19.650 --> 01:21.390
+is this is a legacy load balancer
+
+01:21.390 --> 01:25.800
+which is going to get deprecated anytime in the near future.
+
+01:25.800 --> 01:27.330
+But, another important thing
+
+01:27.330 --> 01:29.580
+about this in Kubernetes format,
+
+01:29.580 --> 01:32.010
+is like in relation with Kubernetes is,
+
+01:32.010 --> 01:35.577
+whenever we create a service in Kubernetes, right,
+
+01:35.577 --> 01:37.860
+the service object in Kubernetes,
+
+01:37.860 --> 01:39.780
+and of type load balancer,
+
+01:39.780 --> 01:43.260
+the default load balancer it is going to create on AWS
+
+01:43.260 --> 01:45.570
+is classic load balancer.
+
+01:45.570 --> 01:48.390
+So that's the important thing we need to know.
+
+01:48.390 --> 01:51.060
+And in addition to that we'll have platforms,
+
+01:51.060 --> 01:52.350
+like as it is legacy,
+
+01:52.350 --> 01:55.170
+it also supports the EC2 classic environment,
+
+01:55.170 --> 01:58.020
+and also latest VPC environments.
+
+01:58.020 --> 01:59.190
+So these are new ones
+
+01:59.190 --> 02:02.070
+which all supports directly the VPC environments,
+
+02:02.070 --> 02:04.470
+which is nothing but Virtual Private Cloud.
+
+02:04.470 --> 02:07.770
+So like this, there will be tons of features available here.
+
+02:07.770 --> 02:08.970
+And most of the time,
+
+02:08.970 --> 02:12.450
+the highest features supported load balancer
+
+02:12.450 --> 02:15.390
+is going to be application load balancer.
+
+02:15.390 --> 02:17.880
+If you see here, everything will be tick, tick, tick, tick,
+
+02:17.880 --> 02:19.710
+and then available for us.
+
+02:19.710 --> 02:23.250
+So with that said we have a dedicated section
+
+02:23.250 --> 02:26.010
+for our application load balancer, which is section eight,
+
+02:26.010 --> 02:27.090
+where we'll be looking
+
+02:27.090 --> 02:31.890
+into creating application load balancer from Kubernetes,
+
+02:31.890 --> 02:35.610
+and then enabling the SSL for it,
+
+02:35.610 --> 02:38.940
+and then also enable the port 80 to 443 redirect.
+
+02:38.940 --> 02:39.773
+So like that,
+
+02:39.773 --> 02:41.340
+we are going to implement step by step,
+
+02:41.340 --> 02:43.020
+the entire application load balancer
+
+02:43.020 --> 02:44.850
+in our section eight.
+
+02:44.850 --> 02:47.550
+But currently in section seven, whatever we are dealing,
+
+02:47.550 --> 02:48.383
+we are going
+
+02:48.383 --> 02:51.120
+to create a classic load balancer using Kubernetes,
+
+02:51.120 --> 02:54.990
+and verify the same thing on the AWS management console,
+
+02:54.990 --> 02:59.040
+how the load balancer got created in AWS management console.
+
+02:59.040 --> 02:59.970
+In the same way we are going
+
+02:59.970 --> 03:02.670
+to create a network load balancer and then test it.
+
+03:02.670 --> 03:03.900
+So all these things means like,
+
+03:03.900 --> 03:07.320
+to create a classic load balancer, or network load balancer,
+
+03:07.320 --> 03:08.700
+we are going to write a service,
+
+03:08.700 --> 03:10.290
+Kubernetes service manifest,
+
+03:10.290 --> 03:13.590
+and then verify whether it got created here
+
+03:13.590 --> 03:16.230
+in EC2 load balancers section.
+
+03:16.230 --> 03:19.560
+So that's about the thing which we are going to implement.
+
+03:19.560 --> 03:21.090
+So moving on.
+
+03:21.090 --> 03:25.890
+So if you see, earlier, what we have done is like with RDS,
+
+03:25.890 --> 03:28.620
+we have implemented the entire solution
+
+03:28.620 --> 03:30.270
+but what we have done there is like,
+
+03:30.270 --> 03:35.070
+we have used the NodePort service tool tested, okay?
+
+03:35.070 --> 03:38.850
+But now in a real production environment, usually,
+
+03:38.850 --> 03:40.350
+we are not going to use NodePort service, right?
+
+03:40.350 --> 03:42.150
+It means like IP colon port,
+
+03:42.150 --> 03:45.420
+we are going to DNS register our URL.
+
+03:45.420 --> 03:47.910
+And then with URL, we are going to access it.
+
+03:47.910 --> 03:49.140
+So if that is the case,
+
+03:49.140 --> 03:53.280
+and we also need to have a port 80 and 443 things, right?
+
+03:53.280 --> 03:56.490
+Instead of 31, 231, or some other random ports,
+
+03:56.490 --> 03:57.990
+we need 80 or 443,
+
+03:57.990 --> 04:00.690
+which are the default browser ports for us, right?
+
+04:00.690 --> 04:02.490
+So for all those things, let's see,
+
+04:02.490 --> 04:04.920
+start with using one of the load balancers
+
+04:04.920 --> 04:05.760
+for high availability,
+
+04:05.760 --> 04:08.940
+and then start moving on with the next steps, okay?
+
+04:08.940 --> 04:09.810
+So now,
+
+04:09.810 --> 04:12.870
+with this design we are going to add classic load balancer
+
+04:12.870 --> 04:16.140
+for our entire previous design, which is nothing but,
+
+04:16.140 --> 04:18.630
+we have seen this design earlier which is not here.
+
+04:18.630 --> 04:20.550
+User management NodePort services there.
+
+04:20.550 --> 04:24.810
+We need to replace this with classic load balancer.
+
+04:24.810 --> 04:28.620
+So before going and implementing the classic load balancer,
+
+04:28.620 --> 04:31.350
+we need to understand one important thing here,
+
+04:31.350 --> 04:33.990
+that is nothing but the EC2 worker nodes,
+
+04:33.990 --> 04:36.990
+which is nothing but the node group,
+
+04:36.990 --> 04:41.070
+EKS node group is created in the public subnets here.
+
+04:41.070 --> 04:42.810
+So, and the cluster control plane
+
+04:42.810 --> 04:43.707
+is also in the public subnets
+
+04:43.707 --> 04:46.980
+and EKS node group is also in the public subnets.
+
+04:46.980 --> 04:50.010
+So ideally, where in a three tier architecture design,
+
+04:50.010 --> 04:52.290
+where we deploy our workloads,
+
+04:52.290 --> 04:54.090
+means like our application code
+
+04:54.090 --> 04:55.800
+in the private subnets, right?
+
+04:55.800 --> 04:58.140
+So with that said, now,
+
+04:58.140 --> 05:01.200
+we are going to create a cluster control plane,
+
+05:01.200 --> 05:04.350
+means like, which will support the private node groups,
+
+05:04.350 --> 05:07.350
+means like the node groups created in the private subnets.
+
+05:07.350 --> 05:10.050
+So let's see that now, right?
+
+05:10.050 --> 05:15.050
+So in a AWS cloud, in a VPC we have two availability zones.
+
+05:15.750 --> 05:19.380
+So we created a EKS cluster control plane.
+
+05:19.380 --> 05:20.520
+So what happens?
+
+05:20.520 --> 05:23.310
+So it also creates equal and public
+
+05:23.310 --> 05:25.170
+and then private subnets
+
+05:25.170 --> 05:26.880
+in the availability zones
+
+05:26.880 --> 05:30.450
+where we have provided to create the cluster, right?
+
+05:30.450 --> 05:32.610
+So we selected, during the cluster creation,
+
+05:32.610 --> 05:34.440
+our availability zones for our cluster
+
+05:34.440 --> 05:36.900
+is going to be one year and then one B.
+
+05:36.900 --> 05:39.300
+So it created public and private subnets
+
+05:39.300 --> 05:41.340
+in those availability zones.
+
+05:41.340 --> 05:43.110
+So next to what happens is we are going
+
+05:43.110 --> 05:45.660
+to create a EKS private node group,
+
+05:45.660 --> 05:46.650
+which means earlier,
+
+05:46.650 --> 05:50.160
+you have seen this instances worker nodes present
+
+05:50.160 --> 05:51.150
+in public subnet.
+
+05:51.150 --> 05:54.330
+So now they are presenting private subnet here.
+
+05:54.330 --> 05:55.890
+So these EC2 instances
+
+05:55.890 --> 05:58.860
+will be created in the private subnet.
+
+05:58.860 --> 06:01.200
+So now, how the communication is going to happen?
+
+06:01.200 --> 06:02.700
+Earlier it is in public subnet.
+
+06:02.700 --> 06:05.340
+It can directly connect to EKS cluster.
+
+06:05.340 --> 06:07.290
+But if it is in private subnet,
+
+06:07.290 --> 06:11.220
+it is going to leverage the NAT gateway to communicate it,
+
+06:11.220 --> 06:15.150
+provided, if our API cluster control planes API,
+
+06:15.150 --> 06:18.450
+Kubernetes API is having the public access,
+
+06:18.450 --> 06:20.400
+even we can have it enabled internal,
+
+06:20.400 --> 06:22.380
+which is direct VPC access.
+
+06:22.380 --> 06:24.720
+Wherein instead of going via a NAT gateway,
+
+06:24.720 --> 06:28.230
+this connection can be directly to cluster control plane.
+
+06:28.230 --> 06:29.610
+Okay?
+
+06:29.610 --> 06:31.530
+When we do via VPC access, okay?
+
+06:31.530 --> 06:33.600
+But for now, we will use the default
+
+06:33.600 --> 06:34.860
+and then standardized option,
+
+06:34.860 --> 06:36.660
+which is go via a NAT gateway.
+
+06:36.660 --> 06:39.990
+So now our EKS cluster control plane service,
+
+06:39.990 --> 06:41.850
+we are connecting, means like work nodes.
+
+06:41.850 --> 06:43.770
+And then these cluster control plane
+
+06:43.770 --> 06:45.180
+is nothing but the master nodes, right?
+
+06:45.180 --> 06:48.420
+These are in communication using the NAT gateways.
+
+06:48.420 --> 06:52.500
+So the next thing is we are going to create our RDS database
+
+06:52.500 --> 06:53.970
+in the same private subnet,
+
+06:53.970 --> 06:55.950
+or you can create two more private subnets
+
+06:55.950 --> 06:57.210
+into availability zone.
+
+06:57.210 --> 06:59.850
+And inside them also we can create.
+
+06:59.850 --> 07:01.080
+But what I have done is,
+
+07:01.080 --> 07:02.940
+I have leveraged the same private subnet,
+
+07:02.940 --> 07:05.580
+whatever EKS cluster control plane created
+
+07:05.580 --> 07:07.530
+as part of cluster creation.
+
+07:07.530 --> 07:10.350
+So the same thing I have leveraged here.
+
+07:10.350 --> 07:12.660
+So now I have the RDS database here.
+
+07:12.660 --> 07:15.960
+The next thing is it's equivalent external name service
+
+07:15.960 --> 07:18.420
+we are going to create in this worker nodes,
+
+07:18.420 --> 07:20.940
+means like we are going to create external name service
+
+07:20.940 --> 07:25.920
+and then provide the Amazon RDS DB's endpoint URL for that,
+
+07:25.920 --> 07:28.560
+to send the traffic to this RDS DB.
+
+07:28.560 --> 07:29.730
+And next thing is we are going
+
+07:29.730 --> 07:32.910
+to deploy our user management application.
+
+07:32.910 --> 07:34.710
+And then it will connect
+
+07:34.710 --> 07:38.490
+to the databases via external name service.
+
+07:38.490 --> 07:41.460
+So now here comes the classic load balancer.
+
+07:41.460 --> 07:44.880
+So this user management classic load balancer service,
+
+07:44.880 --> 07:48.660
+we'll create in the public subnet, right?
+
+07:48.660 --> 07:50.460
+And in addition to that,
+
+07:50.460 --> 07:52.830
+what happens is like, now whenever users
+
+07:52.830 --> 07:57.830
+try to access the user management application,
+
+07:58.110 --> 08:03.110
+they use the classic ALB DNS URL, right?
+
+08:03.480 --> 08:06.780
+So this should be CLB DNS URL.
+
+08:06.780 --> 08:08.040
+I will change it.
+
+08:08.040 --> 08:10.530
+So using the CLB DNS URL, slash,
+
+08:10.530 --> 08:13.140
+your user MGM disk, slash, health status,
+
+08:13.140 --> 08:14.730
+whenever we access it,
+
+08:14.730 --> 08:17.340
+it comes to the classic load balancer.
+
+08:17.340 --> 08:19.414
+And from classic load balancer,
+
+08:19.414 --> 08:23.220
+the request gets distributed across different ports, right?
+
+08:23.220 --> 08:25.050
+So it will send to one part the request.
+
+08:25.050 --> 08:27.030
+And then once from port,
+
+08:27.030 --> 08:29.130
+it need to identify it's MySQL DB, right?
+
+08:29.130 --> 08:30.900
+So it will go to external name service.
+
+08:30.900 --> 08:32.340
+And then from external name service,
+
+08:32.340 --> 08:34.200
+it is going to connect to RDS DB
+
+08:34.200 --> 08:37.020
+and then get the data.
+
+08:37.020 --> 08:39.000
+So if we have any users created,
+
+08:39.000 --> 08:41.340
+then those users, we are going to access it.
+
+08:41.340 --> 08:44.490
+If no users got created, then we can go ahead
+
+08:44.490 --> 08:47.040
+and then create the user using the Postman project,
+
+08:47.040 --> 08:49.560
+whatever we have seen earlier.
+
+08:49.560 --> 08:52.170
+But on a high level,
+
+08:52.170 --> 08:56.130
+this is going to be the overall architecture
+
+08:56.130 --> 08:58.620
+which we are going to implement now.
+
+08:58.620 --> 09:00.900
+So to implement on a high level,
+
+09:00.900 --> 09:02.310
+what we are going to do is,
+
+09:02.310 --> 09:05.100
+currently our worker nodes are present in public subnet.
+
+09:05.100 --> 09:07.920
+So which we are going to delete them,
+
+09:07.920 --> 09:11.040
+and then create our worker nodes in the private subnet
+
+09:11.040 --> 09:11.873
+which is nothing but,
+
+09:11.873 --> 09:14.760
+we are going to create a EKS private node group
+
+09:14.760 --> 09:17.070
+in private subnets.
+
+09:17.070 --> 09:21.180
+So as a step one, we are going to do that now.
+
+09:21.180 --> 09:22.890
+So I'll see you in the next lecture.
+
+09:22.890 --> 09:24.120
+Until then, bye bye.
+
+09:24.120 --> 09:24.953
+Thank you.

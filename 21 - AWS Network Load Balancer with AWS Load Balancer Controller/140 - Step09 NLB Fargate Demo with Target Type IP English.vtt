@@ -1,0 +1,907 @@
+WEBVTT
+
+00:00.360 --> 00:02.130
+Welcome back. In this demo
+
+00:02.130 --> 00:04.020
+we are going to send the traffic
+
+00:04.020 --> 00:07.020
+coming to the network load balancer to a
+
+00:07.020 --> 00:11.343
+workload that is running on Fargate in EKS cluster.
+
+00:12.426 --> 00:14.490
+So for that purpose, the changes included
+
+00:14.490 --> 00:17.302
+in the Kubernetes load balance service
+
+00:17.302 --> 00:20.560
+of type network load balancer is
+
+00:22.199 --> 00:23.032
+that target type.
+
+00:23.032 --> 00:26.880
+So we need to change the target type annotation to IP
+
+00:26.880 --> 00:30.120
+so that it can send that traffic to the
+
+00:30.120 --> 00:33.720
+ports running on the target infrastructure.
+
+00:33.720 --> 00:37.680
+So here the target ports are going to be registered
+
+00:37.680 --> 00:42.150
+with pod IPs as the targets in the target group
+
+00:42.150 --> 00:44.970
+of this network load balancer.
+
+00:44.970 --> 00:49.970
+So now let's also understand that this respective S app
+
+00:50.220 --> 00:54.430
+three related ports will be scheduled on target
+
+00:55.917 --> 00:56.750
+notes. Let's understand the Network architecture for
+
+00:56.750 --> 00:59.880
+The same thing.
+
+00:59.880 --> 01:02.370
+So as usual in AWS cloud
+
+01:02.370 --> 01:06.210
+whenever we created the EKS cluster control plane Using
+
+01:06.210 --> 01:10.740
+EKS CTL So equivalent VPC public and private subnets
+
+01:10.740 --> 01:11.910
+are created.
+
+01:11.910 --> 01:12.743
+And
+
+01:12.743 --> 01:16.920
+Now we are also going to create a Fargate profile
+
+01:16.920 --> 01:21.030
+and this Fargate profile right inside this Fargate profile
+
+01:21.030 --> 01:24.840
+whenever we deploy the workload so automatically
+
+01:24.840 --> 01:27.570
+it'll create the Fargate notes for us.
+
+01:27.570 --> 01:29.490
+So how many pods we create.
+
+01:29.490 --> 01:32.640
+So those many number of Fargate notes will be created.
+
+01:32.640 --> 01:35.430
+And another important thing we should be aware
+
+01:35.430 --> 01:39.010
+of is whenever we schedule a pod on a Fargate
+
+01:39.990 --> 01:43.350
+infrastructure, we need to ensure that pod initially
+
+01:43.350 --> 01:46.140
+will be in the pending state and it'll take three
+
+01:46.140 --> 01:48.280
+to five minutes or two to three minutes to
+
+01:49.230 --> 01:52.950
+Initialize all the Fargate notes and then change the pod
+
+01:52.950 --> 01:55.620
+from pending to running state.
+
+01:55.620 --> 01:59.850
+Unlike regular EKS worker notes, the time taken to
+
+01:59.850 --> 02:03.450
+initialize the Fargate scheduled pod is going to be a little
+
+02:03.450 --> 02:05.100
+bit more.
+
+02:05.100 --> 02:08.220
+So when you see it is in the pending state
+
+02:08.220 --> 02:11.040
+initially we really don't need to worry.
+
+02:11.040 --> 02:13.620
+So we need to wait for two to three minutes for the Fargate
+
+02:13.620 --> 02:17.460
+notes to get created and registered with the EKS cluster
+
+02:17.460 --> 02:21.120
+control plane and then ready to accept this part to
+
+02:21.120 --> 02:24.570
+be running on those respective notes.
+
+02:24.570 --> 02:27.360
+And these Fargate notes also will be in communication
+
+02:27.360 --> 02:30.750
+with the EKS cluster control plane in using the
+
+02:30.750 --> 02:32.220
+NAD gateways
+
+02:32.220 --> 02:34.860
+and the Kubernetes
+
+02:34.860 --> 02:37.890
+service of type network load balancer
+
+02:37.890 --> 02:40.980
+will be deployed and as usual it'll have the standard
+
+02:40.980 --> 02:44.880
+features of tls, external DNS, all those things
+
+02:44.880 --> 02:48.630
+which we have already demonstrated in our previous sections.
+
+02:48.630 --> 02:50.490
+Only change here is
+
+02:50.490 --> 02:53.400
+Target type annotation is going to be changed
+
+02:53.400 --> 02:55.380
+from instance to
+
+02:55.380 --> 02:56.989
+IP.
+
+02:56.989 --> 02:58.770
+So rest all is going to be as is.
+
+02:58.770 --> 03:00.071
+So
+
+03:00.071 --> 03:01.530
+Once that is implemented, the traffic
+
+03:01.530 --> 03:04.560
+from the network load balancer will be directly going
+
+03:04.560 --> 03:07.230
+to the ...port IP.
+
+03:07.230 --> 03:09.370
+So now let's see the
+
+03:10.876 --> 03:12.030
+exact annotation change.
+
+03:12.030 --> 03:13.707
+So AWS load balancer
+
+03:13.707 --> 03:16.950
+NLB target type earlier it used to be instance.
+
+03:16.950 --> 03:19.290
+So now we are going to change it to go back
+
+03:19.290 --> 03:21.900
+to our GitHub repository and we are
+
+03:21.900 --> 03:26.850
+in section 19 0 6 LBC NLB Fargate external.
+
+03:26.850 --> 03:30.300
+So which means we are going to implement NLB network
+
+03:30.300 --> 03:33.180
+load balancer internet facing.
+
+03:33.180 --> 03:36.690
+So as part of introductory section we already understood
+
+03:36.690 --> 03:38.880
+about what we are going to implement
+
+03:38.880 --> 03:41.460
+as part of this demo in step one.
+
+03:41.460 --> 03:43.560
+So now we'll go to step zero two
+
+03:43.560 --> 03:46.770
+which is review the Fargate profile which is
+
+03:46.770 --> 03:49.500
+presenting Fargate profile folder
+
+03:49.500 --> 03:52.293
+inside that zero one Fargate profiles dot com.
+
+03:53.310 --> 03:57.280
+So let's go to our visual studio code and we are
+
+03:58.464 --> 04:00.850
+in section 19 0 6 LBC NLB Fargate external.
+
+04:03.660 --> 04:06.930
+and in Fargate profile folder you'll find something
+
+04:06.930 --> 04:10.380
+called zero one Fargate profiles dot aml.
+
+04:10.380 --> 04:12.750
+So here you are creating the
+
+04:12.750 --> 04:14.220
+Fargate profile
+
+04:14.220 --> 04:17.770
+of whose name is F P app three
+
+04:19.405 --> 04:21.720
+and the workloads that are going to run
+
+04:21.720 --> 04:26.720
+on Fargate will be using the name space NS hyphen app three
+
+04:26.940 --> 04:31.140
+which means any deployment whatever you are going to deploy
+
+04:31.140 --> 04:33.450
+which is nothing but Kubernetes deployment
+
+04:33.450 --> 04:36.840
+if it uses the name space NS app three
+
+04:36.840 --> 04:40.680
+then the ports related to the deployment will be scheduled
+
+04:40.680 --> 04:43.710
+on this respective to Fargate profile.
+
+04:43.710 --> 04:48.480
+So that's the understanding about why we are mentioning
+
+04:48.480 --> 04:51.840
+in selectors the name spaces NS app three.
+
+04:51.840 --> 04:54.360
+So now let's come back here.
+
+04:54.360 --> 04:57.300
+If you see here the changes from your infrastructure
+
+04:57.300 --> 04:58.133
+it is going to be
+
+04:58.133 --> 05:00.850
+if you are EKS demo one will be your cluster name
+
+05:01.816 --> 05:04.473
+no changes, our region is US east one, no changes.
+
+05:05.400 --> 05:07.740
+Put your exact cluster name where you want to
+
+05:07.740 --> 05:11.190
+run this Fargate profile and also the region.
+
+05:11.190 --> 05:13.170
+Now let's come back here
+
+05:13.170 --> 05:16.440
+and create this respective Fargate profile.
+
+05:16.440 --> 05:18.450
+So to create a Fargate profile.
+
+05:18.450 --> 05:23.280
+So we need to go into 19 0 6 LBC, NLB, Fargate external.
+
+05:23.280 --> 05:25.860
+So let's come back to terminal
+
+05:25.860 --> 05:30.405
+we'll go to 19 0 6 LBC NLB, Fargate external
+
+05:30.405 --> 05:34.500
+and we'll create EKS CTL create Fargate profile
+
+05:34.500 --> 05:36.120
+and provide hyphen F and
+
+05:36.120 --> 05:40.057
+that profile where it is located, the AML file.
+
+05:40.057 --> 05:42.600
+So we'll copy this and we will paste it here.
+
+05:42.600 --> 05:44.640
+So it'll take three to five minutes to
+
+05:44.640 --> 05:45.900
+create a Fargate profile.
+
+05:45.900 --> 05:49.380
+So let's wait for the profile to get created.
+
+05:49.380 --> 05:53.180
+We can see here our Fargate profile FP app three
+
+05:53.180 --> 05:54.540
+is created now.
+
+05:54.540 --> 05:56.770
+So now let's go back to our report
+
+05:58.761 --> 06:00.861
+and we have completed step three just now.
+
+06:01.801 --> 06:02.644
+So we'll move
+
+06:02.644 --> 06:05.100
+on to step zero four which is update our annotation related
+
+06:05.100 --> 06:07.440
+to NLB target type.
+
+06:07.440 --> 06:11.160
+In addition, we'll also review the cube manifests here.
+
+06:11.160 --> 06:13.170
+So let's come back here
+
+06:13.170 --> 06:14.620
+and let's start with our
+
+06:16.440 --> 06:17.580
+target type nlv.
+
+06:17.580 --> 06:19.290
+Target type S IP.
+
+06:19.290 --> 06:22.260
+So this is good and another important thing is
+
+06:22.260 --> 06:27.120
+we need to review all 0 0 0 1 engine zero two cube manifest.
+
+06:27.120 --> 06:30.130
+So starting with zero zero name space dot yaml
+
+06:31.565 --> 06:34.410
+we are going to create a name space NS app three.
+
+06:34.410 --> 06:37.770
+So why we are creating this name space related resource
+
+06:37.770 --> 06:41.880
+because anything with the any workload deployed
+
+06:41.880 --> 06:45.660
+in that respective namespace NS app three will be scheduled
+
+06:45.660 --> 06:48.810
+on the Fargate profile FP app three.
+
+06:48.810 --> 06:53.340
+So our Kubernetes app three pod should be scheduled
+
+06:53.340 --> 06:55.680
+on the Fargate profile so
+
+06:55.680 --> 06:58.740
+that we will be able to test that network load
+
+06:58.740 --> 07:01.572
+balancer target IP equal to IP, right?
+
+07:01.572 --> 07:04.440
+So target IP equal to IP.
+
+07:04.440 --> 07:08.463
+So now we will first create the NS app three namespace
+
+07:09.513 --> 07:12.990
+and in engineers app three deployment in the metadata
+
+07:12.990 --> 07:16.083
+in namespace we will provide NS hyphen app three.
+
+07:17.466 --> 07:19.800
+So which means this deployment will be scheduled
+
+07:19.800 --> 07:22.590
+on this respective namespace and
+
+07:22.590 --> 07:25.120
+inside this only the respect your parts related
+
+07:26.193 --> 07:27.690
+to app three engineers will be created
+
+07:27.690 --> 07:31.058
+and we'll also go to NLB load balancer service
+
+07:31.058 --> 07:33.930
+and this load balancer service which is network
+
+07:33.930 --> 07:35.820
+load balancer also will be created
+
+07:35.820 --> 07:38.280
+in the namespace N S app three.
+
+07:38.280 --> 07:39.720
+So inside this also
+
+07:39.720 --> 07:44.160
+in metadata we'll add the namespaces NS app three.
+
+07:44.160 --> 07:47.280
+So now let's come back to working.
+
+07:47.280 --> 07:49.230
+So we have reviewed both the things.
+
+07:49.230 --> 07:52.980
+So now we'll go ahead and then deploy all cube manifests.
+
+07:52.980 --> 07:53.890
+So we'll go to
+
+07:55.140 --> 07:56.730
+cube CTL,
+
+07:56.730 --> 07:58.560
+apply hyphen F
+
+07:58.560 --> 08:00.060
+and cube manifest.
+
+08:00.060 --> 08:03.592
+So this should create a namespace NS app three
+
+08:03.592 --> 08:06.510
+for us and also create our the deployment
+
+08:06.510 --> 08:10.710
+and also... NLB related service
+
+08:10.710 --> 08:12.300
+for Fargate, also
+
+08:12.300 --> 08:14.710
+on the NS app three namespace
+
+08:15.570 --> 08:17.403
+cube CTL get
+
+08:17.403 --> 08:21.330
+pods will give the pods from the default name space.
+
+08:21.330 --> 08:22.890
+So we need to get the parts
+
+08:22.890 --> 08:27.000
+from the name space hyphen NS app three.
+
+08:27.000 --> 08:28.350
+So we will see the parts
+
+08:28.350 --> 08:31.950
+in the NS app three and app three engineers deployment is
+
+08:31.950 --> 08:35.280
+in running state so which means clear
+
+08:35.280 --> 08:39.780
+and we will also see Q CTL get notes and hyphen wide.
+
+08:39.780 --> 08:42.960
+So this should provide the notes regular two worker notes
+
+08:42.960 --> 08:45.363
+and also one more Fargate note for us.
+
+08:46.734 --> 08:48.734
+So we can see here these are our regular two
+
+08:48.734 --> 08:50.969
+worker notes which we have created
+
+08:50.969 --> 08:52.860
+as part of EKS private note group.
+
+08:52.860 --> 08:56.460
+And this Fargate note also got created
+
+08:56.460 --> 08:59.640
+and automatically the respective parties are running
+
+08:59.640 --> 09:01.860
+on this respective Fargate board.
+
+09:01.860 --> 09:06.300
+If we want we can also add one more replica here, right?
+
+09:06.300 --> 09:11.300
+So and I will say cube CTL apply hyphen F cube manifests.
+
+09:12.210 --> 09:16.140
+Let's see what happens before going to the service.
+
+09:16.140 --> 09:18.990
+So it has configured app three engineers deployment.
+
+09:18.990 --> 09:23.990
+So I'll say Q CTL get ports and hyphen N NS app three.
+
+09:25.110 --> 09:28.110
+So you'll see that currently initially the port is
+
+09:28.110 --> 09:32.040
+in pending state until the Fargate note is scheduled.
+
+09:32.040 --> 09:34.950
+So if you see QCT get notes hyphen oh wide.
+
+09:34.950 --> 09:38.340
+So one the next note is also ready now
+
+09:38.340 --> 09:40.680
+and we will see what happens right?
+
+09:40.680 --> 09:43.350
+Get ports hyphen NS app three.
+
+09:43.350 --> 09:46.260
+So from pending state it'll go to the running state.
+
+09:46.260 --> 09:49.796
+Once the new Fargate note is ready currently only
+
+09:49.796 --> 09:50.820
+one Fargate note is there.
+
+09:50.820 --> 09:54.390
+So initially it'll first create the Fargate note and
+
+09:54.390 --> 09:57.480
+on that Fargate note it'll schedule this respective
+
+09:57.480 --> 09:58.530
+new replica
+
+09:58.530 --> 09:59.583
+of app three.
+
+10:00.420 --> 10:03.240
+So that's the reason initially it is going to be
+
+10:03.240 --> 10:07.290
+in the pending state and slowly it'll move to running state.
+
+10:07.290 --> 10:09.540
+So we need to give one minute
+
+10:09.540 --> 10:12.270
+to three minute buffer time for the Fargate
+
+10:12.270 --> 10:15.810
+note to get created and that need to be registered
+
+10:15.810 --> 10:19.280
+with the EKS cluster control plan then only
+
+10:19.280 --> 10:23.010
+Kubernetes API server can schedule the Fargate
+
+10:23.010 --> 10:27.060
+the app three engineer part on this Fargate note.
+
+10:27.060 --> 10:30.270
+So let's wait for it to into the running state
+
+10:30.270 --> 10:34.260
+so we can see the second part is also in the running state.
+
+10:34.260 --> 10:39.260
+So now let's go back here and verify the services now.
+
+10:39.300 --> 10:42.370
+So we'll go here Cube CTL get
+
+10:43.680 --> 10:47.790
+SVC and hyphen N NS app three.
+
+10:47.790 --> 10:49.050
+So you should see here
+
+10:49.050 --> 10:53.160
+that from namespace app three NS app three you
+
+10:53.160 --> 10:57.059
+can see your Fargate LDC network LBS created.
+
+10:57.059 --> 10:59.400
+So now we can copy this
+
+10:59.400 --> 11:02.583
+and go to the browser and then access it.
+
+11:03.480 --> 11:04.890
+So if, if it is
+
+11:04.890 --> 11:07.830
+in the active states it should be working for us.
+
+11:07.830 --> 11:11.160
+So let's refresh here in our load balances and it is
+
+11:11.160 --> 11:15.093
+in active state so let's wait for the response to come back.
+
+11:16.020 --> 11:18.960
+In meantime we can also verify the target groups
+
+11:18.960 --> 11:21.693
+and go inside the target group,
+
+11:23.430 --> 11:24.660
+any of the target group.
+
+11:24.660 --> 11:27.810
+Why? Because we are using port 80 and 4 43 communication.
+
+11:27.810 --> 11:29.790
+So it'll create two target groups.
+
+11:29.790 --> 11:32.130
+So we'll open one target group here
+
+11:32.130 --> 11:33.600
+and you can see one is healthy
+
+11:33.600 --> 11:35.940
+and the other one is initially health checks
+
+11:35.940 --> 11:37.530
+in progress and it is refreshing
+
+11:37.530 --> 11:40.560
+so it is trying to also register the second port
+
+11:40.560 --> 11:43.440
+whatever we have created two replicas we have created
+
+11:43.440 --> 11:46.530
+right? So now let's come back here.
+
+11:46.530 --> 11:49.727
+Cube CT, get ports hyphen O wide
+
+11:49.727 --> 11:54.727
+and also provide the name space hyphen N NS app three.
+
+11:54.990 --> 11:58.650
+And here we are going to verify the pod IPs.
+
+11:58.650 --> 12:01.720
+And for these two pod IPs we can see one 90 to
+
+12:02.663 --> 12:04.805
+168, 67 to 53
+
+12:04.805 --> 12:05.640
+and 80 to 81.
+
+12:05.640 --> 12:09.570
+So if you see here 67 to 53, 80, 81.
+
+12:09.570 --> 12:11.970
+And if you go here and also verify
+
+12:11.970 --> 12:14.970
+so it is using the target type IP and
+
+12:14.970 --> 12:17.550
+if you go inside them also you are seeing the pod
+
+12:17.550 --> 12:20.760
+IP addresses directly getting registered
+
+12:20.760 --> 12:24.720
+for our target groups here as targets.
+
+12:24.720 --> 12:28.140
+So which means whatever we have implemented here
+
+12:28.140 --> 12:33.140
+which is nothing but target type as IP is successful, right?
+
+12:33.480 --> 12:34.590
+So now the traffic
+
+12:34.590 --> 12:36.922
+from the network load balancer is directly sent
+
+12:36.922 --> 12:39.460
+to the port IP scheduled on the
+
+12:40.468 --> 12:42.900
+Fargate infrastructure.
+
+12:42.900 --> 12:45.240
+So this is also accessible and working.
+
+12:45.240 --> 12:49.170
+This is HTTP URL and we'll also copy
+
+12:49.170 --> 12:51.840
+and then get the HTTP URL also.
+
+12:51.840 --> 12:56.840
+So we'll copy this and also test the HTTPS tool.
+
+12:56.875 --> 12:59.370
+Let me copy this and go here
+
+12:59.370 --> 13:02.260
+and say HTTPS colon slash slash
+
+13:03.540 --> 13:05.070
+HTTPS
+
+13:05.070 --> 13:08.190
+and we can see here it is accessible
+
+13:08.190 --> 13:12.180
+and also see the DNS name here, which we are using
+
+13:12.180 --> 13:14.250
+which is NLB Fargate 9 0 1.
+
+13:14.250 --> 13:16.320
+So let's access using that one also
+
+13:16.320 --> 13:21.180
+with HTTPS and it should also be accessible for us.
+
+13:21.180 --> 13:23.520
+This completes the demo related
+
+13:23.520 --> 13:27.180
+to creating a network load balancer with the target type
+
+13:27.180 --> 13:31.020
+as IP and then sending the traffic to the
+
+13:31.020 --> 13:32.070
+pods scheduled
+
+13:32.070 --> 13:35.760
+on the Fargate infrastructure from network load balancer.
+
+13:35.760 --> 13:39.060
+So now let's go ahead and then clean up the stuff now.
+
+13:39.060 --> 13:41.980
+So we'll go here and cube CTL
+
+13:42.930 --> 13:46.050
+delete hyphen F cube manifest.
+
+13:46.050 --> 13:48.960
+So this should delete the both the things
+
+13:48.960 --> 13:50.220
+whatever we have created
+
+13:50.220 --> 13:53.880
+which is LBC related network load balancer
+
+13:53.880 --> 13:55.890
+Fargate LBC network lb
+
+13:55.890 --> 13:59.670
+and also app three s deployment and also the name space
+
+13:59.670 --> 14:03.690
+whatever we have created, which is NS app three.
+
+14:03.690 --> 14:06.450
+So once this is deleted we also need to clean
+
+14:06.450 --> 14:08.250
+up the Fargate profile.
+
+14:08.250 --> 14:10.830
+So for that first we can list it the Fargate
+
+14:10.830 --> 14:14.310
+profiles using EKS CTL get Fargate profile
+
+14:14.310 --> 14:16.500
+and in cluster EKS demo one.
+
+14:16.500 --> 14:19.604
+And after that you can run the EKS CTL delete
+
+14:19.604 --> 14:23.280
+Fargate profile with the name of my Fargate profile.
+
+14:23.280 --> 14:24.510
+So let's wait for this.
+
+14:24.510 --> 14:28.380
+And now if you see Cube CTL, and if you say get NS
+
+14:28.380 --> 14:31.320
+which is name spaces, you should not find any name space
+
+14:31.320 --> 14:34.110
+with name NS hyphen app three.
+
+14:34.110 --> 14:36.780
+Only you should find that default name space
+
+14:36.780 --> 14:40.230
+and cube note release cube public and then cube system.
+
+14:40.230 --> 14:44.100
+So now let's come back here and say EKS CTL,
+
+14:44.100 --> 14:48.720
+get Fargate profile from the cluster EKS demo one.
+
+14:48.720 --> 14:51.518
+After that we'll go ahead and then delete that.
+
+14:51.518 --> 14:55.050
+So this is the FP app three related profile
+
+14:55.050 --> 14:56.610
+which we want to delete it.
+
+14:56.610 --> 15:00.780
+So let's come back here, copy this command and delete it.
+
+15:00.780 --> 15:03.006
+So it'll take another three to five minutes to
+
+15:03.006 --> 15:05.580
+delete this respective profile.
+
+15:05.580 --> 15:07.170
+So let's pause the video.
+
+15:07.170 --> 15:10.860
+Until then, we have also deleted the Fargate profile.
+
+15:10.860 --> 15:14.340
+Whatever we have created, I'll see you in the next lecture.
+
+15:14.340 --> 15:15.630
+Until then, bye bye.
+
+15:15.630 --> 15:16.463
+Thank you.

@@ -1,0 +1,889 @@
+WEBVTT
+
+00:00.450 --> 00:01.560
+-: Welcome back.
+
+00:01.560 --> 00:03.030
+As part of step seven,
+
+00:03.030 --> 00:05.910
+we are going to define the ingress manifest
+
+00:05.910 --> 00:07.950
+with ingress rules.
+
+00:07.950 --> 00:09.150
+So before going there,
+
+00:09.150 --> 00:13.830
+we need to understand ingress path types in detail.
+
+00:13.830 --> 00:15.000
+So if we go here,
+
+00:15.000 --> 00:19.200
+we have three types of path types available for us
+
+00:19.200 --> 00:21.060
+from ingress perspective.
+
+00:21.060 --> 00:23.340
+So one is implementation-specific
+
+00:23.340 --> 00:26.220
+and second is exact path type match
+
+00:26.220 --> 00:28.920
+and the third one is prefix match.
+
+00:28.920 --> 00:31.140
+So implementation-specific.
+
+00:31.140 --> 00:33.810
+Implementation-specific path type is nothing
+
+00:33.810 --> 00:35.940
+but further respect to controller.
+
+00:35.940 --> 00:37.140
+So with this path type,
+
+00:37.140 --> 00:39.150
+matching is up to the controller
+
+00:39.150 --> 00:41.700
+implementing the ingress class.
+
+00:41.700 --> 00:44.017
+So example, we are using the AWS
+
+00:44.017 --> 00:46.200
+ALB-related ingress controller,
+
+00:46.200 --> 00:48.270
+and in this implementation,
+
+00:48.270 --> 00:53.270
+if we have any specific path types defined related to AWS,
+
+00:53.520 --> 00:56.880
+so we can use with implementation-specific.
+
+00:56.880 --> 01:00.450
+And by default it is going to be implementation-specific
+
+01:00.450 --> 01:03.990
+if we don't define the path type argument
+
+01:03.990 --> 01:06.480
+in our respective rules.
+
+01:06.480 --> 01:08.550
+So implementation can treat this
+
+01:08.550 --> 01:11.670
+as a separate path type or treat it identically
+
+01:11.670 --> 01:15.660
+to either prefix or even the exact path types.
+
+01:15.660 --> 01:20.100
+And exact is nothing but it need to match exact URL path
+
+01:20.100 --> 01:22.110
+with the case sensitivity.
+
+01:22.110 --> 01:25.920
+And prefix is nothing but matches based on a URL path,
+
+01:25.920 --> 01:28.410
+prefix split by slash.
+
+01:28.410 --> 01:30.330
+Matching is case-sensitive
+
+01:30.330 --> 01:33.690
+and done on a path element-by-element basis.
+
+01:33.690 --> 01:35.820
+So if we take the examples,
+
+01:35.820 --> 01:39.390
+we'll get the clarity on prefix and then exact.
+
+01:39.390 --> 01:42.600
+And implementation-specific will be by default.
+
+01:42.600 --> 01:46.770
+But as we said here, so it might consider
+
+01:46.770 --> 01:49.530
+to consider it as either prefix or exact
+
+01:49.530 --> 01:53.460
+based on the implementation that controller is implemented.
+
+01:53.460 --> 01:55.500
+So we are going to use prefix, why?
+
+01:55.500 --> 01:59.490
+Because which is loosely coupled and easily we can use it.
+
+01:59.490 --> 02:02.220
+So let's take the examples here
+
+02:02.220 --> 02:03.960
+and understand more about it,
+
+02:03.960 --> 02:06.660
+the differences between the prefix and the exact
+
+02:06.660 --> 02:08.850
+and then how it is going to work.
+
+02:08.850 --> 02:11.580
+So example in prefix, right?
+
+02:11.580 --> 02:16.580
+You have defined in your Kubernetes manifest as slash.
+
+02:16.680 --> 02:18.300
+So in the request path,
+
+02:18.300 --> 02:20.880
+whenever you are accessing by a browser,
+
+02:20.880 --> 02:22.530
+all parts are allowed.
+
+02:22.530 --> 02:24.630
+That's the reason it says matches yes,
+
+02:24.630 --> 02:27.030
+which means this is true, it works.
+
+02:27.030 --> 02:32.030
+So whenever you define slash with path type as prefix,
+
+02:32.250 --> 02:34.620
+all paths are allowed.
+
+02:34.620 --> 02:36.690
+And the next thing is exact.
+
+02:36.690 --> 02:40.650
+So whenever you provide the path type as exact.
+
+02:40.650 --> 02:43.260
+So before going and implementing these things,
+
+02:43.260 --> 02:45.270
+so let's see this here, right?
+
+02:45.270 --> 02:49.410
+So in the rules, http paths, you can see path,
+
+02:49.410 --> 02:51.000
+whatever the path you define,
+
+02:51.000 --> 02:53.490
+and the path type is prefix are exact.
+
+02:53.490 --> 02:55.590
+So like this you are going to define the stuff,
+
+02:55.590 --> 02:58.020
+so let me copy this, right?
+
+02:58.020 --> 03:01.080
+And come back to our ingress manifest, right?
+
+03:01.080 --> 03:02.160
+So where is it?
+
+03:02.160 --> 03:04.440
+In zero to kube manifesto rules
+
+03:04.440 --> 03:06.480
+and in ALB ingress basic.
+
+03:06.480 --> 03:09.300
+So API version, kind, metadata annotation,
+
+03:09.300 --> 03:12.570
+all are same as previous ingress manifest, right?
+
+03:12.570 --> 03:14.700
+Bill spec and ingress class name.
+
+03:14.700 --> 03:18.360
+So only thing now we are defining here is rules.
+
+03:18.360 --> 03:20.820
+Under rules, we are defining the http rules,
+
+03:20.820 --> 03:22.770
+and under that, you have the paths,
+
+03:22.770 --> 03:26.460
+and the path we are going to use is root, right?
+
+03:26.460 --> 03:29.790
+Which means all paths should be allowed
+
+03:29.790 --> 03:32.430
+and path type is prefix and backend.
+
+03:32.430 --> 03:34.920
+In backend, the service name we need to provide
+
+03:34.920 --> 03:36.930
+is so we'll go to here
+
+03:36.930 --> 03:39.450
+and this is same as, again, 0101,
+
+03:39.450 --> 03:42.540
+which is NGINX app one deployment and NodePort service.
+
+03:42.540 --> 03:44.490
+It is absolutely same.
+
+03:44.490 --> 03:48.390
+So I'll bring that from there and come back here
+
+03:48.390 --> 03:52.080
+and provide the name here and number is 80, right?
+
+03:52.080 --> 03:53.790
+So once we have defined this,
+
+03:53.790 --> 03:55.230
+so now let's go back here
+
+03:55.230 --> 03:57.720
+and understand more about these things.
+
+03:57.720 --> 04:00.660
+So you set slash so that all parts are allowed,
+
+04:00.660 --> 04:05.660
+so which means whenever you access with /app1/index.html,
+
+04:07.320 --> 04:10.380
+it is going to work for us without any issue.
+
+04:10.380 --> 04:12.180
+So now let's come back here
+
+04:12.180 --> 04:14.063
+and if you define here in the path /fu, right?
+
+04:19.298 --> 04:23.820
+And if you access it with /fu from your browser, right?
+
+04:23.820 --> 04:28.820
+So http://somestacksimplify.com/fu,
+
+04:30.600 --> 04:32.880
+and you also define here the fu,
+
+04:32.880 --> 04:34.890
+so then it is going to work.
+
+04:34.890 --> 04:38.310
+And when you define it as exact, right?
+
+04:38.310 --> 04:40.680
+In the same way, whenever you define it as exact
+
+04:40.680 --> 04:44.220
+and when you define it as fu,
+
+04:44.220 --> 04:48.963
+and when you access it as bar and it is going to fail.
+
+04:50.230 --> 04:51.063
+So that's the thing.
+
+04:51.063 --> 04:53.700
+So like this, we need to understand this is the request path
+
+04:53.700 --> 04:55.290
+which is nothing but from the browser
+
+04:55.290 --> 04:56.760
+whatever you are accessing
+
+04:56.760 --> 04:59.550
+and this is like whatever you are defining here
+
+04:59.550 --> 05:03.300
+and the kind is nothing but the path type you are defining.
+
+05:03.300 --> 05:06.210
+So for us, I'll roll back this one to this one
+
+05:06.210 --> 05:07.950
+and I will remove this, okay?
+
+05:07.950 --> 05:09.750
+And now, let's see.
+
+05:09.750 --> 05:14.750
+Same thing for exact/fu and then you'll access
+
+05:14.760 --> 05:16.440
+with adding the trailing slash,
+
+05:16.440 --> 05:17.670
+again it is going to fail
+
+05:17.670 --> 05:20.640
+because exact is exact, that's all.
+
+05:20.640 --> 05:25.640
+And exact/fu/ if you access and with only /fu
+
+05:26.100 --> 05:28.440
+from the request path which is from the browser,
+
+05:28.440 --> 05:29.880
+then it is also going to fail.
+
+05:29.880 --> 05:31.950
+So which means exact
+
+05:31.950 --> 05:35.730
+is only for critical specific implementations
+
+05:35.730 --> 05:37.800
+which you know thoroughly, right?
+
+05:37.800 --> 05:41.370
+But most of the time, prefixes loosely coupled
+
+05:41.370 --> 05:44.070
+and you'll be able to easily use it, right?
+
+05:44.070 --> 05:47.220
+If you see /fu works for /fu
+
+05:47.220 --> 05:49.770
+and also with trading/ also it works.
+
+05:49.770 --> 05:53.610
+And here also with prefix with trading/ if you put it
+
+05:53.610 --> 05:58.610
+and in your path if you define /fu/ with the trailing slash,
+
+06:00.870 --> 06:02.100
+still it is going to work
+
+06:02.100 --> 06:05.340
+with and without when you access it via browser.
+
+06:05.340 --> 06:09.030
+And prefix with /aaa/bbb
+
+06:09.030 --> 06:12.810
+and if you try to access with additional B here,
+
+06:12.810 --> 06:14.760
+it is not going to work, why?
+
+06:14.760 --> 06:19.470
+Because it is not going to add any string editions here.
+
+06:19.470 --> 06:23.370
+It is like /aabb and it should be /aabb.
+
+06:23.370 --> 06:24.660
+That's all, right?
+
+06:24.660 --> 06:27.870
+But if you provide /aaa/bbb,
+
+06:27.870 --> 06:32.640
+and also if you request via browser also /aaa/bbb,
+
+06:32.640 --> 06:33.810
+it is going to work.
+
+06:33.810 --> 06:35.700
+So like this, you can define.
+
+06:35.700 --> 06:38.250
+You can see all these things how it is going to be,
+
+06:38.250 --> 06:40.320
+all the samples provided here.
+
+06:40.320 --> 06:42.510
+So these are generic ingress things,
+
+06:42.510 --> 06:45.510
+prefix whatever you see and for exact also.
+
+06:45.510 --> 06:47.340
+So you can define these things,
+
+06:47.340 --> 06:50.220
+and accordingly, most of the things are covered here.
+
+06:50.220 --> 06:53.520
+So you can use it and then implement your rules.
+
+06:53.520 --> 06:56.520
+So now let's come back here, remove this,
+
+06:56.520 --> 06:59.070
+and the path is slash, prefix, backend,
+
+06:59.070 --> 07:00.330
+and everything is good.
+
+07:00.330 --> 07:03.540
+So now let's go back to our GitHub, right?
+
+07:03.540 --> 07:08.540
+And then run the kubectl apply now.
+
+07:09.030 --> 07:10.830
+So let's come back here.
+
+07:10.830 --> 07:14.460
+And we are in 0802 ALB ingress basics.
+
+07:14.460 --> 07:15.390
+And if you see here,
+
+07:15.390 --> 07:17.510
+we should have something called 01
+
+07:17.510 --> 07:19.520
+and then 02 related folders, right?
+
+07:19.520 --> 07:20.583
+01 and 02.
+
+07:21.480 --> 07:25.050
+So I'll say kubectl apply-F zero
+
+07:25.050 --> 07:28.050
+to kube manifest rules, right?
+
+07:28.050 --> 07:30.437
+So this should create the NGINX deployment
+
+07:34.220 --> 07:37.830
+and NGINX service and NGINX ingress service, right?
+
+07:37.830 --> 07:42.660
+So now we can go ahead and then see kubectl ports
+
+07:42.660 --> 07:45.300
+and our app one NGINX port is created,
+
+07:45.300 --> 07:46.860
+and if we run the SVC,
+
+07:46.860 --> 07:48.450
+it should provide us the app one NGINX NodePort service
+
+07:50.243 --> 07:51.540
+which is 30, 134 is the NodePort service,
+
+07:53.880 --> 07:57.363
+and we'll also run the kubectl get ingress,
+
+07:58.530 --> 08:01.680
+and you can see ingress NGINX one is created
+
+08:01.680 --> 08:03.870
+and this is the URL for that.
+
+08:03.870 --> 08:08.760
+And let's go here to load balances, refresh, right?
+
+08:08.760 --> 08:12.720
+And you can see the name of it is app one ingress rules.
+
+08:12.720 --> 08:13.553
+So why?
+
+08:13.553 --> 08:16.110
+Because I have given the name for this as ingress rules.
+
+08:16.110 --> 08:18.180
+This is a ingress rules demo.
+
+08:18.180 --> 08:19.410
+So the load balancer name,
+
+08:19.410 --> 08:22.680
+I have given as app one ingress rules, right?
+
+08:22.680 --> 08:24.420
+And here are the listeners
+
+08:24.420 --> 08:26.640
+and it is in the state as provisioning.
+
+08:26.640 --> 08:30.240
+If you go to target group and open that, right?
+
+08:30.240 --> 08:34.380
+So you can find both the worker nodes were registered here
+
+08:34.380 --> 08:39.210
+with port 30134, so whatever we have defined here, right?
+
+08:39.210 --> 08:42.630
+So 30134, whatever it has automatically generated
+
+08:42.630 --> 08:45.120
+for this NodePort service.
+
+08:45.120 --> 08:48.150
+So now let's wait for this load balancer
+
+08:48.150 --> 08:49.770
+to come to active state
+
+08:49.770 --> 08:52.560
+so that we can go ahead and then test it.
+
+08:52.560 --> 08:55.620
+So we can see here our load balancer is in active state.
+
+08:55.620 --> 08:57.330
+So we can open here
+
+08:57.330 --> 09:01.380
+and we can see there is no default backend for us, right?
+
+09:01.380 --> 09:03.750
+And we can see path/star
+
+09:03.750 --> 09:05.280
+and for the /star goes
+
+09:05.280 --> 09:10.260
+to our app one NGINX default target group,
+
+09:10.260 --> 09:11.880
+and inside the target group,
+
+09:11.880 --> 09:15.090
+we have our respecting NodePort service
+
+09:15.090 --> 09:17.430
+related things registered, right?
+
+09:17.430 --> 09:21.810
+So both nodes were registered with 30134, right?
+
+09:21.810 --> 09:23.010
+So now let's see.
+
+09:23.010 --> 09:24.300
+Both are healthy.
+
+09:24.300 --> 09:26.400
+So now let's come back here
+
+09:26.400 --> 09:31.400
+and take this, copy, and run this, right?
+
+09:35.160 --> 09:36.000
+And you should see
+
+09:36.000 --> 09:40.650
+that we should get the welcome to NGINX root context page.
+
+09:40.650 --> 09:42.990
+Why? Because we said /tar.
+
+09:42.990 --> 09:47.990
+And I'll also say /app1/index.html,
+
+09:48.420 --> 09:51.120
+and my app one should be accessible now.
+
+09:51.120 --> 09:53.910
+So let me close these things, right?
+
+09:53.910 --> 09:55.350
+So now what we are going to do
+
+09:55.350 --> 10:00.350
+is we are going to also verify cubectl, describe ingress,
+
+10:03.510 --> 10:07.440
+and ingress name is ingress NGINX app one.
+
+10:07.440 --> 10:08.970
+And we'll see there are rules here,
+
+10:08.970 --> 10:11.700
+how it is defined, right?
+
+10:11.700 --> 10:13.710
+So let's wait for it.
+
+10:13.710 --> 10:16.230
+See the default backend is default backend http
+
+10:16.230 --> 10:18.897
+and nothing is there here in the default backend.
+
+10:18.897 --> 10:21.810
+And in the rules, you can see for the slash,
+
+10:21.810 --> 10:25.560
+this is the NodePort service it is pointed to.
+
+10:25.560 --> 10:26.940
+So this is the difference
+
+10:26.940 --> 10:29.430
+between the previous default backend one.
+
+10:29.430 --> 10:31.680
+There you have seen the NodePort service here
+
+10:31.680 --> 10:33.623
+and now you are seeing the NodePort service here
+
+10:33.623 --> 10:35.730
+for the half one NGINX.
+
+10:35.730 --> 10:36.840
+So this is good.
+
+10:36.840 --> 10:39.330
+Now what we are going to do is we'll do a small test.
+
+10:39.330 --> 10:41.580
+Even I didn't document that step here,
+
+10:41.580 --> 10:43.560
+but we will do that, right?
+
+10:43.560 --> 10:48.560
+So let's come back here and in zero, add zero two, right?
+
+10:49.680 --> 10:52.450
+We will change this to /app1.
+
+10:53.460 --> 10:57.420
+So we have learned about that prefix things a lot here,
+
+10:57.420 --> 10:59.190
+if you remember, right?
+
+10:59.190 --> 11:04.190
+So let me open this documentation, ingress path types,
+
+11:04.650 --> 11:06.630
+and we have defined /app1,
+
+11:06.630 --> 11:10.440
+which means earlier whatever we are accessing here.
+
+11:10.440 --> 11:14.880
+So let's come back here and this should go away,
+
+11:14.880 --> 11:16.800
+which means whatever the root context
+
+11:16.800 --> 11:18.000
+under the root context,
+
+11:18.000 --> 11:21.390
+whatever we are accessing this welcome to NGINX page.
+
+11:21.390 --> 11:24.090
+So after this change, it should go away.
+
+11:24.090 --> 11:25.140
+So let's see.
+
+11:25.140 --> 11:28.620
+So we are seeing that only anything with /app1,
+
+11:28.620 --> 11:32.070
+then only go to app one NGINX NodePort service.
+
+11:32.070 --> 11:33.870
+So which means under the root context,
+
+11:33.870 --> 11:36.930
+whatever is there, it should fail, right?
+
+11:36.930 --> 11:39.630
+So now we have saved this
+
+11:39.630 --> 11:41.409
+and if you come back here
+
+11:41.409 --> 11:46.409
+and see /fu with prefix, it will allow for /fu,
+
+11:47.700 --> 11:51.030
+and anything with /fu/star, right?
+
+11:51.030 --> 11:53.430
+So that is the importance of prefix.
+
+11:53.430 --> 11:56.730
+So let me run this change now.
+
+11:56.730 --> 12:01.730
+So I'll come back, kubectl, apply-F,
+
+12:01.860 --> 12:04.893
+and then zero to kube manifest rules.
+
+12:06.000 --> 12:08.760
+And this change should take place.
+
+12:08.760 --> 12:11.670
+And now if I say kubectl,
+
+12:11.670 --> 12:14.940
+describe ingress, ingress NGINX app one,
+
+12:14.940 --> 12:18.717
+so you should see the rules here, which is /app1.
+
+12:18.717 --> 12:20.310
+And if you go back here
+
+12:20.310 --> 12:23.630
+to rules here and refresh them, right?
+
+12:23.630 --> 12:25.230
+Or if you go here,
+
+12:25.230 --> 12:30.000
+so it should say /app1 or /app1/star.
+
+12:30.000 --> 12:32.850
+So now let's come back here.
+
+12:32.850 --> 12:37.850
+Kubectl, get ingress, right?
+
+12:37.890 --> 12:39.363
+And copy this, right?
+
+12:43.080 --> 12:46.080
+And go to the browser and try it.
+
+12:46.080 --> 12:48.600
+So this is coming from the cash.
+
+12:48.600 --> 12:49.863
+So let me go here.
+
+12:50.850 --> 12:54.330
+See, it is failing in the incognito window.
+
+12:54.330 --> 12:57.693
+And if I say /app1 and it should,
+
+12:59.996 --> 13:04.353
+app1/index.html, so this should work.
+
+13:05.430 --> 13:08.550
+So very clearly tested the use case
+
+13:08.550 --> 13:13.440
+which we have discussed here, which is this one.
+
+13:13.440 --> 13:18.440
+Parts/fu, so /fu and then /fu will be allowed
+
+13:18.780 --> 13:22.290
+when your path type is of kind prefix.
+
+13:22.290 --> 13:24.540
+So let me roll back this change here
+
+13:24.540 --> 13:27.960
+so that you can test it later, right?
+
+13:27.960 --> 13:30.000
+So with default one.
+
+13:30.000 --> 13:32.100
+So now let's come back here
+
+13:32.100 --> 13:34.833
+and go ahead and then clean up.
+
+13:36.780 --> 13:39.213
+So I'll come back here and clean up.
+
+13:40.560 --> 13:45.560
+Kubectl, delete-F 02 kube manifest rules.
+
+13:45.840 --> 13:48.660
+So this should remove the deployment service
+
+13:48.660 --> 13:50.430
+and also the ingress service
+
+13:50.430 --> 13:52.260
+which is the application load balancer,
+
+13:52.260 --> 13:54.360
+whatever it has created.
+
+13:54.360 --> 13:58.050
+So let's wait for all the resources to get deleted.
+
+13:58.050 --> 14:01.260
+So one important thing to note here is verify
+
+14:01.260 --> 14:04.110
+whether your ingress is deleted successfully or not, why?
+
+14:04.110 --> 14:06.870
+Because application load balancer is costly,
+
+14:06.870 --> 14:11.850
+and by any chance, if it didn't get deleted properly,
+
+14:11.850 --> 14:14.880
+then it is going to charge us heavily, right?
+
+14:14.880 --> 14:16.020
+So for that purpose,
+
+14:16.020 --> 14:19.560
+verify with getting less command here, kubectl get ingress,
+
+14:19.560 --> 14:21.240
+and also go here
+
+14:21.240 --> 14:25.320
+and also say refresh in your load balances section
+
+14:25.320 --> 14:27.510
+and also verify there are no load balances
+
+14:27.510 --> 14:31.260
+so that we'll not have any unexpected charges for us.
+
+14:31.260 --> 14:32.880
+So I'll see you in the next lecture.
+
+14:32.880 --> 14:34.110
+Until then, bye-bye.
+
+14:34.110 --> 14:34.943
+Thank you.

@@ -1,0 +1,166 @@
+WEBVTT
+
+00:00.210 --> 00:01.170
+-: Welcome back.
+
+00:01.170 --> 00:02.160
+In this section,
+
+00:02.160 --> 00:05.100
+we are going to deal with microservices
+
+00:05.100 --> 00:09.270
+and deploying those microservices on EKS cluster.
+
+00:09.270 --> 00:12.090
+So, what are these microservices?
+
+00:12.090 --> 00:14.550
+So let's get a very high level overview
+
+00:14.550 --> 00:17.220
+about what are these microservices,
+
+00:17.220 --> 00:19.530
+and then we'll move on with the example
+
+00:19.530 --> 00:21.330
+and then deployments.
+
+00:21.330 --> 00:24.240
+So, microservices, also known as
+
+00:24.240 --> 00:26.790
+the microservice architecture.
+
+00:26.790 --> 00:28.770
+It is an architectural style
+
+00:28.770 --> 00:30.540
+that structures an application
+
+00:30.540 --> 00:32.880
+as a collection of services,
+
+00:32.880 --> 00:35.430
+that are highly maintainable,
+
+00:35.430 --> 00:36.930
+and testable.
+
+00:36.930 --> 00:39.270
+So, they are loosely coupled,
+
+00:39.270 --> 00:42.090
+independently deployable,
+
+00:42.090 --> 00:45.990
+and organize their own business capabilities,
+
+00:45.990 --> 00:47.970
+and owned by a small team.
+
+00:47.970 --> 00:51.090
+Each microservice can be owned by a small team.
+
+00:51.090 --> 00:53.490
+So, let's see the benefits
+
+00:53.490 --> 00:56.100
+with this microservices architecture
+
+00:56.100 --> 00:58.983
+and then what all additional,
+
+00:59.880 --> 01:01.170
+available the things also
+
+01:01.170 --> 01:02.100
+we are going to get,
+
+01:02.100 --> 01:04.680
+based on microservices.
+
+01:04.680 --> 01:07.110
+So, from developer perspective
+
+01:07.110 --> 01:10.290
+it is going to be a developer independence.
+
+01:10.290 --> 01:12.960
+So, small teams work in parallel
+
+01:12.960 --> 01:17.160
+and can iterate faster than larger teams.
+
+01:17.160 --> 01:20.070
+Isolation and then resilience.
+
+01:20.070 --> 01:23.340
+So if a component dies, we spin up another
+
+01:23.340 --> 01:25.320
+while and the rest of the application
+
+01:25.320 --> 01:28.020
+continues to function.
+
+01:28.020 --> 01:29.190
+And scalability.
+
+01:29.190 --> 01:32.280
+Smaller components take up fewer resources
+
+01:32.280 --> 01:35.220
+and can be scaled to meet increasing demand
+
+01:35.220 --> 01:37.080
+of that component only.
+
+01:37.080 --> 01:41.430
+So that is one important benefit for us.
+
+01:41.430 --> 01:43.200
+Life cycle automation.
+
+01:43.200 --> 01:45.660
+Individual components are easier to fit
+
+01:45.660 --> 01:47.970
+into continuous delivery pipelines
+
+01:47.970 --> 01:50.550
+and complex deployment scenarios.
+
+01:50.550 --> 01:53.403
+Not possible with the monoliths.
+
+01:54.480 --> 01:56.550
+Relationship to the business.
+
+01:56.550 --> 01:58.020
+So microservices architecture
+
+01:58.020 --> 02:00.720
+are split along business domain boundaries,
+
+02:00.720 --> 02:02.610
+increasing independence,
+
+02:02.610 --> 02:06.510
+and then understanding across the organization.
+
+02:06.510 --> 02:09.360
+In our next lecture, we are going to take an example
+
+02:09.360 --> 02:12.120
+of microservices and then implement it.
+
+02:12.120 --> 02:13.770
+So I'll see you in the next lecture.
+
+02:13.770 --> 02:14.910
+Until then, bye bye.
+
+02:14.910 --> 02:15.743
+Thank you.

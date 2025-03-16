@@ -1,0 +1,454 @@
+WEBVTT
+
+00:00.270 --> 00:01.140
+-: Welcome back.
+
+00:01.140 --> 00:04.950
+In this lecture, we are going to create a port
+
+00:04.950 --> 00:07.410
+and then expose it to the internet
+
+00:07.410 --> 00:10.020
+using the NodePort service.
+
+00:10.020 --> 00:11.430
+So just now we have completed the
+
+00:11.430 --> 00:14.010
+NodePort service introduction in our step three,
+
+00:14.010 --> 00:16.530
+and then we are moving to the step four.
+
+00:16.530 --> 00:19.290
+So now let's understand these ports one more time,
+
+00:19.290 --> 00:22.103
+which is nothing but port, TargetPort, and then NodePort.
+
+00:23.040 --> 00:26.211
+So port is nothing but port on which NodePort service leads
+
+00:26.211 --> 00:28.500
+in Kubernetes cluster internally.
+
+00:28.500 --> 00:31.050
+So which is nothing but your cluster IP port
+
+00:31.050 --> 00:32.430
+and the target port is nothing
+
+00:32.430 --> 00:34.290
+but we define container port here
+
+00:34.290 --> 00:36.540
+on which our application is running.
+
+00:36.540 --> 00:37.580
+And then NodePort.
+
+00:37.580 --> 00:40.320
+So NodePort is nothing but worker node port
+
+00:40.320 --> 00:42.660
+on which we can access our application.
+
+00:42.660 --> 00:44.760
+So these things are very important whenever
+
+00:44.760 --> 00:47.400
+we are defining our YAML in a declarative way
+
+00:47.400 --> 00:49.410
+whenever we are creating a service.
+
+00:49.410 --> 00:52.380
+But even now if we need to understand about port
+
+00:52.380 --> 00:55.950
+and then target port because in our upcoming steps here,
+
+00:55.950 --> 00:58.290
+like we are going to understand more about this,
+
+00:58.290 --> 01:00.690
+the target port, and then it's importance,
+
+01:00.690 --> 01:01.980
+all those things, okay?
+
+01:01.980 --> 01:03.330
+So now let's go ahead and then
+
+01:03.330 --> 01:04.710
+create the port one more time,
+
+01:04.710 --> 01:08.520
+whatever we have created in our previous step.
+
+01:08.520 --> 01:13.323
+So let me copy this and then create our first port now.
+
+01:17.460 --> 01:21.630
+So port got created, I'll say kubectl get ports
+
+01:21.630 --> 01:26.310
+and then my port is getting created and it is running now.
+
+01:26.310 --> 01:27.143
+Good.
+
+01:27.143 --> 01:30.870
+So now we are going to expose port as a service.
+
+01:30.870 --> 01:34.560
+So the command here is Cube CTL expose.
+
+01:34.560 --> 01:37.260
+And then that respective to port with what is the port name
+
+01:37.260 --> 01:38.310
+of that port.
+
+01:38.310 --> 01:42.630
+And then the type is a NodePort service with port is 80,
+
+01:42.630 --> 01:45.420
+which is nothing but my service port is 80,
+
+01:45.420 --> 01:48.780
+and name of my service is My First Service.
+
+01:48.780 --> 01:52.233
+So let's go ahead and then expose that now.
+
+01:56.040 --> 01:57.120
+It's exposed.
+
+01:57.120 --> 01:59.190
+So now if you want to see the services,
+
+01:59.190 --> 02:03.573
+Cube CTL get service.
+
+02:05.070 --> 02:05.903
+Right?
+
+02:05.903 --> 02:07.860
+And you can see the default kubernetes service
+
+02:07.860 --> 02:10.110
+with the cluster IP is available here.
+
+02:10.110 --> 02:13.500
+And we also got My First Service with NodePort
+
+02:13.500 --> 02:16.890
+of type NodePort and it also has the cluster IP
+
+02:16.890 --> 02:21.890
+and the cluster IP port is 80 and the NodePort is 31084.
+
+02:22.590 --> 02:24.960
+And you also have the alias
+
+02:24.960 --> 02:29.960
+which is nothing but kubectl get SVC, okay?
+
+02:30.210 --> 02:35.190
+So how for ports, PO, the alias for services is SVC.
+
+02:35.190 --> 02:38.010
+Even with SVC, we get the same output.
+
+02:38.010 --> 02:41.040
+So the 80 here, whatever you are seeing is the cluster IP
+
+02:41.040 --> 02:46.040
+service port and 31084 is our respective node port.
+
+02:46.320 --> 02:47.580
+Worker node port.
+
+02:47.580 --> 02:49.650
+So now the next thing is how to access
+
+02:49.650 --> 02:51.000
+the application, right?
+
+02:51.000 --> 02:53.700
+So you also need to get your worker node public IP
+
+02:53.700 --> 02:55.170
+to access it.
+
+02:55.170 --> 03:00.170
+So let's get that using Cube CTL get nodes -O wide.
+
+03:03.120 --> 03:06.000
+So you'll get the public IP of your cluster here.
+
+03:06.000 --> 03:08.190
+So which is nothing but this one.
+
+03:08.190 --> 03:10.503
+And take it and then access it.
+
+03:14.790 --> 03:16.473
+And what is the port?
+
+03:17.340 --> 03:18.213
+31084.
+
+03:21.540 --> 03:23.670
+And our application is accessible now.
+
+03:23.670 --> 03:26.460
+Welcome to Stack Simplified Kubernetes Fundamental Demo
+
+03:26.460 --> 03:29.160
+and our application version is V1.
+
+03:29.160 --> 03:32.760
+So now let's go back here and then see one thing, okay?
+
+03:32.760 --> 03:36.990
+So get ports -O wide, right?
+
+03:36.990 --> 03:40.650
+So this is running on 145 server, right?
+
+03:40.650 --> 03:44.970
+And then you accessed the external IP of 118 server,
+
+03:44.970 --> 03:47.160
+which is nothing but another server,
+
+03:47.160 --> 03:48.840
+but still it is accessible.
+
+03:48.840 --> 03:52.110
+The reason is the services across the worker nodes,
+
+03:52.110 --> 03:53.970
+whatever the service you create,
+
+03:53.970 --> 03:55.800
+it will be across the worker nodes.
+
+03:55.800 --> 03:57.570
+We'll see more in our replica sets
+
+03:57.570 --> 03:59.670
+and then deployments and then services,
+
+03:59.670 --> 04:03.960
+but what I'm trying to say is both nodes will have
+
+04:03.960 --> 04:08.460
+the same 31084 assigned and via any of the nodes,
+
+04:08.460 --> 04:10.710
+we'll be able to access our service.
+
+04:10.710 --> 04:13.020
+Just now, we accessed it with 173,
+
+04:13.020 --> 04:15.270
+we can even access it 213
+
+04:15.270 --> 04:17.613
+and then we'll get the same response.
+
+04:20.100 --> 04:23.220
+31084, right?
+
+04:23.220 --> 04:24.240
+It's the same thing.
+
+04:24.240 --> 04:27.810
+So servers will get created across the worker nodes.
+
+04:27.810 --> 04:29.010
+So that's about it.
+
+04:29.010 --> 04:32.250
+So now, one thing we need to understand here is target port.
+
+04:34.710 --> 04:37.560
+So if you see here in this expose command,
+
+04:37.560 --> 04:40.110
+we didn't define the target port.
+
+04:40.110 --> 04:45.030
+So which means, what it means is whatever the service port
+
+04:45.030 --> 04:46.470
+we have assigned,
+
+04:46.470 --> 04:48.930
+the system feels that the target port,
+
+04:48.930 --> 04:50.550
+which is nothing but the container port
+
+04:50.550 --> 04:52.680
+is also going to be 80 only.
+
+04:52.680 --> 04:55.800
+So it will take it by default the same value.
+
+04:55.800 --> 04:58.590
+Now if you try to change this to 81,
+
+04:58.590 --> 05:01.380
+so obviously, what happens, you can see now, right?
+
+05:01.380 --> 05:03.810
+So your port is 81 and then you're not defining
+
+05:03.810 --> 05:05.430
+any target port.
+
+05:05.430 --> 05:06.600
+So which is different, right?
+
+05:06.600 --> 05:09.060
+Our container port is 80 and then you're trying to
+
+05:09.060 --> 05:11.430
+define your service port as 81.
+
+05:11.430 --> 05:13.980
+So let's see what happens, right?
+
+05:13.980 --> 05:18.980
+So let me copy it and come back and then paste it, right?
+
+05:21.810 --> 05:25.860
+Okay, service got created, but will it be accessible for us?
+
+05:25.860 --> 05:29.610
+So get SVC, right?
+
+05:29.610 --> 05:32.760
+And this is the service and we got 31100.
+
+05:32.760 --> 05:35.580
+If we access it, is not going to work because our port
+
+05:35.580 --> 05:37.590
+is not running on port 81.
+
+05:37.590 --> 05:40.110
+So in these cases, which means like your service want to
+
+05:40.110 --> 05:43.410
+run on different port and your backend is on different port.
+
+05:43.410 --> 05:45.810
+So you need to always define your
+
+05:45.810 --> 05:47.430
+target port parameter also.
+
+05:47.430 --> 05:51.330
+For now, let's access this and see what happens, right?
+
+05:51.330 --> 05:54.120
+So let me come here.
+
+05:54.120 --> 05:58.193
+And the port is 31100.
+
+06:02.970 --> 06:04.380
+Right? It failed.
+
+06:04.380 --> 06:05.700
+So in the same way,
+
+06:05.700 --> 06:09.870
+so now, let's go here and then access it with
+
+06:14.490 --> 06:17.910
+define it with target port 80 and then create a service.
+
+06:17.910 --> 06:20.340
+So we'll create this service as service three.
+
+06:20.340 --> 06:23.403
+I have done service two one more time, I will correct it.
+
+06:25.140 --> 06:26.853
+So this is service three.
+
+06:28.320 --> 06:29.153
+Right?
+
+06:29.153 --> 06:31.230
+So now get port.
+
+06:31.230 --> 06:33.120
+So here, you have defined your target port
+
+06:33.120 --> 06:37.020
+which is nothing but your container port as 80, right?
+
+06:37.020 --> 06:42.020
+So now we'll say SVC and its port is 31961.
+
+06:42.210 --> 06:44.880
+Ideally, it should be accessible now for us.
+
+06:44.880 --> 06:47.703
+Okay, so 31961 is the port.
+
+06:48.570 --> 06:50.493
+So let's access it.
+
+06:52.830 --> 06:54.810
+So now we have got our application.
+
+06:54.810 --> 06:56.670
+If we want, we can even take the new tab
+
+06:56.670 --> 06:58.770
+and then access it and then accessible.
+
+06:58.770 --> 07:02.550
+So that's about the importance of target port.
+
+07:02.550 --> 07:05.820
+So if you want to use our service port a different one
+
+07:05.820 --> 07:07.260
+other than the default port,
+
+07:07.260 --> 07:09.570
+what our container is listening on,
+
+07:09.570 --> 07:12.420
+so then you also need to define your target port
+
+07:12.420 --> 07:15.450
+in your Cube CTL expose command.
+
+07:15.450 --> 07:16.620
+So that's about it.
+
+07:16.620 --> 07:17.610
+In our next lecture,
+
+07:17.610 --> 07:20.640
+we'll focus on interact with port and then other steps.
+
+07:20.640 --> 07:22.560
+I'll see you in the next lecture.
+
+07:22.560 --> 07:23.670
+Until then, bye bye.
+
+07:23.670 --> 07:24.503
+Thank you.

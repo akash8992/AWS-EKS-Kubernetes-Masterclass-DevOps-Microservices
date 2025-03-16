@@ -1,0 +1,643 @@
+WEBVTT
+
+00:00.000 --> 00:01.830
+Instructor: Welcome back, in this lecture,
+
+00:01.830 --> 00:05.070
+we are going to create CloudWatch Alarms
+
+00:05.070 --> 00:07.860
+using Container Insight metrics.
+
+00:07.860 --> 00:09.150
+So we are going to create
+
+00:09.150 --> 00:12.450
+a EKS worker node CPU usage
+
+00:12.450 --> 00:14.820
+related alarm now.
+
+00:14.820 --> 00:18.510
+So let's go and see how we are going to do that.
+
+00:18.510 --> 00:21.930
+So we can go into CloudWatch management console
+
+00:21.930 --> 00:24.270
+and then we can go inside alarms
+
+00:24.270 --> 00:27.930
+and then start creating the alarm, right?
+
+00:27.930 --> 00:31.110
+In the metrics section we are going to select a metric
+
+00:31.110 --> 00:33.690
+which belongs to container insights.
+
+00:33.690 --> 00:38.190
+So all other AWS related metrics are under the namespace AWS
+
+00:38.190 --> 00:40.890
+but only the container insight stuff,
+
+00:40.890 --> 00:43.590
+it came under custom namespaces.
+
+00:43.590 --> 00:47.340
+So if you go inside there will be lot of metrics.
+
+00:47.340 --> 00:49.620
+134 metrics available for us
+
+00:49.620 --> 00:51.720
+in different, different dimensions, okay?
+
+00:51.720 --> 00:54.900
+Cluster name, instance ID and the node name,
+
+00:54.900 --> 00:57.480
+we have 16 type of metrics here, okay.
+
+00:57.480 --> 01:00.420
+So which is related to node memory reserved capacity,
+
+01:00.420 --> 01:02.910
+node file system utilization, et cetera.
+
+01:02.910 --> 01:06.810
+In the same way with the cluster name, namespace, pod name,
+
+01:06.810 --> 01:09.240
+we'll have pod related metrics score.
+
+01:09.240 --> 01:13.020
+Cluster name, namespace, service primarily deals
+
+01:13.020 --> 01:16.230
+with the Kubernetes service related metrics.
+
+01:16.230 --> 01:19.020
+So pod related metrics, service related metrics,
+
+01:19.020 --> 01:21.690
+Kubernetes worker node related metrics,
+
+01:21.690 --> 01:24.870
+and Kubernetes namespaces related metrics.
+
+01:24.870 --> 01:27.630
+In addition to that cluster related metrics
+
+01:27.630 --> 01:29.740
+also we'll find it here, okay.
+
+01:29.740 --> 01:32.040
+So in EKS demo-1 cluster,
+
+01:32.040 --> 01:34.770
+so we are going to find a metric
+
+01:34.770 --> 01:37.770
+whose node CPU utilization, okay?
+
+01:37.770 --> 01:41.760
+So if you see here this is the node CPU utilization.
+
+01:41.760 --> 01:45.120
+So I have selected this and we'll go here
+
+01:45.120 --> 01:48.810
+and we can add this metric now, okay.
+
+01:48.810 --> 01:51.600
+So in period how it need to run, every five minutes
+
+01:51.600 --> 01:55.200
+or how it need to run also we can check it, okay?
+
+01:55.200 --> 01:58.320
+So for me if it runs every five minutes is also fine
+
+01:58.320 --> 01:59.820
+or every one minute is also fine.
+
+01:59.820 --> 02:00.870
+Anything is fine for me.
+
+02:00.870 --> 02:03.300
+So I'll leave it to default five minutes
+
+02:03.300 --> 02:06.300
+or we can even change it to one minute, okay?
+
+02:06.300 --> 02:08.970
+So every one minute it need to pull
+
+02:08.970 --> 02:11.370
+and then get the data for us, okay.
+
+02:11.370 --> 02:15.030
+So select metric and these are the information
+
+02:15.030 --> 02:16.380
+about that metric as of now.
+
+02:16.380 --> 02:18.330
+So which is always it is less than four
+
+02:18.330 --> 02:21.270
+and whenever you put the load it'll go above four.
+
+02:21.270 --> 02:24.030
+So that's the reason I have put the threshold as four.
+
+02:24.030 --> 02:26.130
+So to simulate this metric for us,
+
+02:26.130 --> 02:28.890
+which means like to simulate an alarm
+
+02:28.890 --> 02:30.660
+and send an email for us,
+
+02:30.660 --> 02:35.250
+instead of putting the threshold value as 80% or 90%
+
+02:35.250 --> 02:38.550
+in regular use cases or in real time use cases.
+
+02:38.550 --> 02:42.330
+The CPU usage is 80 or 90, it need to trigger an alert.
+
+02:42.330 --> 02:45.030
+I just put 4% because currently it is running
+
+02:45.030 --> 02:46.980
+with less than three.
+
+02:46.980 --> 02:49.620
+So if I trigger some additional load on that
+
+02:49.620 --> 02:52.950
+it might go above four and then provide me a alert.
+
+02:52.950 --> 02:55.410
+So for that purpose I have put that.
+
+02:55.410 --> 02:58.050
+So metric name is node CPU utilization
+
+02:58.050 --> 02:59.972
+and cluster is EKS demo-1
+
+02:59.972 --> 03:03.750
+and the period I set it as every one minute it need to run
+
+03:03.750 --> 03:06.660
+and the threshold type is static threshold
+
+03:06.660 --> 03:10.470
+and when it is greater than so and so value, okay,
+
+03:10.470 --> 03:12.900
+so greater than four, right?
+
+03:12.900 --> 03:15.540
+So CPU utilization is greater than 4%,
+
+03:15.540 --> 03:19.410
+then automatically it need to trigger an alarm for us, okay?
+
+03:19.410 --> 03:21.810
+And data points out of one immediately,
+
+03:21.810 --> 03:23.640
+means like if one time it occurred,
+
+03:23.640 --> 03:26.520
+then immediately trigger an alert, one out of one.
+
+03:26.520 --> 03:28.920
+And the missing data treatment, okay.
+
+03:28.920 --> 03:32.656
+Treat missing data as missing only, that is fine for us.
+
+03:32.656 --> 03:34.800
+So I'll click on next
+
+03:34.800 --> 03:38.760
+and now alarm state trigger, when it is in alarm,
+
+03:38.760 --> 03:39.593
+trigger it, okay.
+
+03:39.593 --> 03:41.430
+So in OK or insufficient data
+
+03:41.430 --> 03:43.260
+don't need to trigger an alarm
+
+03:43.260 --> 03:45.450
+and then send an email for us, okay?
+
+03:45.450 --> 03:49.500
+And it can send an alarm for us using SNS topic
+
+03:49.500 --> 03:51.210
+which is nothing but using email,
+
+03:51.210 --> 03:53.310
+simple notification service.
+
+03:53.310 --> 03:55.860
+So we are going to create a new topic here
+
+03:55.860 --> 04:00.860
+named EKS alerts and I'm going to provide a email,
+
+04:01.200 --> 04:04.890
+dkalyanreddy@gmail.com
+
+04:04.890 --> 04:06.990
+and then create the topic.
+
+04:06.990 --> 04:09.300
+So it will create a new topic and a subscription
+
+04:09.300 --> 04:11.700
+in the simple notification service.
+
+04:11.700 --> 04:14.730
+So we can go to SNS console
+
+04:14.730 --> 04:17.070
+and then we can see EKS alerts here
+
+04:17.070 --> 04:20.220
+and subscription also for our email is provided here.
+
+04:20.220 --> 04:23.040
+So I can go to my email and wait for that email
+
+04:23.040 --> 04:27.900
+and once it comes then I'll confirm the subscription, okay.
+
+04:27.900 --> 04:30.630
+So now my email confirmation is subscribed.
+
+04:30.630 --> 04:34.140
+So let me come back, send, and I'll come here.
+
+04:34.140 --> 04:37.020
+And I'll refresh the subscriptions one more time
+
+04:37.020 --> 04:39.720
+to see that it is confirmed, good.
+
+04:39.720 --> 04:41.560
+So in the topics, if you see here
+
+04:43.290 --> 04:45.180
+email is confirmed for us.
+
+04:45.180 --> 04:47.220
+So now let me come back here
+
+04:47.220 --> 04:48.900
+and move to the next step, okay.
+
+04:48.900 --> 04:50.610
+So I have added one subscription
+
+04:50.610 --> 04:52.380
+means like one email to be alerted
+
+04:52.380 --> 04:55.260
+or you can give a group email support@so-and-so.com
+
+04:55.260 --> 04:56.430
+or whatever, okay?
+
+04:56.430 --> 04:58.800
+And now in autoscaling actions
+
+04:58.800 --> 05:02.430
+so you can autoscale when this alarm happens,
+
+05:02.430 --> 05:04.440
+you can even do autoscaling, okay?
+
+05:04.440 --> 05:07.530
+So, but our current focus is to just alert.
+
+05:07.530 --> 05:09.060
+So we are doing that one, okay?
+
+05:09.060 --> 05:12.060
+Auto scaling also if you create your autoscaling groups,
+
+05:12.060 --> 05:14.670
+so accordingly you'll be able to alert it.
+
+05:14.670 --> 05:19.230
+So let me remove this and let's move on to the next step.
+
+05:19.230 --> 05:22.011
+So alarm name, so it should be something like
+
+05:22.011 --> 05:25.140
+EKS node CPU alert, okay?
+
+05:25.140 --> 05:27.240
+And alarm description.
+
+05:27.240 --> 05:29.493
+So it can be like this, okay?
+
+05:30.390 --> 05:32.580
+And I'll click on next.
+
+05:32.580 --> 05:35.490
+And so if it is anytime above four
+
+05:35.490 --> 05:38.490
+then automatically it is going to generate the alert for us.
+
+05:38.490 --> 05:43.083
+So, and I'll click on create the alarm, right?
+
+05:43.920 --> 05:48.120
+So now our alarm is in insufficient state
+
+05:48.120 --> 05:50.400
+because data is currently missing.
+
+05:50.400 --> 05:53.280
+Within one or two minutes it will get the data, okay?
+
+05:53.280 --> 05:55.530
+So we'll open this alarm
+
+05:55.530 --> 05:57.330
+and we need to get the data here.
+
+05:57.330 --> 05:59.550
+Yeah, okay, so our graph is good here.
+
+05:59.550 --> 06:02.100
+So now what I'll do is I'll go and then add this
+
+06:02.100 --> 06:03.720
+to our dashboard.
+
+06:03.720 --> 06:06.630
+So we have a EKS performance dashboard here.
+
+06:06.630 --> 06:09.030
+So to that I am also going to add this, okay?
+
+06:09.030 --> 06:11.220
+And I'll say add dashboard.
+
+06:11.220 --> 06:15.060
+So if I go here in EKS performance, right?
+
+06:15.060 --> 06:19.113
+So I have this now up and running, right?
+
+06:20.640 --> 06:21.543
+So,
+
+06:22.770 --> 06:27.770
+now let's come back to our insufficient alarm state here
+
+06:28.170 --> 06:33.170
+and let's go back to our GitHub repo and take this command.
+
+06:33.900 --> 06:35.280
+So which is nothing but we are going
+
+06:35.280 --> 06:38.811
+to generate load now, okay.
+
+06:38.811 --> 06:40.775
+So I'll say clear
+
+06:40.775 --> 06:41.858
+and paste it.
+
+06:44.130 --> 06:45.730
+So I copied
+
+06:46.890 --> 06:47.883
+everything, yeah.
+
+06:49.770 --> 06:53.250
+And then paste it, okay?
+
+06:53.250 --> 06:56.070
+So it is going to generate a load on our thing.
+
+06:56.070 --> 06:59.883
+So let's see what is happening here, right?
+
+07:04.530 --> 07:07.443
+So what happens here we can see every time.
+
+07:10.230 --> 07:11.673
+So one more time run it.
+
+07:20.100 --> 07:21.373
+So let's run it.
+
+07:36.450 --> 07:40.740
+So it is in OK state now and we are running that load.
+
+07:40.740 --> 07:42.150
+So let's see what happens, okay.
+
+07:42.150 --> 07:43.550
+So we are throwing the load.
+
+07:48.450 --> 07:50.580
+So now you can see the alarm went
+
+07:50.580 --> 07:52.413
+into the alarm state, okay?
+
+07:53.640 --> 07:55.770
+So we can even see the CPU here.
+
+07:55.770 --> 07:58.500
+So it crossed exactly above four
+
+07:58.500 --> 08:02.160
+and then immediately it went into alarm state, okay?
+
+08:02.160 --> 08:04.230
+So now we'll go to our email
+
+08:04.230 --> 08:07.140
+and we can see that we got the notification.
+
+08:07.140 --> 08:08.490
+So you are receiving this email
+
+08:08.490 --> 08:10.410
+because your CloudWatch alarm
+
+08:10.410 --> 08:14.130
+in this respective region has entered the alarm state, okay?
+
+08:14.130 --> 08:17.010
+Threshold crossed one out of the one data points
+
+08:17.010 --> 08:19.350
+above 44.4 CPU usage.
+
+08:19.350 --> 08:20.820
+So which is above four.
+
+08:20.820 --> 08:23.220
+So it has alerted us.
+
+08:23.220 --> 08:24.060
+So that's about it.
+
+08:24.060 --> 08:27.510
+So like this, we can generate multiple alerts for us, okay?
+
+08:27.510 --> 08:29.010
+So let me stop this.
+
+08:29.010 --> 08:30.780
+So let me stop this, okay?
+
+08:30.780 --> 08:33.630
+And we can go here and then like this
+
+08:33.630 --> 08:38.460
+we can even create multiple alarms for us
+
+08:38.460 --> 08:40.350
+in such a way that you can go here
+
+08:40.350 --> 08:41.550
+and then select the metric.
+
+08:41.550 --> 08:44.340
+There will be some important metrics like
+
+08:44.340 --> 08:45.490
+pod CPU
+
+08:47.160 --> 08:50.220
+limit, means like pod CPU over limit, okay?
+
+08:50.220 --> 08:53.100
+I'll show you that metric, okay?
+
+08:53.100 --> 08:53.933
+Pod
+
+08:55.590 --> 08:58.292
+number of container restarts, this is one,
+
+08:58.292 --> 08:59.700
+per pod, okay?
+
+08:59.700 --> 09:02.010
+So and one is important one, okay?
+
+09:02.010 --> 09:04.200
+So when your pod is continuously restarting
+
+09:04.200 --> 09:05.700
+you should know, right?
+
+09:05.700 --> 09:07.560
+So pod number of container restarts
+
+09:07.560 --> 09:10.260
+for that respective pod you can configure, okay?
+
+09:10.260 --> 09:12.760
+So and in addition to that
+
+09:16.798 --> 09:19.620
+pod CPU utilization over pod limits.
+
+09:19.620 --> 09:22.170
+So this is also one, you have defined the limits
+
+09:22.170 --> 09:25.650
+and above that it is trying to utilize your pod CPU,
+
+09:25.650 --> 09:28.350
+then we'll come to know this one.
+
+09:28.350 --> 09:31.230
+So this is also one important metric for us.
+
+09:31.230 --> 09:33.960
+So like this, there are different metrics available
+
+09:33.960 --> 09:37.920
+for us which we can configure for our applications, okay?
+
+09:37.920 --> 09:38.820
+So that's about it.
+
+09:38.820 --> 09:41.340
+So if you want to clean up your container insights
+
+09:41.340 --> 09:44.730
+so just use this command and then have the values
+
+09:44.730 --> 09:45.563
+whatever you have,
+
+09:45.563 --> 09:47.657
+means like kubectl delete -f
+
+09:47.657 --> 09:51.060
+and then provide EKS demo-1 and then region name
+
+09:51.060 --> 09:53.400
+to delete whatever you have installed.
+
+09:53.400 --> 09:55.080
+And for the sample application,
+
+09:55.080 --> 09:57.540
+whatever you have installed, if you want to delete it.
+
+09:57.540 --> 09:59.670
+So you can go ahead and then delete it
+
+09:59.670 --> 10:03.180
+by going inside 18 EKS monitoring.
+
+10:03.180 --> 10:07.140
+And then kubectl delete -f kube manifests, okay?
+
+10:07.140 --> 10:08.310
+So that's about it.
+
+10:08.310 --> 10:10.020
+And these are some of the reference links,
+
+10:10.020 --> 10:12.450
+you can click on link and then browse the stuff
+
+10:12.450 --> 10:15.840
+to understand better about this section, okay?
+
+10:15.840 --> 10:17.400
+So I'll see you in the next lecture.
+
+10:17.400 --> 10:19.083
+Until then, bye-bye, thank you.

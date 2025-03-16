@@ -1,0 +1,625 @@
+WEBVTT
+
+00:00.180 --> 00:01.050
+-: Welcome back.
+
+00:01.050 --> 00:03.480
+In this lecture, we are going to understand about
+
+00:03.480 --> 00:06.330
+Log Insights in depth from container insights
+
+00:06.330 --> 00:09.270
+perspective for EKS cluster, right?
+
+00:09.270 --> 00:11.790
+So we are going to look into log groups, Log Insights
+
+00:11.790 --> 00:14.670
+and then create a performance dashboard for us, okay?
+
+00:14.670 --> 00:17.790
+So let's go back to CloudWatch Management Console
+
+00:17.790 --> 00:19.650
+and if you go to logs here,
+
+00:19.650 --> 00:21.870
+so we'll have something called Log Groups
+
+00:21.870 --> 00:24.030
+and then Log Insights, okay?
+
+00:24.030 --> 00:26.940
+So, on a very high level we have seen Log Insights
+
+00:26.940 --> 00:29.670
+in our previous lecture, so we'll go in depth
+
+00:29.670 --> 00:32.700
+and then implement few of the things here, okay?
+
+00:32.700 --> 00:34.740
+So let's go to log groups here
+
+00:34.740 --> 00:38.850
+and if you find, we can find following four log groups
+
+00:38.850 --> 00:43.850
+related to container insights for our EKS demo one cluster.
+
+00:44.070 --> 00:47.700
+So one is for applications, one is for data plan
+
+00:47.700 --> 00:51.360
+and one is for host and then one is for performance, okay?
+
+00:51.360 --> 00:53.610
+So primarily we are going to look into performance
+
+00:53.610 --> 00:55.980
+and then application and then create few metrics
+
+00:55.980 --> 00:57.240
+for those things, okay?
+
+00:57.240 --> 00:58.380
+Means like create dashboards
+
+00:58.380 --> 01:02.370
+using few of the filters inside the Log Insights, okay?
+
+01:02.370 --> 01:05.530
+So let's start with something called
+
+01:07.980 --> 01:12.420
+create graph for average node CPU utilization, okay?
+
+01:12.420 --> 01:14.190
+So, now what we are going to do is
+
+01:14.190 --> 01:16.050
+we are going to write a simple query here
+
+01:16.050 --> 01:19.080
+saying that from Performance log group.
+
+01:19.080 --> 01:22.590
+we are going to get the information from stats section,
+
+01:22.590 --> 01:27.590
+average node CPU utilization as end by node name
+
+01:27.750 --> 01:29.550
+and average node CPU utilization
+
+01:29.550 --> 01:31.200
+using descending order, okay?
+
+01:31.200 --> 01:33.420
+So we can copy this, right?
+
+01:33.420 --> 01:35.550
+And come here and then paste
+
+01:35.550 --> 01:39.570
+in the respective section here, editor
+
+01:39.570 --> 01:42.420
+and then select the log group as performance, okay?
+
+01:42.420 --> 01:45.360
+So in performance log group, we are going to run this query
+
+01:45.360 --> 01:47.670
+and then see what happens, okay?
+
+01:47.670 --> 01:51.630
+So, node CPU utilization, so this is the one, okay?
+
+01:51.630 --> 01:54.930
+So average node CPU utilization value we are getting
+
+01:54.930 --> 01:57.180
+by node name we said, okay?
+
+01:57.180 --> 01:59.730
+So by node name, so this is one node
+
+01:59.730 --> 02:01.410
+and this is one node, okay?
+
+02:01.410 --> 02:06.030
+So it is average CPU utilization is 3% for our both nodes.
+
+02:06.030 --> 02:07.590
+And if you want to get this,
+
+02:07.590 --> 02:10.380
+means like if you want this query information
+
+02:10.380 --> 02:13.320
+to be listed on dashboard so that one more time
+
+02:13.320 --> 02:15.660
+we really don't need to run this query, right?
+
+02:15.660 --> 02:17.970
+So we can save them, save them on our dashboard
+
+02:17.970 --> 02:19.680
+and then continuously monitor them.
+
+02:19.680 --> 02:21.840
+So I'll say add to dashboard
+
+02:21.840 --> 02:25.200
+and I'll create a new dashboard here, okay?
+
+02:25.200 --> 02:26.850
+So I'll create a new dashboard
+
+02:26.850 --> 02:29.670
+and I will say EKS performance
+
+02:29.670 --> 02:31.830
+or we can say EKS demo one performance,
+
+02:31.830 --> 02:34.080
+just I'm saying EKS performance.
+
+02:34.080 --> 02:35.970
+So I'm going to create this one
+
+02:35.970 --> 02:38.400
+and then I'm going to say bar chart for this, okay?
+
+02:38.400 --> 02:42.240
+So whatever is applicable based on these four widget types,
+
+02:42.240 --> 02:43.920
+you can select that one, okay?
+
+02:43.920 --> 02:46.260
+So I selected line and then when I preview,
+
+02:46.260 --> 02:47.730
+nothing is coming here, okay?
+
+02:47.730 --> 02:51.270
+So I selected stacked area, it also doesn't look good.
+
+02:51.270 --> 02:54.900
+And I checked log table, that looks good for me
+
+02:54.900 --> 02:57.483
+and if I want I can even use bar.
+
+02:58.380 --> 03:03.003
+Okay, so I'll say add to dashboard.
+
+03:08.790 --> 03:12.750
+So now this is added to the dashboard.
+
+03:12.750 --> 03:15.030
+So now the next thing is we'll go back
+
+03:15.030 --> 03:17.670
+and then add container restarts, okay?
+
+03:17.670 --> 03:19.740
+So from performance you can find something
+
+03:19.740 --> 03:22.560
+called number of containers restarted, okay?
+
+03:22.560 --> 03:25.980
+So as average by pod name, means like by pod name
+
+03:25.980 --> 03:27.060
+and in a descending order
+
+03:27.060 --> 03:29.520
+provide that stats information, okay?
+
+03:29.520 --> 03:31.853
+So let's come here, so now you can see our graph here,
+
+03:31.853 --> 03:35.400
+average node CPU utilization is always three, okay?
+
+03:35.400 --> 03:38.890
+So now let's go back to our insights
+
+03:39.870 --> 03:42.300
+and then add this also, okay?
+
+03:42.300 --> 03:46.200
+And select the log group as performance and run the query,
+
+03:46.200 --> 03:50.310
+we'll get a high level data and select it as a table, okay?
+
+03:50.310 --> 03:53.550
+So I said it is going to be a simple table widget type
+
+03:53.550 --> 03:57.510
+and if you see here, none of the containers got restarted
+
+03:57.510 --> 03:59.550
+inside these things, okay?
+
+03:59.550 --> 04:04.170
+So now I'll say add dashboard and I'll select table, right?
+
+04:04.170 --> 04:06.180
+And this table is going to be there for me
+
+04:06.180 --> 04:07.800
+always there, okay?
+
+04:07.800 --> 04:09.873
+So add to dashboard.
+
+04:12.120 --> 04:15.360
+Okay, so in last three hours there are no restarts.
+
+04:15.360 --> 04:17.580
+So like that we can see those things, okay?
+
+04:17.580 --> 04:21.000
+And we have one more thing here, node failures,
+
+04:21.000 --> 04:22.440
+if you are in a cluster,
+
+04:22.440 --> 04:24.780
+so count of node failures anything happen,
+
+04:24.780 --> 04:28.110
+you can create one more off type table
+
+04:28.110 --> 04:30.450
+and CPU usage by container, okay?
+
+04:30.450 --> 04:33.870
+So I'm excluding node failures, anything you can do,
+
+04:33.870 --> 04:36.180
+so we can go and then add it also.
+
+04:36.180 --> 04:40.230
+So we can go to Log Insights and again, same drill, okay?
+
+04:40.230 --> 04:43.410
+Select the performance and copy this
+
+04:43.410 --> 04:44.940
+and then run the query, okay?
+
+04:44.940 --> 04:46.740
+So cluster failed node count
+
+04:46.740 --> 04:48.990
+as count of node failures, okay?
+
+04:48.990 --> 04:51.510
+So we see zero, so nothing happened, okay?
+
+04:51.510 --> 04:54.840
+So I am not writing anything or adding it to dashboard.
+
+04:54.840 --> 04:57.300
+So I'll move on by CPU usage by counter,
+
+04:57.300 --> 04:58.830
+this is one important stat, right?
+
+04:58.830 --> 05:03.830
+CPU usage by container, right?
+
+05:03.930 --> 05:05.700
+Container CPU usage total, okay?
+
+05:05.700 --> 05:07.560
+So Q1 it is that container name.
+
+05:07.560 --> 05:11.250
+So if you see here, per container how the CPU is happening,
+
+05:11.250 --> 05:12.153
+will come to know.
+
+05:13.050 --> 05:14.490
+So we can see, right?
+
+05:14.490 --> 05:18.570
+So if you see here, CloudWatch agent is using this much
+
+05:18.570 --> 05:20.700
+and then this much, this much, whatever it is using,
+
+05:20.700 --> 05:22.380
+we are getting the information.
+
+05:22.380 --> 05:25.560
+So I'll go and then add it to our this one, okay?
+
+05:25.560 --> 05:28.050
+So I'm going to add it as a bar chart also,
+
+05:28.050 --> 05:29.850
+we can add if you want, okay?
+
+05:29.850 --> 05:31.770
+So we can even add it as a bar
+
+05:31.770 --> 05:34.590
+and to see which one is taking highest CPU also,
+
+05:34.590 --> 05:36.180
+so add to dashboard.
+
+05:36.180 --> 05:39.540
+And the next thing is let's come to Log Insights
+
+05:39.540 --> 05:42.930
+and one more we have is pods requested versus pods running.
+
+05:42.930 --> 05:45.120
+So if you don't have the capacity,
+
+05:45.120 --> 05:48.840
+so the requested will be there but running will be there
+
+05:48.840 --> 05:51.330
+and there will be also a pods pending also
+
+05:51.330 --> 05:53.220
+you'll be able to see, right?
+
+05:53.220 --> 05:55.950
+So but we didn't request a huge amount of pods,
+
+05:55.950 --> 05:58.830
+so we really don't get that type of information here.
+
+05:58.830 --> 06:01.530
+But it's good to have such type of information also,
+
+06:01.530 --> 06:03.930
+means like that is provided in the performance.
+
+06:03.930 --> 06:05.610
+So you have requested hundred pods
+
+06:05.610 --> 06:08.190
+and only 10 pods are running right?
+
+06:08.190 --> 06:11.340
+So, like that, so FluentD only one part you requested
+
+06:11.340 --> 06:12.900
+and then only one is running.
+
+06:12.900 --> 06:14.820
+So cube proxy, only one you have requested
+
+06:14.820 --> 06:17.340
+and one only running, sample engine-x one you have requested
+
+06:17.340 --> 06:19.980
+and only one is running, so like that, okay?
+
+06:19.980 --> 06:23.820
+So we can add this one also, add to dashboard
+
+06:23.820 --> 06:27.600
+and this is only a table data,
+
+06:27.600 --> 06:30.420
+so we can throw it under table or even a bar.
+
+06:30.420 --> 06:33.240
+So bar also we can see it looks good, okay?
+
+06:33.240 --> 06:35.610
+So I'll say add dashboard, right?
+
+06:35.610 --> 06:38.220
+So whatever you want, you can change it based on the widget
+
+06:38.220 --> 06:39.930
+whatever is available for you,
+
+06:39.930 --> 06:42.570
+means like whatever is flexible for you, okay?
+
+06:42.570 --> 06:46.350
+And the next one is we'll go back to Insights
+
+06:46.350 --> 06:50.580
+and then we'll also add something called error, okay?
+
+06:50.580 --> 06:52.860
+So application log errors by container name.
+
+06:52.860 --> 06:55.650
+So this is from the log group application, okay?
+
+06:55.650 --> 06:59.040
+So any STD errors are there, those are going to log for us.
+
+06:59.040 --> 07:00.570
+So this is one more, okay?
+
+07:00.570 --> 07:03.420
+So very important one, so if you go here to application
+
+07:03.420 --> 07:05.430
+and then run the query,
+
+07:05.430 --> 07:08.460
+so you'll find those information here, okay?
+
+07:08.460 --> 07:10.650
+So if any errors are there, we'll come to know.
+
+07:10.650 --> 07:13.770
+So we can see there are some errors for few applications.
+
+07:13.770 --> 07:17.280
+So, and then you can add them as a bar chart, okay?
+
+07:17.280 --> 07:20.880
+So add to dashboard and you can even see logs table
+
+07:20.880 --> 07:23.070
+and only in cube proxy you have 230
+
+07:23.070 --> 07:27.600
+and I can add it under bar and then add to the dashboard.
+
+07:27.600 --> 07:32.370
+So once we add all the metrics here to the dashboard,
+
+07:32.370 --> 07:34.920
+so click on Save Dashboard, okay?
+
+07:34.920 --> 07:37.410
+So if you don't click on Save Dashboard,
+
+07:37.410 --> 07:39.030
+so and then if you try to create
+
+07:39.030 --> 07:42.480
+another dashboard or anything, it is going to have issues.
+
+07:42.480 --> 07:45.270
+So one important thing we need to know here is,
+
+07:45.270 --> 07:46.830
+so these information, right?
+
+07:46.830 --> 07:48.570
+These filters whatever I have brought
+
+07:48.570 --> 07:52.230
+is from directly AWS documentation, okay?
+
+07:52.230 --> 07:53.790
+So you can click on this link
+
+07:53.790 --> 07:57.780
+and you can find how you can use the container inside metric
+
+07:57.780 --> 08:01.560
+to create your custom dashboards from the log information
+
+08:01.560 --> 08:05.220
+whatever you brought from EKS using FluentD.
+
+08:05.220 --> 08:08.430
+So using that you can create all these metrics.
+
+08:08.430 --> 08:11.520
+So you can write whatever you want in parallel,
+
+08:11.520 --> 08:13.950
+means like on the CloudWatch console itself,
+
+08:13.950 --> 08:16.830
+so whenever you are creating the Log Insights, right?
+
+08:16.830 --> 08:19.140
+So you can find the fields here, okay?
+
+08:19.140 --> 08:21.570
+So let me also show that for you.
+
+08:21.570 --> 08:25.530
+So let me take any filter, so this is one filter, right?
+
+08:25.530 --> 08:30.530
+So let me, so go here and then in application logs, right?
+
+08:31.350 --> 08:33.030
+So let me make it bigger.
+
+08:33.030 --> 08:36.030
+So application and then run the query, right?
+
+08:36.030 --> 08:39.540
+So for this respective application related log group,
+
+08:39.540 --> 08:41.580
+so what all the fields available,
+
+08:41.580 --> 08:44.220
+so you will get here everything in detail.
+
+08:44.220 --> 08:45.840
+So using this information,
+
+08:45.840 --> 08:48.420
+discover the fields using for these logs
+
+08:48.420 --> 08:50.820
+inside this application log group,
+
+08:50.820 --> 08:53.790
+these fields are discovered and using these fields,
+
+08:53.790 --> 08:57.270
+whatever you want to write here, so filter by xyz,
+
+08:57.270 --> 08:59.430
+filter by docker container ID
+
+08:59.430 --> 09:01.230
+or filter by whatever you want,
+
+09:01.230 --> 09:06.000
+you can do using this discovered fields.
+
+09:06.000 --> 09:07.350
+So that's about it.
+
+09:07.350 --> 09:10.230
+So like this, you have now a custom dashboard
+
+09:10.230 --> 09:13.290
+in last one hour, what is my CPU usage?
+
+09:13.290 --> 09:16.140
+And in three hours, what is it are in from custom date
+
+09:16.140 --> 09:19.350
+from this minutes to these hours in custom dates also.
+
+09:19.350 --> 09:21.240
+You can have all this information now.
+
+09:21.240 --> 09:22.470
+So one time you have stored,
+
+09:22.470 --> 09:25.650
+one time you have written these queries and then stored it
+
+09:25.650 --> 09:28.860
+as a dashboard and then everything is available for you
+
+09:28.860 --> 09:32.010
+forever from EKS perspective, right?
+
+09:32.010 --> 09:34.920
+So in the same way, in our next lecture,
+
+09:34.920 --> 09:38.100
+we'll focus on creating the alarms, okay?
+
+09:38.100 --> 09:40.080
+So I'll see you in the next lecture.
+
+09:40.080 --> 09:41.913
+Until then, bye bye, thank you.

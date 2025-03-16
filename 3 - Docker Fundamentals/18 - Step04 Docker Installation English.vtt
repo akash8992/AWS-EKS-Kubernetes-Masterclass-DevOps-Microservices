@@ -1,0 +1,466 @@
+WEBVTT
+
+00:00.150 --> 00:00.983
+-: Welcome back.
+
+00:00.983 --> 00:03.420
+So in this lecture we are going to look into
+
+00:03.420 --> 00:05.820
+Docker installation.
+
+00:05.820 --> 00:08.610
+Okay, so from Docker installation's perspective.
+
+00:08.610 --> 00:11.020
+So let's click on the Docker install
+
+00:13.110 --> 00:17.130
+And we can see here so we can install the Docker engine
+
+00:17.130 --> 00:19.920
+and then it is supported in different platforms, Okay?
+
+00:19.920 --> 00:22.710
+So centOS, Debian, Fedora, and then Ubuntu
+
+00:22.710 --> 00:27.330
+and with x86, AMD64, ARM, ARM64, IBM Power,
+
+00:27.330 --> 00:29.340
+and then IBM Z series.
+
+00:29.340 --> 00:30.863
+So this is more or less like a
+
+00:30.863 --> 00:33.030
+docking engine directly installed on those
+
+00:33.030 --> 00:34.920
+respective operating systems.
+
+00:34.920 --> 00:38.970
+So in addition we have something called Docker Desktop.
+
+00:38.970 --> 00:40.770
+So we have the server version
+
+00:40.770 --> 00:42.930
+and also we have the desktop version.
+
+00:42.930 --> 00:44.910
+So from server versions perspective
+
+00:44.910 --> 00:47.400
+all these operating systems are supported
+
+00:47.400 --> 00:50.400
+and these models are supported.
+
+00:50.400 --> 00:54.930
+Okay, so x86, 64 or AMD 64, ARM, all those things.
+
+00:54.930 --> 00:56.910
+So now from Desktop's perspective
+
+00:56.910 --> 01:00.120
+so we can install Docker desktop for Mac on MacOS
+
+01:00.120 --> 01:04.080
+and also Docker desktop for Windows on Microsoft Windows 10.
+
+01:04.080 --> 01:08.040
+So let's see, start with the windows, right?
+
+01:08.040 --> 01:10.770
+So when we click on that Windows, so you can see here
+
+01:10.770 --> 01:13.230
+get started with Docker for Windows.
+
+01:13.230 --> 01:16.020
+So we can directly install the Docker desktop
+
+01:16.020 --> 01:17.580
+on our Windows Machine
+
+01:17.580 --> 01:21.090
+and then test these things using these steps.
+
+01:21.090 --> 01:24.600
+So let's click on install Docker desktop for Windows.
+
+01:24.600 --> 01:27.210
+So we have the system requirements here.
+
+01:27.210 --> 01:29.880
+Our system should have Windows 10 64 bit
+
+01:29.880 --> 01:32.280
+pro, enterprise or education versions
+
+01:32.280 --> 01:34.440
+and we should have the HyperV
+
+01:34.440 --> 01:37.380
+and then container, HyperV and containers Windows feature
+
+01:37.380 --> 01:39.810
+must be enabled on our operating system,
+
+01:39.810 --> 01:41.700
+means like at the OS level, Okay?
+
+01:41.700 --> 01:45.000
+So now our machine should minimum have
+
+01:45.000 --> 01:50.000
+4GB of system RAM to operate or run this Docker desktop.
+
+01:50.370 --> 01:53.280
+Right, so once those are ready
+
+01:53.280 --> 01:56.100
+so we can download the Docker desktop installer dot exe
+
+01:56.100 --> 01:57.780
+and then run it, Okay?
+
+01:57.780 --> 01:59.940
+So we can start the Docker desktop
+
+01:59.940 --> 02:02.070
+and then we can start using it, okay?
+
+02:02.070 --> 02:02.970
+So you can see here
+
+02:02.970 --> 02:05.280
+and then you can run the Microsoft Power shell.
+
+02:05.280 --> 02:09.030
+and then from there you can run the Docker run, Hello world.
+
+02:09.030 --> 02:10.980
+Right, and then you can test it.
+
+02:10.980 --> 02:13.110
+So in addition to that from Docker desktop only
+
+02:13.110 --> 02:16.260
+you can even log into your Docker hub id, okay?
+
+02:16.260 --> 02:19.050
+So that's about the Windows installation.
+
+02:19.050 --> 02:21.240
+So this Docker desktop is going to be pretty easy
+
+02:21.240 --> 02:22.410
+from install perspective
+
+02:22.410 --> 02:25.530
+if you have the exact system requirements.
+
+02:25.530 --> 02:29.670
+So primarily like if your system is of Windows 64 bit
+
+02:29.670 --> 02:31.230
+and then Windows 10 you are running
+
+02:31.230 --> 02:34.800
+and at least you have 4GB system RAM, then it is good, okay?
+
+02:34.800 --> 02:36.750
+But from my observation
+
+02:36.750 --> 02:39.630
+what I'm saying is usually 4GB system RAM
+
+02:39.630 --> 02:41.670
+if you install this Docker desktop
+
+02:41.670 --> 02:44.040
+then your system will be at the disaster.
+
+02:44.040 --> 02:48.120
+This is the live experience whatever I am having, okay?
+
+02:48.120 --> 02:50.093
+So ensure that your system has 8GB RAM,
+
+02:50.093 --> 02:53.400
+so that you can even leverage that for using other tasks
+
+02:53.400 --> 02:55.350
+other than Docker desktop things, okay?
+
+02:55.350 --> 02:57.480
+So if it is only 4GB system
+
+02:57.480 --> 02:59.520
+then it only supports for Docker desktop.
+
+02:59.520 --> 03:00.600
+and then most of the things,
+
+03:00.600 --> 03:02.910
+whatever you run either your Spring boot IDE
+
+03:02.910 --> 03:05.910
+or Eclipse IDE or whatever you are running there
+
+03:05.910 --> 03:08.100
+it is going to be a hell lot of a system,
+
+03:08.100 --> 03:10.620
+where it, it'll be very, very slow, okay?
+
+03:10.620 --> 03:13.320
+So 8GB ramp is always recommended
+
+03:13.320 --> 03:15.210
+even though it says 4GB here
+
+03:15.210 --> 03:18.720
+but in real world it's 8GB is recommended.
+
+03:18.720 --> 03:23.220
+Okay, So that's about the Docker desktop on Windows.
+
+03:23.220 --> 03:24.810
+Okay, So moving on.
+
+03:24.810 --> 03:28.680
+So the next thing is Docker desktop on Mac, right?
+
+03:28.680 --> 03:29.880
+So if you see here
+
+03:29.880 --> 03:34.020
+this is get started with Docker desktop for Mac, right?
+
+03:34.020 --> 03:36.990
+So install Docker desktop for Mac.
+
+03:36.990 --> 03:38.550
+So let's go there.
+
+03:38.550 --> 03:41.730
+And then, so if you see here
+
+03:41.730 --> 03:43.740
+so from system requirements perspective,
+
+03:43.740 --> 03:46.560
+if you are on the latest OS, it is already supported.
+
+03:46.560 --> 03:50.520
+So MacOS must be version 10.13 or even newer.
+
+03:50.520 --> 03:51.840
+So this is the thing.
+
+03:51.840 --> 03:55.320
+And 4GB of ram, that's what they say as usual.
+
+03:55.320 --> 03:59.160
+And virtual box prior to version must not be installed.
+
+03:59.160 --> 04:00.810
+So all these things you can ignore, okay?
+
+04:00.810 --> 04:03.150
+So with this virtual box and all those things, okay?
+
+04:03.150 --> 04:05.430
+So directly download the Docker desktop
+
+04:05.430 --> 04:07.590
+and then move to the application folder.
+
+04:07.590 --> 04:10.260
+And then once you are move to the application folder,
+
+04:10.260 --> 04:13.800
+it'll, it'll be available as a docker.app, okay?
+
+04:13.800 --> 04:15.240
+So you can run that.
+
+04:15.240 --> 04:17.550
+and then once you run this docker.app
+
+04:17.550 --> 04:20.370
+so it'll start displaying here, you can see
+
+04:20.370 --> 04:21.750
+you can see it here, right?
+
+04:21.750 --> 04:24.570
+So Docker desktop is running on my Docker desktop.
+
+04:24.570 --> 04:27.090
+So it'll be available for us to run it,
+
+04:27.090 --> 04:28.500
+means like it'll be available for us
+
+04:28.500 --> 04:30.120
+to open it from here on, Okay?
+
+04:30.120 --> 04:31.393
+So it's engine version, composed version,
+
+04:31.393 --> 04:34.950
+Kubernetes version, all these details are provided here.
+
+04:34.950 --> 04:37.710
+So once our Docker desktop is up and running
+
+04:37.710 --> 04:38.850
+on our Mac machines
+
+04:38.850 --> 04:42.510
+so we can go here and then go to the preferences section
+
+04:42.510 --> 04:46.050
+and then ensure that this respective setting, okay,
+
+04:46.050 --> 04:49.350
+securely store Docker logins in MacOS key chain, okay?
+
+04:49.350 --> 04:51.690
+So this setting should be unchecked, okay?
+
+04:51.690 --> 04:54.120
+So I already have a running version here,
+
+04:54.120 --> 04:55.260
+so I'm not looking into it,
+
+04:55.260 --> 04:57.300
+but ideally this setting should be unchecked.
+
+04:57.300 --> 04:59.190
+So let's see more about it, okay?
+
+04:59.190 --> 05:01.260
+So Docker desktop on Mac has an issue
+
+05:01.260 --> 05:03.570
+with the Mac OS key chain, okay?
+
+05:03.570 --> 05:05.640
+OS X key chain, okay?
+
+05:05.640 --> 05:09.360
+So to fix it, we need to perform these two steps.
+
+05:09.360 --> 05:12.210
+So one is go to Doc, Docker desktop changes
+
+05:12.210 --> 05:14.190
+open Docker desktop preferences,
+
+05:14.190 --> 05:16.350
+which is nothing but whatever we have seen here, right?
+
+05:16.350 --> 05:19.440
+In preferences and uncheck the option named
+
+05:19.440 --> 05:22.410
+securely store Docker logins in MacOS key chain.
+
+05:22.410 --> 05:24.090
+So that is first thing, okay?
+
+05:24.090 --> 05:25.350
+And once that is done,
+
+05:25.350 --> 05:28.560
+go to the conflict.json file in .docker folder.
+
+05:28.560 --> 05:31.110
+So this will be there in your root folder, okay?
+
+05:31.110 --> 05:34.350
+So if you go to your users, and then (indistinct)
+
+05:34.350 --> 05:37.677
+my, my home user is, my user's home is user (indistinct).
+
+05:38.580 --> 05:41.340
+And inside that I'll have a folder called .docker.
+
+05:41.340 --> 05:43.333
+And then inside that you'll have something called
+
+05:43.333 --> 05:44.940
+config.json, okay?
+
+05:44.940 --> 05:46.530
+So currently I removed it earlier
+
+05:46.530 --> 05:48.420
+so I am not finding it here
+
+05:48.420 --> 05:51.730
+but you'll find some line called cred store OSX key chain
+
+05:51.730 --> 05:55.290
+Okay, so this line, okay, so you just need to remove this
+
+05:55.290 --> 05:57.240
+and then restart that Docker, okay?
+
+05:57.240 --> 05:58.980
+So restart that Docker daemon.
+
+05:58.980 --> 06:02.460
+So you can see here, you can see restart, okay?
+
+06:02.460 --> 06:04.200
+somewhere it should be there here, yeah.
+
+06:04.200 --> 06:05.700
+Restart the Docker daemon.
+
+06:05.700 --> 06:08.910
+So when you do that, so this issue will be resolved
+
+06:08.910 --> 06:12.180
+if you face any issues related to this OSX key chain
+
+06:12.180 --> 06:14.850
+ensure that you are going to troubleshoot
+
+06:14.850 --> 06:18.270
+when it is on Mac using following things, okay?
+
+06:18.270 --> 06:19.320
+So other than that,
+
+06:19.320 --> 06:21.840
+on Mac you are not going to face any other issues.
+
+06:21.840 --> 06:23.250
+Only this issue you will face
+
+06:23.250 --> 06:26.070
+and then you can fix it using these things, okay?
+
+06:26.070 --> 06:29.280
+So in our next lecture we'll focus on our flow one
+
+06:29.280 --> 06:32.790
+which is pull from Docker hub and then run the Docker image.
+
+06:32.790 --> 06:34.230
+So I'll see you in the next lecture.
+
+06:34.230 --> 06:35.190
+Until then, bye bye.
+
+06:35.190 --> 06:36.023
+Thank you.

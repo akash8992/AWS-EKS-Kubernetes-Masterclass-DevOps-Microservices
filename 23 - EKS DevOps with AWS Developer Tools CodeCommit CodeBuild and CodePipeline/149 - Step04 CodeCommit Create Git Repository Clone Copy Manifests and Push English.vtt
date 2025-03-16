@@ -1,0 +1,631 @@
+WEBVTT
+
+00:00.000 --> 00:01.110
+-: Welcome back.
+
+00:01.110 --> 00:03.750
+In this lecture we are going to understand
+
+00:03.750 --> 00:07.542
+on a high level about what is code commit service in AWS
+
+00:07.542 --> 00:11.220
+and then we are going to create a code commit repository
+
+00:11.220 --> 00:14.084
+for our EKS Devops use case.
+
+00:14.084 --> 00:17.310
+And then we'll push the content related
+
+00:17.310 --> 00:20.490
+to it inside of our local GitHub repository and again
+
+00:20.490 --> 00:24.390
+push it back to our remote GitHub repository.
+
+00:24.390 --> 00:26.064
+So let's go back and understand what
+
+00:26.064 --> 00:30.090
+what is this code commit repository, right?
+
+00:30.090 --> 00:30.923
+So it is nothing
+
+00:30.923 --> 00:34.275
+but a version control service hosted by AWS.
+
+00:34.275 --> 00:38.250
+So we can privately store and manage documents
+
+00:38.250 --> 00:40.826
+source code and then binary files.
+
+00:40.826 --> 00:44.292
+It is secure and then highly scalable.
+
+00:44.292 --> 00:47.644
+So it supports standard functionality of Git.
+
+00:47.644 --> 00:52.644
+So code commit supports Git versions 1.7 0.9 and then later
+
+00:52.920 --> 00:55.470
+So it uses a static user name
+
+00:55.470 --> 00:58.143
+and password in addition to standard.
+
+00:59.310 --> 01:01.620
+So code commit is integrated
+
+01:01.620 --> 01:03.990
+with different AWS services,
+
+01:03.990 --> 01:06.093
+which makes its solid presence in AWS.
+
+01:08.940 --> 01:10.858
+So it is integrated
+
+01:10.858 --> 01:13.680
+with CodeStar, code bill, code pipeline,
+
+01:13.680 --> 01:14.790
+and then cloud nine.
+
+01:14.790 --> 01:18.450
+So these are related to DOPA tools in addition to that.
+
+01:18.450 --> 01:22.499
+So it is also integrated with aws, Amplify cloud formation
+
+01:22.499 --> 01:25.092
+CloudWatch cloud trial, elastic bean stack
+
+01:25.092 --> 01:29.225
+key management service and then simple notification service.
+
+01:29.225 --> 01:33.207
+So as its integration is this tight with other AWS services
+
+01:33.207 --> 01:36.240
+its presence is very strong in AWS.
+
+01:36.240 --> 01:39.390
+And then if we use it we'll we are going to e lot
+
+01:39.390 --> 01:42.420
+and lot benefits from that whenever we use it
+
+01:42.420 --> 01:46.980
+for our GitHub repo in our AWS means like whenever we use it
+
+01:46.980 --> 01:51.480
+as a Git service for our code inside AWS.
+
+01:51.480 --> 01:54.690
+So in addition to that, so what are our steps?
+
+01:54.690 --> 01:55.800
+We are going to perform
+
+01:55.800 --> 01:58.075
+so we are going to create a code commit repository
+
+01:58.075 --> 02:01.230
+and then clone that to our local Git report
+
+02:01.230 --> 02:03.600
+and then push some code which is nothing
+
+02:03.600 --> 02:05.860
+but our cube manifests, our docker files
+
+02:05.860 --> 02:09.000
+or whatever is required for this Devops demo.
+
+02:09.000 --> 02:11.880
+So all those things we are going to push that data
+
+02:11.880 --> 02:14.790
+to this local Git report and then commit that data
+
+02:14.790 --> 02:18.990
+and then push the same to our code commit repository.
+
+02:18.990 --> 02:22.290
+So let's go ahead and then do that now.
+
+02:22.290 --> 02:24.840
+So we'll go to our GitHub repository, right?
+
+02:24.840 --> 02:27.810
+So we are going to create a code commit repository
+
+02:27.810 --> 02:30.647
+with name eks DevOps engine X.
+
+02:30.647 --> 02:35.507
+So let's go for our service code commit, right?
+
+02:37.800 --> 02:39.903
+So it went to code Guru somehow.
+
+02:40.890 --> 02:44.403
+Let me search for code commit, okay?
+
+02:46.830 --> 02:50.190
+And we have other templates here, that's fine.
+
+02:50.190 --> 02:51.450
+So other repositories.
+
+02:51.450 --> 02:55.980
+So we are going to create a repository name EKS Devops NICs.
+
+02:55.980 --> 03:00.300
+So EKS Devops demo, right?
+
+03:00.300 --> 03:03.600
+So now I'm not going to enable any Amazon code
+
+03:03.600 --> 03:05.259
+guru which is related to Java.
+
+03:05.259 --> 03:08.520
+I see the simple engine X send and docker files inside that.
+
+03:08.520 --> 03:11.790
+So I'll leave as is and then I'll click on create.
+
+03:11.790 --> 03:15.479
+So now my Devops engine X repository is created.
+
+03:15.479 --> 03:17.190
+The next step is to go ahead
+
+03:17.190 --> 03:19.560
+and then generate the get credentials for this.
+
+03:19.560 --> 03:24.560
+Okay? So we can go to our IM service open in new tab
+
+03:27.660 --> 03:32.660
+and we can go to users and I have one IM user named Kalia
+
+03:35.250 --> 03:38.880
+and I'll go to this security credentials
+
+03:38.880 --> 03:42.245
+and we'll find something called https get credentials
+
+03:42.245 --> 03:44.706
+for AWS code commit, right?
+
+03:44.706 --> 03:48.270
+So we are going to generate these credentials
+
+03:48.270 --> 03:50.980
+and once we'll come back to code commit here
+
+03:51.960 --> 03:55.440
+and copy our URL and then clone it to our local.
+
+03:55.440 --> 03:58.740
+So this get clone URL we are going to clone.
+
+03:58.740 --> 04:00.300
+So I'll go back to my terminal.
+
+04:00.300 --> 04:03.030
+So I have created a folder EKS Devops demo.
+
+04:03.030 --> 04:06.960
+So inside that I'm going to clone my repository, right?
+
+04:06.960 --> 04:11.940
+So let me click on that and it is failing.
+
+04:11.940 --> 04:14.340
+So because the get credentials
+
+04:14.340 --> 04:17.190
+so I want to show you particularly this one because
+
+04:17.190 --> 04:19.830
+so the get credentials, whatever we generated
+
+04:19.830 --> 04:23.430
+and it is not matching with the older things, okay?
+
+04:23.430 --> 04:24.930
+If it is in MacBook.
+
+04:24.930 --> 04:26.850
+So what you need to do is you need to call
+
+04:26.850 --> 04:28.904
+to key chain access, right?
+
+04:28.904 --> 04:31.950
+So inside this key chain access
+
+04:31.950 --> 04:33.960
+and then you'll find something related to
+
+04:33.960 --> 04:37.200
+get code commit US east one region, right?
+
+04:37.200 --> 04:39.990
+So it, it caches my old data here, right?
+
+04:39.990 --> 04:43.740
+Old get credentials so I'm removing them, right?
+
+04:43.740 --> 04:44.610
+So now good.
+
+04:44.610 --> 04:46.650
+So now one more time do the get code
+
+04:46.650 --> 04:49.080
+it should pop up further username, right?
+
+04:49.080 --> 04:49.913
+So it's popping up.
+
+04:49.913 --> 04:54.882
+So now I'll copy the username paste and then password.
+
+04:56.340 --> 05:01.230
+I copy the password and paste it, right?
+
+05:01.230 --> 05:04.050
+So now it has cloned the empty repository.
+
+05:04.050 --> 05:07.740
+If I see EKS Devops engineers repositories is here
+
+05:07.740 --> 05:09.780
+and we can go inside that.
+
+05:09.780 --> 05:11.460
+And if you say get status
+
+05:11.460 --> 05:13.350
+nothing is added here, no commits it.
+
+05:13.350 --> 05:15.330
+Okay? So I'll say clear
+
+05:15.330 --> 05:18.660
+and I will go back to my visual studio code.
+
+05:18.660 --> 05:21.210
+So before going to visual studio code we will go
+
+05:21.210 --> 05:23.571
+to our GitHub repo and then discuss
+
+05:23.571 --> 05:28.200
+about these files before adding them to our repo, right?
+
+05:28.200 --> 05:30.870
+So we have build spec dot aml which we will discuss
+
+05:30.870 --> 05:32.620
+in our next steps in detail
+
+05:33.720 --> 05:35.970
+and you know standard docker file.
+
+05:35.970 --> 05:38.520
+So and then this docker file is going to have
+
+05:38.520 --> 05:42.960
+something called, we are going to copy this index dot html
+
+05:42.960 --> 05:45.660
+from app font folder to engineers container.
+
+05:45.660 --> 05:47.730
+That is what we have written in this docker file.
+
+05:47.730 --> 05:49.560
+We are going to see that now
+
+05:49.560 --> 05:51.599
+and we'll have some cube manifest folder which
+
+05:51.599 --> 05:54.690
+will have the engineers deployment engineers
+
+05:54.690 --> 05:55.560
+note port service
+
+05:55.560 --> 05:57.511
+and then nix alb ingress service.
+
+05:57.511 --> 06:00.420
+So let's go ahead and then give you a very high level look
+
+06:00.420 --> 06:01.920
+about them before copying them.
+
+06:01.920 --> 06:05.400
+Okay? So I'll go back to my visual studio core
+
+06:05.400 --> 06:08.100
+in 11 Devops with AWS developer tools.
+
+06:08.100 --> 06:11.010
+I'll have a folder called application manifest.
+
+06:11.010 --> 06:12.120
+So inside that
+
+06:12.120 --> 06:14.280
+so here as part of this anyway, we are going to
+
+06:14.280 --> 06:16.578
+discuss the same thing we are discussing now, okay?
+
+06:16.578 --> 06:19.530
+So which will have a app one folder which will have the
+
+06:19.530 --> 06:20.610
+in html.
+
+06:20.610 --> 06:22.620
+So whenever we are testing multiple versions
+
+06:22.620 --> 06:25.620
+we are going to change this V one V2 V3
+
+06:25.620 --> 06:27.390
+and we have the docker file.
+
+06:27.390 --> 06:29.026
+So we'll download the base enic image
+
+06:29.026 --> 06:33.060
+and copy the app one folder whatever is present here
+
+06:33.060 --> 06:37.170
+to the HTML app, one folder inside the engineers
+
+06:37.170 --> 06:41.670
+container so that whenever we access our url DevOps dot q1
+
+06:41.670 --> 06:45.570
+cloud dot com slash app one slash index dot html the page
+
+06:45.570 --> 06:48.510
+will be saluted from this folder, right?
+
+06:48.510 --> 06:52.020
+So now you have the standard deployment note port service
+
+06:52.020 --> 06:53.820
+and then ingress service.
+
+06:53.820 --> 06:56.100
+In addition to that the build speck dol
+
+06:56.100 --> 06:58.440
+so bill spec dot amel we are going to discuss
+
+06:58.440 --> 07:00.960
+in detail in a separate lecture.
+
+07:00.960 --> 07:03.819
+So for now these are our standard deployments
+
+07:03.819 --> 07:06.120
+which we have done earlier.
+
+07:06.120 --> 07:09.510
+Also deployment manifest note port, service manifest
+
+07:09.510 --> 07:12.510
+and then ingress service manifest.
+
+07:12.510 --> 07:14.956
+Okay, so now let's move on
+
+07:14.956 --> 07:18.840
+to our code commit and then copy these details, right?
+
+07:18.840 --> 07:21.720
+So how I am going to copy it is you can copy these files
+
+07:21.720 --> 07:25.290
+from your thing and then paste in your respective directly.
+
+07:25.290 --> 07:27.270
+So as I'm using visual studio code
+
+07:27.270 --> 07:28.103
+I'll try to do it this way.
+
+07:28.103 --> 07:30.990
+Okay, so add folder to workspace
+
+07:30.990 --> 07:35.250
+and then I'll try to add my folder EKS Devops demo here.
+
+07:35.250 --> 07:37.770
+Okay, so this folder is added here.
+
+07:37.770 --> 07:41.640
+So I'll copy the app one cube manifest
+
+07:41.640 --> 07:43.380
+build spec and then docker file.
+
+07:43.380 --> 07:48.380
+So all these things I'll copy and then paste it here, right?
+
+07:48.988 --> 07:51.270
+And I'll minimize this and I can see
+
+07:51.270 --> 07:53.790
+that I have the app one folder with index dot html
+
+07:53.790 --> 07:56.580
+I have it's equivalent docker file
+
+07:56.580 --> 07:58.680
+and the cube manifests folder copied
+
+07:58.680 --> 08:00.900
+and then build spec dot html copied.
+
+08:00.900 --> 08:05.900
+So I'll go back here and then I will say get status, right?
+
+08:06.690 --> 08:07.560
+So looks good.
+
+08:07.560 --> 08:10.230
+So all these things are added in my Git report here, okay?
+
+08:10.230 --> 08:13.496
+Which is nothing but EKS Devops engine Genix, right?
+
+08:13.496 --> 08:17.399
+So I'll say get add which is added them
+
+08:17.399 --> 08:20.010
+and then get come hyphen am
+
+08:20.010 --> 08:23.411
+I'll say added first set up files, right?
+
+08:23.411 --> 08:28.140
+Right. And then we have ED to local.
+
+08:28.140 --> 08:29.670
+So if I say get status
+
+08:29.670 --> 08:31.650
+nothing is there in my local branch, okay?
+
+08:31.650 --> 08:34.440
+So I'm going to say get push.
+
+08:34.440 --> 08:37.080
+So this should push to our remote repository
+
+08:37.080 --> 08:38.640
+which is code commit repository.
+
+08:38.640 --> 08:40.710
+So it push it successfully.
+
+08:40.710 --> 08:43.330
+So let's go here and then click on code
+
+08:45.450 --> 08:48.606
+and it should open our EKS Devops engine next year, right?
+
+08:48.606 --> 08:50.679
+So you can see you have the app one folder
+
+08:50.679 --> 08:55.530
+which will have the index dot HTML inside that, right?
+
+08:55.530 --> 08:59.490
+In the same way you have all the manifests cube manifest
+
+08:59.490 --> 09:01.560
+build spec, do aml, and then docker file
+
+09:01.560 --> 09:02.730
+if you want you can go inside
+
+09:02.730 --> 09:05.580
+and then see the cube manifests also, right?
+
+09:05.580 --> 09:07.110
+So everything looks good.
+
+09:07.110 --> 09:09.342
+So you can see the commits also for this repository.
+
+09:09.342 --> 09:12.600
+So just know whatever one added fast set of files.
+
+09:12.600 --> 09:15.390
+So commit also completed successfully.
+
+09:15.390 --> 09:17.580
+So how many branches we have, you can click
+
+09:17.580 --> 09:19.710
+on here and then see we have only default branch
+
+09:19.710 --> 09:21.750
+which is master branch.
+
+09:21.750 --> 09:23.953
+So you can have additional settings here related
+
+09:23.953 --> 09:26.370
+to whatever you want to configure here.
+
+09:26.370 --> 09:28.590
+So like if you want to configure notifications
+
+09:28.590 --> 09:31.380
+for every check in and then whatever happens.
+
+09:31.380 --> 09:32.760
+Okay? So you can do that here.
+
+09:32.760 --> 09:34.486
+So additional triggers you can configure
+
+09:34.486 --> 09:36.090
+and all those things.
+
+09:36.090 --> 09:39.000
+Okay? So, but for now our focus is
+
+09:39.000 --> 09:41.490
+on moving on with our Devops use case implementation
+
+09:41.490 --> 09:44.790
+and not exploring about this code commit in detail.
+
+09:44.790 --> 09:47.220
+So we'll move on with our next steps.
+
+09:47.220 --> 09:49.320
+Okay, So let's go back here
+
+09:49.320 --> 09:51.030
+and then we have committed everything
+
+09:51.030 --> 09:51.998
+and then we have also discussed
+
+09:51.998 --> 09:55.407
+about these files, honey, very high level.
+
+09:55.407 --> 09:57.132
+So in our next lecture we'll focus
+
+09:57.132 --> 10:00.341
+on discussing about STS role.
+
+10:00.341 --> 10:02.970
+So I'll see you in the next lecture.
+
+10:02.970 --> 10:03.803
+Until then, bye bye.
+
+10:03.803 --> 10:04.653
+Thank you.

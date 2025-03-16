@@ -1,0 +1,526 @@
+WEBVTT
+
+00:00.360 --> 00:01.380
+-: Welcome back.
+
+00:01.380 --> 00:04.353
+In this demo, we are going to create a network load balancer
+
+00:04.353 --> 00:06.480
+with Kubernetes service
+
+00:06.480 --> 00:09.300
+and ensure that that network load balancer
+
+00:09.300 --> 00:12.630
+uses elastic IPs, right?
+
+00:12.630 --> 00:15.360
+So, first we will create the elastic IPs
+
+00:15.360 --> 00:19.350
+and take those elastic IP EIP allocation IDs
+
+00:19.350 --> 00:21.690
+and associate them or update them
+
+00:21.690 --> 00:24.690
+in our elastic IP related annotation
+
+00:24.690 --> 00:28.680
+in our Kubernetes load balancer service manifest.
+
+00:28.680 --> 00:32.910
+So, from network design perspective, there are no changes.
+
+00:32.910 --> 00:36.750
+Only thing is, we are going to add additional elastic IPs
+
+00:36.750 --> 00:38.730
+here in the public subnets.
+
+00:38.730 --> 00:41.280
+One important thing here is,
+
+00:41.280 --> 00:44.667
+whenever we add this elastic IP related annotation
+
+00:44.667 --> 00:47.910
+AWS load balancer EIP allocations,
+
+00:47.910 --> 00:51.030
+so we need to ensure that these elastic IPs
+
+00:51.030 --> 00:53.580
+are directly proportional to the number of subnets
+
+00:53.580 --> 00:56.490
+where your network load balancer is getting created.
+
+00:56.490 --> 00:59.160
+So which means, we are creating in the public subnets
+
+00:59.160 --> 01:01.440
+our respect to network load balancer.
+
+01:01.440 --> 01:04.920
+So our EIP allocations or our elastic IPs should be
+
+01:04.920 --> 01:07.260
+equal to the number of subnets
+
+01:07.260 --> 01:11.190
+if we are not specifying any subnets annotation.
+
+01:11.190 --> 01:13.920
+If we specify the subnets annotation
+
+01:13.920 --> 01:17.370
+and where you specify number of subnets there,
+
+01:17.370 --> 01:19.890
+so those number of subnets is directly proportional
+
+01:19.890 --> 01:22.080
+to elastic IPs you should create.
+
+01:22.080 --> 01:24.000
+So, that is one important note.
+
+01:24.000 --> 01:27.060
+And second one is your NLB must be
+
+01:27.060 --> 01:28.800
+in the internet facing edge
+
+01:28.800 --> 01:32.317
+for these elastic IPs to be associated for your NLB.
+
+01:33.330 --> 01:38.330
+So now, network load balancers not only deals with the TCP,
+
+01:38.520 --> 01:42.810
+but also it deals with UDP and also TLS connections.
+
+01:42.810 --> 01:45.720
+So, for some applications which are using UDP,
+
+01:45.720 --> 01:48.960
+so, instead of DNS if they expect to
+
+01:48.960 --> 01:52.530
+connect to your NLB using IP address, right?
+
+01:52.530 --> 01:56.190
+So at that point of time, giving a static elastic IP
+
+01:56.190 --> 01:59.940
+which never changes is a reasonable option.
+
+01:59.940 --> 02:01.710
+So at that point of time,
+
+02:01.710 --> 02:06.510
+so this elastic IP association to our network load balancer
+
+02:06.510 --> 02:08.610
+will be a big advantage.
+
+02:08.610 --> 02:12.690
+So for that purpose, we'll also see this demo practically.
+
+02:12.690 --> 02:15.120
+So let's go back to our GitHub repo
+
+02:15.120 --> 02:19.440
+in 19 ELB network load balances with LBC.
+
+02:19.440 --> 02:24.440
+So, we are in 1904 LBC and NLB elastic IP.
+
+02:25.110 --> 02:26.550
+So as part of step two,
+
+02:26.550 --> 02:29.190
+step one is introduction, which we have seen.
+
+02:29.190 --> 02:30.390
+So we are going to go ahead
+
+02:30.390 --> 02:33.600
+and then create two elastic IPs for us.
+
+02:33.600 --> 02:37.530
+So in the EC2 section in the AWS management console,
+
+02:37.530 --> 02:41.820
+in network and security, we can see the elastic IPs here.
+
+02:41.820 --> 02:44.370
+So we have one elastic IP already created
+
+02:44.370 --> 02:47.760
+as part of EKS cluster control plane creation.
+
+02:47.760 --> 02:51.250
+So wherein this elastic IP is used to
+
+02:53.690 --> 02:58.050
+for the EKS worker notes present in the private subnet
+
+02:58.050 --> 03:02.250
+to communicate to your EKS cluster control plane outbound.
+
+03:02.250 --> 03:05.490
+So now, we'll create two elastic IPs.
+
+03:05.490 --> 03:07.830
+So, US east 1 is the region
+
+03:07.830 --> 03:12.480
+and we'll say allocate, right?
+
+03:12.480 --> 03:14.040
+And we'll create one more.
+
+03:14.040 --> 03:19.040
+So I can also say this as IP 1.
+
+03:19.996 --> 03:21.400
+Or I can say EIP,
+
+03:22.921 --> 03:23.754
+EIP 1
+
+03:25.380 --> 03:28.020
+And I'll create one more elastic IP address
+
+03:28.020 --> 03:33.000
+and I'll say allocate in US east 1 region and allocate.
+
+03:33.000 --> 03:37.680
+And I'll say it as EIP 2.
+
+03:37.680 --> 03:38.513
+Save.
+
+03:39.480 --> 03:42.210
+So, now you can see we have created two IPs,
+
+03:42.210 --> 03:44.190
+EIP 1 and EIP 2.
+
+03:44.190 --> 03:46.710
+So now, let's go to the next step
+
+03:46.710 --> 03:49.440
+which is review elastic IPS annotations.
+
+03:49.440 --> 03:52.080
+So we'll go here, right?
+
+03:52.080 --> 03:56.280
+In 1904 LBC NLB elastic IP
+
+03:56.280 --> 03:59.940
+in 02 and LBC NLB load balancer service.
+
+03:59.940 --> 04:02.430
+So for this EIP allocation ideas,
+
+04:02.430 --> 04:04.290
+I'll remove these two things, right?
+
+04:04.290 --> 04:06.821
+For this respect to annotation
+
+04:06.821 --> 04:09.990
+AWS load balancer EIP allocations.
+
+04:09.990 --> 04:13.440
+So I'll come here and come here, right?
+
+04:13.440 --> 04:15.743
+And this is the EIP 1 and that is the EIP 2.
+
+04:15.743 --> 04:19.980
+So I'll go here and take these allocation IDs.
+
+04:19.980 --> 04:24.240
+So this is the first one and I'll put it here comma.
+
+04:24.240 --> 04:26.820
+And this is the second one.
+
+04:26.820 --> 04:30.240
+So, I have updated both allocation,
+
+04:30.240 --> 04:32.010
+EIP allocation IDs
+
+04:32.010 --> 04:36.900
+to our EIP allocation annotation in my Kubernetes service.
+
+04:36.900 --> 04:40.650
+And name also you can see elastic IP LBC network LB.
+
+04:40.650 --> 04:41.940
+And here also it is same.
+
+04:41.940 --> 04:45.630
+Rest all is going to be as is from the previous demo
+
+04:45.630 --> 04:48.720
+and nginx app three deployment also no changes.
+
+04:48.720 --> 04:50.670
+So let's go to the terminal
+
+04:50.670 --> 04:54.990
+and in section 19, we'll go inside 1904, right?
+
+04:54.990 --> 04:57.480
+LBC NLB elastic IP
+
+04:57.480 --> 04:59.825
+and we'll say cube CTL apply
+
+04:59.825 --> 05:02.610
+hyphen F and cube manifests.
+
+05:02.610 --> 05:06.600
+So, this should create the app three nginx deployment
+
+05:06.600 --> 05:11.600
+and also create the elastic IP related Kubernetes service.
+
+05:12.060 --> 05:15.810
+So, we'll say cube CTL get as pods.
+
+05:15.810 --> 05:17.643
+App 3 nginx should be running.
+
+05:18.510 --> 05:19.860
+This is good.
+
+05:19.860 --> 05:21.900
+And we'll also run the SVC.
+
+05:21.900 --> 05:24.570
+So, this should provide the service
+
+05:24.570 --> 05:28.740
+which is elastic IP LBC network LB, right?
+
+05:28.740 --> 05:32.310
+And you can see port 80 and 443 listeners created.
+
+05:32.310 --> 05:35.400
+And now, the important thing here is,
+
+05:35.400 --> 05:37.410
+so this one, right?
+
+05:37.410 --> 05:39.450
+Should have the elastic IP addresses.
+
+05:39.450 --> 05:43.110
+So let's come back here right to your load balancer
+
+05:43.110 --> 05:46.860
+or you can, from here itself get SVC, right?
+
+05:46.860 --> 05:49.200
+And take this DNS name, right?
+
+05:49.200 --> 05:52.950
+Copy and say NS lookup.
+
+05:52.950 --> 05:57.170
+And this elastic IP related load balancer
+
+05:57.170 --> 05:59.100
+whatever you have created,
+
+05:59.100 --> 06:02.010
+so once it completes the creation,
+
+06:02.010 --> 06:03.570
+so we can see the NS lookup
+
+06:03.570 --> 06:05.730
+and the DNS name, whatever here,
+
+06:05.730 --> 06:08.910
+this resolves to the elastic IPs
+
+06:08.910 --> 06:11.460
+to whatever you have created.
+
+06:11.460 --> 06:12.660
+So let's wait for it.
+
+06:12.660 --> 06:16.830
+So, it should resolve to these two IP addresses.
+
+06:16.830 --> 06:20.940
+We can see here this load balancer is in active state now.
+
+06:20.940 --> 06:24.693
+So, let's do the NS lookup and the DNS name.
+
+06:25.740 --> 06:29.100
+And you can see it is resolving to two IP addresses.
+
+06:29.100 --> 06:32.160
+100, 24, 223, 234.
+
+06:32.160 --> 06:36.150
+And this one also 34, 238, 77, 28.
+
+06:36.150 --> 06:38.730
+So this should match the elastic IPs,
+
+06:38.730 --> 06:41.460
+which is 100, 24, 223, 234
+
+06:41.460 --> 06:46.460
+and also this is with the 34 238, 77, 28.
+
+06:46.590 --> 06:47.610
+So, this is good.
+
+06:47.610 --> 06:51.990
+In addition to that, if you also verify this one, right?
+
+06:51.990 --> 06:56.790
+So you are custom DNS, NLB EIP 201.
+
+06:56.790 --> 06:59.940
+So if you do the NS look up for this one also,
+
+06:59.940 --> 07:01.680
+it should result to the same IP address,
+
+07:01.680 --> 07:05.070
+100, 24, 223, 234.
+
+07:05.070 --> 07:10.070
+Why? Because this DNS is an alias to this DNS only, right?
+
+07:10.260 --> 07:12.510
+So, now let's come back here
+
+07:12.510 --> 07:14.850
+and also access it in the browser.
+
+07:14.850 --> 07:18.600
+And your application should be accessible with http
+
+07:18.600 --> 07:21.060
+and also https.
+
+07:21.060 --> 07:24.990
+So this completes the elastic IPs demo.
+
+07:24.990 --> 07:28.320
+So let's go ahead and then clean up the stuff here.
+
+07:28.320 --> 07:32.790
+So the first thing is clear and cube CTL,
+
+07:32.790 --> 07:35.820
+delete, hyphen F and cube manifests.
+
+07:35.820 --> 07:37.560
+So once these are deleted,
+
+07:37.560 --> 07:42.300
+we'll go here and also delete the elastic IPs, right?
+
+07:42.300 --> 07:43.470
+So, let's wait for it.
+
+07:43.470 --> 07:45.150
+So these are deleted.
+
+07:45.150 --> 07:50.150
+So now let's say, refresh, right?
+
+07:51.570 --> 07:54.120
+And select this one.
+
+07:54.120 --> 07:57.030
+And disassociate elastic IP,
+
+07:57.030 --> 07:59.520
+it's already disassociated I think.
+
+07:59.520 --> 08:01.050
+So let's wait for some time
+
+08:01.050 --> 08:04.443
+for these things to be released and shown as released state.
+
+08:05.737 --> 08:09.340
+I see here, or I will refresh this
+
+08:11.340 --> 08:12.213
+Select.
+
+08:14.580 --> 08:16.110
+So it'll take a little while
+
+08:16.110 --> 08:18.210
+after network load balancer is deleted.
+
+08:18.210 --> 08:23.210
+So now you can see EIP and release this elastic IP, right?
+
+08:24.810 --> 08:29.013
+And this one also release elastic IP.
+
+08:30.150 --> 08:32.310
+This should be good now.
+
+08:32.310 --> 08:34.170
+Now, let's come back here
+
+08:34.170 --> 08:37.480
+and also ensure that we verify
+
+08:40.029 --> 08:44.910
+our network load balancer is deleted successfully.
+
+08:44.910 --> 08:46.470
+So that is very important thing.
+
+08:46.470 --> 08:49.410
+Because if by any chance it is present,
+
+08:49.410 --> 08:51.720
+it is going to cost lot of money for us
+
+08:51.720 --> 08:55.170
+if we leave it idol without knowing.
+
+08:55.170 --> 08:58.500
+So, this completes the elastic IP demo.
+
+08:58.500 --> 08:59.490
+In our next demo,
+
+08:59.490 --> 09:02.640
+we are going to focus on NLB with internal,
+
+09:02.640 --> 09:06.360
+means like creating a internal network load balancer.
+
+09:06.360 --> 09:07.920
+So I'll see you in the next lecture.
+
+09:07.920 --> 09:09.240
+Until, then, bye-bye.
+
+09:09.240 --> 09:10.073
+Thank you.

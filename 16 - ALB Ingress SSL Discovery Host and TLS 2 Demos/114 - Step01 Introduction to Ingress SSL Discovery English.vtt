@@ -1,0 +1,328 @@
+WEBVTT
+
+00:00.690 --> 00:01.530
+-: Welcome back.
+
+00:01.530 --> 00:03.180
+In this section we are going
+
+00:03.180 --> 00:06.510
+to learn about the Kubernetes Ingress concept
+
+00:06.510 --> 00:09.930
+SSL discovery with host and TLS.
+
+00:09.930 --> 00:12.720
+So we are going to implement two demos
+
+00:12.720 --> 00:14.820
+as part of this concept.
+
+00:14.820 --> 00:17.190
+So now let's go and understand
+
+00:17.190 --> 00:21.480
+what exactly is this SSL certificate discovery, right?
+
+00:21.480 --> 00:22.590
+So if you see here,
+
+00:22.590 --> 00:26.730
+this is SSL certificate discovery using host.
+
+00:26.730 --> 00:28.830
+So if you see in the rules earlier,
+
+00:28.830 --> 00:32.400
+we have already implemented the host header base routing.
+
+00:32.400 --> 00:36.420
+So where you have seen the app 101.stacksimplify.com
+
+00:36.420 --> 00:39.510
+and app 201.stacksimplify.com,
+
+00:39.510 --> 00:42.150
+where specified in the Ingress rules
+
+00:42.150 --> 00:44.640
+with the host as the argument.
+
+00:44.640 --> 00:48.780
+So here, TLS certificates for ALB listeners
+
+00:48.780 --> 00:52.650
+can be automatically discovered with host names
+
+00:52.650 --> 00:54.810
+from Ingress resources.
+
+00:54.810 --> 00:59.490
+So if the ALB Ingress related certificate ARN
+
+00:59.490 --> 01:01.350
+is not specified.
+
+01:01.350 --> 01:02.730
+In simple terms,
+
+01:02.730 --> 01:06.450
+when you are using this host header base routing, right?
+
+01:06.450 --> 01:08.458
+So from these host values
+
+01:08.458 --> 01:12.179
+you have given that DNS name here very clearly,
+
+01:12.179 --> 01:16.170
+app101.stacksimplify.com.
+
+01:16.170 --> 01:18.180
+So which means you really don't need
+
+01:18.180 --> 01:21.030
+to provide this certificate ARN
+
+01:21.030 --> 01:24.480
+and related annotation and provide the ARN
+
+01:24.480 --> 01:28.890
+of your SSL certificate from your certificate manager.
+
+01:28.890 --> 01:31.219
+So by default, Ingress can directly
+
+01:31.219 --> 01:35.310
+take the available certificate for these names
+
+01:35.310 --> 01:38.700
+which means if the name matches stacksimplify.com.
+
+01:38.700 --> 01:42.600
+So if you have something called star.stacksimplify.com
+
+01:42.600 --> 01:45.060
+so that matches these domain names
+
+01:45.060 --> 01:50.060
+app101.stacksimplify.com and app201.stacksimplify.com
+
+01:50.100 --> 01:51.990
+So automatically it'll take that
+
+01:51.990 --> 01:55.290
+and then associate with your Ingress service.
+
+01:55.290 --> 01:56.160
+So which is nothing,
+
+01:56.160 --> 02:00.450
+but it'll associate with your application load balancer.
+
+02:00.450 --> 02:02.280
+We explicitly don't need
+
+02:02.280 --> 02:05.820
+to define this certificate ARN annotation.
+
+02:05.820 --> 02:08.040
+So which means which is a very good thing
+
+02:08.040 --> 02:12.360
+that we don't need to go to our certificate manager
+
+02:12.360 --> 02:14.910
+and go to that respective certificate
+
+02:14.910 --> 02:19.910
+and get the ARN and hard code that ARN in the service,
+
+02:20.880 --> 02:23.040
+we don't need to do all those tasks.
+
+02:23.040 --> 02:24.480
+So automatically it is going
+
+02:24.480 --> 02:28.740
+to take it with this SSL discovery with host option,
+
+02:28.740 --> 02:31.470
+whenever you are using the host base rules.
+
+02:31.470 --> 02:33.570
+In addition to that, any other rules,
+
+02:33.570 --> 02:34.860
+not the host base rules,
+
+02:34.860 --> 02:37.410
+you are doing the context part base routing, right?
+
+02:37.410 --> 02:38.970
+So at that point of time
+
+02:38.970 --> 02:41.490
+you are using only a default backend of something.
+
+02:41.490 --> 02:43.020
+So at that point of time,
+
+02:43.020 --> 02:46.890
+so it can also use something called a TLS field.
+
+02:46.890 --> 02:47.820
+So in the next demo
+
+02:47.820 --> 02:50.610
+we are going to see the TLS field related demo.
+
+02:50.610 --> 02:54.000
+So the controller will attempt to discover TLS certificates
+
+02:54.000 --> 02:56.070
+from the TLS field in the Ingress
+
+02:56.070 --> 02:58.410
+and host field in the Ingress rules.
+
+02:58.410 --> 03:01.230
+So this part you have seen host field in the Ingress rules,
+
+03:01.230 --> 03:02.730
+you already seen here.
+
+03:02.730 --> 03:04.560
+And in the next demo we are going to,
+
+03:04.560 --> 03:07.950
+in the next slide we are going to see that TLS field related
+
+03:07.950 --> 03:08.783
+thing too.
+
+03:08.783 --> 03:10.410
+And another important note here
+
+03:10.410 --> 03:12.930
+is you need to explicitly specify
+
+03:12.930 --> 03:17.010
+to use HTTPS listener with listen ports annotation.
+
+03:17.010 --> 03:18.990
+And anyway we are going to do that
+
+03:18.990 --> 03:22.560
+and we have already seen in our Ingress resources also.
+
+03:22.560 --> 03:24.390
+So you can see we are already specifying
+
+03:24.390 --> 03:27.960
+the listen ports 443 for our SSL communication.
+
+03:27.960 --> 03:31.170
+So we have no issues with this important node.
+
+03:31.170 --> 03:33.360
+So now let's come back to this demo two,
+
+03:33.360 --> 03:36.120
+which is SSL discovery with TLS.
+
+03:36.120 --> 03:39.270
+So here if you see your DNS name you have provided us
+
+03:39.270 --> 03:43.050
+start to discover a TLS 901.stacksimplify.com.
+
+03:43.050 --> 03:45.540
+You have something called your default backend.
+
+03:45.540 --> 03:48.270
+And here there is no host rules here.
+
+03:48.270 --> 03:50.872
+This is simple context port-based routing
+
+03:50.872 --> 03:52.570
+related example, right?
+
+03:52.570 --> 03:56.340
+So at that point when you are using other than host.
+
+03:56.340 --> 03:57.900
+And then if you want to use,
+
+03:57.900 --> 04:00.990
+if you want to auto detect your SSL certificate
+
+04:00.990 --> 04:03.330
+and associate with your Ingress service,
+
+04:03.330 --> 04:05.370
+which means it need to associate
+
+04:05.370 --> 04:07.350
+with your application load balancer,
+
+04:07.350 --> 04:10.252
+you can also use this TLS option
+
+04:10.252 --> 04:14.040
+and provide with TLS hosts and provide your host names here,
+
+04:14.040 --> 04:16.170
+star.stacksimplify.com.
+
+04:16.170 --> 04:18.870
+So automatically this related certificate
+
+04:18.870 --> 04:23.172
+will be associated with your Ingress resourcer service,
+
+04:23.172 --> 04:25.513
+which means whenever we are implementing
+
+04:25.513 --> 04:28.680
+these SSL certificate discovery in Ingress
+
+04:28.680 --> 04:31.200
+using host or TLS options,
+
+04:31.200 --> 04:35.160
+we really don't need to have this annotation enabled.
+
+04:35.160 --> 04:38.970
+So you can go ahead and then commend this certificate here
+
+04:38.970 --> 04:42.600
+and related annotation in your both demos.
+
+04:42.600 --> 04:45.330
+So this completes the introductory part
+
+04:45.330 --> 04:49.590
+of SSL discovery using host and TLS in Ingress.
+
+04:49.590 --> 04:50.516
+In our next demo,
+
+04:50.516 --> 04:53.755
+in our next lecture
+
+04:53.755 --> 04:54.810
+we are going to practically go ahead
+
+04:54.810 --> 04:56.610
+and then implement these things.
+
+04:56.610 --> 04:58.710
+So I'll see you in the next lecture.
+
+04:58.710 --> 04:59.940
+Until then, bye bye.
+
+04:59.940 --> 05:00.773
+Thank you.
